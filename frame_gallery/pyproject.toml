@@ -1,0 +1,89 @@
+# Frame Gallery for Home Assistant: project and development tooling.
+#
+# The project is not built as a distribution (`package = false`). Tests and
+# type checks run against `src/` directly, so no build backend is needed.
+# Runtime requirements for the container are exported, hash-pinned, to
+# `requirements/runtime.txt` (D-128); see DEVELOPMENT.md.
+
+[project]
+name = "frame-gallery"
+version = "0.1.0.dev0"
+description = "Sends one fresh artwork to a Samsung Frame TV each time it is started."
+requires-python = ">=3.12"
+dependencies = [
+    # Image preparation, imported only by the imaging worker tasks (D-107).
+    # The wheels bundle GPL-3.0-or-later and LGPL-2.1-or-later components;
+    # see DECISIONS.md and THIRD_PARTY_NOTICES.md.
+    "pillow==12.3.0",
+]
+
+[dependency-groups]
+dev = [
+    "pytest>=9.1,<10",
+    "pytest-cov>=7.1,<8",
+    "coverage>=7.16,<8",
+    "ruff>=0.16,<0.17",
+    "mypy>=2.3,<3",
+]
+
+[tool.uv]
+package = false
+required-version = "==0.12.19"
+# Never download interpreters (they would come from outside the package index).
+python-downloads = "never"
+python-preference = "only-system"
+# The lock covers the development hosts and the Linux container only.
+environments = ["sys_platform == 'darwin'", "sys_platform == 'linux'"]
+
+[tool.pytest.ini_options]
+minversion = "9.1"
+testpaths = ["tests"]
+pythonpath = ["src", "."]
+addopts = ["-ra", "--strict-markers", "--strict-config", "--import-mode=importlib"]
+filterwarnings = ["error"]
+xfail_strict = true
+
+[tool.coverage.run]
+branch = true
+source_pkgs = ["frame_gallery"]
+
+[tool.coverage.report]
+# The 90 % overall and 100 % per-package gates are enforced by scripts/check.sh,
+# so partial runs of one package do not fail on the whole-package total.
+show_missing = true
+exclude_also = [
+    "if TYPE_CHECKING:",
+    "@overload",
+    "raise NotImplementedError",
+    "^\\s*\\.\\.\\.$",
+]
+
+[tool.ruff]
+line-length = 100
+target-version = "py312"
+src = ["src", "tests"]
+
+[tool.ruff.lint]
+select = [
+    "E", "W", "F", "I", "N", "UP", "B", "A", "C4", "DTZ", "PIE", "PT", "RET",
+    "SIM", "TID", "ARG", "PTH", "PERF", "PL", "RUF", "S", "BLE", "FBT", "ISC", "T20",
+]
+ignore = [
+    "PLR2004",  # magic values: thresholds are named in the modules that own them
+    "PLR0913",  # explicit dependency injection needs many parameters
+    "N818",     # exceptions are named after the condition (Cancelled, DeadlineExceeded)
+]
+
+[tool.ruff.lint.per-file-ignores]
+"tests/**" = ["S101", "PLR0915", "PLR0917", "FBT", "ARG"]
+
+[tool.ruff.lint.flake8-tidy-imports]
+ban-relative-imports = "all"
+
+[tool.mypy]
+python_version = "3.12"
+strict = true
+warn_unreachable = true
+mypy_path = "src"
+files = ["src", "tests"]
+explicit_package_bases = true

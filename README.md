@@ -16,7 +16,7 @@ No SSH access or `configuration.yaml` changes should be required for end users.
 
 ## Project status
 
-Architecture proposal, revision 2 (after the Codex review), awaiting Phase 2 approval.
+Phase 2 (core, deterministic selection, and rendering) is implemented and tested against fakes, awaiting the Phase 3 gate. The app is not usable yet: provider adapters, persistent state, the television adapter, and packaging follow in Phases 3–6. Developer setup and quality gates: `frame_gallery/DEVELOPMENT.md`.
 
 Planned first-beta sources:
 
@@ -26,7 +26,7 @@ Planned first-beta sources:
 
 The two museum sources use only their documented open-access APIs and CC0 images; local media uses your own images. See:
 
-- `ARCHITECTURE.md` (proposed architecture, Phase 1 revision 2)
+- `ARCHITECTURE.md` (the approved architecture, with Phase 2 refinements marked)
 - `PRODUCT_SPEC.md`
 - `ARCHITECTURE_CONSTRAINTS.md`
 - `ACCEPTANCE_TESTS.md`
@@ -34,6 +34,7 @@ The two museum sources use only their documented open-access APIs and CC0 images
 - `TASKS.md`
 - `STATUS.md`
 - `DECISIONS.md`
+- `THIRD_PARTY_NOTICES.md` (provisional)
 
 ## Attribution
 

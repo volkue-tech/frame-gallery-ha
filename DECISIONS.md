@@ -251,6 +251,7 @@ Status: **split.**
 
 - **Accepted** in the Codex review, replacing the earlier 265 s proposal: the 120 s total, the 10/60/40/10 split, clamping of all timeouts, the 70 s no-match bound, and 30 remote dimension requests with a separate local allowance.
 - **Proposed**, to be confirmed by Phase 2, 5, and 8 measurements: the sub-budgets, the allowances, the `RLIMIT_AS` values, and the upload allowance. The 150 s timer helper was accepted in the final gate review (Q-09).
+- **Phase 2 result.** The phase arithmetic is confirmed with a fake clock: the phases sum to 120 s, every child deadline stays within its phase and the total, and `no_match`, `source_failed`, and `image_failed` end by 70 s even when every step uses its whole budget. Phase 2 has no real providers, workers, or television, so the real-time measurements move to Phase 5 (preparation under `RLIMIT_AS`) and Phase 8 (the Green and the TV).
 
 The tables in `ARCHITECTURE.md` §7.2 are normative once approved.
 
@@ -463,7 +464,7 @@ Status: **accepted**, including `uv` as the development lock tool (Codex review)
 
 **Decision:**
 
-- **Lock file** generated with `uv pip compile --generate-hashes` (`uv` 0.12.19, `MIT OR Apache-2.0`, development only).
+- **Lock file** generated with `uv pip compile --generate-hashes` (`uv` 0.12.19, `MIT OR Apache-2.0`, development only). *Phase 2 proposes an amendment (D-142): a project `uv.lock` with hashes, and `requirements/runtime.txt` exported from it with `uv export`. The install rules below are unchanged.*
 - **Installs** use `--require-hashes --no-deps --only-binary=:all:`.
 - **Pinning:** the base image by tag and digest, and `python3` by exact apk version.
 - **Reviews:** monthly, and immediately on advisories.
@@ -678,11 +679,125 @@ Status: **accepted** as a requirement (Codex review). The mechanism is selected 
 - The evidence and the chosen mechanism are recorded here and in R-07.
 - The Collection Image integration (2026.9+) may be documented as an optional alternative. It must not raise the app's minimum Home Assistant version.
 
+## Phase 2 implementation decisions (proposed)
+
+These record how Phase 2 realized the architecture, and every place where it deviates from the text of `ARCHITECTURE.md`. They are proposed for approval at the Phase 3 gate.
+
+### D-141 — Phase 2 layout, seams, and classification details [§4, §5, §9.1, §12, §21]
+
+Status: proposed.
+
+**Layout.** Beyond §21, Phase 2 adds:
+
+- top-level `domain.py` (shared value types), `errors.py` (cross-component errors), and `randomness.py` (the injected random source);
+- `app/ports.py`, `app/records.py`, `app/environment.py`, `app/signals.py` (§21's `app/context` is not needed);
+- `config/filters.py` (filter value types) and `config/overrides.py`. Helper merging lives in `config`; the Phase 3 `ha` package only reads helper states;
+- `budget/limits.py`, `selection/exclusion.py`, `imaging/contract.py`, `imaging/sniff.py`, `imaging/delivery.py`, `isolation/channel.py`, `isolation/in_process.py`, `logs/summary.py`;
+- `tests/support/` (fake clock and port fakes), `scripts/check.sh`, and `DEVELOPMENT.md`.
+
+**Internal dependencies beyond the §5 "Depends on" column.** The top-level `domain`, `errors`, and `randomness` modules may be used by every component. Beyond those: `budget.watchdog` uses `logs.summary`; `logs.setup` uses `config.options` (the log level); `isolation.in_process` uses `budget.clock` and `logs.summary`; `imaging.contract` and `imaging.worker_tasks` use `selection.geometry` and `isolation.executor`; `providers.contract` uses `config.filters` and `budget.deadline`; `tv.port` uses `budget.deadline`. There are no cycles. §5's "stdlib" entries are read as "no third-party packages"; the enforced boundary (D-107) is unchanged: Pillow only in `imaging/worker_*`, and no networking or process modules in Phase 2.
+
+**Port shapes.**
+
+- *Provider (§9.1).* `Capabilities` carries the source, the key, and `dims_in_metadata`. The filter capability matrix stays central in `config.capabilities` (it drives the published matrix, B8), and the rights allowlist central in `providers.rights` (D-134). The Phase 3 contract suite asserts that each adapter agrees with both. `probe_ref` is replaced by a `DimensionProbe` bound next to the provider (`ProviderBinding`).
+- *Television (§12.1).* `DeliveryRequest` carries no token seed path, and the runner does not act on `DeliveryResult.auth`: the Phase 5 adapter owns the token store (§12.2). The request carries a `stop_requested` signal instead (see *Stop requests*). The port returns or raises only once its worker is dead; the runner also kills every worker before classifying an interrupted delivery.
+
+**Classification details.**
+
+1. The parent validates `delivery.jpg` in ATTEMPT, not in PRE-STAGE, so an invalid output falls through to the next candidate. The parent also re-checks the reported real size against the chosen reason (defence in depth).
+2. A request cut off by its *own* time limit (a probe, a download, or the 15 s preparation) is a transport or processing failure. Only a request cut off by the *content window* counts as "search limits reached" (§4.2). The decision uses deadlines, never float comparisons of timeouts.
+3. `NOT_FOUND` is for single resources (a rendition or a probe target). An adapter reports a 404 or 410 from a discovery endpoint as `HTTP_ERROR`, so a broken search endpoint is `source_failed`.
+4. A `DeadlineExceeded` that no stage handles is classified by the no-delivery rules inside the content window (limits reached). Before the content window it ends the run as `deadline_exceeded` (a CONFIGURE overrun). *This extends the §4.2 meaning of `deadline_exceeded`.*
+5. After `selected`, RECORD always runs (§12.3): an adapter failure after `selected` gives `delivered_with_warnings`; any other internal error after `selected` still runs RECORD and reports `internal_error` with history +1.
+6. `not_authorized`, `unsupported`, or `insufficient_time` reported *after* `upload_started` keep the quarantine (the upload may have happened), and the status names the outcome. §12.1 says the worker reports them only before `upload_started`.
+7. Local header-inspection failures are not transport failures; they only feed the aggregated warning (§9.3). A provider that repeats a work in one pass is not charged twice, and the work never takes two slots.
+8. The summary line reports ignored filters as `ignored_filters=…` (D-124 and §9.2; §19 is amended to match).
+
+**Stop requests (§7.6).**
+
+- `Cancelled` derives from `BaseException`, so no `except Exception` (in logging handlers or adapters) can swallow it.
+- Before DELIVER, a stop request raises `Cancelled` wherever the run is. Every stage boundary, every attempt, and the points just before the preparation, the upload-intent commit, and the television call also re-check a pending request, so a request that a port swallowed is honoured before new work starts.
+- **DELIVER defers stop requests for the whole television call** and for the rest of the run. The request carries a `stop_requested` signal: the adapter polls it while it waits for its worker, kills the worker, relays every marker the worker had sent, and returns. The runner classifies such a run as `cancelled` from the markers. So no SIGTERM can drop a marker, split a marker from its ledger write, or lose the adapter's reply; an adapter that ignores the signal only delays the stop until its own kill timer. (§7.6 "the worker group is killed and the markers are read" now happens inside the adapter.)
+- An explicit upload refusal removes the intent even when a stop request is pending: nothing was stored.
+- The entry point creates the controller with its stop requests deferred, before it installs the SIGTERM handler. The runner ends that initial deferral inside its classified region, so a stop request that arrives before the run is ready is classified as `cancelled` with a last-run record.
+- One runner and one `CancellationController` serve exactly one run.
+
+**FINISH.**
+
+- PUBLISH (preview and current record) may not use FINISH's last 2 s; they are kept for the last-run record.
+- A run decided in SELECT or ATTEMPT finishes within its content window (the 70 s bound) as long as the window leaves the 2 s reserve; after an overrun, FINISH gets its own reserve instead of a sliver.
+- The summary line is logged last, after CLEANUP and after the watchdog is stopped. If the watchdog had already claimed the run, it emits the only summary line and exits 71 (§4.3, §19).
+
+**Per-candidate decisions.** Selection stays free of I/O and reports one decision per candidate to an optional sink; the runner logs them at DEBUG (§19).
+
+### D-142 — Development environment and lock workflow (amends D-128) [§17, §20.4]
+
+Status: proposed.
+
+- **`uv`.** Version 0.12.19, installed from PyPI into the git-ignored `.tools/` directory with its wheel hash checked against PyPI. `pyproject.toml` pins `required-version`, sets `python-downloads = "never"` (interpreters would come from outside the package index), and limits the lock to macOS and Linux.
+- **Lock.** A project `uv.lock` with hashes for the whole development environment. `requirements/runtime.txt` is exported from it with `uv export --locked --no-dev --no-emit-project`, hash-pinned. This replaces the separate `uv pip compile --generate-hashes` step of D-128, so the development and runtime pins cannot drift apart. Installs keep `--require-hashes --no-deps --only-binary=:all:`. The Phase 6 container build narrows the runtime file to the chosen Python version and platform.
+- **No build backend.** The project is not built as a distribution (`package = false`), so no build backend enters the inventory.
+- **Local interpreter.** No Python 3.12+ interpreter was installed on the development machine apart from the CPython 3.12.14 bundled with the local Codex desktop runtime. Phase 2 uses it as the base interpreter of the project environment; nothing was downloaded and nothing outside the repository was modified. Python 3.13 and 3.14 are verified in CI (Phase 9), or earlier if a local interpreter is provided.
+- **Gates.** `scripts/check.sh`: Ruff check and format; `mypy --strict` over `src` and `tests`; pytest with branch coverage of at least 90 % overall and 100 % for `budget`, `selection`, `isolation`, `providers`, the outcome classification, the runner, and the imaging worker tasks (§20.4).
+
+### D-143 — Provisional built-in vocabulary [§15.2, D-124]
+
+Status: proposed.
+
+- Phase 2 ships the vocabulary *mechanism*: normalization, keys, labels, aliases, and the per-field lookup. The built-in vocabulary is empty (version `0-provisional`). Tests use synthetic vocabularies.
+- Until Phase 3 fixes the real lists (Q-14), any static filter value other than `any` is therefore `config_invalid`.
+- Within one option field every normalized key, label, and alias must map to exactly one key. A label shared by both museums (for example a "Photography" department at each) must therefore be made distinct in Phase 3, or the lookup made source-aware.
+
+### D-144 — Image pipeline details [§11.1, D-121, D-122]
+
+Status: proposed.
+
+- **Header pre-scan** (§11.1 step 2, §18.1 "header limits"). Before Pillow opens a source, the worker walks its header with a bounded standard-library scanner (`imaging/source_scan.py`), because Pillow loops over every marker segment or chunk without a limit, and the D-121 checks look only at the declared dimensions.
+  - JPEG, from SOI to the first SOS: at most 1 024 markers, 16 MiB of header bytes, and 4 096 fill bytes. The markers 0xC8 and 0xF0–0xFD are refused, because Pillow reads them without a length and would lose sync with the scan.
+  - PNG, from the signature to IEND (Pillow also parses the chunks after the image data): at most 1 024 non-image chunks totalling 16 MiB, and at most 65 536 image-data chunks (`IDAT`, `fdAT`, `fcTL`). Chunk types must be four ASCII letters, and unknown critical chunks are refused.
+  - **Metadata TIFF structures.** Pillow also parses TIFF directories inside metadata, and copies every declared value. The scan therefore reads each block exactly as Pillow builds it, before Pillow opens the file:
+    - the joined JPEG APP1 EXIF payloads and each APP2 MPF payload;
+    - PNG `eXIf` chunks, `tEXt` chunks named `exif`, and "Raw profile type exif" text. That text is decoded within 1 MiB and never inflated without a bound.
+  - It walks IFD0, the next-IFD chain, and the Exif, GPS, and Interop IFDs, with a visited set. Caps:
+    - 512 entries per IFD, 16 IFDs per structure, and 4 structures per source;
+    - 1 MiB of declared value bytes per structure. Pillow turns values into Python objects about 30 times their size; real EXIF fits one 64 KiB segment;
+    - 64 images in an MPF index;
+    - 1 MiB for one EXIF block, and 8 leading `Exif` headers. These two close two quadratic paths inside Pillow.
+  - BigTIFF headers in metadata are refused as `decode`. Blocks whose header Pillow itself ignores are ignored.
+  - *Trade-off:* counting *declared* sizes means that a damaged but decodable file with an absurd count in one entry, or a zero sub-IFD pointer, is refused as `limits`, where Pillow would skip the tag. MakerNote internals and SubIFDs are not walked, because the worker never asks Pillow to parse them; a future use of them must extend the walk first.
+  - A cap violation gives `limits`; a malformed or truncated header gives `decode`. The parent's validator of `delivery.jpg` keeps its own, stricter rules.
+- **MPO.** A JPEG with a multi-image MPF index opens in Pillow as format "MPO". It is accepted when JPEG is declared, and only frame 0 is used (§11.1 step 3).
+- **EXIF.** Orientation comes from the metadata already parsed when the file is opened, so a PNG `eXIf` chunk placed after the image data is ignored. Malformed EXIF means orientation 1, never a failure.
+- **Colour keys (`tRNS`).** Keys on 1-, 2-, and 4-bit images are applied on the decoded scale; 16-bit grey keys are matched on the 16-bit samples before scaling to 8 bits; 16-bit RGB keys, and keys out of range, are ignored, so the artwork stays opaque. Transparent areas composite over `background_color` after colour conversion (D-122).
+- **Classification.** A truncated JPEG header is `decode`, not `format_mismatch`.
+- **Strictness.** The pre-scan refuses anything the two parsers could frame differently, so Pillow can never parse past what the scan checked. For example, a JPEG with stray non-marker bytes between header segments is refused as `decode`, although Pillow alone would decode it. Encoders do not write such files.
+- **Residual cost.** After the first SOS, libjpeg decodes a progressive JPEG's scans in C, and a file with a huge number of tiny scans costs CPU that the header scan does not bound. The 15 s preparation limit contains it from Phase 5 (R-27); Phase 5 measures it with the D-121 worst cases (R-09).
+
+### D-145 — Redaction scope and test guards [§18, §19, §20.1, H2, H3]
+
+Status: proposed.
+
+- **Known secrets.** The Supervisor and TV tokens are registered with one process-wide redactor (installed by `configure_logging`). It also covers their percent-encoded and JSON-escaped forms. `sanitize_for_log` redacts with it *before* truncating, so a cut line can never show a fragment of a registered secret.
+- **Credential patterns** (a backstop for secrets that were never registered):
+  - after an authorization-type key (`Authorization`, `Proxy-Authorization`, `Cookie`, `Set-Cookie`), the whole rest of the value is redacted, and a standard scheme word (Bearer, Basic, Digest, Negotiate, Token) stays visible;
+  - values of credential-named keys: `token`, `password`, `secret`, `auth`, `credentials`, `pwd`, `passphrase`, `session`, any `*_key` or `*-key`, and prefixed forms such as `access_token` or `client_secret`. Quoted values, including spaces, and `b`/`u` prefixes are covered;
+  - JWT-shaped strings;
+  - the same keys in header tuples (`('Authorization', '…')`), in JSON that is itself JSON-encoded, in camelCase (`accessToken`, `clientSecret`, `privateKey`), and behind percent-encoded separators (`token%3D…`).
+  - SHA-256 digests and qualified identifiers stay visible, and a test checks that more than 1 000 lines in the runner's real formats pass unchanged. Consequently, `auth=…`, `session=…`, and `…_key=…` are always redacted in log text; no runner log line uses them for other values.
+  - The runner logs fixed fields before untrusted text (for example the digest before the attribution in the `chosen:` line).
+  - *Known limits of this heuristic layer* (R-28):
+    - unregistered secrets in unusual forms can still pass: unquoted values with commas or spaces, URL user-info, and unusual encodings of a registered secret;
+    - some ordinary phrases are over-redacted, for example "Bearer of Bad News".
+    - The real secrets (the Supervisor and TV tokens) are registered values and are always redacted.
+- **Network guard (H2).** Installed for the whole test session, collection included. It blocks `connect`, `connect_ex`, `sendto`, and `sendmsg` on `socket.socket`, `socket.create_connection`, and the five resolver functions on `socket` and `_socket`.
+- **Boundary checks (D-107).** They also ban `_socket`, `_ssl`, `socketserver`, `select`, `selectors`, `ctypes`, `concurrent`, and `pty`, and process creation through `os`. They flag computed dynamic imports outside `isolation`, and allow constant dynamic imports of worker modules only in `isolation`. Self-tests prove that every detector fires. Phase 3 (`net.transport`) and Phase 5 (process isolation) must extend these rules deliberately.
+
 ## Proposed dependency inventory
 
-Status: **proposed**. Nothing is installed yet.
+Status: **Phase 2 installed** the development tools and Pillow, and only in the local project environment (`frame_gallery/.venv`, from `uv.lock`). The runtime rows for later phases are still proposed.
 
 - Versions and licenses were read from PyPI metadata (`https://pypi.org/pypi/<name>/json`) on 2026-09-26.
+- In Phase 2 the installed versions and `License-Expression` fields were re-read from each installed distribution's metadata; they match the rows below.
 - `samsungtvws` was independently re-verified.
 - Before each dependency enters (see the per-phase approvals in `STATUS.md`), its `LICENSE` file inside the pinned distribution is checked and this table is updated.
 - The final image SBOM must match this table (acceptance item `H4`).
@@ -799,16 +914,16 @@ No OS packages beyond `python3` are planned.
 
 | Package | Source and constraint | SPDX (as published) | Purpose |
 | --- | --- | --- | --- |
-| `uv` | PyPI `==0.12.19` | `MIT OR Apache-2.0` | Hash-pinned lock files (D-128) |
-| `pytest` | PyPI `>=9.1,<10` | `MIT` | Tests |
+| `uv` | PyPI `==0.12.19` (installed in the git-ignored `.tools/`; wheel SHA-256 `5da0401c0898b5fe767968f5a72f27525276b119d69e0c7c25b721f63ecef650`, checked against PyPI) | `MIT OR Apache-2.0` | Lock and export (D-128, D-142) |
+| `pytest` | PyPI `>=9.1,<10`; locked 9.1.1 | `MIT` | Tests |
 | `iniconfig` | PyPI 2.3.0 (via pytest) | `MIT` | — |
 | `packaging` | PyPI 26.3 (via pytest) | `Apache-2.0 OR BSD-2-Clause` | — |
 | `pluggy` | PyPI 1.6.0 (via pytest) | `MIT` (license field) | — |
 | `Pygments` | PyPI 2.21.0 (via pytest) | `BSD-2-Clause` | — |
-| `pytest-cov` | PyPI `>=7.1,<8` | `MIT` | Coverage |
-| `coverage` | PyPI `>=7.16,<8` | `Apache-2.0` | Branch coverage |
-| `ruff` | PyPI `>=0.16,<0.17` | `MIT` | Lint and format |
-| `mypy` | PyPI `>=2.3,<3` | `MIT` | Typing |
+| `pytest-cov` | PyPI `>=7.1,<8`; locked 7.1.0 | `MIT` | Coverage |
+| `coverage` | PyPI `>=7.16,<8`; locked 7.16.1 | `Apache-2.0` (ships a `NOTICE.txt`; not distributed) | Branch coverage |
+| `ruff` | PyPI `>=0.16,<0.17`; locked 0.16.9 | `MIT` | Lint and format |
+| `mypy` | PyPI `>=2.3,<3`; locked 2.3.1 | `MIT` | Typing |
 | `typing-extensions` | PyPI 4.16.0 (via mypy) | `PSF-2.0` | — |
 | `mypy-extensions` | PyPI 1.1.0 (via mypy) | `MIT`: the official wheel contains a `LICENSE` that states the MIT licence explicitly (Codex final gate review). Development only; not shipped. | — |
 | `pathspec` | PyPI 1.1.1 (via mypy) | `MPL-2.0`, per its official PyPI project metadata and licence documentation (Codex final gate review). Development only; not shipped. | — |
@@ -851,7 +966,7 @@ L = likelihood, I = impact; H = high, M = medium, L = low.
 | R-06 | The loading state depends on the Running entity (disabled by default, undocumented polling); short runs may never show it | M / M | 130 s guaranteed exit. The **normative** 150 s timer indicator, started by the card script, does not depend on the sensor. Phase 8 cases: a run under 10 s, a mistyped slug, a non-admin tap. | Phase 8 (Q-09, Q-19) |
 | R-07 | **Preview freshness** (release-blocking). The Local File update mechanism and the camera cache refresh are undocumented, and the existing installation had stale images. | H / H | Phase 8 selects one proven mechanism from D-140 through repeated live tests, and the dashboard is not declared complete until then. The platform basis for `/media` and the allowlist is recorded (D-111). | Phase 8; the result is recorded here |
 | R-08 | Image decoder vulnerabilities | M / H | Header limits; format allowlist; unprivileged, memory-limited worker; allowlisted environment; bytes-only results; prompt updates | Ongoing |
-| R-09 | Memory pressure during decode | L / M | Pixel caps (64 MP JPEG, 40 MP PNG); colour work after resizing; 1 GiB `RLIMIT_AS`; beta renditions ≤ 3400 px; worst case ≈ 450–550 MiB. Peak memory and prepare time for the D-121 worst cases are measured under the real `RLIMIT_AS` in Phase 5 and on the Green in Phase 8. If preparation exceeds about 12 s, the local-media pixel caps are lowered. | Phase 5/8 |
+| R-09 | Memory pressure during decode | L / M | Pixel caps (64 MP JPEG, 40 MP PNG); colour work after resizing; 1 GiB `RLIMIT_AS`; beta renditions ≤ 3400 px; worst case ≈ 450–550 MiB. Peak memory and prepare time for the D-121 worst cases are measured under the real `RLIMIT_AS` in Phase 5 and on the Green in Phase 8, including a header flood just under the D-144 pre-scan caps and a progressive JPEG with very many scans. If preparation exceeds about 12 s, the local-media pixel caps are lowered. | Phase 5/8 |
 | R-10 | Home Assistant platform churn | M / M | Follow the current docs; re-check them in Phases 6 and 9 | Phase 6/9 |
 | R-11 | Pairing friction: prompts on each connection, and the 20 s pairing wait inside the 40 s TV phase | M / M | Token persistence; self-healing reset; *First Time Only* setting; a clear message to accept the prompt and run again | Documentation; Phase 8 |
 | R-12 | TV off or on another subnet gives `tv_unreachable` | M / L | Actionable messages; documented network requirement | Documentation |
@@ -868,6 +983,9 @@ L = likelihood, I = impact; H = high, M = medium, L = low.
 | R-22 | **Provider identifier stability.** Neither the Art Institute nor Cleveland documents its record IDs as permanent. | L / M | IDs validated against patterns; Cleveland's accession number kept as metadata; history and ledger keyed by the documented ID; re-checked when documentation drifts | Phase 3 |
 | R-23 | The **Cleveland API terms** reserve future keys, transaction limits, and IP logging | M / M | Room for an optional key (`password` option); 401/403 treated as a stop; conservative pacing; the source stays optional | Monitor |
 | R-24 | The **uncertainty quarantine** holds back works that never actually reached the TV (for example after a power loss before upload) for the 30-day quarantine period | M / L | Intents are removed whenever no `upload_started` was seen; the period is documented (Q-23, accepted); large catalogues are unaffected | Accepted |
+| R-26 | **Local tests run a different Pillow build.** Phase 2 tests use the macOS `arm64` Pillow wheel and CPython 3.12.14; the runtime uses the Linux `musllinux_1_2` wheels, with other bundled library builds, on the container's Python. Rendering bytes and edge-case behaviour may differ. | M / M | The imaging tests assert properties (size, baseline, components, pixels, metadata) rather than byte-exact output; Phase 6 runs the full suite inside the container image for both architectures; CI covers 3.12–3.14 (Phase 9) | Phase 6/9 |
+| R-27 | **No pre-emption before Phase 5.** The Phase 2 in-process executor cannot interrupt a hung decode, so the 15 s preparation limit and the 70 s and 120 s bounds hold only when tasks return. A timeout is detected after the fact. | L / M | Phase 2 never runs against real providers or the television; the Phase 5 process executor adds the kill timer, `RLIMIT_AS`, and the unprivileged worker (D-109, D-139); the watchdog (130 s) remains the last resort | Phase 5 |
+| R-28 | **The credential-pattern redaction is heuristic.** It catches common forms of unregistered secrets but not every serialization (D-145). | L / M | Every real secret (the Supervisor token, the TV token) is registered with the redactor and redacted in all its encodings; worker output passes through the parent's formatter; H3 tests cover both layers; new secrets must be registered where they enter | Ongoing (Phases 3, 5) |
 
 ## Open questions
 
@@ -912,6 +1030,40 @@ L = likelihood, I = impact; H = high, M = medium, L = low.
 | Q-24 | Cleveland colour filtering by local analysis, for example of the documented 900 px web rendition, counted against the existing download allowance and the content-window time budget, not against the 30 remote dimension requests. Only if it fits the same download and time budgets. | Defer until after the beta | After the beta |
 
 ## Review records
+
+### Phase 2 internal review (Claude, before the Phase 2 commit)
+
+**Method.** Five independent review lenses (architecture conformance, Phase 2 scope and acceptance coverage, control-flow correctness, image pipeline and security, test quality), each followed by an independent skeptical verifier who tried to refute every finding with reproductions.
+
+**Result.** 75 findings: 61 confirmed (after merging duplicates across lenses, about 30 distinct issues), 12 refuted, and 2 uncertain.
+
+**Most important confirmed issues, all fixed with regression tests:**
+
+1. A stop request could be swallowed by a generic `except Exception` (for example inside the standard library's logging handler), after which the run still contacted the television. Fixed by D-141 (stop requests).
+2. Worker timeouts at the task's own limit were classified as "search limits reached" whenever the clock moved between two readings. Fixed by deciding from deadlines (D-141, item 2).
+3. Camera JPEGs with an MPF index (MPO) were refused (D-144).
+4. Header floods could make Pillow use gigabytes before any limit applied (D-144, pre-scan).
+5. A FINISH after a PRE-STAGE outcome received an already-expired deadline, so a deadline-honouring store would lose the last-run record.
+6. After `selected`, an adapter failure skipped RECORD (D-141, item 5).
+7. Redaction gaps: truncation before redaction, and missing credential patterns (D-145).
+8. Weak or vacuous tests, including the 70 s bound test, deadline propagation, and the boundary and network guards. Each was strengthened and checked to fail against the defect.
+
+**Recorded rather than changed:**
+
+- the §9.1 and §12.1 port shapes (D-141);
+- the D-128 lock workflow (D-142);
+- the empty provisional vocabulary (D-143);
+- the absence of pre-emption before Phase 5 (R-27);
+- the uncertain finding on discovery-endpoint 404s, resolved by D-141 item 3.
+
+**Re-verification.** A focused re-verification then checked every confirmed finding against the current code:
+
+- 57 of 63 were fully fixed; the remaining gaps were closed afterwards.
+- Adversarial sweeps found two windows in the first stop-request fix, and header-bomb and redaction bypasses in the new code. They led to:
+  - the whole-call deferral of D-141;
+  - the TIFF-directory bounds of D-144;
+  - the extra redaction patterns of D-145.
+- The sweeps inject a stop request, directly and as a real SIGTERM, at every Python function entry (11 641 points) and every traced line (5 429 points) across nine delivery and no-match scenarios. Run again against the final design with the production controller configuration (`start_deferred=True`), they report no violations: no marker, ledger write, RECORD, last-run record, or summary line is lost, and nothing is uploaded after an undeferred stop.
 
 ### Codex final approval of Phase 1 at commit `ffca958` (external)
 

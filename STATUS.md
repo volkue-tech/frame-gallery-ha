@@ -4,11 +4,11 @@ Last updated: 2026-09-26
 
 ## Current phase
 
-**Phase 2 (core skeleton, deterministic selection and rendering): in progress.**
+**Phase 2 (core skeleton, deterministic selection and rendering): complete, awaiting the Phase 3 gate.**
 
-- Codex gave final approval of Phase 1 at commit `ffca958` and authorized Phase 2 only.
-- Gate adjustment, explicitly approved by Codex: verification of the remaining lower-risk `pillow.libs` entries moved from the Phase 2 gate to the authoritative Phase 6 runtime-wheel inspection. Full verification remains mandatory before packaging or publication, and the GPL/LGPL licence review and source-availability obligations remain release blockers.
-- This documentation commit records the approval and the gate adjustment. No application code has been written yet.
+- Codex gave final approval of Phase 1 at commit `ffca958` and authorized Phase 2 only. The gate adjustment for the remaining `pillow.libs` entries is recorded in commit `f41130f`.
+- Phase 2 is implemented, tested, independently reviewed, and fixed. The decisions it proposes are D-141 to D-145.
+- Nothing contacted Home Assistant, the television, a provider API, or GitHub. Nothing was published or pushed. Phase 3 has not started.
 
 ## Completed
 
@@ -88,7 +88,7 @@ Last updated: 2026-09-26
 - The Cleveland Open Access and Home Assistant preview options were researched from documentation pages only. Key facts were independently re-checked; the citation guidance and the refresh cadence were not.
 - Cross-reference and consistency checks were run, followed by an independent review of this revision.
 
-### Phase 1, final gate corrections: Codex final gate review of `4ea3e36` applied (Claude, this commit)
+### Phase 1, final gate corrections: Codex final gate review of `4ea3e36` applied (Claude, commit `ffca958`)
 
 **Pillow licensing correction**
 
@@ -118,20 +118,63 @@ Last updated: 2026-09-26
 - `PRODUCT_SPEC.md`: the RFC 1918 address rule, lifecycle steps 9 and 10 swapped, the strict ±1 % definition, and the 30-day quarantine. Each change is recorded in its amendment log.
 - `ACCEPTANCE_TESTS.md`: B7 reworded in place for RFC 1918. No IDs changed.
 
+### Phase 2: core skeleton, deterministic selection and rendering (Claude, this commit)
+
+**Project and tooling** (D-142)
+
+- The Python project lives in `frame_gallery/`: `src/frame_gallery/`, `tests/`, `pyproject.toml`, `uv.lock`, `requirements/runtime.txt` (hash-pinned, exported from the lock), `scripts/check.sh`, and `DEVELOPMENT.md`.
+- `uv` 0.12.19 was installed from PyPI into the git-ignored `.tools/`, with its wheel hash checked against PyPI. The locked development environment is `frame_gallery/.venv`, also git-ignored, as are the caches and coverage data.
+- The locked versions match the inventory: Pillow 12.3.0; pytest 9.1.1, pytest-cov 7.1.0, coverage 7.16.1, Ruff 0.16.9, mypy 2.3.1, and their recorded dependencies.
+- Local interpreter: CPython 3.12.14, the only Python 3.12+ on this machine (bundled with the local Codex desktop runtime). No interpreter was downloaded.
+- `THIRD_PARTY_NOTICES.md` is started as a provisional notice. It lists Pillow and its known bundled libraries, including GPL-3.0-or-later `libimagequant` and LGPL-2.1-or-later FriBiDi, marks the nine `pillow.libs` entries as pending Phase 6 verification, and lists the development tools. It states that the runtime is not GPL-free.
+
+**Implemented**
+
+- *Core types and ports:* value types, errors, the injected clock and random source, the provider, exclusion-store, image-executor, and television ports, and the runner's other ports.
+- *Budget:* the 120 s phase calculator (10 / 60 / 40 / 10 s), the content window (discovery at most 30 s, 2 s PRE-STAGE reserve), allowances, clamped deadlines, and the watchdog (130 s).
+- *Configuration:* option parsing with the accepted defaults; RFC 1918-only television addresses with injected container networks; the vocabulary mechanism (the built-in lists are provisional and empty until Phase 3, D-143); the capability matrix; helper merging; and visible reporting of unsupported filters.
+- *Selection:* exclusions, exact-arithmetic shape and 16:9 rules, the 2.5× upscale limit, the shortlist of two, fallback only with landscape-only and `contain`, seeded tie-breaks, separate remote-probe and local-inspection allowances, and explicit end reasons.
+- *Image preparation* behind the in-process executor: a bounded header pre-scan, JPEG (including MPO) and PNG only, dimension and pixel limits, EXIF orientation, mode and colour-key handling, ICC-to-sRGB conversion, `contain` and `cover`, an exact 3840 × 2160 baseline JPEG with no metadata, and the q85 fallback. The parent validates the result and computes its SHA-256.
+- *Orchestrator skeleton* against fakes: every stage, outcome classification (§4.2, §12.4), deadline propagation, stop-request handling (§7.6), and settling and FINISH on every path.
+- *Logging:* redaction (known secrets and credential patterns), UTC formatting, and the summary line.
+- *Isolation seam:* the bytes-only JSON channel and the in-process executor. The process executor comes in Phase 5.
+
+**Quality gates** (`scripts/check.sh`, run for this commit):
+
+- Ruff check and format: clean.
+- `mypy --strict` over `src` and `tests`: clean.
+- pytest: **2 755 passed**, with **100 % line and branch coverage overall** (3 741 statements, 742 branches). The architecture's 100 % gate for `budget`, `selection`, `isolation`, `providers`, the outcome classification, the runner, and the imaging worker, pre-scan, and JPEG header parser also passes (2 400 statements, 476 branches).
+- The architecture boundary test (D-107, D-145) and the whole-session network guard (H2) are active.
+
+**Independent review.** Five lenses, each with a skeptical verifier: 75 findings, 61 confirmed (about 30 distinct issues), 12 refuted, and 2 uncertain. All confirmed findings are fixed with regression tests, or recorded as decisions (see *Review records* in `DECISIONS.md`).
+
+**Re-verification.**
+
+- The original reproductions were re-run against the fixes, and adversarial sweeps looked for regressions.
+- The sweeps found two remaining stop-request windows, TIFF-directory bombs in image metadata, and redaction bypasses. All are fixed (D-141, D-144, D-145).
+- The final design passes exhaustive stop-request sweeps with no violations: a stop request, direct or as a real SIGTERM, at every Python function entry (11 641 points) and every traced line (5 429 points).
+
 ## Specification deviations still awaiting decision
 
-None. The lifecycle order (D-113) was accepted and the specification amended.
+Proposed in Phase 2, for approval at the Phase 3 gate:
+
+| Item | Where |
+| --- | --- |
+| Port shapes that differ from §9.1 and §12.1 (central capability matrix and rights allowlist; `DimensionProbe` instead of `probe_ref`; token handling inside the Phase 5 adapter) | D-141 |
+| `deadline_exceeded` also covers a CONFIGURE overrun; an adapter failure after `selected` gives `delivered_with_warnings` | D-141 |
+| The summary-line key is `ignored_filters=` (§19 amended to match §9.2 and D-124) | D-141 |
+| Lock and export workflow: `uv.lock` plus `uv export`, instead of `uv pip compile` | D-142, amends D-128 |
+| The built-in vocabulary is empty until Phase 3, so any filter other than `any` is `config_invalid` | D-143 |
 
 ## Next action
 
-Implement Phase 2, then stop at the Phase 3 approval gate.
+The user and Codex review Phase 2 (architecture conformance and independence), then either approve Phase 3 or request changes.
 
 **Decisions needed, by phase:**
 
 | Before | Decisions |
 | --- | --- |
-| Phase 2 | **Approved** (Codex final approval of Phase 1 at `ffca958`): the architecture, the development-only dependency rows, and the Pillow row with its corrected bundled-library inventory. |
-| Phase 3 | Q-14, Q-22. The `urllib3` and `certifi` rows. Any observation requests. |
+| Phase 3 | The Phase 2 decisions D-141 to D-145. Q-14, Q-22. The `urllib3` and `certifi` rows. Any observation requests. |
 | Phase 4 | None (Q-23 and D-113 accepted). |
 | Phase 5 | The `samsungtvws` row and its LGPL-3.0 obligations (D-135). |
 | Phase 6 | The base-image pull (D-130); Q-06, Q-10; the Buildx, QEMU, and SBOM-tool rows. The authoritative Pillow runtime-wheel inspection, including the remaining `pillow.libs` entries (mandatory before packaging or publication). |
@@ -144,7 +187,7 @@ Implement Phase 2, then stop at the Phase 3 approval gate.
 - No television connection attempted.
 - No GitHub repository accessed, created, or modified; no GitHub-hosted page fetched.
 - No container image pulled, built, or published.
-- No dependency installed.
+- Dependencies were installed only into the git-ignored project environment (`frame_gallery/.venv`) and the git-ignored `.tools/` directory, from PyPI (`pypi.org`, `files.pythonhosted.org`) only. Nothing else was installed or modified on the machine.
 - No provider API or image endpoint called. Research read public documentation pages, policy pages, and `robots.txt` files, plus one Microsoft Q&A answer (cited as a non-documentation source) and search-result snippets where a page blocked automated readers. Reading used web-fetch tools, `curl` (including PyPI's JSON metadata API), and the in-app browser.
 - Apache-2.0 is approved. The `LICENSE` file will be added when publication is prepared (Phase 9).
 
@@ -156,3 +199,6 @@ See `DECISIONS.md` for the full list. The most material:
 - **Copyleft components in the runtime image** (R-25, D-135). The Pillow wheels bundle GPL-3.0-or-later `libimagequant` and LGPL-2.1-or-later FriBiDi. The qualified licence review is a release gate.
 - **Final name** (D-101). The trademark wording is tracked as R-14.
 - **Copyleft source-availability mechanism** (D-135).
+- **Phase 2 proposals** (D-141 to D-145), listed above.
+- **Local tests versus the runtime build** (R-26): the full suite runs inside the container in Phase 6.
+- **No pre-emption before Phase 5** (R-27): the process executor with its kill timer arrives in Phase 5.

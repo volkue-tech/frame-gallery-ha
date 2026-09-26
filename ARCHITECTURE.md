@@ -6,6 +6,7 @@ Status: **Revision 2, with final gate corrections.**
 - Revision 2 (commit `4ea3e36`) was accepted in the Codex final gate review, subject to one factual dependency correction and eight product decisions. Both are applied here.
 
 - Codex gave final approval of Phase 1 at commit `ffca958` and authorized Phase 2, with one gate adjustment: verification of the remaining `pillow.libs` entries moved to the Phase 6 runtime-wheel inspection (§23).
+- Phase 2 (core, deterministic selection, and rendering) is implemented. Where the implementation refines this document, the refinement is recorded in D-141 to D-145 and marked in the text.
 
 Date: 2026-09-26
 Author: Claude (Phase 1 owner)
@@ -208,7 +209,7 @@ START ─► CONFIGURE ─► RESOLVE_FILTERS ─► SELECT ─► ┌─ ATTEMP
 | `tv_unreachable` | Connect failure, or a connection lost, timed out, or given an unexpected response before `selected` | per the last marker (§12.4) | unchanged | per the last marker | ERROR |
 | `tv_not_authorized` | Pairing not accepted in time, or token rejected | unchanged | unchanged | intent removed | ERROR |
 | `tv_rejected` | Art mode unsupported, or an explicit refusal of the upload or selection | per the last marker | unchanged | per the last marker | ERROR |
-| `deadline_exceeded` | Not enough budget left for the television phase (PRE-STAGE check), or for the upload after pairing (`insufficient_time`, §12.1) | unchanged | unchanged | unchanged; any intent removed | ERROR |
+| `deadline_exceeded` | Not enough budget left for the television phase (PRE-STAGE check), or for the upload after pairing (`insufficient_time`, §12.1), or a CONFIGURE overrun (D-141) | unchanged | unchanged | unchanged; any intent removed | ERROR |
 | `cancelled` | SIGTERM. If `selected` was already seen, the run finishes as `delivered*` instead (§7.6). | per the markers | unchanged | per the markers | WARNING |
 | `internal_error` | A bug | unknown | unchanged, or +1 after RECORD | a committed intent stays as quarantine | ERROR with traceback |
 | watchdog termination | Hard cap reached | unknown | unchanged, or +1 after RECORD | a committed intent stays as quarantine | ERROR, one line |
@@ -267,7 +268,7 @@ The package name follows the accepted provisional identifier `frame_gallery` (D-
 | `isolation` | Executor seam: in-process first, then process-based (spawn, rlimits, privilege drop, bytes channel) | stdlib | Unpickle child output |
 | `logs` | Parent and worker logging, redaction, summary line | stdlib | Emit bodies, headers, or query strings |
 
-Third-party imports are confined to the `imaging` and `tv` worker tasks and to `net.transport`. An import-boundary check enforces this (D-107).
+Third-party imports are confined to the `imaging` and `tv` worker tasks and to `net.transport`. An import-boundary check enforces this (D-107). "stdlib" in the table means "no third-party packages"; the permitted internal dependencies that Phase 2 added (for example `budget.watchdog` using `logs.summary`) are recorded in D-141.
 
 ---
 
@@ -381,7 +382,7 @@ The SIGTERM handler raises `Cancelled` in the main thread, as PEP 475 requires f
 | When | Handling |
 | --- | --- |
 | Before DELIVER | `cancelled`; the television is untouched; any committed intent is removed. |
-| During DELIVER | The worker group is killed and the markers are read. After `selected`, the run continues to RECORD. After `uploaded`, the ledger holds `uploaded`. After `upload_started`, the intent remains as quarantine. Earlier than that, the intent is removed. |
+| During DELIVER | Stop requests are deferred for the whole call; the adapter learns of the request, kills the worker group, and returns the markers read (D-141). After `selected`, the run continues to RECORD. After `uploaded`, the ledger holds `uploaded`. After `upload_started`, the intent remains as quarantine. Earlier than that, the intent is removed. |
 | After `selected` | SIGTERM is deferred until RECORD's rename is `fsync`ed. PUBLISH may be skipped, which gives `delivered_with_warnings`. |
 
 The stop timeout is 20 s (§17.1).
@@ -648,7 +649,7 @@ There is one gateway, built on `urllib3` with its automatic retries and redirect
 Steps 2 to 9 run only in the `prepare` worker.
 
 1. **Sniff** (in the parent). The magic bytes must match JPEG or PNG and the declared content type.
-2. **Open** lazily, with `formats=("JPEG", "PNG")`. Before decoding, enforce:
+2. **Pre-scan, then open** lazily, with `formats=("JPEG", "PNG")` (a JPEG opened as MPO counts as JPEG, frame 0 only). The bounded header pre-scan of D-144 runs first: it caps marker segments, chunks, and header bytes before Pillow parses them. Before decoding, enforce:
    - width and height ≤ 20 000 px each;
    - ≤ 64 MP for JPEG and ≤ 40 MP for PNG (D-121).
 
@@ -1201,7 +1202,7 @@ Only `json` is used. `html.parser` is allowed only if a provider is ever approve
 - a selection summary;
 - the chosen artwork with its attribution;
 - the TV result;
-- one final line: `outcome=<name> exit=<code> elapsed=<s> [ignored=<filters>] [hint=…]`.
+- one final line: `outcome=<name> exit=<code> elapsed=<s> [ignored_filters=<filters>] [hint="…"]` (the key follows §9.2 and D-124; D-141).
 
 **DEBUG** adds per-candidate decisions. Third-party loggers stay at WARNING.
 
@@ -1261,20 +1262,22 @@ frame_gallery/                      # app directory = Docker build context
   requirements/runtime.txt          # hash-pinned (uv)
   pyproject.toml
   src/frame_gallery/
-    __main__.py
-    app/         runner, outcomes, context, signals
-    config/      options, vocabulary, capabilities, tv_address
-    ha/          supervisor_client, helper_overrides
-    budget/      clock, deadline, allowance, phases, watchdog
+    __main__.py                     # Phase 6 (entry point)
+    domain.py  errors.py  randomness.py                  # Phase 2 additions (D-141)
+    app/         runner, outcomes, ports, records, signals, environment
+    config/      options, filters, overrides, vocabulary, capabilities, tv_address
+    ha/          supervisor_client                     # helper merging lives in config/overrides
+    budget/      clock, deadline, allowance, limits, phases, watchdog
     net/         gateway, policy, resolver, transport
     providers/   contract, rights, local_media, aic/{gateway,parse,vocabulary}, cma/{gateway,parse,vocabulary}
-    selection/   shortlist, geometry
-    imaging/     worker_tasks (inspect, prepare), fit, jpeg_header
+    selection/   exclusion, shortlist, geometry
+    imaging/     contract, sniff, delivery, worker_tasks (inspect, prepare), fit, jpeg_header
     tv/          port, samsung_task, token_store
     store/       atomic, history, upload_ledger, cache, workspace, preview, records
-    isolation/   executor (in-process, process), bootstrap, channel
-    logs/        setup, redact
-  tests/  unit/  contract/  component/  integration/  timing/  container/  fixtures/authored/
+    isolation/   executor, channel, in_process, process, bootstrap
+    logs/        setup, redact, summary
+  tests/  support/  unit/  integration/  contract/  component/  timing/  container/  fixtures/authored/
+  scripts/check.sh   DEVELOPMENT.md   uv.lock
 ```
 
 ---

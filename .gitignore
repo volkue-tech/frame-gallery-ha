@@ -11,3 +11,7 @@ build/
 coverage.xml
 .coverage
 
+.tools/
+htmlcov/
+.coverage.*
+*.egg-info/

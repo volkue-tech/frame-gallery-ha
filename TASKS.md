@@ -47,17 +47,18 @@ Gate: user and Codex approve the architecture before application code is written
 
 Owner: Claude
 
-- [ ] Create the original package structure from the approved architecture.
-- [ ] Define the contracts for provider, television, storage, clock/deadline, allowance, downloader, executor, and renderer.
-- [ ] Add configuration validation (including the IPv4 television address), filter vocabularies with the capability matrix, and structured outcome types.
-- [ ] Implement the 120 s phase-budget calculator and the watchdog.
-- [ ] Implement the run-orchestrator skeleton (`app`: lifecycle stages, outcome classification, SIGTERM handling) against fakes.
-- [ ] Implement deterministic selection: exclusion interface, shape classification, upscale rule, strict 16:9, fallback, and shortlist.
-- [ ] Implement the image preparation pipeline (`contain` and `cover`) behind the executor seam, starting with the in-process executor.
-- [ ] Establish linting, formatting, type checking, and unit-test commands with `uv`.
-- [ ] Start a provisional `THIRD_PARTY_NOTICES.md` with Pillow and its known bundled libraries (including `libimagequant` and FriBiDi), the nine `pillow.libs` entries marked as pending Phase 6 verification, and the development dependencies.
-- [ ] Add unit tests, including the phase sums and the 70 s no-match bound.
-- [ ] Update status and commit.
+- [x] Create the original package structure from the approved architecture.
+- [x] Define the contracts for provider, television, storage, clock/deadline, allowance, downloader, executor, and renderer.
+- [x] Add configuration validation (including the IPv4 television address), filter vocabularies with the capability matrix, and structured outcome types.
+- [x] Implement the 120 s phase-budget calculator and the watchdog.
+- [x] Implement the run-orchestrator skeleton (`app`: lifecycle stages, outcome classification, SIGTERM handling) against fakes.
+- [x] Implement deterministic selection: exclusion interface, shape classification, upscale rule, strict 16:9, fallback, and shortlist.
+- [x] Implement the image preparation pipeline (`contain` and `cover`) behind the executor seam, starting with the in-process executor.
+- [x] Establish linting, formatting, type checking, and unit-test commands with `uv`.
+- [x] Start a provisional `THIRD_PARTY_NOTICES.md` with Pillow and its known bundled libraries (including `libimagequant` and FriBiDi), the nine `pillow.libs` entries marked as pending Phase 6 verification, and the development dependencies.
+- [x] Add unit tests, including the phase sums and the 70 s no-match bound.
+- [x] Run an independent multi-lens review of the Phase 2 code (architecture, scope and acceptance, correctness, imaging and security, test quality), verify each finding, fix the confirmed ones with regression tests, and record the rest.
+- [x] Update status and commit.
 
 Gate: Codex reviews architecture conformance and independence.
 
@@ -73,6 +74,8 @@ Owner: Claude
 - [ ] Implement the Cleveland Museum of Art provider: documented API, CC0 records only, documented print JPEG only.
 - [ ] Implement combined filters per the capability matrix, visible reporting of unsupported filters, orientation checks, the strict-format budget (30 remote dimension requests), and pacing.
 - [ ] Add independently authored or synthesized fixtures and the shared contract tests. Any recorded observation requires user approval.
+- [ ] In the contract suite, assert that each adapter agrees with `CAPABILITY_MATRIX` and `ALLOWED_RIGHTS`, that discovery-endpoint 404/410 responses map to `HTTP_ERROR`, and that local inspections return `None` for unreadable files (D-141).
+- [ ] Fix the vocabularies (Q-14) with labels that stay distinct across both museums (D-143).
 - [ ] Update status and commit.
 
 Gate: Codex reviews provider access patterns, bounding, fixtures, and legal boundaries.
@@ -96,7 +99,7 @@ Owner: Claude
 - [ ] Establish the adapter surface only by inspecting the installed `samsungtvws` 3.0.6 distribution.
 - [ ] Implement the isolated process executor with the complete bootstrap: privilege drop to an unprivileged user, the parent-death signal, umask, resource limits, the bytes-only channel, progress markers, and the bootstrap test.
 - [ ] Re-run E7–E10 with the process-based television worker. Measure worst-case prepare memory and time under the real limit.
-- [ ] Implement connection, pairing-token persistence, upload, and select in the television worker.
+- [ ] Implement connection, pairing-token persistence, upload, and select in the television worker. The adapter owns the token store and the `auth` result, polls `DeliveryRequest.stop_requested` while it waits (killing the worker and relaying the markers already sent), and `deliver` returns only after its worker is dead (D-141).
 - [ ] Map library failures and markers to clear outcomes and ledger transitions.
 - [ ] Add mocked adapter tests; do not contact the live television.
 - [ ] Update third-party notices, status, and decisions.
@@ -108,6 +111,7 @@ Owner: Claude
 
 - [ ] Create current-format Home Assistant app metadata and option translations that state source applicability.
 - [ ] Package the one-shot runtime and the persistent and media mappings, starting without `host_network`.
+- [ ] Wire the entry point (`__main__`): logging with the redactor, a `CancellationController(start_deferred=True)` created before the SIGTERM handler is installed, the environment allowlist, the watchdog (fire time and start from `RunBudget`; if `RunResult.summary_emitted` is false, wait for the watchdog's exit instead of exiting), container-network discovery, and the options file.
 - [ ] Create a modern multi-platform Dockerfile and a draft AppArmor profile in complain mode.
 - [ ] Add local container build tests for supported architectures where available, including the D-130 checks.
 - [ ] Once the Python version is fixed, repeat the Pillow wheel SBOM inspection against the exact two runtime wheels (`aarch64`, `amd64`). Record the result in `DECISIONS.md` and the third-party notices; it is authoritative for the bundled-library inventory.
