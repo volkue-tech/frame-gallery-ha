@@ -4,9 +4,11 @@ Last updated: 2026-09-26
 
 ## Current phase
 
-**Phase 1 (independent architecture proposal), revision 2.**
+**Phase 1 (independent architecture proposal), revision 2 with final gate corrections.**
 
-The Codex review of commit `8ea5491` conditionally accepted the architecture. This revision applies the user's decisions and the review's corrections, and it changes documentation only.
+- The Codex review of commit `8ea5491` conditionally accepted the architecture.
+- Revision 2 (commit `4ea3e36`) applied that review.
+- The Codex final gate review of `4ea3e36` accepted the architecture changes and required one factual dependency correction. This commit applies that correction and the accepted decisions. It changes documentation only.
 
 **Phase 2 is not yet approved.** No application code has been written, no dependency installed, and nothing has been contacted or published.
 
@@ -27,7 +29,7 @@ The Codex review of commit `8ea5491` conditionally accepted the architecture. Th
 - Ran an internal multi-agent review; 58 confirmed findings were incorporated.
 - Wrote `ARCHITECTURE.md` and the first `DECISIONS.md` (decisions, inventory, risks, questions).
 
-### Phase 1, revision 2: Codex review applied (Claude, this commit)
+### Phase 1, revision 2: Codex review applied (Claude, commit `4ea3e36`)
 
 **Beta providers**
 
@@ -65,7 +67,7 @@ The Codex review of commit `8ea5491` conditionally accepted the architecture. Th
 - `frame_gallery` as the provisional identifier (D-138).
 - Apache-2.0 (D-102).
 - `uv` (D-128).
-- An IPv4 literal for the TV address (D-125); the accepted ranges are still proposed (Q-12). The test value `192.168.178.30` is never hard-coded.
+- An IPv4 literal for the TV address (D-125). The test value `192.168.178.30` is never hard-coded.
 - No `host_network` initially (Q-16).
 - Inspect only the installed `samsungtvws` 3.0.6 (D-104).
 - `contain`, landscape-only, and strict 16:9 on by default, with no crop (D-123).
@@ -88,27 +90,55 @@ The Codex review of commit `8ea5491` conditionally accepted the architecture. Th
 - The Cleveland Open Access and Home Assistant preview options were researched from documentation pages only. Key facts were independently re-checked; the citation guidance and the refresh cadence were not.
 - Cross-reference and consistency checks were run, followed by an independent review of this revision.
 
+### Phase 1, final gate corrections: Codex final gate review of `4ea3e36` applied (Claude, this commit)
+
+**Pillow licensing correction**
+
+- The earlier claim that the Pillow PyPI wheels omit `libimagequant` was false and has been withdrawn.
+- The Pillow 12.3.0 wheels bundle GPL-3.0-or-later `libimagequant` 4.4.1 and LGPL-2.1-or-later FriBiDi 1.0.16 (with its shim). The full bundled-library inventory from the Codex inspection is recorded in `DECISIONS.md`. The remaining `pillow.libs` entries are marked for verification.
+- Apache-2.0 covers project-owned code only (D-102). The runtime image is **not** GPL-free.
+- `libimagequant` and FriBiDi are added to the copyleft review (D-135). The qualified licence review stays a release gate, and R-25 records the risk.
+- Pillow 12.3.0 stays proposed. The inspection will be repeated against the exact runtime wheels once the Python version is fixed; that result is authoritative (D-130, `TASKS.md` Phase 6).
+
+**Development-only rows**
+
+- `mypy-extensions` 1.1.0 (MIT) and `pathspec` 1.1.1 (MPL-2.0) were recorded; neither is shipped.
+
+**Decisions accepted**
+
+- Q-03 (D-116): square band 0.95–1/0.95; strict near-16:9 is ±1 %, `abs(ln(r / (16/9))) <= ln(1.01)` (about 1.760–1.796); maximum upscale 2.5×. The strict threshold may be revisited after Phase 8.
+- Q-11 (D-117): fallback only with landscape-only and `contain`; no fallback in `cover`.
+- Q-12 (D-125): RFC 1918 IPv4 literals only; link-local, loopback, unspecified, multicast, broadcast, and the container and Supervisor networks are rejected. `192.168.178.30` is used only as the Phase 8 test value.
+- Q-23 (D-137): a 30-day uncertainty quarantine.
+- Q-18 item 4 (D-113): history is recorded before the preview is published.
+- Q-09 (§16.3, D-114, D-140): the UI card, script, 150 s timer helper, enabled Running sensor, and optional post-run automation.
+- Q-08 (D-120, D-123): the Art Institute of Chicago is the default remote source.
+- Q-04 (D-118): the candidate fingerprint.
+
+**Specification amendments**
+
+- `PRODUCT_SPEC.md`: the RFC 1918 address rule, lifecycle steps 9 and 10 swapped, the strict ±1 % definition, and the 30-day quarantine. Each change is recorded in its amendment log.
+- `ACCEPTANCE_TESTS.md`: B7 reworded in place for RFC 1918. No IDs changed.
+
 ## Specification deviations still awaiting decision
 
-| Item | Where |
-| --- | --- |
-| History recorded before the preview is published (lifecycle steps 9 and 10). Duplicate prevention no longer depends on this order. | D-113, Q-18 item 4 |
+None. The lifecycle order (D-113) was accepted and the specification amended.
 
 ## Next action
 
-The user and Codex review revision 2, then either approve Phase 2 or request changes.
+The user and Codex review the final gate corrections, then either approve Phase 2 or request changes.
 
 **Decisions needed, by phase:**
 
 | Before | Decisions |
 | --- | --- |
-| Phase 2 | This revision (the Phase 2 gate). Q-03 (thresholds), Q-11 (fallback in `cover` mode), and the remaining part of Q-12 (IPv4 ranges). Development-only dependencies, once the `mypy-extensions` and `pathspec` SPDX IDs are recorded. The Pillow row, once its bundled-library table is verified from the pinned wheels. |
-| Phase 3 | Q-04, Q-14, Q-22. The `urllib3` and `certifi` rows. Any observation requests. |
-| Phase 4 | Q-23 (quarantine period) and Q-18 item 4 (D-113). |
+| Phase 2 | This revision (the Phase 2 gate). The development-only dependency rows (now complete). The Pillow row, with its corrected bundled-library inventory. |
+| Phase 3 | Q-14, Q-22. The `urllib3` and `certifi` rows. Any observation requests. |
+| Phase 4 | None (Q-23 and D-113 accepted). |
 | Phase 5 | The `samsungtvws` row and its LGPL-3.0 obligations (D-135). |
-| Phase 6 | The base-image pull (D-130); Q-06, Q-08, Q-09, Q-10; the Buildx, QEMU, and SBOM-tool rows. |
+| Phase 6 | The base-image pull (D-130); Q-06, Q-10; the Buildx, QEMU, and SBOM-tool rows. The authoritative Pillow runtime-wheel inspection. |
 | Phase 8 | Explicit approval for the live run; Q-21 (install route). |
-| Phase 9 | D-101 (final name), Q-13 (repository URL); the builder-action and Cosign rows; approval to publish. |
+| Phase 9 | D-101 (final name), Q-13 (repository URL); the builder-action and Cosign rows; the qualified licence review (D-135, release gate); approval to publish. |
 
 ## External state
 
@@ -125,8 +155,6 @@ The user and Codex review revision 2, then either approve Phase 2 or request cha
 See `DECISIONS.md` for the full list. The most material:
 
 - **Preview freshness mechanism** (D-140). This is release-blocking and is selected in Phase 8.
-- **Lifecycle order** (D-113, Q-18 item 4).
-- **Uncertainty-quarantine period** (Q-23). Proposed: 30 days.
-- **Loading indicator** (Q-09). The timer-driven indicator makes the `G1` deliverable card + script + timer helper, plus a post-run automation if needed. The Running sensor's latency is measured in Phase 8.
+- **Copyleft components in the runtime image** (R-25, D-135). The Pillow wheels bundle GPL-3.0-or-later `libimagequant` and LGPL-2.1-or-later FriBiDi. The qualified licence review is a release gate.
 - **Final name** (D-101). The trademark wording is tracked as R-14.
 - **Copyleft source-availability mechanism** (D-135).

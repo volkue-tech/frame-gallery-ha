@@ -19,7 +19,7 @@ These are product-level acceptance criteria. Unit and integration test details s
 - [ ] A missing or unavailable helper falls back to the static value.
 - [ ] Invalid filter values are rejected or normalized predictably.
 - [ ] Landscape-only and fit-mode defaults preserve the full artwork.
-- [ ] A television address that is not a local IPv4 literal is rejected with a clear validation message.
+- [ ] A television address that is not an RFC 1918 private IPv4 literal (including link-local `169.254.0.0/16`, loopback, unspecified, multicast, broadcast, and container or Supervisor network addresses) is rejected with a clear validation message.
 - [ ] A filter the selected source does not support is visibly reported as unsupported (option description, log, and run record) and never silently claimed to work.
 
 ## C. Candidate selection
@@ -101,4 +101,6 @@ These are product-level acceptance criteria. Unit and integration test details s
     - E5: history changes only after upload *and* selection are confirmed.
     - G5: preview freshness, now release-blocking.
     - G6: no configuration edits of any kind.
+- **2026-09-26: Codex final gate review of commit `4ea3e36`, with user decisions.**
+  - Reworded in place: B7 now requires an RFC 1918 private IPv4 literal and names the rejected ranges (Q-12, D-125). No IDs changed.
 

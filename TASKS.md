@@ -32,6 +32,12 @@ Owner: Claude
 - [x] Amend `PRODUCT_SPEC.md` and `ACCEPTANCE_TESTS.md` accordingly, with amendment logs.
 - [x] Commit documentation only.
 
+- [x] Codex final gate review of commit `4ea3e36`: architecture changes accepted; one dependency correction required.
+- [x] Correct the Pillow 12.3.0 wheel inventory: the wheels bundle GPL-3.0-or-later `libimagequant` and LGPL-2.1-or-later FriBiDi. Scope Apache-2.0 to project-owned code, and add both libraries to D-135.
+- [x] Record the `mypy-extensions` (MIT) and `pathspec` (MPL-2.0) development-only rows.
+- [x] Record the accepted decisions Q-03, Q-04, Q-08, Q-09, Q-11, Q-12, Q-18 item 4 (D-113), and Q-23, and amend `PRODUCT_SPEC.md` and `ACCEPTANCE_TESTS.md` where they are normative.
+- [x] Commit documentation only.
+
 Gate: user and Codex approve the architecture before application code is written.
 
 ## Phase 2 — Core skeleton, deterministic selection and rendering
@@ -101,6 +107,7 @@ Owner: Claude
 - [ ] Package the one-shot runtime and the persistent and media mappings, starting without `host_network`.
 - [ ] Create a modern multi-platform Dockerfile and a draft AppArmor profile in complain mode.
 - [ ] Add local container build tests for supported architectures where available, including the D-130 checks.
+- [ ] Once the Python version is fixed, repeat the Pillow wheel SBOM inspection against the exact two runtime wheels (`aarch64`, `amd64`). Record the result in `DECISIONS.md` and the third-party notices; it is authoritative for the bundled-library inventory.
 - [ ] Write complete installation, configuration, capability-matrix, troubleshooting, and draft dashboard documentation.
 - [ ] Update status and commit.
 
@@ -140,7 +147,8 @@ Owner: Codex and Claude
 
 - [ ] Switch the AppArmor profile to enforce mode and verify the whole isolation design, with an approved supervised live re-check.
 - [ ] Create the user-approved public repository under `volkue-tech`.
-- [ ] Add the Apache-2.0 project license and third-party notices, including copyleft source availability.
+- [ ] Complete the qualified licence review (D-135) as a release gate: `samsungtvws` (LGPL-3.0), the Pillow-bundled `libimagequant` (GPL-3.0-or-later) and FriBiDi (LGPL-2.1-or-later), and the Alpine base packages.
+- [ ] Add the Apache-2.0 licence for project-owned code, and third-party notices with the GPL and LGPL texts and copyleft source availability.
 - [ ] Configure GitHub Actions for tests and multi-architecture GHCR publication.
 - [ ] Publish immutable versioned images for `aarch64` and `amd64`.
 - [ ] Add the one-click Home Assistant repository link.

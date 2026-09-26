@@ -4,7 +4,7 @@
 
 Frame Gallery should let a non-technical Home Assistant OS user install an app, choose artwork preferences, and send a fresh artwork to a compatible Samsung Frame television without SSH, shell access, Docker knowledge, or changes to Home Assistant's `configuration.yaml`.
 
-The initial product is a one-shot app: each start selects and uploads at most one artwork, publishes a dashboard preview, records its history, cleans temporary data, and exits.
+The initial product is a one-shot app: each start selects and uploads at most one artwork, records its history, publishes a dashboard preview, cleans temporary data, and exits.
 
 ## Target environment
 
@@ -13,7 +13,9 @@ The initial product is a one-shot app: each start selects and uploads at most on
 - `amd64` is the secondary target.
 - Compatible Samsung Frame television reachable on the same local network.
 - Initial live validation television: `192.168.178.30`, but this value must never be shipped as a default or hard-coded into application logic.
-- The television is configured by its IPv4 address literal on the local network.
+- The television is configured by its IPv4 address literal on the local network. Only RFC 1918 private addresses are accepted (`10.0.0.0/8`, `172.16.0.0/12`, `192.168.0.0/16`). The app rejects:
+  - link-local (`169.254.0.0/16`), loopback, unspecified, multicast, and broadcast addresses;
+  - the container's own networks, including the Supervisor's internal network.
 
 ## Installation experience
 
@@ -33,8 +35,8 @@ The initial product is a one-shot app: each start selects and uploads at most on
 6. Download only the selected artwork at the resolution needed for processing.
 7. Prepare a television-ready image according to the configured fit policy.
 8. Upload and select the image on the television. As soon as the television confirms the upload, record the artwork in the TV-upload exclusion ledger, even if selection is then refused, times out, or becomes uncertain.
-9. Atomically publish the processed image as the dashboard preview.
-10. Persist sent history only after the television confirms selection.
+9. Persist sent history only after the television confirms selection.
+10. Atomically publish the processed image as the dashboard preview.
 11. Remove temporary files in both success and failure paths.
 12. Exit successfully after one upload, or exit cleanly without changing the television when no eligible image can be found.
 
@@ -111,6 +113,7 @@ Optional Home Assistant helper entity IDs may override the static source, depart
   - history, preview publication, run record, and cleanup: a reserved 10 seconds.
 - Every individual timeout is clamped to the remaining total deadline.
 - A run that finds no matching candidate must finish cleanly within 70 seconds by default.
+- An artwork is a strict near-16:9 match when its aspect ratio `r` (width ÷ height, after EXIF orientation) satisfies `abs(ln(r / (16/9))) <= ln(1.01)`, that is, within ±1 % of 16:9 (about 1.760–1.796). This threshold may be revisited after the supervised Home Assistant Green visual tests.
 - The strict-format probe budget is **30 remote dimension requests**. Local header inspection has its own separate, bounded allowance.
 - An advanced total-deadline option may be offered later, validated within a safe range. The standard dashboard instructions use the 120-second default.
 - When no strict near-16:9 match exists and landscape-only plus no-crop preservation are enabled, the app may fall back to an eligible landscape artwork.
@@ -135,7 +138,7 @@ Optional Home Assistant helper entity IDs may override the static source, depart
 - Do not record a work as sent until upload and selection succeed.
 - Keep a separate, bounded **TV-upload exclusion ledger**:
   - Once the television confirms an upload, the provider-qualified identifier enters the ledger, even if selection is then refused, times out, or becomes uncertain.
-  - If an upload was started but not confirmed, the identifier may be held in a bounded, temporary uncertainty quarantine for a documented period.
+  - If an upload was started but not confirmed, the identifier is held in a bounded, temporary uncertainty quarantine for **30 days**.
   - Candidates in the confirmed sent history, the upload ledger, or an unexpired quarantine entry are never selected again.
   - The confirmed sent history, the current artwork, and the dashboard preview change only after the television confirms selection.
   - Both records use the same atomic, bounded state design.
@@ -209,4 +212,9 @@ Filter selection from a dashboard is desirable. The architecture proposal should
   - Dashboard preview freshness was made release-blocking, and the preview platform basis was recorded.
   - Lifecycle step 5 now also excludes the upload ledger and quarantine. Step 10 now ties history to confirmed *selection*, not upload.
   - The order of lifecycle steps 9 and 10 is unchanged and remains subject to decision D-113.
+- **2026-09-26: Codex final gate review of commit `4ea3e36`, with user decisions.**
+  - *Target environment:* the TV address must be an RFC 1918 private IPv4 literal. Link-local (`169.254.0.0/16`), loopback, unspecified, multicast, and broadcast addresses and the container and Supervisor networks are rejected (Q-12, D-125).
+  - *Run lifecycle:* steps 9 and 10 were swapped, so sent history is persisted before the preview is published (D-113, Q-18 item 4). The product vision sentence was reordered to match.
+  - *Selection limits:* the strict near-16:9 match is defined as `abs(ln(r / (16/9))) <= ln(1.01)` (±1 %, about 1.760–1.796). It may be revisited after Phase 8 (Q-03, D-116).
+  - *Duplicate prevention:* the uncertainty quarantine period is 30 days (Q-23, D-137).
 

@@ -1,6 +1,12 @@
 # Frame Gallery for Home Assistant — Architecture proposal
 
-Status: **Proposed, revision 2.** Revision 1 (commit `8ea5491`) was conditionally accepted in the Codex review. This revision applies the user's decisions and the review's corrections. **Phase 2 is not yet approved.**
+Status: **Revision 2, with final gate corrections.**
+
+- Revision 1 (commit `8ea5491`) was conditionally accepted in the Codex review.
+- Revision 2 (commit `4ea3e36`) was accepted in the Codex final gate review, subject to one factual dependency correction and eight product decisions. Both are applied here.
+
+**Phase 2 is not yet approved.**
+
 Date: 2026-09-26
 Author: Claude (Phase 1 owner)
 
@@ -23,6 +29,9 @@ This document is documentation only. The YAML fragments, signatures, and pseudo-
    - approved decisions;
    - implementation sequencing.
 3. *Revision 2 research.* The new facts on the Cleveland API and Home Assistant preview options were researched from documentation pages only. The key facts were independently re-checked; the citation guidance and the refresh cadence were not (§25).
+4. *Codex final gate review of `4ea3e36`.* The architecture changes were accepted. Two changes were applied:
+   - **Pillow inventory.** Codex inspected the official Pillow 12.3.0 wheels. They bundle GPL-3.0-or-later `libimagequant` and LGPL-2.1-or-later FriBiDi, contrary to revision 2's claim. The inventory, D-102, D-135, and R-25 are corrected.
+   - **Accepted decisions.** Q-03 (strict ±1 %), Q-04, Q-08, Q-09, Q-11, Q-12 (RFC 1918 only), Q-18 item 4 (D-113), and Q-23 (30 days) are recorded as accepted.
 
 ---
 
@@ -181,7 +190,7 @@ START ─► CONFIGURE ─► RESOLVE_FILTERS ─► SELECT ─► ┌─ ATTEMP
 | PUBLISH | Only after `selected`: publish the delivery bytes atomically as the preview, and update `current.json`. | changed |
 | FINISH | Write the last-run record (every outcome except watchdog termination), log the summary line, and exit. | — |
 
-**Ordering note (D-113).** The specification lists preview publication (step 9) before history persistence (step 10). This design records history first. Duplicate prevention no longer depends on this order: the upload ledger already excludes the work once it is uploaded. The order is a small robustness choice that remains open (Q-18 item 4).
+**Ordering (D-113, accepted).** The confirmed sent history is recorded before the preview is published. `PRODUCT_SPEC.md` lifecycle steps 9 and 10 were amended to this order in the final gate review. Duplicate prevention does not depend on the order, because the upload ledger already excludes the work once it is uploaded.
 
 ### 4.2 Outcome taxonomy and exit codes (D-133)
 
@@ -386,12 +395,12 @@ The stop timeout is 20 s (§17.1).
 - `r = w/h` is the ratio of the deliverable rendition after EXIF orientation.
 - `s` is the fit mode's scale factor on the 3840 × 2160 canvas.
 
-| Class | Rule (Q-03) |
+| Class | Rule (D-116, accepted) |
 | --- | --- |
 | portrait | `r < 0.95` |
 | square | `0.95 ≤ r ≤ 1/0.95` |
 | landscape | `r > 1/0.95` |
-| near-16:9 (strict) | `abs(ln(r/(16/9))) ≤ ln(1.04)` (1.709–1.849) |
+| near-16:9 (strict) | `abs(ln(r/(16/9))) ≤ ln(1.01)` (about 1.760–1.796); may be revisited after Phase 8 visual testing |
 | too small | `s > 2.5` |
 
 In `contain` mode, an Art Institute rendition 1686 px wide and at least 16:9 is upscaled ≈ 2.28×, and a Cleveland 3400 px print ≈ 1.13×. Narrower works are limited by height and upscaled less.
@@ -416,7 +425,7 @@ if strict_tv_format and fallback_permitted: fill the shortlist from fallbacks, b
 
 - **Single pass.** One discovery pass of at most 30 s; the attempts then work through the shortlist in order.
 - **Verification.** The prepare worker reports the real dimensions first. A rendition that violates the reason it was chosen is rejected, and the next candidate is tried.
-- **Fallback (D-117).** Fallback is allowed only with `landscape_only` and `contain`, and a fallback image is never cropped. Fallback in `cover` mode is still open (Q-11).
+- **Fallback (D-117, accepted).** Fallback is allowed only with `landscape_only` and `contain`, and a fallback image is never cropped. There is **no fallback in `cover` mode**.
 - **Provider error.** A non-403/429 error mid-discovery ends discovery, but the shortlisted candidates are still attempted. After a 403/429 stop, there are no further requests, and the outcome is `source_failed`.
 - **Randomness.** All random choices use the injected random source.
 
@@ -771,7 +780,7 @@ The whole delivery is one coarse operation inside one worker.
 | `connected`; token rejected or prompt not accepted | `tv_not_authorized` | unchanged | unchanged | intent removed |
 | `connected`; art mode unsupported | `tv_rejected` | unchanged | unchanged | intent removed |
 | `connected`; `insufficient_time` (upload allowance guard) | `deadline_exceeded` | unchanged | unchanged | intent removed |
-| `upload_started`; connection lost, kill timer, or `protocol` | `tv_unreachable`: "the upload may have reached the TV" | may hold the upload | unchanged | intent **kept as `uncertain`** (quarantine: proposed 30 days, pending Q-23) |
+| `upload_started`; connection lost, kill timer, or `protocol` | `tv_unreachable`: "the upload may have reached the TV" | may hold the upload | unchanged | intent **kept as `uncertain`** (quarantine: 30 days, Q-23) |
 | `upload_started`; explicit upload refusal | `tv_rejected` | unchanged | unchanged | intent removed |
 | `uploaded`; selection explicitly refused | `tv_rejected` | holds an undisplayed upload | unchanged | **`uploaded`**: never uploaded again |
 | `uploaded`; connection lost, kill timer, or `protocol` during selection | `tv_unreachable`: "stored on the TV and may be displayed" | holds the upload; may display it | unchanged | **`uploaded`**: never uploaded again |
@@ -808,7 +817,7 @@ The television state and the ledger always follow the last marker seen.
 | --- | --- | --- | --- |
 | `/data/options.json` | Options | — | yes (expected) |
 | `/data/state/history.json` (+ `.bak`) | Confirmed sent or displayed identifiers, with timestamps | ≤ 20 000 entries and ≤ 5 MiB | yes (expected) |
-| `/data/state/upload_ledger.json` (+ `.bak`) | TV-upload exclusion ledger: `uploaded` and `uncertain` entries (§13.6) | ≤ 20 000 entries and ≤ 5 MiB; `uncertain` expires after the quarantine period (proposed 30 days, Q-23) | yes (expected) |
+| `/data/state/upload_ledger.json` (+ `.bak`) | TV-upload exclusion ledger: `uploaded` and `uncertain` entries (§13.6) | ≤ 20 000 entries and ≤ 5 MiB; `uncertain` expires after the 30-day quarantine period (Q-23) | yes (expected) |
 | `/data/state/current.json` | Attribution and SHA-256 of the artwork on the TV, plus the last 10 preview fingerprints. Written only after `selected`. | ≤ 16 KiB | yes (expected) |
 | `/data/state/last_run.json` | Outcome, timestamps, stats, and effective and ignored filters (no secrets). Written for every outcome except watchdog termination. | ≤ 16 KiB | yes (expected) |
 | `/data/state/.lock` | Advisory lock | — | — |
@@ -884,7 +893,7 @@ After `uploaded`, one small atomic write promotes the ledger entry. After `selec
   5. **Pruning.** Once the work is in history, its entry is pruned on the next ledger write.
 - **Bounds.**
   - At most 20 000 entries and 5 MiB; the oldest `uploaded` entries are dropped first.
-  - `uncertain` entries expire after the quarantine period (proposed 30 days, pending Q-23).
+  - `uncertain` entries expire after the **30-day** quarantine period (Q-23, accepted).
 - **Exclusion.** Selection skips `history ∪ uploaded ∪ unexpired uncertain` (§8.2).
 - **Reader and versions.** Same as history.
 - **Tests.** Acceptance items `E7`–`E10` (§20.1).
@@ -910,7 +919,7 @@ Tests cover failure injection at every stage (`F1`, `F2`), byte bounds over repe
 | Option | Schema (Supervisor syntax) | Default | Plain-language meaning |
 | --- | --- | --- | --- |
 | `tv_host` | `match(^(?:\d{1,3}\.){3}\d{1,3}$)` (required; no default) | — | IPv4 address of your Frame TV (reserve it in your router). |
-| `source` | `list(art_institute_chicago\|cleveland_museum_of_art\|local_media)` | `art_institute_chicago` (proposed, Q-08) | Which museum or source the artwork comes from. |
+| `source` | `list(art_institute_chicago\|cleveland_museum_of_art\|local_media)` | `art_institute_chicago` (Q-08, accepted) | Which museum or source the artwork comes from. |
 | `department` | `list(any\|aic_…\|cma_…)` | `any` | Department or collection within the selected museum. Values start with their museum; values for another museum are reported as not applicable. |
 | `style` | `list(any\|style_…\|period_…)` | `any` | Style (Art Institute only) or period (both museums). |
 | `color` | `list(any\|…)` | `any` | Dominant colour (Art Institute only). |
@@ -947,11 +956,11 @@ Helpers are read only when at least one `*_helper` option is set.
 - **Fallback.** Any failure falls back to the static value, with one WARNING (acceptance items `B3`–`B5`).
 - **`source_helper`** accepts only the three source keys. After the source changes, filters that no longer apply are reported as ignored (§9.2).
 
-### 15.4 Television address (D-125: IPv4 literal accepted; ranges proposed, Q-12)
+### 15.4 Television address (D-125, accepted)
 
 - **Format.** `tv_host` must be an **IPv4 literal**: four octets, each 0–255. Hostnames and IPv6 addresses are not accepted in the beta.
-- **Accepted ranges.** RFC 1918 (`10/8`, `172.16/12`, `192.168/16`) and `169.254/16`.
-- **Rejected.** Loopback, unspecified, multicast, and broadcast addresses. Also rejected are the container's own interface networks, determined at run time. These include the Supervisor's internal app network, which keeps the TV client and its token away from internal services.
+- **Accepted ranges.** RFC 1918 private ranges only: `10/8`, `172.16/12`, `192.168/16`.
+- **Rejected.** `169.254/16` link-local addresses; loopback, unspecified, multicast, and broadcast addresses; the container's own interface networks, determined at run time. These include the Supervisor's internal app network, which keeps the TV client and its token away from internal services.
 - **Use.** No DNS is involved. The validated literal goes to the TV worker.
 - **Failure** gives `config_invalid`.
 
@@ -1006,14 +1015,14 @@ The acceptance-item `G1` deliverable is therefore **card + script + timer helper
    - the sensor was never seen `on` within the first 15 s (a very short run); or
    - the timer ends.
 
-   Phase 8 validates this against the sensor's real latency (Q-09).
+   Phase 8 validates this against the sensor's real latency (R-06).
 4. Cancel the timer.
 
 The freshness step, if any, is **not** part of this script (see below).
 
 The conditional card shows *"Updating artwork…"* while the **timer is `active`**. It may additionally require the Running sensor to be `on` (AND, never OR). The timer expires on its own, so the card returns to idle in every case (acceptance item `G4`), and **the dashboard never shows a loading state for more than 150 s**.
 
-A card driven by the Running sensor alone is allowed only if Phase 8 measures its on-to-off latency at under 150 s (Q-09, R-06).
+A card driven by the Running sensor alone is allowed only if Phase 8 measures its on-to-off latency at under 150 s (R-06). The card, script, timer helper, enabled Running sensor, and optional post-run automation are accepted (Q-09).
 
 Three further constraints:
 
@@ -1092,7 +1101,7 @@ With the custom AppArmor profile, the security rating is 6.
 
 - **Base image.** `ghcr.io/home-assistant/base`, pinned by tag and digest, with `init: false`.
 - **Phase 6 checks.** These run after the user approves pulling the image:
-  - (a) Alpine and Python versions;
+  - (a) Alpine and Python versions. Once the Python version is fixed, the Pillow wheel SBOM inspection is repeated on the exact two runtime wheels, and that result is authoritative for the inventory;
   - (b) the container stops when `CMD` exits;
   - (c) SIGTERM arrives with enough grace;
   - (d) `SUPERVISOR_TOKEN` is visible without `with-contenv`.
@@ -1101,12 +1110,12 @@ With the custom AppArmor profile, the security rating is 6.
 - **Packages.**
   - `python3` is pinned to an exact apk version.
   - The venv is created `--without-pip`, from hash-pinned, binary-only wheels, with the lock generated by `uv` (D-128).
-  - Pillow comes only from PyPI wheels.
+  - Pillow comes only from PyPI wheels. These wheels bundle **GPL-3.0-or-later `libimagequant`** and **LGPL-2.1-or-later FriBiDi** (inventory, R-25), so the image is **not** free of GPL components. Alpine's `py3-pillow` would not avoid this either.
 - **Labels.**
   - `io.hass.arch` comes from `BUILD_ARCH`, falling back to `TARGETARCH`.
   - `io.hass.version` comes from a required `ARG`.
   - The OCI licenses label is omitted.
-- **Notices.** All license texts, the IJG and FreeType acknowledgements, and the OS-package list from the SBOM (R-17).
+- **Notices.** All license texts, including GPL-3.0 for `libimagequant` and LGPL-2.1 for FriBiDi; the IJG and FreeType acknowledgements; the OS-package list from the SBOM (R-17); and copyleft source availability (D-135). Apache-2.0 covers only the project-owned code, not the whole image (D-102).
 
 ### 17.3 Build, development install, and release gates
 
@@ -1118,7 +1127,8 @@ With the custom AppArmor profile, the security rating is 6.
   - Tags are immutable, and `version` = tag = image = CHANGELOG.
   - `stage: stable` only after Phase 8.
   - `G5` passed: one preview refresh mechanism proven in repeated Phase 8 live tests and recorded in D-140 and R-07.
-  - The D-102 license (Apache-2.0, accepted) is applied.
+  - The D-102 license (Apache-2.0, accepted) is applied to the project-owned code only.
+  - The **qualified licence review** is complete (D-135, R-25), covering the GPL-3.0-or-later and LGPL components in the image.
   - Enforce-mode AppArmor and the verified privilege drop from Phase 9 are in place.
 
 ### 17.4 Presentation and installation
@@ -1274,7 +1284,7 @@ frame_gallery/                      # app directory = Docker build context
 ### 22.1 Included (D-120)
 
 - The one-shot run, with every bound, outcome, and cleanup guarantee: at most 120 s, and `no_match` within 70 s.
-- Three sources: local media, the Art Institute of Chicago (the proposed default, Q-08), and the Cleveland Museum of Art.
+- Three sources: local media, the Art Institute of Chicago (the default, Q-08), and the Cleveland Museum of Art.
 - Source, department, style/period, and colour filters, with the capability matrix and visible reporting of unsupported filters. Optional helpers.
 - Landscape-only; strict 16:9 with `contain` fallback; the upscale rule; `contain` (default) and `cover`; background colour.
 - Atomic, pre-staged history; the TV-upload exclusion ledger and quarantine; atomic preview; small cache; self-healing pairing.
@@ -1318,11 +1328,11 @@ The vertical slice makes the core behaviour testable before packaging hardening.
 
 | Phase | Delivers | Approvals needed first |
 | --- | --- | --- |
-| 2: core and deterministic selection and rendering | `budget` (phase calculator, 120 s table); `config` (options, IPv4, vocabularies, capability matrix); outcomes; ports; in-process executor seam; **`app` run-orchestrator skeleton** (lifecycle stages, outcome classification, SIGTERM handling) against fakes; `selection` (exclusion interface, classification, shortlist); `imaging` prepare pipeline and fit geometry; `logs`; tooling (`uv`, `ruff`, `mypy`, `pytest`); network-blocking guard; import-boundary check; the start of `THIRD_PARTY_NOTICES.md` (Pillow and its bundled libraries) | **This revision (Phase 2 gate)**; Q-03, Q-11, and the rest of Q-12; dev dependencies, once the `mypy-extensions` and `pathspec` SPDX IDs are recorded; the Pillow row, once its bundled-library table is verified |
-| 3: provider adapters | `net` gateway; `providers.local_media`, `providers.aic`, `providers.cma` with fake and synthesized fixtures, after a live-documentation re-check; **`ha` helper-override client** (≤ 4 reads, static fallback; acceptance items `B3`–`B5`); vocabularies; contract suite; `urllib3` and `certifi` added to the notices | Q-04, Q-14, Q-22; the `urllib3` and `certifi` rows; any observation requests |
-| 4: bounded state and duplicate prevention | `store`: atomic primitive, history, **upload ledger and quarantine**, cache, workspace, preview publisher, run records, cleanup and sweep. PRE-STAGE, RECORD, and PUBLISH completed in the runner. `E7`–`E10` tested against a fake TV port that emits markers | Q-23; Q-18 item 4 (D-113) |
+| 2: core and deterministic selection and rendering | `budget` (phase calculator, 120 s table); `config` (options, IPv4, vocabularies, capability matrix); outcomes; ports; in-process executor seam; **`app` run-orchestrator skeleton** (lifecycle stages, outcome classification, SIGTERM handling) against fakes; `selection` (exclusion interface, classification, shortlist); `imaging` prepare pipeline and fit geometry; `logs`; tooling (`uv`, `ruff`, `mypy`, `pytest`); network-blocking guard; import-boundary check; the start of `THIRD_PARTY_NOTICES.md` (Pillow and its bundled libraries) | **This revision (Phase 2 gate)**; the dev-dependency rows (complete); the Pillow row, with its corrected bundled-library inventory (GPL-3.0-or-later `libimagequant`, LGPL FriBiDi) and the remaining `pillow.libs` entries verified |
+| 3: provider adapters | `net` gateway; `providers.local_media`, `providers.aic`, `providers.cma` with fake and synthesized fixtures, after a live-documentation re-check; **`ha` helper-override client** (≤ 4 reads, static fallback; acceptance items `B3`–`B5`); vocabularies; contract suite; `urllib3` and `certifi` added to the notices | Q-14, Q-22; the `urllib3` and `certifi` rows; any observation requests |
+| 4: bounded state and duplicate prevention | `store`: atomic primitive, history, **upload ledger and quarantine**, cache, workspace, preview publisher, run records, cleanup and sweep. PRE-STAGE, RECORD, and PUBLISH completed in the runner. `E7`–`E10` tested against a fake TV port that emits markers | — (Q-23 and D-113 accepted) |
 | 5: Samsung adapter contract | Adapter surface from the **installed** `samsungtvws` 3.0.6 only; process executor with the complete §11.3 bootstrap (privilege drop, rlimits, bytes channel, markers); TV worker; token store; mocked and double tests; `E7`–`E10` re-run with the process-based TV worker; worst-case prepare memory and time measured under the real limit | The `samsungtvws` row and its LGPL-3.0 obligations (D-135) |
-| 6: Home Assistant app packaging | `config.yaml`; Dockerfile; translations; `DOCS.md`; draft dashboard YAML; complain-mode `apparmor.txt`; container tests; D-130 checks a–d | Pulling the base image; Q-06, Q-08, Q-09, Q-10; the Buildx, QEMU, and SBOM-tool rows |
+| 6: Home Assistant app packaging | `config.yaml`; Dockerfile; translations; `DOCS.md`; draft dashboard YAML; complain-mode `apparmor.txt`; container tests; D-130 checks a–d | Pulling the base image; Q-06, Q-10; the Buildx, QEMU, and SBOM-tool rows; the authoritative Pillow runtime-wheel inspection |
 | 7: offline release-candidate validation | Full gate run; provenance and license audit; failure-path exercises; release-candidate report | — (gate: the user approves the live test) |
 | 8: supervised Home Assistant Green and TV validation | Checklist: install via Q-21; the TV at the user's test value `192.168.178.30`, entered in the options and never hard-coded; **Q-16** (connectivity without `host_network`); **preview freshness, with one mechanism proven over repeated tests (card-started, automation-started, app-page-started, and `no_match` runs) and documented (D-140)**; entity IDs for the card (everything except the public slug); Q-05, Q-07, Q-09, Q-19 (including a mistyped slug); R-09, R-21; a backup without `tv/` | **Explicit user approval**; Q-21 (install route) |
 | 9: AppArmor, release hardening, public beta | Enforce-mode AppArmor and verification of the isolation design (with an approved live re-check); notices and SBOM; CI; signed multi-architecture images; one-click link; the dashboard card finalized with the public slug (Q-13); release notes; release gates (§17.3) | D-101 (name), Q-13; the builder-action and Cosign rows; publication approval |
@@ -1337,7 +1347,7 @@ The vertical slice makes the core behaviour testable before packaging hardening.
 - **R-07 / D-140.** Preview freshness is release-blocking, and its mechanism is unproven until Phase 8.
 - **R-06 / Q-09.** The Running sensor's latency is undocumented. The normative 150 s timer indicator does not depend on it.
 - **R-22.** Neither museum documents that its provider identifiers are stable.
-- **Q-18 item 4 / D-113.** The order of lifecycle steps 9 and 10 is the one remaining specification deviation awaiting a decision.
+- **R-25 / D-135.** The Pillow wheels bundle GPL-3.0-or-later `libimagequant` and LGPL-2.1-or-later FriBiDi. The runtime is not GPL-free, and the qualified licence review is a release gate.
 
 ---
 
@@ -1401,7 +1411,7 @@ All research was read-only. It used public documentation pages, package-index me
 | B4 | A missing or unavailable helper falls back | §15.3 | Component |
 | B5 | Invalid values are rejected or normalized predictably | §15.2, §9.2 | Unit (normalization; invalid or unmappable helper → static fallback) |
 | B6 | Defaults preserve the full artwork | §11.2, §15.1 | Unit + imaging invariants |
-| B7 | A TV address that is not a local IPv4 literal is rejected | §15.4 | Unit (format, ranges, container networks) |
+| B7 | A TV address that is not an RFC 1918 private IPv4 literal is rejected | §15.4 | Unit (format, RFC 1918 ranges, rejection of 169.254/16 and of container networks) |
 | B8 | Unsupported filters are visibly reported | §9.2, §19 | Unit + integration (log, summary line, `last_run.json`) + translation review |
 | C1 | Supported filters combine correctly | §9.2, §9.5, §9.6 | Contract |
 | C2 | Portrait and square works are rejected when landscape-only is on | §8.1 | Unit |

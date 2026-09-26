@@ -74,6 +74,15 @@ Status: **accepted** (Codex review of `8ea5491`, user decision).
 
 The Apache License 2.0 applies to independently authored project code.
 
+**Scope.** Apache-2.0 covers the **project-owned source code only**. It does not cover the complete distributed container image, which also contains third-party components under their own licences. These include:
+
+- GPL-3.0-or-later `libimagequant`, bundled in the Pillow wheels;
+- LGPL-2.1-or-later FriBiDi;
+- LGPL-3.0 `samsungtvws`;
+- GPL-2.0 OS packages such as BusyBox.
+
+The inventory below lists them all.
+
 Rationale: permissive reuse with an explicit patent grant. Third-party dependencies keep their own licenses. The `LICENSE` file is added when publication is prepared (Phase 9).
 
 ### D-103 — Implementation language
@@ -230,9 +239,9 @@ Status: proposed
 
 ### D-113 — Record history before publishing the preview [§4.1]
 
-Status: proposed. This is the remaining specification deviation (Q-18 item 4).
+Status: **accepted** (Codex final gate review of `4ea3e36`; Q-18 item 4 is resolved and `PRODUCT_SPEC.md` is amended).
 
-**Decision:** Record history immediately after `selected`, then publish the preview.
+**Decision:** Record the confirmed sent history immediately after `selected`, then publish the preview.
 
 **Rationale:** Duplicate prevention no longer depends on this order, because the upload ledger (D-137) excludes the work once it is uploaded. The order only makes history slightly more robust.
 
@@ -241,7 +250,7 @@ Status: proposed. This is the remaining specification deviation (Q-18 item 4).
 Status: **split.**
 
 - **Accepted** in the Codex review, replacing the earlier 265 s proposal: the 120 s total, the 10/60/40/10 split, clamping of all timeouts, the 70 s no-match bound, and 30 remote dimension requests with a separate local allowance.
-- **Proposed**, to be confirmed by Phase 2, 5, and 8 measurements: the sub-budgets, the allowances, the `RLIMIT_AS` values, the upload allowance, and the 150 s timer.
+- **Proposed**, to be confirmed by Phase 2, 5, and 8 measurements: the sub-budgets, the allowances, the `RLIMIT_AS` values, and the upload allowance. The 150 s timer helper was accepted in the final gate review (Q-09).
 
 The tables in `ARCHITECTURE.md` §7.2 are normative once approved.
 
@@ -288,25 +297,25 @@ Status: proposed
 
 ### D-116 — Shape and quality thresholds [§8.1]
 
-Status: proposed; the values need approval (Q-03).
+Status: **accepted** (Codex final gate review; Q-03).
 
 **Decision:**
 
-- Square band: 0.95 ≤ w/h ≤ 1/0.95.
-- Strict near-16:9: ±4 % in log-ratio (1.709–1.849).
-- Quality: reject any work whose upscale factor exceeds 2.5.
+- **Square band:** 0.95 ≤ w/h ≤ 1/0.95.
+- **Strict near-16:9:** ±1 % in log ratio, `abs(ln(r / (16/9))) ≤ ln(1.01)`, about 1.760–1.796. This threshold may be revisited after Phase 8 visual testing.
+- **Quality:** reject any work whose upscale factor exceeds 2.5×.
 
 All values are measured after EXIF orientation, on the rendition that will be delivered.
 
 ### D-117 — Fallback permission [§8.2]
 
-Status: proposed (Q-11 is open for `cover` mode).
+Status: **accepted** (Codex final gate review; Q-11).
 
-**Decision:** Fallback is permitted only when `landscape_only` is on and `fit_mode` is `contain`. A fallback image is never cropped.
+**Decision:** Fallback is permitted only when `landscape_only` is on and `fit_mode` is `contain`. There is **no fallback in `cover` mode**, and a fallback image is never cropped.
 
 ### D-118 — Local media identifier [§9.3]
 
-Status: proposed (Q-04)
+Status: **accepted** (Codex final gate review; Q-04)
 
 **Decision:** `local:fp:<sha256(size ‖ first 64 KiB ‖ last 64 KiB)>`, plus the fingerprints of the last 10 previews.
 
@@ -328,7 +337,7 @@ Status: **accepted** as amended in the Codex review. `PRODUCT_SPEC.md` is amende
 
 - **Sources:**
   - local media;
-  - the **Art Institute of Chicago** (D-132), the proposed default (Q-08);
+  - the **Art Institute of Chicago** (D-132), the default remote source (Q-08, accepted);
   - the **Cleveland Museum of Art** (D-136).
 - **Filters:** source, department, style/period, and colour, with the capability matrix and visible reporting of unsupported filters (D-124); optional helpers.
 - **Selection:** landscape-only, strict with fallback, the upscale rule, and `contain` (default) or `cover`.
@@ -383,7 +392,7 @@ Status: proposed
 
 ### D-123 — App options [§15.1]
 
-Status: proposed. The defaults are **accepted** (Codex review): `contain`, with no crop; landscape-only on; strict near-16:9 on.
+Status: proposed. The defaults are **accepted** (Codex review): `contain`, with no crop; landscape-only on; strict near-16:9 on. The default `source` is `art_institute_chicago`, which is **accepted** in the final gate review (Q-08).
 
 **Decision.** The options are those in `ARCHITECTURE.md` §15.1:
 
@@ -422,12 +431,12 @@ Status: proposed, as required by the Codex review.
 
 ### D-125 — Television address rules [§15.4]
 
-Status: **split.** The IPv4 literal is **accepted** (Codex review). The accepted ranges and the network rejections below are **proposed** (Q-12, needed before Phase 2).
+Status: **accepted**. The IPv4 literal was accepted in the Codex review, and the ranges in the final gate review (Q-12).
 
 **Decision:**
 
-- `tv_host` must be an **IPv4 literal** in RFC 1918 space or `169.254/16`.
-- Loopback, unspecified, multicast, and broadcast addresses are rejected, as are the container's own interface networks (which include the Supervisor's internal network).
+- `tv_host` must be an **IPv4 literal in an RFC 1918 private range**: `10/8`, `172.16/12`, or `192.168/16`.
+- **Rejected:** `169.254/16` link-local addresses; loopback, unspecified, multicast, and broadcast addresses; the container's own interface networks and the Supervisor's internal network.
 - No DNS is involved, and the validated literal goes to the TV worker.
 - Hostnames and IPv6 are deferred.
 - The user's Phase 8 test value is `192.168.178.30`. It is entered in the options only, never shipped as a default, and never hard-coded.
@@ -508,7 +517,7 @@ Status: proposed
 
 **Open verification (Phase 6).** The image pull needs approval. Then:
 
-- (a) the Alpine and Python versions;
+- (a) the Alpine and Python versions. Once the Python version is fixed, repeat the Pillow wheel SBOM inspection against the exact two runtime wheels; that result is authoritative for the inventory;
 - (b) the container stops when `CMD` exits;
 - (c) a stop request delivers SIGTERM with enough grace;
 - (d) `SUPERVISOR_TOKEN` is visible without `with-contenv`.
@@ -562,11 +571,23 @@ Status: proposed
 
 ### D-135 — Copyleft source availability [inventory]
 
-Status: proposed (qualified review recommended before Phase 9).
+Status: proposed. **The qualified licence review is a release gate (Phase 9).**
 
 **Decision:**
 
-- Each release attaches the corresponding source for its copyleft components: the `samsungtvws` sdist, plus the Alpine aports and distfiles for the GPL/LGPL packages in the SBOM.
+- Each release attaches the corresponding source for every copyleft component in the image:
+  - the `samsungtvws` sdist;
+  - the exact source releases of **`libimagequant` 4.4.1 (GPL-3.0-or-later)** and **FriBiDi 1.0.16 and fribidi-shim (LGPL-2.1-or-later)**, as bundled in the Pillow wheels. Versions follow the authoritative runtime-wheel inspection;
+  - the Alpine aports and distfiles for the GPL and LGPL packages in the image SBOM.
+- The qualified licence review specifically covers:
+  - the GPL-3.0-or-later `libimagequant` linked into Pillow, and what it means for distributing the image and for the project's Apache-2.0 code;
+  - LGPL replaceability for FriBiDi and `samsungtvws`.
+
+  Options the review may weigh:
+  - comply as distributed;
+  - build Pillow from source without `libimagequant`. This would change D-130's binary-only rule and needs its own decision.
+
+  No option is chosen here.
 - The source stays available while the image is distributed, and for at least 3 years. A written offer is the fallback.
 - The GPLv3 installation-information duty is assessed as not applicable, pending qualified review.
 
@@ -599,7 +620,7 @@ Status: **accepted** (Codex review; replaces the earlier statement that an uploa
 - **Separate ledger.** A bounded TV-upload exclusion ledger (`upload_ledger.json`) holds two kinds of entry.
   - **`uncertain`**: a write-ahead intent. It is committed at PRE-STAGE, *after* the TV budget re-check and before the TV is contacted.
     - **Removed** whenever no `upload_started` marker was seen: the TV was unreachable, pairing was not accepted, art mode is unsupported, SIGTERM or the kill timer came before `upload_started`, or the upload allowance was insufficient. Also removed on an explicit upload refusal.
-    - **Kept** as an uncertainty quarantine only after `upload_started` without `uploaded`, or when the process dies without classifying the run. The period is proposed as 30 days, pending Q-23.
+    - **Kept** as an uncertainty quarantine only after `upload_started` without `uploaded`, or when the process dies without classifying the run. The period is **30 days** (Q-23, accepted in the final gate review).
     - `upload_started` is sent before the library's upload call, so a missing marker proves nothing was uploaded.
   - **`uploaded`**: promoted immediately when the `uploaded(content_id)` marker arrives, even if selection is then refused, times out, or becomes uncertain.
     - If the promotion write fails, or the process dies before its `fsync`, the entry stays `uncertain`. The run logs an ERROR, and the outcome is unchanged.
@@ -681,28 +702,42 @@ No package is modified or vendored into the source tree.
 | Package | Source and pin | SPDX (as published) | Use | Obligations | Reason | Enters |
 | --- | --- | --- | --- | --- | --- | --- |
 | `samsungtvws` | PyPI, `==3.0.6`; later `>=3.0.6,<4` after contract tests. sdist SHA-256 `166111d8370443cd2021b74cdfac9495896dfc41e3a87ea023289f24f922bb91`; wheel SHA-256 `6e3a1b23f928b3035570cc976b64b8c2a218b06022a333855fd7cd02dc74891d`. | `LGPL-3.0` (deprecated short form; treated as `LGPL-3.0-only` until the shipped `LICENSE` says otherwise) | dyn, redist, pure Python; core install only | See the LGPL obligations below | Television transport (D-104) | Phase 5 |
-| `Pillow` | PyPI `musllinux_1_2` wheels for `aarch64` and `x86_64`, `==12.3.0` (`<13` until validated) | `MIT-CMU` **for Pillow itself; the wheel is a composite** (see the bundled-library table) | dyn, redist, native | Pillow `LICENSE`; each bundled library's license and acknowledgement | Image pipeline (§11) | Phase 2 |
+| `Pillow` | PyPI `musllinux_1_2` wheels for `aarch64` and `x86_64`, `==12.3.0` (`<13` until validated); remains the proposed dependency | `MIT-CMU` **for Pillow itself; the wheel is a composite that includes GPL-3.0-or-later and LGPL-2.1-or-later components** (see the bundled-library table) | dyn, redist, native | Pillow `LICENSE`; every bundled component's licence and acknowledgement; copyleft source availability for `libimagequant` and FriBiDi (D-135) | Image pipeline (§11) | Phase 2 |
 | `urllib3` | PyPI `==2.8.0` (`<3`), `py3-none-any` | `MIT` (`LICENSE.txt`) | dyn, redist | License text | Gateway transport (D-131) | Phase 3 |
 | `certifi` | PyPI `==2026.7.22`, `py3-none-any` | `MPL-2.0` (`LICENSE`) | dyn, redist (CA bundle) | Files kept unmodified under MPL-2.0; identified in the notices; source pointer (D-135) | The gateway's explicit CA bundle (§10) | Phase 3 |
 
 ### Runtime: bundled in the Pillow wheels
 
-**Expected; must be verified before Phase 2** from the pinned wheels' bundled shared objects (`pillow.libs/`), `dist-info` license files, and `dist-info/sboms`. Pillow's documentation names these libraries but publishes no exact list or versions.
+**Observed** in the Codex final gate review of `4ea3e36`. Codex inspected the official Pillow 12.3.0 CPython 3.14 `musllinux_1_2` wheels for `aarch64` and `x86_64` from PyPI, and both wheel SBOMs list the same components.
 
-| Library | Version (from the wheel SBOM, Phase 2) | Expected SPDX | Obligations |
+This inventory is **provisional**. When the container's exact Python version is chosen (D-130, check a), the inspection is repeated against the exact two runtime wheels, and that result becomes authoritative.
+
+| Component | Version (wheel SBOM) | SPDX (wheel SBOM) | Obligations |
 | --- | --- | --- | --- |
-| libjpeg-turbo | tbd | `BSD-3-Clause AND IJG AND Zlib` | Include the licenses. IJG acknowledgement in `DOCS.md` and the notices: "This software is based in part on the work of the Independent JPEG Group." |
-| FreeType | tbd | `FTL OR GPL-2.0-or-later`; **FTL elected** | FTL credit in the documentation: "Portions of this software are copyright © The FreeType Project (www.freetype.org). All rights reserved." The exact wording is taken from the shipped license. |
-| zlib or zlib-ng | tbd | `Zlib` | License text |
-| libpng | tbd | `libpng-2.0` | License text |
-| libtiff (and its compression libraries) | tbd | `libtiff` (plus those libraries' licenses) | License texts |
-| libwebp | tbd | `BSD-3-Clause` | License text |
-| OpenJPEG | tbd | `BSD-2-Clause` | License text |
-| Little CMS 2 | tbd | `MIT` | License text |
-| libavif (and its codecs) | tbd | `BSD-2-Clause` (plus the codecs' licenses) | License texts |
-| HarfBuzz, libraqm, libxcb, brotli, and others as listed in the SBOM | tbd | per the SBOM | License texts |
+| libimagequant | 4.4.1 | `GPL-3.0-or-later` | **Copyleft.** GPL-3.0 text; the corresponding source for this exact version attached to each release (D-135); covered by the qualified licence review, which is a release gate (R-25). |
+| FriBiDi | 1.0.16 | `LGPL-2.1-or-later` | **Copyleft.** LGPL-2.1 text; corresponding source (D-135). Shipped unmodified as a separately replaceable shared library. |
+| fribidi-shim | 1.x | `LGPL-2.1-or-later` | Same as FriBiDi. |
+| raqm | 0.10.5 | `MIT` | Licence text. |
+| FreeType | 2.14.3 | `FTL` | Licence text. The documentation carries the FTL credit: "Portions of this software are copyright © The FreeType Project (www.freetype.org). All rights reserved." The exact wording is taken from the shipped licence. |
+| HarfBuzz | 14.2.1 | `MIT` | Licence text. |
+| libavif | 1.4.2 | `BSD-2-Clause` | Licence text. |
+| libjpeg / libjpeg-turbo | 3.1.4.1 | `IJG AND BSD-3-Clause` | Licence texts, plus the IJG acknowledgement in `DOCS.md` and the notices: "This software is based in part on the work of the Independent JPEG Group." |
+| libtiff | 4.7.1 | `libtiff` | Licence text. |
+| libwebp | 1.6.0 | `BSD-3-Clause` | Licence text. |
+| libxcb | 1.17.0 | `X11` | Licence text. |
+| Little CMS 2 | 2.19.1 | `MIT` | Licence text. |
+| OpenJPEG | 2.5.4 | `BSD-2-Clause` | Licence text. |
+| pybind11 | per the SBOM | `BSD-3-Clause` | Licence text. |
+| pythoncapi_compat | per the SBOM | `0BSD` | Licence text (courtesy). |
+| zlib | 2.3.3 | `Zlib` | Licence text. |
 
-`libimagequant` (GPL-3.0-or-later) is **not** in the PyPI wheels, according to Pillow's documentation. The inventory check confirms its absence.
+**Other shared objects in `pillow.libs/`, still to verify.** These are libXau, libXdmcp, Brotli, libbsd, liblzma, libmd, libpng, libsharpyuv, and libzstd. Their exact versions and SPDX identifiers must be taken from the wheel's licence and SBOM material before the Pillow row is approved, and the notices must include them.
+
+**Consequences:**
+
+- The runtime image contains **GPL-3.0-or-later** code (`libimagequant`) and **LGPL-2.1-or-later** code (FriBiDi, fribidi-shim), and these come from the PyPI wheel itself. The earlier claim that the PyPI wheels omit `libimagequant` was **wrong** and has been withdrawn.
+- Using the PyPI wheel instead of Alpine's `py3-pillow` does **not** avoid this GPL component.
+- No project document may claim that the runtime is free of GPL components.
 
 ### Runtime: transitive (required by `samsungtvws`)
 
@@ -769,8 +804,8 @@ No OS packages beyond `python3` are planned.
 | `ruff` | PyPI `>=0.16,<0.17` | `MIT` | Lint and format |
 | `mypy` | PyPI `>=2.3,<3` | `MIT` | Typing |
 | `typing-extensions` | PyPI 4.16.0 (via mypy) | `PSF-2.0` | — |
-| `mypy-extensions` | PyPI 1.1.0 (via mypy) | **no license metadata on PyPI**; take the SPDX identifier from its `LICENSE` file before Phase 2 | — |
-| `pathspec` | PyPI 1.1.1 (via mypy) | classifier only: MPL-2.0; take the SPDX identifier from its `LICENSE` file before Phase 2 | — |
+| `mypy-extensions` | PyPI 1.1.0 (via mypy) | `MIT`: the official wheel contains a `LICENSE` that states the MIT licence explicitly (Codex final gate review). Development only; not shipped. | — |
+| `pathspec` | PyPI 1.1.1 (via mypy) | `MPL-2.0`, per its official PyPI project metadata and licence documentation (Codex final gate review). Development only; not shipped. | — |
 | `librt` | PyPI 0.15.0 (via mypy) | `MIT` | — |
 | `ast-serialize` | PyPI 0.11.2 (via mypy) | `MIT` | — |
 
@@ -792,7 +827,7 @@ The documentation for these tools is largely GitHub-hosted, so it is read only o
 | --- | --- |
 | `httpx` 0.28.1 (`BSD-3-Clause`) | Would add a second HTTP stack. The stable line is about 21 months old, and the 1.0 pre-releases are an API rewrite without license metadata. |
 | `pip-tools` 7.6.1 | Its PyPI license field is only "BSD", not an SPDX expression. `uv` is preferred. |
-| Alpine `py3-pillow` | Older than the PyPI release, and links GPL-3.0-or-later `libimagequant`. |
+| Alpine `py3-pillow` | Older than the PyPI release and lags on security fixes. It also links GPL-3.0-or-later `libimagequant`, just as the PyPI wheel bundles it, so it gives no licensing advantage. |
 | lxml, BeautifulSoup | Not needed (D-127). |
 | `samsungtvws` extras (`async`, `encrypted`, `cli`) | Not needed. |
 
@@ -818,14 +853,15 @@ L = likelihood, I = impact; H = high, M = medium, L = low.
 | R-14 | Branding: "Frame" is part of Samsung's product name | M / M | D-101 review; factual compatibility wording only | User (D-101) |
 | R-15 | Watchdog `os._exit` skips normal cleanup | L / M | The worker group is killed first; `PR_SET_PDEATHSIG`; RAM `/tmp`; startup sweep; timing test | Accepted |
 | R-16 | Supervisor handling of exit codes and Watchdog restarts for `once` apps is undocumented | M / M | D-133; the documentation says to keep the Watchdog off | Phase 8 (Q-07) |
-| R-17 | The image redistributes copyleft OS packages and LGPL `samsungtvws` | M / M | SBOM; D-135; minimal OS packages; copyleft surface is a D-130 criterion | Phase 6/7/9 licence audit |
+| R-17 | The image redistributes copyleft OS packages, LGPL `samsungtvws`, and the copyleft components bundled in Pillow (R-25) | M / M | SBOM; D-135; minimal OS packages; copyleft surface is a D-130 criterion | Phase 6/7/9 licence audit |
+| R-25 | **The Pillow wheels bundle GPL-3.0-or-later `libimagequant` 4.4.1 and LGPL-2.1-or-later FriBiDi 1.0.16.** The distributed image therefore contains GPL-3.0 code, and the runtime is not GPL-free. | H / M | Correct inventory (observed SBOM); D-135 source availability; qualified licence review as a release gate; authoritative re-inspection of the exact runtime wheels once the Python version is fixed; Apache-2.0 scoped to project code only (D-102) | Licence review (Phase 9) |
 | R-18 | Provider terms or rate limits violated by accident | L / H | Allowances; 1 s pacing; 403/429 stop; cache; honest headers | Phase 3 review |
 | R-19 | Art Institute renditions (1686 px) look soft after upscaling by up to ≈ 2.28×; images can be unpublished | H / M | Honest documentation; HTTP 404 moves to the next candidate; Cleveland renditions (≈ 1.13×) are an in-beta alternative | Accepted |
 | R-20 | Provider documentation drifts. Examples: Cleveland's banner date is older than its changelog, and the Cleveland image host appears only in example URLs. | M / L | Re-verify the live documentation at the start of Phase 3 | Phase 3 |
 | R-21 | The media browser may not be able to upload into `/media/frame_gallery/library` | M / M | The app creates the folder; the hint names its location; Phase 8 verifies uploads | Phase 8 |
 | R-22 | **Provider identifier stability.** Neither the Art Institute nor Cleveland documents its record IDs as permanent. | L / M | IDs validated against patterns; Cleveland's accession number kept as metadata; history and ledger keyed by the documented ID; re-checked when documentation drifts | Phase 3 |
 | R-23 | The **Cleveland API terms** reserve future keys, transaction limits, and IP logging | M / M | Room for an optional key (`password` option); 401/403 treated as a stop; conservative pacing; the source stays optional | Monitor |
-| R-24 | The **uncertainty quarantine** holds back works that never actually reached the TV (for example after a power loss before upload) for the quarantine period (proposed 30 days) | M / L | Intents are removed whenever no `upload_started` was seen; the period is documented (Q-23); large catalogues are unaffected | Q-23 |
+| R-24 | The **uncertainty quarantine** holds back works that never actually reached the TV (for example after a power loss before upload) for the 30-day quarantine period | M / L | Intents are removed whenever no `upload_started` was seen; the period is documented (Q-23, accepted); large catalogues are unaffected | Accepted |
 
 ## Open questions
 
@@ -838,33 +874,53 @@ L = likelihood, I = impact; H = high, M = medium, L = low.
 | Q-15 | Only the **installed** `samsungtvws` 3.0.6 distribution is inspected (D-104). |
 | Q-16 | The app starts **without `host_network`**. Home Assistant Green-to-TV connectivity is verified in Phase 8 before any change. |
 | Q-17 | Bing is **excluded**. |
-| Q-18 | The specification is amended in this revision: providers, the filter model, the deadline, the upload ledger, and preview freshness (`PRODUCT_SPEC.md` and `ACCEPTANCE_TESTS.md` amendment logs). **Item 4, the lifecycle order of steps 9 and 10 (D-113), remains open.** |
+| Q-18 | The specification is amended in this revision: providers, the filter model, the deadline, the upload ledger, and preview freshness (`PRODUCT_SPEC.md` and `ACCEPTANCE_TESTS.md` amendment logs). Item 4 was resolved in the final gate review (see below). |
 | Q-20 | The 30-probe limit means **30 remote dimension requests**. Local header inspection has its own bounded allowance of 300. |
+
+### Resolved in the Codex final gate review of `4ea3e36`
+
+| ID | Resolution |
+| --- | --- |
+| Q-03 | **Square band** stays 0.95–1/0.95. **Strict near-16:9** becomes ±1 % in log ratio, `abs(ln(r / (16/9))) ≤ ln(1.01)`, about 1.760–1.796; this may be revisited after Phase 8 visual testing. The **maximum upscale** stays 2.5× (D-116). |
+| Q-04 | The proposed bounded local-media fingerprint identifier is accepted (D-118). |
+| Q-08 | The Art Institute of Chicago is the default remote source (D-120, D-123). |
+| Q-09 | Accepted: the UI-created card, the script, the 150-second timer helper, the enabled Running sensor, and the optional post-run refresh automation (§16.3, D-140). |
+| Q-11 | No fallback in `cover` mode. Fallback is available only with `landscape_only` and `contain` (D-117). |
+| Q-12 | Only IPv4 literals in **RFC 1918** private ranges are accepted. `169.254/16` link-local is rejected, as are loopback, unspecified, multicast, broadcast, and the container and Supervisor internal networks. `192.168.178.30` stays solely the user-supplied Phase 8 test value (D-125). |
+| Q-18 item 4 | The architecture order is adopted: record the confirmed sent history before publishing the preview (D-113). `PRODUCT_SPEC.md` is amended. |
+| Q-23 | The uncertainty-quarantine period is **30 days** (D-137). |
 
 ### Open
 
 | ID | Question | Recommendation | Needed by |
 | --- | --- | --- | --- |
-| Q-12 | The IPv4 literal is accepted (D-125). Still open: approve the accepted ranges (RFC 1918, `169.254/16`) and the rejection of loopback, unspecified, multicast, broadcast, and the container's own networks, including the Supervisor network. | Approve | Phase 2 |
-| Q-03 | Approve the thresholds: strict ±4 %, square band 0.95–1.053, upscale limit 2.5×? | Approve; revisit after Phase 8 | Phase 2 |
-| Q-04 | Local identity: the quick fingerprint only, or also a full-content hash? | Fingerprint only | Phase 3 |
 | Q-05 | JPEG parameters (quality 90, standard subsampling, 15 MiB ceiling) | Start here; tune in Phase 8 | Phase 8 |
 | Q-06 | A user-facing way to reset history or re-pair the TV? | Not in the beta; reinstalling is the reset path | Phase 6 |
 | Q-07 | Confirm D-133: how `once`-app exits are shown, and how the app Watchdog reacts | Keep D-133; observe in Phase 8 | Phase 8 |
-| Q-08 | Default `source`? | `art_institute_chicago` (works immediately, supports colour) | Phase 6 |
-| Q-09 | The loading indicator is a 150 s timer started by a UI script (§16.3). The acceptance-item `G1` deliverable is therefore card + script + timer helper, plus a post-run automation if the freshness mechanism needs one, all UI-created. Is that acceptable, together with enabling the disabled Running sensor? A card driven by the sensor alone is allowed only if Phase 8 measures its latency within 150 s. | Accept | Phase 6/8 |
 | Q-10 | Should the parent process also run unprivileged? | Evaluate in Phase 6. The workers are unprivileged from Phase 5 (§11.3). | Phase 6 |
-| Q-11 | In `cover` mode with strict format, allow fallback by forcing `contain` for fallback images? | Follow the specification: no fallback in `cover` mode | Phase 2 |
 | Q-13 | The final public repository URL, which determines the slug shown in the dashboard YAML | Decide with D-101 | Phase 9 |
 | Q-14 | Initial vocabularies: AIC departments, style and period keys, AIC colour bands, and the subset of the 21 CMA departments to offer | Small curated lists after the Phase 3 mapping | Phase 3 |
-| Q-18 (item 4) | Amend the specification's lifecycle order (steps 9 and 10) to match D-113, or keep the specification order? | Adopt D-113; duplicate prevention no longer depends on it | Phase 4 |
 | Q-19 | `hassio.app_start` is admin-only. Test the non-admin paths: a script, the Running switch, `continue_on_error`, a mistyped slug. | Document the admin requirement; test in Phase 8 | Phase 8 |
 | Q-21 | Install route for Phase 8: (a) copy the folder into `/addons` through a file-share app; (b) a temporary private repository; (c) a development image push | (a) | Phase 8 |
 | Q-22 | The project-owned contact email for the Art Institute courtesy header. It is needed before any live request; tests use a placeholder. | Decide before any approved observation request | Phase 3 |
-| Q-23 | The uncertainty-quarantine period for uploads whose outcome is uncertain (D-137) | 30 days (proposed) | Phase 4 |
 | Q-24 | Cleveland colour filtering by local analysis, for example of the documented 900 px web rendition, counted against the existing download allowance and the content-window time budget, not against the 30 remote dimension requests. Only if it fits the same download and time budgets. | Defer until after the beta | After the beta |
 
 ## Review records
+
+### Codex final gate review of commit `4ea3e36` (external)
+
+**Outcome:** the architecture changes were accepted. One factual dependency error had to be corrected before Phase 2. Phase 1 stays open until the gate is approved again.
+
+Applied in the documentation-only commit that follows `4ea3e36`:
+
+1. **Pillow wheel inventory.**
+   - Codex inspected the official Pillow 12.3.0 wheels. The earlier claim that the PyPI wheels omit `libimagequant` was false and has been withdrawn.
+   - The wheels bundle GPL-3.0-or-later `libimagequant` 4.4.1 and LGPL-2.1-or-later FriBiDi 1.0.16, with its shim. The full SBOM table is recorded, and the additional `pillow.libs` entries are marked for verification.
+   - Apache-2.0 covers project-owned code only (D-102). The runtime image is not GPL-free.
+   - Both libraries are added to D-135, and the qualified licence review remains a release gate. R-25 records the risk.
+   - Pillow 12.3.0 stays proposed. The inspection is repeated against the exact runtime wheels once the Python version is fixed (D-130 check (a)); that result is authoritative.
+2. **Development-only rows.** `mypy-extensions` 1.1.0 (MIT) and `pathspec` 1.1.1 (MPL-2.0) were recorded; neither is shipped.
+3. **Accepted decisions.** Q-03, Q-04, Q-08, Q-09, Q-11, Q-12, Q-18 item 4 (D-113), and Q-23. See *Resolved in the Codex final gate review of `4ea3e36`*. `PRODUCT_SPEC.md` and `ACCEPTANCE_TESTS.md` were amended where these decisions are normative.
 
 ### Codex review of commit `8ea5491` (external)
 
