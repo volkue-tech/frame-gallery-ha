@@ -5,6 +5,7 @@ Status values:
 - `accepted`: binding.
 - `proposed`: awaiting approval by the user, and by Codex where `TASKS.md` requires it.
 - `superseded`: replaced by a later decision.
+- `split`: accepted in part and proposed in part; the decision text says which part is which.
 
 Phase 1 added:
 
@@ -13,7 +14,9 @@ Phase 1 added:
 - the risk register;
 - the open questions.
 
-The rationale for each architecture decision is in `ARCHITECTURE.md`, at the section given in brackets. This version incorporates the findings of the Phase 1 multi-lens review (see `ARCHITECTURE.md`, header).
+Each architecture decision gives its rationale at the `ARCHITECTURE.md` section named in brackets.
+
+This version (revision 2) records the user decisions and corrections from the **Codex review of commit `8ea5491`** (see *Review records*).
 
 ## Accepted constraints
 
@@ -61,71 +64,52 @@ Status: proposed. Needed before Phase 9.
 
 Working name: **Frame Gallery for Home Assistant**.
 
-Rationale: distinct, descriptive, and not tied to a predecessor repository name. Branding and trademark wording require review before release (R-14).
+Rationale: distinct, descriptive, and not tied to a predecessor repository name. Branding and trademark wording need review before release (R-14).
 
-Until the name is decided, `frame_gallery` is used as the provisional internal identifier: package name, app slug, `/media/frame_gallery`, User-Agent, and the television client name if the 3.0.6 API accepts one (Q-15). Confirming it is asked **before Phase 2**. A later rename is mechanical.
+The provisional internal identifier `frame_gallery` is **accepted** (D-138), and a later rename would be mechanical.
 
 ### D-102 — Project license
 
-Status: proposed. Needed before Phase 9.
+Status: **accepted** (Codex review of `8ea5491`, user decision).
 
-Apache License 2.0 for independently authored project code.
+The Apache License 2.0 applies to independently authored project code.
 
-Rationale: permissive reuse with an explicit patent grant. Third-party dependencies keep their own licenses.
+Rationale: permissive reuse with an explicit patent grant. Third-party dependencies keep their own licenses. The `LICENSE` file is added when publication is prepared (Phase 9).
 
 ### D-103 — Implementation language
 
-Status: proposed (refined in Phase 1)
+Status: proposed (refined in Phase 1).
 
 **Decision:**
 
 - Python, with code compatible with **CPython 3.12–3.14**. CI runs all three versions.
-- The container runs the exact-pinned Alpine `python3` of the chosen base image. For reference, Alpine 3.24 ships 3.14.7 and Alpine 3.23 ships 3.12.14.
-- The container smoke test runs that interpreter.
+- The container runs the Alpine `python3` of the chosen base image, pinned to an exact version.
 
 **Rationale:**
 
-- CPython 3.12 is already security-only (end of life 2028-10). 3.13 (EOL 2029-10) and 3.14 (EOL 2030-10) still receive bug fixes.
-- Every runtime dependency publishes `musllinux_1_2` wheels for `aarch64` and `x86_64` for all three versions.
-- `samsungtvws` 3.0.6 and Pillow 12 both require Python ≥ 3.10.
+- 3.12 is security-only.
+- All runtime dependencies publish `musllinux_1_2` wheels for 3.12–3.14.
+- `samsungtvws` 3.0.6 and Pillow 12 need Python ≥ 3.10.
 
 ### D-104 — Samsung transport
 
-Status: proposed (refined in Phase 1)
+Status: **accepted for design.** The inspection method was approved in the Codex review. The dependency row is approved before Phase 5.
 
 **Decision:**
 
-- Use `samsungtvws` **3.0.6** (PyPI, released 2026-09-11, `LGPL-3.0`, requires Python ≥ 3.10).
-- Core install only, without extras.
-- It is imported only by the television worker task, which runs isolated and unprivileged (D-109).
+- Use `samsungtvws` **3.0.6** (LGPL-3.0, Python ≥ 3.10), core install only.
+- Import it only in the isolated TV worker task (D-109).
+- Establish the adapter surface **only by inspecting the installed 3.0.6 distribution**: its public signatures and docstrings in a local virtual environment, without GitHub access (Q-15, resolved).
 
 **Phase 1 findings from PyPI.** The release, license, and requirement facts were independently verified. The maintainer, pairing, and subnet notes were not re-verified.
 
-- **Documentation gap.**
-  - Since 3.0.0 the README documents no Python art-mode API. It says only "Full Art Mode support (Frame TVs)" and points to example files hosted on GitHub.
-  - The last README that documented art methods is 2.7.2 (December 2024): `art().supported()`, `upload(data, file_type='JPEG')`, `select_image(content_id, show=…)`, `get_artmode()`, and related calls.
-  - No README documents a "no matte" value or a client-name parameter.
-- **Constructor.** The `SamsungTVWS(host=…, port=8002, token_file=…)` form appears only in READMEs up to 2.7.2. 3.x documents no constructor. Q-15 confirms it, and Phase 5 takes every parameter from the installed 3.0.6 package only.
-- **Errors and timeouts.** None documented.
-- **Pairing prompt.** Newer televisions prompt on every connection unless *Access Notification Settings* is set to *First Time Only*. The user documentation must say so.
-- **Network placement.** Televisions refuse WebSocket connections from other subnets or VLANs. Whether NAT through the host is accepted is verified in Phase 8 (Q-16).
-- **Maintenance.** A single maintainer, with bursty releases.
+- Since 3.0.0, the README documents no Python art API. The 2.7.2 README named `art().supported()`, `upload(data, file_type='JPEG')`, `select_image(content_id, show=…)`, and `get_artmode()`. No README documents a "no matte" value or a client-name parameter. The constructor form with `port=8002` and `token_file` appears only in READMEs up to 2.7.2.
+- No exceptions or timeouts are documented.
+- Newer TVs prompt on every connection unless *First Time Only* is set.
+- TVs refuse connections from other subnets. The app starts without `host_network`, and Phase 8 verifies connectivity (Q-16).
+- The package has a single maintainer, and its releases come in bursts.
 
-**Confirming the 3.0.6 art API (Q-15).** Two options:
-
-1. **Recommended:** inspect the *installed* 3.0.6 distribution's public signatures and docstrings (`help()` / `inspect`) in a local virtual environment. This reads only the approved package, with no GitHub access.
-2. Read files from the dependency's GitHub repository. **Risk statement:** the `examples/` directory contains Frame art-mode automation scripts. Their provenance cannot be verified without reading them, and they may overlap the category of material the independence boundary excludes. If this option is chosen at all, it must:
-   - be limited to API-reference files such as a command reference, excluding example application scripts;
-   - not follow links to forks, issues, or other projects;
-   - log every file read in this decision log.
-
-**Rationale for depending on a library rather than implementing the protocol:**
-
-- Samsung publishes no documentation of Art Mode or of the local WebSocket control protocol.
-- SmartThings has no art-mode capability and no image upload.
-- Samsung's consumer documentation describes only manual upload (SmartThings app or USB).
-
-A maintained library under a known license is safer than a new protocol implementation, which would also be the most sensitive area under `LEGAL_BOUNDARIES.md`.
+**Why a library rather than an own implementation.** Samsung does not document Art Mode or the local protocol, and SmartThings has no art capability. A maintained library under a known license is safer than a new protocol implementation, which would also be the most sensitive area under `LEGAL_BOUNDARIES`.
 
 ### D-105 — Release architectures
 
@@ -135,23 +119,19 @@ Publish `aarch64` and `amd64` first. Add other architectures only after successf
 
 Phase 1 note: Home Assistant currently supports only these two app architectures (32-bit support ended with release 2025.12).
 
-## Proposed architecture decisions (Phase 1)
+## Architecture decisions (Phase 1)
 
 ### D-106 — Synchronous core, phase budgets, watchdog [§4.3, §7]
 
-Status: proposed
+Status: **accepted** (bounded execution and cleanup; Codex review).
 
 **Decision:**
 
-- A single run thread with no `asyncio`.
-- Phase deadlines come from the normative budget table (D-114). Every blocking call's timeout is clamped to its phase deadline.
-- `Allowance` counters bound loops.
-- A watchdog kills the worker process group and exits at the total run deadline + 10 s.
-- DNS resolution runs in a fresh daemon thread per lookup, joined with a clamped timeout. Abandoned threads are bounded in number by the request allowances. CONFIGURE, the `ha` client, and the gateway all use this resolver.
-
-**Rationale:** the workload is short and sequential, fake-clock testing is simpler, and the libraries involved are synchronous.
-
-**Alternative considered:** `asyncio` with task cancellation. It adds complexity and still cannot cancel DNS resolution or native code.
+- A single run thread, with no `asyncio`.
+- Phase deadlines come from the normative 120 s budget table (D-114), and every blocking call is clamped.
+- `Allowance` counters bound the loops.
+- A watchdog kills the worker process group and exits at `T + 10 s`.
+- DNS resolution runs in a fresh daemon thread per lookup, joined with a clamped timeout. The number of abandoned lookup threads is bounded by the request allowances.
 
 ### D-107 — Ports and adapters with an enforced import boundary [§5, §20.2]
 
@@ -159,80 +139,79 @@ Status: proposed
 
 **Decision:** Third-party imports are confined to three places:
 
-- `imaging` worker tasks (Pillow);
-- the `tv` worker task (Samsung library);
+- the `imaging` worker tasks (Pillow);
+- the `tv` worker task (`samsungtvws`);
 - `net.transport` (`urllib3`, `certifi`).
 
-The parent process never imports Pillow or the Samsung library. An import-boundary check runs from Phase 2.
+The parent never imports Pillow or `samsungtvws`. An import-boundary check enforces this.
 
 ### D-108 — Guarded gateway for all provider traffic [§10, §7.5]
 
 Status: proposed
 
-**Decision:** One gateway handles every provider request. It enforces:
+**Decision:** The gateway enforces:
 
-- **Hosts.** Exact or label-boundary host rules after IDNA normalization.
-- **URLs.** HTTPS on port 443, no user-info, no IP literals.
-- **Resolution.** One resolution per request, rejected unless *every* address is global (mapped forms unwrapped, CGNAT rejected). The connection goes to the validated IP with the SNI hostname, and the peer is checked before sending.
-- **TLS.** `CERT_REQUIRED`, TLS ≥ 1.2, and an explicit `certifi` bundle.
-- **Redirects.** At most 3, each re-validated.
-- **Identifiers.** Provider identifiers placed into URLs must `fullmatch` a pattern and are percent-encoded.
-- **Byte caps** on decoded bytes. Images use identity encoding; metadata may use a single gzip layer.
-- **Timeouts.** A total per request (metadata 15 s, probe 10 s, download 45 s). Per-address connect timeouts. The receive timeout is re-clamped before every read.
-- **Pacing.** A per-provider `min_interval`.
-- **Hygiene.** No cookies, environment proxies, or credential files.
+- exact or label-boundary host rules;
+- HTTPS on port 443 only;
+- one resolution, with every address checked as global;
+- connection to the validated IP, with SNI and a peer check;
+- `CERT_REQUIRED` with TLS ≥ 1.2 and `certifi`;
+- at most 3 re-validated redirects;
+- identifier `fullmatch` and percent-encoding;
+- caps on decoded bytes;
+- per-request totals (metadata 10 s, probe 5 s, download 20 s);
+- per-address connect timeouts and re-clamped reads;
+- pacing;
+- no cookies, proxies, or credential files.
 
 ### D-109 — Isolated, unprivileged workers [§11.3, §12]
 
-Status: proposed
+Status: proposed. The target design is unchanged; its delivery is sequenced by D-139.
 
-**Decision:** A spawned worker performs all image inspection, decoding, rendering, and encoding. A separate worker performs the whole television interaction. Each worker:
+**Decision.** All image inspection, decoding, rendering, and encoding runs in a spawned worker, and so does the whole TV interaction. Each worker:
 
-- drops to an unprivileged user ID (65534) with an empty supplementary-group list;
-- sets `PR_SET_PDEATHSIG` **after** dropping privileges, because the kernel clears it on credential changes;
-- sets its umask and resource limits. `RLIMIT_AS` is 1 GiB for the image worker and 512 MiB for the television worker, plus CPU limits;
+- drops to user 65534 with no supplementary groups;
+- then sets `PR_SET_PDEATHSIG`;
+- sets its umask and `RLIMIT_AS`: 1 GiB for the image worker, 512 MiB for the TV worker, with CPU limits;
 - installs logging and Pillow limits before any third-party import;
-- inherits only the allowlisted environment (`PATH`, `LANG`, `LC_ALL`, `TZ`), so it has no `SUPERVISOR_TOKEN` or legacy `HASSIO_TOKEN`;
+- sees only the allowlisted environment;
 - runs in its own process group;
-- returns progress markers and results **as bytes only**, which the parent parses as JSON and validates. Nothing the child sends is ever unpickled.
+- returns markers and results as bytes-only JSON.
 
-The parent chooses all paths, re-validates `delivery.jpg` with a stdlib-only JPEG header check, and computes the SHA-256 itself. The television worker reports progress markers (`connected`, `upload_started`, `uploaded`, `selected`), and the parent classifies the outcome from them.
+The parent chooses every path, validates `delivery.jpg`, and computes the SHA-256. The TV worker emits progress markers.
 
-**Rationale:** Native and third-party code handling untrusted input or undocumented protocols is contained. Hangs, crashes, and exploits become classified outcomes.
+**Delivery.** The complete bootstrap, including the privilege drop, is delivered with the process executor in Phase 5. Enforce-mode AppArmor and final verification come in Phase 9 (D-139).
 
-**Simplification available:** run everything in-process and rely on the watchdog. The guarantees are weaker: a hang becomes a watchdog kill, and the token is exposed to parser exploits.
+### D-110 — Atomic state, pre-staging, bounded records [§13]
 
-### D-110 — JSON state with an atomic write protocol and pre-staged history [§13]
-
-Status: proposed
+Status: **accepted** (atomic writes and bounded state; Codex review).
 
 **Decision:**
 
-- **State files.** Plain JSON under `/data`: history, `current.json` (success-only attribution and fingerprints), `last_run.json` (every outcome), and a per-provider cache.
-- **Write primitive.** Every write uses one primitive:
-  - operations relative to a directory file descriptor opened with `O_NOFOLLOW`;
-  - temporary files created with `O_EXCL` and random suffixes;
+- **State files.** Plain JSON under `/data`:
+  - `history.json`: confirmed sent and displayed works;
+  - `upload_ledger.json` (D-137);
+  - `current.json` and `last_run.json`;
+  - a per-provider cache.
+- **Write primitive.** One primitive for every write:
+  - directory-descriptor operations with `O_NOFOLLOW`;
+  - `O_EXCL` random temporary names;
   - `fsync`, then rename, then directory `fsync`.
-- **History.**
-  - The next history generation is **pre-staged and fsynced before DELIVER**. A full or read-only `/data` is therefore caught as `state_error` while the television is still untouched.
-  - After the television reports `selected`, RECORD is a single rename.
-  - A `.bak` generation is rotated best-effort. A failure there is logged and never blocks the rename.
-  - `.bak` covers damage that leaves the primary unparseable or schema-invalid after a successful write: storage corruption, a restore that truncates the file, or a malformed external edit. Well-formed but wrong data is not detected, so `.bak` does not cover it.
-- **Reader.** Tries primary, then `.bak`, then starts empty with a warning. Only parse or schema failures are quarantined (at most 3 files, kept for diagnostics). A **newer** version is not corruption: the run ends as `state_error` before touching the television.
-- **Locking.** A non-blocking lock; contention ends as `already_running`.
-- **No database dependency.**
+- **Pre-staging.** The next history generation is written before DELIVER, and the ledger intent is committed there too. After `selected`, recording history is a single rename.
+- **Backups.** History and the ledger keep a best-effort `.bak`, which covers unparseable or schema-invalid primaries.
+- **Reader.** Primary, then `.bak`, then empty with a warning. Only parse or schema failures are quarantined (at most 3 files). A newer file version gives `state_error` before the TV is touched.
+- **Locking.** A non-blocking lock; contention gives `already_running`.
 
-**Alternative considered:** `sqlite3`. It is transactional, but less transparent, and its benefits are small at one write per run.
+### D-111 — Preview in `/media` through a Local File camera [§13.5, §16.3]
 
-### D-111 — Preview in `/media`, shown through a Local File camera [§13.5, §16.3]
-
-Status: proposed
+Status: **accepted** as the primary beta design (Codex review).
 
 **Decision:**
 
-- The exact delivered JPEG is published atomically to `/media/frame_gallery/preview/latest.jpg`, and publication is refused if any path component is a symbolic link.
-- The dashboard shows it through a UI-created Local File camera (named "Frame Gallery Preview") and a `picture-entity` card.
-- The app never writes into the Home Assistant configuration folder.
+- The exact delivered JPEG is published atomically under `/media/frame_gallery/preview/`. Publication is refused if any path component is a symbolic link.
+- A UI-created Local File camera and a `picture-entity` card display it.
+- **Platform basis.** Home Assistant OS creates `/media` without user configuration, and configured or default media directories are in the default external-directory allowlist. A normal installation therefore needs no `configuration.yaml` edit, no configuration-folder mapping, no SSH, and no manual file changes.
+- Freshness is governed by D-140.
 
 ### D-112 — Static options with optional helper overrides [§15.3]
 
@@ -241,57 +220,59 @@ Status: proposed
 **Decision:**
 
 - Static options always work.
-- The optional `*_helper` entity IDs are:
-  - re-validated with `fullmatch` and percent-encoded;
-  - read with at most 3 `GET /core/api/states/<id>` calls, with no redirects or retries, `Authorization` only for `http://supervisor`, a 64 KiB body cap, and JSON only;
-  - read for the `state` field only.
-- Any problem falls back to the static value with one warning.
+- The optional `source_helper`, `department_helper`, `style_helper`, and `color_helper` are each read with at most one request:
+  - ≤ 4 reads in total, each ≤ 3 s, within the 10 s configuration window;
+  - `fullmatch` validation, no redirects or retries;
+  - `Authorization` sent only to `http://supervisor`;
+  - a 64 KiB cap, and only the `state` field is used.
+- Any failure falls back to the static value, with one warning.
 - The app writes nothing to Home Assistant.
 
 ### D-113 — Record history before publishing the preview [§4.1]
 
-Status: proposed. This is a specification deviation (Q-18).
+Status: proposed. This is the remaining specification deviation (Q-18 item 4).
 
-**Decision:** History is recorded immediately after the television confirms selection, and the preview is published after that.
+**Decision:** Record history immediately after `selected`, then publish the preview.
 
-**Rationale:** A missing preview is harmless, whereas a missing history entry allows a resend.
+**Rationale:** Duplicate prevention no longer depends on this order, because the upload ledger (D-137) excludes the work once it is uploaded. The order only makes history slightly more robust.
 
 ### D-114 — Budget decomposition [§7.2]
 
-Status: proposed. **The tables in `ARCHITECTURE.md` §7.2 are normative.**
+Status: **split.**
 
-**Phase budgets:**
+- **Accepted** in the Codex review, replacing the earlier 265 s proposal: the 120 s total, the 10/60/40/10 split, clamping of all timeouts, the 70 s no-match bound, and 30 remote dimension requests with a separate local allowance.
+- **Proposed**, to be confirmed by Phase 2, 5, and 8 measurements: the sub-budgets, the allowances, the `RLIMIT_AS` values, the upload allowance, and the 150 s timer.
 
-| Phase | Budget |
-| --- | --- |
-| CONFIGURE | 7 s (includes resolving `tv_host`, `supervisor`, and `homeassistant`, each ≤ 3 s and clamped) |
-| RESOLVE_FILTERS | 8 s, outside selection; up to 3 helper reads, each ≤ 3 s, clamped to the phase |
-| SELECT | `S` = 60 s by default; the advanced option `selection_time_limit` allows 20–120 s |
-| ATTEMPT | 90 s, shared by at most 2 attempts; per attempt: download ≤ 45 s, prepare ≤ 30 s |
-| DELIVER | 90 s |
-| FINISH (`publish_reserve`) | 10 s |
-| **Total run deadline `T`** | **`S` + 205 s** (265 s by default); a unit test asserts the sum |
-| Shutdown allowance | 10 s |
+The tables in `ARCHITECTURE.md` §7.2 are normative once approved.
 
-**Allowances and limits:**
+**Decision.** The default hard total deadline is **`T` = 120 s**:
 
-- **Allowances:**
-  - shortlist of 2;
-  - 150 candidates after the history filter;
-  - 25 metadata requests;
-  - 30 remote probes;
-  - 500 local inspections;
-  - 20 000 directory entries at depth ≤ 4.
-- **Per-request limits:**
-  - totals: metadata 15 s, probe 10 s, helper read 3 s;
-  - connect ≤ 5 s per address;
-  - read ≤ 10 s between bytes;
-  - DNS ≤ 5 s.
-- **Other:**
-  - worker `RLIMIT_AS`: image worker 1 GiB, television worker 512 MiB;
-  - dashboard fallback timer `T` + 35 s: 300 s by default, 360 s at `selection_time_limit` = 120. The documentation gives the value for each setting.
+| Phase | Budget | Notes |
+| --- | --- | --- |
+| CONFIGURE + RESOLVE_FILTERS | **10 s** | IPv4 validation needs no DNS; up to 4 helper reads of ≤ 3 s each |
+| Content window: SELECT + ATTEMPT + PRE-STAGE | **60 s** | Discovery ≤ 30 s; per attempt, download ≤ 20 s and prepare ≤ 15 s; the last 2 s are reserved for PRE-STAGE or a no-delivery FINISH, so `no_match`, `source_failed`, and `image_failed` all exit **by 70 s** |
+| DELIVER | **40 s** | Connect ≤ 5 s; pairing wait ≤ 20 s |
+| FINISH | **10 s** reserved | |
+| Shutdown allowance | 10 s | Watchdog at 130 s |
 
-`selection_time_limit` is the only user-adjustable limit.
+**Allowances:**
+
+- a shortlist of 2;
+- 150 candidates after exclusion;
+- 15 metadata requests;
+- **30 remote dimension requests** (Q-20);
+- 20 000 directory entries at depth ≤ 4;
+- 300 local header inspections.
+
+**Per-request limits:**
+
+- metadata 10 s, probe 5 s, download 20 s, helper 3 s;
+- connect ≤ 5 s and read ≤ 10 s, both re-clamped;
+- DNS ≤ 3 s.
+
+Every timeout is clamped to the remaining total. The worker `RLIMIT_AS` is 1 GiB for the image worker and 512 MiB for the TV worker. The dashboard timer indicator is **150 s** (`T` + 30 s).
+
+The beta has no user-facing time option. An advanced total-deadline option may come later, validated within a safe range, and the standard instructions use 120 s.
 
 ### D-115 — Retry and pacing policy [§7.4]
 
@@ -299,16 +280,11 @@ Status: proposed
 
 **Decision:**
 
-- **Metadata requests.** At most 1 retry, only for:
-  - connect errors;
-  - HTTP 502/503/504;
-  - HTTP 429 with a `Retry-After` of ≤ 5 s, in either delta-seconds or HTTP-date form.
-
-  The wait is `max(Retry-After, 1 s)` plus jitter, and the retry is skipped if it would exceed the deadline.
-- **Refusals.** Any HTTP 403, or any HTTP 429 not followed by the single permitted metadata retry, from any host in a provider's policy (including image hosts), ends all requests to every host of that provider for the run. Remote shortlisted candidates are then not attempted. A retried 429 also delays every later request to that provider until its `Retry-After` has passed.
+- **Metadata GETs.** At most 1 retry, and only for a connect error, 502/503/504, or a 429 with `Retry-After` ≤ 5 s (seconds or HTTP-date). The wait is `max(Retry-After, 1 s)` plus jitter, and the retry is skipped if it would exceed the deadline.
+- **403/429 stop.** Any 403, or a 429 that is not retried, from any host of a provider stops all requests to that provider for the run. Remote shortlisted candidates are then not attempted.
 - **No retries** for probes, downloads, helper reads, uploads, or selects.
-- **Television.** At most 1 reconnect, and only before `upload_started`.
-- **Pacing.** A per-provider `min_interval`; the Art Institute of Chicago's is 1 s.
+- **TV reconnect.** At most 1, only before `upload_started`, and never after a pairing timeout.
+- **Pacing.** A `min_interval` of 1 s for both the Art Institute and Cleveland.
 
 ### D-116 — Shape and quality thresholds [§8.1]
 
@@ -317,64 +293,71 @@ Status: proposed; the values need approval (Q-03).
 **Decision:**
 
 - Square band: 0.95 ≤ w/h ≤ 1/0.95.
-- Strict near-16:9: within ±4 % log-ratio, that is 1.709–1.849.
-- Quality: reject when the fit mode's upscale factor on the 3840 × 2160 canvas exceeds 2.5.
+- Strict near-16:9: ±4 % in log-ratio (1.709–1.849).
+- Quality: reject any work whose upscale factor exceeds 2.5.
 
-All values are measured after EXIF orientation, on the deliverable rendition.
+All values are measured after EXIF orientation, on the rendition that will be delivered.
 
 ### D-117 — Fallback permission [§8.2]
 
-Status: proposed (Q-11 offers an alternative)
+Status: proposed (Q-11 is open for `cover` mode).
 
-**Decision:** Fallback to the landscape works closest to 16:9 is permitted only when `landscape_only` is on and `fit_mode` is `contain`, as the specification states. Fallback images are always fitted without cropping.
+**Decision:** Fallback is permitted only when `landscape_only` is on and `fit_mode` is `contain`. A fallback image is never cropped.
 
-### D-118 — Local media identifier [§9.2]
+### D-118 — Local media identifier [§9.3]
 
-Status: proposed (see Q-04)
+Status: proposed (Q-04)
 
-**Decision:** `local:fp:<sha256(size ‖ first 64 KiB ‖ last 64 KiB)>`. The last 10 preview fingerprints are also kept in `current.json`, so the preview can be excluded from selection.
+**Decision:** `local:fp:<sha256(size ‖ first 64 KiB ‖ last 64 KiB)>`, plus the fingerprints of the last 10 previews.
 
 ### D-119 — Honest User-Agent [§10]
 
 Status: proposed
 
-**Decision:** Requests identify the app as `FrameGallery/<version> (+<project URL>)`. Provider courtesy headers, such as the Art Institute's `AIC-User-Agent`, carry the project name and a project-owned contact email, never user data. There is no browser impersonation.
+**Decision:**
+
+- The User-Agent is `FrameGallery/<version> (+<project URL>)`.
+- Provider courtesy headers, such as the Art Institute's `AIC-User-Agent`, carry the project name and a project-owned contact email (Q-22), never user data.
+- There is no browser impersonation.
 
 ### D-120 — First public beta scope [§22]
 
-Status: proposed. **This deviates from the specification's initial-provider list; see Q-01, Q-17, and Q-18.**
+Status: **accepted** as amended in the Codex review. `PRODUCT_SPEC.md` is amended accordingly.
 
 **Included:**
 
-- Sources: local media and the Art Institute of Chicago (D-132).
-- Static filters and optional helpers.
-- Landscape-only; strict format with fallback; the upscale rule; `contain` and `cover`.
-- Atomic, pre-staged history; atomic preview; the small Art Institute cache; self-healing pairing.
-- Documentation and dashboard YAML.
-- `aarch64` and `amd64`.
+- **Sources:**
+  - local media;
+  - the **Art Institute of Chicago** (D-132), the proposed default (Q-08);
+  - the **Cleveland Museum of Art** (D-136).
+- **Filters:** source, department, style/period, and colour, with the capability matrix and visible reporting of unsupported filters (D-124); optional helpers.
+- **Selection:** landscape-only, strict with fallback, the upscale rule, and `contain` (default) or `cover`.
+- **State:** atomic, pre-staged history; the TV-upload exclusion ledger and quarantine (D-137); an atomic preview; a small cache; self-healing pairing.
+- **Deliverables:** documentation and dashboard YAML; images for `aarch64` and `amd64`.
 
 **Deferred:**
 
-- Companion integration.
-- Multi-source rotation.
-- Further open-collection providers.
-- Google Arts & Culture, until an official API exists (Q-01).
-- Remote-probe machinery, until a provider needs it.
-- Matte selection.
-- Helper auto-provisioning.
-- An unprivileged parent process (Q-10).
-- A configurable library folder.
-- Local colour or style filtering.
-- A history-reset option.
-- More architectures.
+- a companion integration;
+- multi-source rotation;
+- Europeana, Rijksmuseum, and The Met;
+- Cleveland colour filtering by local analysis (Q-24);
+- an advanced total-deadline option;
+- hostname or IPv6 TV addresses;
+- Collection Image support;
+- remote-probe machinery;
+- matte selection;
+- helper auto-provisioning;
+- an unprivileged parent process (Q-10);
+- a configurable library folder;
+- local colour and style filters;
+- a history reset (Q-06);
+- more architectures.
 
-**Not planned:**
+**Excluded or not planned:**
 
-- Ingress (D-126).
-- Bing (Q-17).
-- Managing old images on the television (a non-goal).
-
-Choosing Q-01 option (c), or overriding Q-17, first requires the user to amend the `LEGAL_BOUNDARIES.md` rule on respecting access terms and technical restrictions. That would then reopen D-120 with a new adapter milestone. Making a source off by default or opt-in does not satisfy the rule.
+- Google Arts & Culture (Q-01, resolved) and Bing (Q-17, resolved). Their researched status is kept in `ARCHITECTURE.md` §9.4 and `PRODUCT_SPEC.md`. Undocumented or `robots.txt`-incompatible access is never implemented.
+- Ingress.
+- Managing the TV's image storage.
 
 ### D-121 — Image safety limits [§11]
 
@@ -382,10 +365,11 @@ Status: proposed
 
 **Decision:**
 
-- Width and height ≤ 20 000 px each. Total pixels ≤ 64 MP for JPEG, which is draft-decoded, and ≤ 40 MP for PNG, which has no reduced decode. Both are checked from the header before decoding. Pillow's global `MAX_IMAGE_PIXELS` is set to 64 MP, and the PNG cap is an explicit header check.
-- The decompression-bomb warning is escalated to an error, and a format allowlist (JPEG, PNG) applies.
+- Width and height ≤ 20 000 px each.
+- Pixel limits: ≤ 64 MP for JPEG and ≤ 40 MP for PNG, both checked from the header before decoding. Pillow's global limit is set to 64 MP, and the PNG cap is an explicit check.
+- Decompression-bomb warnings are raised as errors; only JPEG and PNG are opened.
 - Downloads are capped at 40 MiB.
-- Everything runs in the image worker under a 1 GiB `RLIMIT_AS` ceiling. That limits virtual address space; the estimated worst-case resident peak is ≈ 450–550 MiB (§11.1).
+- The image worker runs under a 1 GiB `RLIMIT_AS` ceiling (virtual memory). The estimated worst-case resident peak is ≈ 450–550 MiB.
 
 ### D-122 — Colour management [§11.1]
 
@@ -393,44 +377,60 @@ Status: proposed
 
 **Decision:**
 
-- Embedded ICC profiles are converted to sRGB; images without one are assumed to be sRGB.
-- Output is an 8-bit RGB baseline JPEG with no EXIF.
-- Palette and bit-depth normalization happens before resizing, so resampling is never nearest-neighbour. Colour-space conversion (ICC, CMYK) and alpha compositing happen after resizing, to bound memory use.
-
-**Rationale:** Art reproduction benefits noticeably. Pillow's documentation lists littlecms2 among the libraries in its wheels; Phase 3 confirms this with the runtime feature report.
+- Convert embedded ICC profiles to sRGB; assume sRGB otherwise.
+- Output an 8-bit RGB baseline JPEG without EXIF.
+- Normalize palette and bit depth before resizing. Colour-space conversion and alpha compositing happen after resizing.
 
 ### D-123 — App options [§15.1]
 
-Status: proposed
+Status: proposed. The defaults are **accepted** (Codex review): `contain`, with no crop; landscape-only on; strict near-16:9 on.
 
-**Decision:** The option set, schemas, and defaults are those in `ARCHITECTURE.md` §15.1. In particular:
+**Decision.** The options are those in `ARCHITECTURE.md` §15.1:
 
-- `tv_host` is required, with no default.
-- `selection_time_limit` and `log_level` are optional advanced options.
-- There is no `local_folder` option (the path is fixed) and no user-facing probe option.
+- `tv_host`: an IPv4 literal, required;
+- `source`: `art_institute_chicago`, `cleveland_museum_of_art`, or `local_media`;
+- `department`: namespaced `aic_…` or `cma_…`;
+- `style`: `style_…` or `period_…`;
+- `color`;
+- `landscape_only`, `strict_tv_format`, `fit_mode`, `background_color`;
+- four optional `*_helper` options;
+- `log_level`.
 
-### D-124 — Filter vocabularies [§15.2, §9.1]
+There is no time-limit option and no library-path option.
 
-Status: proposed (final lists in Phase 4; see Q-14)
+### D-124 — Filter model, vocabularies, and capability matrix [§9.2, §15.2]
+
+Status: proposed, as required by the Codex review.
 
 **Decision:**
 
-- Versioned vocabularies, with deterministic normalization.
-- A value is offered only if at least one approved beta provider maps it. Museum of Modern Art and Musée d'Orsay values are therefore excluded pending Q-01, Q-14, and Q-18.
-- A dimension the source does not support at all is ignored, with one warning.
-- A **helper-supplied** value the source cannot map falls back to the static option with one warning, as the specification requires.
-- An unmappable **static** value ends as `no_match` with a hint. This is possible only once vocabularies span several providers.
-- A value is never silently ignored.
+- **Four distinct dimensions:**
+  1. source/museum, which selects the provider (a department is never called a museum);
+  2. department/collection, namespaced by source;
+  3. style/period;
+  4. colour.
+- **Capability matrix**, published in `DOCS.md` and in the option descriptions:
+  - Art Institute: department, style, period, and colour.
+  - Cleveland: department and period. Style and colour are unsupported in the beta.
+  - Local media: none of the four.
+- **Visible reporting.** A filter that does not apply to the selected source is ignored for the run and reported in three places:
+  - a WARNING;
+  - `ignored_filters` in the summary line;
+  - `last_run.json`.
+- **Helper values.** A helper value that normalizes to no vocabulary key falls back to the static value, with one warning. A known key that does not apply to the selected source overrides the static value, and is then ignored and reported like a static value.
+- **Vocabularies.** Versioned, with deterministic normalization. The final lists are fixed in Phase 3 (Q-14).
 
 ### D-125 — Television address rules [§15.4]
 
-Status: proposed (see Q-12)
+Status: **split.** The IPv4 literal is **accepted** (Codex review). The accepted ranges and the network rejections below are **proposed** (Q-12, needed before Phase 2).
 
 **Decision:**
 
-- `tv_host` is resolved once, in CONFIGURE. Only these ranges are accepted: RFC 1918, `169.254/16`, `fc00::/7`, and `fe80::/10` with a zone.
-- Explicitly rejected: loopback, unspecified, and multicast addresses; the container's own networks; and the Supervisor's internal app network. The last two are determined at run time.
-- The validated IP literal is passed to the television worker.
+- `tv_host` must be an **IPv4 literal** in RFC 1918 space or `169.254/16`.
+- Loopback, unspecified, multicast, and broadcast addresses are rejected, as are the container's own interface networks (which include the Supervisor's internal network).
+- No DNS is involved, and the validated literal goes to the TV worker.
+- Hostnames and IPv6 are deferred.
+- The user's Phase 8 test value is `192.168.178.30`. It is entered in the options only, never shipped as a default, and never hard-coded.
 
 ### D-126 — Dashboard filter approach [§16]
 
@@ -438,27 +438,27 @@ Status: proposed
 
 **Decision:**
 
-- **Beta:** static options plus documented Home Assistant helpers.
-- **Ingress:** not planned. It needs a resident process and adds attack surface.
-- **Companion integration:** deferred until after the beta. The versioned `current.json` and `last_run.json` schemas and the standard options mechanism keep that path open.
+- **Beta:** static options plus documented helpers.
+- **Ingress:** not planned.
+- **Companion integration:** deferred.
 
 ### D-127 — Standard-library parsing only [§18.2]
 
 Status: proposed
 
-**Decision:** Provider JSON, and HTML only if a provider is ever approved to need it, is parsed with `json` and `html.parser`. No lxml or BeautifulSoup.
+**Decision:** Parse `json`, and `html.parser` only if a provider is ever approved that needs it. No lxml or BeautifulSoup.
 
 ### D-128 — Reproducible builds and update policy [§17]
 
-Status: proposed
+Status: **accepted**, including `uv` as the development lock tool (Codex review).
 
 **Decision:**
 
-- **Lock file.** Generated with `uv pip compile --generate-hashes`: `uv` 0.12.19, `MIT OR Apache-2.0`, dev-only.
-- **Installation.** `--require-hashes --no-deps --only-binary=:all:`.
-- **Pinning.** Base image pinned by tag and digest; `python3` pinned to an exact apk version.
-- **Review cadence.** Dependencies are reviewed monthly and immediately on security advisories. The base image is bumped at least with every Alpine stable release.
-- **Upgrades.** Each upgrade needs the full test suite and an updated inventory entry. Pillow and the television library are upgraded only in dedicated commits.
+- **Lock file** generated with `uv pip compile --generate-hashes` (`uv` 0.12.19, `MIT OR Apache-2.0`, development only).
+- **Installs** use `--require-hashes --no-deps --only-binary=:all:`.
+- **Pinning:** the base image by tag and digest, and `python3` by exact apk version.
+- **Reviews:** monthly, and immediately on advisories.
+- **Upgrades** need the full test suite and an updated inventory. Pillow and `samsungtvws` are upgraded only in dedicated commits.
 
 ### D-129 — App configuration and AppArmor profile [§17.1, §17.6]
 
@@ -466,23 +466,26 @@ Status: proposed
 
 **Decision:**
 
-- **`config.yaml` settings.**
-  - `startup: once`, `boot: manual_only`, `init: false`.
-  - `arch: [aarch64, amd64]`, `stage: experimental` until Phase 8 passes.
-  - `homeassistant: "2026.2.0"`.
-  - `homeassistant_api: true`. This grants the Core REST and WebSocket API on every install and has no effect on the security rating. The app restricts itself to ≤ 3 state GETs, and only when helpers are configured.
-  - `tmpfs: true`, `timeout: 20`.
-  - `map: [{type: media, read_only: false}]`. This grants read-write access to **all** of `/media`, which AppArmor narrows.
-  - `backup_exclude: cache/**, state/quarantine/**, tv/**`.
-- **Mandatory custom `apparmor.txt`.**
-  - `/media` read-only, except read-write on `/media/frame_gallery/preview/**` and creation of exactly the directories `/media/frame_gallery/`, `preview/`, and `library/`.
-  - Read-write on `/data/**` and `/tmp/**`.
-  - Only the spawn and interpreter paths the worker needs.
-  - `inet` and `inet6` stream and dgram only.
-  - Minimal capabilities.
-  - Verified in enforce mode in Phase 8.
-- **Security rating: 6.**
-- **Not set:** `hassio_api`, `hassio_role`, `host_network`, `privileged`, `full_access`, `docker_api`, `ingress`, `stdin`, `ports`, `devices`, `watchdog`, `advanced`. No `build.yaml`.
+- **`config.yaml`:**
+  - `startup: once`, `boot: manual_only`, `init: false`;
+  - `arch: [aarch64, amd64]`;
+  - `stage: experimental` until Phase 8;
+  - `homeassistant: "2026.2.0"`, which is **not** raised for Collection Image;
+  - `homeassistant_api: true`. This grants Core REST and WebSocket access; the app limits its own use to ≤ 4 state GETs;
+  - `tmpfs: true`, `timeout: 20`;
+  - `map: [{type: media, read_only: false}]`, narrowed by AppArmor;
+  - `backup_exclude: cache/**, state/quarantine/**, tv/**`;
+  - no `host_network` (Q-16).
+- **Custom `apparmor.txt`:**
+  - `/media` read-only, except read-write on `/media/frame_gallery/preview/**`;
+  - creation allowed only for `/media/frame_gallery/`, `preview/`, and `library/`;
+  - read-write on `/data/**` and `/tmp/**`;
+  - only the paths spawn needs;
+  - `inet` and `inet6` stream and dgram sockets only;
+  - minimal capabilities.
+
+  It runs in **complain mode in Phases 6–8** and is **enforced and verified in Phase 9** (D-139).
+- **Security rating:** 6.
 
 ### D-130 — Container base image and build [§17.2]
 
@@ -490,31 +493,27 @@ Status: proposed
 
 **Decision:**
 
-- **Base.** `ghcr.io/home-assistant/base`, pinned by tag and digest.
-- **Build.** A multi-stage build:
-  - an exact-pinned apk `python3`, identical in both stages;
-  - a venv created `--without-pip` and populated with hash-pinned, binary-only wheels;
-  - Pillow from PyPI wheels, never from Alpine's `py3-pillow`.
-- **Labels.**
-  - `io.hass.arch` is derived from `BUILD_ARCH`, falling back to `TARGETARCH`.
-  - `io.hass.version` comes from a required `ARG`.
-  - The OCI `licenses` label is omitted, because the image is multi-licensed.
-- **Tooling.** BuildKit/Buildx for multi-platform builds. Releases use the Home Assistant builder's `build-image` and `publish-multi-arch-manifest` actions, with Cosign signing.
+- **Base image:** `ghcr.io/home-assistant/base`, pinned by tag and digest.
+- **Build:**
+  - multi-stage;
+  - `python3` pinned to an exact apk version;
+  - a venv created `--without-pip`, from hash-pinned, binary-only wheels;
+  - Pillow from PyPI wheels only.
+- **Labels:**
+  - `io.hass.arch` from `BUILD_ARCH`, falling back to `TARGETARCH`;
+  - `io.hass.version` from a required `ARG`;
+  - the OCI `licenses` label omitted.
+- **Tooling:** Buildx for builds; the Home Assistant builder actions and Cosign for releases.
+- **Selection criteria:** the official guidance, reproducibility, and copyleft surface.
 
-**Selection criteria:**
+**Open verification (Phase 6).** The image pull needs approval. Then:
 
-- alignment with the official guidance;
-- reproducibility;
-- **copyleft surface.** The Home Assistant base ships bash and bashio, which the app does not use.
-
-**Open verification (Phase 6).** Pulling the base image needs the user's confirmation. Then:
-
-- (a) which Alpine and Python versions sit behind the pinned base;
-- (b) the container reaches "stopped" when `CMD` exits, with exit code 0 and non-zero;
-- (c) a Supervisor stop delivers SIGTERM, with enough grace before SIGKILL;
+- (a) the Alpine and Python versions;
+- (b) the container stops when `CMD` exits;
+- (c) a stop request delivers SIGTERM with enough grace;
 - (d) `SUPERVISOR_TOKEN` is visible without `with-contenv`.
 
-**Fallback if any check fails:** a plain Alpine base (for example `alpine:<3.24.x>` with Alpine's `python3`) and `init: true`. Home Assistant's s6-overlay announcement acknowledges plain bases. The fallback's inventory row must be completed before adoption.
+**Fallback:** a plain Alpine base with `init: true`. Its inventory row must be completed first.
 
 ### D-131 — HTTP transport: `urllib3` directly [§10]
 
@@ -522,41 +521,31 @@ Status: proposed
 
 **Decision:**
 
-- The gateway uses `urllib3` 2.x with retries and redirects disabled, streaming, and explicit timeouts. It enters as a direct dependency in Phase 4, and `samsungtvws` later reuses it through `requests`.
+- The gateway uses `urllib3` 2.x with retries and redirects disabled, streaming, and explicit timeouts. It enters as a direct dependency in Phase 3.
 - `requests` is not used by application code.
 - `httpx` is not adopted.
 
-### D-132 — Art Institute of Chicago as the beta museum source [§9.4]
+### D-132 — Art Institute of Chicago adapter [§9.5]
 
-Status: proposed
+Status: **accepted** as a beta source (Codex review). The adapter details are proposed.
 
-**Decision:** Implement the Art Institute of Chicago adapter against its documented API as the default beta source. It:
+**Decision.** Use the documented API:
 
-- queries public-domain works only;
-- uses the documented dominant-colour, style, department, and image-dimension metadata. Server-side colour filtering is confirmed in Phase 4, with client-side checking as the fallback.
-- downloads the documented 1686 px IIIF rendition, with the 4K canvas as the stated need;
-- samples pages without replacement;
-- paces requests 1 s apart and sends the courtesy header;
-- makes at most 25 metadata requests per run;
-- caches only counts and exhausted-page hints.
+- public-domain works only. `is_public_domain` is requested in `fields`, and every record must have `is_public_domain == true` and an image id;
+- department, style, period, and colour from documented metadata. Colour is filtered server-side if range queries work, and client-side otherwise;
+- the documented 1686 px IIIF rendition, with the 4K canvas as the stated need;
+- pages sampled without replacement;
+- requests paced at 1 s, with the courtesy header;
+- at most 15 metadata requests per run;
+- a cache of counts and page hints only.
 
-**Rationale:** It is the only surveyed source that is documented, needs no key, has CC0 images, and carries colour, collection, and style metadata. It directly drives acceptance items `C1`, `C2`, and `C6` without scraping.
-
-**Known limitation:** renditions are upscaled by up to ≈ 2.28× in `contain` mode (R-19).
-
-**Next provider:** Cleveland, with a near-4K rendition (3400 px long side, ≈ 1.13× upscale).
+Upscaling is up to ≈ 2.28× in `contain` mode (R-19).
 
 ### D-133 — Exit-code policy [§4.2]
 
-Status: proposed (Phase 8 check in Q-07)
+Status: proposed (Phase 8 check under Q-07).
 
-**Decision:**
-
-- Every classified outcome, including failures, exits **0**. The outcome name appears in the summary line and in `last_run.json`.
-- Only bugs (`internal_error`, 70) and watchdog termination (71) exit non-zero.
-- The documentation says to keep the app's Watchdog off.
-
-**Rationale:** No documentation defines how the Supervisor treats non-zero exits of `startup: once` apps, or whether the Watchdog restarts them. A restart after a handled failure could re-upload outside the bounded retry policy (acceptance item `C8`).
+**Decision:** Every classified outcome exits 0. Only `internal_error` (70) and watchdog termination (71) exit non-zero. The documentation says to keep the app's Watchdog off.
 
 ### D-134 — Rights-basis allowlist [§9.1]
 
@@ -564,26 +553,109 @@ Status: proposed
 
 **Decision:**
 
-- Every `Candidate` carries a structured `rights_basis`, together with the metadata field it was read from.
-- Each provider declares an allowlist:
-  - Art Institute of Chicago: `CC0`;
+- Every candidate carries a structured `rights_basis`.
+- Each provider has an allowlist:
   - local media: `USER_SUPPLIED`;
-  - future providers: for example `CC0`, `PDM`, or `CC-BY-4.0` with mandatory attribution.
-- Selection rejects anything else.
-- A shared contract test checks every adapter.
+  - Art Institute: `CC0` (`is_public_domain`);
+  - Cleveland: `CC0` (`share_license_status == "CC0"`).
+- Selection rejects anything else, and the contract suite checks every adapter.
 
 ### D-135 — Copyleft source availability [inventory]
 
-Status: proposed; qualified review is recommended before Phase 9.
+Status: proposed (qualified review recommended before Phase 9).
 
-**Decision:** Each release attaches the corresponding source for every copyleft component in the image:
+**Decision:**
 
-- the `samsungtvws` sdist;
-- the Alpine aports and distfiles for the exact GPL/LGPL package versions in the image SBOM.
+- Each release attaches the corresponding source for its copyleft components: the `samsungtvws` sdist, plus the Alpine aports and distfiles for the GPL/LGPL packages in the SBOM.
+- The source stays available while the image is distributed, and for at least 3 years. A written offer is the fallback.
+- The GPLv3 installation-information duty is assessed as not applicable, pending qualified review.
 
-The source stays available for as long as the image is distributed, and for at least 3 years. A written offer is the documented alternative if attachment proves impractical.
+### D-136 — Cleveland Museum of Art adapter [§9.6]
 
-The GPLv3 "Installation Information" duties are assessed as not applicable to a downloadable container image, pending that qualified review.
+Status: **accepted** as a beta source (Codex review). The adapter details are proposed and are re-verified against the live documentation in Phase 3.
+
+**Decision.** Use only the documented Open Access API:
+
+- **Every request** carries the `cc0` flag and `has_image=1`.
+- **Every record** must have `share_license_status == "CC0"` and an `images.print` entry.
+- **Rendition:** only the documented print JPEG (3400 px long side, JPEG). Its string-typed `width` and `height` are parsed defensively. The `full` TIFF is never requested.
+- **Filters:**
+  - `department`, using the 21 documented values;
+  - period, through `created_after` and `created_before` (integer years);
+  - style and colour are unsupported in the beta.
+- **Random selection:** a random `skip` based on the documented `info.total`. The undocumented `randomize` parameter is not used.
+- **Hosts:** exactly `openaccess-api.clevelandart.org` and `openaccess-cdn.clevelandart.org`.
+- **Identity and caching:** identifier `cma:<Athena id>`; requests paced at 1 s; ≤ 15 metadata requests per run; a cache of the total per filter (1 day) and skip hints (7 days).
+- **Attribution:** a shortened form of the museum's suggested citation, as a courtesy.
+- **Terms:** CMA's terms reserve future keys and transaction limits. The adapter allows an optional key later, and treats 401/403 as a stop.
+
+### D-137 — TV-upload exclusion ledger and uncertainty quarantine [§12.4, §13.6]
+
+Status: **accepted** (Codex review; replaces the earlier statement that an uploaded work might be resent).
+
+**Decision:**
+
+- **History unchanged.** The confirmed sent history keeps its meaning and changes only after `selected`. So do the current artwork and the preview.
+- **Separate ledger.** A bounded TV-upload exclusion ledger (`upload_ledger.json`) holds two kinds of entry.
+  - **`uncertain`**: a write-ahead intent. It is committed at PRE-STAGE, *after* the TV budget re-check and before the TV is contacted.
+    - **Removed** whenever no `upload_started` marker was seen: the TV was unreachable, pairing was not accepted, art mode is unsupported, SIGTERM or the kill timer came before `upload_started`, or the upload allowance was insufficient. Also removed on an explicit upload refusal.
+    - **Kept** as an uncertainty quarantine only after `upload_started` without `uploaded`, or when the process dies without classifying the run. The period is proposed as 30 days, pending Q-23.
+    - `upload_started` is sent before the library's upload call, so a missing marker proves nothing was uploaded.
+  - **`uploaded`**: promoted immediately when the `uploaded(content_id)` marker arrives, even if selection is then refused, times out, or becomes uncertain.
+    - If the promotion write fails, or the process dies before its `fsync`, the entry stays `uncertain`. The run logs an ERROR, and the outcome is unchanged.
+    - Confirmed uploads that were durably recorded are never uploaded again. An upload that could not be recorded is excluded for the quarantine period.
+- **Exclusion.** Selection skips anything in history, `uploaded`, or an unexpired `uncertain` entry. After a process kill following an upload, the committed intent still excludes the work.
+- **Bounds.** At most 20 000 entries and 5 MiB. The ledger uses the same atomic write, `.bak`, reader, and version handling as history. Entries for works that reach history are pruned lazily.
+- **Tests.** Acceptance items `E7`–`E10`.
+
+### D-138 — Provisional app identifier `frame_gallery` [§5, §17.1]
+
+Status: **accepted** (Codex review).
+
+**Decision:** `frame_gallery` is the provisional internal identifier. It is used for:
+
+- the Python package name;
+- the app slug;
+- `/media/frame_gallery`;
+- the User-Agent;
+- the TV client name, if the installed 3.0.6 API accepts one.
+
+The final public name remains D-101.
+
+### D-139 — Implementation sequencing (vertical slice) [§23]
+
+Status: **accepted** (Codex review).
+
+**Decision.** Implement in this order:
+
+1. Deterministic selection and rendering (Phase 2).
+2. The AIC, CMA, and local adapters, with fake or synthesized fixtures (Phase 3).
+3. Bounded state and duplicate prevention (Phase 4).
+4. The Samsung adapter contract, from the installed package (Phase 5).
+5. Home Assistant app packaging (Phase 6), then offline validation (Phase 7).
+6. Live Home Assistant Green and TV validation (Phase 8).
+7. AppArmor enforcement and final release hardening (Phase 9).
+
+The security and hardening design is unchanged, and no final acceptance criterion is weakened. `TASKS.md` reflects this order.
+
+### D-140 — Preview freshness is release-blocking; refresh mechanism [§16.3]
+
+Status: **accepted** as a requirement (Codex review). The mechanism is selected in Phase 8.
+
+**Decision:**
+
+- The dashboard is not declared complete until repeated live tests on the Home Assistant Green show every newly delivered image without a stale browser cache (acceptance item `G5`).
+- The mechanism must keep the preview correct on every documented start path: card tap, scheduled automation, and a start from the app page.
+  - Any post-run step lives in one UI automation triggered by the Running sensor turning off, which covers every start path, including starts from the app page.
+  - Alternating file names are eligible only if the app writes each delivered preview to both names, so an older artwork can never appear, for example after a `no_match` run.
+- Phase 8 tests card-started, automation-started, app-page-started, and `no_match` runs.
+- Phase 8 selects and documents one proven, fully UI- or API-based mechanism. The candidates are:
+  1. Local File's file-change behaviour;
+  2. `homeassistant.update_entity`;
+  3. two alternating file names with `local_file.update_file_path`;
+  4. another UI- or API-only method.
+- The evidence and the chosen mechanism are recorded here and in R-07.
+- The Collection Image integration (2026.9+) may be documented as an optional alternative. It must not raise the app's minimum Home Assistant version.
 
 ## Proposed dependency inventory
 
@@ -609,15 +681,15 @@ No package is modified or vendored into the source tree.
 | Package | Source and pin | SPDX (as published) | Use | Obligations | Reason | Enters |
 | --- | --- | --- | --- | --- | --- | --- |
 | `samsungtvws` | PyPI, `==3.0.6`; later `>=3.0.6,<4` after contract tests. sdist SHA-256 `166111d8370443cd2021b74cdfac9495896dfc41e3a87ea023289f24f922bb91`; wheel SHA-256 `6e3a1b23f928b3035570cc976b64b8c2a218b06022a333855fd7cd02dc74891d`. | `LGPL-3.0` (deprecated short form; treated as `LGPL-3.0-only` until the shipped `LICENSE` says otherwise) | dyn, redist, pure Python; core install only | See the LGPL obligations below | Television transport (D-104) | Phase 5 |
-| `Pillow` | PyPI `musllinux_1_2` wheels for `aarch64` and `x86_64`, `==12.3.0` (`<13` until validated) | `MIT-CMU` **for Pillow itself; the wheel is a composite** (see the bundled-library table) | dyn, redist, native | Pillow `LICENSE`; each bundled library's license and acknowledgement | Image pipeline (§11) | Phase 3 |
-| `urllib3` | PyPI `==2.8.0` (`<3`), `py3-none-any` | `MIT` (`LICENSE.txt`) | dyn, redist | License text | Gateway transport (D-131) | Phase 4 |
-| `certifi` | PyPI `==2026.7.22`, `py3-none-any` | `MPL-2.0` (`LICENSE`) | dyn, redist (CA bundle) | Files kept unmodified under MPL-2.0; identified in the notices; source pointer (D-135) | The gateway's explicit CA bundle (§10) | Phase 4 |
+| `Pillow` | PyPI `musllinux_1_2` wheels for `aarch64` and `x86_64`, `==12.3.0` (`<13` until validated) | `MIT-CMU` **for Pillow itself; the wheel is a composite** (see the bundled-library table) | dyn, redist, native | Pillow `LICENSE`; each bundled library's license and acknowledgement | Image pipeline (§11) | Phase 2 |
+| `urllib3` | PyPI `==2.8.0` (`<3`), `py3-none-any` | `MIT` (`LICENSE.txt`) | dyn, redist | License text | Gateway transport (D-131) | Phase 3 |
+| `certifi` | PyPI `==2026.7.22`, `py3-none-any` | `MPL-2.0` (`LICENSE`) | dyn, redist (CA bundle) | Files kept unmodified under MPL-2.0; identified in the notices; source pointer (D-135) | The gateway's explicit CA bundle (§10) | Phase 3 |
 
 ### Runtime: bundled in the Pillow wheels
 
-**Expected; must be verified before Phase 3** from the pinned wheels' bundled shared objects (`pillow.libs/`), `dist-info` license files, and `dist-info/sboms`. Pillow's documentation names these libraries but publishes no exact list or versions.
+**Expected; must be verified before Phase 2** from the pinned wheels' bundled shared objects (`pillow.libs/`), `dist-info` license files, and `dist-info/sboms`. Pillow's documentation names these libraries but publishes no exact list or versions.
 
-| Library | Version (from the wheel SBOM, Phase 3) | Expected SPDX | Obligations |
+| Library | Version (from the wheel SBOM, Phase 2) | Expected SPDX | Obligations |
 | --- | --- | --- | --- |
 | libjpeg-turbo | tbd | `BSD-3-Clause AND IJG AND Zlib` | Include the licenses. IJG acknowledgement in `DOCS.md` and the notices: "This software is based in part on the work of the Independent JPEG Group." |
 | FreeType | tbd | `FTL OR GPL-2.0-or-later`; **FTL elected** | FTL credit in the documentation: "Portions of this software are copyright © The FreeType Project (www.freetype.org). All rights reserved." The exact wording is taken from the shipped license. |
@@ -726,73 +798,102 @@ The documentation for these tools is largely GitHub-hosted, so it is read only o
 
 ## Risk register
 
-Likelihood and impact: H = high, M = medium, L = low.
+L = likelihood, I = impact; H = high, M = medium, L = low.
 
 | ID | Risk | L / I | Mitigation | Residual / owner |
 | --- | --- | --- | --- | --- |
-| R-01 | Google Arts & Culture has no documented API. Google's Terms prohibit automated access that violates `robots.txt` (which disallows `/api/*`), bypassing protective measures, and using the services to violate intellectual-property rights. Partners hold the image rights. | H / H | Not in the beta. Building it requires amending `LEGAL_BOUNDARIES` first (D-120). | User (Q-01) |
-| R-02 | Google Arts & Culture page formats change without notice (applies only if the connector is ever built) | H / M | Tolerant parser, `source_failed`, fixtures, bounded requests | — |
-| R-03 | The Samsung art-mode protocol is undocumented and changes with firmware. The library's TLS and certificate behaviour is unknown, so trust-on-first-use or pinning is to be decided in Phase 5. The pairing token's scope is also undocumented; it is assumed to grant television control only. | M / H | Isolated, pinned library behind the port; capability check; marker-based classification; Phase 8 validation on the user's model | Phase 5/8 |
-| R-04 | `samsungtvws` has a single maintainer, its 3.x art API is undocumented on PyPI, it carries LGPL obligations, and its **inherited licence provenance** is uncertain | M / M | Hash pin; contract tests; Q-15; D-135; Phase 5 `LICENSE` and source-header check | Phase 5, licence review |
-| R-05 | Bing: undocumented endpoint; `robots.txt` (`*` group) disallows the image path `/th?` (the archive rule's spelling differs, see Q-17); the Services Agreement restricts the photos | H / H | Not planned | User (Q-17) |
-| R-06 | The loading state depends on the Supervisor Running entity, which is disabled by default and has an undocumented polling interval. Short runs may never show the loading state. | M / M | Guaranteed exit bound; timer-based fallback (`T` + 35 s) that does not need an on→off transition (§16.3). Phase 8 cases: a run under 10 s, a mistyped slug, and a non-admin tap. | Phase 8 (Q-09, Q-19) |
-| R-07 | Local File allowlisting (an inference from two documentation pages) and camera cache refresh are undocumented; a custom `media_dirs` may differ | M / M | Phase 8 validation of the candidate remedies (update-entity, alternating `update_file_path`, media-source card); the chosen remedy is recorded here | Phase 8 |
-| R-08 | Vulnerabilities in the image decoders | M / H | Header limits; format allowlist; unprivileged, memory-limited worker; scrubbed environment; bytes-only results; prompt updates | Ongoing |
-| R-09 | Memory pressure during decode on the Green | L / M | Pixel caps of 64 MP (JPEG, draft-decoded) and 40 MP (PNG); colour-space work after resizing; 1 GiB `RLIMIT_AS` (virtual). The worst-case resident peak, including one full-resolution conversion or crop copy, is estimated at ≈ 450–550 MiB. The measured peak is recorded in Phase 3/8. | Phase 3/8 |
-| R-10 | Home Assistant platform churn (app rename, builder deprecation, action renames, 2026.6 slug-syntax-only validation) | M / M | Follow current documentation; re-check at Phase 6 and Phase 9 | Phase 6/9 |
-| R-11 | Pairing friction: prompts on every connection, and prompt timeouts | M / M | Token persistence; 30 s wait; self-healing reset; *First Time Only* in the documentation | Documentation |
-| R-12 | Television off, in standby, or on another subnet → `tv_unreachable` | M / L | Actionable messages; documented network requirement | Documentation |
-| R-13 | Restrictive Art Institute filter combinations or small local folders are exhausted by history → frequent `no_match` | H / L | Distinct `no_match` hints; exhausted-page cache; documented behaviour | Accepted |
-| R-14 | Branding: "Frame" is part of Samsung's product naming | M / M | D-101 review; factual compatibility wording only | User (D-101) |
-| R-15 | Watchdog `os._exit` skips normal cleanup. An orphaned television worker could otherwise finish an upload after the run has reported its outcome. | L / M | The watchdog kills the worker process group first; `PR_SET_PDEATHSIG`; RAM-backed `/tmp`; startup sweep; timing test | Accepted |
-| R-16 | Supervisor treatment of exit codes and **Watchdog restarts** of `once` apps is undocumented | M / M | D-133: all classified outcomes exit 0; the documentation says to keep Watchdog off | Phase 8 (Q-07) |
-| R-17 | The image redistributes copyleft OS packages: GPL-2.0 (BusyBox, apk-tools), GPL-3.0-or-later (bash; possibly readline or gdbm), plus LGPL (`samsungtvws`) | M / M | Image SBOM; D-135 source attachment; minimal OS packages; copyleft surface as a D-130 criterion | Phase 6/7 licence audit |
-| R-18 | Provider terms or rate limits violated by accident | L / H | Allowances; pacing; stop on HTTP 403/429; cache; honest headers | Phase 4 review |
-| R-19 | Art Institute renditions (1686 px wide) look soft when upscaled by up to ≈ 2.28× in `contain` mode; images can be unpublished | H / M | Honest documentation; an HTTP 404 moves to the next candidate; Cleveland (near-4K, ≈ 1.13×) next | Accepted for the beta |
-| R-20 | Provider documentation drifts | M / L | Re-verify live documentation at the start of Phase 4 | Phase 4 |
-| R-21 | Home Assistant's media browser may not be able to upload into `/media/frame_gallery/library` (assumed, not documented) | M / M | The app creates the folder; the `no_match` hint names the location; Phase 8 verifies | Phase 8 |
+| R-01 | Google Arts & Culture has no documented API, and its terms and image rights conflict with automated retrieval | — | **Excluded from the beta** (Q-01, resolved). Its researched status is kept. | Only if an official API appears |
+| R-02 | Google Arts & Culture page formats change | — | Not applicable while the source is excluded | — |
+| R-03 | The Samsung art protocol is undocumented and changes with firmware. The TLS or certificate behaviour and the token scope are unknown. | M / H | Isolated, pinned library; surface taken from the installed package (Q-15); marker-based classification; trust-on-first-use decided in Phase 5; Phase 8 live validation | Phase 5/8 |
+| R-04 | `samsungtvws` has a single maintainer, an undocumented 3.x art API, LGPL obligations, and inherited licence provenance | M / M | Hash pin; contract tests; D-135; Phase 5 check of `LICENSE` and headers | Phase 5, licence review |
+| R-05 | Bing: undocumented endpoint, a `robots.txt` image-path rule, and restrictive Services Agreement terms | — | **Excluded** (Q-17, resolved) | — |
+| R-06 | The loading state depends on the Running entity (disabled by default, undocumented polling); short runs may never show it | M / M | 130 s guaranteed exit. The **normative** 150 s timer indicator, started by the card script, does not depend on the sensor. Phase 8 cases: a run under 10 s, a mistyped slug, a non-admin tap. | Phase 8 (Q-09, Q-19) |
+| R-07 | **Preview freshness** (release-blocking). The Local File update mechanism and the camera cache refresh are undocumented, and the existing installation had stale images. | H / H | Phase 8 selects one proven mechanism from D-140 through repeated live tests, and the dashboard is not declared complete until then. The platform basis for `/media` and the allowlist is recorded (D-111). | Phase 8; the result is recorded here |
+| R-08 | Image decoder vulnerabilities | M / H | Header limits; format allowlist; unprivileged, memory-limited worker; allowlisted environment; bytes-only results; prompt updates | Ongoing |
+| R-09 | Memory pressure during decode | L / M | Pixel caps (64 MP JPEG, 40 MP PNG); colour work after resizing; 1 GiB `RLIMIT_AS`; beta renditions ≤ 3400 px; worst case ≈ 450–550 MiB. Peak memory and prepare time for the D-121 worst cases are measured under the real `RLIMIT_AS` in Phase 5 and on the Green in Phase 8. If preparation exceeds about 12 s, the local-media pixel caps are lowered. | Phase 5/8 |
+| R-10 | Home Assistant platform churn | M / M | Follow the current docs; re-check them in Phases 6 and 9 | Phase 6/9 |
+| R-11 | Pairing friction: prompts on each connection, and the 20 s pairing wait inside the 40 s TV phase | M / M | Token persistence; self-healing reset; *First Time Only* setting; a clear message to accept the prompt and run again | Documentation; Phase 8 |
+| R-12 | TV off or on another subnet gives `tv_unreachable` | M / L | Actionable messages; documented network requirement | Documentation |
+| R-13 | Restrictive filters or small folders exhaust the available works, giving frequent `no_match` | H / L | Distinct hints; exhausted-page and skip cache; documented behaviour | Accepted |
+| R-14 | Branding: "Frame" is part of Samsung's product name | M / M | D-101 review; factual compatibility wording only | User (D-101) |
+| R-15 | Watchdog `os._exit` skips normal cleanup | L / M | The worker group is killed first; `PR_SET_PDEATHSIG`; RAM `/tmp`; startup sweep; timing test | Accepted |
+| R-16 | Supervisor handling of exit codes and Watchdog restarts for `once` apps is undocumented | M / M | D-133; the documentation says to keep the Watchdog off | Phase 8 (Q-07) |
+| R-17 | The image redistributes copyleft OS packages and LGPL `samsungtvws` | M / M | SBOM; D-135; minimal OS packages; copyleft surface is a D-130 criterion | Phase 6/7/9 licence audit |
+| R-18 | Provider terms or rate limits violated by accident | L / H | Allowances; 1 s pacing; 403/429 stop; cache; honest headers | Phase 3 review |
+| R-19 | Art Institute renditions (1686 px) look soft after upscaling by up to ≈ 2.28×; images can be unpublished | H / M | Honest documentation; HTTP 404 moves to the next candidate; Cleveland renditions (≈ 1.13×) are an in-beta alternative | Accepted |
+| R-20 | Provider documentation drifts. Examples: Cleveland's banner date is older than its changelog, and the Cleveland image host appears only in example URLs. | M / L | Re-verify the live documentation at the start of Phase 3 | Phase 3 |
+| R-21 | The media browser may not be able to upload into `/media/frame_gallery/library` | M / M | The app creates the folder; the hint names its location; Phase 8 verifies uploads | Phase 8 |
+| R-22 | **Provider identifier stability.** Neither the Art Institute nor Cleveland documents its record IDs as permanent. | L / M | IDs validated against patterns; Cleveland's accession number kept as metadata; history and ledger keyed by the documented ID; re-checked when documentation drifts | Phase 3 |
+| R-23 | The **Cleveland API terms** reserve future keys, transaction limits, and IP logging | M / M | Room for an optional key (`password` option); 401/403 treated as a stop; conservative pacing; the source stays optional | Monitor |
+| R-24 | The **uncertainty quarantine** holds back works that never actually reached the TV (for example after a power loss before upload) for the quarantine period (proposed 30 days) | M / L | Intents are removed whenever no `upload_started` was seen; the period is documented (Q-23); large catalogues are unaffected | Q-23 |
 
 ## Open questions
 
-### Phase 0 questions: proposed answers
+### Resolved in the Codex review of `8ea5491`
 
-| Phase 0 question | Proposed answer |
+| ID | Resolution |
 | --- | --- |
-| Runtime filter changes: helpers, Ingress, or options only? | Static options plus optional documented helpers. Ingress not planned; companion integration deferred (D-126). |
-| How should metadata caches be bounded and invalidated? | Per-provider JSON: ≤ 1 000 entries, ≤ 2 MiB, TTL ≤ 7 days; expired entries evicted first, then LRU; discarded on corruption. The beta uses it only for Art Institute counts and page hints (§13.4). |
-| Which source identifiers are stable enough? | Local media: `local:fp:<sha256…>` (D-118). Art Institute of Chicago: `aic:<artwork id>` (§9.4). Any later adapter uses the provider's documented identifier, validated against a pattern. |
-| What Google Arts & Culture access mechanism is appropriate? | None was found that respects its terms without an official API. See Q-01. |
-| Should pairing tokens remain only in private app data, and what is the recovery flow? | Yes: `/data/tv/`, mode `0600`, current television address only, excluded from backups through `backup_exclude` (expected; verified in Phase 8), and installed atomically by the parent. Recovery is self-healing: a rejected token is deleted and the next run prompts again (§12.2). |
-| Smallest compelling public beta? | D-120. |
+| Q-01 | Google Arts & Culture is **removed from the beta scope**. Its researched status stays documented, and undocumented or `robots.txt`-incompatible access is never implemented. |
+| Q-02 | Replaced by the 120 s total deadline and its phase split. `no_match` finishes within 70 s (D-114). |
+| Q-15 | Only the **installed** `samsungtvws` 3.0.6 distribution is inspected (D-104). |
+| Q-16 | The app starts **without `host_network`**. Home Assistant Green-to-TV connectivity is verified in Phase 8 before any change. |
+| Q-17 | Bing is **excluded**. |
+| Q-18 | The specification is amended in this revision: providers, the filter model, the deadline, the upload ledger, and preview freshness (`PRODUCT_SPEC.md` and `ACCEPTANCE_TESTS.md` amendment logs). **Item 4, the lifecycle order of steps 9 and 10 (D-113), remains open.** |
+| Q-20 | The 30-probe limit means **30 remote dimension requests**. Local header inspection has its own bounded allowance of 300. |
 
-### New questions requiring a decision
+### Open
 
 | ID | Question | Recommendation | Needed by |
 | --- | --- | --- | --- |
-| Q-01 | Google Arts & Culture has no documented API. Its `robots.txt` permits public HTML and disallows `/api/*`; the image host's rules were not checked. The real conflict is with Google's Terms (automated access against `robots.txt`, bypassing protective measures, using the services to violate intellectual-property rights) and the partners' image rights. Options: (a) drop it; (b) defer until an official API exists; (c) amend the `LEGAL_BOUNDARIES` access-terms rule, check the image host's rules, then build an HTML-only experimental connector under §9.5. No open-access API or image licence was found for the Museum of Modern Art or the Musée d'Orsay (aggregator coverage not yet checked). | (b) Defer. Ship the Art Institute of Chicago instead (D-132). | Before Phase 4 |
-| Q-02 | Does the specification's "60 seconds total" mean the selection phase (proposed) or the whole run? This is a specification interpretation. | Selection phase; the whole run is `S` + 205 s (D-114) | Before Phase 2 |
-| Q-03 | Approve the thresholds: strict ±4 %, square band 0.95–1.053, upscale limit 2.5×? | Approve; revisit after Phase 8 | Phase 4 |
-| Q-04 | Local identity: quick fingerprint only (proposed), or also a full-content hash? | Fingerprint only | Phase 4 |
-| Q-05 | JPEG parameters for the television (quality 90, standard subsampling, 15 MiB ceiling) | Start value; tune in Phase 8 | Phase 8 |
-| Q-06 | A user-facing way to reset history or re-pair, beyond the automatic token reset? | Not in the beta; reinstall is the reset path | Phase 6 |
-| Q-07 | Confirm the D-133 policy in Phase 8: how the Supervisor shows `once`-app exits, and whether the app's Watchdog restarts them | Keep D-133; observe in Phase 8 | Phase 8 |
-| Q-08 | Default `source`? | `art_institute_chicago`, which works immediately | Phase 6 |
-| Q-09 | Is enabling the disabled-by-default Running sensor acceptable? If the Phase 8 latency is poor, the deliverable for acceptance item `G1` becomes "card + script + timer". Is that acceptable? | Accept both | Phase 6/8 |
-| Q-10 | Should the parent process also run unprivileged? This needs an ownership layout for `options.json` (mode `0600`), `/data`, and the preview folder. | Evaluate in Phase 6; the workers are unprivileged already | Phase 6 |
-| Q-11 | In `cover` mode with strict format on, allow fallback by forcing `contain` for fallback images? | Follow the specification (no fallback in `cover` mode) | Phase 4 |
-| Q-12 | Accept rejecting IPv6 global addresses, the container networks, and the Supervisor network for `tv_host`? | Accept | Before Phase 2 |
-| Q-13 | The final public repository URL, which determines the observed slug in the dashboard YAML | Decide with D-101 | Phase 9 |
-| Q-14 | Initial vocabularies: which colours, departments, and styles or periods? | Small curated lists after the Phase 4 mapping | Phase 4 |
-| Q-15 | How to confirm the `samsungtvws` 3.0.6 art API (D-104)? | Option 1: inspect the installed package only | Before Phase 5 |
-| Q-16 | Does the television accept the app through the host's NAT, without `host_network`? | Expect yes; go/no-go check in Phase 8. Fallback: `host_network: true`, which lowers the rating. | Phase 8 |
-| Q-17 | Should Bing be built? No `robots.txt`-compliant implementation exists: the `*` group disallows the image path `/th?` (only `msnbot-media` is allowed it). This rule is decisive. The archive rule is spelled `/HpImageArchive.aspx`, while the endpoint is commonly written `HPImageArchive.aspx`, and `robots.txt` matching is case-sensitive. No official API exists. The Services Agreement limits the photos to non-commercial personal use, with downloading or building products allowed only as authorized or permitted by law. Overriding this would require amending the `LEGAL_BOUNDARIES` rule. | Do not build. Remove it from the specification's providers. | Before Phase 4 |
-| Q-18 | Specification amendments, to be made in the same commit that records the decisions. The exact clauses: **(1)** `PRODUCT_SPEC` Google Arts & Culture subsection: the MoMA/Orsay clause; move its "landscape-only by default" and "strict near-16:9 by default" to *Filter inputs* or *Selection limits*. **(2)** `PRODUCT_SPEC` Bing subsection. **(3)** `TASKS.md` Phase 4, bullets 3–4. **(4)** `PRODUCT_SPEC` lifecycle order, steps 9/10 (D-113). **(5)** the meaning of "60 seconds total" (Q-02). | Amend as listed | Before Phase 4 (items 4–5 before Phase 2) |
-| Q-19 | `hassio.app_start` is admin-only. Must non-admin household members be able to start the app? The alternative is the Running **switch**, which is disabled by default and stops a run if toggled mid-run. | Document the admin requirement. In Phase 8, test a script, the switch, and `continue_on_error` with a non-admin user and with a mistyped slug. | Phase 8 |
-| Q-20 | Specification interpretation: the "30 dimension probes" budget applies to **remote** probe requests, and local header reads are bounded separately (500 files). Neither beta source needs remote probes. | Approve | Phase 4 |
-| Q-21 | How does the unpublished app reach the Green for Phase 8? Options: (a) the user copies the folder into `/addons` through a file-share app; (b) a temporary private repository; (c) a development image push. Each needs approval, and the route determines the development slug. | (a), because it touches no external service | Before Phase 8 |
-| Q-22 | The project-owned contact email for courtesy headers (the Art Institute's `AIC-User-Agent`, D-119). It is needed before any live Phase 4 request; tests use a placeholder. | Decide before the first approved observation request | Phase 4 |
+| Q-12 | The IPv4 literal is accepted (D-125). Still open: approve the accepted ranges (RFC 1918, `169.254/16`) and the rejection of loopback, unspecified, multicast, broadcast, and the container's own networks, including the Supervisor network. | Approve | Phase 2 |
+| Q-03 | Approve the thresholds: strict ±4 %, square band 0.95–1.053, upscale limit 2.5×? | Approve; revisit after Phase 8 | Phase 2 |
+| Q-04 | Local identity: the quick fingerprint only, or also a full-content hash? | Fingerprint only | Phase 3 |
+| Q-05 | JPEG parameters (quality 90, standard subsampling, 15 MiB ceiling) | Start here; tune in Phase 8 | Phase 8 |
+| Q-06 | A user-facing way to reset history or re-pair the TV? | Not in the beta; reinstalling is the reset path | Phase 6 |
+| Q-07 | Confirm D-133: how `once`-app exits are shown, and how the app Watchdog reacts | Keep D-133; observe in Phase 8 | Phase 8 |
+| Q-08 | Default `source`? | `art_institute_chicago` (works immediately, supports colour) | Phase 6 |
+| Q-09 | The loading indicator is a 150 s timer started by a UI script (§16.3). The acceptance-item `G1` deliverable is therefore card + script + timer helper, plus a post-run automation if the freshness mechanism needs one, all UI-created. Is that acceptable, together with enabling the disabled Running sensor? A card driven by the sensor alone is allowed only if Phase 8 measures its latency within 150 s. | Accept | Phase 6/8 |
+| Q-10 | Should the parent process also run unprivileged? | Evaluate in Phase 6. The workers are unprivileged from Phase 5 (§11.3). | Phase 6 |
+| Q-11 | In `cover` mode with strict format, allow fallback by forcing `contain` for fallback images? | Follow the specification: no fallback in `cover` mode | Phase 2 |
+| Q-13 | The final public repository URL, which determines the slug shown in the dashboard YAML | Decide with D-101 | Phase 9 |
+| Q-14 | Initial vocabularies: AIC departments, style and period keys, AIC colour bands, and the subset of the 21 CMA departments to offer | Small curated lists after the Phase 3 mapping | Phase 3 |
+| Q-18 (item 4) | Amend the specification's lifecycle order (steps 9 and 10) to match D-113, or keep the specification order? | Adopt D-113; duplicate prevention no longer depends on it | Phase 4 |
+| Q-19 | `hassio.app_start` is admin-only. Test the non-admin paths: a script, the Running switch, `continue_on_error`, a mistyped slug. | Document the admin requirement; test in Phase 8 | Phase 8 |
+| Q-21 | Install route for Phase 8: (a) copy the folder into `/addons` through a file-share app; (b) a temporary private repository; (c) a development image push | (a) | Phase 8 |
+| Q-22 | The project-owned contact email for the Art Institute courtesy header. It is needed before any live request; tests use a placeholder. | Decide before any approved observation request | Phase 3 |
+| Q-23 | The uncertainty-quarantine period for uploads whose outcome is uncertain (D-137) | 30 days (proposed) | Phase 4 |
+| Q-24 | Cleveland colour filtering by local analysis, for example of the documented 900 px web rendition, counted against the existing download allowance and the content-window time budget, not against the 30 remote dimension requests. Only if it fits the same download and time budgets. | Defer until after the beta | After the beta |
 
-## Review findings not adopted (Phase 1 review)
+## Review records
+
+### Codex review of commit `8ea5491` (external)
+
+**Outcome:** the architecture was conditionally accepted. Phase 2 was **not** approved.
+
+The user's decisions and the review's corrections were applied in the revision-2 commit that follows `8ea5491`:
+
+1. **Beta providers.**
+   - Google Arts & Culture and Bing were removed, and their researched status was kept.
+   - The beta sources are local media, the Art Institute of Chicago, and the Cleveland Museum of Art. Cleveland is now normative (D-136): CC0 records only, and the documented print JPEG only.
+   - The filter dimensions are now distinct: source/museum, department/collection, style/period, and colour. They come with an honest capability matrix and visible reporting (D-124).
+2. **Runtime.** A 120 s total, split 10 / 60 / 40 / 10 s. All timeouts are clamped. `no_match` finishes within 70 s. The dashboard timer is 150 s. The 30 probes are remote requests (D-114).
+3. **Duplicate prevention after an upload.** A TV-upload exclusion ledger, with a write-ahead uncertainty quarantine (D-137), and acceptance items `E7`–`E10`.
+4. **Preview.** The Local File camera stays primary, and its platform basis is recorded (D-111). Freshness is release-blocking, with the mechanism selected in Phase 8 (D-140). Collection Image is optional and does not raise the minimum Home Assistant version.
+5. **Approved decisions:**
+   - `frame_gallery` as the identifier (D-138);
+   - Apache-2.0 (D-102);
+   - `uv` (D-128);
+   - an IPv4 literal for the TV address (D-125); the test value `192.168.178.30` is not hard-coded;
+   - no `host_network` at first (Q-16);
+   - inspecting only the installed `samsungtvws` (D-104);
+   - `contain`, landscape-only, and strict 16:9 as defaults (D-123), with no crop;
+   - bounded cleanup and atomic writes (D-106, D-110);
+   - the clean-room rules.
+6. **Implementation sequencing.** A vertical slice (D-139). `TASKS.md` was updated.
+
+The corrections were checked by cross-reference and consistency checks and by an independent review of the revision.
+
+### Internal multi-agent review of revision 1: findings not adopted
 
 The Phase 1 multi-lens review produced 98 raw findings. The adjudicator confirmed 58, which are incorporated. It listed 7 entries as not adopted: 6 rejections and 1 severity downgrade. They are listed here so they can be challenged:
 
@@ -803,4 +904,3 @@ The Phase 1 multi-lens review produced 98 raw findings. The adjudicator confirme
 5. **Appendix A item `C4` should name the verifying provider.** Rejected: it already names the counting fake gateway.
 6. **Drop the `.bak` generation as a simplification.** Rejected as a design preference. The real defects around `.bak` were fixed.
 7. **Rate the probe-limit, watchdog-orphan, and memory findings as major.** Downgraded to minor rather than rejected: a dead option, an orphan that needs a second failure, and rare near-cap images. All three were fixed.
-

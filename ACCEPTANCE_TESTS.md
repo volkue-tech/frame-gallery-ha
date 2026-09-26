@@ -14,22 +14,27 @@ These are product-level acceptance criteria. Unit and integration test details s
 ## B. Configuration
 
 - [ ] A missing television IP prevents start with a clear validation message.
-- [ ] Static color, museum, and style/period filters work without helper entities.
+- [ ] Static source, department, style/period, and colour filters work without helper entities.
 - [ ] A valid helper value overrides its static value.
 - [ ] A missing or unavailable helper falls back to the static value.
 - [ ] Invalid filter values are rejected or normalized predictably.
 - [ ] Landscape-only and fit-mode defaults preserve the full artwork.
+- [ ] A television address that is not a local IPv4 literal is rejected with a clear validation message.
+- [ ] A filter the selected source does not support is visibly reported as unsupported (option description, log, and run record) and never silently claimed to work.
 
 ## C. Candidate selection
 
-- [ ] Combined color, museum, and style/period filters are applied together.
+- [ ] Combined department, style/period, and colour filters supported by the selected source are applied together.
 - [ ] Portrait and square candidates are rejected when landscape-only is enabled.
 - [ ] Previously sent identifiers are skipped across app restarts.
-- [ ] Strict near-16:9 selection never exceeds its probe budget.
-- [ ] The complete run never exceeds its configured total deadline by more than a small shutdown allowance.
+- [ ] Strict near-16:9 selection never exceeds its budget of 30 remote dimension requests, and local header inspection stays within its separate allowance.
+- [ ] The complete run never exceeds its 120-second default total deadline by more than a small shutdown allowance.
 - [ ] A restrictive filter combination can fall back from strict near-16:9 to an eligible landscape work.
 - [ ] When no candidate exists, the app exits cleanly and does not call the television upload operation.
 - [ ] Provider network, parsing, and empty-result failures do not create infinite retries.
+- [ ] Art Institute of Chicago candidates are public-domain (CC0) works only.
+- [ ] Cleveland Museum of Art candidates are CC0 / open-access records only, and the downloaded image is the documented print JPEG, never the original TIFF.
+- [ ] A run without a matching candidate finishes cleanly within 70 seconds by default.
 
 ## D. Image preparation
 
@@ -48,8 +53,12 @@ These are product-level acceptance criteria. Unit and integration test details s
 - [ ] Pairing or authorization requirements are reported clearly.
 - [ ] Connection timeouts and television rejection terminate cleanly.
 - [ ] Failed uploads do not enter the image into sent history.
-- [ ] A successful upload enters exactly one provider-qualified identifier into history.
+- [ ] A successful run (upload and selection confirmed) enters exactly one provider-qualified identifier into history.
 - [ ] Starting the app again does not resend the same work while unused eligible works remain.
+- [ ] Upload succeeded but selection was refused: the work enters the TV-upload exclusion ledger, not the sent history, and it is not uploaded again on the next run.
+- [ ] Upload succeeded but the connection was lost during selection: the work enters the TV-upload exclusion ledger, and it is not uploaded again on the next run.
+- [ ] The process was killed after the upload: the work is excluded on the next run (upload ledger or uncertainty quarantine) and is not uploaded again on the next run.
+- [ ] Confirmed sent history, current artwork, and dashboard preview change only after the television confirms selection.
 
 ## F. Cleanup and persistence
 
@@ -67,8 +76,8 @@ These are product-level acceptance criteria. Unit and integration test details s
 - [ ] The card displays the latest preview.
 - [ ] Tapping the card starts the app.
 - [ ] The loading indicator always returns to idle after success, clean no-match, or failure.
-- [ ] A newly published preview is displayed without remaining stuck on the prior browser-cached image.
-- [ ] The documented setup requires no `configuration.yaml` edit.
+- [ ] **Release-blocking:** across repeated live tests on Home Assistant Green, each newly delivered image is displayed without a stale browser cache, using the single documented, UI/API-based refresh mechanism.
+- [ ] The documented setup requires no `configuration.yaml` edit, no configuration-folder mapping, no SSH step, and no manual file modification.
 
 ## H. Quality and compliance
 
@@ -79,4 +88,17 @@ These are product-level acceptance criteria. Unit and integration test details s
 - [ ] No code, tests, documentation, assets, or structure from excluded predecessor projects appear in the repository.
 - [ ] The chosen project license is approved by the user before publication.
 - [ ] A full live run is completed on Home Assistant Green only after explicit user approval.
+
+## Amendment log
+
+- **2026-09-26: Phase 1 Codex review of commit `8ea5491`, with user decisions.**
+  - New items were appended at the end of their sections, so the position-based IDs used in `ARCHITECTURE.md` Appendix A stay stable.
+  - Added: B7 (local IPv4 address), B8 (unsupported filters visibly reported), C9–C10 (AIC and CMA rights and renditions), C11 (no-match within 70 s), and E7–E10 (TV-upload exclusion ledger scenarios).
+  - Reworded in place:
+    - B2 and C1: distinct filter dimensions.
+    - C4: 30 remote dimension requests.
+    - C5: 120 s deadline.
+    - E5: history changes only after upload *and* selection are confirmed.
+    - G5: preview freshness, now release-blocking.
+    - G6: no configuration edits of any kind.
 

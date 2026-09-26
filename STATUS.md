@@ -4,120 +4,129 @@ Last updated: 2026-09-26
 
 ## Current phase
 
-**Phase 1 (independent architecture proposal) is complete and awaits approval** by the user and Codex, per the gate in `TASKS.md`.
+**Phase 1 (independent architecture proposal), revision 2.**
 
-No application code has been written. Phase 2 must not start before approval.
+The Codex review of commit `8ea5491` conditionally accepted the architecture. This revision applies the user's decisions and the review's corrections, and it changes documentation only.
+
+**Phase 2 is not yet approved.** No application code has been written, no dependency installed, and nothing has been contacted or published.
 
 ## Completed
 
 ### Phase 0: specification package (Codex)
 
-- Created a new, isolated project directory with no predecessor source code.
-- Captured the user-facing product requirements.
-- Defined the independent-development and licensing boundaries.
-- Defined product-level acceptance tests.
-- Defined working instructions for Claude Code and Codex.
-- Defined the phased implementation plan and its approval gates.
+- Created the isolated repository.
+- Recorded the product requirements.
+- Defined the independent-development boundaries.
+- Wrote the acceptance tests.
+- Wrote the agent instructions.
+- Defined the phases and approval gates.
 
-### Phase 1: architecture proposal (Claude)
+### Phase 1, revision 1: architecture proposal (Claude, commit `8ea5491`)
 
-- Read every specification file in full.
-- Researched **permitted sources only**:
-  - official Home Assistant documentation;
-  - PyPI metadata and dependency documentation;
-  - provider policy pages, `robots.txt` files, and official API documentation;
-  - one Microsoft Q&A answer, cited as a non-documentation source;
-  - search-result snippets, where a page blocked automated readers.
-- An independent verifier re-checked the decision-critical facts in four of the five research areas.
-- Wrote `ARCHITECTURE.md`. It covers:
-  - component boundaries and data flow;
-  - the run lifecycle, outcome taxonomy, and exit-code policy;
-  - the normative budget table and cancellation;
-  - selection (shortlist and attempts);
-  - provider adapters and provider access findings;
-  - the guarded gateway;
-  - image preparation;
-  - unprivileged isolated workers;
-  - television communication with progress markers;
-  - storage, atomic persistence, and cleanup;
-  - configuration and filters;
-  - a comparison of three dashboard approaches: helpers, Ingress, and a companion integration;
-  - Home Assistant packaging, including the AppArmor policy and release gates;
-  - security, logging, and testing;
-  - the repository layout and beta scope;
-  - an acceptance-test traceability matrix.
-- Ran a six-lens independent review of the draft; its findings were adjudicated. 58 confirmed findings (17 major, 41 minor) were incorporated. 7 entries were not adopted (6 rejections and 1 severity downgrade), and their reasons are listed at the end of `DECISIONS.md`.
-- Ran two further verification passes. They confirmed that all 58 findings are resolved, and the regression issues they raised were fixed as well.
-- Updated `DECISIONS.md`:
-  - refined D-101 to D-105. D-105 keeps its original clause and adds a note that Home Assistant currently supports only `aarch64` and `amd64`. The accepted decisions D-001 to D-006 are unchanged;
-  - proposed D-106 to D-135;
-  - added the complete proposed dependency and license inventory, covering bundled native libraries and base-image components;
-  - added risks R-01 to R-21 and open questions Q-01 to Q-22;
-  - answered the Phase 0 questions.
-- Ticked the Phase 1 checklist in `TASKS.md` and listed `ARCHITECTURE.md` in `README.md`.
+- Researched permitted sources only, with independent re-checks.
+- Ran an internal multi-agent review; 58 confirmed findings were incorporated.
+- Wrote `ARCHITECTURE.md` and the first `DECISIONS.md` (decisions, inventory, risks, questions).
 
-## Findings that need the user's attention
+### Phase 1, revision 2: Codex review applied (Claude, this commit)
 
-1. **Neither web source named in the specification has a documented API.**
-   - Google Arts & Culture's `robots.txt` permits public HTML pages and disallows `/api/*`. The conflict is with Google's Terms and with the partner museums' image rights.
-   - Bing's `robots.txt` disallows its image path `/th?` for general crawlers, and its Services Agreement restricts use of the photos.
-   - No open-access API or image licence was found for the Museum of Modern Art or the Musée d'Orsay. Aggregators such as Europeana have not been checked yet.
-   - `LEGAL_BOUNDARIES.md` makes respecting access terms a binding rule, so building either source would first require amending that rule.
-   - Recommended beta sources: **local media plus the Art Institute of Chicago's documented CC0 API**. Its metadata includes dominant colour, style, department, and image dimensions. Whether colour can be filtered server-side is checked in Phase 4; if not, colour is checked on the returned pages within the same allowances.
-2. **Samsung does not publicly document Art Mode.** The proposed library, `samsungtvws` 3.0.6 (LGPL-3.0), no longer documents its art API on PyPI. Phase 5 needs an approved way to confirm it (Q-15). The recommended way reads only the installed package.
-3. **Home Assistant platform changes are reflected in the design.**
-   - Add-ons are now "apps" (2026.2).
-   - `build.yaml` and the legacy builder are deprecated.
-   - The start action is `hassio.app_start` with the field `app`, and it is admin-only.
-   - Only `aarch64` and `amd64` are supported.
-4. **Container packaging** has four things to verify in Phase 6 (D-130 checks a–d). A fallback base image is recorded in case any fails.
+**Beta providers**
 
-## Specification deviations and interpretations (need approval)
+- Google Arts & Culture and Bing are removed from the beta. Their researched status is kept in `ARCHITECTURE.md` §9.4 and in the new *Researched and excluded sources* section of `PRODUCT_SPEC.md`.
+- The beta sources are now **local media, the Art Institute of Chicago, and the Cleveland Museum of Art**.
+- Cleveland is part of the normative design (D-136). Only CC0 records are used, and only the documented 3400 px print JPEG, never the TIFF.
+
+**Filters**
+
+- Four distinct filters: source/museum, department/collection, style/period, and colour.
+- A capability matrix shows which source supports which filter.
+- Unsupported filters are visibly reported in the log, the summary line, and the run record (D-124).
+
+**Runtime**
+
+- A **120 s** default hard deadline, split 10 / 60 / 40 / 10 s, with all timeouts clamped.
+- `no_match` finishes within **70 s**.
+- A 150 s dashboard timer indicator.
+- 30 remote dimension requests, and a separate allowance for local header reads (D-114).
+
+**Duplicate prevention**
+
+- A **TV-upload exclusion ledger** with a write-ahead uncertainty quarantine (D-137).
+- The confirmed sent history, the current artwork, and the preview still change only after the TV confirms selection.
+- New acceptance items `E7`–`E10`.
+
+**Preview**
+
+- The Local File camera stays the primary design, and its platform basis is recorded (D-111).
+- Freshness is **release-blocking**: Phase 8 must prove one refresh mechanism (D-140).
+- Collection Image (2026.9+) is an optional alternative only, and does not raise the minimum Home Assistant version.
+
+**Approved decisions recorded**
+
+- `frame_gallery` as the provisional identifier (D-138).
+- Apache-2.0 (D-102).
+- `uv` (D-128).
+- An IPv4 literal for the TV address (D-125); the accepted ranges are still proposed (Q-12). The test value `192.168.178.30` is never hard-coded.
+- No `host_network` initially (Q-16).
+- Inspect only the installed `samsungtvws` 3.0.6 (D-104).
+- `contain`, landscape-only, and strict 16:9 on by default, with no crop (D-123).
+- Bounded cleanup and atomic writes (D-106, D-110).
+- Beta scope (D-120), including its three sources (D-132, D-136); the adapter details are still proposed.
+- The top-level budget (D-114): 120 s total, split 10/60/40/10, `no_match` within 70 s, 30 remote probes. The sub-budgets are proposed.
+
+**Implementation sequencing**
+
+- A vertical slice (D-139). `TASKS.md` Phases 2–9 are restructured to match.
+
+**Specification amendments**
+
+- `PRODUCT_SPEC.md` and `ACCEPTANCE_TESTS.md` are amended as directed, each with an amendment log.
+- Unrelated text is preserved.
+- New acceptance items are appended, so existing IDs stay stable.
+
+**Research and checks**
+
+- The Cleveland Open Access and Home Assistant preview options were researched from documentation pages only. Key facts were independently re-checked; the citation guidance and the refresh cadence were not.
+- Cross-reference and consistency checks were run, followed by an independent review of this revision.
+
+## Specification deviations still awaiting decision
 
 | Item | Where |
 | --- | --- |
-| Provider set: Art Institute of Chicago instead of Google Arts & Culture and Bing; no MoMA or Orsay values | Q-01, Q-17, Q-18 |
-| History recorded before the preview is published (reverses lifecycle steps 9 and 10) | D-113 |
-| "60 seconds total" read as the selection-phase limit | Q-02 |
-| "30 dimension probes" read as a remote-request budget; local header reads bounded separately | Q-20 |
-| Landscape-only and strict-format defaults moved out of the Google Arts & Culture subsection | Q-18 |
+| History recorded before the preview is published (lifecycle steps 9 and 10). Duplicate prevention no longer depends on this order. | D-113, Q-18 item 4 |
 
 ## Next action
 
-The user and Codex review `ARCHITECTURE.md` and `DECISIONS.md`, then approve or request changes.
+The user and Codex review revision 2, then either approve Phase 2 or request changes.
 
 **Decisions needed, by phase:**
 
 | Before | Decisions |
 | --- | --- |
-| Phase 2 | Confirm `frame_gallery` as the provisional internal identifier: package, slug, media folder, User-Agent, and the television client name if one exists (Q-15). Decide Q-02, Q-12, and Q-18 items 4–5. Approve the development-only dependencies, including `uv`, once the `mypy-extensions` and `pathspec` SPDX IDs are recorded from their license files. |
-| Phase 3 | Approve the Pillow row, after its bundled-library sub-table is verified from the pinned wheels. |
-| Phase 4 | Q-01, Q-17, Q-18 (items 1–3), Q-03, Q-04, Q-11, Q-14, Q-20, Q-22. Approve the `urllib3` and `certifi` rows. Approve any observation requests for fixtures. |
-| Phase 5 | Q-15. Approve the `samsungtvws` row and its LGPL-3.0 obligations (D-135). |
-| Phase 6 | Approve pulling the base image (D-130). Decide Q-06, Q-08, Q-09, and Q-10. Approve the Buildx, QEMU, and SBOM-tool rows. |
-| Phase 8 | Explicit approval for the live run, and Q-21 (install route). |
-| Phase 9 | D-101 (name), D-102 (license), Q-13 (repository URL). Approve the builder-action and Cosign rows. |
-
-After approval, Claude continues with Phase 2 (core skeleton and contracts) only.
+| Phase 2 | This revision (the Phase 2 gate). Q-03 (thresholds), Q-11 (fallback in `cover` mode), and the remaining part of Q-12 (IPv4 ranges). Development-only dependencies, once the `mypy-extensions` and `pathspec` SPDX IDs are recorded. The Pillow row, once its bundled-library table is verified from the pinned wheels. |
+| Phase 3 | Q-04, Q-14, Q-22. The `urllib3` and `certifi` rows. Any observation requests. |
+| Phase 4 | Q-23 (quarantine period) and Q-18 item 4 (D-113). |
+| Phase 5 | The `samsungtvws` row and its LGPL-3.0 obligations (D-135). |
+| Phase 6 | The base-image pull (D-130); Q-06, Q-08, Q-09, Q-10; the Buildx, QEMU, and SBOM-tool rows. |
+| Phase 8 | Explicit approval for the live run; Q-21 (install route). |
+| Phase 9 | D-101 (final name), Q-13 (repository URL); the builder-action and Cosign rows; approval to publish. |
 
 ## External state
 
-- No Home Assistant changes were made, and no `configuration.yaml` was touched.
-- No television connection was attempted.
-- No GitHub repository was accessed, created, or modified, and no GitHub-hosted page was fetched.
-- No container image was pulled, built, or published.
-- No provider API or image endpoint was called. The following were read, using web-fetch tools, `curl` (including PyPI's JSON metadata API), and the in-app browser:
-  - public documentation pages, policy pages, and `robots.txt` files;
-  - one Microsoft Q&A answer, cited as a non-documentation source;
-  - search-result snippets, where a page blocked automated readers.
-- No project license has been finalized.
+- No Home Assistant changes; no `configuration.yaml` touched.
+- No television connection attempted.
+- No GitHub repository accessed, created, or modified; no GitHub-hosted page fetched.
+- No container image pulled, built, or published.
+- No dependency installed.
+- No provider API or image endpoint called. Research read public documentation pages, policy pages, and `robots.txt` files, plus one Microsoft Q&A answer (cited as a non-documentation source) and search-result snippets where a page blocked automated readers. Reading used web-fetch tools, `curl` (including PyPI's JSON metadata API), and the in-app browser.
+- Apache-2.0 is approved. The `LICENSE` file will be added when publication is prepared (Phase 9).
 
 ## Known open decisions
 
-`DECISIONS.md` has the full list. The most material:
+See `DECISIONS.md` for the full list. The most material:
 
-- the provider set for the beta (Q-01, Q-17, Q-18);
-- how to confirm the television library API (Q-15);
-- the loading-indicator approach and its latency (Q-09);
-- the dependency inventory, especially the LGPL-3.0 and copyleft source obligations (D-135);
-- the final name (D-101; see R-14 on the trademark wording) and license (D-102), needed before publication.
+- **Preview freshness mechanism** (D-140). This is release-blocking and is selected in Phase 8.
+- **Lifecycle order** (D-113, Q-18 item 4).
+- **Uncertainty-quarantine period** (Q-23). Proposed: 30 days.
+- **Loading indicator** (Q-09). The timer-driven indicator makes the `G1` deliverable card + script + timer helper, plus a post-run automation if needed. The Running sensor's latency is measured in Phase 8.
+- **Final name** (D-101). The trademark wording is tracked as R-14.
+- **Copyleft source-availability mechanism** (D-135).

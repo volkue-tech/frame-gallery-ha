@@ -16,9 +16,17 @@ No SSH access or `configuration.yaml` changes should be required for end users.
 
 ## Project status
 
-Architecture proposal awaiting approval. See:
+Architecture proposal, revision 2 (after the Codex review), awaiting Phase 2 approval.
 
-- `ARCHITECTURE.md` (proposed architecture, Phase 1)
+Planned first-beta sources:
+
+- local media;
+- the Art Institute of Chicago;
+- the Cleveland Museum of Art.
+
+The two museum sources use only their documented open-access APIs and CC0 images; local media uses your own images. See:
+
+- `ARCHITECTURE.md` (proposed architecture, Phase 1 revision 2)
 - `PRODUCT_SPEC.md`
 - `ARCHITECTURE_CONSTRAINTS.md`
 - `ACCEPTANCE_TESTS.md`

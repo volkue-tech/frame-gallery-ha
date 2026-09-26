@@ -27,54 +27,68 @@ Owner: Claude
 - [x] Update `STATUS.md`.
 - [x] Commit documentation only.
 
+- [x] Codex review of commit `8ea5491`: conditionally accepted; Phase 2 not yet approved.
+- [x] Apply the user decisions and review corrections (revision 2): beta providers (local media, Art Institute of Chicago, Cleveland Museum of Art); distinct filters and capability matrix; 120 s deadline; TV-upload exclusion ledger; release-blocking preview freshness; approved decisions; vertical-slice sequencing.
+- [x] Amend `PRODUCT_SPEC.md` and `ACCEPTANCE_TESTS.md` accordingly, with amendment logs.
+- [x] Commit documentation only.
+
 Gate: user and Codex approve the architecture before application code is written.
 
-## Phase 2 — Core skeleton and contracts
+## Phase 2 — Core skeleton, deterministic selection and rendering
 
 Owner: Claude
 
-- [ ] Create an original package structure from the approved architecture.
-- [ ] Define provider, television, storage, clock/deadline, downloader, and renderer contracts.
-- [ ] Add configuration validation and structured result types.
-- [ ] Establish linting, formatting, type checking, and unit-test commands.
-- [ ] Add contract-level tests.
+- [ ] Create the original package structure from the approved architecture.
+- [ ] Define the contracts for provider, television, storage, clock/deadline, allowance, downloader, executor, and renderer.
+- [ ] Add configuration validation (including the IPv4 television address), filter vocabularies with the capability matrix, and structured outcome types.
+- [ ] Implement the 120 s phase-budget calculator and the watchdog.
+- [ ] Implement the run-orchestrator skeleton (`app`: lifecycle stages, outcome classification, SIGTERM handling) against fakes.
+- [ ] Implement deterministic selection: exclusion interface, shape classification, upscale rule, strict 16:9, fallback, and shortlist.
+- [ ] Implement the image preparation pipeline (`contain` and `cover`) behind the executor seam, starting with the in-process executor.
+- [ ] Establish linting, formatting, type checking, and unit-test commands with `uv`.
+- [ ] Start `THIRD_PARTY_NOTICES.md` with Pillow and its bundled libraries.
+- [ ] Add unit tests, including the phase sums and the 70 s no-match bound.
 - [ ] Update status and commit.
 
 Gate: Codex reviews architecture conformance and independence.
 
-## Phase 3 — Persistent history and image pipeline
+## Phase 3 — Provider adapters
 
 Owner: Claude
 
-- [ ] Implement atomic, recoverable, bounded history.
-- [ ] Implement temporary-workspace lifecycle.
-- [ ] Implement validated download and decode boundaries.
-- [ ] Implement `contain` and optional `cover` rendering.
-- [ ] Implement atomic preview publication.
-- [ ] Add unit tests for cleanup, corruption, limits, aspect ratio, and image modes.
-- [ ] Update status and commit.
-
-## Phase 4 — Provider framework
-
-Owner: Claude
-
-- [ ] Implement the provider interface and bounded selection orchestration.
-- [ ] Implement local media provider first.
-- [ ] Implement Bing provider.
-- [ ] Implement experimental Google Arts & Culture connector from permitted public behavior and documentation only.
-- [ ] Implement combined filters, orientation checks, strict format budget, deadline, and landscape fallback.
-- [ ] Add independently authored fixtures and tests.
+- [ ] Re-verify the live Art Institute of Chicago and Cleveland Museum of Art documentation (documentation pages only).
+- [ ] Implement the guarded network gateway, and add `urllib3` and `certifi` to the third-party notices.
+- [ ] Implement the `ha` helper-override client (at most 4 reads, static fallback; B3–B5).
+- [ ] Implement the local media provider.
+- [ ] Implement the Art Institute of Chicago provider: documented API, CC0 public-domain works only.
+- [ ] Implement the Cleveland Museum of Art provider: documented API, CC0 records only, documented print JPEG only.
+- [ ] Implement combined filters per the capability matrix, visible reporting of unsupported filters, orientation checks, the strict-format budget (30 remote dimension requests), and pacing.
+- [ ] Add independently authored or synthesized fixtures and the shared contract tests. Any recorded observation requires user approval.
 - [ ] Update status and commit.
 
 Gate: Codex reviews provider access patterns, bounding, fixtures, and legal boundaries.
 
-## Phase 5 — Samsung television adapter
+## Phase 4 — Bounded state and duplicate prevention
 
 Owner: Claude
 
-- [ ] Integrate the approved, licensed Samsung transport dependency.
-- [ ] Implement connection, pairing-token persistence, upload, and select operations.
-- [ ] Map library failures into clear application results.
+- [ ] Implement the atomic, recoverable, bounded write primitive and history.
+- [ ] Implement the TV-upload exclusion ledger with the write-ahead uncertainty quarantine.
+- [ ] Implement the temporary-workspace lifecycle, the startup sweep, and the bounded metadata cache.
+- [ ] Implement atomic preview publication and the run records.
+- [ ] Complete PRE-STAGE, RECORD, and PUBLISH in the runner. Test E7–E10 against a fake television port that emits progress markers.
+- [ ] Add unit and integration tests for cleanup, corruption, limits, version handling, and the ledger scenarios E7–E10.
+- [ ] Update status and commit.
+
+## Phase 5 — Samsung adapter contract
+
+Owner: Claude
+
+- [ ] Establish the adapter surface only by inspecting the installed `samsungtvws` 3.0.6 distribution.
+- [ ] Implement the isolated process executor with the complete bootstrap: privilege drop to an unprivileged user, the parent-death signal, umask, resource limits, the bytes-only channel, progress markers, and the bootstrap test.
+- [ ] Re-run E7–E10 with the process-based television worker. Measure worst-case prepare memory and time under the real limit.
+- [ ] Implement connection, pairing-token persistence, upload, and select in the television worker.
+- [ ] Map library failures and markers to clear outcomes and ledger transitions.
 - [ ] Add mocked adapter tests; do not contact the live television.
 - [ ] Update third-party notices, status, and decisions.
 - [ ] Commit.
@@ -83,11 +97,11 @@ Owner: Claude
 
 Owner: Claude
 
-- [ ] Create current-format Home Assistant app metadata and option translations.
-- [ ] Package one-shot runtime and persistent/media mappings.
-- [ ] Create a modern multi-platform Dockerfile.
-- [ ] Add local container build tests for supported architectures where available.
-- [ ] Write complete installation, configuration, troubleshooting, and dashboard documentation.
+- [ ] Create current-format Home Assistant app metadata and option translations that state source applicability.
+- [ ] Package the one-shot runtime and the persistent and media mappings, starting without `host_network`.
+- [ ] Create a modern multi-platform Dockerfile and a draft AppArmor profile in complain mode.
+- [ ] Add local container build tests for supported architectures where available, including the D-130 checks.
+- [ ] Write complete installation, configuration, capability-matrix, troubleshooting, and draft dashboard documentation.
 - [ ] Update status and commit.
 
 Gate: Codex reviews Home Assistant OS/Green compatibility and security.
@@ -96,10 +110,10 @@ Gate: Codex reviews Home Assistant OS/Green compatibility and security.
 
 Owner: Codex and Claude
 
-- [ ] Run full unit, integration, lint, type, and container tests.
+- [ ] Run full unit, integration, lint, type, timing, and container tests.
 - [ ] Verify no excluded predecessor material is present.
-- [ ] Verify dependency notices and proposed project license.
-- [ ] Exercise no-result, timeout, corrupt-history, failed-download, failed-decode, and failed-upload paths.
+- [ ] Verify dependency notices and the approved project license.
+- [ ] Exercise the no-result, timeout, corrupt-history, failed-download, failed-decode, failed-upload, and upload-ledger paths.
 - [ ] Produce a release-candidate report.
 
 Gate: user approves live Home Assistant Green installation and television test.
@@ -108,24 +122,28 @@ Gate: user approves live Home Assistant Green installation and television test.
 
 Owner: Codex with user supervision
 
-- [ ] Install under a unique development slug without replacing another app.
+- [ ] Install under a unique development slug without replacing another app (install route per Q-21).
 - [ ] Preserve all existing Home Assistant configuration.
 - [ ] Run a local-media test.
-- [ ] Run a restrictive-filter fallback test against `192.168.178.30`.
-- [ ] Verify preview refresh, history, cleanup, finite stop, and no stale temporary files.
+- [ ] Run Art Institute of Chicago and Cleveland Museum of Art tests, including a restrictive-filter fallback test, against `192.168.178.30`, entered in the options and never hard-coded.
+- [ ] Verify Home Assistant Green-to-television connectivity without `host_network` before considering any change.
+- [ ] Select and document one proven preview refresh mechanism. Verify, in repeated live tests covering card-started, automation-started, app-page-started, and no-match runs, that each newly delivered image is shown without a stale browser cache (release-blocking).
+- [ ] Verify history, the upload ledger, cleanup, finite stop within 120 s (no-match within 70 s), the loading indicator, and no stale temporary files.
+- [ ] Record the entity IDs and the proven refresh mechanism. Complete the dashboard card, script, and timer, except for the public slug.
 - [ ] Remove or retain the development installation only as directed by the user.
 
-Gate: user approves public publication, final name, and license.
+Gate: user approves release hardening, public publication, and final name.
 
-## Phase 9 — Public beta release
+## Phase 9 — AppArmor, release hardening, and public beta
 
 Owner: Codex and Claude
 
+- [ ] Switch the AppArmor profile to enforce mode and verify the whole isolation design, with an approved supervised live re-check.
 - [ ] Create the user-approved public repository under `volkue-tech`.
-- [ ] Add the approved project license and third-party notices.
+- [ ] Add the Apache-2.0 project license and third-party notices, including copyleft source availability.
 - [ ] Configure GitHub Actions for tests and multi-architecture GHCR publication.
 - [ ] Publish immutable versioned images for `aarch64` and `amd64`.
 - [ ] Add the one-click Home Assistant repository link.
+- [ ] Finalize the dashboard card with the slug observed after installing from the public repository.
 - [ ] Verify clean installation on Home Assistant Green from the public repository.
 - [ ] Publish release notes and known limitations.
-

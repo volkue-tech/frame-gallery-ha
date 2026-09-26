@@ -13,6 +13,7 @@ The initial product is a one-shot app: each start selects and uploads at most on
 - `amd64` is the secondary target.
 - Compatible Samsung Frame television reachable on the same local network.
 - Initial live validation television: `192.168.178.30`, but this value must never be shipped as a default or hard-coded into application logic.
+- The television is configured by its IPv4 address literal on the local network.
 
 ## Installation experience
 
@@ -28,12 +29,12 @@ The initial product is a one-shot app: each start selects and uploads at most on
 2. Resolve any optional filter values supplied by Home Assistant helper entities.
 3. Select exactly one enabled artwork source.
 4. Find one eligible artwork within strict request, attempt, and total-time limits.
-5. Reject artworks already present in persistent sent history.
+5. Reject artworks already present in the persistent sent history, the TV-upload exclusion ledger, or an unexpired quarantine entry.
 6. Download only the selected artwork at the resolution needed for processing.
 7. Prepare a television-ready image according to the configured fit policy.
-8. Upload and select the image on the television.
+8. Upload and select the image on the television. As soon as the television confirms the upload, record the artwork in the TV-upload exclusion ledger, even if selection is then refused, times out, or becomes uncertain.
 9. Atomically publish the processed image as the dashboard preview.
-10. Persist sent history only after a successful television upload.
+10. Persist sent history only after the television confirms selection.
 11. Remove temporary files in both success and failure paths.
 12. Exit successfully after one upload, or exit cleanly without changing the television when no eligible image can be found.
 
@@ -41,25 +42,26 @@ The app must never remain indefinitely in a loading or searching state.
 
 ## Artwork sources
 
-The architecture must support independent provider adapters. Initial providers:
+The architecture must support independent provider adapters. Initial providers for the first public beta:
 
-### Google Arts & Culture connector
+### Art Institute of Chicago
 
+- Uses only the museum's documented public API.
+- Selects only public-domain (CC0) works that have an image.
 - Random artwork discovery.
-- Optional color filtering using provider metadata where available.
-- Optional museum filtering, including at least Museum of Modern Art and Musée d'Orsay if the provider exposes usable results.
-- Optional style or period filtering.
-- Combined color, museum, and style/period filters.
-- Landscape-only selection enabled by default.
-- Strict near-16:9 preference configurable and enabled by default for the first public beta.
-- Provider failures, markup changes, empty result sets, and rate limits must have bounded handling and useful logs.
-- This connector is experimental unless a stable documented provider API becomes available.
+- Optional department (collection), style or period, and colour filtering, using documented metadata.
+- Uses the documented image service at the largest size the provider documents for public-domain works.
+- Respects the provider's published request limits and courtesy-header guidance.
+- Provider failures, format changes, empty result sets, and rate limits must have bounded handling and useful logs.
 
-### Bing daily imagery
+### Cleveland Museum of Art
 
-- Random or recent eligible landscape image.
-- Persistent duplicate prevention.
-- Provider request failures must terminate cleanly.
+- Uses only the museum's documented Open Access API.
+- Selects only records and images explicitly marked CC0 / open access.
+- Uses the documented print JPEG rendition, with its published dimensions, never the very large original TIFF.
+- Random artwork discovery.
+- Optional department (collection) and period filtering, using documented metadata. Colour filtering is not required for the first beta. It may be added only if it can be done locally within the same strict download and time budgets.
+- Provider failures, format changes, empty result sets, and rate limits must have bounded handling and useful logs.
 
 ### Home Assistant media
 
@@ -71,27 +73,46 @@ The architecture must support independent provider adapters. Initial providers:
 
 The provider interface must allow future museum or open-collection APIs without changing the selection and rendering core.
 
+### Researched and excluded sources
+
+The original specification named these sources. The Phase 1 research (see `ARCHITECTURE.md` §9.4) found that none of them offers a documented API compatible with its access terms. They are therefore **not** part of the first beta, and undocumented or `robots.txt`-incompatible access must not be implemented.
+
+- **Google Arts & Culture.** There is no documented public API. `robots.txt` disallows `/api/*`. Google's Terms prohibit automated access that violates `robots.txt`, and partner institutions hold the image rights. The source may be reconsidered only if a stable, documented API becomes available.
+- **Bing daily imagery.** There is no documented API. The image path is disallowed in `robots.txt` for general crawlers, and the Microsoft Services Agreement restricts use of the photos. Not planned.
+- **Museum of Modern Art and Musée d'Orsay.** No open-access API or open image licence was found. They are not offered as filter values.
+
 ## Filter inputs
 
 Static app options must always work without Home Assistant helpers.
 
-Supported filters:
+Supported filters, kept clearly distinct:
 
-- color;
-- museum or collection;
-- style or period;
-- landscape-only;
-- strict TV-format preference;
-- fit policy.
+- **source / museum**, which selects the provider: local media, Art Institute of Chicago, or Cleveland Museum of Art;
+- **department / collection** within the selected museum;
+- **style or period**;
+- **colour**;
+- landscape-only, **enabled by default**;
+- strict near-16:9 TV-format preference, **enabled by default**;
+- fit policy, `contain` (no crop) by default.
 
-Optional Home Assistant helper entity IDs may override static color, museum, or style values at runtime. Missing, unavailable, or invalid helper entities must fall back to the static option and must not fail the run.
+Not every source supports every filter. The documentation must publish a filter capability matrix. A filter that the selected source does not support must be visibly identified as unsupported, in the option descriptions, the log, and the run record. It must never silently claim to work.
+
+Optional Home Assistant helper entity IDs may override the static source, department, style/period, or colour values at runtime. Missing, unavailable, or invalid helper entities must fall back to the static option and must not fail the run.
 
 ## Selection limits and fallback
 
 - Every remote request must have a finite timeout.
 - Strict TV-format inspection must have a finite probe budget.
 - A complete selection run must have a finite total deadline.
-- Initial target limits for the beta are 30 dimension probes and 60 seconds total; architecture may make these internal constants or validated advanced options.
+- Default hard total runtime deadline: **120 seconds**, divided as follows:
+  - configuration plus helper resolution: at most 10 seconds;
+  - discovery, download, verification, and image preparation together: at most 60 seconds;
+  - television connection, pairing, upload, and selection: at most 40 seconds;
+  - history, preview publication, run record, and cleanup: a reserved 10 seconds.
+- Every individual timeout is clamped to the remaining total deadline.
+- A run that finds no matching candidate must finish cleanly within 70 seconds by default.
+- The strict-format probe budget is **30 remote dimension requests**. Local header inspection has its own separate, bounded allowance.
+- An advanced total-deadline option may be offered later, validated within a safe range. The standard dashboard instructions use the 120-second default.
 - When no strict near-16:9 match exists and landscape-only plus no-crop preservation are enabled, the app may fall back to an eligible landscape artwork.
 - The fallback artwork must be fitted completely onto the 16:9 target canvas without cropping, normally using black side or top/bottom margins.
 - If no eligible strict or fallback artwork exists, the television must remain unchanged and the app must stop cleanly.
@@ -112,6 +133,12 @@ Optional Home Assistant helper entity IDs may override static color, museum, or 
 - Store sent-art identifiers persistently in the app data directory so history survives restarts and upgrades.
 - Use provider-qualified identifiers to avoid collisions across sources.
 - Do not record a work as sent until upload and selection succeed.
+- Keep a separate, bounded **TV-upload exclusion ledger**:
+  - Once the television confirms an upload, the provider-qualified identifier enters the ledger, even if selection is then refused, times out, or becomes uncertain.
+  - If an upload was started but not confirmed, the identifier may be held in a bounded, temporary uncertainty quarantine for a documented period.
+  - Candidates in the confirmed sent history, the upload ledger, or an unexpired quarantine entry are never selected again.
+  - The confirmed sent history, the current artwork, and the dashboard preview change only after the television confirms selection.
+  - Both records use the same atomic, bounded state design.
 - The history format must be bounded or compactable and recover gracefully from a partially written or corrupt file.
 - Temporary high-resolution downloads must not accumulate.
 - The app must not build an unbounded local copy of the provider's entire artwork catalog.
@@ -125,7 +152,20 @@ Documentation must provide complete copy-and-paste-ready Home Assistant dashboar
 - starts the app when tapped;
 - shows a temporary loading state that always returns to idle;
 - avoids stale browser caching after a successful run;
-- works without editing `configuration.yaml`.
+- works without editing `configuration.yaml`, without mapping the configuration folder, without SSH, and without manually modifying files.
+
+The primary preview design is a Local File camera reading `/media/frame_gallery/preview`. Home Assistant OS creates `/media` without user configuration, and the default media directories are part of Home Assistant's default external-directory allowlist. A normal Home Assistant Green installation therefore needs no `configuration.yaml` edit.
+
+**Preview freshness is release-blocking.** Validation on the live Home Assistant Green must select and document one proven refresh mechanism, and must show each newly delivered image without a stale browser cache across repeated tests before the dashboard is declared complete. The refresh mechanism must be fully UI- or API-based. Candidates:
+
+- Local File's file-change detection;
+- `homeassistant.update_entity`;
+- alternating two preview file names with `local_file.update_file_path`;
+- another fully UI- or API-based method proven in validation.
+
+The chosen mechanism must keep the preview correct on every documented start path.
+
+Home Assistant's Collection Image integration may be documented as an optional alternative for Home Assistant 2026.9 or later. It must not raise the app's general minimum Home Assistant version.
 
 Filter selection from a dashboard is desirable. The architecture proposal should compare these approaches without implementing them in Phase 1:
 
@@ -156,5 +196,17 @@ Filter selection from a dashboard is desirable. The architecture proposal should
 - Editing Home Assistant dashboards automatically.
 - Editing Home Assistant `configuration.yaml`.
 - Supporting Home Assistant Container installations without Supervisor/apps.
+- Google Arts & Culture and Bing sources (see *Researched and excluded sources*).
 - Claiming affiliation with Samsung, Google, Microsoft, any museum, or Home Assistant.
+
+## Amendment log
+
+- **2026-09-26: Phase 1 Codex review of commit `8ea5491`, with user decisions.**
+  - Beta providers are now local media, Art Institute of Chicago, and Cleveland Museum of Art. Google Arts & Culture and Bing moved to *Researched and excluded sources*, and the Museum of Modern Art and Musée d'Orsay filter values were removed.
+  - The filters were separated into source/museum, department/collection, style/period, and colour, with a published capability matrix. The landscape-only and strict-format defaults moved to *Filter inputs*.
+  - The runtime limits were replaced with the 120-second total deadline and its phase split, the 70-second no-match bound, and the 30 remote dimension requests.
+  - The TV-upload exclusion ledger and the uncertainty quarantine were added.
+  - Dashboard preview freshness was made release-blocking, and the preview platform basis was recorded.
+  - Lifecycle step 5 now also excludes the upload ledger and quarantine. Step 10 now ties history to confirmed *selection*, not upload.
+  - The order of lifecycle steps 9 and 10 is unchanged and remains subject to decision D-113.
 
