@@ -4,13 +4,11 @@ Last updated: 2026-09-26
 
 ## Current phase
 
-**Phase 1 (independent architecture proposal), revision 2 with final gate corrections.**
+**Phase 2 (core skeleton, deterministic selection and rendering): in progress.**
 
-- The Codex review of commit `8ea5491` conditionally accepted the architecture.
-- Revision 2 (commit `4ea3e36`) applied that review.
-- The Codex final gate review of `4ea3e36` accepted the architecture changes and required one factual dependency correction. This commit applies that correction and the accepted decisions. It changes documentation only.
-
-**Phase 2 is not yet approved.** No application code has been written, no dependency installed, and nothing has been contacted or published.
+- Codex gave final approval of Phase 1 at commit `ffca958` and authorized Phase 2 only.
+- Gate adjustment, explicitly approved by Codex: verification of the remaining lower-risk `pillow.libs` entries moved from the Phase 2 gate to the authoritative Phase 6 runtime-wheel inspection. Full verification remains mandatory before packaging or publication, and the GPL/LGPL licence review and source-availability obligations remain release blockers.
+- This documentation commit records the approval and the gate adjustment. No application code has been written yet.
 
 ## Completed
 
@@ -126,17 +124,17 @@ None. The lifecycle order (D-113) was accepted and the specification amended.
 
 ## Next action
 
-The user and Codex review the final gate corrections, then either approve Phase 2 or request changes.
+Implement Phase 2, then stop at the Phase 3 approval gate.
 
 **Decisions needed, by phase:**
 
 | Before | Decisions |
 | --- | --- |
-| Phase 2 | This revision (the Phase 2 gate). The development-only dependency rows (now complete). The Pillow row, with its corrected bundled-library inventory. |
+| Phase 2 | **Approved** (Codex final approval of Phase 1 at `ffca958`): the architecture, the development-only dependency rows, and the Pillow row with its corrected bundled-library inventory. |
 | Phase 3 | Q-14, Q-22. The `urllib3` and `certifi` rows. Any observation requests. |
 | Phase 4 | None (Q-23 and D-113 accepted). |
 | Phase 5 | The `samsungtvws` row and its LGPL-3.0 obligations (D-135). |
-| Phase 6 | The base-image pull (D-130); Q-06, Q-10; the Buildx, QEMU, and SBOM-tool rows. The authoritative Pillow runtime-wheel inspection. |
+| Phase 6 | The base-image pull (D-130); Q-06, Q-10; the Buildx, QEMU, and SBOM-tool rows. The authoritative Pillow runtime-wheel inspection, including the remaining `pillow.libs` entries (mandatory before packaging or publication). |
 | Phase 8 | Explicit approval for the live run; Q-21 (install route). |
 | Phase 9 | D-101 (final name), Q-13 (repository URL); the builder-action and Cosign rows; the qualified licence review (D-135, release gate); approval to publish. |
 

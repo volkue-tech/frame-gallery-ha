@@ -702,7 +702,7 @@ No package is modified or vendored into the source tree.
 | Package | Source and pin | SPDX (as published) | Use | Obligations | Reason | Enters |
 | --- | --- | --- | --- | --- | --- | --- |
 | `samsungtvws` | PyPI, `==3.0.6`; later `>=3.0.6,<4` after contract tests. sdist SHA-256 `166111d8370443cd2021b74cdfac9495896dfc41e3a87ea023289f24f922bb91`; wheel SHA-256 `6e3a1b23f928b3035570cc976b64b8c2a218b06022a333855fd7cd02dc74891d`. | `LGPL-3.0` (deprecated short form; treated as `LGPL-3.0-only` until the shipped `LICENSE` says otherwise) | dyn, redist, pure Python; core install only | See the LGPL obligations below | Television transport (D-104) | Phase 5 |
-| `Pillow` | PyPI `musllinux_1_2` wheels for `aarch64` and `x86_64`, `==12.3.0` (`<13` until validated); remains the proposed dependency | `MIT-CMU` **for Pillow itself; the wheel is a composite that includes GPL-3.0-or-later and LGPL-2.1-or-later components** (see the bundled-library table) | dyn, redist, native | Pillow `LICENSE`; every bundled component's licence and acknowledgement; copyleft source availability for `libimagequant` and FriBiDi (D-135) | Image pipeline (§11) | Phase 2 |
+| `Pillow` | PyPI `musllinux_1_2` wheels for `aarch64` and `x86_64`, `==12.3.0` (`<13` until validated); approved for use from Phase 2 (Codex final approval of Phase 1 at `ffca958`) | `MIT-CMU` **for Pillow itself; the wheel is a composite that includes GPL-3.0-or-later and LGPL-2.1-or-later components** (see the bundled-library table) | dyn, redist, native | Pillow `LICENSE`; every bundled component's licence and acknowledgement; copyleft source availability for `libimagequant` and FriBiDi (D-135) | Image pipeline (§11) | Phase 2 |
 | `urllib3` | PyPI `==2.8.0` (`<3`), `py3-none-any` | `MIT` (`LICENSE.txt`) | dyn, redist | License text | Gateway transport (D-131) | Phase 3 |
 | `certifi` | PyPI `==2026.7.22`, `py3-none-any` | `MPL-2.0` (`LICENSE`) | dyn, redist (CA bundle) | Files kept unmodified under MPL-2.0; identified in the notices; source pointer (D-135) | The gateway's explicit CA bundle (§10) | Phase 3 |
 
@@ -731,7 +731,13 @@ This inventory is **provisional**. When the container's exact Python version is 
 | pythoncapi_compat | per the SBOM | `0BSD` | Licence text (courtesy). |
 | zlib | 2.3.3 | `Zlib` | Licence text. |
 
-**Other shared objects in `pillow.libs/`, still to verify.** These are libXau, libXdmcp, Brotli, libbsd, liblzma, libmd, libpng, libsharpyuv, and libzstd. Their exact versions and SPDX identifiers must be taken from the wheel's licence and SBOM material before the Pillow row is approved, and the notices must include them.
+**Other shared objects in `pillow.libs/`, verified in Phase 6.** These are libXau, libXdmcp, Brotli, libbsd, liblzma, libmd, libpng, libsharpyuv, and libzstd.
+
+- **Gate adjustment, explicitly approved by Codex** at the final approval of Phase 1 (`ffca958`). Their verification moved from the Phase 2 approval gate to the authoritative Phase 6 runtime-wheel inspection (D-130 check (a)). The exact runtime wheel cannot be selected until the container's Python version is fixed in Phase 6.
+- Their exact versions and SPDX identifiers are then taken from the wheel's licence and SBOM material, and the notices must include them.
+- **Full verification remains mandatory before packaging or publication.** Nothing is packaged or published before it is complete.
+- The provisional notices created in Phase 2 carry the known inventory above, including `libimagequant` and FriBiDi, and list these nine entries as pending verification.
+- The GPL/LGPL qualified licence review and the source-availability obligations (D-135, R-25) remain release blockers. They are not weakened by this adjustment.
 
 **Consequences:**
 
@@ -906,6 +912,17 @@ L = likelihood, I = impact; H = high, M = medium, L = low.
 | Q-24 | Cleveland colour filtering by local analysis, for example of the documented 900 px web rendition, counted against the existing download allowance and the content-window time budget, not against the 30 remote dimension requests. Only if it fits the same download and time budgets. | Defer until after the beta | After the beta |
 
 ## Review records
+
+### Codex final approval of Phase 1 at commit `ffca958` (external)
+
+**Outcome:** Phase 1 is approved. Phase 2 (core, deterministic selection, and rendering) is authorized; Phase 3 is not.
+
+**Gate adjustment, explicitly approved by Codex:**
+
+- Verification of the remaining lower-risk `pillow.libs` entries (libXau, libXdmcp, Brotli, libbsd, liblzma, libmd, libpng, libsharpyuv, and libzstd) moved from the Phase 2 approval gate to the authoritative Phase 6 runtime-wheel inspection. The exact runtime wheel cannot be selected until the container's Python version is fixed in Phase 6.
+- The provisional notices created in Phase 2 keep the known Pillow inventory, including `libimagequant` and FriBiDi.
+- Full verification remains mandatory before packaging or publication.
+- The GPL/LGPL licence review and the source-availability obligations remain release blockers and are not weakened.
 
 ### Codex final gate review of commit `4ea3e36` (external)
 

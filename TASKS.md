@@ -38,7 +38,10 @@ Owner: Claude
 - [x] Record the accepted decisions Q-03, Q-04, Q-08, Q-09, Q-11, Q-12, Q-18 item 4 (D-113), and Q-23, and amend `PRODUCT_SPEC.md` and `ACCEPTANCE_TESTS.md` where they are normative.
 - [x] Commit documentation only.
 
-Gate: user and Codex approve the architecture before application code is written.
+- [x] Codex final approval of Phase 1 at commit `ffca958`; Phase 2 authorized.
+- [x] Gate adjustment approved by Codex: verification of the remaining `pillow.libs` entries moved from the Phase 2 gate to the Phase 6 runtime-wheel inspection.
+
+Gate: user and Codex approve the architecture before application code is written. **Passed** (`ffca958`).
 
 ## Phase 2 — Core skeleton, deterministic selection and rendering
 
@@ -52,7 +55,7 @@ Owner: Claude
 - [ ] Implement deterministic selection: exclusion interface, shape classification, upscale rule, strict 16:9, fallback, and shortlist.
 - [ ] Implement the image preparation pipeline (`contain` and `cover`) behind the executor seam, starting with the in-process executor.
 - [ ] Establish linting, formatting, type checking, and unit-test commands with `uv`.
-- [ ] Start `THIRD_PARTY_NOTICES.md` with Pillow and its bundled libraries.
+- [ ] Start a provisional `THIRD_PARTY_NOTICES.md` with Pillow and its known bundled libraries (including `libimagequant` and FriBiDi), the nine `pillow.libs` entries marked as pending Phase 6 verification, and the development dependencies.
 - [ ] Add unit tests, including the phase sums and the 70 s no-match bound.
 - [ ] Update status and commit.
 
@@ -108,6 +111,7 @@ Owner: Claude
 - [ ] Create a modern multi-platform Dockerfile and a draft AppArmor profile in complain mode.
 - [ ] Add local container build tests for supported architectures where available, including the D-130 checks.
 - [ ] Once the Python version is fixed, repeat the Pillow wheel SBOM inspection against the exact two runtime wheels (`aarch64`, `amd64`). Record the result in `DECISIONS.md` and the third-party notices; it is authoritative for the bundled-library inventory.
+- [ ] In the same inspection, verify the versions and SPDX identifiers of the remaining `pillow.libs` entries (libXau, libXdmcp, Brotli, libbsd, liblzma, libmd, libpng, libsharpyuv, libzstd). This is mandatory before packaging or publication (gate adjustment approved by Codex at `ffca958`).
 - [ ] Write complete installation, configuration, capability-matrix, troubleshooting, and draft dashboard documentation.
 - [ ] Update status and commit.
 
