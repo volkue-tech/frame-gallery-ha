@@ -16,8 +16,9 @@ No SSH access or `configuration.yaml` changes should be required for end users.
 
 ## Project status
 
-Specification phase. See:
+Architecture proposal awaiting approval. See:
 
+- `ARCHITECTURE.md` (proposed architecture, Phase 1)
 - `PRODUCT_SPEC.md`
 - `ARCHITECTURE_CONSTRAINTS.md`
 - `ACCEPTANCE_TESTS.md`

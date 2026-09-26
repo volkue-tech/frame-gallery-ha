@@ -17,15 +17,15 @@ Gate: user authorizes Claude to begin Phase 1.
 
 Owner: Claude
 
-- [ ] Read all repository specifications.
-- [ ] Research only permitted official documentation and approved dependency documentation.
-- [ ] Write `ARCHITECTURE.md` describing original component boundaries, data flow, failure handling, storage, package layout, and test strategy.
-- [ ] Compare dashboard filter approaches: helpers, Ingress, and future companion integration.
-- [ ] Propose the first-release scope and defer nonessential features explicitly.
-- [ ] Record proposed dependencies and licenses in `DECISIONS.md`.
-- [ ] Identify unresolved decisions and risks.
-- [ ] Update `STATUS.md`.
-- [ ] Commit documentation only.
+- [x] Read all repository specifications.
+- [x] Research only permitted official documentation and approved dependency documentation.
+- [x] Write `ARCHITECTURE.md` describing original component boundaries, data flow, failure handling, storage, package layout, and test strategy.
+- [x] Compare dashboard filter approaches: helpers, Ingress, and future companion integration.
+- [x] Propose the first-release scope and defer nonessential features explicitly.
+- [x] Record proposed dependencies and licenses in `DECISIONS.md`.
+- [x] Identify unresolved decisions and risks.
+- [x] Update `STATUS.md`.
+- [x] Commit documentation only.
 
 Gate: user and Codex approve the architecture before application code is written.
 
