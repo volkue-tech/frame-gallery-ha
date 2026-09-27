@@ -9,6 +9,7 @@ Status: **Revision 2, with final gate corrections.**
 - Phase 2 (core, deterministic selection, and rendering) is implemented. Where the implementation refines this document, the refinement is recorded in D-141 to D-145 and marked in the text.
 - The user approved Phase 3 (provider adapters) on 2026-09-27. At its start, the Art Institute and Cleveland documentation was re-read (documentation pages only, D-146). §8.3, §9.2, §9.5, §9.6, §10, §15.2, and §23 are amended to match.
 - Phase 3 is implemented. Its refinements of this document are recorded in D-147 (gateway), D-148 (helper reader), D-149 (local media), D-150 (Art Institute), D-151 (Cleveland), and D-152 (vocabulary version 1, the narrowed capability matrix, and the contract suite).
+- The Phase 3 gate passed on 2026-09-27 (user decision). D-146 to D-152 are accepted, and Q-25 is resolved with option (a): the first beta ships without a colour filter, and the Art Institute supports only the period filter. §1, §9.2, §9.3, §15.1, §22.1, §23, and Appendix A are amended to match.
 
 Date: 2026-09-26 (Phase 3 amendments: 2026-09-27)
 Author: Claude (Phase 1 owner)
@@ -88,7 +89,7 @@ The architecture rests on nine decisions:
    - A published capability matrix shows what each source supports. Unsupported filters are visibly reported, never silently claimed.
 8. **Smallest useful public beta** (D-120), built for `aarch64` and `amd64`, with three sources:
    - local media;
-   - the **Art Institute of Chicago** (D-132): documented API, CC0 public-domain works, with department, style/period, and colour metadata;
+   - the **Art Institute of Chicago** (D-132): documented API, CC0 public-domain works, with the period filter only in the first beta (D-146; Q-25, option (a));
    - the **Cleveland Museum of Art** (D-136): documented Open Access API, CC0 records only, the documented 3400 px print JPEG, with department and period filters.
 
    Google Arts & Culture and Bing are excluded, because neither has a documented API compatible with its terms (§9.4).
@@ -490,9 +491,9 @@ Landscape-only, strict near-16:9, and fit mode apply to every source.
 | Style | unsupported | **unsupported in the beta** (the field is documented, its values are not; D-146, Q-25) | **unsupported** (no documented style field) |
 | Period | unsupported | **supported** (`date_start`) | **supported** (`created_after`/`created_before`, in years; the exact range is enforced on `creation_date_earliest`) |
 | Colour | unsupported | **unsupported in the beta** (the members of the documented colour object are not documented; D-146, Q-25) | **unsupported in the beta** (no documented colour field; local analysis deferred, Q-24) |
-
-*Amended at the start of Phase 3 (D-146).* The re-read documentation names the Art Institute's department, style, and colour fields, but not their values or members. Under the user's Q-14 instruction, nothing undocumented is used, so these three filters are unsupported for the Art Institute in the beta.
 | Landscape-only, strict 16:9, fit | supported | supported | supported |
+
+*Amended at the start of Phase 3 (D-146).* The re-read documentation names the Art Institute's department, style, and colour fields, but not their values or members. Under the user's Q-14 instruction, nothing undocumented is used, so these three filters are unsupported for the Art Institute in the beta. The Phase 3 gate confirmed this: Q-25 is resolved with option (a), so no source offers a colour filter in the first beta.
 
 **Visible reporting, never silent.** Some filters cannot apply to the selected source: an unsupported dimension, or a department of another source. For this run such a filter is ignored and reported in three places:
 
@@ -522,7 +523,7 @@ The option descriptions name the sources each filter applies to (acceptance item
   2. the library folder cannot contain the preview directory;
   3. the fingerprints of the last 10 previews, kept in `current.json`, are skipped.
 - **Rights basis.** `USER_SUPPLIED`.
-- **Filters.** Only landscape-only, strict 16:9, and fit apply. Everything else is reported as unsupported (§9.2).
+- **Filters.** Only landscape-only, strict 16:9, and fit apply. A valid department or period key is ignored and reported as unsupported (§9.2, B8). A value that matches no key, label, or alias, and is not a no-filter term, is invalid (§15.1, B5).
 
 ### 9.4 Provider access findings (Phase 1 research)
 
@@ -935,9 +936,9 @@ Tests cover failure injection at every stage (`F1`, `F2`), byte bounds over repe
 | --- | --- | --- | --- |
 | `tv_host` | `match(^(?:\d{1,3}\.){3}\d{1,3}$)` (required; no default) | — | IPv4 address of your Frame TV (reserve it in your router). |
 | `source` | `list(art_institute_chicago\|cleveland_museum_of_art\|local_media)` | `art_institute_chicago` (Q-08, accepted) | Which museum or source the artwork comes from. |
-| `department` | `list(any\|aic_…\|cma_…)` | `any` | Department or collection within the selected museum. Values start with their museum; values for another museum are reported as not applicable. |
-| `style` | `list(any\|style_…\|period_…)` | `any` | Style (Art Institute only) or period (both museums). |
-| `color` | `list(any\|…)` | `any` | Dominant colour (Art Institute only). |
+| `department` | `list(any\|cma_…)` | `any` | Department or collection within the selected museum. The first beta offers Cleveland departments only; with another source, a department is reported as not applicable. |
+| `style` | `list(any\|period_…)` | `any` | Period of creation (both museums). The first beta offers no styles. |
+| `color` | `list(any)` | `any` | No source supports a colour filter in the first beta (Q-25, option (a)); the description says so. |
 | `landscape_only` | `bool` | `true` | Only choose artworks that are wider than they are tall. |
 | `strict_tv_format` | `bool` | `true` | Prefer artworks close to the TV's 16:9 shape. |
 | `fit_mode` | `list(contain\|cover)` | `contain` | `contain` shows the whole artwork (no crop); `cover` fills the screen and may crop. |
@@ -949,6 +950,7 @@ Tests cover failure injection at every stage (`F1`, `F2`), byte bounds over repe
 - **`tv_host`** is required (acceptance item `B1`) and re-validated by the app (§15.4, acceptance item `B7`). `192.168.178.30` is only the user's Phase 8 test value: it is never a default and never appears in code.
 - **Not options:** there is no time-limit option (§7.2) and no library-path option (§9.3).
 - **Descriptions** in `translations/en.yaml` state which sources each filter applies to (§9.2).
+- *Amended at the Phase 3 gate (D-146, D-152; Q-25, option (a)).* Vocabulary version 1 ships no `aic_…`, `style_…`, or `color_…` key. A value that matches no key, label, or alias of the option, and is not a no-filter term (`any`, `all`, `random`, `none`, or an empty value), is rejected as invalid (B5); as a helper value it falls back to the static value. A valid key that the selected source does not support is reported as unsupported (B8). Before the gate, the rows read: department `list(any|aic_…|cma_…)`, style "Style (Art Institute only) or period (both museums)", and colour "Dominant colour (Art Institute only)".
 
 ### 15.2 Filter vocabularies (D-124, D-146)
 
@@ -1303,14 +1305,14 @@ frame_gallery/                      # app directory = Docker build context
 
 - The one-shot run, with every bound, outcome, and cleanup guarantee: at most 120 s, and `no_match` within 70 s.
 - Three sources: local media, the Art Institute of Chicago (the default, Q-08), and the Cleveland Museum of Art.
-- Source, department, style/period, and colour filters, with the capability matrix and visible reporting of unsupported filters. Optional helpers.
+- Source, department, and period filters, with the capability matrix and visible reporting of unsupported filters. Optional helpers. In the first beta, the `style` option offers periods only, and the `color` option offers no value besides "any" and its no-filter synonyms. No source offers a style or colour filter (D-146, D-152; Q-25, option (a)).
 - Landscape-only; strict 16:9 with `contain` fallback; the upscale rule; `contain` (default) and `cover`; background colour.
 - Atomic, pre-staged history; the TV-upload exclusion ledger and quarantine; atomic preview; small cache; self-healing pairing.
 - Documentation:
   - installation, options, and the capability matrix;
   - the dashboard card and setup order, with the freshness mechanism proven in Phase 8;
   - helpers, scheduling, and troubleshooting;
-  - honest limitations: Art Institute images are upscaled up to ≈ 2.28×; Cleveland has no colour or style filter; Google Arts & Culture, Bing, MoMA, and Orsay are not offered; keep the app's Watchdog off.
+  - honest limitations: Art Institute images are upscaled up to ≈ 2.28×; the Art Institute offers only the period filter, and Cleveland department and period; no source offers a style or colour filter; Google Arts & Culture, Bing, MoMA, and Orsay are not offered; keep the app's Watchdog off.
 - `aarch64` and `amd64` images.
 
 ### 22.2 Deferred
@@ -1347,7 +1349,7 @@ The vertical slice makes the core behaviour testable before packaging hardening.
 | Phase | Delivers | Approvals needed first |
 | --- | --- | --- |
 | 2: core and deterministic selection and rendering | `budget` (phase calculator, 120 s table); `config` (options, IPv4, vocabularies, capability matrix); outcomes; ports; in-process executor seam; **`app` run-orchestrator skeleton** (lifecycle stages, outcome classification, SIGTERM handling) against fakes; `selection` (exclusion interface, classification, shortlist); `imaging` prepare pipeline and fit geometry; `logs`; tooling (`uv`, `ruff`, `mypy`, `pytest`); network-blocking guard; import-boundary check; the start of `THIRD_PARTY_NOTICES.md` (Pillow and its bundled libraries) | **This revision (Phase 2 gate)**; the dev-dependency rows (complete); the Pillow row, with its corrected bundled-library inventory (GPL-3.0-or-later `libimagequant`, LGPL FriBiDi) and the remaining `pillow.libs` entries are verified in Phase 6 (gate adjustment approved by Codex) |
-| 3: provider adapters | `net` gateway; `providers.local_media`, `providers.aic`, `providers.cma` with fake and synthesized fixtures, after a live-documentation re-check; **`ha` helper-override client** (≤ 4 reads, static fallback; acceptance items `B3`–`B5`); vocabularies; contract suite; `urllib3` and `certifi` added to the notices Approved by the user on 2026-09-27: Q-14 and Q-22 resolved, the `urllib3` and `certifi` rows approved, no observation requests |
+| 3: provider adapters | `net` gateway; `providers.local_media`, `providers.aic`, `providers.cma` with fake and synthesized fixtures, after a live-documentation re-check; **`ha` helper-override client** (≤ 4 reads, static fallback; acceptance items `B3`–`B5`); vocabularies; contract suite; `urllib3` and `certifi` added to the notices | Approved by the user on 2026-09-27: Q-14 and Q-22 resolved, the `urllib3` and `certifi` rows approved, no observation requests. **Gate passed** on 2026-09-27: D-146 to D-152 accepted, Q-25 resolved with option (a) |
 | 4: bounded state and duplicate prevention | `store`: atomic primitive, history, **upload ledger and quarantine**, cache, workspace, preview publisher, run records, cleanup and sweep. PRE-STAGE, RECORD, and PUBLISH completed in the runner. `E7`–`E10` tested against a fake TV port that emits markers | — (Q-23 and D-113 accepted) |
 | 5: Samsung adapter contract | Adapter surface from the **installed** `samsungtvws` 3.0.6 only; process executor with the complete §11.3 bootstrap (privilege drop, rlimits, bytes channel, markers); TV worker; token store; mocked and double tests; `E7`–`E10` re-run with the process-based TV worker; worst-case prepare memory and time measured under the real limit | The `samsungtvws` row and its LGPL-3.0 obligations (D-135) |
 | 6: Home Assistant app packaging | `config.yaml`; Dockerfile; translations; `DOCS.md`; draft dashboard YAML; complain-mode `apparmor.txt`; container tests; D-130 checks a–d | Pulling the base image; Q-06, Q-10; the Buildx, QEMU, and SBOM-tool rows; the authoritative Pillow runtime-wheel inspection, including verification of the remaining `pillow.libs` entries (mandatory before packaging or publication) |
@@ -1424,14 +1426,14 @@ All research was read-only. It used public documentation pages, package-index me
 | A5 | No `configuration.yaml` change | §15, §16.3, §17 | Documentation review; Phase 8 |
 | A6 | Understandable option names | §15.1, §17.4 | Translation review; Phase 8 |
 | B1 | A missing TV IP prevents start | §15.1, §15.4 | Unit; Phase 8 |
-| B2 | Static source, department, style/period, and colour filters work without helpers | §9.2, §15 | Unit + integration |
+| B2 | Static filters work without helpers, for the filters the selected source supports (capability matrix) | §9.2, §15 | Unit + integration |
 | B3 | A valid helper overrides the static value | §15.3 | Component |
 | B4 | A missing or unavailable helper falls back | §15.3 | Component |
 | B5 | Invalid values are rejected or normalized predictably | §15.2, §9.2 | Unit (normalization; invalid or unmappable helper → static fallback) |
 | B6 | Defaults preserve the full artwork | §11.2, §15.1 | Unit + imaging invariants |
 | B7 | A TV address that is not an RFC 1918 private IPv4 literal is rejected | §15.4 | Unit (format, RFC 1918 ranges, rejection of 169.254/16 and of container networks) |
 | B8 | Unsupported filters are visibly reported | §9.2, §19 | Unit + integration (log, summary line, `last_run.json`) + translation review |
-| C1 | Supported filters combine correctly | §9.2, §9.5, §9.6 | Contract |
+| C1 | Filters the selected source supports combine correctly | §9.2, §9.5, §9.6 | Contract + integration |
 | C2 | Portrait and square works are rejected when landscape-only is on | §8.1 | Unit |
 | C3 | Sent identifiers are skipped across restarts | §8.2, §13.3 | Integration |
 | C4 | At most 30 remote dimension requests; local inspection has a separate allowance | §7.2, §8.3 | Unit (counting fake gateway); local-inspection allowance unit test |

@@ -2,7 +2,8 @@
 
 Each test names its acceptance item in its docstring. B3 and B4 (helper
 overrides and fallbacks) are covered in ``test_overrides.py``; the helper
-client that reads the states arrives in Phase 3.
+client that reads the states (``ha/client.py``, D-148) is tested in
+``tests/unit/ha`` and ``tests/integration/test_helper_overrides.py``.
 """
 
 from __future__ import annotations

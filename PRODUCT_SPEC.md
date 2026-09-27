@@ -51,7 +51,8 @@ The architecture must support independent provider adapters. Initial providers f
 - Uses only the museum's documented public API.
 - Selects only public-domain (CC0) works that have an image.
 - Random artwork discovery.
-- Optional department (collection), style or period, and colour filtering, using documented metadata.
+- Optional period filtering, using the documented creation-year metadata.
+- Department (collection), style, and colour filtering are **not supported in the first beta**. The documentation names these fields but not their values or members, and undocumented values are not used (D-146; Q-25, resolved with option (a)). No Art Institute department, style, or colour values are offered. A Cleveland department configured while this source is selected is not applied and is reported as unsupported.
 - Uses the documented image service at the largest size the provider documents for public-domain works.
 - Respects the provider's published request limits and courtesy-header guidance.
 - Provider failures, format changes, empty result sets, and rate limits must have bounded handling and useful logs.
@@ -62,7 +63,8 @@ The architecture must support independent provider adapters. Initial providers f
 - Selects only records and images explicitly marked CC0 / open access.
 - Uses the documented print JPEG rendition, with its published dimensions, never the very large original TIFF.
 - Random artwork discovery.
-- Optional department (collection) and period filtering, using documented metadata. Colour filtering is not required for the first beta. It may be added only if it can be done locally within the same strict download and time budgets.
+- Optional department (collection) and period filtering, using documented metadata.
+- Style filtering is not supported (the documentation has no style field). Colour filtering is not part of the first beta. It may be added only if it can be done locally within the same strict download and time budgets (Q-24).
 - Provider failures, format changes, empty result sets, and rate limits must have bounded handling and useful logs.
 
 ### Home Assistant media
@@ -98,6 +100,22 @@ Supported filters, kept clearly distinct:
 - fit policy, `contain` (no crop) by default.
 
 Not every source supports every filter. The documentation must publish a filter capability matrix. A filter that the selected source does not support must be visibly identified as unsupported, in the option descriptions, the log, and the run record. It must never silently claim to work.
+
+The department, style/period, and colour filter requirements apply **only to the filters the selected source supports**. For the first beta, the capability matrix is (D-146, D-152):
+
+| Filter | Home Assistant media | Art Institute of Chicago | Cleveland Museum of Art |
+| --- | --- | --- | --- |
+| Department / collection | unsupported | unsupported | supported |
+| Style | unsupported | unsupported | unsupported |
+| Period | unsupported | supported | supported |
+| Colour | unsupported | unsupported | unsupported |
+
+A valid filter value that the selected source does not support is not applied, and is reported as unsupported (acceptance item B8). The first beta ships without a colour filter (Q-25, resolved with option (a)):
+
+- The colour option offers no value besides "any" (and its no-filter synonyms), so any other colour value is rejected as invalid (B5).
+- Its option description must say that no source supports colour yet.
+- The style/period option offers periods only; a style value is likewise invalid.
+- A helper that sends an invalid value falls back to the static value with a warning.
 
 Optional Home Assistant helper entity IDs may override the static source, department, style/period, or colour values at runtime. Missing, unavailable, or invalid helper entities must fall back to the static option and must not fail the run.
 
@@ -217,4 +235,9 @@ Filter selection from a dashboard is desirable. The architecture proposal should
   - *Run lifecycle:* steps 9 and 10 were swapped, so sent history is persisted before the preview is published (D-113, Q-18 item 4). The product vision sentence was reordered to match.
   - *Selection limits:* the strict near-16:9 match is defined as `abs(ln(r / (16/9))) <= ln(1.01)` (±1 %, about 1.760–1.796). It may be revisited after Phase 8 (Q-03, D-116).
   - *Duplicate prevention:* the uncertainty quarantine period is 30 days (Q-23, D-137).
+- **2026-09-27: Phase 3 gate, with user decisions.**
+  - Q-25 is resolved with option (a): the first beta ships without a colour filter, and without Art Institute department and style filters. No live Art Institute observation is approved.
+  - D-146 to D-152 are accepted.
+  - *Artwork sources:* the Art Institute offers only the period filter. Cleveland offers department and period; it has no style filter, and colour stays outside the first beta.
+  - *Filter inputs:* the department, style/period, and colour requirements apply only to the filters the selected source supports, and the first-beta capability matrix is stated. A valid filter value that the source does not support stays visibly reported (acceptance item B8). A colour or style value, which the first beta does not offer, is rejected as invalid (B5). Acceptance items B2 and C1 are reworded to match.
 

@@ -4,10 +4,10 @@ Last updated: 2026-09-27
 
 ## Current phase
 
-**Phase 3 (provider adapters): complete, awaiting the Phase 3 gate (Codex review of provider access patterns, bounding, fixtures, and legal boundaries).**
+**Phase 3 (provider adapters): complete. The Phase 3 gate passed on 2026-09-27 (user decision). Phase 4 has not started and awaits explicit authorization.**
 
 - The user approved Phase 3 on 2026-09-27. D-141 to D-145 and the Phase 3 decisions D-108, D-112, D-115, D-124, D-127, D-131, D-134, D-132, and D-136 (adapter details) are accepted; D-119 is accepted with an amendment; Q-14 and Q-22 are resolved; `urllib3` 2.8.0 and `certifi` 2026.7.22 are approved and installed.
-- Phase 3 proposes D-146 to D-152 and asks Q-25 (see *Next action*).
+- At the Phase 3 gate the user accepted D-146 to D-152, resolved Q-25 with option (a) (the first beta ships without a colour filter; the Art Institute supports only the period filter; Cleveland supports department and period), and approved no live Art Institute observation. `PRODUCT_SPEC.md` and `ACCEPTANCE_TESTS.md` (B2, C1) are amended to match.
 - Every commit uses the personal identity `Alexander Wilke <volkue@gmail.com>`, which the repository-local Git configuration also enforces.
 - Nothing contacted Home Assistant, the television, a provider API, or GitHub. Nothing was published or pushed. The local backup branch was not touched.
 
@@ -23,12 +23,13 @@ Last updated: 2026-09-27
 | 5. Art Institute of Chicago adapter (D-150) | `571a210` |
 | 6. Cleveland Museum of Art adapter (D-151) | `72dba4a` |
 | 6a. Fixes from the internal review of the helper reader and local media (D-147, D-148, D-149 amendments) | `37e85d0` |
-| 7. Vocabularies, shared contract tests, and closing documentation (D-152) | this commit |
+| 7. Vocabularies, shared contract tests, and closing documentation (D-152) | `979ef8a` |
+| Gate. Phase 3 gate decision: Q-25 resolved with option (a); D-146 to D-152 accepted; `PRODUCT_SPEC.md` and `ACCEPTANCE_TESTS.md` (B2, C1) amended | this commit |
 
 **Documentation re-check (D-146).** On 2026-09-27 the two official documentation pages were re-read in the in-app browser. No endpoint was called and nothing was recorded from a live response.
 
 - *Cleveland:* the parameters, the response fields, the print JPEG, the CDN host, and the 21 departments are confirmed verbatim. The adapter sets `limit` on every request (the default is 1000), leaves out the one department whose name contains commas, and enforces period bounds on `creation_date_earliest`, because the inclusivity of `created_after` and `created_before` is undocumented.
-- *Art Institute:* the search, count, pagination, courtesy, IIIF, and Images resource facts are confirmed. The documentation does **not** name the department or style values, the members of the colour object, or the members of the artwork `thumbnail`. Under the user's Q-14 instruction, the Art Institute therefore supports only the period filter in the beta, and it reads image sizes from the documented Images resource instead of the thumbnail. **Q-25** asks whether to keep this for the beta or to approve a one-time observation that would allow curated department and style lists.
+- *Art Institute:* the search, count, pagination, courtesy, IIIF, and Images resource facts are confirmed. The documentation does **not** name the department or style values, the members of the colour object, or the members of the artwork `thumbnail`. Under the user's Q-14 instruction, the Art Institute therefore supports only the period filter in the beta, and it reads image sizes from the documented Images resource instead of the thumbnail. **Q-25** is resolved with option (a) at the Phase 3 gate: this stays so for the first beta, which ships without a colour filter, and no observation is approved.
 
 ## Completed
 
@@ -174,7 +175,7 @@ Last updated: 2026-09-27
 - The sweeps found two remaining stop-request windows, TIFF-directory bombs in image metadata, and redaction bypasses. All are fixed (D-141, D-144, D-145).
 - The final design passes exhaustive stop-request sweeps with no violations: a stop request, direct or as a real SIGTERM, at every Python function entry (11 641 points) and every traced line (5 429 points).
 
-### Phase 3: provider adapters (Claude, commits `09d7c46` to the closing commit)
+### Phase 3: provider adapters (Claude, commits `09d7c46` to `979ef8a`; gate passed 2026-09-27)
 
 **Implemented**
 
@@ -215,11 +216,13 @@ Last updated: 2026-09-27
 
 Writing the real-stack tests exposed one more transport defect, which is fixed too. See *Review records* in `DECISIONS.md`.
 
-## Specification deviations still awaiting decision
+## Specification deviations
 
-| Item | Where |
+None is awaiting a decision. Every Phase 3 deviation was accepted at the Phase 3 gate (2026-09-27), and the specification is amended where it is normative:
+
+| Accepted item | Where |
 | --- | --- |
-| The Art Institute supports only the period filter in the beta: its department and style values and its colour members are undocumented. No source supports a colour filter in the beta, so acceptance items B2 and C1 hold for the filters a source supports (Cleveland combines department and period). Every other configured filter is reported (B8). | D-146, D-152, Q-25 |
+| The Art Institute supports only the period filter in the beta: its department and style values and its colour members are undocumented. No source supports a colour filter in the first beta. B2 and C1 apply only to the filters the selected source supports (Cleveland combines department and period). A valid filter value that the source does not support is reported (B8); a style or colour value, which the first beta does not offer, is rejected as invalid (B5). `PRODUCT_SPEC.md` and `ACCEPTANCE_TESTS.md` are amended. | D-146, D-152, Q-25 (option (a)) |
 | Art Institute image sizes come from the documented Images resource, one batched request per page, instead of the undocumented artwork `thumbnail`; images narrower than 1686 px are not offered. | D-146, D-150 |
 | 401 stops a provider for the run for every provider, not only for Cleveland; IMF-fixdate is the only accepted HTTP-date form in `Retry-After`. | D-147 |
 | Local header inspections run one file per worker task, not in batches of 50 (batching deferred to Phase 5). | D-149 |
@@ -229,16 +232,15 @@ Writing the real-stack tests exposed one more transport defect, which is fixed t
 
 ## Next action
 
-The user and Codex review Phase 3 at its gate: provider access patterns, bounding, fixtures, and legal boundaries. Phase 4 does not start before approval.
+Wait for explicit authorization of Phase 4 (bounded state and duplicate prevention). Phase 4 does not start before that.
 
 **Decisions needed, by phase:**
 
 | Before | Decisions |
 | --- | --- |
-| Phase 3 gate | D-146 to D-152; Q-25 (keep the Art Institute to the period filter for the beta, or approve a one-time, recorded observation of the documented `category-terms` endpoint and the colour object to curate department and style lists). |
-| Phase 4 | None (Q-23 and D-113 accepted). The persistent metadata cache and the exhausted-page hints arrive here (D-150). |
+| Phase 4 | Authorization to start. No open question blocks it (Q-23 and D-113 accepted). The persistent metadata cache and the exhausted-page hints arrive here (D-150). |
 | Phase 5 | The `samsungtvws` row and its LGPL-3.0 obligations (D-135). |
-| Phase 6 | The base-image pull (D-130); Q-06, Q-10; the Buildx, QEMU, and SBOM-tool rows. The authoritative Pillow runtime-wheel inspection, including the remaining `pillow.libs` entries (mandatory before packaging or publication). |
+| Phase 6 | The base-image pull (D-130); Q-06, Q-10; the Buildx, QEMU, and SBOM-tool rows. The authoritative Pillow runtime-wheel inspection, including the remaining `pillow.libs` entries (mandatory before packaging or publication). The option descriptions state the capability matrix, including that no source supports colour yet (B8). |
 | Phase 8 | Explicit approval for the live run, which is also the first live request to the museums and the first time the project contact is transmitted (Q-22); Q-21 (install route). The live check of the Art Institute `params` form (D-150). |
 | Phase 9 | D-101 (final name), Q-13 (repository URL, which also replaces the contact in the User-Agent, D-119); the builder-action and Cosign rows; the qualified licence review (D-135, release gate); approval to publish. |
 
@@ -263,7 +265,5 @@ See `DECISIONS.md` for the full list. The most material:
 - **Copyleft components in the runtime image** (R-25, D-135). The Pillow wheels bundle GPL-3.0-or-later `libimagequant` and LGPL-2.1-or-later FriBiDi. The qualified licence review is a release gate.
 - **Final name** (D-101). The trademark wording is tracked as R-14.
 - **Copyleft source-availability mechanism** (D-135).
-- **Art Institute filters in the beta** (D-146, Q-25), listed above.
-- **Phase 3 proposals** (D-146 to D-152), listed above.
 - **Local tests versus the runtime build** (R-26): the full suite runs inside the container in Phase 6.
 - **No pre-emption before Phase 5** (R-27): the process executor with its kill timer arrives in Phase 5.

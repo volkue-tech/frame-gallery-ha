@@ -20,6 +20,8 @@ This version (revision 2) records the user decisions and corrections from the **
 
 The **user's approval of Phase 3 on 2026-09-27** accepted D-108, D-112, D-115, D-124, D-127, D-131, D-134, the Phase 3 adapter details of D-132 and D-136, and D-141 to D-145. It amended D-119 and resolved Q-14 and Q-22. The documentation re-check at the start of Phase 3 is recorded in D-146.
 
+The **Phase 3 gate on 2026-09-27** accepted D-146 to D-152 and resolved Q-25 with option (a). Phase 3 is complete; Phase 4 has not started.
+
 ## Accepted constraints
 
 ### D-001 — Independent repository
@@ -350,7 +352,7 @@ Status: **accepted** as amended in the Codex review. `PRODUCT_SPEC.md` is amende
   - local media;
   - the **Art Institute of Chicago** (D-132), the default remote source (Q-08, accepted);
   - the **Cleveland Museum of Art** (D-136).
-- **Filters:** source, department, style/period, and colour, with the capability matrix and visible reporting of unsupported filters (D-124); optional helpers.
+- **Filters:** source, department, style/period, and colour, with the capability matrix and visible reporting of unsupported filters (D-124); optional helpers. *Amended at the Phase 3 gate (D-146, D-152; Q-25, option (a)):* the first beta offers Cleveland departments and periods for both museums. It offers no style and no colour filter: the style option offers periods only, and the colour option accepts only "any" or a no-filter synonym (`all`, `random`, `none`, or an empty value).
 - **Selection:** landscape-only, strict with fallback, the upscale rule, and `contain` (default) or `cover`.
 - **State:** atomic, pre-staged history; the TV-upload exclusion ledger and quarantine (D-137); an atomic preview; a small cache; self-healing pairing.
 - **Deliverables:** documentation and dashboard YAML; images for `aarch64` and `amd64`.
@@ -412,6 +414,8 @@ Status: proposed. The defaults are **accepted** (Codex review): `contain`, with 
 - `department`: namespaced `aic_…` or `cma_…`;
 - `style`: `style_…` or `period_…`;
 - `color`;
+
+  *Amended at the Phase 3 gate (D-146, D-152; Q-25, option (a)):* vocabulary version 1 ships only `cma_…` departments and `period_…` keys, and no `aic_…`, `style_…`, or `color_…` key. `color` therefore accepts only "any" or a no-filter synonym (`all`, `random`, `none`, or an empty value) in the first beta. See `ARCHITECTURE.md` §15.1.
 - `landscape_only`, `strict_tv_format`, `fit_mode`, `background_color`;
 - four optional `*_helper` options;
 - `log_level`.
@@ -552,7 +556,7 @@ Status: **accepted** as a beta source (Codex review). The adapter details are **
 **Decision.** Use the documented API:
 
 - public-domain works only. `is_public_domain` is requested in `fields`, and every record must have `is_public_domain == true` and an image id;
-- department, style, period, and colour from documented metadata. Colour is filtered server-side if range queries work, and client-side otherwise;
+- department, style, period, and colour from documented metadata. Colour is filtered server-side if range queries work, and client-side otherwise. *Amended by D-146 and the Phase 3 gate (Q-25, option (a)):* the first beta supports only the period, because the department and style values and the colour members are undocumented;
 - the documented 1686 px IIIF rendition, with the 4K canvas as the stated need;
 - pages sampled without replacement;
 - requests paced at 1 s, with the courtesy header;
@@ -612,7 +616,7 @@ Status: **accepted** as a beta source (Codex review). The adapter details are **
 - **Every record** must have `share_license_status == "CC0"` and an `images.print` entry.
 - **Rendition:** only the documented print JPEG (3400 px long side, JPEG). Its string-typed `width` and `height` are parsed defensively. The `full` TIFF is never requested.
 - **Filters:**
-  - `department`, using the 21 documented values;
+  - `department`, using the 21 documented values. *Amended by D-146 and D-151:* a curated subset of 12 is offered, and "Performing Arts, Music, & Film" is left out;
   - period, through `created_after` and `created_before` (integer years);
   - style and colour are unsupported in the beta.
 - **Random selection:** a random `skip` based on the documented `info.total`. The undocumented `randomize` parameter is not used.
@@ -806,7 +810,7 @@ Status: **accepted** (user approval of Phase 3, 2026-09-27).
 
 ### D-146 — Documentation re-check at the start of Phase 3, and its consequences [§9.2, §9.5, §9.6, §15.2]
 
-Status: proposed. Applied in Phase 3 under the user's Q-14 instruction: use no undocumented values, and leave out, with a documented limitation, any category that the official documentation does not map reliably. The resulting capability changes are confirmed at the Phase 3 gate (Q-25).
+Status: **accepted** (Phase 3 gate, user decision, 2026-09-27). It was applied in Phase 3 under the user's Q-14 instruction: use no undocumented values, and leave out, with a documented limitation, any category that the official documentation does not map reliably. Q-25 is resolved with option (a): the capability changes stand for the first beta, and no live Art Institute observation is approved.
 
 **Method.** On 2026-09-27 the two official documentation pages, `https://api.artic.edu/docs/` and `https://openaccess-api.clevelandart.org/`, were re-read in the in-app browser, and the text was extracted from the rendered pages. No API endpoint, image, or metadata URL was requested, and nothing was recorded from a live response.
 
@@ -830,7 +834,7 @@ Status: proposed. Applied in Phase 3 under the user's Q-14 instruction: use no u
 
 **Consequences for the Art Institute adapter** (amends D-132 and §9.5):
 
-1. **Departments, styles, and colours are unsupported in the beta.** No `aic_…`, `style_…`, or `color_…` key is shipped, and the capability matrix lists only the period filter for the Art Institute. A configured value that does not apply is reported like any unsupported filter (B8). A later, separately approved observation could supply curated values (Q-25).
+1. **Departments, styles, and colours are unsupported in the beta.** No `aic_…`, `style_…`, or `color_…` key is shipped, and the capability matrix lists only the period filter for the Art Institute. Because no such key exists, a configured Art Institute department, style, or colour value is rejected as invalid (B5), and a helper value falls back to the static value. A valid key that the Art Institute does not support, such as a Cleveland department, is ignored and reported (B8). Q-25 is resolved with option (a): the first beta keeps these filters unsupported, and no live observation is approved. Adding them later needs a new decision and explicit approval.
 2. **Dimensions come from the documented Images resource.** After each search page, one batched request, `GET /api/v1/images?ids=<the page's image ids>&fields=id,width,height`, reads the native sizes. It counts as a metadata request.
    - The artwork's `image_id` is taken as the image record's `id`, because the documentation uses that identifier for the image in both places. The worker's check of the real dimensions (§8.2) remains the safety net.
    - A record without a matching image record is offered without dimensions and skipped as `dims_unavailable`, since the adapter has no probe.
@@ -872,7 +876,7 @@ Status: proposed. Applied in Phase 3 under the user's Q-14 instruction: use no u
 
 ### D-147 — Gateway implementation details [§7.4, §10, D-108, D-115, D-131]
 
-Status: proposed (Phase 3).
+Status: **accepted** (Phase 3 gate, user decision, 2026-09-27).
 
 **Module layout.**
 
@@ -912,7 +916,7 @@ Status: proposed (Phase 3).
 
 ### D-148 — Helper reader details [§15.3, D-112; B3–B5]
 
-Status: proposed (Phase 3).
+Status: **accepted** (Phase 3 gate, user decision, 2026-09-27).
 
 - **Module.** `ha/client.py`, `SupervisorHelperReader`, implements the `HelperReader` port. It shares the `net.wire` seam, so the real transport serves both the gateway and the reader. It does not go through the gateway, whose rules (HTTPS, public addresses, pacing) do not fit the Supervisor.
 - **Request.** `GET http://supervisor/core/api/states/<entity_id>` with `Authorization: Bearer <token>`, `Accept: application/json`, `Accept-Encoding: identity`, `Connection: close`, and `User-Agent: FrameGallery/<version>`. The Supervisor is local, so the User-Agent carries no contact. The entity ID is re-validated with the options pattern (now the public `config.options.HELPER_ENTITY_ID`) and percent-encoded.
@@ -930,7 +934,7 @@ Status: proposed (Phase 3).
 
 ### D-149 — Local media provider details [§8.3, §9.3, D-118; F7]
 
-Status: proposed (Phase 3).
+Status: **accepted** (Phase 3 gate, user decision, 2026-09-27).
 
 - **Modules.** `providers/local_media.py` holds `LocalMediaProvider` and `LocalInspectionProbe`. `app/fetching.py` holds `SourceFetcher`, the production image fetcher. Beyond D-141's dependency list, `providers.local_media` uses `imaging.contract`, `isolation.executor`, and `logs.summary`, and `app.fetching` uses `net` and `providers`.
 - **Library.** The library is created at the start of discovery (mode 0755, parents included). A library that is a symbolic link, is not a folder, or cannot be created gives one WARNING and no candidate.
@@ -968,7 +972,7 @@ Status: proposed (Phase 3).
 
 ### D-150 — Art Institute adapter details [§9.5, D-132, D-146]
 
-Status: proposed (Phase 3).
+Status: **accepted** (Phase 3 gate, user decision, 2026-09-27).
 
 - **Modules.** `providers/aic.py`, plus helpers shared with Cleveland:
   - `providers/jsonread.py`: defensive readers for untrusted JSON;
@@ -997,7 +1001,7 @@ Status: proposed (Phase 3).
 
 ### D-151 — Cleveland adapter details [§9.6, D-136, D-146]
 
-Status: proposed (Phase 3).
+Status: **accepted** (Phase 3 gate, user decision, 2026-09-27).
 
 - **Module.** `providers/cma.py`. It uses the shared helpers of D-150. `net.policy.https_url` now accepts valueless flags, so `cc0` is sent bare, as the documentation writes it.
 - **Every request** starts `?cc0&has_image=1` and sets `limit` explicitly: 1 for the count, 25 for a page.
@@ -1032,15 +1036,18 @@ Status: proposed (Phase 3).
 
 ### D-152 — Vocabulary version 1, the narrowed capability matrix, and the contract suite [§9.1, §9.2, §15.2, §20.1, Q-14]
 
-Status: proposed (Phase 3).
+Status: **accepted** (Phase 3 gate, user decision, 2026-09-27).
 
 - **Vocabulary version 1** (Q-14, resolved) is built only from documented values (D-146):
   - *Departments:* the 12 curated Cleveland departments (D-151). Each label is `"<documented value> (Cleveland)"` and names the museum, so labels stay distinct between museums (D-143). The documented value itself is an alias.
   - *Periods:* five periods labelled with years, each with plain aliases such as `1800-1899` and `19th century`. They share their keys with `providers.periods.PERIOD_RANGES`.
-  - *Excluded:* no Art Institute department, no style, and no colour (Q-25).
+  - *Excluded:* no Art Institute department, no style, and no colour (Q-25, resolved with option (a)).
   - Tests check normalization, aliases, uniqueness within each field, that no term is reserved, that no label repeats, and that the entries match the adapters' mappings.
   - `frame_gallery/VOCABULARY.md` documents the whole mapping and the capability matrix. A test parses it and requires it to match the code.
-- **Capability matrix.** The Art Institute now supports only the period (D-146, amending D-124). The Phase 2 tests that used Art Institute departments as examples now use Cleveland departments. B2 and C1 therefore hold for the filters a source supports: Cleveland combines department and period; the Art Institute applies the period. Every other configured filter is reported as ignored (B8). In the beta, no source offers a colour filter.
+- **Capability matrix.** The Art Institute now supports only the period (D-146, amending D-124). The Phase 2 tests that used Art Institute departments as examples now use Cleveland departments. B2 and C1 therefore hold for the filters a source supports: Cleveland combines department and period; the Art Institute applies the period.
+  - A valid key that the selected source does not support, such as a Cleveland department with the Art Institute or a period with local media, is ignored and reported (B8).
+  - A value that matches no key, label, or alias of version 1, and is not a no-filter term (any style, any colour other than a no-filter value such as "any", an Art Institute department), is rejected as invalid (B5). As a helper value, it falls back to the static value with a warning.
+  - In the first beta, no source offers a colour filter (Q-25, option (a)).
 - **`dims_in_metadata`** now means "the documented metadata gives the rendition's size, so no probe is bound". A candidate whose metadata lacks the size carries `None`, and selection counts it as `dims_unavailable`.
 - **Contract suite** (`tests/unit/providers/test_contract_suite.py`). Every adapter, over its own synthesized fixture, is checked for:
   - consistent source and key;
@@ -1051,7 +1058,7 @@ Status: proposed (Phase 3).
   - discovery 404 and 410 → `HTTP_ERROR`, including the Art Institute's size lookup; rendition 404 and 410 → `NOT_FOUND`;
   - (local media) `None` from inspecting an unreadable file (D-141).
 - **End-to-end tests** (`tests/integration/test_museum_pipeline.py`) run the runner with the real adapters, gateway, and fetcher over the synthesized APIs:
-  - a Cleveland run with department and period combined delivers a CC0 print JPEG, and never requests the TIFF (C1, C9, C10);
+  - a Cleveland run with department and period combined delivers a CC0 print JPEG, and never requests the TIFF (C1, C10);
   - an Art Institute run with a period delivers the 1686 px IIIF rendition, sends the courtesy header, and reports the unsupported department in the summary line (B8).
 - **Fixtures.** The API documents are synthesized in `tests/support/museums.py`: independently authored, with invented values and envelopes that follow the re-read documentation. Nothing was recorded from a live API (§20.3).
 - **Layout additions** (beyond §21 and D-141): `net/` (`wire`, `policy`, `identity`, `gateway`, `transport`), `ha/client.py`, `app/fetching.py`, and `providers/` (`aic`, `cma`, `local_media`, `jsonread`, `periods`, `cache`).
@@ -1286,6 +1293,12 @@ L = likelihood, I = impact; H = high, M = medium, L = low.
 | Q-14 | Small, curated, versioned vocabularies, built from the re-checked official documentation only. Labels are distinct across the museums. Normalization, aliases, and uniqueness are tested. A category that the documentation does not map reliably is left out, and the limitation is documented (D-146). |
 | Q-22 | The project contact is `volkue@gmail.com` (D-119 as amended). Phase 3 still makes no live API request; the real address is transmitted only in a later, explicitly approved live request. Tests use a placeholder. |
 
+### Resolved at the Phase 3 gate (2026-09-27)
+
+| ID | Resolution |
+| --- | --- |
+| Q-25 | **Option (a), final.** The first beta ships without a colour filter, and the Art Institute supports only the period filter; Cleveland supports department and period. No live Art Institute observation is approved: neither `category-terms` nor any other provider API endpoint is called. Unsupported filters are reported as B8 requires. `PRODUCT_SPEC.md` and `ACCEPTANCE_TESTS.md` (B2, C1) are amended to apply only to the filters the selected source supports. |
+
 ### Open
 
 | ID | Question | Recommendation | Needed by |
@@ -1297,10 +1310,22 @@ L = likelihood, I = impact; H = high, M = medium, L = low.
 | Q-13 | The final public repository URL, which determines the slug shown in the dashboard YAML | Decide with D-101 | Phase 9 |
 | Q-19 | `hassio.app_start` is admin-only. Test the non-admin paths: a script, the Running switch, `continue_on_error`, a mistyped slug. | Document the admin requirement; test in Phase 8 | Phase 8 |
 | Q-21 | Install route for Phase 8: (a) copy the folder into `/addons` through a file-share app; (b) a temporary private repository; (c) a development image push | (a) | Phase 8 |
-| Q-25 | Art Institute departments, styles, and colours. The documentation names the fields but not their values or members (D-146), so the beta leaves them out. Options: (a) keep them unsupported for the beta; (b) approve a one-time, recorded observation of the documented `category-terms` endpoint (subtypes `department` and `style`) and of the `color` object's shape, and curate small lists from it. | (a) for the beta; (b) only with explicit approval | Phase 3 gate |
 | Q-24 | Cleveland colour filtering by local analysis, for example of the documented 900 px web rendition, counted against the existing download allowance and the content-window time budget, not against the 30 remote dimension requests. Only if it fits the same download and time budgets. | Defer until after the beta | After the beta |
 
 ## Review records
+
+### Phase 3 gate decision (user, 2026-09-27)
+
+- Q-25 is decided finally with option (a): the first beta ships without a colour filter.
+- No live Art Institute observation is approved. Neither `category-terms` nor any other provider API endpoint may be called. Live provider requests stay reserved for a later, explicitly approved phase (Phase 8, D-150).
+- Accepted:
+  - D-146 to D-152;
+  - the Art Institute supports only the period filter in the beta;
+  - Cleveland supports department and period;
+  - no source supports colour for now;
+  - unsupported filters are visibly reported as B8 requires.
+- `PRODUCT_SPEC.md` and `ACCEPTANCE_TESTS.md` are amended so that B2 and C1 apply only to the filters the selected source supports. Both amendment logs record the change.
+- The Phase 3 gate is passed. Phase 4 does not start until it is authorized.
 
 ### Internal review of the helper reader `f614256` and local media `8761cca` (Claude, Phase 3)
 

@@ -8,7 +8,7 @@ This is the vocabulary the app ships (`config/vocabulary.py`, `BUILTIN_VOCABULAR
 
 ## Departments (`department` option)
 
-Only Cleveland departments are offered. The Art Institute's documentation names its `department_title` field, but not its values (Q-25).
+Only Cleveland departments are offered. The Art Institute's documentation names its `department_title` field, but not its values. Q-25 is resolved with option (a): none are offered in the first beta.
 
 The label names the museum, so labels stay distinct between museums (D-143). The adapter sends the documented value exactly.
 
@@ -51,7 +51,7 @@ None in version 1:
 - **Styles.** Cleveland documents no style field. The Art Institute documents `style_title`, but not its values.
 - **Colours.** The Art Institute documents a dominant-colour object "in HSL", but not its members. Cleveland documents no colour field.
 
-A configured style or colour value is therefore invalid, and a helper that sends one falls back to the static value with a warning. Q-25 records how Art Institute departments, styles, and colours could be added later with explicit approval.
+A configured style or colour value is therefore invalid, and a helper that sends one falls back to the static value with a warning. Q-25 is resolved with option (a): the first beta ships without them, and no live observation is approved. Adding them later needs a new decision and explicit approval.
 
 ## Capability matrix (beta)
 

@@ -60,7 +60,7 @@ Owner: Claude
 - [x] Run an independent multi-lens review of the Phase 2 code (architecture, scope and acceptance, correctness, imaging and security, test quality), verify each finding, fix the confirmed ones with regression tests, and record the rest.
 - [x] Update status and commit.
 
-Gate: Codex reviews architecture conformance and independence.
+Gate: Codex reviews architecture conformance and independence. **Passed**: Codex reran the Phase 2 gates on 2026-09-27, and the user approved Phase 3 the same day, accepting D-141 to D-145.
 
 ## Phase 3 — Provider adapters
 
@@ -78,8 +78,10 @@ Owner: Claude
 - [x] Fix the vocabularies (Q-14) with labels that stay distinct across both museums (D-143). Version 1, documented in `frame_gallery/VOCABULARY.md` (D-152).
 - [x] Run independent reviews of the gateway, the helper reader, and local media; fix every confirmed finding with regression tests (`9b736f3`, `37e85d0`).
 - [x] Update status and commit.
+- [x] Phase 3 gate decision (user, 2026-09-27): Q-25 resolved with option (a), so the first beta ships without a colour filter; D-146 to D-152 accepted; no live Art Institute observation approved.
+- [x] Amend `PRODUCT_SPEC.md` and `ACCEPTANCE_TESTS.md` so that B2 and C1 apply only to the filters the selected source supports, with amendment logs.
 
-Gate: Codex reviews provider access patterns, bounding, fixtures, and legal boundaries.
+Gate: Codex reviews provider access patterns, bounding, fixtures, and legal boundaries. **Passed** (user decision, 2026-09-27).
 
 ## Phase 4 — Bounded state and duplicate prevention
 

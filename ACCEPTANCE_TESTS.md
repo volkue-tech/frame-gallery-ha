@@ -14,7 +14,7 @@ These are product-level acceptance criteria. Unit and integration test details s
 ## B. Configuration
 
 - [ ] A missing television IP prevents start with a clear validation message.
-- [ ] Static source, department, style/period, and colour filters work without helper entities.
+- [ ] Static source, department, style/period, and colour filters work without helper entities, for exactly the filters that the selected source supports according to the published capability matrix. For the first beta, that is department and period for the Cleveland Museum of Art, and period for the Art Institute of Chicago; no source supports colour. A valid filter value that the selected source does not support is not applied and is reported as unsupported (B8). A value that matches none of the offered values is rejected as invalid (B5). In the first beta, that is any style value, any Art Institute department value, and any colour value other than "any" or a no-filter synonym (`all`, `random`, `none`, or an empty value).
 - [ ] A valid helper value overrides its static value.
 - [ ] A missing or unavailable helper falls back to the static value.
 - [ ] Invalid filter values are rejected or normalized predictably.
@@ -24,7 +24,7 @@ These are product-level acceptance criteria. Unit and integration test details s
 
 ## C. Candidate selection
 
-- [ ] Combined department, style/period, and colour filters supported by the selected source are applied together.
+- [ ] Combined filters are applied together, but only the filters that the selected source supports according to the published capability matrix. For the first beta: department and period together for the Cleveland Museum of Art, and period for the Art Institute of Chicago. A valid filter value that the selected source does not support is not applied and is reported as unsupported (B8).
 - [ ] Portrait and square candidates are rejected when landscape-only is enabled.
 - [ ] Previously sent identifiers are skipped across app restarts.
 - [ ] Strict near-16:9 selection never exceeds its budget of 30 remote dimension requests, and local header inspection stays within its separate allowance.
@@ -103,4 +103,8 @@ These are product-level acceptance criteria. Unit and integration test details s
     - G6: no configuration edits of any kind.
 - **2026-09-26: Codex final gate review of commit `9352e77`, with user decisions.**
   - Reworded in place: B7 now requires an RFC 1918 private IPv4 literal and names the rejected ranges (Q-12, D-125). No IDs changed.
+- **2026-09-27: Phase 3 gate, with user decisions.**
+  - Reworded in place: B2 and C1 now apply only to the filters that the selected source supports according to the published capability matrix. For the first beta: Cleveland supports department and period, the Art Institute period, and no source supports colour (D-146, D-152).
+  - Q-25 is resolved with option (a): the first beta ships without a colour filter.
+  - A valid filter value that the selected source does not support stays visibly reported (B8). A value that matches none of the offered values, such as a style value or a colour other than a no-filter value, is rejected as invalid (B5). No IDs changed.
 
