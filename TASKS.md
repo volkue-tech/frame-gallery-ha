@@ -104,7 +104,7 @@ Owner: Claude
 
 Authorized by the user on 2026-09-27, after the Phase 4 gate.
 
-- [ ] First check and document the version and the LGPL-3.0 obligations of `samsungtvws` 3.0.6 (D-135). The pinned version may be installed from PyPI into the git-ignored project environment only.
+- [x] First check and document the version and the LGPL-3.0 obligations of `samsungtvws` 3.0.6 (D-135). The pinned version may be installed from PyPI into the git-ignored project environment only (D-160).
 - [ ] Establish the adapter surface only by inspecting the installed `samsungtvws` 3.0.6 distribution.
 - [ ] Implement the isolated process executor with the complete bootstrap: privilege drop to an unprivileged user, the parent-death signal, umask, resource limits, the bytes-only channel, progress markers, and the bootstrap test.
 - [ ] Re-run E7–E10 with the process-based television worker. Measure worst-case prepare memory and time under the real limit.

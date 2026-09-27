@@ -21,6 +21,10 @@ dependencies = [
     # The gateway's explicit CA bundle (§10), under MPL-2.0; see
     # THIRD_PARTY_NOTICES.md.
     "certifi==2026.7.22",
+    # The television transport, imported only by the television worker task
+    # (D-104, D-107). LGPL-3.0: used unmodified as a separate, replaceable
+    # package; its obligations are in DECISIONS.md and THIRD_PARTY_NOTICES.md.
+    "samsungtvws==3.0.6",
 ]
 
 [dependency-groups]
@@ -40,6 +44,9 @@ python-downloads = "never"
 python-preference = "only-system"
 # The lock covers the development hosts and the Linux container only.
 environments = ["sys_platform == 'darwin'", "sys_platform == 'linux'"]
+# Transitive pins held back until a reviewed upgrade (D-128, D-160):
+# multidict 7.0.0 (a new major release, 2026-09-26) is not yet reviewed.
+constraint-dependencies = ["multidict<7"]
 
 [tool.pytest.ini_options]
 minversion = "9.1"

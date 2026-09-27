@@ -1200,9 +1200,35 @@ Status: **accepted** (Phase 4 gate, user decision, 2026-09-27).
 - **Distinct payloads and the full §12.4 table.** Every delivery of the rig gets its own canvas bytes, so a stale preview, SHA-256, or fingerprint can never pass for a fresh one. Every row of the §12.4 table runs against the real ledger, and a test with the real Art Institute adapter and file cache shows that a hint never outlasts an upload quarantine (both added after the internal review).
 - **Phase 5.** E7 to E10 are run again with the process-based television worker (`TASKS.md`).
 
+## Phase 5 decisions (proposed)
+
+These record how Phase 5 realizes §11.3 and §12, and every place where it deviates from the text of `ARCHITECTURE.md`. They await the Phase 5 gate.
+
+### D-160 — `samsungtvws` 3.0.6: version, provenance, and LGPL-3.0 obligations [§12.2, D-104, D-135; R-04]
+
+Status: proposed (Phase 5 gate). The user allowed the pinned version to be installed on 2026-09-27; it is installed only into the git-ignored `frame_gallery/.venv`, from the lock.
+
+- **Version.** 3.0.6, published on 2026-09-11, is the newest release; no file of it is yanked. It requires Python 3.10 or newer.
+- **Files, verified on 2026-09-27.** The official PyPI metadata lists the sdist `samsungtvws-3.0.6.tar.gz` (SHA-256 `166111d8370443cd2021b74cdfac9495896dfc41e3a87ea023289f24f922bb91`) and the wheel `samsungtvws-3.0.6-py3-none-any.whl` (SHA-256 `6e3a1b23f928b3035570cc976b64b8c2a218b06022a333855fd7cd02dc74891d`). Both were downloaded, and both hashes match the Phase 1 inventory and the lock. Only the wheel is installed.
+- **Licence.** The metadata says `License-Expression: LGPL-3.0`, the deprecated SPDX short form. Neither the metadata nor any file header says "or later", so it is treated as `LGPL-3.0-only`. The `LICENSE` file is the same in the sdist and the wheel (SHA-256 `1a45b1d0a8603dfe2cfc644f9dab970b1762f92babe2aac6eb2f5d4572c4a680`) and holds only the LGPL-3.0 text, which incorporates GPL-3.0 by reference.
+- **Provenance (the R-04 check).**
+  - 21 of the 27 modules carry `SPDX-License-Identifier: LGPL-3.0`, with copyright lines of "DSR! <xchwarze@gmail.com>" (2019 and 2025) and, in `art/art.py`, also "Matthew Garrett <mjg59@srcf.ucam.org>" (2021).
+  - The six modules without a header are `cli/__init__.py` and the `encrypted/` package, which the app does not use.
+  - No MIT notice, no GPL-2.0 statement, and no relicensing statement appear anywhere in the sdist. The inconsistent licensing of versions before 2.7.0 therefore leaves no trace in 3.0.6. The qualified licence review (D-135) still covers the question.
+- **Dependencies** (the core install; no extra): `websocket-client` 1.9.2 (`Apache-2.0`); `requests` 2.34.2 (`Apache-2.0`, with `NOTICE`), with `charset-normalizer` 3.5.1 (`MIT`), `idna` 3.20 (`BSD-3-Clause`), and the already approved `urllib3` and `certifi`; `yarl` 1.25.1 (`Apache-2.0`, with `NOTICE`), with `multidict` 6.9.1 (`Apache-2.0`) and `propcache` 0.5.4 (`Apache-2.0`, with `NOTICE`). These are exactly the versions of the Phase 1 inventory. Their licences were re-read from the installed metadata, and their licence and notice files are present.
+- **`multidict` is held at 6.9.1.** `uv` first resolved `multidict` 7.0.0, a new major release published on 2026-09-26. Under D-128 (upgrades only after review), `constraint-dependencies = ["multidict<7"]` in `pyproject.toml` keeps the inventoried 6.9.1. A later, dedicated commit may lift it.
+- **LGPL-3.0 obligations** (an engineering reading, not legal advice; the qualified review of D-135 is a release gate):
+  1. The documentation and `THIRD_PARTY_NOTICES.md` state prominently that the image contains `samsungtvws` under LGPL-3.0, with its copyright notices.
+  2. The LGPL-3.0 and GPL-3.0 texts accompany every distribution.
+  3. The library stays unmodified: installed as a separate package from its PyPI wheel, never vendored or patched. The app uses only its public API and does not subclass or monkeypatch its internals. The television worker's connect guard wraps functions of the standard library's `socket` module, not the library.
+  4. Users can replace it: the documentation explains how to build the image with another version, and no technical measure prevents that.
+  5. The exact sdist (SHA-256 above) is attached to every release as the corresponding source, and stays available for at least 3 years (D-135).
+  6. No term restricts modification, or reverse engineering to debug such modifications.
+- **Use.** Only the television worker task imports it (D-107); the boundary test enforces this.
+
 ## Proposed dependency inventory
 
-Status: **Phase 2 installed** the development tools and Pillow, and **Phase 3 installed** `urllib3` 2.8.0 and `certifi` 2026.7.22 (approved by the user on 2026-09-27), only in the local project environment (`frame_gallery/.venv`, from `uv.lock`). The runtime rows for later phases are still proposed.
+Status: **Phase 2 installed** the development tools and Pillow, **Phase 3 installed** `urllib3` 2.8.0 and `certifi` 2026.7.22, and **Phase 5 installed** `samsungtvws` 3.0.6 and its dependencies (each approved by the user on 2026-09-27), only in the local project environment (`frame_gallery/.venv`, from `uv.lock`). The base-image rows are still proposed.
 
 - Versions and licenses were read from PyPI metadata (`https://pypi.org/pypi/<name>/json`) on 2026-09-26.
 - In Phase 2 the installed versions and `License-Expression` fields were re-read from each installed distribution's metadata; they match the rows below.
@@ -1225,7 +1251,7 @@ No package is modified or vendored into the source tree.
 
 | Package | Source and pin | SPDX (as published) | Use | Obligations | Reason | Enters |
 | --- | --- | --- | --- | --- | --- | --- |
-| `samsungtvws` | PyPI, `==3.0.6`; later `>=3.0.6,<4` after contract tests. sdist SHA-256 `166111d8370443cd2021b74cdfac9495896dfc41e3a87ea023289f24f922bb91`; wheel SHA-256 `6e3a1b23f928b3035570cc976b64b8c2a218b06022a333855fd7cd02dc74891d`. | `LGPL-3.0` (deprecated short form; treated as `LGPL-3.0-only` until the shipped `LICENSE` says otherwise) | dyn, redist, pure Python; core install only | See the LGPL obligations below | Television transport (D-104) | Phase 5 |
+| `samsungtvws` | PyPI, `==3.0.6`; later `>=3.0.6,<4` after contract tests. sdist SHA-256 `166111d8370443cd2021b74cdfac9495896dfc41e3a87ea023289f24f922bb91`; wheel SHA-256 `6e3a1b23f928b3035570cc976b64b8c2a218b06022a333855fd7cd02dc74891d`. | `LGPL-3.0` (deprecated short form; treated as `LGPL-3.0-only` until the shipped `LICENSE` says otherwise) | dyn, redist, pure Python; core install only | See the LGPL obligations below | Television transport (D-104) | Phase 5 (installed 2026-09-27; D-160) |
 | `Pillow` | PyPI `musllinux_1_2` wheels for `aarch64` and `x86_64`, `==12.3.0` (`<13` until validated); approved for use from Phase 2 (Codex final approval of Phase 1 at `dda877c`) | `MIT-CMU` **for Pillow itself; the wheel is a composite that includes GPL-3.0-or-later and LGPL-2.1-or-later components** (see the bundled-library table) | dyn, redist, native | Pillow `LICENSE`; every bundled component's licence and acknowledgement; copyleft source availability for `libimagequant` and FriBiDi (D-135) | Image pipeline (§11) | Phase 2 |
 | `urllib3` | PyPI `==2.8.0` (`<3`), `py3-none-any`; wheel SHA-256 `0cf3cae568d36aa9576b28dfb35f11328f1cb974ca7647d9475ebb86c75ac6e3` | `MIT` (`LICENSE.txt`) | dyn, redist | License text | Gateway transport (D-131); imported only by `net/transport.py` | Phase 3 (approved and installed 2026-09-27) |
 | `certifi` | PyPI `==2026.7.22`, `py3-none-any`; wheel SHA-256 `62f22742b58a1a33014a2b6b706588a8d7e2a88ae7bd1a6ebe8c992928483775`; sdist SHA-256 `741e2c3b351ddf169a738da9f2c048608ff7f2c5cc02f1ebc6b118bb090d5d55` | `MPL-2.0` (`LICENSE`) | dyn, redist (CA bundle) | Files kept unmodified under MPL-2.0; identified in the notices; source pointer (D-135) | The gateway's explicit CA bundle (§10); imported only by `net/transport.py` | Phase 3 (approved and installed 2026-09-27) |
@@ -1297,7 +1323,7 @@ These come from general knowledge of the license; qualified review is recommende
 - **Attach** the exact sdist to every release (D-135).
 - Never modify or vendor the library, and never impose terms that restrict modifying it.
 
-**Provenance caveat (R-04).** Versions before 2.7.0 declared inconsistent licenses: MIT metadata, but a README saying GPL-2.0 for 1.7.0–2.6.0. Excluding those versions does not settle code carried forward into 3.0.6. Phase 5 checks the 3.0.6 sdist's `LICENSE` file and source headers for retained MIT notices or a relicensing statement, and records the result. The pre-release licence review also covers this.
+**Provenance caveat (R-04).** Versions before 2.7.0 declared inconsistent licenses: MIT metadata, but a README saying GPL-2.0 for 1.7.0–2.6.0. Excluding those versions does not settle code carried forward into 3.0.6. Phase 5 checks the 3.0.6 sdist's `LICENSE` file and source headers for retained MIT notices or a relicensing statement, and records the result. The pre-release licence review also covers this. *Phase 5 result (D-160):* the 3.0.6 sdist holds only the LGPL-3.0 text and LGPL-3.0 headers; no MIT notice, GPL-2.0 statement, or relicensing statement was found.
 
 ### Base image and OS packages
 
@@ -1370,7 +1396,7 @@ L = likelihood, I = impact; H = high, M = medium, L = low.
 | R-01 | Google Arts & Culture has no documented API, and its terms and image rights conflict with automated retrieval | — | **Excluded from the beta** (Q-01, resolved). Its researched status is kept. | Only if an official API appears |
 | R-02 | Google Arts & Culture page formats change | — | Not applicable while the source is excluded | — |
 | R-03 | The Samsung art protocol is undocumented and changes with firmware. The TLS or certificate behaviour and the token scope are unknown. | M / H | Isolated, pinned library; surface taken from the installed package (Q-15); marker-based classification; trust-on-first-use decided in Phase 5; Phase 8 live validation | Phase 5/8 |
-| R-04 | `samsungtvws` has a single maintainer, an undocumented 3.x art API, LGPL obligations, and inherited licence provenance | M / M | Hash pin; contract tests; D-135; Phase 5 check of `LICENSE` and headers | Phase 5, licence review |
+| R-04 | `samsungtvws` has a single maintainer, an undocumented 3.x art API, LGPL obligations, and inherited licence provenance | M / M | Hash pin; contract tests; D-135; the Phase 5 check of `LICENSE` and headers found only LGPL-3.0 (D-160) | Licence review |
 | R-05 | Bing: undocumented endpoint, a `robots.txt` image-path rule, and restrictive Services Agreement terms | — | **Excluded** (Q-17, resolved) | — |
 | R-06 | The loading state depends on the Running entity (disabled by default, undocumented polling); short runs may never show it | M / M | 130 s guaranteed exit. The **normative** 150 s timer indicator, started by the card script, does not depend on the sensor. Phase 8 cases: a run under 10 s, a mistyped slug, a non-admin tap. | Phase 8 (Q-09, Q-19) |
 | R-07 | **Preview freshness** (release-blocking). The Local File update mechanism and the camera cache refresh are undocumented, and the existing installation had stale images. | H / H | Phase 8 selects one proven mechanism from D-140 through repeated live tests, and the dashboard is not declared complete until then. The platform basis for `/media` and the allowlist is recorded (D-111). | Phase 8; the result is recorded here |
