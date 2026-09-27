@@ -222,20 +222,8 @@ class Directory:
     def read_bytes(self, name: str, max_bytes: int) -> bytes | ReadFailure:
         """The whole regular file ``name``, read at most once and never more
         than ``max_bytes``; otherwise why not. Never raises ``OSError``."""
-        try:
-            fd = os.open(name, READ_FLAGS, dir_fd=self.fd)
-        except FileNotFoundError:
-            return ReadFailure.MISSING
-        except OSError as exc:
-            if exc.errno in _NOT_REGULAR_ERRNOS:
-                return ReadFailure.NOT_REGULAR
-            return ReadFailure.UNREADABLE
-        try:
-            return _read_regular(fd, max_bytes)
-        except OSError:
-            return ReadFailure.UNREADABLE
-        finally:
-            _close_quietly(fd)
+        fd = self.fd
+        return _read_opened(lambda: os.open(name, READ_FLAGS, dir_fd=fd), max_bytes)
 
     def names(self, limit: int) -> list[str]:
         """At most ``limit`` entry names, in no particular order. Raises ``OSError``."""
@@ -349,6 +337,29 @@ def _write_all(fd: int, data: bytes) -> None:
         if written <= 0:
             raise OSError(errno.EIO, "no progress while writing")
         view = view[written:]
+
+
+def read_path(path: Path, max_bytes: int) -> bytes | ReadFailure:
+    """Like :meth:`Directory.read_bytes`, for a path whose last component is
+    not followed. Never raises ``OSError``."""
+    return _read_opened(lambda: os.open(path, READ_FLAGS), max_bytes)
+
+
+def _read_opened(opener: Callable[[], int], max_bytes: int) -> bytes | ReadFailure:
+    try:
+        fd = opener()
+    except FileNotFoundError:
+        return ReadFailure.MISSING
+    except OSError as exc:
+        if exc.errno in _NOT_REGULAR_ERRNOS:
+            return ReadFailure.NOT_REGULAR
+        return ReadFailure.UNREADABLE
+    try:
+        return _read_regular(fd, max_bytes)
+    except OSError:
+        return ReadFailure.UNREADABLE
+    finally:
+        _close_quietly(fd)
 
 
 def _read_regular(fd: int, max_bytes: int) -> bytes | ReadFailure:

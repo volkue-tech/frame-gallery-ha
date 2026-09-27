@@ -388,3 +388,6 @@ class DeliveryArtifact:
     sha256: str
     size_bytes: int
     dims: Size
+    fingerprint: str
+    """The D-118 fingerprint of the same bytes, recorded for each published
+    preview so the local library never offers a copy of it (F7)."""

@@ -43,7 +43,6 @@ from __future__ import annotations
 
 import enum
 import errno
-import hashlib
 import logging
 import os
 import re
@@ -62,6 +61,7 @@ from frame_gallery.budget.limits import (
 )
 from frame_gallery.config.filters import EffectiveFilters
 from frame_gallery.domain import Size, SourceKey
+from frame_gallery.fingerprint import fingerprint_fd
 from frame_gallery.imaging.contract import (
     INSPECT_TASK,
     MAX_SOURCE_BYTES,
@@ -88,7 +88,6 @@ from frame_gallery.providers.rights import RightsBasis
 PROVIDER_KEY: Final = "local"
 LIBRARY_ROOT: Final = Path("/media/frame_gallery/library")
 PREVIEW_ROOT: Final = Path("/media/frame_gallery/preview")
-FINGERPRINT_EDGE: Final = 64 * 1024
 MAX_EXAMPLES: Final = 5
 EXAMPLE_LENGTH: Final = 80
 TITLE_LENGTH: Final = 100
@@ -121,30 +120,6 @@ class SkipReason(enum.StrEnum):
 
     PREVIEW = "preview"
     INSPECTION_FAILED = "inspection_failed"
-
-
-# --- fingerprints (D-118) ------------------------------------------------------
-
-
-def _digest(size: int, head: bytes, tail: bytes) -> str:
-    return hashlib.sha256(size.to_bytes(8, "big") + head + tail).hexdigest()
-
-
-def fingerprint_bytes(data: bytes) -> str:
-    """The D-118 fingerprint of ``data`` (for example a published preview)."""
-    size = len(data)
-    return _digest(size, data[:FINGERPRINT_EDGE], data[max(0, size - FINGERPRINT_EDGE) :])
-
-
-def fingerprint_fd(fd: int, size: int) -> str | None:
-    """The D-118 fingerprint of an open regular file of ``size`` bytes, or
-    ``None`` if the file is shorter than that (it changed)."""
-    edge = min(FINGERPRINT_EDGE, size)
-    head = os.pread(fd, edge, 0)
-    tail = os.pread(fd, edge, size - edge)
-    if len(head) != edge or len(tail) != edge:
-        return None
-    return _digest(size, head, tail)
 
 
 type Identity = tuple[int, int]

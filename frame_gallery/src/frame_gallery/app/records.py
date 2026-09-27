@@ -23,7 +23,8 @@ MAX_TEXT_LENGTH: Final = 200
 
 
 def _text(value: str | None) -> str | None:
-    """Bound untrusted text; control characters are stripped by the store's JSON."""
+    """Bound untrusted text (the adapters have already cleaned it; the store's
+    JSON escapes whatever is left)."""
     if value is None:
         return None
     return value[:MAX_TEXT_LENGTH]
@@ -135,12 +136,17 @@ def build_last_run_record(
 
 
 def build_current_record(
-    *, qualified_id: str, attribution: Attribution, sha256: str, delivered_at: datetime
+    *,
+    qualified_id: str,
+    attribution: Attribution,
+    sha256: str,
+    delivered_at: datetime,
+    preview_fingerprint: str,
 ) -> dict[str, object]:
     """``current.json``: the artwork on the television; written only after ``selected``.
 
-    The store (Phase 4) appends ``sha256`` to the list of the last 10 preview
-    fingerprints kept in the same file.
+    ``preview_fingerprints`` holds the D-118 fingerprint of this delivery; the
+    store adds those of the earlier previews, up to the last 10 (§13.1, F7).
     """
     return {
         "format": CURRENT_FORMAT,
@@ -155,4 +161,5 @@ def build_current_record(
             "credit_line": _text(attribution.credit_line),
             "detail_url": _text(attribution.detail_url),
         },
+        "preview_fingerprints": [preview_fingerprint],
     }

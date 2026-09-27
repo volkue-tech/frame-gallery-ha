@@ -1152,6 +1152,24 @@ Status: proposed (Phase 4 gate). It closes the item that D-150 deferred to Phase
 - **Writing the cache.** `ProviderBinding` gains an optional `cache` (a `CacheWriter` with `flush(deadline)`). The runner calls it once in FINISH, before the last-run record, with FINISH's deadline minus the last-run reserve; a failure only logs a warning and never changes the outcome. A run that stopped before SELECT (for example `already_running`) has no binding and never writes the cache. `StoreLayout.metadata_cache` builds the file cache for the Phase 6 wiring, which passes the same object to the adapter and to its binding.
 - **Limitation.** The documentation does not promise a stable order of search results. A hinted page that shifts within the 7 days hides its works until the hint expires, and the result count changes the hint's validity only when the total changes. The effect is a missed work, never a duplicate (R-13).
 
+### D-158 — Preview publication and the run records [§13.1, §13.5, D-118, D8, F7]
+
+Status: proposed (Phase 4 gate).
+
+- **Modules.** `store/preview.py` (`PreviewStore`, the `PreviewPublisher` port) and `store/records.py` (`RunRecordStore`, the `RunRecords` port).
+- **Fingerprint.** The D-118 fingerprint moves from `providers.local_media` into the shared top-level module `fingerprint.py`, next to `domain`, `errors`, and `randomness` (D-141). `imaging.delivery` and the store can then compute it without importing a provider. `DeliveryArtifact` gains `fingerprint`, which the parent computes over the same bytes as the SHA-256.
+- **Preview.**
+  - Every directory below `/media` is opened with `O_NOFOLLOW`, so a symbolic link at `frame_gallery` or `preview` is refused. Missing directories are created with mode 0755.
+  - `delivery.jpg` is read again without following a link, at most 15 MiB, and its size and SHA-256 must match the values from ATTEMPT.
+  - Each name is written with the §13.2 primitive at exactly mode 0644. The temporary file is read back and hashed before the rename.
+  - Every name receives the same bytes. The default is `latest.jpg` until Phase 8 chooses the refresh mechanism (D-140).
+  - A failed directory `fsync` after the rename only logs a warning. Any other failure raises `PublishError`, which gives `delivered_with_warnings`, for example when `/media` is unavailable.
+- **`current.json`.**
+  - It holds the runner's record plus `preview_fingerprints`: this delivery's fingerprint merged with the earlier ones, newest first, without repeats, at most 10.
+  - The fingerprint is recorded even when the preview could not be published. It only ever keeps a copy of a delivered canvas out of the library.
+  - `RunRecordStore.preview_fingerprints()` gives the list to the Phase 6 wiring for the local provider's guard 3. It never raises. A damaged `current.json` is quarantined, and its fingerprints are lost; guards 1 and 2 still apply.
+- **Both records.** At most 16 KiB, mode 0600, no `.bak`. A record over the bound is refused with `StateError`. A test shows that the largest possible records fit, with every text field at 200 characters that each escape to 12 bytes. The runner's handling is unchanged: a failed preview or current record gives `delivered_with_warnings`, and a failed last-run record never loses the summary line (D-141).
+
 ## Proposed dependency inventory
 
 Status: **Phase 2 installed** the development tools and Pillow, and **Phase 3 installed** `urllib3` 2.8.0 and `certifi` 2026.7.22 (approved by the user on 2026-09-27), only in the local project environment (`frame_gallery/.venv`, from `uv.lock`). The runtime rows for later phases are still proposed.

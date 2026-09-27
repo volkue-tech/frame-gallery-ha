@@ -296,10 +296,15 @@ def test_rejected_result_from_json_is_validated() -> None:
 
 def test_delivery_artifact_holds_its_fields() -> None:
     artifact = DeliveryArtifact(
-        path=Path("delivery.jpg"), sha256="ab" * 32, size_bytes=10, dims=CANVAS
+        path=Path("delivery.jpg"),
+        sha256="ab" * 32,
+        size_bytes=10,
+        dims=CANVAS,
+        fingerprint="cd" * 32,
     )
     assert artifact.dims == CANVAS
     assert artifact.size_bytes == 10
+    assert artifact.fingerprint == "cd" * 32
 
 
 @pytest.mark.parametrize("canvas", [[20_001, 100], [100, 20_001], [5000, 4000]])

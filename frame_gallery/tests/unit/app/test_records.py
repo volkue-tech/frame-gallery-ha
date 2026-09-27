@@ -129,6 +129,7 @@ def test_current_record_bounds_untrusted_text() -> None:
         attribution=Attribution(title=long_title, creator="A", date_text=None),
         sha256="ab" * 32,
         delivered_at=END,
+        preview_fingerprint="cd" * 32,
     )
     json.dumps(record)
     assert record["format"] == CURRENT_FORMAT
@@ -137,3 +138,4 @@ def test_current_record_bounds_untrusted_text() -> None:
     assert len(attribution["title"]) == MAX_TEXT_LENGTH
     assert attribution["date"] is None
     assert record["delivered_at"] == "2026-03-01T08:00:42+00:00"
+    assert record["preview_fingerprints"] == ["cd" * 32]

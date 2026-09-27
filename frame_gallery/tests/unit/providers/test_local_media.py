@@ -17,6 +17,7 @@ from frame_gallery.budget.allowance import Allowance, AllowanceExhausted
 from frame_gallery.budget.deadline import Deadline, DeadlineExceeded
 from frame_gallery.config.filters import EffectiveFilters, FilterSet
 from frame_gallery.domain import FitMode, Size, SourceKey
+from frame_gallery.fingerprint import FINGERPRINT_EDGE, fingerprint_bytes, fingerprint_fd
 from frame_gallery.imaging.contract import MAX_SOURCE_BYTES, ImageFormat
 from frame_gallery.isolation.executor import JsonObject, WorkerError, WorkerErrorKind
 from frame_gallery.isolation.in_process import InProcessExecutor, default_tasks
@@ -32,7 +33,6 @@ from frame_gallery.providers.contract import (
     SourceErrorKind,
 )
 from frame_gallery.providers.local_media import (
-    FINGERPRINT_EDGE,
     LIBRARY_ROOT,
     PREVIEW_ROOT,
     LibraryReport,
@@ -40,8 +40,6 @@ from frame_gallery.providers.local_media import (
     LocalMediaProvider,
     SkipReason,
     check_preview_outside_library,
-    fingerprint_bytes,
-    fingerprint_fd,
 )
 from frame_gallery.providers.rights import RightsBasis
 from frame_gallery.randomness import SeededRandomSource

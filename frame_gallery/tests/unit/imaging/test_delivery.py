@@ -11,6 +11,7 @@ import pytest
 from PIL import Image
 
 from frame_gallery.domain import CANVAS, Size
+from frame_gallery.fingerprint import fingerprint_bytes
 from frame_gallery.imaging.delivery import DeliveryValidationError, validate_delivery
 from frame_gallery.imaging.worker_tasks import prepare_image
 from tests.support import images
@@ -36,6 +37,7 @@ def test_prepared_output_validates_and_is_fingerprinted(tmp_path: Path) -> None:
     assert artifact.size_bytes == len(data)
     assert artifact.dims == CANVAS
     assert artifact.path == path
+    assert artifact.fingerprint == fingerprint_bytes(data)
 
 
 def test_custom_canvas_and_limit(tmp_path: Path) -> None:

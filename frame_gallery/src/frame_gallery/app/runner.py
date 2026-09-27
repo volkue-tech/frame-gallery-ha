@@ -958,6 +958,7 @@ class Runner:
             attribution=entry.candidate.attribution,
             sha256=artifact.sha256,
             delivered_at=self._clock.utc_now(),
+            preview_fingerprint=artifact.fingerprint,
         )
         try:
             self._ports.records.write_current(record, deadline)

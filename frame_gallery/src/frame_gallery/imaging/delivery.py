@@ -17,6 +17,7 @@ from typing import Final
 
 from frame_gallery.domain import CANVAS, Size
 from frame_gallery.errors import FrameGalleryError
+from frame_gallery.fingerprint import fingerprint_bytes
 from frame_gallery.imaging.contract import MAX_OUTPUT_BYTES, DeliveryArtifact
 from frame_gallery.imaging.jpeg_header import JpegHeaderError, parse_jpeg
 
@@ -102,4 +103,5 @@ def validate_delivery(
         sha256=hashlib.sha256(data).hexdigest(),
         size_bytes=len(data),
         dims=info.size,
+        fingerprint=fingerprint_bytes(data),
     )

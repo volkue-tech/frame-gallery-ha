@@ -8,19 +8,21 @@ builds the store's ports from one layout.
 
 from __future__ import annotations
 
+from collections.abc import Sequence
 from dataclasses import dataclass, field
 from pathlib import Path
 from typing import Final
 
 from frame_gallery.budget.clock import Clock
 from frame_gallery.store.cache import CACHE_DIRECTORY, FileMetadataCache
+from frame_gallery.store.preview import PREVIEW_NAMES, PREVIEW_PARTS, PreviewStore
+from frame_gallery.store.records import RunRecordStore
 from frame_gallery.store.state import STATE_DIRECTORY, FileStateStore
 from frame_gallery.store.sweep import StartupSweep, SweepTarget
 from frame_gallery.store.workspace import WORKSPACE_DIRECTORY, RunWorkspace
 
 CACHE_PARTS: Final = (CACHE_DIRECTORY,)
 TOKEN_PARTS: Final = ("tv",)
-PREVIEW_PARTS: Final = ("frame_gallery", "preview")
 
 
 @dataclass(frozen=True, slots=True)
@@ -51,3 +53,10 @@ class StoreLayout:
     def metadata_cache(self, provider_key: str, clock: Clock) -> FileMetadataCache:
         """The provider's cache; pass it to the adapter and to its binding."""
         return FileMetadataCache(self.data, provider_key, clock=clock)
+
+    def preview(self, names: Sequence[str] = PREVIEW_NAMES) -> PreviewStore:
+        """The preview publisher; Phase 8 fixes the names (D-140)."""
+        return PreviewStore(self.media, names=names)
+
+    def records(self, clock: Clock) -> RunRecordStore:
+        return RunRecordStore(self.data, clock=clock)
