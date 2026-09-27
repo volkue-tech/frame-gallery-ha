@@ -172,8 +172,8 @@ class TestAge:
         second.flush(caches.deadline())
         assert caches.keys() == []
 
-    def test_an_entry_from_the_future_is_dropped(self, caches: Caches) -> None:
-        """A clock that went back never stretches an entry beyond seven days."""
+    def test_a_clock_that_went_back_never_stretches_an_entry(self, caches: Caches) -> None:
+        """An expiry more than 7 days ahead is cut to 7 days from now."""
         first = caches.open()
         first.put_count("aic:count:any", 1, COUNT_TTL)
         first.flush(caches.deadline())
@@ -182,7 +182,22 @@ class TestAge:
         assert isinstance(entries, list)
         entries[0]["expires"] = "2099-01-01T00:00:00+00:00"
         caches.file.write_text(json.dumps(document))
+        second = caches.open()
+        assert second.get_count("aic:count:any") == 1
+        second.flush(caches.deadline())
+        entries = caches.document()["entries"]
+        assert isinstance(entries, list)
+        assert entries[0]["expires"] == "2026-01-08T12:00:00+00:00"
+        caches.clock.advance(7 * DAY)
         assert caches.open().get_count("aic:count:any") is None
+
+    def test_a_small_step_back_keeps_a_full_length_hint(self, caches: Caches) -> None:
+        first = caches.open()
+        caches.clock.advance(60)
+        first.add_exhausted("aic:exhausted:any", 10, [1], HINT_TTL)
+        first.flush(caches.deadline())
+        back = Caches(caches.root)  # a new process whose clock is a minute behind
+        assert back.open().get_exhausted("aic:exhausted:any") == ExhaustedPages(10, frozenset({1}))
 
     def test_a_hint_keeps_its_first_expiry(self, caches: Caches) -> None:
         cache = caches.open()

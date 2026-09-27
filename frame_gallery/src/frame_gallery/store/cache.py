@@ -17,6 +17,8 @@ One JSON file per provider, ``/data/cache/<provider>.json``::
   and a later write replaces it.
 - A hint entry keeps the expiry it was created with when pages are added,
   so no hint is ever older than its time to live.
+- An entry read with an expiry more than 7 days ahead (the clock went back)
+  is cut to 7 days from now, so it never lives longer than that.
 """
 
 from __future__ import annotations
@@ -255,7 +257,11 @@ class FileMetadataCache:
         stale = [key for key, entry in entries.items() if not _fresh(entry, now)]
         for key in stale:
             del entries[key]
-        self._dirty = bool(stale)
+        stretched = [entry for entry in entries.values() if entry.expires > now + MAX_TTL]
+        for entry in stretched:
+            # A clock that went back never stretches an entry's life.
+            entry.expires = now + MAX_TTL
+        self._dirty = bool(stale or stretched)
         return entries
 
     def _live(self, key: str) -> _Entry | None:
@@ -292,9 +298,7 @@ def _clamp(ttl: timedelta) -> timedelta:
 
 
 def _fresh(entry: _Entry, now: datetime) -> bool:
-    """Unexpired, and not further ahead than the longest time to live (a
-    clock that went back never stretches an entry's life)."""
-    return now < entry.expires <= now + MAX_TTL
+    return now < entry.expires
 
 
 def _least_recently_used(entries: Collection[_Entry], *, keep: str) -> str:

@@ -7,7 +7,15 @@ from collections.abc import Mapping, Sequence
 from dataclasses import dataclass, field
 from pathlib import Path
 
-from frame_gallery.app.ports import HelperReader, ImageFetcher, ProviderBinding
+from frame_gallery.app.ports import (
+    HelperReader,
+    ImageFetcher,
+    PreviewPublisher,
+    ProviderBinding,
+    RunRecords,
+    StateStore,
+    Workspace,
+)
 from frame_gallery.app.runner import Runner, RunnerPorts, RunResult
 from frame_gallery.app.signals import CancellationController
 from frame_gallery.config.filters import FilterDimension
@@ -86,6 +94,13 @@ class Harness:
     image_fetcher: ImageFetcher | None = None
     """Replaces the fake fetcher."""
 
+    state_store: StateStore | None = None
+    """Replaces the fake state store (for example with the file store)."""
+
+    workspace_port: Workspace | None = None
+    preview_port: PreviewPublisher | None = None
+    records_port: RunRecords | None = None
+
     def __post_init__(self) -> None:
         clock, events = self.clock, self.events
         self.options = FakeOptionsSource(self.raw, events, clock)
@@ -121,15 +136,15 @@ class Harness:
         ports = RunnerPorts(
             options_source=self.options,
             network_info=self.network,
-            state=self.state,
+            state=self.state_store or self.state,
             helper_reader=self.helper_reader or self.helpers,
             providers=self.providers(),
             fetcher=self.image_fetcher or self.fetcher,
             executor=self.executor,
             television=self.tv,
-            workspace=self.workspace,
-            preview=self.preview,
-            records=self.records,
+            workspace=self.workspace_port or self.workspace,
+            preview=self.preview_port or self.preview,
+            records=self.records_port or self.records,
             watchdog=self.watchdog,
         )
         return Runner(

@@ -1141,7 +1141,7 @@ Status: proposed (Phase 4 gate).
 - **File.** `/data/cache/<provider>.json` (mode 0600; directory 0700) with `format`, `version`, `provider`, and a list of entries. Each entry has `key`, `expires`, `used`, and either `count` or `total` and `pages`. Keys must start with the provider's own key.
 - **Bounds.**
   - 1 000 entries and 2 MiB per file; 8 KiB per entry (an entry that would exceed it is not kept); at most 800 page numbers per hint, the lowest kept.
-  - A time to live is clamped to 7 days. On reading, an entry that would expire more than 7 days ahead (a clock that went back) is dropped.
+  - A time to live is clamped to 7 days. On reading, an entry that would expire more than 7 days ahead (a clock that went back) is cut to 7 days from now. Dropping it instead would have discarded every full-length hint after a clock step back of a few seconds; the end-to-end test in D-159 found this.
   - Expired entries go first, then the least recently used (by last use, then key).
 - **Recency.** Every hit updates `used`, so a run with a cache hit writes the file. That is still at most one write per run.
 - **Hints.** A hint belongs to the result count it was computed for; hints for another count replace it, because the pages may have shifted. An entry keeps its first expiry when pages are added, so no hint is older than 7 days.
@@ -1177,6 +1177,21 @@ Status: proposed (Phase 4 gate).
   - The fingerprint is recorded even when the preview could not be published. It only ever keeps a copy of a delivered canvas out of the library.
   - `RunRecordStore.preview_fingerprints()` gives the list to the Phase 6 wiring for the local provider's guard 3. It never raises. A damaged `current.json` is quarantined, and its fingerprints are lost; guards 1 and 2 still apply.
 - **Both records.** At most 16 KiB, mode 0600, no `.bak`. A record over the bound is refused with `StateError`. A test shows that the largest possible records fit, with every text field at 200 characters that each escape to 12 bytes. The runner's handling is unchanged: a failed preview or current record gives `delivered_with_warnings`, and a failed last-run record never loses the summary line (D-141).
+
+### D-159 — Tests for state and duplicate prevention [§20.1; C3, E1-E10, F1-F7]
+
+Status: proposed (Phase 4 gate).
+
+- **Rig.** `tests/support/persistent.py` (`PersistentRig`) runs the runner over the real store ports (state, workspace, preview, records, and a provider's file cache) below temporary `data`, `media`, and `tmp` anchors. Each run builds fresh ports over the same directories, as a new process would, and may start days after the first. The provider, fetcher, executor, and television stay fakes; the fake television emits its progress markers. `Harness` gains optional overrides for the state, workspace, preview, and records ports.
+- **Scenarios in process** (`tests/integration/test_state_scenarios.py`):
+  - delivered runs (E1, E5, E6, E10, D8, F1), the ledger pruned once both history copies hold a work, and `no_match` with "nothing new left" once every work was sent;
+  - E7 (selection refused after the upload) and E8 (connection lost during selection): `uploaded`, never resent;
+  - E9 as a simulated kill (a `BaseException` that no handler catches) after the intent, after `uploaded`, and inside the promotion write; a failed promotion; `upload_started` without `uploaded`; no `upload_started`; a stop request after `upload_started` and after `selected`;
+  - a full and a read-only `/data` (`state_error`, the television untouched), a newer history (kept), a corrupt history (F5), a failed history rename (`delivered_unrecorded`, never resent), and an unavailable `/media` (`delivered_with_warnings`);
+  - repeated runs with no growth of temporary or state storage (F3), and a published preview copied into the library that `current.json`'s fingerprints keep out (F7).
+- **A real SIGKILL** (`tests/integration/test_sigkill.py`). A child process runs the same rig and kills itself with SIGKILL after the intent, after `uploaded`, after `selected`, or inside the promotion write before its rename. Nothing in the child cleans up. The next run, in the test process, takes the lock, sweeps the pre-staged history, the temporary ledger file, and the run directory, and does not upload the work again. An `uncertain` work returns after the 30-day quarantine; a confirmed one never does.
+- **The cache across runs** (`tests/integration/test_cached_discovery.py`). The real Art Institute adapter and gateway over the synthesized API, with the real file cache: the count and an exhausted page carry over between runs, and a run whose only page is known to be exhausted makes no search request and ends with "nothing new left".
+- **Phase 5.** E7 to E10 are run again with the process-based television worker (`TASKS.md`).
 
 ## Proposed dependency inventory
 
