@@ -15,6 +15,12 @@ dependencies = [
     # The wheels bundle GPL-3.0-or-later and LGPL-2.1-or-later components;
     # see DECISIONS.md and THIRD_PARTY_NOTICES.md.
     "pillow==12.3.0",
+    # The guarded gateway's HTTP transport, imported only by net/transport.py
+    # (D-108, D-131); retries and redirects are disabled and handled there.
+    "urllib3==2.8.0",
+    # The gateway's explicit CA bundle (§10), under MPL-2.0; see
+    # THIRD_PARTY_NOTICES.md.
+    "certifi==2026.7.22",
 ]
 
 [dependency-groups]

@@ -22,11 +22,11 @@ The script runs, and fails on the first failure:
 
 1. `ruff check` and `ruff format --check`;
 2. `mypy` in strict mode, over `src` and `tests`;
-3. `pytest` with branch coverage: at least 90 % overall, and 100 % of lines and branches for the modules the architecture requires (§20.4): `budget`, `selection`, `isolation`, `providers`, the outcome classification and the runner, and the imaging worker tasks with their header pre-scan and JPEG header parser.
+3. `pytest` with branch coverage: at least 90 % overall, and 100 % of lines and branches for the modules the architecture requires (§20.4): `budget`, `net` (the whole package, including the real transport), `selection`, `isolation`, `providers`, the outcome classification and the runner, and the imaging worker tasks with their header pre-scan and JPEG header parser.
 
 `mypy` runs in strict mode over `src` and `tests`, with no per-module relaxations.
 
-Tests never use the network (acceptance item `H2`). For the whole session, collection included, `tests/conftest.py` makes these raise: `connect`, `connect_ex`, `sendto`, and `sendmsg` on `socket.socket`; `socket.create_connection`; and `getaddrinfo`, `gethostbyname`, `gethostbyname_ex`, `gethostbyaddr`, and `getnameinfo` on both `socket` and `_socket`. The architecture boundary test enforces the import rules of D-107 and D-145, and proves with self-tests that each of its detectors fires.
+Tests never use the network (acceptance item `H2`). For the whole session, collection included, `tests/conftest.py` makes these raise: `connect`, `connect_ex`, `sendto`, and `sendmsg` on `socket.socket`; `socket.create_connection`; and `getaddrinfo`, `gethostbyname`, `gethostbyname_ex`, `gethostbyaddr`, and `getnameinfo` on both `socket` and `_socket`. The architecture boundary test enforces the import rules of D-107, D-145, and D-147, and proves with self-tests that each of its detectors fires. Only `net/transport.py` may import `socket`, `ssl`, `http.client`, `urllib3`, and `certifi`, and only the entry point may import that module; the gateway and the adapters are tested against the fakes in `tests/support/net.py`. Tests never use the real project contact in a header: they pass a placeholder identity (D-119).
 
 ## Runtime requirements
 

@@ -870,12 +870,44 @@ Status: proposed. Applied in Phase 3 under the user's Q-14 instruction: use no u
 
 **Periods, for both museums.** Five project-defined ranges of the earliest creation year: before 1400; 1400–1599; 1600–1799; 1800–1899; and 1900 and later. They are ranges, labelled with years, not styles.
 
+### D-147 — Gateway implementation details [§7.4, §10, D-108, D-115, D-131]
+
+Status: proposed (Phase 3).
+
+**Module layout.**
+
+- `net/wire.py`: the seam (`WireRequest`, `WireResponse`, `Transport`, `Resolver`, `TransportFailure`).
+- `net/policy.py`: host policies, URL and address validation, and header parsing; pure.
+- `net/identity.py`: the User-Agent and courtesy header (D-119 as amended).
+- `net/gateway.py`: the gateway and one `ProviderChannel` per provider and run.
+- `net/transport.py`: the only module that imports `socket`, `ssl`, `http.client`, `urllib3`, and `certifi`. Only the entry point (Phase 6) may import it. `net` modules may import `urllib.parse`; every other `urllib` module stays banned. The boundary test enforces all of this, and a fresh interpreter checks that importing the rest of the package loads no network library.
+
+**Refinements of D-108 and D-115.**
+
+1. **Hosts.** Exact host names only; no suffix rules are needed for the beta. IP-literal hosts, user information, any port but 443, fragments, non-ASCII, and backslashes are refused.
+2. **Addresses.** Every resolved address must be public. IPv4-mapped IPv6 addresses are judged by their IPv4 address. 6to4, Teredo, and NAT64 forms are refused, because Python classifies them as not globally reachable. Scoped addresses are refused. Up to 4 addresses are tried in resolver order.
+3. **Pacing** is measured from the start of one request to the start of the next. Redirect hops and retries are paced like new requests.
+4. **Metadata allowance.** Every wire request (a redirect hop or a retry too) takes one of the 15 metadata requests. When the allowance is spent, the channel raises `AllowanceExhausted`. Selection ends the pass with the new end `metadata_allowance`, which counts as "search limits reached" (`no_match` hint), not as a failure.
+5. **Stops.** 401 and 403 stop the provider for the run, for every provider. D-115 names 403 and D-136 adds 401 for Cleveland; applying 401 everywhere is stricter. A 429 without a permitted retry stops too, including a second 429 and a retry that does not fit the deadline or the allowance.
+6. **Retry.** At most one, for metadata only: after a failed connect or name resolution, a 502/503/504, or a 429 whose `Retry-After` is at most 5 s. The wait is `max(Retry-After, 1 s)` plus up to 0.25 s of jitter from the injected random source. The retry is skipped unless the caller's deadline still has room for the wait plus one connect timeout. A refused non-public address is never retried.
+7. **`Retry-After`** accepts delta-seconds and the IMF-fixdate form of HTTP-date. The obsolete date forms are treated as invalid, which means a stop. `email.utils` is not used, because importing it loads `socket` into the parent.
+8. **Time.** Each attempt has its own total (metadata 10 s, image 20 s), clamped to the caller's deadline. If the caller's deadline ran out, the result is `DeadlineExceeded`; if only the request's own limit did, it is `SourceError(TIMEOUT)` (D-141 item 2). The transport enforces the exchange total with a timer that shuts the socket down, so a peer that sends headers or body one byte at a time is bounded too. Body reads use `read1`, at most one socket read per call, with the socket timeout re-clamped before each read.
+9. **Bodies.** A declared `Content-Length` over the cap, a body over the cap, or a gzip body that decodes past the cap is `OVER_CAP`. A body shorter than declared is `TRANSPORT`. A truncated, invalid, multi-member, or trailing-data gzip body is `UNEXPECTED_FORMAT`. Only metadata may be gzip. JSON is parsed with the standard library; NaN and Infinity are refused, as is nesting deeper than the interpreter's recursion limit.
+10. **404 and 410** from a metadata request are `HTTP_ERROR` (D-141 item 3); from an image download they are `NOT_FOUND`.
+11. **Downloads** go to a new file (`O_EXCL`, `O_NOFOLLOW`, mode 0600). A partial file is removed on any failure.
+12. **TLS.** A fresh context per connection, trusting only the pinned `certifi` bundle (never the system or environment stores), with `CERT_REQUIRED`, host-name checking, and TLS 1.2 or newer. The connection goes to the validated IP, with SNI and the certificate check on the host name. After the handshake, the negotiated socket's version, verification mode, host-name check, and server name are checked again, and `getpeername()` must equal the validated address before anything is sent. urllib3's own host-name matching (`assert_hostname`) is not used, so Python's check stays on.
+13. **Requests** send `Host`, `User-Agent`, `Accept`, `Accept-Encoding`, `Connection: close`, and any courtesy headers. There are no cookies, proxies, pools, retries, or redirects inside urllib3.
+14. **Name resolution** runs in a daemon thread that the caller stops waiting for after 3 s (clamped). A lookup that hangs leaves one idle thread behind until the process exits.
+15. **No probe path.** No beta source needs a remote dimension probe (§8.3). The 256 KiB probe cap is therefore not implemented yet; the probe allowance stays enforced in selection.
+16. **Logs.** Each request is logged at DEBUG with the kind, the host, the path without its query, the status, the byte count, and the duration. A stop is logged at WARNING. Header values, queries, and bodies are never logged.
+
 ## Proposed dependency inventory
 
-Status: **Phase 2 installed** the development tools and Pillow, and only in the local project environment (`frame_gallery/.venv`, from `uv.lock`). The runtime rows for later phases are still proposed.
+Status: **Phase 2 installed** the development tools and Pillow, and **Phase 3 installed** `urllib3` 2.8.0 and `certifi` 2026.7.22 (approved by the user on 2026-09-27), only in the local project environment (`frame_gallery/.venv`, from `uv.lock`). The runtime rows for later phases are still proposed.
 
 - Versions and licenses were read from PyPI metadata (`https://pypi.org/pypi/<name>/json`) on 2026-09-26.
 - In Phase 2 the installed versions and `License-Expression` fields were re-read from each installed distribution's metadata; they match the rows below.
+- In Phase 3 the same check was made for `urllib3` (`License-Expression: MIT`, `LICENSE.txt`) and `certifi` (legacy `License: MPL-2.0` with the MPL classifier, no `License-Expression`; `LICENSE`). Both are pure-Python `py3-none-any` wheels with no dependencies; no `urllib3` extra is installed.
 - `samsungtvws` was independently re-verified.
 - Before each dependency enters (see the per-phase approvals in `STATUS.md`), its `LICENSE` file inside the pinned distribution is checked and this table is updated.
 - The final image SBOM must match this table (acceptance item `H4`).
@@ -896,8 +928,8 @@ No package is modified or vendored into the source tree.
 | --- | --- | --- | --- | --- | --- | --- |
 | `samsungtvws` | PyPI, `==3.0.6`; later `>=3.0.6,<4` after contract tests. sdist SHA-256 `166111d8370443cd2021b74cdfac9495896dfc41e3a87ea023289f24f922bb91`; wheel SHA-256 `6e3a1b23f928b3035570cc976b64b8c2a218b06022a333855fd7cd02dc74891d`. | `LGPL-3.0` (deprecated short form; treated as `LGPL-3.0-only` until the shipped `LICENSE` says otherwise) | dyn, redist, pure Python; core install only | See the LGPL obligations below | Television transport (D-104) | Phase 5 |
 | `Pillow` | PyPI `musllinux_1_2` wheels for `aarch64` and `x86_64`, `==12.3.0` (`<13` until validated); approved for use from Phase 2 (Codex final approval of Phase 1 at `dda877c`) | `MIT-CMU` **for Pillow itself; the wheel is a composite that includes GPL-3.0-or-later and LGPL-2.1-or-later components** (see the bundled-library table) | dyn, redist, native | Pillow `LICENSE`; every bundled component's licence and acknowledgement; copyleft source availability for `libimagequant` and FriBiDi (D-135) | Image pipeline (§11) | Phase 2 |
-| `urllib3` | PyPI `==2.8.0` (`<3`), `py3-none-any` | `MIT` (`LICENSE.txt`) | dyn, redist | License text | Gateway transport (D-131) | Phase 3 |
-| `certifi` | PyPI `==2026.7.22`, `py3-none-any` | `MPL-2.0` (`LICENSE`) | dyn, redist (CA bundle) | Files kept unmodified under MPL-2.0; identified in the notices; source pointer (D-135) | The gateway's explicit CA bundle (§10) | Phase 3 |
+| `urllib3` | PyPI `==2.8.0` (`<3`), `py3-none-any`; wheel SHA-256 `0cf3cae568d36aa9576b28dfb35f11328f1cb974ca7647d9475ebb86c75ac6e3` | `MIT` (`LICENSE.txt`) | dyn, redist | License text | Gateway transport (D-131); imported only by `net/transport.py` | Phase 3 (approved and installed 2026-09-27) |
+| `certifi` | PyPI `==2026.7.22`, `py3-none-any`; wheel SHA-256 `62f22742b58a1a33014a2b6b706588a8d7e2a88ae7bd1a6ebe8c992928483775`; sdist SHA-256 `741e2c3b351ddf169a738da9f2c048608ff7f2c5cc02f1ebc6b118bb090d5d55` | `MPL-2.0` (`LICENSE`) | dyn, redist (CA bundle) | Files kept unmodified under MPL-2.0; identified in the notices; source pointer (D-135) | The gateway's explicit CA bundle (§10); imported only by `net/transport.py` | Phase 3 (approved and installed 2026-09-27) |
 
 ### Runtime: bundled in the Pillow wheels
 

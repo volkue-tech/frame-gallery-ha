@@ -35,13 +35,24 @@ PACKAGE_ROOT = SRC_ROOT / PACKAGE
 IMAGING_ROOT = PACKAGE_ROOT / "imaging"
 ISOLATION_ROOT = PACKAGE_ROOT / "isolation"
 SELECTION_ROOT = PACKAGE_ROOT / "selection"
+NET_ROOT = PACKAGE_ROOT / "net"
+NET_TRANSPORT = NET_ROOT / "transport.py"
+NET_TRANSPORT_MODULE = "frame_gallery.net.transport"
 WORKER_TASKS = "frame_gallery.imaging.worker_tasks"
 WORKER_PREFIX = "frame_gallery.imaging.worker_"
 
-ALLOWED_THIRD_PARTY = frozenset({"PIL"})
-"""Phase 2: Pillow, and only in ``imaging/worker_*.py`` (D-107). Phase 3 adds
-``net.transport`` (urllib3, certifi) and Phase 5 the television worker task
-(samsungtvws); each extends this check deliberately."""
+ALLOWED_THIRD_PARTY = frozenset({"PIL", "urllib3", "certifi"})
+"""Pillow only in ``imaging/worker_*.py`` (D-107); ``urllib3`` and ``certifi``
+only in ``net/transport.py`` (Phase 3, D-131). Phase 5 adds the television
+worker task (samsungtvws); each extends this check deliberately."""
+
+TRANSPORT_THIRD_PARTY = frozenset({"urllib3", "certifi"})
+TRANSPORT_NETWORK_MODULES = frozenset({"socket", "ssl", "http"})
+"""Networking modules that only ``net/transport.py`` may import (Phase 3)."""
+
+NET_ONLY_MODULES = frozenset({"urllib.parse"})
+"""Pure URL helpers that ``net`` modules may import; every other ``urllib``
+module stays banned everywhere."""
 
 BANNED_EVERYWHERE = frozenset(
     {
@@ -69,10 +80,11 @@ BANNED_EVERYWHERE = frozenset(
         "webbrowser",
     }
 )
-"""Networking, process and foreign-code modules banned in every Phase 2 module.
-Phase 3 will admit networking in a dedicated ``net.transport`` only, and
-Phase 5 process management in ``isolation`` only; there is no ``asyncio`` at
-all (D-106)."""
+"""Networking, process and foreign-code modules banned in every module, with
+two deliberate exceptions: ``net/transport.py`` may import ``socket``, ``ssl``,
+and ``http`` (Phase 3), and ``net`` modules may import ``urllib.parse``. Phase 5
+will admit process management in ``isolation`` only; there is no ``asyncio``
+at all (D-106)."""
 
 BANNED_IN_SELECTION = BANNED_EVERYWHERE | frozenset(
     {"os", "pathlib", "shutil", "tempfile", "glob", "io", "fileinput"}
@@ -97,6 +109,7 @@ FORBIDDEN_AT_RUNTIME = (
     "PIL",
     "samsungtvws",
     "urllib3",
+    "certifi",
     "requests",
     "websocket",
     "socket",
@@ -105,7 +118,11 @@ FORBIDDEN_AT_RUNTIME = (
     "_ssl",
     "http.client",
 )
-"""Modules the parent must not have loaded after importing the whole package."""
+"""Modules the parent must not have loaded after importing the whole package,
+apart from ``net.transport``, which only the entry point imports (Phase 6)."""
+
+TRANSPORT_LOADS = ("urllib3", "certifi", "socket", "ssl", "http.client")
+TRANSPORT_NEVER_LOADS = ("PIL", "samsungtvws", "requests", "websocket")
 
 SKIPPED_DIRECTORIES = frozenset(
     {
@@ -164,6 +181,14 @@ class SourceModule:
     @property
     def is_selection(self) -> bool:
         return SELECTION_ROOT in self.path.parents
+
+    @property
+    def is_net(self) -> bool:
+        return NET_ROOT in self.path.parents
+
+    @property
+    def is_net_transport(self) -> bool:
+        return self.path == NET_TRANSPORT
 
 
 Detector = Callable[[SourceModule], list[str]]
@@ -334,21 +359,50 @@ def _describe(module: SourceModule, ref: ImportRef) -> str:
 # --- detectors -------------------------------------------------------------------
 
 
+def _third_party_allowed(module: SourceModule, top: str) -> bool:
+    if top == "PIL":
+        return module.is_imaging_worker
+    return top in TRANSPORT_THIRD_PARTY and module.is_net_transport
+
+
 def third_party_violations(module: SourceModule) -> list[str]:
-    """D-107: the parent never imports Pillow; Phase 2 has no other dependency."""
+    """D-107: the parent never imports Pillow; ``urllib3`` and ``certifi`` only
+    in ``net/transport.py`` (D-131)."""
     return [
         _describe(module, ref)
         for ref in _imports(module)
         if not (
             ref.top == PACKAGE
             or ref.top in sys.stdlib_module_names
-            or (ref.top in ALLOWED_THIRD_PARTY and module.is_imaging_worker)
+            or (ref.top in ALLOWED_THIRD_PARTY and _third_party_allowed(module, ref.top))
         )
     ]
 
 
+def _banned_allowed(module: SourceModule, ref: ImportRef) -> bool:
+    if ref.top in TRANSPORT_NETWORK_MODULES and module.is_net_transport:
+        return ref.module == ref.top or ref.module.startswith(("http.client", "ssl.", "socket."))
+    return module.is_net and ref.module in NET_ONLY_MODULES
+
+
 def banned_module_violations(module: SourceModule) -> list[str]:
-    return [_describe(module, ref) for ref in _imports(module) if ref.top in BANNED_EVERYWHERE]
+    return [
+        _describe(module, ref)
+        for ref in _imports(module)
+        if ref.top in BANNED_EVERYWHERE and not _banned_allowed(module, ref)
+    ]
+
+
+def transport_import_violations(module: SourceModule) -> list[str]:
+    """Only the entry point (Phase 6) may import the real transport; every
+    other module works against the ``net.wire`` protocols."""
+    if module.path == PACKAGE_ROOT / "__main__.py":
+        return []
+    return [
+        _describe(module, ref)
+        for ref in _imports(module, members=True)
+        if ref.module == NET_TRANSPORT_MODULE
+    ]
 
 
 def process_call_violations(module: SourceModule) -> list[str]:
@@ -442,6 +496,24 @@ def test_no_module_uses_networking_or_process_modules() -> None:
     assert _tree_violations(banned_module_violations) == []
 
 
+def test_only_the_entry_point_imports_the_real_transport() -> None:
+    assert _tree_violations(transport_import_violations) == []
+
+
+def test_networking_is_confined_to_the_transport_module() -> None:
+    # Guard against the exceptions above passing vacuously.
+    modules = {module.relative: module for module in _source_modules()}
+    transport = modules["src/frame_gallery/net/transport.py"]
+    tops = {ref.top for ref in _imports(transport)}
+    assert {"socket", "ssl", "http", "urllib3", "certifi"} <= tops
+    for module in modules.values():
+        if module.is_net_transport:
+            continue
+        assert not {ref.top for ref in _imports(module)} & (
+            TRANSPORT_NETWORK_MODULES | TRANSPORT_THIRD_PARTY
+        ), module.relative
+
+
 def test_no_module_starts_a_process_through_os() -> None:
     assert _tree_violations(process_call_violations) == []
 
@@ -487,6 +559,32 @@ VIOLATIONS: Final = [
             "__import__('ssl')",
             "import importlib as il\nNAME = 'socket'\nil.import_module(NAME)",
             "import importlib\ngetattr(importlib, 'import_module')('select')",
+            "import urllib.parse",
+        )
+    ),
+    # Networking modules elsewhere in net, or other urllib modules in net.
+    *(
+        pytest.param(banned_module_violations, relative, source, id=f"{relative}: {source}")
+        for relative, source in (
+            ("net/gateway.py", "import socket"),
+            ("net/gateway.py", "import ssl"),
+            ("net/policy.py", "import http.client"),
+            ("net/policy.py", "from urllib.request import urlopen"),
+            ("net/transport.py", "import urllib.request"),
+            ("net/transport.py", "import select"),
+            ("net/transport.py", "import subprocess"),
+            ("net/transport.py", "import http.server"),
+            ("ha/client.py", "import socket"),
+            ("providers/aic.py", "from urllib.parse import quote"),
+        )
+    ),
+    # The real transport outside the entry point.
+    *(
+        pytest.param(transport_import_violations, relative, source, id=f"{relative}: {source}")
+        for relative, source in (
+            ("net/gateway.py", "from frame_gallery.net.transport import Urllib3Transport"),
+            ("app/runner.py", "import frame_gallery.net.transport"),
+            ("ha/client.py", "from frame_gallery.net import transport"),
         )
     ),
     # Process creation through os, in any spelling.
@@ -561,6 +659,12 @@ VIOLATIONS: Final = [
         pytest.param(third_party_violations, relative, source, id=f"{relative}: {source}")
         for relative, source in (
             ("app/runner.py", "import requests"),
+            ("app/runner.py", "import urllib3"),
+            ("net/gateway.py", "import urllib3"),
+            ("net/policy.py", "import certifi"),
+            ("imaging/worker_tasks.py", "import urllib3"),
+            ("net/transport.py", "from PIL import Image"),
+            ("net/transport.py", "import requests"),
             ("imaging/fit.py", "from PIL import Image"),
             ("app/runner.py", "import importlib\nimportlib.import_module('PIL.Image')"),
             ("isolation/worker_tasks.py", "import PIL"),
@@ -644,6 +748,30 @@ ALLOWED: Final = [
         "from frame_gallery.app import ports",
         id="absolute",
     ),
+    pytest.param(
+        banned_module_violations,
+        "net/transport.py",
+        "import socket\nimport ssl\nimport http.client\nfrom http.client import HTTPException",
+        id="networking-in-the-transport",
+    ),
+    pytest.param(
+        banned_module_violations,
+        "net/policy.py",
+        "from urllib.parse import quote, urlsplit\nimport urllib.parse",
+        id="url-parsing-in-net",
+    ),
+    pytest.param(
+        third_party_violations,
+        "net/transport.py",
+        "import certifi\nimport urllib3\nfrom urllib3.connection import HTTPSConnection",
+        id="urllib3-in-the-transport",
+    ),
+    pytest.param(
+        transport_import_violations,
+        "__main__.py",
+        "from frame_gallery.net.transport import Urllib3Transport",
+        id="entry-point-wires-the-transport",
+    ),
 ]
 
 
@@ -674,6 +802,9 @@ imported, skipped, culprits = [], [], {}
 for info in pkgutil.walk_packages(frame_gallery.__path__, "frame_gallery."):
     leaf = info.name.rsplit(".", 1)[-1]
     if info.name.startswith("frame_gallery.imaging.") and leaf.startswith("worker_"):
+        skipped.append(info.name)
+        continue
+    if info.name == "frame_gallery.net.transport":
         skipped.append(info.name)
         continue
     before = set(present())
@@ -716,8 +847,44 @@ def test_the_parent_package_loads_no_worker_or_network_library() -> None:
     assert "frame_gallery.budget.phases" in report["imported"]
     assert "frame_gallery.app.ports" in report["imported"]
     assert WORKER_TASKS in report["skipped"]
+    assert NET_TRANSPORT_MODULE in report["skipped"]
+    assert "frame_gallery.net.gateway" in report["imported"]
     assert not any(name.startswith("frame_gallery.imaging.worker_") for name in report["imported"])
     assert report["present"] == [], f"loaded by: {report['culprits']}"
+
+
+_TRANSPORT_SCRIPT = """
+import json
+import sys
+
+names = sys.argv[1:]
+before = sorted(name for name in names if name in sys.modules)
+import frame_gallery.net.transport
+after = sorted(name for name in names if name in sys.modules)
+print(json.dumps({"before": before, "after": after}))
+"""
+
+
+def test_the_transport_loads_only_the_network_stack() -> None:
+    env = {
+        "PATH": os.environ.get("PATH", os.defpath),
+        "PYTHONPATH": str(SRC_ROOT),
+        "PYTHONDONTWRITEBYTECODE": "1",
+    }
+    names = (*TRANSPORT_LOADS, *TRANSPORT_NEVER_LOADS)
+    completed = subprocess.run(  # noqa: S603 - fixed arguments: this interpreter and a literal
+        [sys.executable, "-P", "-c", _TRANSPORT_SCRIPT, *names],
+        capture_output=True,
+        text=True,
+        env=env,
+        cwd=PROJECT_ROOT,
+        timeout=60,
+        check=False,
+    )
+    assert completed.returncode == 0, completed.stderr
+    report = json.loads(completed.stdout)
+    assert report["before"] == []
+    assert set(report["after"]) == set(TRANSPORT_LOADS)
 
 
 # --- D-125: the user's television address ----------------------------------------

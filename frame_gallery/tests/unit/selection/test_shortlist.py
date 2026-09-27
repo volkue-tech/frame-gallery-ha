@@ -12,7 +12,7 @@ from dataclasses import dataclass
 
 import pytest
 
-from frame_gallery.budget.allowance import Allowance
+from frame_gallery.budget.allowance import Allowance, AllowanceExhausted
 from frame_gallery.budget.deadline import Deadline, DeadlineExceeded
 from frame_gallery.budget.limits import (
     CANDIDATE_ALLOWANCE,
@@ -861,6 +861,22 @@ def test_a_request_cut_off_by_the_deadline_ends_discovery() -> None:
     assert result.provider_error is None
     assert result.limits_reached
     assert not result.transport_failure
+
+
+def test_a_spent_metadata_allowance_ends_discovery_as_a_limit() -> None:
+    # The provider's gateway channel raises when its 15 metadata requests
+    # are used up (§7.2); that is a search limit, not a failure.
+    source = ScriptedSource(
+        [work(1001, WIDE), AllowanceExhausted("metadata_requests"), work(1002, STRICT)]
+    )
+    result = select(source)
+    assert ids(result) == ["aic:1001"]
+    assert bases(result) == [ChoiceBasis.FALLBACK]
+    assert result.end is DiscoveryEnd.METADATA_ALLOWANCE
+    assert result.provider_error is None
+    assert result.limits_reached
+    assert not result.transport_failure
+    assert not result.provider_stopped
 
 
 def test_the_deadline_is_checked_before_every_pull() -> None:

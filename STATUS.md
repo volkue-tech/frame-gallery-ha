@@ -15,8 +15,8 @@ Last updated: 2026-09-27
 
 | Step | Commit |
 | --- | --- |
-| 1. Documentation re-check and the approved decisions (D-146; `ARCHITECTURE.md` §8.3, §9.2, §9.5, §9.6, §10, §15.2, §23) | this commit |
-| 2. Guarded network gateway and the `urllib3` and `certifi` dependencies | pending |
+| 1. Documentation re-check and the approved decisions (D-146; `ARCHITECTURE.md` §8.3, §9.2, §9.5, §9.6, §10, §15.2, §23) | `09d7c46` |
+| 2. Guarded network gateway and the `urllib3` and `certifi` dependencies (D-147) | this commit |
 | 3. Home Assistant helper reader | pending |
 | 4. Local media provider | pending |
 | 5. Art Institute of Chicago adapter | pending |
@@ -180,7 +180,7 @@ Last updated: 2026-09-27
 
 ## Next action
 
-Continue Phase 3 with step 2 (guarded network gateway and dependencies), then stop at the Phase 3 gate for the Codex review.
+Continue Phase 3 with step 3 (Home Assistant helper reader), then stop at the Phase 3 gate for the Codex review.
 
 **Decisions needed, by phase:**
 

@@ -20,7 +20,7 @@ import heapq
 from collections.abc import Callable, Iterable, Iterator
 from dataclasses import dataclass, field
 
-from frame_gallery.budget.allowance import Allowance
+from frame_gallery.budget.allowance import Allowance, AllowanceExhausted
 from frame_gallery.budget.deadline import Deadline, DeadlineExceeded
 from frame_gallery.budget.limits import PROBE_REQUEST_S, SHORTLIST_SIZE
 from frame_gallery.domain import CANVAS, FitMode, Size
@@ -94,6 +94,9 @@ class DiscoveryEnd(enum.StrEnum):
     """The discovery deadline expired (including a request cut off by it)."""
 
     CANDIDATE_ALLOWANCE = "candidate_allowance"
+    METADATA_ALLOWANCE = "metadata_allowance"
+    """The provider used up its metadata requests (§7.2, D-114)."""
+
     PROVIDER_ERROR = "provider_error"
     """A provider or transport error ended discovery (not a 403/429 stop)."""
 
@@ -146,7 +149,12 @@ class SelectionResult:
     @property
     def limits_reached(self) -> bool:
         return (
-            self.end in (DiscoveryEnd.DEADLINE, DiscoveryEnd.CANDIDATE_ALLOWANCE)
+            self.end
+            in (
+                DiscoveryEnd.DEADLINE,
+                DiscoveryEnd.CANDIDATE_ALLOWANCE,
+                DiscoveryEnd.METADATA_ALLOWANCE,
+            )
             or self.stats.probe_allowance_hit
             or self.stats.inspection_allowance_hit
         )
@@ -359,6 +367,9 @@ class _Discovery:
             raise _DiscoveryEnded(end, error) from None
         except DeadlineExceeded:
             raise _DiscoveryEnded(DiscoveryEnd.DEADLINE) from None
+        except AllowanceExhausted:
+            # The provider's metadata allowance, not a failure: a search limit.
+            raise _DiscoveryEnded(DiscoveryEnd.METADATA_ALLOWANCE) from None
         self._tally.candidates_seen += 1
         return candidate
 

@@ -51,11 +51,25 @@ The project-owned source code is licensed under the Apache License 2.0 (D-102, a
 - This software is based in part on the work of the Independent JPEG Group.
 - Portions of this software are copyright © The FreeType Project (www.freetype.org). All rights reserved.
 
+### urllib3 2.8.0
+
+- Source: PyPI, `urllib3==2.8.0`, the pure-Python wheel `urllib3-2.8.0-py3-none-any.whl` (SHA-256 `0cf3cae568d36aa9576b28dfb35f11328f1cb974ca7647d9475ebb86c75ac6e3`), installed unmodified and hash-pinned (`frame_gallery/requirements/runtime.txt`). Approved by the user for Phase 3 (2026-09-27).
+- Licence: `MIT` (the `License-Expression` of the installed distribution; licence file `LICENSE.txt`, "Copyright (c) 2008-2020 Andrey Petrov and contributors"). Checked in the installed metadata on 2026-09-27.
+- No optional extras are installed (`brotli`, `h2`, `socks`, `zstd` are not used).
+- Used only by `net/transport.py`, the gateway's HTTP transport (D-108, D-131).
+- Obligation: the MIT licence text and copyright notice accompany every distribution.
+
+### certifi 2026.7.22
+
+- Source: PyPI, `certifi==2026.7.22`, the pure-Python wheel `certifi-2026.7.22-py3-none-any.whl` (SHA-256 `62f22742b58a1a33014a2b6b706588a8d7e2a88ae7bd1a6ebe8c992928483775`), installed unmodified and hash-pinned. Approved by the user for Phase 3 (2026-09-27).
+- Licence: `MPL-2.0` (the legacy `License` field of the installed distribution, which has no `License-Expression`; licence file `LICENSE`). Its licence file states that the package contains a modified version of Mozilla's CA bundle (`ca-bundle.crt`, extracted from Mozilla's `certdata.txt`) under the Mozilla Public License 2.0. Checked in the installed metadata on 2026-09-27.
+- Used only by `net/transport.py`, as the gateway's explicit CA bundle (§10).
+- Obligations (MPL-2.0): the files are distributed unmodified; this notice identifies them and their licence; the MPL-2.0 text and a pointer to the source form (the PyPI sdist `certifi-2026.7.22.tar.gz`, SHA-256 `741e2c3b351ddf169a738da9f2c048608ff7f2c5cc02f1ebc6b118bb090d5d55`) accompany every release (D-135).
+
 ### Components that enter in later phases
 
 These are **not yet used**. Each is added here when it enters, after its licence is checked in the pinned distribution:
 
-- `urllib3` (`MIT`) and `certifi` (`MPL-2.0`): Phase 3.
 - `samsungtvws` 3.0.6 (`LGPL-3.0`) and its dependencies `websocket-client`, `requests` (with its `NOTICE`), `charset-normalizer`, `idna`, `yarl` (with its `NOTICE`), `multidict`, and `propcache` (with its `NOTICE`): Phase 5.
 - The base image and its OS packages, including GPL and LGPL packages such as BusyBox: Phase 6, from the image SBOM.
 

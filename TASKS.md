@@ -67,7 +67,7 @@ Gate: Codex reviews architecture conformance and independence.
 Owner: Claude
 
 - [x] Re-verify the live Art Institute of Chicago and Cleveland Museum of Art documentation (documentation pages only). Done on 2026-09-27 (D-146).
-- [ ] Implement the guarded network gateway, and add `urllib3` and `certifi` to the third-party notices.
+- [x] Implement the guarded network gateway, and add `urllib3` and `certifi` to the third-party notices (D-147).
 - [ ] Implement the `ha` helper-override client (at most 4 reads, static fallback; B3–B5).
 - [ ] Implement the local media provider.
 - [ ] Implement the Art Institute of Chicago provider: documented API, CC0 public-domain works only.
