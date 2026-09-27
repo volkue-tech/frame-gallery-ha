@@ -11,8 +11,9 @@ although history does not hold them::
   run removes it because no ``upload_started`` marker was seen or the upload
   was explicitly refused.
 - ``uploaded`` is written when the ``uploaded`` marker arrives. It excludes
-  the work until the work reaches history; the entry is then pruned on the
-  next ledger write.
+  the work until the work reaches history; the entry is then pruned when a
+  later run commits its intent, once both copies of history (the primary and
+  its ``.bak``) hold the work.
 
 The ledger holds at most 20 000 entries and 5 MiB. The oldest ``uploaded``
 entries are dropped first, then the oldest ``uncertain`` ones; the entry

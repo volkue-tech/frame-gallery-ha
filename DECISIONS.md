@@ -1087,6 +1087,13 @@ Status: proposed (Phase 4 gate).
 - **Schema strictness.** One invalid entry makes the whole document damaged, so the reader falls back to `.bak`. Unknown fields are ignored and are not written back. A repeated identifier keeps its last position.
 - **History bounds.** 20 000 entries and 5 MiB; the oldest entries go first, and the new entry is always kept. Identifiers are at most 200 ASCII characters and timestamps have a fixed length, so 20 000 entries take at most about 4.64 MiB: the entry bound is the one that binds (a test checks this).
 
+**Amendment after the internal review of `a74ba1c`, `1677ccd`, and `f347ffb`** (see *Review records*):
+
+- **Timestamps** must lie from 2000 to 8999 (UTC). Dates at the limits of `datetime` raised `OverflowError` when a quarantine period or a time to live was added, and ended every run as `internal_error`. They are now damage, and the reader also treats an arithmetic error in a schema check as damage.
+- **Numbers** too large for a finite float (for example `1e400`) are refused like NaN and Infinity.
+- **A newer version over the size bound** is recognised by its first 256 bytes, which every version writes as `{"format": …, "version": …`, and is reported as newer instead of being quarantined. Later versions must keep writing these two fields first.
+- **The sweep pattern** now matches the `.bak` temporary files of names up to the 100 characters that `check_name` allows.
+
 ### D-154 — The upload ledger and the file state store [§13.3, §13.6, D-137]
 
 Status: proposed (Phase 4 gate).
@@ -1098,7 +1105,7 @@ Status: proposed (Phase 4 gate).
 - **Promotion.** A failed promotion raises `StateError`. The runner logs an ERROR and keeps the outcome (§13.6 step 4). If only the `fsync` failed, the file already says `uploaded`: stricter than required, never weaker.
 - **Recording history.** A failed rename raises `StateError`, which gives `delivered_unrecorded`. A failed directory `fsync` after the rename only logs a WARNING: the history is in place, and the ledger's `uploaded` entry excludes the work anyway.
 - **Memory mirrors the files.** After a failure before the rename, the previous entries stay. After a failure only in the `fsync`, the new entries are kept, because the file holds them.
-- **Pruning.** Each ledger write drops works that are in the history loaded for this run, and intents whose quarantine has ended. The delivered work's `uploaded` entry is therefore pruned when the next run commits its intent.
+- **Pruning.** Only the intent write prunes. It drops intents whose quarantine has ended, and works that **both** copies of history hold, the primary and its `.bak`. `.bak` is one generation old, so a delivered work keeps its `uploaded` entry until a damaged primary can no longer lose its exclusion (amended after the internal review, see below).
 - **Transitions.**
   - An intent never turns an `uploaded` entry back into `uncertain`.
   - A removal only ever removes an `uncertain` entry.
@@ -1124,6 +1131,7 @@ Status: proposed (Phase 4 gate).
   - Only exact names of the right kind are touched; symbolic links and other kinds are left alone.
   - At most 1 000 entries are scanned per directory. A missing directory is skipped, errors only log a warning, and the number removed is logged at INFO.
   - The quarantine directory is not swept; it has its own bound (D-153).
+- **Amendment after the internal review:** a run directory whose `in/` or `out/` could not be created is removed at once, so `create` never leaves a half-made directory for the next sweep.
 
 ### D-156 — The bounded metadata cache [§13.4, D-150, D-151; F6]
 
@@ -1420,6 +1428,22 @@ L = likelihood, I = impact; H = high, M = medium, L = low.
 | Q-24 | Cleveland colour filtering by local analysis, for example of the documented 900 px web rendition, counted against the existing download allowance and the content-window time budget, not against the 30 remote dimension requests. Only if it fits the same download and time budgets. | Defer until after the beta | After the beta |
 
 ## Review records
+
+### Internal review of the store commits `a74ba1c`, `1677ccd`, and `f347ffb` (Claude, Phase 4)
+
+One independent reviewer checked crash safety, the reader, the ledger and the state store, the bounds, test quality, and D-153 to D-155. It ran reproductions against a snapshot of `f347ffb`, in a scratch directory, and injected failures into every system call of a ledger write (9 points), a delivered run (27 points), and the store's whole life cycle (113 points). Seven findings were confirmed, all fixed in the commit that follows `5435d06`:
+
+1. **Medium.** A timestamp at the limits of `datetime` (for example `0001-01-01T00:00:00+05:00`) raised `OverflowError` in the reader and the ledger: every run would have ended as `internal_error`, and the file was never quarantined.
+2. **Medium (design interaction).** The ledger pruned a work as soon as the history primary held it. If a later run then committed an intent without recording (the television off) and the primary was damaged afterwards, the one-generation-old `.bak` no longer excluded the newest delivered work.
+3. **Low.** The sweep pattern missed the `.bak` temporary files of names of 97 to 100 characters (latent).
+4. **Low.** A newer-version file over this version's size bound was quarantined instead of ending the run with `state_error`.
+5. **Low.** A failed `RunWorkspace.create` left a half-made run directory for the next sweep.
+6. **Low (documentation).** D-154 said every ledger write prunes; only the intent write does.
+7. **Low (documentation).** Docstrings claimed that only parse failures are quarantined, and that `decode_json` refuses every infinity (`1e400` passed).
+
+Test gaps, all closed: the guard that keeps a damaged primary from becoming `.bak` was tested only in a case where the quarantine had already removed the primary; the loser's lock descriptor was never checked; the ledger's exact byte bound was untested. Each new test was checked to fail against the defect or the mutation that the reviewer used.
+
+The reviewer confirmed as sound: no interleaving leaves the primary missing or a damaged `.bak`; no descriptor leaks under failure injection; memory always matches the files; the committed intent is durable before success is reported; the lock and the sweep order; the reader on links, FIFOs, sockets, directories, deep nesting, invalid UTF-8, and duplicate keys; and the history and ledger bounds, without off-by-one errors.
 
 ### Phase 3 gate decision (user, 2026-09-27)
 

@@ -38,6 +38,7 @@ from frame_gallery.budget.deadline import Deadline
 from frame_gallery.errors import AlreadyRunning, StateError
 from frame_gallery.selection.exclusion import ExclusionSet
 from frame_gallery.store.atomic import (
+    BACKUP_SUFFIX,
     CommitError,
     Directory,
     DocumentFile,
@@ -46,6 +47,7 @@ from frame_gallery.store.atomic import (
     Staged,
     errno_name,
     open_directory,
+    read_document,
 )
 from frame_gallery.store.history import (
     HISTORY_FILE,
@@ -99,6 +101,8 @@ class FileStateStore:
         self._history_file: DocumentFile[tuple[HistoryEntry, ...]] | None = None
         self._ledger_file: DocumentFile[tuple[LedgerEntry, ...]] | None = None
         self._history: tuple[HistoryEntry, ...] | None = None
+        self._settled: frozenset[str] = frozenset()
+        """Works in both copies of history: their ledger entries may go."""
         self._ledger: tuple[LedgerEntry, ...] = ()
         self._prestaged: tuple[Staged, tuple[HistoryEntry, ...]] | None = None
 
@@ -160,10 +164,24 @@ class FileStateStore:
 
     def _loaded_history(self) -> tuple[HistoryEntry, ...]:
         if self._history is None:
-            history = _usable(self._files()[0].load(), HISTORY_FILE) or ()
-            self._ledger = _usable(self._files()[1].load(), LEDGER_FILE) or ()
+            history_file, ledger_file = self._files()
+            history = _usable(history_file.load(), HISTORY_FILE) or ()
+            self._ledger = _usable(ledger_file.load(), LEDGER_FILE) or ()
+            self._settled = self._in_both_copies(history_file.directory, history)
             self._history = history
         return self._history
+
+    @staticmethod
+    def _in_both_copies(directory: Directory, history: tuple[HistoryEntry, ...]) -> frozenset[str]:
+        """The works in history and in its ``.bak`` copy. Only these are pruned
+        from the ledger: ``.bak`` is one generation old, so a work that only
+        the primary holds keeps its ledger entry until a damaged primary can no
+        longer lose it (D-154)."""
+        backup = read_document(
+            directory, HISTORY_FILE + BACKUP_SUFFIX, HISTORY_SPEC, backup=False, quarantine=None
+        )
+        copies = {e.qualified_id for e in backup.value or ()}
+        return frozenset(e.qualified_id for e in history if e.qualified_id in copies)
 
     def _files(
         self,
@@ -212,10 +230,10 @@ class FileStateStore:
     # -------------------------------------------------------------- ledger
 
     def commit_upload_intent(self, qualified_id: str, now: datetime) -> None:
-        """Durably record an ``uncertain`` intent; works now in history and
-        expired intents are pruned. Raises ``StateError``."""
-        history = {e.qualified_id for e in self._loaded_history()}
-        current = pruned(self._ledger, history=history, now=now)
+        """Durably record an ``uncertain`` intent; works in both copies of
+        history and expired intents are pruned. Raises ``StateError``."""
+        self._loaded_history()
+        current = pruned(self._ledger, history=self._settled, now=now)
         self._write_ledger(bounded(with_intent(current, qualified_id, now), keep=qualified_id))
 
     def promote_upload(self, qualified_id: str, now: datetime) -> None:

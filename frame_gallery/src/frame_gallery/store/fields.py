@@ -13,6 +13,8 @@ from typing import Final
 from frame_gallery.domain import is_qualified_id
 
 MAX_TIMESTAMP_LENGTH: Final = 40
+EARLIEST: Final = datetime(2000, 1, 1, tzinfo=UTC)
+LATEST: Final = datetime(9000, 1, 1, tzinfo=UTC)
 
 
 def timestamp_text(moment: datetime) -> str:
@@ -24,7 +26,10 @@ def timestamp_text(moment: datetime) -> str:
 
 
 def parse_timestamp(value: object) -> datetime:
-    """A timezone-aware timestamp, in UTC. Raises ``ValueError``."""
+    """A timezone-aware timestamp from 2000 to 8999, in UTC. Raises ``ValueError``.
+
+    The range keeps every later calculation (a quarantine period or a time to
+    live added to it) far from the limits of ``datetime``."""
     if not isinstance(value, str) or len(value) > MAX_TIMESTAMP_LENGTH:
         msg = "invalid timestamp"
         raise ValueError(msg)
@@ -36,7 +41,14 @@ def parse_timestamp(value: object) -> datetime:
     if moment.tzinfo is None:
         msg = "a timestamp without a time zone"
         raise ValueError(msg)
-    return moment.astimezone(UTC)
+    try:
+        moment = moment.astimezone(UTC)
+    except OverflowError:
+        moment = LATEST  # beyond the limits of datetime: out of range as well
+    if not EARLIEST <= moment < LATEST:
+        msg = "a timestamp out of range"
+        raise ValueError(msg)
+    return moment
 
 
 def parse_qualified_id(value: object) -> str:

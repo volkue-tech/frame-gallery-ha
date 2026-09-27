@@ -110,6 +110,23 @@ class TestWorkspace:
         with pytest.raises(StateError, match=r"cannot create the run directory .EEXIST"):
             layout.workspace().create()
 
+    def test_a_half_made_run_directory_is_removed(
+        self, layout: StoreLayout, monkeypatch: pytest.MonkeyPatch
+    ) -> None:
+        """Review finding: a failure after the run directory existed left it behind."""
+        real_mkdir = os.mkdir
+
+        def mkdir(name: str, mode: int = 0o777, *, dir_fd: int | None = None) -> None:
+            if name == "out":
+                raise OSError(errno.ENOSPC, "full")
+            real_mkdir(name, mode, dir_fd=dir_fd)
+
+        monkeypatch.setattr(os, "mkdir", mkdir)
+        workspace = layout.workspace()
+        with pytest.raises(StateError, match="cannot create the run directory"):
+            workspace.create()
+        assert names(layout.tmp / "frame-gallery") == []
+
     def test_a_failed_removal_only_warns(
         self,
         layout: StoreLayout,

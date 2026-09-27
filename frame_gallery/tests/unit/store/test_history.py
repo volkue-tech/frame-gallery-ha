@@ -50,6 +50,25 @@ class TestFields:
         with pytest.raises(ValueError, match=r"."):
             parse_timestamp(value)
 
+    @pytest.mark.parametrize(
+        "value",
+        [
+            "0001-01-01T00:00:00+05:00",
+            "9999-12-31T23:00:00-05:00",
+            "9999-12-31T00:00:00+00:00",
+            "1999-12-31T23:59:59+00:00",
+            "9000-01-01T00:00:00+00:00",
+        ],
+    )
+    def test_timestamps_out_of_range_are_refused(self, value: str) -> None:
+        """Review finding: dates at the limits of datetime overflowed later."""
+        with pytest.raises(ValueError, match="out of range"):
+            parse_timestamp(value)
+
+    def test_the_range_limits(self) -> None:
+        assert parse_timestamp("2000-01-01T00:00:00+00:00").year == 2000
+        assert parse_timestamp("8999-12-31T23:59:59+00:00").year == 8999
+
     @pytest.mark.parametrize("value", ["aic:1", "cma:94979", "local:fp:" + "a" * 64])
     def test_qualified_identifiers_are_accepted(self, value: str) -> None:
         assert parse_qualified_id(value) == value

@@ -21,11 +21,12 @@ runs steps 4 to 6 (:meth:`DocumentFile.commit`), so recording history after
 ``selected`` is a single rename.
 
 The reader tries the primary, then ``.bak``, then gives up with an empty
-result. Only parse and schema failures are quarantined, and at most three
-quarantined files are kept. A document written by a newer version, or a file
-that exists but cannot be read, is not corruption: the reader reports it and
-the caller decides (history and the ledger then end the run with
-``state_error``). The reader never raises.
+result. Only damaged files are quarantined (not JSON, invalid, not a regular
+file, or over the size bound), and at most three quarantined files are kept.
+A document written by a newer version, or a file that exists but cannot be
+read, is not corruption: the reader reports it and the caller decides
+(history and the ledger then end the run with ``state_error``). The reader
+never raises.
 """
 
 from __future__ import annotations
@@ -36,6 +37,7 @@ import errno
 import itertools
 import json
 import logging
+import math
 import os
 import re
 import secrets
@@ -57,9 +59,10 @@ CREATE_FLAGS: Final = os.O_WRONLY | os.O_CREAT | os.O_EXCL | os.O_NOFOLLOW | os.
 
 FILE_NAME: Final = re.compile(r"[A-Za-z0-9_-][A-Za-z0-9_.-]{0,99}")
 TEMPORARY_MARKER: Final = ".tmp-"
-TEMPORARY_NAME: Final = re.compile(r"[A-Za-z0-9_-][A-Za-z0-9_.-]{0,99}\.tmp-[0-9a-f]{16}")
+TEMPORARY_NAME: Final = re.compile(r"[A-Za-z0-9_-][A-Za-z0-9_.-]{0,103}\.tmp-[0-9a-f]{16}")
 """Our own temporary files, ``<name>.tmp-<16 hex digits>`` and
-``<name>.bak.tmp-<16 hex digits>``: what the startup sweep removes (§14)."""
+``<name>.bak.tmp-<16 hex digits>`` for any name that :func:`check_name`
+accepts: what the startup sweep removes (§14)."""
 
 BACKUP_SUFFIX: Final = ".bak"
 QUARANTINE_DIRECTORY: Final = "quarantine"
@@ -225,6 +228,12 @@ class Directory:
         fd = self.fd
         return _read_opened(lambda: os.open(name, READ_FLAGS, dir_fd=fd), max_bytes)
 
+    def read_head(self, name: str, size: int) -> bytes | ReadFailure:
+        """At most the first ``size`` bytes of the regular file ``name``,
+        whatever its length. Never raises ``OSError``."""
+        fd = self.fd
+        return _read_opened(lambda: os.open(name, READ_FLAGS, dir_fd=fd), size, head=True)
+
     def names(self, limit: int) -> list[str]:
         """At most ``limit`` entry names, in no particular order. Raises ``OSError``."""
         with os.scandir(self.fd) as entries:
@@ -345,7 +354,9 @@ def read_path(path: Path, max_bytes: int) -> bytes | ReadFailure:
     return _read_opened(lambda: os.open(path, READ_FLAGS), max_bytes)
 
 
-def _read_opened(opener: Callable[[], int], max_bytes: int) -> bytes | ReadFailure:
+def _read_opened(
+    opener: Callable[[], int], max_bytes: int, *, head: bool = False
+) -> bytes | ReadFailure:
     try:
         fd = opener()
     except FileNotFoundError:
@@ -355,17 +366,19 @@ def _read_opened(opener: Callable[[], int], max_bytes: int) -> bytes | ReadFailu
             return ReadFailure.NOT_REGULAR
         return ReadFailure.UNREADABLE
     try:
-        return _read_regular(fd, max_bytes)
+        return _read_regular(fd, max_bytes, head=head)
     except OSError:
         return ReadFailure.UNREADABLE
     finally:
         _close_quietly(fd)
 
 
-def _read_regular(fd: int, max_bytes: int) -> bytes | ReadFailure:
+def _read_regular(fd: int, max_bytes: int, *, head: bool) -> bytes | ReadFailure:
     info = os.fstat(fd)
     if not stat.S_ISREG(info.st_mode):
         return ReadFailure.NOT_REGULAR
+    if head:
+        return _read_at_most(fd, max_bytes)
     if info.st_size > max_bytes:
         return ReadFailure.OVERSIZE
     data = _read_at_most(fd, max_bytes + 1)
@@ -392,10 +405,19 @@ def _refuse_constant(name: str) -> object:
     raise ValueError(msg)
 
 
+def _finite(text: str) -> float:
+    number = float(text)
+    if not math.isfinite(number):
+        msg = "a number out of range"
+        raise ValueError(msg)
+    return number
+
+
 def decode_json(data: bytes) -> object:
-    """Parse JSON; ``NaN`` and ``Infinity`` are refused. Raises ``ValueError``."""
+    """Parse JSON; ``NaN``, ``Infinity``, and numbers too large for a finite
+    float are refused. Raises ``ValueError``."""
     try:
-        return json.loads(data, parse_constant=_refuse_constant)
+        return json.loads(data, parse_constant=_refuse_constant, parse_float=_finite)
     except RecursionError:
         msg = "nested too deeply"
         raise ValueError(msg) from None
@@ -510,8 +532,30 @@ def _decode_document[T](raw: bytes, spec: DocumentSpec[T]) -> T:
         raise _Damaged(f"unsupported version {version}")
     try:
         return spec.parse(document)
-    except ValueError as exc:
+    except (ValueError, ArithmeticError) as exc:
         raise _Damaged(f"invalid content: {exc}") from None
+
+
+_ENVELOPE: Final = re.compile(
+    rb'\s*\{\s*"format"\s*:\s*"([a-z-]{1,64})"\s*,\s*"version"\s*:\s*(\d{1,9})\b'
+)
+"""The start of a document as every version writes it: ``format``, then ``version``."""
+
+HEAD_BYTES: Final = 256
+
+
+def _examine[T](directory: Directory, name: str, spec: DocumentSpec[T]) -> _Verdict[T]:
+    """Read and judge one copy. A file over the size bound is a newer version,
+    not damage, if its first bytes say so."""
+    raw = directory.read_bytes(name, spec.max_bytes)
+    if raw is ReadFailure.OVERSIZE:
+        head = directory.read_head(name, HEAD_BYTES)
+        match = _ENVELOPE.match(head) if isinstance(head, bytes) else None
+        if match is not None and match.group(1).decode() == spec.format:
+            version = int(match.group(2))
+            if version > spec.version:
+                return _Verdict(_Kind.NEWER, version=version)
+    return _judge(raw, spec)
 
 
 def _judge[T](raw: bytes | ReadFailure, spec: DocumentSpec[T]) -> _Verdict[T]:
@@ -556,14 +600,14 @@ def read_document[T](
     quarantine: Quarantine | None,
 ) -> ReadResult[T]:
     """Primary, then ``.bak`` (if ``backup``), then empty. Never raises."""
-    primary = _judge(directory.read_bytes(name, spec.max_bytes), spec)
+    primary = _examine(directory, name, spec)
     result = _conclusive(primary, Origin.PRIMARY)
     if result is not None:
         return result
     damaged = _set_aside_if_damaged(primary, directory, name, quarantine)
     if backup:
         copy = name + BACKUP_SUFFIX
-        second = _judge(directory.read_bytes(copy, spec.max_bytes), spec)
+        second = _examine(directory, copy, spec)
         result = _conclusive(second, Origin.BACKUP)
         if result is not None:
             if result.origin is Origin.BACKUP:

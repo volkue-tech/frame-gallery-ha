@@ -90,6 +90,12 @@ class TestNames:
         with pytest.raises(ValueError, match="invalid file name"):
             check_name(name)
 
+    def test_the_temporary_pattern_matches_the_longest_names(self) -> None:
+        """Review finding: the backup of a 100-character name was never swept."""
+        name = check_name("n" * 100)
+        assert TEMPORARY_NAME.fullmatch(f"{name}.tmp-0123456789abcdef")
+        assert TEMPORARY_NAME.fullmatch(f"{name}.bak.tmp-0123456789abcdef")
+
     def test_the_temporary_pattern_matches_both_forms(self) -> None:
         assert TEMPORARY_NAME.fullmatch("history.json.tmp-0123456789abcdef")
         assert TEMPORARY_NAME.fullmatch("history.json.bak.tmp-0123456789abcdef")
@@ -460,6 +466,11 @@ class TestJson:
         with pytest.raises(ValueError, match=r"."):
             decode_json(text)
 
+    def test_numbers_beyond_a_finite_float_are_refused(self) -> None:
+        with pytest.raises(ValueError, match="out of range"):
+            decode_json(b'{"a": 1e400}')
+        assert decode_json(b'{"a": 1.5e3}') == {"a": 1500.0}
+
     def test_deep_nesting_is_refused(self) -> None:
         with pytest.raises(ValueError, match="nested too deeply"):
             decode_json(b"[" * 100_000 + b"]" * 100_000)
@@ -537,6 +548,47 @@ class TestReadDocument:
         assert target.exists()
         [moved] = quarantined(directory)
         assert (state_path(directory) / QUARANTINE_DIRECTORY / moved).is_symlink()
+
+    def test_an_oversize_file_of_a_newer_version_is_reported_not_quarantined(
+        self, directory: Directory
+    ) -> None:
+        """Review finding: the size check ran before the version was known."""
+        big = json.dumps(document(list(range(2000)), version=3)).encode()
+        assert len(big) > SPEC.max_bytes
+        put(directory, "doc.json", big)
+        result = self.read(directory)
+        assert result.newer_version == 3
+        assert quarantined(directory) == []
+
+    @pytest.mark.parametrize(
+        "content",
+        [
+            json.dumps(document(list(range(2000)), version=2)).encode(),
+            json.dumps({"format": "other", "version": 9, "items": list(range(2000))}).encode(),
+            json.dumps({"version": 9, "format": "test-doc", "items": list(range(2000))}).encode(),
+            b"x" * 5000,
+        ],
+    )
+    def test_other_oversize_files_are_damage(self, directory: Directory, content: bytes) -> None:
+        put(directory, "doc.json", content)
+        result = self.read(directory)
+        assert result.newer_version is None
+        assert result.origin is Origin.EMPTY
+        assert len(quarantined(directory)) == 1
+
+    def test_an_oversize_file_whose_head_cannot_be_read_is_damage(
+        self, directory: Directory, monkeypatch: pytest.MonkeyPatch
+    ) -> None:
+        put(directory, "doc.json", json.dumps(document(list(range(2000)), version=3)).encode())
+        monkeypatch.setattr(Directory, "read_head", lambda *_: ReadFailure.UNREADABLE)
+        assert self.read(directory).newer_version is None
+        assert len(quarantined(directory)) == 1
+
+    def test_read_head_returns_the_start_of_any_regular_file(self, directory: Directory) -> None:
+        put(directory, "big", b"0123456789" * 1000)
+        assert directory.read_head("big", 12) == b"012345678901"
+        (state_path(directory) / "dir").mkdir()
+        assert directory.read_head("dir", 12) is ReadFailure.NOT_REGULAR
 
     def test_a_missing_primary_falls_back_to_the_backup(self, directory: Directory) -> None:
         put(directory, "doc.json.bak", raw(document([3])))
@@ -688,6 +740,20 @@ class TestDocumentFile:
             1,
             2,
         ]
+
+    def test_a_damaged_primary_that_stays_in_place_never_becomes_the_backup(
+        self, directory: Directory
+    ) -> None:
+        """Review finding: when the quarantine fails, the damaged primary stays;
+        the next write must still not copy it over the good backup."""
+        put(directory, QUARANTINE_DIRECTORY, b"not a directory: the quarantine fails")
+        put(directory, "doc.json", b"{damaged")
+        put(directory, "doc.json.bak", raw(document([1])))
+        file = self.file(directory)
+        assert file.load().origin is Origin.BACKUP
+        assert (state_path(directory) / "doc.json").read_bytes() == b"{damaged"
+        file.write(document([1, 2]))
+        assert json.loads((state_path(directory) / "doc.json.bak").read_bytes())["items"] == [1]
 
     def test_without_backup_no_copy_is_made(self, directory: Directory) -> None:
         file = self.file(directory, backup=False)

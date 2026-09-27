@@ -101,6 +101,15 @@ class TestOpen:
             stores.open()
         assert stores.sweeps == 1  # the loser never sweeps
 
+    def test_the_loser_closes_its_lock_descriptor(self, stores: Stores) -> None:
+        stores.open()
+        before = len(os.listdir("/dev/fd"))  # noqa: PTH208 - counts open descriptors
+        for _ in range(3):
+            with pytest.raises(AlreadyRunning):
+                stores.open()
+            stores.opened.pop().close()
+        assert len(os.listdir("/dev/fd")) == before  # noqa: PTH208
+
     def test_the_lock_is_released_on_close(self, stores: Stores) -> None:
         first = stores.open()
         first.close()
@@ -167,20 +176,51 @@ class TestDelivery:
             "upload_ledger.json.bak",
         ]
 
-    def test_the_next_run_excludes_the_work_and_prunes_the_ledger(self, stores: Stores) -> None:
+    def test_the_next_run_excludes_the_work(self, stores: Stores) -> None:
         """E4-E6: exactly one identifier in history; never resent."""
         first = stores.open()
         run_delivery(first, "aic:1", stores.clock)
         first.close()
         second = stores.open()
         exclusions = second.load_exclusions(stores.clock.utc_now())
-        assert exclusions == ExclusionSet(
-            history=frozenset({"aic:1"}), uploaded=frozenset({"aic:1"})
-        )
-        second.prestage_history("aic:2", stores.clock.utc_now())
-        second.commit_upload_intent("aic:2", stores.clock.utc_now())
-        # The work that reached history is pruned from the ledger on this write.
-        assert [e["id"] for e in stores.ledger()] == ["aic:2"]
+        expected = ExclusionSet(history=frozenset({"aic:1"}), uploaded=frozenset({"aic:1"}))
+        assert exclusions == expected
+
+    def test_the_ledger_prunes_a_work_once_both_history_copies_hold_it(
+        self, stores: Stores
+    ) -> None:
+        for number in (1, 2):
+            store = stores.open()
+            run_delivery(store, f"aic:{number}", stores.clock)
+            store.close()
+        # history.json holds aic:1 and aic:2; history.json.bak holds only aic:1.
+        third = stores.open()
+        third.load_exclusions(stores.clock.utc_now())
+        third.commit_upload_intent("aic:3", stores.clock.utc_now())
+        assert [(e["id"], e["state"]) for e in stores.ledger()] == [
+            ("aic:2", "uploaded"),
+            ("aic:3", "uncertain"),
+        ]
+
+    def test_a_damaged_history_never_loses_the_newest_delivery(self, stores: Stores) -> None:
+        """Review finding: a run whose television was off prunes the ledger;
+        a damaged primary then falls back to a .bak that is one generation old."""
+        for number in (1, 2):
+            store = stores.open()
+            run_delivery(store, f"aic:{number}", stores.clock)
+            store.close()
+        third = stores.open()  # the television is unreachable: no record
+        third.load_exclusions(stores.clock.utc_now())
+        third.prestage_history("aic:3", stores.clock.utc_now())
+        third.commit_upload_intent("aic:3", stores.clock.utc_now())
+        third.discard_prestaged_history()
+        third.remove_upload_intent("aic:3")
+        third.close()
+        (stores.state / "history.json").write_bytes(b"{damaged")
+        fourth = stores.open()
+        exclusions = fourth.load_exclusions(stores.clock.utc_now())
+        assert exclusions.history == {"aic:1"}
+        assert "aic:2" in exclusions
 
     def test_history_changes_only_on_record(self, stores: Stores) -> None:
         """E10: pre-staging leaves the visible history untouched."""
@@ -413,9 +453,44 @@ class TestCorruptionAndVersions:
         (stores.state / "history.json").write_bytes(b"\x00\x01garbage")
         third = stores.open()
         exclusions = third.load_exclusions(stores.clock.utc_now())
-        # The backup is one generation old; the ledger still excludes the newest work.
+        # The backup is one generation old; the ledger keeps the newest work
+        # until both copies of history hold it.
         assert exclusions.history == {"aic:1"}
         assert "aic:2" in exclusions
+        assert len(names(stores.state / "quarantine")) == 1
+
+    @pytest.mark.parametrize(
+        ("name", "document"),
+        [
+            (
+                "history.json",
+                {
+                    "format": "frame-gallery-history",
+                    "version": 1,
+                    "entries": [{"id": "aic:1", "at": "0001-01-01T00:00:00+05:00"}],
+                },
+            ),
+            (
+                "upload_ledger.json",
+                {
+                    "format": "frame-gallery-upload-ledger",
+                    "version": 1,
+                    "entries": [
+                        {"id": "aic:1", "state": "uncertain", "at": "9999-12-31T00:00:00+00:00"}
+                    ],
+                },
+            ),
+        ],
+    )
+    def test_a_timestamp_at_the_limits_is_damage_not_a_crash(
+        self, stores: Stores, name: str, document: dict[str, object]
+    ) -> None:
+        """Review finding: these once raised OverflowError on every run."""
+        stores.state.mkdir()
+        (stores.state / name).write_text(json.dumps(document))
+        store = stores.open()
+        assert store.load_exclusions(stores.clock.utc_now()) == ExclusionSet()
+        store.commit_upload_intent("aic:2", stores.clock.utc_now())
         assert len(names(stores.state / "quarantine")) == 1
 
     def test_a_corrupt_ledger_without_backup_starts_empty(self, stores: Stores) -> None:

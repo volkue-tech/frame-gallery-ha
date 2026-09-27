@@ -13,6 +13,7 @@ needs (§11.3).
 
 from __future__ import annotations
 
+import contextlib
 import logging
 import os
 import re
@@ -54,11 +55,17 @@ class RunWorkspace:
                     raise StateError(msg)
                 os.fchmod(root.fd, 0o700)
                 os.mkdir(name, 0o700, dir_fd=root.fd)
+            except OSError as exc:
+                msg = f"{root.label}: cannot create the run directory ({errno_name(exc)})"
+                raise StateError(msg) from None
+            try:
                 with root.child(name) as run:
                     os.mkdir(INBOX, 0o700, dir_fd=run.fd)
                     os.mkdir(OUTBOX, 0o700, dir_fd=run.fd)
-            except OSError as exc:
-                msg = f"{root.label}: cannot create the run directory ({errno_name(exc)})"
+            except (OSError, StateError) as exc:
+                with contextlib.suppress(OSError):
+                    root.remove(name)  # never leave a half-made run directory behind
+                msg = f"{root.label}: cannot create the run directory ({exc})"
                 raise StateError(msg) from None
         path = self._tmp_root / WORKSPACE_DIRECTORY / name
         self._paths = WorkspacePaths(root=path, inbox=path / INBOX, outbox=path / OUTBOX)

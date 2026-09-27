@@ -182,3 +182,9 @@ class TestBounds:
         assert ids(result) == [f"cma:{n}" for n in range(12, 20)]
         encoded = json.dumps(ledger_document(result), separators=(",", ":"))
         assert len(encoded) <= size - 2 * per_entry
+
+    def test_a_ledger_of_exactly_the_byte_bound_is_kept(self) -> None:
+        entries = tuple(uploaded(n, days=n) for n in range(10, 20))
+        size = len(json.dumps(ledger_document(entries), separators=(",", ":")))
+        assert bounded(entries, keep="cma:19", max_bytes=size) == entries
+        assert len(bounded(entries, keep="cma:19", max_bytes=size - 1)) == 9
