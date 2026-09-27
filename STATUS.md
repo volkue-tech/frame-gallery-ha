@@ -1,35 +1,30 @@
 # Project status
 
-Last updated: 2026-09-27
+Last updated: 2026-09-27 (Phase 4 gate)
 
 ## Current phase
 
-**Phase 3 (provider adapters): complete. The Phase 3 gate passed on 2026-09-27 (user decision). Phase 4 has not started and awaits explicit authorization.**
+**Phase 4 (bounded state and duplicate prevention): complete. Stopped at the Phase 4 gate for the Codex review. Phase 5 has not started.**
 
-- The user approved Phase 3 on 2026-09-27. D-141 to D-145 and the Phase 3 decisions D-108, D-112, D-115, D-124, D-127, D-131, D-134, D-132, and D-136 (adapter details) are accepted; D-119 is accepted with an amendment; Q-14 and Q-22 are resolved; `urllib3` 2.8.0 and `certifi` 2026.7.22 are approved and installed.
-- At the Phase 3 gate the user accepted D-146 to D-152, resolved Q-25 with option (a) (the first beta ships without a colour filter; the Art Institute supports only the period filter; Cleveland supports department and period), and approved no live Art Institute observation. `PRODUCT_SPEC.md` and `ACCEPTANCE_TESTS.md` (B2, C1) are amended to match.
-- Every commit uses the personal identity `Alexander Wilke <volkue@gmail.com>`, which the repository-local Git configuration also enforces.
-- Nothing contacted Home Assistant, the television, a provider API, or GitHub. Nothing was published or pushed. The local backup branch was not touched.
+- The user authorized Phase 4 on 2026-09-27. The Phase 3 gate had passed the same day.
+- The proposed decisions D-153 to D-159 await the gate.
+- Every commit uses the personal identity `Alexander Wilke <volkue@gmail.com>`.
+- Nothing contacted Home Assistant, the Home Assistant Green, the television, a provider API, or GitHub. Nothing was published or pushed. The local backup branch was not touched. Every test uses synthesized data.
 
-### Phase 3 progress
+### Phase 4 progress
 
 | Step | Commit |
 | --- | --- |
-| 1. Documentation re-check and the approved decisions (D-146; `ARCHITECTURE.md` §8.3, §9.2, §9.5, §9.6, §10, §15.2, §23) | `09d7c46` |
-| 2. Guarded network gateway and the `urllib3` and `certifi` dependencies (D-147) | `51d9cf3` |
-| 3. Home Assistant helper reader (D-148) | `f614256` |
-| 4. Local media provider (D-149) | `8761cca` |
-| 4a. Fixes from the internal review of the gateway (D-147 amendment) | `9b736f3` |
-| 5. Art Institute of Chicago adapter (D-150) | `571a210` |
-| 6. Cleveland Museum of Art adapter (D-151) | `72dba4a` |
-| 6a. Fixes from the internal review of the helper reader and local media (D-147, D-148, D-149 amendments) | `37e85d0` |
-| 7. Vocabularies, shared contract tests, and closing documentation (D-152) | `979ef8a` |
-| Gate. Phase 3 gate decision: Q-25 resolved with option (a); D-146 to D-152 accepted; `PRODUCT_SPEC.md` and `ACCEPTANCE_TESTS.md` (B2, C1) amended | `b6578d8` |
-
-**Documentation re-check (D-146).** On 2026-09-27 the two official documentation pages were re-read in the in-app browser. No endpoint was called and nothing was recorded from a live response.
-
-- *Cleveland:* the parameters, the response fields, the print JPEG, the CDN host, and the 21 departments are confirmed verbatim. The adapter sets `limit` on every request (the default is 1000), leaves out the one department whose name contains commas, and enforces period bounds on `creation_date_earliest`, because the inclusivity of `created_after` and `created_before` is undocumented.
-- *Art Institute:* the search, count, pagination, courtesy, IIIF, and Images resource facts are confirmed. The documentation does **not** name the department or style values, the members of the colour object, or the members of the artwork `thumbnail`. Under the user's Q-14 instruction, the Art Institute therefore supports only the period filter in the beta, and it reads image sizes from the documented Images resource instead of the thumbnail. **Q-25** is resolved with option (a) at the Phase 3 gate: this stays so for the first beta, which ships without a colour filter, and no observation is approved.
+| 1. Atomic write primitive, reader and quarantine, and history (D-153) | `a74ba1c` |
+| 2. TV-upload ledger and the file state store (D-154) | `1677ccd` |
+| 3. Workspace lifecycle, startup sweep, and store layout (D-155) | `f347ffb` |
+| 4. Bounded, persistent metadata cache (D-156) | `4fcab6e` |
+| 5. Exhausted-page hints and the once-per-run cache write (D-157) | `b8a6c44` |
+| 6. Atomic preview publication and the run records (D-158) | `5435d06` |
+| 6a. Fixes from the internal review of steps 1 to 3 (D-153 to D-155 amendments) | `bb25277` |
+| 7. End-to-end state scenarios E7–E10, with a real SIGKILL (D-159; D-156 amended) | `ec9e8a4` |
+| 7a. Fixes from the second internal review (D-153, D-157, D-158, and D-159 amendments) | `86cc82b` |
+| 8. Status, tasks, README, and development notes for the gate | this commit |
 
 ## Completed
 
@@ -216,32 +211,104 @@ Last updated: 2026-09-27
 
 Writing the real-stack tests exposed one more transport defect, which is fixed too. See *Review records* in `DECISIONS.md`.
 
+**Commits**
+
+| Step | Commit |
+| --- | --- |
+| 1. Documentation re-check and the approved decisions (D-146; `ARCHITECTURE.md` §8.3, §9.2, §9.5, §9.6, §10, §15.2, §23) | `09d7c46` |
+| 2. Guarded network gateway and the `urllib3` and `certifi` dependencies (D-147) | `51d9cf3` |
+| 3. Home Assistant helper reader (D-148) | `f614256` |
+| 4. Local media provider (D-149) | `8761cca` |
+| 4a. Fixes from the internal review of the gateway (D-147 amendment) | `9b736f3` |
+| 5. Art Institute of Chicago adapter (D-150) | `571a210` |
+| 6. Cleveland Museum of Art adapter (D-151) | `72dba4a` |
+| 6a. Fixes from the internal review of the helper reader and local media (D-147, D-148, D-149 amendments) | `37e85d0` |
+| 7. Vocabularies, shared contract tests, and closing documentation (D-152) | `979ef8a` |
+| Gate. Phase 3 gate decision: Q-25 resolved with option (a); D-146 to D-152 accepted; `PRODUCT_SPEC.md` and `ACCEPTANCE_TESTS.md` (B2, C1) amended | `b6578d8` |
+
+**Documentation re-check (D-146).** On 2026-09-27 the two official documentation pages were re-read in the in-app browser. No endpoint was called and nothing was recorded from a live response.
+
+- *Cleveland:* the parameters, the response fields, the print JPEG, the CDN host, and the 21 departments are confirmed verbatim. The adapter sets `limit` on every request (the default is 1000), leaves out the one department whose name contains commas, and enforces period bounds on `creation_date_earliest`, because the inclusivity of `created_after` and `created_before` is undocumented.
+- *Art Institute:* the search, count, pagination, courtesy, IIIF, and Images resource facts are confirmed. The documentation does **not** name the department or style values, the members of the colour object, or the members of the artwork `thumbnail`. Under the user's Q-14 instruction, the Art Institute therefore supports only the period filter in the beta, and it reads image sizes from the documented Images resource instead of the thumbnail. **Q-25** is resolved with option (a) at the Phase 3 gate: this stays so for the first beta, which ships without a colour filter, and no observation is approved.
+
+### Phase 4: bounded state and duplicate prevention (Claude, commits `a74ba1c` to `86cc82b` and the closing documentation commit; awaiting the gate)
+
+**Implemented** (the new `store` package, standard library only)
+
+- *Atomic primitive and reader* (D-153):
+  - every write works relative to a directory descriptor: `O_DIRECTORY | O_NOFOLLOW` directories, `O_EXCL` temporary files, `fsync`, `.bak` through a hard link, rename, and directory `fsync`;
+  - a self-check reads each document back with the reader's own rules before it is written;
+  - the reader tries the primary, then `.bak`, then empty, with a quarantine of at most three files;
+  - a newer version, or a file that cannot be read, ends the run with `state_error` before the television is touched.
+- *History* (D-153): at most 20 000 entries and 5 MiB, the oldest dropped first. It changes only after `selected` (E10).
+- *Upload ledger and state store* (D-154):
+  - the write-ahead `uncertain` intent is committed durably before the television is contacted;
+  - it is promoted on `uploaded`, and removed only without `upload_started` or on an explicit refusal;
+  - the 30-day quarantine; an entry is pruned once both copies of history hold its work;
+  - at most 20 000 entries and 5 MiB; the `flock` lock (`already_running`).
+- *Workspace and sweep* (D-155): `/tmp/frame-gallery/run-<random>/{in,out}` at mode 0700, removed on every path. The startup sweep runs after the lock and removes only our own temporary files and leftover run directories.
+- *Metadata cache and hints* (D-156, D-157):
+  - `/data/cache/<provider>.json` holds counts and exhausted-page hints: at most 1 000 entries, 2 MiB, 8 KiB per entry, and 7 days, least recently used first, written once per run in FINISH;
+  - the Art Institute and Cleveland adapters skip, for 7 days, pages whose works were all sent already;
+  - a run whose skipped pages leave nothing new gets the hint "nothing new left for these filters".
+- *Preview and records* (D-158):
+  - the preview is the television payload, read again and hashed, and written atomically at mode 0644 below `/media/frame_gallery/preview`, with every path component checked;
+  - `current.json` keeps the fingerprints of the last 10 previews for the local library's guard 3 (F7); `last_run.json` records every run; both are at most 16 KiB.
+- *Runner and wiring:*
+  - PRE-STAGE, RECORD, and PUBLISH run against the real store;
+  - the runner tells the adapters which works are excluded for good (history and uploads) for their hints, reports skipped pages, and writes the provider's cache once in FINISH;
+  - `StoreLayout` builds every store port from the `/data`, `/media`, and `/tmp` anchors for the Phase 6 entry point.
+
+**Tests** (D-159):
+
+- unit tests with failure injection on every system-call path of the store;
+- E7–E10 end to end over the real store, with a fake television that emits its progress markers;
+- E9 also with a real SIGKILL of a child process at four points (after the intent, after `uploaded`, after `selected`, and inside the promotion write);
+- F1–F7; a full and a read-only `/data`; newer and damaged files;
+- the cache across runs, with the real Art Institute adapter over the synthesized API.
+
+**Quality gates** (`frame_gallery/scripts/check.sh`, run for the closing commit):
+
+- Ruff check and format: clean.
+- `mypy --strict` over `src` and `tests`: clean.
+- pytest: **3 850 passed**, with **100 % line and branch coverage overall** (6 834 statements, 1 416 branches).
+- The architecture's 100 % gate, now including `store`, also passes (5 376 statements, 1 134 branches).
+
+**Independent reviews.**
+
+- The store commits (`a74ba1c`, `1677ccd`, `f347ffb`): 7 findings (2 medium, 5 low) and 3 test gaps, all fixed with regression tests in `bb25277`. The most serious: timestamps at the limits of `datetime` would have ended every run as `internal_error`, and pruning could lose the newest delivery's exclusion after the history primary was damaged.
+- The later commits (`4fcab6e` to `ec9e8a4`): no high-severity finding and no path to a duplicate upload; 6 low findings, all fixed with regression tests in `86cc82b`. The most material: hints rested on quarantined works and on pages that offered nothing, so a work could stay hidden beyond its quarantine and a run could wrongly report "nothing new left".
+- The end-to-end cache test found that a clock step back of a few seconds discarded every full-length hint; fixed in `ec9e8a4`.
+
+See *Review records* in `DECISIONS.md`.
+
 ## Specification deviations
 
-None is awaiting a decision. Every Phase 3 deviation was accepted at the Phase 3 gate (2026-09-27), and the specification is amended where it is normative:
+Every Phase 3 deviation was accepted at the Phase 3 gate. The Phase 4 deviations below are proposed and await the Phase 4 gate; `ARCHITECTURE.md` is not amended before they are accepted.
 
-| Accepted item | Where |
+| Proposed item | Where |
 | --- | --- |
-| The Art Institute supports only the period filter in the beta: its department and style values and its colour members are undocumented. No source supports a colour filter in the first beta. B2 and C1 apply only to the filters the selected source supports (Cleveland combines department and period). A valid filter value that the source does not support is reported (B8); a style or colour value, which the first beta does not offer, is rejected as invalid (B5). `PRODUCT_SPEC.md` and `ACCEPTANCE_TESTS.md` are amended. | D-146, D-152, Q-25 (option (a)) |
-| Art Institute image sizes come from the documented Images resource, one batched request per page, instead of the undocumented artwork `thumbnail`; images narrower than 1686 px are not offered. | D-146, D-150 |
-| 401 stops a provider for the run for every provider, not only for Cleveland; IMF-fixdate is the only accepted HTTP-date form in `Retry-After`. | D-147 |
-| Local header inspections run one file per worker task, not in batches of 50 (batching deferred to Phase 5). | D-149 |
-| The exhausted-page hints of the metadata cache are deferred to Phase 4, together with the persistent cache; Phase 3 caches counts in memory. | D-150 |
-| The empty-library `no_match` hint is a new hint naming `/media/frame_gallery/library` (§9.3). | D-149 |
-| The helper reader sends the token only to a Supervisor address inside the container's own networks. The entry point (Phase 6) must pass them from the `NetworkInfo` port; without them, no helper is read. | D-148 |
+| The ledger prunes only when an intent is committed, and only works that both copies of history hold (§13.6 step 5 says: on the next ledger write, once the work is in history). This is stricter: a damaged history primary can never lose the newest delivery's exclusion. | D-154 |
+| The reader also quarantines files that are not regular or exceed the size bound (§13.2: "only parse or schema failures"). A file that exists but cannot be read, or one written by a newer version, ends the run with `state_error` instead of falling back to `.bak` or an empty state. | D-153 |
+| After a failed directory `fsync` that follows a successful rename, an intent is an error (`state_error`, stricter), while recorded history, a promotion, the preview, and the records count as written, with a warning. | D-153, D-154, D-158 |
+| Adapters receive a predicate for the works excluded for good (history or `uploaded`), for the exhausted-page hints only, and still yield every candidate (§9.1). A page is hinted only if it offered works and all of them were sent already. Skipped pages lead to the hint "nothing new left for these filters" (an extension of §4.2), and `last_run.json` reports them. | D-157 |
+| The metadata cache is written once per run in FINISH, before the last-run record (§4.1 names only the last-run record there). An expiry more than 7 days ahead is cut to 7 days from now. | D-156, D-157 |
+| Internal dependencies beyond §5: `store` uses `selection.exclusion`, `imaging.contract`, and `budget`; `providers.cache` imports `store.cache` (as §5 lists). `WorkspacePaths` moves to `domain.py`, `PublishError` to `errors.py`, the qualified-identifier rule to `domain.py`, and the D-118 fingerprint to the shared `fingerprint.py`; `DeliveryArtifact` gains `fingerprint`. | D-153, D-155, D-156, D-158 |
+| Timestamps in state files must lie from 2000 to 8999, and later versions must keep writing `format` and `version` first. | D-153 |
+| `in/` and `out/` have mode 0700 until Phase 5 sets the modes that the unprivileged worker needs (§11.3). The preview file is `latest.jpg` until Phase 8 chooses the refresh mechanism (D-140). | D-155, D-158 |
 
 ## Next action
 
-Wait for explicit authorization of Phase 4 (bounded state and duplicate prevention). Phase 4 does not start before that.
+The Codex review at the Phase 4 gate. Phase 5 does not start before it is explicitly authorized.
 
 **Decisions needed, by phase:**
 
 | Before | Decisions |
 | --- | --- |
-| Phase 4 | Authorization to start. No open question blocks it (Q-23 and D-113 accepted). The persistent metadata cache and the exhausted-page hints arrive here (D-150). |
-| Phase 5 | The `samsungtvws` row and its LGPL-3.0 obligations (D-135). |
-| Phase 6 | The base-image pull (D-130); Q-06, Q-10; the Buildx, QEMU, and SBOM-tool rows. The authoritative Pillow runtime-wheel inspection, including the remaining `pillow.libs` entries (mandatory before packaging or publication). The option descriptions state the capability matrix, including that no source supports colour yet (B8). |
-| Phase 8 | Explicit approval for the live run, which is also the first live request to the museums and the first time the project contact is transmitted (Q-22); Q-21 (install route). The live check of the Art Institute `params` form (D-150). |
+| Phase 4 gate | D-153 to D-159 and the deviations above. |
+| Phase 5 | Authorization to start; the `samsungtvws` row and its LGPL-3.0 obligations (D-135). E7–E10 are run again with the process-based television worker. |
+| Phase 6 | The base-image pull (D-130); Q-06, Q-10; the Buildx, QEMU, and SBOM-tool rows. The authoritative Pillow runtime-wheel inspection, including the remaining `pillow.libs` entries (mandatory before packaging or publication). The option descriptions state the capability matrix, including that no source supports colour yet (B8). The entry point wires the store from `StoreLayout`. |
+| Phase 8 | Explicit approval for the live run, which is also the first live request to the museums and the first time the project contact is transmitted (Q-22); Q-21 (install route). The live check of the Art Institute `params` form (D-150). The preview refresh mechanism and file names (D-140). |
 | Phase 9 | D-101 (final name), Q-13 (repository URL, which also replaces the contact in the User-Agent, D-119); the builder-action and Cosign rows; the qualified licence review (D-135, release gate); approval to publish. |
 
 ## External state
@@ -255,6 +322,8 @@ Wait for explicit authorization of Phase 4 (bounded state and duplicate preventi
 - Phase 3 installed `urllib3` 2.8.0 and `certifi` 2026.7.22 from PyPI into the git-ignored project environment only.
 - The two internal reviewers worked only inside the repository and without network access, using local files and a socket pair. One of them once ran `grep` on the standard library's `http/client.py`, which lives with the local interpreter outside the repository. That is language source, not predecessor material, and the disclosure is recorded in `DECISIONS.md`.
 - Earlier research (Phases 1 and 2) read public documentation pages, policy pages, and `robots.txt` files, plus one Microsoft Q&A answer (cited as a non-documentation source) and search-result snippets where a page blocked automated readers. Reading used web-fetch tools, `curl` (including PyPI's JSON metadata API), and the in-app browser.
+- Phase 4 worked only in the repository, in temporary directories created by the tests, and in this session's scratch directory. The SIGKILL tests start child processes of the project interpreter on this machine. No dependency was added.
+- The two Phase 4 reviewers worked on `git archive` snapshots in the session's scratch directory, without network access, and changed nothing in the repository.
 - Apache-2.0 is approved. The `LICENSE` file will be added when publication is prepared (Phase 9).
 
 ## Known open decisions

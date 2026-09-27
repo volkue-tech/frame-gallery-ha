@@ -87,13 +87,16 @@ Gate: Codex reviews provider access patterns, bounding, fixtures, and legal boun
 
 Owner: Claude
 
-- [ ] Implement the atomic, recoverable, bounded write primitive and history.
-- [ ] Implement the TV-upload exclusion ledger with the write-ahead uncertainty quarantine.
-- [ ] Implement the temporary-workspace lifecycle, the startup sweep, and the bounded metadata cache.
-- [ ] Implement atomic preview publication and the run records.
-- [ ] Complete PRE-STAGE, RECORD, and PUBLISH in the runner. Test E7–E10 against a fake television port that emits progress markers.
-- [ ] Add unit and integration tests for cleanup, corruption, limits, version handling, and the ledger scenarios E7–E10.
-- [ ] Update status and commit.
+- [x] Implement the atomic, recoverable, bounded write primitive and history (D-153).
+- [x] Implement the TV-upload exclusion ledger with the write-ahead uncertainty quarantine (D-154).
+- [x] Implement the temporary-workspace lifecycle, the startup sweep, and the bounded metadata cache (D-155, D-156), with the exhausted-page hints deferred from Phase 3 (D-157).
+- [x] Implement atomic preview publication and the run records (D-158).
+- [x] Complete PRE-STAGE, RECORD, and PUBLISH in the runner. Test E7–E10 against a fake television port that emits progress markers, in process and with a real SIGKILL of a child process (D-159).
+- [x] Add unit and integration tests for cleanup, corruption, limits, version handling, and the ledger scenarios E7–E10.
+- [x] Run independent reviews of the store and of the later Phase 4 commits; fix every confirmed finding with regression tests.
+- [x] Update status and commit.
+
+Gate: Codex reviews crash safety, the bounds, duplicate prevention (E7–E10), and the proposed decisions D-153 to D-159.
 
 ## Phase 5 — Samsung adapter contract
 
