@@ -17,6 +17,6 @@ echo "== pytest (branch coverage)"
     --cov --cov-branch --cov-report=term-missing:skip-covered --cov-fail-under=90
 
 echo "== 100 % line and branch coverage where the architecture requires it"
-"$BIN/coverage" report --fail-under=100 --include='src/frame_gallery/budget/*,src/frame_gallery/store/*,src/frame_gallery/ha/*,src/frame_gallery/net/*,src/frame_gallery/selection/*,src/frame_gallery/isolation/*,src/frame_gallery/providers/*,src/frame_gallery/app/outcomes.py,src/frame_gallery/app/runner.py,src/frame_gallery/imaging/worker_tasks.py,src/frame_gallery/imaging/source_scan.py,src/frame_gallery/imaging/jpeg_header.py'
+"$BIN/coverage" report --fail-under=100 --include='src/frame_gallery/budget/*,src/frame_gallery/store/*,src/frame_gallery/ha/*,src/frame_gallery/net/*,src/frame_gallery/selection/*,src/frame_gallery/isolation/*,src/frame_gallery/providers/*,src/frame_gallery/app/outcomes.py,src/frame_gallery/app/runner.py,src/frame_gallery/imaging/worker_tasks.py,src/frame_gallery/imaging/source_scan.py,src/frame_gallery/imaging/jpeg_header.py,src/frame_gallery/tv/*'
 
 echo "All gates passed."

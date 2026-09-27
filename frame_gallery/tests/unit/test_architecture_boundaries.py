@@ -40,11 +40,17 @@ NET_TRANSPORT = NET_ROOT / "transport.py"
 NET_TRANSPORT_MODULE = "frame_gallery.net.transport"
 WORKER_TASKS = "frame_gallery.imaging.worker_tasks"
 WORKER_PREFIX = "frame_gallery.imaging.worker_"
+TV_WORKER = PACKAGE_ROOT / "tv" / "samsung_task.py"
+TV_WORKER_MODULE = "frame_gallery.tv.samsung_task"
 
-ALLOWED_THIRD_PARTY = frozenset({"PIL", "urllib3", "certifi"})
+TV_THIRD_PARTY = frozenset({"samsungtvws", "websocket", "requests"})
+"""The television library and the two packages whose exception types the
+television worker task catches: only in ``tv/samsung_task.py`` (Phase 5, D-107)."""
+
+ALLOWED_THIRD_PARTY = frozenset({"PIL", "urllib3", "certifi", *TV_THIRD_PARTY})
 """Pillow only in ``imaging/worker_*.py`` (D-107); ``urllib3`` and ``certifi``
-only in ``net/transport.py`` (Phase 3, D-131). Phase 5 adds the television
-worker task (samsungtvws); each extends this check deliberately."""
+only in ``net/transport.py`` (Phase 3, D-131); the television library only in
+the television worker task (Phase 5). Each extends this check deliberately."""
 
 TRANSPORT_THIRD_PARTY = frozenset({"urllib3", "certifi"})
 TRANSPORT_NETWORK_MODULES = frozenset({"socket", "ssl", "http"})
@@ -189,6 +195,10 @@ class SourceModule:
     @property
     def is_net_transport(self) -> bool:
         return self.path == NET_TRANSPORT
+
+    @property
+    def is_tv_worker(self) -> bool:
+        return self.path == TV_WORKER
 
 
 Detector = Callable[[SourceModule], list[str]]
@@ -362,6 +372,8 @@ def _describe(module: SourceModule, ref: ImportRef) -> str:
 def _third_party_allowed(module: SourceModule, top: str) -> bool:
     if top == "PIL":
         return module.is_imaging_worker
+    if top in TV_THIRD_PARTY:
+        return module.is_tv_worker
     return top in TRANSPORT_THIRD_PARTY and module.is_net_transport
 
 
@@ -388,6 +400,8 @@ def _banned_allowed(module: SourceModule, ref: ImportRef) -> bool:
             return True
         if ref.module.startswith(("socket.", "ssl.", "http.client.")):
             return True
+    if module.is_tv_worker and (ref.module == "socket" or ref.module.startswith("socket.")):
+        return True  # the television worker's connect guard (Phase 5)
     return module.is_net and (
         ref.module in NET_ONLY_MODULES
         or any(ref.module.startswith(f"{name}.") for name in NET_ONLY_MODULES)
@@ -442,14 +456,22 @@ def dynamic_import_violations(module: SourceModule) -> list[str]:
     return violations
 
 
+def _is_worker_module(name: str) -> bool:
+    return name.startswith(WORKER_PREFIX) or name == TV_WORKER_MODULE
+
+
 def worker_import_violations(module: SourceModule) -> list[str]:
-    """The parent reaches the worker modules only through the executor's lazy,
+    """The parent reaches the worker modules (the imaging workers and, from
+    Phase 5, the television worker task) only through the executor's lazy,
     string-based import in ``isolation``, never through an import statement."""
     violations = []
     for ref in _imports(module, members=True):
-        if not ref.module.startswith(WORKER_PREFIX):
+        if not _is_worker_module(ref.module):
             continue
-        allowed = module.is_isolation if ref.dynamic else module.is_imaging_worker
+        if ref.dynamic:
+            allowed = module.is_isolation
+        else:
+            allowed = module.is_imaging_worker and ref.module.startswith(WORKER_PREFIX)
         if not allowed:
             violations.append(_describe(module, ref))
     return violations
@@ -515,12 +537,15 @@ def test_networking_is_confined_to_the_transport_module() -> None:
     transport = modules["src/frame_gallery/net/transport.py"]
     tops = {ref.top for ref in _imports(transport)}
     assert {"socket", "ssl", "http", "urllib3", "certifi"} <= tops
+    tv_worker = modules["src/frame_gallery/tv/samsung_task.py"]
+    assert {ref.top for ref in _imports(tv_worker)} & TRANSPORT_NETWORK_MODULES == {"socket"}
     for module in modules.values():
         if module.is_net_transport:
             continue
-        assert not {ref.top for ref in _imports(module)} & (
-            TRANSPORT_NETWORK_MODULES | TRANSPORT_THIRD_PARTY
-        ), module.relative
+        forbidden = TRANSPORT_NETWORK_MODULES | TRANSPORT_THIRD_PARTY
+        if module.is_tv_worker:
+            forbidden -= {"socket"}  # the connect guard only (Phase 5)
+        assert not {ref.top for ref in _imports(module)} & forbidden, module.relative
 
 
 def test_no_module_starts_a_process_through_os() -> None:
@@ -590,6 +615,9 @@ VIOLATIONS: Final = [
             ("net/policy.py", "from urllib import request"),
             ("net/policy.py", "from urllib import parse"),
             ("ha/client.py", "import socket"),
+            ("tv/samsung.py", "import socket"),
+            ("tv/samsung_task.py", "import ssl"),
+            ("tv/samsung_task.py", "import subprocess"),
             ("providers/aic.py", "from urllib.parse import quote"),
         )
     ),
@@ -652,6 +680,10 @@ VIOLATIONS: Final = [
             ("app/runner.py", "import frame_gallery.imaging.worker_extra as extra"),
             ("isolation/in_process.py", "from frame_gallery.imaging.worker_tasks import prepare"),
             ("imaging/fit.py", "from frame_gallery.imaging.worker_tasks import prepare"),
+            ("tv/samsung.py", "from frame_gallery.tv.samsung_task import run_delivery"),
+            ("tv/samsung.py", "from frame_gallery.tv import samsung_task"),
+            ("app/runner.py", f"import importlib\nimportlib.import_module({TV_WORKER_MODULE!r})"),
+            ("imaging/worker_tasks.py", "from frame_gallery.tv.samsung_task import run_delivery"),
         )
     ),
     # Selection opens nothing and imports no file-system module.
@@ -683,6 +715,10 @@ VIOLATIONS: Final = [
             ("imaging/fit.py", "from PIL import Image"),
             ("app/runner.py", "import importlib\nimportlib.import_module('PIL.Image')"),
             ("isolation/worker_tasks.py", "import PIL"),
+            ("tv/samsung.py", "import samsungtvws"),
+            ("tv/port.py", "import websocket"),
+            ("isolation/process.py", "import requests"),
+            ("imaging/worker_tasks.py", "from samsungtvws import SamsungTVArt"),
         )
     ),
     pytest.param(relative_import_violations, "app/runner.py", "from . import ports", id="relative"),
@@ -782,6 +818,24 @@ ALLOWED: Final = [
         id="urllib3-in-the-transport",
     ),
     pytest.param(
+        third_party_violations,
+        "tv/samsung_task.py",
+        "import samsungtvws\nimport websocket\nimport requests\nfrom samsungtvws import exceptions",
+        id="the-library-in-the-television-worker",
+    ),
+    pytest.param(
+        banned_module_violations,
+        "tv/samsung_task.py",
+        "import socket\nfrom socket import gaierror",
+        id="the-connect-guard-in-the-television-worker",
+    ),
+    pytest.param(
+        worker_import_violations,
+        "isolation/process.py",
+        "import importlib\nimportlib.import_module(" + repr(TV_WORKER_MODULE) + ")",
+        id="isolation-lazy-import-of-the-television-worker",
+    ),
+    pytest.param(
         transport_import_violations,
         "__main__.py",
         "from frame_gallery.net.transport import Urllib3Transport",
@@ -819,7 +873,7 @@ for info in pkgutil.walk_packages(frame_gallery.__path__, "frame_gallery."):
     if info.name.startswith("frame_gallery.imaging.") and leaf.startswith("worker_"):
         skipped.append(info.name)
         continue
-    if info.name == "frame_gallery.net.transport":
+    if info.name in ("frame_gallery.net.transport", "frame_gallery.tv.samsung_task"):
         skipped.append(info.name)
         continue
     before = set(present())
@@ -863,6 +917,8 @@ def test_the_parent_package_loads_no_worker_or_network_library() -> None:
     assert "frame_gallery.app.ports" in report["imported"]
     assert WORKER_TASKS in report["skipped"]
     assert NET_TRANSPORT_MODULE in report["skipped"]
+    assert TV_WORKER_MODULE in report["skipped"]
+    assert "frame_gallery.tv.samsung" in report["imported"]
     assert "frame_gallery.net.gateway" in report["imported"]
     assert not any(name.startswith("frame_gallery.imaging.worker_") for name in report["imported"])
     assert report["present"] == [], f"loaded by: {report['culprits']}"

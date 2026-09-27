@@ -29,10 +29,12 @@ class TestMarkerEvent:
         event = MarkerEvent(Marker.UPLOADED, content_id)
         assert event.content_id == content_id
 
+    def test_uploaded_may_come_without_a_content_id(self) -> None:
+        assert MarkerEvent(Marker.UPLOADED).content_id is None
+
     @pytest.mark.parametrize(
         "content_id",
         [
-            None,
             "",
             "x" * 65,
             "a b",
@@ -45,7 +47,7 @@ class TestMarkerEvent:
             "<id>",
         ],
     )
-    def test_uploaded_rejects_a_missing_or_invalid_content_id(self, content_id: str | None) -> None:
+    def test_uploaded_rejects_an_invalid_content_id(self, content_id: str) -> None:
         with pytest.raises(ValueError, match="valid content_id"):
             MarkerEvent(Marker.UPLOADED, content_id)
 
@@ -115,6 +117,7 @@ class TestDelivery:
         deadline = Deadline.after(clock, 40.0, "deliver")
         request = DeliveryRequest(
             jpeg_path=tmp_path / "delivery.jpg",
+            jpeg_sha256="0" * 64,
             tv_host=IPv4Address("10.0.0.5"),
             deadline=deadline,
         )
@@ -126,6 +129,7 @@ def test_a_delivery_request_reports_no_stop_by_default() -> None:
     clock = FakeClock()
     request = DeliveryRequest(
         jpeg_path=Path("out/delivery-0.jpg"),
+        jpeg_sha256="0" * 64,
         tv_host=IPv4Address("10.0.0.5"),
         deadline=Deadline.after(clock, 40.0, "deliver"),
     )

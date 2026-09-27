@@ -795,6 +795,7 @@ class Runner:
         qualified_id = entry.candidate.qualified_id
         request = DeliveryRequest(
             jpeg_path=artifact.path,
+            jpeg_sha256=artifact.sha256,
             tv_host=options.tv_host,
             deadline=self._run_budget().phase(Phase.DELIVER),
             stop_requested=self._stop_requested,

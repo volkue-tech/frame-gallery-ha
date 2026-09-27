@@ -30,7 +30,9 @@ class Marker(enum.StrEnum):
     a missing ``upload_started`` proves that nothing was uploaded."""
 
     UPLOADED = "uploaded"
-    """Carries the television's ``content_id``."""
+    """The television confirmed the upload. Carries its ``content_id``, or
+    ``None`` when the confirmation came without a usable one (D-162): the
+    upload is recorded all the same, but it cannot be selected."""
 
     SELECTED = "selected"
 
@@ -62,8 +64,11 @@ class MarkerEvent:
 
     def __post_init__(self) -> None:
         if self.marker is Marker.UPLOADED:
-            if self.content_id is None or CONTENT_ID_PATTERN.fullmatch(self.content_id) is None:
-                msg = "the uploaded marker needs a valid content_id"
+            if (
+                self.content_id is not None
+                and CONTENT_ID_PATTERN.fullmatch(self.content_id) is None
+            ):
+                msg = "the uploaded marker needs a valid content_id or none"
                 raise ValueError(msg)
         elif self.content_id is not None:
             msg = f"the {self.marker.value} marker carries no content_id"
@@ -78,6 +83,10 @@ def _never() -> bool:
 class DeliveryRequest:
     jpeg_path: Path
     """The parent-validated ``delivery.jpg``."""
+
+    jpeg_sha256: str
+    """The parent's SHA-256 of ``delivery.jpg`` (§11.3). The worker uploads only
+    bytes with this hash (D-162)."""
 
     tv_host: IPv4Address
     """The validated RFC 1918 literal (§15.4)."""
