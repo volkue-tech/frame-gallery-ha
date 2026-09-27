@@ -477,6 +477,11 @@ class Runner:
             )
         run.stats.selection = selection
         self._record_selection_evidence(run.evidence, selection)
+        run.evidence.library_empty = (
+            filters.source is SourceKey.LOCAL_MEDIA
+            and selection.end is DiscoveryEnd.EXHAUSTED
+            and selection.stats.candidates_seen == 0
+        )
         self._log_selection(selection)
 
     @staticmethod

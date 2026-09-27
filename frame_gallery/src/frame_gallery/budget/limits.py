@@ -26,6 +26,9 @@ LOCAL_DIRECTORY_DEPTH: Final = 4
 LOCAL_INSPECTION_ALLOWANCE: Final = 300
 """Local header inspections: a separate allowance from the remote probes."""
 
+LOCAL_INSPECTION_S: Final = 2.0
+"""One local header inspection in the worker (§8.3), clamped to discovery."""
+
 METADATA_REQUEST_S: Final = 10.0
 PROBE_REQUEST_S: Final = 5.0
 DOWNLOAD_REQUEST_S: Final = 20.0

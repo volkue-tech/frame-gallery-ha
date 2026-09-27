@@ -17,6 +17,7 @@ from frame_gallery.app.outcomes import (
     classify_delivery,
     classify_no_delivery,
 )
+from frame_gallery.providers.local_media import LIBRARY_ROOT
 from frame_gallery.tv.port import DeliveryStatus, Marker
 
 
@@ -95,6 +96,17 @@ def test_no_match_hints() -> None:
         Outcome.NO_MATCH,
         Hint.FILTERS_TOO_RESTRICTIVE,
     )
+
+
+def test_an_empty_local_library_names_its_location() -> None:
+    assert classify_no_delivery(NoDeliveryEvidence(library_empty=True)) == (
+        Outcome.NO_MATCH,
+        Hint.LIBRARY_EMPTY,
+    )
+    assert str(LIBRARY_ROOT) in Hint.LIBRARY_EMPTY.value
+    # Limits and failures still take precedence.
+    limited = NoDeliveryEvidence(library_empty=True, limits_reached=True)
+    assert classify_no_delivery(limited) == (Outcome.NO_MATCH, Hint.LIMITS_REACHED)
 
 
 # ------------------------------------------------------- television (§12.4)

@@ -1,4 +1,5 @@
-"""The ``prepare`` task's request and result, and the parent's artifact (§11).
+"""The ``prepare`` and ``inspect`` tasks' requests and results, and the
+parent's artifact (§8.3, §11).
 
 Requests and results cross the executor seam as JSON objects. ``from_json``
 treats its input as untrusted and raises ``ValueError`` on any deviation.
@@ -27,6 +28,8 @@ JPEG_FALLBACK_QUALITY: Final = 85
 """Used once if the first encoding exceeds :data:`MAX_OUTPUT_BYTES` (Q-05)."""
 
 PREPARE_TASK: Final = "prepare"
+INSPECT_TASK: Final = "inspect"
+"""The local header inspection (§8.3): dimensions after EXIF orientation."""
 
 
 class ImageFormat(enum.StrEnum):
@@ -301,6 +304,62 @@ class PrepareResult:
             output_bytes=_optional_int(obj, "output_bytes", 1, MAX_OUTPUT_BYTES),
             jpeg_quality=_optional_int(obj, "jpeg_quality", 1, 100),
             colour=_optional_enum(obj, "colour", ColourHandling),
+        )
+
+
+class InspectStatus(enum.StrEnum):
+    OK = "ok"
+    FAILED = "failed"
+    """The file cannot be read as the declared format within the limits."""
+
+
+@dataclass(frozen=True, slots=True)
+class InspectRequest:
+    """Read one library file's header (§8.3). No pixels are decoded."""
+
+    path: str
+    declared_format: ImageFormat
+
+    def to_json(self) -> JsonObject:
+        return {"path": self.path, "declared_format": self.declared_format.value}
+
+    @classmethod
+    def from_json(cls, obj: JsonObject) -> InspectRequest:
+        return cls(
+            path=_str(obj, "path"), declared_format=_enum(obj, "declared_format", ImageFormat)
+        )
+
+
+@dataclass(frozen=True, slots=True)
+class InspectResult:
+    """The header's dimensions after EXIF orientation, or why it failed."""
+
+    status: InspectStatus
+    oriented_size: Size | None = None
+    failure: PrepareFailure | None = None
+    detail: str | None = None
+
+    def __post_init__(self) -> None:
+        ok = self.status is InspectStatus.OK
+        if ok != (self.oriented_size is not None) or ok == (self.failure is not None):
+            msg = "an ok inspection has a size only; a failed one a failure only"
+            raise ValueError(msg)
+
+    def to_json(self) -> JsonObject:
+        return {
+            "status": self.status.value,
+            "oriented_size": _size_to_json(self.oriented_size),
+            "failure": None if self.failure is None else self.failure.value,
+            "detail": self.detail,
+        }
+
+    @classmethod
+    def from_json(cls, obj: JsonObject) -> InspectResult:
+        return cls(
+            status=_enum(obj, "status", InspectStatus),
+            oriented_size=_optional_size_from_json(obj, "oriented_size"),
+            failure=_optional_enum(obj, "failure", PrepareFailure),
+            detail=_optional_str(obj, "detail"),
         )
 
 

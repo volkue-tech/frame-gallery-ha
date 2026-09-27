@@ -12,6 +12,7 @@ from typing import cast
 import pytest
 
 from frame_gallery.errors import Cancelled
+from frame_gallery.imaging import contract
 from frame_gallery.isolation import in_process
 from frame_gallery.isolation.executor import (
     Executor,
@@ -20,7 +21,12 @@ from frame_gallery.isolation.executor import (
     WorkerError,
     WorkerErrorKind,
 )
-from frame_gallery.isolation.in_process import PREPARE_TASK, InProcessExecutor, default_tasks
+from frame_gallery.isolation.in_process import (
+    INSPECT_TASK,
+    PREPARE_TASK,
+    InProcessExecutor,
+    default_tasks,
+)
 from tests.support.clock import FakeClock
 
 SRC = Path(__file__).resolve().parents[3] / "src"
@@ -220,8 +226,26 @@ def test_the_task_table_is_copied(tasks: Tasks, clock: FakeClock) -> None:
 # --- default tasks and lazy imports (D-107) ---------------------------------
 
 
-def test_default_tasks_offer_prepare() -> None:
-    assert set(default_tasks()) == {PREPARE_TASK} == {"prepare"}
+def test_default_tasks_offer_prepare_and_inspect() -> None:
+    assert set(default_tasks()) == {PREPARE_TASK, INSPECT_TASK} == {"prepare", "inspect"}
+    assert (contract.PREPARE_TASK, contract.INSPECT_TASK) == (PREPARE_TASK, INSPECT_TASK)
+
+
+def test_inspect_imports_the_worker_module_when_it_runs(
+    monkeypatch: pytest.MonkeyPatch, clock: FakeClock
+) -> None:
+    received: list[JsonObject] = []
+
+    def inspect_task(payload: JsonObject) -> JsonObject:
+        received.append(payload)
+        return {"status": "inspected"}
+
+    fake = types.ModuleType(WORKER_TASKS)
+    fake.inspect_task = inspect_task  # type: ignore[attr-defined]
+    monkeypatch.setitem(sys.modules, WORKER_TASKS, fake)
+    executor = InProcessExecutor(default_tasks(), clock)
+    assert executor.run("inspect", {"path": "a.jpg"}, timeout=2.0) == {"status": "inspected"}
+    assert received == [{"path": "a.jpg"}]
 
 
 def test_prepare_imports_the_worker_module_when_it_runs(

@@ -912,6 +912,32 @@ Status: proposed (Phase 3).
 - **Failures.** Any failure gives `None` for that helper. The merge then falls back to the static value with exactly one WARNING (B4, B5). The reader logs its own reasons at INFO (no usable token; the Supervisor cannot be reached) and DEBUG (per helper), and never logs the token or a helper's value. Its `repr` hides the token. `unavailable` and `unknown` are returned as they are (B4). Only `Cancelled` propagates.
 - **Token.** The entry point (Phase 6) passes the token from the reduced environment and registers it with the redactor (D-145). An empty or non-printable token means no read at all.
 
+### D-149 — Local media provider details [§8.3, §9.3, D-118; F7]
+
+Status: proposed (Phase 3).
+
+- **Modules.** `providers/local_media.py` holds `LocalMediaProvider` and `LocalInspectionProbe`. `app/fetching.py` holds `SourceFetcher`, the production image fetcher. Beyond D-141's dependency list, `providers.local_media` uses `imaging.contract`, `isolation.executor`, and `logs.summary`, and `app.fetching` uses `net` and `providers`.
+- **Library.** The library is created at the start of discovery (mode 0755, parents included). A library that is a symbolic link, is not a folder, or cannot be created gives one WARNING and no candidate.
+- **Scan bounds.**
+  - The library itself is level 0, and folders up to 4 levels below it are listed. A deeper folder is skipped as `too_deep`.
+  - The 20 000-entry limit counts every listed entry, hidden and skipped ones included, and ends the scan (`entry_limit`).
+  - Hidden entries are skipped silently.
+  - Symbolic links, special files, unsupported extensions, empty files, files over 40 MiB, unreadable entries, and recent previews are counted by reason.
+- **The aggregated WARNING** is emitted once, when discovery ends: when the pass is exhausted, or when selection stops pulling and the generator is closed. It also counts the files that failed inspection. At most 5 example paths are shown, relative to the library, sanitized, and cut to 80 characters.
+- **Fingerprint (D-118).** The size is encoded as 8 bytes, big-endian. For a file under 64 KiB, "first" and "last" 64 KiB are both the whole file. `fingerprint_bytes` computes the same value from bytes, so Phase 4 can store the D-118 fingerprints of published previews in `current.json` for guard 3. Identical files share one identifier, and selection counts the repeat as a duplicate (D-141 item 7).
+- **Preview guards (F7).**
+  - Guard 2 is a construction check: the library may not be or contain the preview folder, otherwise `ValueError`. The production folders are siblings.
+  - Guard 1 skips a folder whose real path is the preview folder's.
+  - Guard 3 skips the fingerprints that the wiring passes in.
+- **Attribution.** Only the title: the file name without its extension, at most 100 characters.
+- **Dimensions.** A new `inspect` worker task reads one file's header. It opens, pre-scans, identifies, and limit-checks the file exactly like `prepare` does before decoding, then reads the EXIF orientation; no pixels are decoded.
+  - Each inspection may take at most 2 s (`LOCAL_INSPECTION_S`), clamped to the discovery deadline.
+  - An unreadable image gives `None`, counted as `unreadable` (the D-141 contract).
+  - A worker failure raises `SourceError(UNEXPECTED_FORMAT)`, which selection counts as an inspection failure, never a transport failure.
+  - *Deviation from §8.3:* one file per task instead of batches of up to 50. Batching only pays off with the process executor, so it is deferred to Phase 5.
+- **Delivery.** The fetcher copies only a file that this scan offered. The file must still be a regular file with the scanned size and fingerprint, and it is copied in 1 MiB steps, with deadline checks, into a new 0600 file. Any change since the scan is `NOT_FOUND`: the next candidate is tried, and it is not a transport failure. Remote references go to the channel whose host policy owns the URL, so downloads share that provider's pacing and 403/429 stop.
+- **Empty library.** When the local scan finishes without offering a candidate, the `no_match` hint is "no usable JPEG or PNG images in /media/frame_gallery/library" (new `Hint.LIBRARY_EMPTY`), as §9.3 requires.
+
 ## Proposed dependency inventory
 
 Status: **Phase 2 installed** the development tools and Pillow, and **Phase 3 installed** `urllib3` 2.8.0 and `certifi` 2026.7.22 (approved by the user on 2026-09-27), only in the local project environment (`frame_gallery/.venv`, from `uv.lock`). The runtime rows for later phases are still proposed.

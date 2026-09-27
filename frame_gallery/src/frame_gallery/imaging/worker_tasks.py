@@ -53,6 +53,9 @@ from frame_gallery.imaging.contract import (
     MAX_SOURCE_BYTES,
     ColourHandling,
     ImageFormat,
+    InspectRequest,
+    InspectResult,
+    InspectStatus,
     PrepareFailure,
     PrepareRequest,
     PrepareResult,
@@ -176,6 +179,35 @@ def prepare_task(payload: JsonObject) -> JsonObject:
     """The ``prepare`` task: verify, decode, fit, and encode one image."""
     request = PrepareRequest.from_json(payload)
     return prepare_image(request).to_json()
+
+
+def inspect_task(payload: JsonObject) -> JsonObject:
+    """The ``inspect`` task: one library file's dimensions after EXIF
+    orientation, from its header only (§8.3)."""
+    request = InspectRequest.from_json(payload)
+    return inspect_image(request).to_json()
+
+
+def inspect_image(request: InspectRequest) -> InspectResult:
+    """Open, pre-scan, identify, and limit-check one file, as ``prepare``
+    does before decoding, and read its orientation. No pixels are decoded."""
+    Image.MAX_IMAGE_PIXELS = MAX_JPEG_PIXELS
+    try:
+        with warnings.catch_warnings():
+            warnings.simplefilter("ignore", UserWarning)
+            warnings.simplefilter("error", Image.DecompressionBombWarning)
+            with (
+                _open_source(request.path) as file,
+                contextlib.closing(_open_image(file, request.declared_format)) as image,
+            ):
+                size = _check_limits(image, request.declared_format)
+                orientation = _orientation(image)
+    except _Failed as failed:
+        return InspectResult(
+            status=InspectStatus.FAILED, failure=failed.failure, detail=failed.detail
+        )
+    oriented = size.transposed() if orientation >= 5 else size
+    return InspectResult(status=InspectStatus.OK, oriented_size=oriented)
 
 
 def prepare_image(

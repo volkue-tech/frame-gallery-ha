@@ -362,6 +362,22 @@ def test_no_helper_read_without_configured_helpers(h: Harness) -> None:
 # ------------------------------------------------------------ no delivery
 
 
+def test_an_empty_local_library_gets_its_own_hint(tmp_path: Path) -> None:
+    h = Harness(tmp_path, raw={"tv_host": "10.0.0.5", "source": "local_media"})
+    result = h.run()
+    assert result.outcome is Outcome.NO_MATCH
+    assert result.hint == Hint.LIBRARY_EMPTY
+    assert "/media/frame_gallery/library" in result.summary_line
+
+
+def test_a_local_library_cut_off_by_the_deadline_is_not_called_empty(tmp_path: Path) -> None:
+    h = Harness(tmp_path, raw={"tv_host": "10.0.0.5", "source": "local_media"})
+    h.local_provider.error = DeadlineExceeded("discovery")
+    h.local_provider.raise_at = 0
+    result = h.run()
+    assert result.hint != Hint.LIBRARY_EMPTY
+
+
 def test_empty_source_is_no_match_and_leaves_the_tv_unchanged(tmp_path: Path) -> None:
     h = Harness(tmp_path, candidates=[])
     result = h.run()

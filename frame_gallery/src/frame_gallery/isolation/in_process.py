@@ -31,6 +31,7 @@ from frame_gallery.isolation.executor import (
 from frame_gallery.logs.summary import sanitize_for_log
 
 PREPARE_TASK: Final = "prepare"
+INSPECT_TASK: Final = "inspect"
 
 _WORKER_TASKS_MODULE: Final = "frame_gallery.imaging.worker_tasks"
 """Imported only when a task runs: the parent never imports Pillow (D-107)."""
@@ -95,6 +96,12 @@ def _prepare(payload: JsonObject) -> JsonObject:
     return prepare_task(payload)
 
 
+def _inspect(payload: JsonObject) -> JsonObject:
+    module = importlib.import_module(_WORKER_TASKS_MODULE)
+    inspect_task: TaskFunction = module.inspect_task
+    return inspect_task(payload)
+
+
 def default_tasks() -> dict[str, TaskFunction]:
     """The production task table; imports worker modules lazily."""
-    return {PREPARE_TASK: _prepare}
+    return {PREPARE_TASK: _prepare, INSPECT_TASK: _inspect}

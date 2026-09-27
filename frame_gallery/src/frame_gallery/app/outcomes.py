@@ -68,6 +68,8 @@ class Hint(enum.StrEnum):
 
     FILTERS_TOO_RESTRICTIVE = "filters too restrictive"
     NOTHING_NEW = "nothing new left for these filters"
+    LIBRARY_EMPTY = "no usable JPEG or PNG images in /media/frame_gallery/library"
+    """The local library offered nothing (§9.3): the hint names its location."""
     LIMITS_REACHED = "search limits reached"
     ACCEPT_PROMPT = "accept the connection prompt on your TV, then start the app again"
     PAIRED_START_AGAIN = "paired; start the app again"
@@ -94,6 +96,8 @@ class NoDeliveryEvidence:
     limits_reached: bool = False
     candidates_seen: int = 0
     candidates_excluded: int = 0
+    library_empty: bool = False
+    """The local library was scanned completely and offered no candidate."""
 
 
 def classify_no_delivery(evidence: NoDeliveryEvidence) -> tuple[Outcome, Hint | None]:
@@ -110,6 +114,8 @@ def classify_no_delivery(evidence: NoDeliveryEvidence) -> tuple[Outcome, Hint | 
         return Outcome.NO_MATCH, Hint.LIMITS_REACHED
     if evidence.candidates_seen > 0 and evidence.candidates_excluded == evidence.candidates_seen:
         return Outcome.NO_MATCH, Hint.NOTHING_NEW
+    if evidence.library_empty:
+        return Outcome.NO_MATCH, Hint.LIBRARY_EMPTY
     return Outcome.NO_MATCH, Hint.FILTERS_TOO_RESTRICTIVE
 
 
