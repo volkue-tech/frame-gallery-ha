@@ -606,6 +606,18 @@ def test_process_management_is_confined_to_the_executor() -> None:
             assert "ctypes" not in tops, module.relative
 
 
+def test_the_isolation_code_is_covered_without_exemptions() -> None:
+    """No branch of the worker's own code may be excluded from coverage: each
+    is reached in-process through the injected seams (D-163)."""
+    for path in (
+        ISOLATION_ROOT / "bootstrap.py",
+        ISOLATION_ROOT / "worker_main.py",
+        ISOLATION_PROCESS,
+        TV_WORKER,
+    ):
+        assert "pragma: no cover" not in path.read_text(encoding="utf-8"), path.name
+
+
 def test_no_module_starts_a_process_through_os() -> None:
     assert _tree_violations(process_call_violations) == []
 

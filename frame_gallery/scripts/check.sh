@@ -11,6 +11,8 @@ echo "== ruff"
 
 echo "== mypy (strict)"
 "$BIN/mypy"
+echo "== mypy (strict, as on Linux: the container's platform)"
+"$BIN/mypy" --platform linux
 
 echo "== pytest (branch coverage)"
 "$BIN/pytest" -q -p no:cacheprovider \
