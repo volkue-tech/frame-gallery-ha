@@ -265,18 +265,26 @@ def guarded_deliver(payload: JsonObject, emit: EventSink) -> JsonObject:
 
 @guarded
 def fake_deliver(payload: JsonObject, emit: EventSink) -> JsonObject:
-    """The production delivery logic over the stand-in library, scripted by
-    ``fake-tv.json`` next to the delivery file; calls go to ``fake-tv-calls.json``."""
+    """The production delivery logic over the stand-in library.
+
+    The script is the nearest ``fake-tv.json`` at or above the delivery
+    file's folder (a runner's workspace is created during the run, so a test
+    puts it above); calls go to ``fake-tv-calls.json`` and the worker's pid to
+    ``fake-tv-worker.pid`` next to it.
+    """
     from frame_gallery.tv.contract import TvRequest  # noqa: PLC0415
     from frame_gallery.tv.samsung_task import quiet_library, run_delivery  # noqa: PLC0415
     from tests.support.fake_samsungtvws import Recorder, Script, make_library  # noqa: PLC0415
 
     request = TvRequest.from_json(payload)
-    folder = request.jpeg_path.parent
-    quiet_library()
-    library = make_library(
-        Script.load(folder / "fake-tv.json"), Recorder(folder / "fake-tv-calls.json")
+    folder = next(
+        (parent for parent in request.jpeg_path.parents if (parent / "fake-tv.json").is_file()),
+        request.jpeg_path.parent,
     )
+    (folder / "fake-tv-worker.pid").write_text(str(os.getpid()))
+    quiet_library()
+    script = Script.load(folder / "fake-tv.json")
+    library = make_library(script, Recorder(folder / "fake-tv-calls.json"))
     return run_delivery(library, request, emit)
 
 
