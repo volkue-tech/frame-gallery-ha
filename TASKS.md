@@ -113,9 +113,10 @@ Authorized by the user on 2026-09-27, after the Phase 4 gate.
 - [x] Map library failures and markers to clear outcomes and ledger transitions (D-162).
 - [x] Add mocked adapter tests; do not contact the live television. They include runs of the unchanged library over a socket pair against a scripted television.
 - [x] Update third-party notices, status, and decisions.
-- [ ] Commit.
+- [x] Run independent reviews of the design and of the Phase 5 commits; fix or record every confirmed finding.
+- [x] Commit.
 
-Gate: Codex reviews the isolation design and its tests, the Samsung adapter against the installed library, and the `samsungtvws` row with its LGPL-3.0 obligations. Phase 6 does not start before it is explicitly authorized.
+Gate: Codex reviews the isolation design and its tests, the Samsung adapter against the installed library, and the `samsungtvws` row with its LGPL-3.0 obligations. Phase 6 does not start before it is explicitly authorized. **Awaiting the gate** (2026-09-27): D-160 to D-165 and the open decisions in `DECISIONS.md` (*Open decisions for the Phase 5 gate*).
 
 ## Phase 6 — Home Assistant app packaging
 

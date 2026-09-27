@@ -16,9 +16,9 @@ No SSH access or `configuration.yaml` changes should be required for end users.
 
 ## Project status
 
-Phases 2 to 4 are implemented. They cover the core, deterministic selection and rendering, the guarded network gateway, the Home Assistant helper reader, the three source adapters, and the bounded persistent state: history, the TV-upload exclusion ledger, the metadata cache, the workspace, the preview, and the run records. Everything is tested offline against fakes and synthesized fixtures. The Phase 4 gate passed on 2026-09-27; Phase 5 (the Samsung adapter) is in progress.
+Phases 2 to 5 are implemented. They cover the core, deterministic selection and rendering, the guarded network gateway, the Home Assistant helper reader, the three source adapters, the bounded persistent state (history, the TV-upload exclusion ledger, the metadata cache, the workspace, the preview, and the run records), the Samsung television adapter, and the isolated worker processes that run the image and television work. Everything is tested offline against fakes, synthesized fixtures, and a scripted television; no real television has been contacted yet. The Phase 4 gate passed on 2026-09-27; Phase 5 awaits its gate review.
 
-The app is not usable yet: the television adapter and packaging follow in Phases 5 and 6. In the first beta, the Art Institute offers the period filter, and Cleveland offers department and period; no source offers a colour filter (see `frame_gallery/VOCABULARY.md`). Developer setup and quality gates: `frame_gallery/DEVELOPMENT.md`.
+The app is not usable yet: packaging follows in Phase 6, and the first run against a real television in Phase 8. In the first beta, the Art Institute offers the period filter, and Cleveland offers department and period; no source offers a colour filter (see `frame_gallery/VOCABULARY.md`). Developer setup and quality gates: `frame_gallery/DEVELOPMENT.md`.
 
 One known limitation of the design: the app remembers the latest 20 000 artworks it has shown. Older ones are forgotten, so a very old artwork could in theory be shown again. At one artwork a day that takes about 55 years (R-29 in `DECISIONS.md`).
 

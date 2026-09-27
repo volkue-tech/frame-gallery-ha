@@ -1,20 +1,36 @@
 # Project status
 
-Last updated: 2026-09-27 (Phase 5 in progress; gate next)
+Last updated: 2026-09-27 (Phase 5 gate)
 
 ## Current phase
 
-**Phase 5 (Samsung adapter contract): in progress. The user authorized it on 2026-09-27, after the Phase 4 gate passed.**
+**Phase 5 (Samsung adapter contract): complete. Stopped at the Phase 5 gate for the Codex review. Phase 6 has not started.**
 
 - **Phase 4 gate (user decision, 2026-09-27):** passed. D-153 to D-159 are accepted, and Codex re-ran `scripts/check.sh` (3 850 tests, 100 % line and branch coverage). The 20 000-entry bound is accepted for the first beta; its consequence is documented in plain language (R-29).
 - **Phase 5 conditions:** first check and document the version and the LGPL-3.0 obligations of `samsungtvws` 3.0.6; then the isolated process executor and the Samsung adapter, tested against simulations. The installed distribution and the official package information may be inspected, and the pinned version may be installed from PyPI into the git-ignored project environment only. No access to the Home Assistant Green or the television; nothing published or pushed. Stop at the Phase 5 gate; Phase 6 does not start.
+- The proposed decisions D-160 to D-165, the proposed deviations below, and the open decisions in `DECISIONS.md` (*Open decisions for the Phase 5 gate*) await the gate.
+- Not run here, and first run in the Linux container (D-165): the root-only and Linux-only assertions of the bootstrap test (the drop to 65534, `RLIMIT_AS`, the refusal of threads), and the measurement under the real `RLIMIT_AS`. The TASKS measurement item is therefore met only in part.
 - Every commit uses the personal identity `Alexander Wilke <volkue@gmail.com>`.
+- Nothing contacted Home Assistant, the Home Assistant Green, the television, a provider API, or GitHub. Nothing was published or pushed. The local backup branch was not touched. Every test uses synthesized data or a scripted television over a socket pair.
 
-**Phase 5 progress**
+### Phase 5 progress
 
-- Done: the `samsungtvws` 3.0.6 check and its LGPL-3.0 obligations (D-160); the adapter surface from the installed distribution (D-161); the television task, the Samsung adapter, and the pairing-token store (D-162); the process executor with the worker bootstrap (D-163); the workspace handed to the worker's group (D-164); E7–E10 re-run with the process-based television worker, including a real SIGKILL of the runner while its worker runs; the worst-case preparation measured on the development host (R-09). No television, Home Assistant instance, or provider was contacted.
-- Not run here, and first run in the Linux container (D-165): the root-only and Linux-only assertions of the bootstrap test (the drop to 65534, `RLIMIT_AS`, the refusal of threads), and the measurement under the real `RLIMIT_AS`.
-- Next: the internal review of the Phase 5 commits, then the Phase 5 gate.
+| Step | Commit |
+| --- | --- |
+| 1. `samsungtvws` 3.0.6 checked against the official metadata, its LGPL-3.0 obligations recorded, and the pinned version installed (D-160) | `bfc66c7` |
+| 2. Events and stop requests in the executor seam (D-141) | `7a2d8e5` |
+| 3. Samsung adapter, television task, and pairing-token store (D-161, D-162) | `33a1b83` |
+| 4. The adapter surface and the television task design recorded (D-160 to D-162) | `9fca785` |
+| 5. Process executor, worker bootstrap, and worker entry (D-163) | `83602de` |
+| 6. Workspace handed to the worker's group (D-164) | `f98c4c8` |
+| 7. E7–E10 with the process-based television worker, including a real SIGKILL of the runner | `4d8e87f` |
+| 8. The prepare measurement, and Linux type checks in the gates (R-09) | `0f930ce` |
+| 9. The executor, the workspace hand-over, and what ran where recorded (D-163 to D-165) | `779e341` |
+| 9a. Fixes from the implementation review: the executor, the bootstrap, and runnable container checks | `dfe5be2` |
+| 9b. Fixes from the implementation review: the television task, the adapter, and the outcome hint | `d449e64` |
+| 9c. Fixes from the implementation review: the measurement covers the §11.1 worst cases and fills the source cap | `98f92ce` |
+| 9d. Decisions, status, and development notes after the review (D-160 to D-165 amended) | `1c1516c` |
+| 10. Status, tasks, and README for the gate | this commit |
 
 ## Completed
 
@@ -286,6 +302,59 @@ See *Review records* in `DECISIONS.md`.
 | 7. End-to-end state scenarios E7–E10, with a real SIGKILL (D-159; D-156 amended) | `ec9e8a4` |
 | 7a. Fixes from the second internal review (D-153, D-157, D-158, and D-159 amendments) | `86cc82b` |
 | 8. Status, tasks, README, and development notes for the gate | `b1ef7bb` |
+| Gate. Phase 4 gate decision: D-153 to D-159 accepted; the 20 000-entry bound documented in plain language (R-29); Phase 5 authorized | `13247b8` |
+
+### Phase 5: Samsung adapter contract (Claude, commits `bfc66c7` to `1c1516c` and the closing documentation commit; awaiting the gate)
+
+**Implemented**
+
+- *`samsungtvws` 3.0.6* (D-160, D-161):
+  - checked against the official PyPI metadata: the newest release, both hashes match the inventory and the lock, `LGPL-3.0` (treated as `LGPL-3.0-only`), and the sdist holds no MIT notice, GPL-2.0 statement, or relicensing statement (the R-04 check);
+  - the LGPL-3.0 obligations and the notices for the library and its seven dependencies are recorded; the pinned version is installed from the lock into the git-ignored environment only, with `multidict` held at the inventoried 6.9.1;
+  - the adapter surface was taken only from the installed wheel and from running it offline.
+- *Television task* (`tv/samsung_task.py`, worker only; D-162):
+  - it uploads only the bytes with the parent's SHA-256, read once without following a link;
+  - it checks Frame support, then connects on a new library object per attempt, with every earlier connection dropped; it retries once, never after an unaccepted pairing prompt, which it tells from a silent television by the completed handshake;
+  - it reads the Art API version before `upload_started` and answers the library's own version check from it; 0.97 is `unsupported`, because the library may upload twice there;
+  - its time is one absolute monotonic deadline, and the pairing wait is one deadline per attempt; a connect guard lets it reach only the television's IPv4 literal and bounds each TCP connect to 5 s;
+  - every failure of every step maps to a status (§12.4); the library's loggers are capped at WARNING.
+- *Samsung adapter and token store* (`tv/samsung.py`, `tv/token_store.py`; D-162):
+  - the stored token goes to the worker in the request, never as a file;
+  - every event is checked; markers are relayed at once, and a marker out of order is relayed before the worker is stopped;
+  - a new token is registered with the redactor and installed as soon as it arrives (0600, atomically, below `/data/tv/`); a rejected token is removed;
+  - the worker's status is accepted only if it fits the markers the parent relayed.
+- *Process executor* (`isolation/process.py`; D-163):
+  - one new worker per task (`python -I -S -B`), in its own process group, with `/` as its working directory, a fixed environment, and six descriptors;
+  - the worker's `ready` report is checked before the request is sent; frames are a 4-byte length and canonical JSON, with bodies held to 64 KiB;
+  - the kill timer and stop requests (polled every 50 ms) kill the worker's group and the worker, and every complete event it had written is still relayed;
+  - after every worker, on every path, its group and the worker are killed and reaped (waiting at most 2 s), under a lock that `terminate_all` shares; a worker that cannot be isolated is an `IsolationFailure` (`internal_error`).
+- *Worker bootstrap* (`isolation/bootstrap.py`, `isolation/worker_main.py`; D-163): the verified drop to 65534 when the parent is root; on Linux dumpability 0, no-new-privileges, the parent-death signal, and empty capability sets; a lifeline thread on every platform; umask 027; every resource limit as soft = hard, `RLIMIT_NPROC` 0 last; the exact environment; logging to the parent, bounded and redacted. Every platform call goes through a seam (`OsOps`).
+- *Workspace hand-over* (`store/workspace.py`; D-164): with a worker group, `frame-gallery/` and `run-*/` 0710, `in/` 2750, and `out/` 2770; downloads and local copies 0640.
+- *Measurement* (`scripts/measure_prepare.py`; R-09): the §11.1 worst cases, with sources filling the 40 MiB cap, through the production prepare task in real workers.
+
+**Tests** (D-161 to D-165):
+
+- the television task in-process against a stand-in with the installed signatures (a conformance test compares them), and the **unchanged** library over a socket pair against a scripted television, without network: the token in the URL and the token relayed, a prompt against a hang, start-up events, a malformed connect event, the retry on a new connection with the old one dropped, the 0.97 refusal, the D2D address check, and the select refusal;
+- the adapter's event checks, its token handling, and the fit of the status to the markers;
+- real worker processes: their process group, the group kill, the kill timer and the stop poll with the drain, the `ready` check, the channel limits, and the lifeline; every bootstrap step and refusal in-process;
+- E7–E10 over the real store, the real adapter, and the process executor (the worker runs the production delivery logic over the stand-in library), with a real SIGKILL of the runner after `uploaded` and after `selected` while its worker runs;
+- every test task in a worker installs the H2 network guard first; the root-only checks run only production tasks that open no socket.
+
+**Quality gates** (`frame_gallery/scripts/check.sh`, run for the closing commit):
+
+- Ruff check and format: clean.
+- `mypy --strict` over `src` and `tests`, for this host and as on Linux (`--platform linux`): clean.
+- pytest: **4 361 passed** and 6 skipped (the Linux-only and root-only checks, which first run in the Phase 6 container, D-165), with **100 % line and branch coverage overall** (8 422 statements, 1 774 branches).
+- The architecture's 100 % gate, now including `tv`, also passes (7 030 statements, 1 498 branches).
+
+**Measured on the development host** (macOS arm64, without `RLIMIT_AS`; R-09): the peak resident memory of a preparation ranged from 165 MiB (a 64 MP baseline JPEG) to 839 MiB (a 64 MP progressive CMYK panorama in `cover`), each case in about 1.4 s or less; 150 local inspections, one worker each, took 6.8 s.
+
+**Independent reviews.**
+
+- A design critique before the implementation (four lenses, adversarially verified): 34 findings confirmed and 14 refuted; they shaped D-162 and D-163.
+- An implementation review of `7a2d8e5` to `779e341` (five lenses, each finding verified by one or two adversarial reviewers): 45 findings confirmed, none of high severity, and 4 refuted. All are fixed or recorded in `dfe5be2` to `1c1516c`. The most material: a token the television issued before a failed wait for `ready` was lost for the retry; start-up events could stretch the pairing wait; events decoded before a malformed frame were not relayed; a stop request during a worker's start or reap could leak a descriptor or a worker; `.pth` files could run before the bootstrap.
+
+See *Review records* in `DECISIONS.md`.
 
 ## Specification deviations
 
