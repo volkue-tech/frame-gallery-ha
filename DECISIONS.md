@@ -18,6 +18,8 @@ Each architecture decision gives its rationale at the `ARCHITECTURE.md` section 
 
 This version (revision 2) records the user decisions and corrections from the **Codex review of commit `d42adf5`** (see *Review records*).
 
+The **user's approval of Phase 3 on 2026-09-27** accepted D-108, D-112, D-115, D-124, D-127, D-131, D-134, the Phase 3 adapter details of D-132 and D-136, and D-141 to D-145. It amended D-119 and resolved Q-14 and Q-22. The documentation re-check at the start of Phase 3 is recorded in D-146.
+
 ## Accepted constraints
 
 ### D-001 — Independent repository
@@ -156,7 +158,7 @@ The parent never imports Pillow or `samsungtvws`. An import-boundary check enfor
 
 ### D-108 — Guarded gateway for all provider traffic [§10, §7.5]
 
-Status: proposed
+Status: **accepted** (user approval of Phase 3, 2026-09-27).
 
 **Decision:** The gateway enforces:
 
@@ -224,7 +226,7 @@ Status: **accepted** as the primary beta design (Codex review).
 
 ### D-112 — Static options with optional helper overrides [§15.3]
 
-Status: proposed
+Status: **accepted** (user approval of Phase 3, 2026-09-27).
 
 **Decision:**
 
@@ -286,7 +288,7 @@ The beta has no user-facing time option. An advanced total-deadline option may c
 
 ### D-115 — Retry and pacing policy [§7.4]
 
-Status: proposed
+Status: **accepted** (user approval of Phase 3, 2026-09-27).
 
 **Decision:**
 
@@ -322,13 +324,21 @@ Status: **accepted** (Codex final gate review; Q-04)
 
 ### D-119 — Honest User-Agent [§10]
 
-Status: proposed
+Status: **accepted** with the amendment below (user approval of Phase 3, 2026-09-27).
 
 **Decision:**
 
-- The User-Agent is `FrameGallery/<version> (+<project URL>)`.
+- ~~The User-Agent is `FrameGallery/<version> (+<project URL>)`.~~ Superseded by the amendment below.
 - Provider courtesy headers, such as the Art Institute's `AIC-User-Agent`, carry the project name and a project-owned contact email (Q-22), never user data.
 - There is no browser impersonation.
+
+**Amendment (user decision, 2026-09-27).**
+
+- No invented or not-yet-existing project URL is used. Until a public project URL is decided (Q-13), the User-Agent is `FrameGallery/<version> (contact: volkue@gmail.com)`.
+- The Art Institute's `AIC-User-Agent` uses the project contact: `FrameGallery/<version> (volkue@gmail.com)`.
+- Tests keep using a clearly recognizable placeholder contact, never the real address.
+- Before publication (Phase 9), both headers switch to the real public repository URL.
+- The real address is transmitted only in a later, explicitly approved live request (Q-22). Phase 3 makes no live request.
 
 ### D-120 — First public beta scope [§22]
 
@@ -410,7 +420,7 @@ There is no time-limit option and no library-path option.
 
 ### D-124 — Filter model, vocabularies, and capability matrix [§9.2, §15.2]
 
-Status: proposed, as required by the Codex review.
+Status: **accepted** (user approval of Phase 3, 2026-09-27). The documentation re-check amends the Art Institute's column of the matrix (D-146).
 
 **Decision:**
 
@@ -420,7 +430,7 @@ Status: proposed, as required by the Codex review.
   3. style/period;
   4. colour.
 - **Capability matrix**, published in `DOCS.md` and in the option descriptions:
-  - Art Institute: department, style, period, and colour.
+  - Art Institute: department, style, period, and colour. *Amended by D-146: period only in the beta, because the documentation does not name the department and style values or the colour object's members.*
   - Cleveland: department and period. Style and colour are unsupported in the beta.
   - Local media: none of the four.
 - **Visible reporting.** A filter that does not apply to the selected source is ignored for the run and reported in three places:
@@ -428,7 +438,7 @@ Status: proposed, as required by the Codex review.
   - `ignored_filters` in the summary line;
   - `last_run.json`.
 - **Helper values.** A helper value that normalizes to no vocabulary key falls back to the static value, with one warning. A known key that does not apply to the selected source overrides the static value, and is then ignored and reported like a static value.
-- **Vocabularies.** Versioned, with deterministic normalization. The final lists are fixed in Phase 3 (Q-14).
+- **Vocabularies.** Versioned, with deterministic normalization. The final lists are fixed in Phase 3 (Q-14, resolved: small, curated lists from documented values only; D-146).
 
 ### D-125 — Television address rules [§15.4]
 
@@ -454,7 +464,7 @@ Status: proposed
 
 ### D-127 — Standard-library parsing only [§18.2]
 
-Status: proposed
+Status: **accepted** (user approval of Phase 3, 2026-09-27).
 
 **Decision:** Parse `json`, and `html.parser` only if a provider is ever approved that needs it. No lxml or BeautifulSoup.
 
@@ -527,7 +537,7 @@ Status: proposed
 
 ### D-131 — HTTP transport: `urllib3` directly [§10]
 
-Status: proposed
+Status: **accepted** (user approval of Phase 3, 2026-09-27).
 
 **Decision:**
 
@@ -537,7 +547,7 @@ Status: proposed
 
 ### D-132 — Art Institute of Chicago adapter [§9.5]
 
-Status: **accepted** as a beta source (Codex review). The adapter details are proposed.
+Status: **accepted** as a beta source (Codex review). The adapter details are **accepted** (user approval of Phase 3, 2026-09-27), as amended by the documentation re-check (D-146): period filter only in the beta, dimensions from the documented Images resource, and renditions only for images at least 1686 px wide.
 
 **Decision.** Use the documented API:
 
@@ -559,7 +569,7 @@ Status: proposed (Phase 8 check under Q-07).
 
 ### D-134 — Rights-basis allowlist [§9.1]
 
-Status: proposed
+Status: **accepted** (user approval of Phase 3, 2026-09-27).
 
 **Decision:**
 
@@ -594,7 +604,7 @@ Status: proposed. **The qualified licence review is a release gate (Phase 9).**
 
 ### D-136 — Cleveland Museum of Art adapter [§9.6]
 
-Status: **accepted** as a beta source (Codex review). The adapter details are proposed and are re-verified against the live documentation in Phase 3.
+Status: **accepted** as a beta source (Codex review). The adapter details are **accepted** (user approval of Phase 3, 2026-09-27). They were re-verified against the live documentation on 2026-09-27; D-146 adds an explicit `limit` on every request, leaves out the one department value that contains commas, and enforces period bounds on `creation_date_earliest`.
 
 **Decision.** Use only the documented Open Access API:
 
@@ -679,13 +689,13 @@ Status: **accepted** as a requirement (Codex review). The mechanism is selected 
 - The evidence and the chosen mechanism are recorded here and in R-07.
 - The Collection Image integration (2026.9+) may be documented as an optional alternative. It must not raise the app's minimum Home Assistant version.
 
-## Phase 2 implementation decisions (proposed)
+## Phase 2 implementation decisions (accepted)
 
-These record how Phase 2 realized the architecture, and every place where it deviates from the text of `ARCHITECTURE.md`. They are proposed for approval at the Phase 3 gate.
+These record how Phase 2 realized the architecture, and every place where it deviates from the text of `ARCHITECTURE.md`. The user accepted them with the Phase 3 approval on 2026-09-27.
 
 ### D-141 — Phase 2 layout, seams, and classification details [§4, §5, §9.1, §12, §21]
 
-Status: proposed.
+Status: **accepted** (user approval of Phase 3, 2026-09-27).
 
 **Layout.** Beyond §21, Phase 2 adds:
 
@@ -732,7 +742,7 @@ Status: proposed.
 
 ### D-142 — Development environment and lock workflow (amends D-128) [§17, §20.4]
 
-Status: proposed.
+Status: **accepted** (user approval of Phase 3, 2026-09-27).
 
 - **`uv`.** Version 0.12.19, installed from PyPI into the git-ignored `.tools/` directory with its wheel hash checked against PyPI. `pyproject.toml` pins `required-version`, sets `python-downloads = "never"` (interpreters would come from outside the package index), and limits the lock to macOS and Linux.
 - **Lock.** A project `uv.lock` with hashes for the whole development environment. `requirements/runtime.txt` is exported from it with `uv export --locked --no-dev --no-emit-project`, hash-pinned. This replaces the separate `uv pip compile --generate-hashes` step of D-128, so the development and runtime pins cannot drift apart. Installs keep `--require-hashes --no-deps --only-binary=:all:`. The Phase 6 container build narrows the runtime file to the chosen Python version and platform.
@@ -742,7 +752,7 @@ Status: proposed.
 
 ### D-143 — Provisional built-in vocabulary [§15.2, D-124]
 
-Status: proposed.
+Status: **accepted** (user approval of Phase 3, 2026-09-27).
 
 - Phase 2 ships the vocabulary *mechanism*: normalization, keys, labels, aliases, and the per-field lookup. The built-in vocabulary is empty (version `0-provisional`). Tests use synthetic vocabularies.
 - Until Phase 3 fixes the real lists (Q-14), any static filter value other than `any` is therefore `config_invalid`.
@@ -750,7 +760,7 @@ Status: proposed.
 
 ### D-144 — Image pipeline details [§11.1, D-121, D-122]
 
-Status: proposed.
+Status: **accepted** (user approval of Phase 3, 2026-09-27).
 
 - **Header pre-scan** (§11.1 step 2, §18.1 "header limits"). Before Pillow opens a source, the worker walks its header with a bounded standard-library scanner (`imaging/source_scan.py`), because Pillow loops over every marker segment or chunk without a limit, and the D-121 checks look only at the declared dimensions.
   - JPEG, from SOI to the first SOS: at most 1 024 markers, 16 MiB of header bytes, and 4 096 fill bytes. The markers 0xC8 and 0xF0–0xFD are refused, because Pillow reads them without a length and would lose sync with the scan.
@@ -775,7 +785,7 @@ Status: proposed.
 
 ### D-145 — Redaction scope and test guards [§18, §19, §20.1, H2, H3]
 
-Status: proposed.
+Status: **accepted** (user approval of Phase 3, 2026-09-27).
 
 - **Known secrets.** The Supervisor and TV tokens are registered with one process-wide redactor (installed by `configure_logging`). It also covers their percent-encoded and JSON-escaped forms. `sanitize_for_log` redacts with it *before* truncating, so a cut line can never show a fragment of a registered secret.
 - **Credential patterns** (a backstop for secrets that were never registered):
@@ -791,6 +801,74 @@ Status: proposed.
     - The real secrets (the Supervisor and TV tokens) are registered values and are always redacted.
 - **Network guard (H2).** Installed for the whole test session, collection included. It blocks `connect`, `connect_ex`, `sendto`, and `sendmsg` on `socket.socket`, `socket.create_connection`, and the five resolver functions on `socket` and `_socket`.
 - **Boundary checks (D-107).** They also ban `_socket`, `_ssl`, `socketserver`, `select`, `selectors`, `ctypes`, `concurrent`, and `pty`, and process creation through `os`. They flag computed dynamic imports outside `isolation`, and allow constant dynamic imports of worker modules only in `isolation`. Self-tests prove that every detector fires. Phase 3 (`net.transport`) and Phase 5 (process isolation) must extend these rules deliberately.
+
+## Phase 3 decisions
+
+### D-146 — Documentation re-check at the start of Phase 3, and its consequences [§9.2, §9.5, §9.6, §15.2]
+
+Status: proposed. Applied in Phase 3 under the user's Q-14 instruction: use no undocumented values, and leave out, with a documented limitation, any category that the official documentation does not map reliably. The resulting capability changes are confirmed at the Phase 3 gate (Q-25).
+
+**Method.** On 2026-09-27 the two official documentation pages, `https://api.artic.edu/docs/` and `https://openaccess-api.clevelandart.org/`, were re-read in the in-app browser, and the text was extracted from the rendered pages. No API endpoint, image, or metadata URL was requested, and nothing was recorded from a live response.
+
+**Art Institute of Chicago: documented.**
+
+- *Search.* `GET /api/v1/artworks/search`, with Elasticsearch Query DSL in `query`. "For production use", the whole query travels as minified, URL-encoded JSON in `params`. The `is_public_domain` term query is the documented example.
+- *Counting.* A documented example requests `…/artworks/search?query[term][is_public_domain]=true&limit=0`. Every paginated response carries `pagination.total`.
+- *Pagination.* `page` (1-based) and `limit`. `limit` cannot exceed 100, and a single search query cannot return more than 10 000 records through any combination of `limit` and `page`.
+- *Access.* Anonymous users are throttled to 60 requests per minute per IP. Scraping should stay at no more than one request per second. The `AIC-User-Agent` courtesy header carries "the name of your project and a contact email".
+- *Artwork fields.* `id`, `title`, `artist_display`, `date_display`, `date_start` and `date_end` (numbers), `credit_line`, `is_public_domain`, and `image_id`. The fields `department_title`, `style_title`, `style_titles`, and `color` ("Dominant color of this artwork in HSL") exist. Every title-based field has a `.keyword` subfield for filters.
+- *Images resource.* `GET /api/v1/images` accepts `ids` (comma-separated) and `fields`. Its `width` and `height` are the "Native width/height of the image".
+- *IIIF.* `https://www.artic.edu/iiif/2/{identifier}/full/843,/0/default.jpg` is recommended. For public-domain images, `…/full/1686,/0/default.jpg` may be used, although 843 is still recommended "unless there's a clear need for 1686". The 4K canvas is that need (R-19).
+- *Category terms.* Their `subtype` "takes one of the following values: classification, material, technique, style, subject, department, theme". The terms themselves are data behind the `category-terms` endpoints.
+
+**Art Institute of Chicago: not documented.**
+
+- The set of department values and the set of style values. They are API data (category terms), not documentation, and Phase 3 may not call the API.
+- The names, ranges, and meaning of the members of the `color` object.
+- Any member of the artwork's `thumbnail` object; its description refers only to IIIF conventions. The Phase 1 assumption (§9.5) that the thumbnail carries a documented width and height does not hold.
+- Whether the IIIF server upscales a `1686,` request for an image narrower than 1686 px.
+
+**Consequences for the Art Institute adapter** (amends D-132 and §9.5):
+
+1. **Departments, styles, and colours are unsupported in the beta.** No `aic_…`, `style_…`, or `color_…` key is shipped, and the capability matrix lists only the period filter for the Art Institute. A configured value that does not apply is reported like any unsupported filter (B8). A later, separately approved observation could supply curated values (Q-25).
+2. **Dimensions come from the documented Images resource.** After each search page, one batched request, `GET /api/v1/images?ids=<the page's image ids>&fields=id,width,height`, reads the native sizes. It counts as a metadata request.
+   - The artwork's `image_id` is taken as the image record's `id`, because the documentation uses that identifier for the image in both places. The worker's check of the real dimensions (§8.2) remains the safety net.
+   - A record without a matching image record is offered without dimensions and skipped as `dims_unavailable`, since the adapter has no probe.
+3. **Rendition.** `full/1686,/0/default.jpg`, only for images at least 1686 px wide; narrower images are skipped. The rendition measures `1686 × round(1686 · h / w)`.
+4. **Search shape.** One count request (`limit=0`), then pages of 50 records sampled without replacement from the first `min(total, 10 000)` results. Each page costs two metadata requests (search and images). A typical run therefore needs 3 requests; the allowance of 15 is never exceeded.
+5. **Period filter.** An Elasticsearch `range` on the documented numeric `date_start`, which is also checked on every record.
+
+**Cleveland Museum of Art: documented (checked verbatim).**
+
+- *Parameters of `GET /api/artworks/`.*
+  - `cc0` takes no value: "Filters by works that have share license cc0".
+  - `has_image` is 0 or 1 and returns only works with a web image asset.
+  - `department`: the valid values are in Appendix B.
+  - `skip`, `limit`, and `fields`. Without a `limit`, the API returns its maximum of 1000 records.
+  - The advanced filters `created_after` and `created_before` take integer years; negative years are BCE.
+- *Response.* `info.total`, and per record:
+  - `id` ("ID in AthenaCCMS");
+  - `share_license_status` ("CC0", "Copyrighted", or "Other");
+  - `creation_date` (a string), `creation_date_earliest`, and `creation_date_latest`;
+  - `creators` (with `description`), `department`, `url`, and `images`.
+- *Images.* `images.print` is "3400px at longest side, 300 dpi, jpeg format". The documentation's example gives its `url`, `filename`, `filesize`, `width`, and `height`, all as strings, on `openaccess-cdn.clevelandart.org`. The original TIFF is `images.full`.
+- *Rights.* Only works with the CC0 status "additionally provide access to CC0 images".
+- *Departments.* Appendix B lists 21, verbatim: African Art; American Painting and Sculpture; Art of the Americas; Chinese Art; Contemporary Art; Decorative Art and Design; Drawings; Egyptian and Ancient Near Eastern Art; European Painting and Sculpture; Greek and Roman Art; Indian and South East Asian Art; Islamic Art; Japanese Art; Korean Art; Medieval Art; Modern European Painting and Sculpture; Oceania; Performing Arts, Music, & Film; Photography; Prints; Textiles.
+- *Release history.* The newest entry is version 4.0.3 (2026-07-09).
+- *Rate limits.* None is documented.
+
+**Cleveland: not documented.**
+
+- Whether `created_after` and `created_before` are inclusive, and which date field they compare.
+- How a `department` value that contains commas is parsed.
+
+**Consequences for the Cleveland adapter** (amends D-136 and §9.6):
+
+1. Every request sets `limit` explicitly: 1 for the count, at most 25 for a page.
+2. "Performing Arts, Music, & Film" is not offered.
+3. Each period bound is widened by one year on the server side, so either reading of inclusivity is covered. The exact range is then enforced on the documented `creation_date_earliest`.
+
+**Periods, for both museums.** Five project-defined ranges of the earliest creation year: before 1400; 1400–1599; 1600–1799; 1800–1899; and 1900 and later. They are ranges, labelled with years, not styles.
 
 ## Proposed dependency inventory
 
@@ -978,7 +1056,7 @@ L = likelihood, I = impact; H = high, M = medium, L = low.
 | R-25 | **The Pillow wheels bundle GPL-3.0-or-later `libimagequant` 4.4.1 and LGPL-2.1-or-later FriBiDi 1.0.16.** The distributed image therefore contains GPL-3.0 code, and the runtime is not GPL-free. | H / M | Correct inventory (observed SBOM); D-135 source availability; qualified licence review as a release gate; authoritative re-inspection of the exact runtime wheels once the Python version is fixed; Apache-2.0 scoped to project code only (D-102) | Licence review (Phase 9) |
 | R-18 | Provider terms or rate limits violated by accident | L / H | Allowances; 1 s pacing; 403/429 stop; cache; honest headers | Phase 3 review |
 | R-19 | Art Institute renditions (1686 px) look soft after upscaling by up to ≈ 2.28×; images can be unpublished | H / M | Honest documentation; HTTP 404 moves to the next candidate; Cleveland renditions (≈ 1.13×) are an in-beta alternative | Accepted |
-| R-20 | Provider documentation drifts. Examples: Cleveland's banner date is older than its changelog, and the Cleveland image host appears only in example URLs. | M / L | Re-verify the live documentation at the start of Phase 3 | Phase 3 |
+| R-20 | Provider documentation drifts. Examples: Cleveland's banner date is older than its changelog, and the Cleveland image host appears only in example URLs. | M / L | Re-verified on 2026-09-27 (D-146); re-check before the Phase 8 live test and before each release | Phase 8, each release |
 | R-21 | The media browser may not be able to upload into `/media/frame_gallery/library` | M / M | The app creates the folder; the hint names its location; Phase 8 verifies uploads | Phase 8 |
 | R-22 | **Provider identifier stability.** Neither the Art Institute nor Cleveland documents its record IDs as permanent. | L / M | IDs validated against patterns; Cleveland's accession number kept as metadata; history and ledger keyed by the documented ID; re-checked when documentation drifts | Phase 3 |
 | R-23 | The **Cleveland API terms** reserve future keys, transaction limits, and IP logging | M / M | Room for an optional key (`password` option); 401/403 treated as a stop; conservative pacing; the source stays optional | Monitor |
@@ -1014,6 +1092,13 @@ L = likelihood, I = impact; H = high, M = medium, L = low.
 | Q-18 item 4 | The architecture order is adopted: record the confirmed sent history before publishing the preview (D-113). `PRODUCT_SPEC.md` is amended. |
 | Q-23 | The uncertainty-quarantine period is **30 days** (D-137). |
 
+### Resolved at the user's approval of Phase 3 (2026-09-27)
+
+| ID | Resolution |
+| --- | --- |
+| Q-14 | Small, curated, versioned vocabularies, built from the re-checked official documentation only. Labels are distinct across the museums. Normalization, aliases, and uniqueness are tested. A category that the documentation does not map reliably is left out, and the limitation is documented (D-146). |
+| Q-22 | The project contact is `volkue@gmail.com` (D-119 as amended). Phase 3 still makes no live API request; the real address is transmitted only in a later, explicitly approved live request. Tests use a placeholder. |
+
 ### Open
 
 | ID | Question | Recommendation | Needed by |
@@ -1023,13 +1108,29 @@ L = likelihood, I = impact; H = high, M = medium, L = low.
 | Q-07 | Confirm D-133: how `once`-app exits are shown, and how the app Watchdog reacts | Keep D-133; observe in Phase 8 | Phase 8 |
 | Q-10 | Should the parent process also run unprivileged? | Evaluate in Phase 6. The workers are unprivileged from Phase 5 (§11.3). | Phase 6 |
 | Q-13 | The final public repository URL, which determines the slug shown in the dashboard YAML | Decide with D-101 | Phase 9 |
-| Q-14 | Initial vocabularies: AIC departments, style and period keys, AIC colour bands, and the subset of the 21 CMA departments to offer | Small curated lists after the Phase 3 mapping | Phase 3 |
 | Q-19 | `hassio.app_start` is admin-only. Test the non-admin paths: a script, the Running switch, `continue_on_error`, a mistyped slug. | Document the admin requirement; test in Phase 8 | Phase 8 |
 | Q-21 | Install route for Phase 8: (a) copy the folder into `/addons` through a file-share app; (b) a temporary private repository; (c) a development image push | (a) | Phase 8 |
-| Q-22 | The project-owned contact email for the Art Institute courtesy header. It is needed before any live request; tests use a placeholder. | Decide before any approved observation request | Phase 3 |
+| Q-25 | Art Institute departments, styles, and colours. The documentation names the fields but not their values or members (D-146), so the beta leaves them out. Options: (a) keep them unsupported for the beta; (b) approve a one-time, recorded observation of the documented `category-terms` endpoint (subtypes `department` and `style`) and of the `color` object's shape, and curate small lists from it. | (a) for the beta; (b) only with explicit approval | Phase 3 gate |
 | Q-24 | Cleveland colour filtering by local analysis, for example of the documented 900 px web rendition, counted against the existing download allowance and the content-window time budget, not against the 30 remote dimension requests. Only if it fits the same download and time budgets. | Defer until after the beta | After the beta |
 
 ## Review records
+
+### User approval of Phase 3 (2026-09-27)
+
+The user approved Phase 3 with these binding decisions and limits:
+
+1. D-141 to D-145 are accepted.
+2. D-108, D-112, D-115, D-124, D-127, D-131, D-134, and the Phase 3 adapter details of D-132 and D-136 are accepted.
+3. D-119 is accepted with an amendment: no invented or not-yet-existing project URL; the User-Agent is `FrameGallery/<version> (contact: volkue@gmail.com)` until a public URL is decided; the `AIC-User-Agent` may use the same contact; tests keep a clearly recognizable placeholder; the headers switch to the real repository URL before publication.
+4. Q-14 is decided as recommended: small, curated, versioned vocabularies from the re-checked official documentation, with labels distinct across the museums; normalization, aliases, and uniqueness tested; no undocumented values; a category the documentation does not map reliably is left out, and the limitation documented.
+5. Q-22 is decided: the project contact is `volkue@gmail.com`. Phase 3 makes no live API request; the real address is transmitted only in a later, explicitly approved live request.
+6. The direct dependencies `urllib3` 2.8.0 (MIT) and `certifi` 2026.7.22 (MPL-2.0) are approved, installed only into the git-ignored project environment from PyPI, with the lock, the hash-pinned runtime requirements, the inventory, and `THIRD_PARTY_NOTICES.md` updated and the installed package metadata checked.
+7. At the start of Phase 3, only the official Art Institute and Cleveland documentation pages may be re-read. No API endpoint, no image or metadata request, and no recorded live observation. Tests use only independently authored or synthetic fixtures. No predecessor project is consulted.
+8. Only Phase 3 of `TASKS.md` is implemented. No connection to Home Assistant Green or the television, nothing pushed or published, no container published, and the local backup branch is neither changed nor published.
+9. The work is split into small, focused commits: documentation re-check and approved decisions; network gateway and dependencies; Home Assistant helper reader; local media provider; Art Institute adapter; Cleveland adapter; vocabularies, the shared contract tests, and the closing documentation.
+10. Every commit is checked for the identity `Alexander Wilke <volkue@gmail.com>`. SatoshiPay, EBMA, and Marcel accounts, addresses, credentials, organizations, and repositories are never used.
+
+At the end, all quality gates run, `STATUS.md`, `DECISIONS.md`, `TASKS.md`, and the licence and dependency documentation are updated, and the work stops at the Phase 3 gate for the Codex review.
 
 ### Phase 2 internal review (Claude, before the Phase 2 commit)
 

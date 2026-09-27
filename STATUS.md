@@ -4,13 +4,29 @@ Last updated: 2026-09-27
 
 ## Current phase
 
-**Phase 2 (core skeleton, deterministic selection and rendering): complete, awaiting the Phase 3 gate.**
+**Phase 3 (provider adapters): in progress.**
 
-- Codex gave final approval of Phase 1 at commit `dda877c` and authorized Phase 2 only. The gate adjustment for the remaining `pillow.libs` entries is recorded in commit `63ebbc8`.
-- Phase 2 is implemented, tested, independently reviewed, and fixed. The decisions it proposes are D-141 to D-145.
-- Codex independently reran the complete Phase 2 quality gate on 2026-09-27: Ruff and strict mypy passed, all 2,755 tests passed, and total line and branch coverage was 100%.
-- The local history was rewritten before publication so every commit uses the personal identity `Alexander Wilke <volkue@gmail.com>`. The repository-local Git configuration enforces the same identity for future commits.
-- Nothing contacted Home Assistant, the television, a provider API, or GitHub. Nothing was published or pushed. Phase 3 has not started.
+- The user approved Phase 3 on 2026-09-27. D-141 to D-145 and the Phase 3 decisions D-108, D-112, D-115, D-124, D-127, D-131, D-134, D-132, and D-136 (adapter details) are accepted; D-119 is accepted with an amendment; Q-14 and Q-22 are resolved; `urllib3` 2.8.0 and `certifi` 2026.7.22 are approved.
+- Phase 2 was independently re-run by Codex on 2026-09-27: Ruff and strict mypy passed, all 2,755 tests passed, and total line and branch coverage was 100%.
+- Every commit uses the personal identity `Alexander Wilke <volkue@gmail.com>`, which the repository-local Git configuration also enforces.
+- Nothing contacted Home Assistant, the television, a provider API, or GitHub. Nothing was published or pushed.
+
+### Phase 3 progress
+
+| Step | Commit |
+| --- | --- |
+| 1. Documentation re-check and the approved decisions (D-146; `ARCHITECTURE.md` §8.3, §9.2, §9.5, §9.6, §10, §15.2, §23) | this commit |
+| 2. Guarded network gateway and the `urllib3` and `certifi` dependencies | pending |
+| 3. Home Assistant helper reader | pending |
+| 4. Local media provider | pending |
+| 5. Art Institute of Chicago adapter | pending |
+| 6. Cleveland Museum of Art adapter | pending |
+| 7. Vocabularies, shared contract tests, and closing documentation | pending |
+
+**Documentation re-check (D-146).** On 2026-09-27 the two official documentation pages were re-read in the in-app browser. No endpoint was called and nothing was recorded from a live response.
+
+- *Cleveland:* the parameters, the response fields, the print JPEG, the CDN host, and the 21 departments are confirmed verbatim. The adapter sets `limit` on every request (the default is 1000), leaves out the one department whose name contains commas, and enforces period bounds on `creation_date_earliest`, because the inclusivity of `created_after` and `created_before` is undocumented.
+- *Art Institute:* the search, count, pagination, courtesy, IIIF, and Images resource facts are confirmed. The documentation does **not** name the department or style values, the members of the colour object, or the members of the artwork `thumbnail`. Under the user's Q-14 instruction, the Art Institute therefore supports only the period filter in the beta, and it reads image sizes from the documented Images resource instead of the thumbnail. **Q-25** asks whether to keep this for the beta or to approve a one-time observation that would allow curated department and style lists.
 
 ## Completed
 
@@ -158,30 +174,24 @@ Last updated: 2026-09-27
 
 ## Specification deviations still awaiting decision
 
-Proposed in Phase 2, for approval at the Phase 3 gate:
-
 | Item | Where |
 | --- | --- |
-| Port shapes that differ from §9.1 and §12.1 (central capability matrix and rights allowlist; `DimensionProbe` instead of `probe_ref`; token handling inside the Phase 5 adapter) | D-141 |
-| `deadline_exceeded` also covers a CONFIGURE overrun; an adapter failure after `selected` gives `delivered_with_warnings` | D-141 |
-| The summary-line key is `ignored_filters=` (§19 amended to match §9.2 and D-124) | D-141 |
-| Lock and export workflow: `uv.lock` plus `uv export`, instead of `uv pip compile` | D-142, amends D-128 |
-| The built-in vocabulary is empty until Phase 3, so any filter other than `any` is `config_invalid` | D-143 |
+| The Art Institute supports only the period filter in the beta: its department and style values and its colour members are undocumented. No source supports a colour filter in the beta, which narrows acceptance items B2 and C1 to the filters a source supports. | D-146, Q-25 |
 
 ## Next action
 
-The user and Codex review Phase 2 (architecture conformance and independence), then either approve Phase 3 or request changes.
+Continue Phase 3 with step 2 (guarded network gateway and dependencies), then stop at the Phase 3 gate for the Codex review.
 
 **Decisions needed, by phase:**
 
 | Before | Decisions |
 | --- | --- |
-| Phase 3 | The Phase 2 decisions D-141 to D-145. Q-14, Q-22. The `urllib3` and `certifi` rows. Any observation requests. |
+| Phase 3 gate | D-146 and Q-25 (Art Institute filters in the beta). The Phase 3 implementation decisions proposed at the end of the phase. |
 | Phase 4 | None (Q-23 and D-113 accepted). |
 | Phase 5 | The `samsungtvws` row and its LGPL-3.0 obligations (D-135). |
 | Phase 6 | The base-image pull (D-130); Q-06, Q-10; the Buildx, QEMU, and SBOM-tool rows. The authoritative Pillow runtime-wheel inspection, including the remaining `pillow.libs` entries (mandatory before packaging or publication). |
 | Phase 8 | Explicit approval for the live run; Q-21 (install route). |
-| Phase 9 | D-101 (final name), Q-13 (repository URL); the builder-action and Cosign rows; the qualified licence review (D-135, release gate); approval to publish. |
+| Phase 9 | D-101 (final name), Q-13 (repository URL, which also replaces the contact in the User-Agent, D-119); the builder-action and Cosign rows; the qualified licence review (D-135, release gate); approval to publish. |
 
 ## External state
 
@@ -190,7 +200,7 @@ The user and Codex review Phase 2 (architecture conformance and independence), t
 - No GitHub repository accessed, created, or modified; no GitHub-hosted page fetched.
 - No container image pulled, built, or published.
 - Dependencies were installed only into the git-ignored project environment (`frame_gallery/.venv`) and the git-ignored `.tools/` directory, from PyPI (`pypi.org`, `files.pythonhosted.org`) only. Nothing else was installed or modified on the machine.
-- No provider API or image endpoint called. Research read public documentation pages, policy pages, and `robots.txt` files, plus one Microsoft Q&A answer (cited as a non-documentation source) and search-result snippets where a page blocked automated readers. Reading used web-fetch tools, `curl` (including PyPI's JSON metadata API), and the in-app browser.
+- No provider API or image endpoint called. The Phase 3 re-check read only the two official documentation pages (D-146). Research read public documentation pages, policy pages, and `robots.txt` files, plus one Microsoft Q&A answer (cited as a non-documentation source) and search-result snippets where a page blocked automated readers. Reading used web-fetch tools, `curl` (including PyPI's JSON metadata API), and the in-app browser.
 - Apache-2.0 is approved. The `LICENSE` file will be added when publication is prepared (Phase 9).
 
 ## Known open decisions
@@ -201,6 +211,6 @@ See `DECISIONS.md` for the full list. The most material:
 - **Copyleft components in the runtime image** (R-25, D-135). The Pillow wheels bundle GPL-3.0-or-later `libimagequant` and LGPL-2.1-or-later FriBiDi. The qualified licence review is a release gate.
 - **Final name** (D-101). The trademark wording is tracked as R-14.
 - **Copyleft source-availability mechanism** (D-135).
-- **Phase 2 proposals** (D-141 to D-145), listed above.
+- **Art Institute filters in the beta** (D-146, Q-25), listed above.
 - **Local tests versus the runtime build** (R-26): the full suite runs inside the container in Phase 6.
 - **No pre-emption before Phase 5** (R-27): the process executor with its kill timer arrives in Phase 5.

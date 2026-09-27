@@ -7,8 +7,9 @@ Status: **Revision 2, with final gate corrections.**
 
 - Codex gave final approval of Phase 1 at commit `dda877c` and authorized Phase 2, with one gate adjustment: verification of the remaining `pillow.libs` entries moved to the Phase 6 runtime-wheel inspection (§23).
 - Phase 2 (core, deterministic selection, and rendering) is implemented. Where the implementation refines this document, the refinement is recorded in D-141 to D-145 and marked in the text.
+- The user approved Phase 3 (provider adapters) on 2026-09-27. At its start, the Art Institute and Cleveland documentation was re-read (documentation pages only, D-146). §8.3, §9.2, §9.5, §9.6, §10, §15.2, and §23 are amended to match.
 
-Date: 2026-09-26
+Date: 2026-09-26 (Phase 3 amendments: 2026-09-27)
 Author: Claude (Phase 1 owner)
 
 This document is documentation only. The YAML fragments, signatures, and pseudo-code below illustrate interfaces and configuration *shape*. They are not application code. Everything is authored and tested in the phases that follow approval.
@@ -432,7 +433,7 @@ if strict_tv_format and fallback_permitted: fill the shortlist from fallbacks, b
 
 ### 8.3 Probes and inspections
 
-- **Probes.** A *probe* is one remote request made only to learn an image's dimensions. Probes are capped at 30 per run (Q-20, resolved). No beta source needs them, because the Art Institute and Cleveland both publish dimensions. The allowance is still enforced and tested with a counting fake gateway (acceptance item `C4`).
+- **Probes.** A *probe* is one remote request made only to learn an image's dimensions. Probes are capped at 30 per run (Q-20, resolved). No beta source needs them: the Art Institute documents native image sizes in its Images resource, and Cleveland documents the size of its print JPEG (§9.5, §9.6). The allowance is still enforced and tested with a counting fake gateway (acceptance item `C4`).
 - **Local header inspections** run in the isolated `inspect` worker, in batches of at most 50, against their own allowance of 300.
 
 ---
@@ -484,10 +485,12 @@ Landscape-only, strict near-16:9, and fit mode apply to every source.
 
 | Filter | Local media | Art Institute of Chicago | Cleveland Museum of Art |
 | --- | --- | --- | --- |
-| Department/collection | unsupported | **supported** (department metadata) | **supported** (documented `department` parameter, 21 values) |
-| Style | unsupported | **supported** (style metadata) | **unsupported** (no documented style field) |
-| Period | unsupported | **supported** (date fields) | **supported** (`created_after`/`created_before`, in years) |
-| Colour | unsupported | **supported** (dominant-colour metadata; server-side if range queries work, otherwise client-side; confirmed in Phase 3) | **unsupported in the beta** (no documented colour field; local analysis deferred, Q-24) |
+| Department/collection | unsupported | **unsupported in the beta** (the field is documented, its values are not; D-146, Q-25) | **supported** (documented `department` parameter; a curated subset of the 21 documented values, §15.2) |
+| Style | unsupported | **unsupported in the beta** (the field is documented, its values are not; D-146, Q-25) | **unsupported** (no documented style field) |
+| Period | unsupported | **supported** (`date_start`) | **supported** (`created_after`/`created_before`, in years; the exact range is enforced on `creation_date_earliest`) |
+| Colour | unsupported | **unsupported in the beta** (the members of the documented colour object are not documented; D-146, Q-25) | **unsupported in the beta** (no documented colour field; local analysis deferred, Q-24) |
+
+*Amended at the start of Phase 3 (D-146).* The re-read documentation names the Art Institute's department, style, and colour fields, but not their values or members. Under the user's Q-14 instruction, nothing undocumented is used, so these three filters are unsupported for the Art Institute in the beta.
 | Landscape-only, strict 16:9, fit | supported | supported | supported |
 
 **Visible reporting, never silent.** Some filters cannot apply to the selected source: an unsupported dimension, or a department of another source. For this run such a filter is ignored and reported in three places:
@@ -535,52 +538,62 @@ The research read policy pages, `robots.txt` files, and official API documentati
 | **Museum of Modern Art, Musée d'Orsay** | No open API found | — | Agency licensing, or non-commercial use only | Not offered; aggregator coverage not yet checked |
 | **Europeana, Rijksmuseum, The Met** | Yes, with conditions | Various | Per item | Later (§9.9) |
 
-### 9.5 Art Institute of Chicago (`aic`) (D-132)
+### 9.5 Art Institute of Chicago (`aic`) (D-132, D-146)
+
+Re-verified against the live documentation on 2026-09-27 (D-146). No endpoint was called.
 
 - **Discovery.**
-  - The documented `/api/v1/artworks/search` endpoint, queried through a JSON `params` GET.
-  - Every query requires `is_public_domain = true` and the presence of an image.
-  - `fields` is limited to: id, `is_public_domain`, title, artist, date, image id, thumbnail width and height, dominant colour, style, department, and credit line.
-  - Every record must also have `is_public_domain == true` and an image id, otherwise it is skipped.
-  - `limit` is ≤ 100; the API stops at 10 000 results.
-  - Pages are sampled without replacement.
-  - A typical run makes 2 requests.
-- **Filters.** Department, style, period, and colour (§9.2).
-- **Dimensions.** Taken from the documented native width and height, scaled to the rendition, so no probes are needed.
-- **Rendition.** IIIF `…/full/1686,/0/default.jpg`, the largest documented public-domain size. The 4K canvas is the stated need for it. An HTTP 404 moves on to the next candidate.
-- **Identifiers.** `image_id` must `fullmatch` a pattern and is percent-encoded. Artworks are recorded as `aic:<numeric id>`.
+  - The documented `/api/v1/artworks/search` endpoint. The Elasticsearch query travels as minified JSON in the `params` GET parameter, which the documentation recommends for production use.
+  - Every query requires the term `is_public_domain = true` and the presence of `image_id`.
+  - `fields` is limited to `id`, `is_public_domain`, `title`, `artist_display`, `date_display`, `date_start`, `image_id`, and `credit_line`.
+  - Every record must also have `is_public_domain == true` and an `image_id` that matches its pattern; otherwise it is skipped.
+  - **Count.** One request with `limit = 0` reads `pagination.total`, following a documented example.
+  - **Pages.** `limit = 50`. Pages are sampled without replacement from the first `min(total, 10 000)` results; the documentation caps every search query at 10 000 records, whatever the `limit` and `page`.
+- **Dimensions.** After each page, one batched request to the documented Images resource, `GET /api/v1/images?ids=<the page's image ids>&fields=id,width,height`, reads the native sizes ("Native width/height of the image"). It counts as a metadata request.
+  - The artwork's `image_id` is taken as the image record's `id`, since the documentation uses that identifier for the image in both places. The worker's check of the real dimensions (§8.2) remains the safety net.
+  - The artwork's `thumbnail` object is not used, because its members are undocumented.
+  - A record without a matching image record carries no dimensions and is skipped (`dims_unavailable`). The adapter has no probe.
+- **Requests per run.** One count, then two per page. A typical run makes 3 metadata requests, and never more than 15 (the metadata allowance). Three pages already cover the 150-candidate allowance.
+- **Filters.** Only the period (§9.2), as a `range` on the documented numeric `date_start`, which is also checked on every record. Departments, styles, and colours are unsupported in the beta (D-146, Q-25).
+- **Rendition.** IIIF `https://www.artic.edu/iiif/2/<image_id>/full/1686,/0/default.jpg`, the largest documented public-domain size. The 4K canvas is the stated need for it.
+  - Only images at least 1686 px wide are offered, because the documentation does not say whether the IIIF server upscales.
+  - The rendition measures `1686 × round(1686 · h / w)`.
+  - An HTTP 404 moves on to the next candidate.
+- **Identifiers.** `image_id` must `fullmatch` the UUID form of the documentation's examples and is percent-encoded. Artworks are recorded as `aic:<numeric id>`.
 - **Courtesy.**
-  - `AIC-User-Agent` carries the project name and a project-owned contact email (Q-22), never user data.
-  - Requests are spaced 1 s apart.
+  - `AIC-User-Agent: FrameGallery/<version> (<project contact>)`, as amended in D-119; never user data.
+  - Requests are spaced 1 s apart, the documented scraping rate, well within the documented 60 requests per minute.
   - At most 15 metadata requests per run.
-- **Cache.** Counts per filter signature for 1 day; exhausted-page hints for 7 days.
+- **Cache.** Counts per filter signature for 1 day; exhausted-page hints for 7 days. The persistent cache arrives in Phase 4 (§13.4). Phase 3 defines the adapter's cache port and an in-memory implementation.
 - **Attribution.** "Artist. Title, Date. The Art Institute of Chicago."
 - **Hosts.** Exactly `api.artic.edu` and `www.artic.edu`.
 
-### 9.6 Cleveland Museum of Art (`cma`) (D-136)
+### 9.6 Cleveland Museum of Art (`cma`) (D-136, D-146)
 
-This section is based on the documentation at `openaccess-api.clevelandart.org` and the museum's open-access and terms pages. No endpoint was called. Phase 3 re-verifies against the live documentation (R-20).
+This section is based on the documentation at `openaccess-api.clevelandart.org` and the museum's open-access and terms pages. It was re-verified against the live documentation on 2026-09-27 (D-146, R-20); the newest entry in the documentation's release history is version 4.0.3 (2026-07-09). No endpoint was called.
 
 - **Endpoint.** `GET /api/artworks/`, with `?cc0` and `has_image=1` on **every** request.
   - `cc0` is a valueless presence flag: "Filters by works that have share license cc0".
   - `has_image=1` returns only works that have a web image asset.
 - **Record check.** Every record must also have `share_license_status == "CC0"` and a present `images.print`, otherwise it is skipped. CC0 images exist only for CC0-status records.
 - **Filters.**
-  - `department` takes exact values from the documented list of 21, URL-encoded. The encoding of values that contain commas is verified in Phase 3.
-  - The period filter uses `created_after` and `created_before`: integer years, negative for BCE. Their inclusivity is undocumented, so ranges are designed not to depend on it.
+  - `department` takes exact values from the documented list of 21 (Appendix B of the documentation, re-checked verbatim), URL-encoded. The vocabulary offers a curated subset (§15.2). "Performing Arts, Music, & Film" is not offered, because the documentation does not say how a value with commas is parsed.
+  - The period filter uses `created_after` and `created_before`: integer years, negative for BCE. The documentation says neither whether they are inclusive nor which date they compare. The adapter therefore widens each bound by one year and enforces the exact range on the documented `creation_date_earliest` of every record.
   - `type` (for example Painting) may be used for internal narrowing, but it is not a user filter.
   - Style and colour are unsupported (§9.2).
 - **Random selection.**
   1. A request with `limit=1` and minimal `fields` reads the documented `info.total`.
   2. A random `skip` in `[0, total)`, sampled without replacement, fetches a page with `limit` ≤ 25.
 
+  Every request sets `limit` explicitly, because the documented default is the maximum of 1000 records.
+
   The undocumented `randomize` parameter, which appears only in the auto-generated OpenAPI file, is **not** used.
-- **Fields requested.** `id`, `accession_number`, `title`, `creators`, `creation_date`, `department`, `share_license_status`, `images`, `url`.
+- **Fields requested.** `id`, `accession_number`, `title`, `creators`, `creation_date`, `creation_date_earliest`, `department`, `share_license_status`, `images`, `url`.
 - **Rendition: the documented print JPEG only.** `images.print` is documented as a 3400 px long side, 300 dpi JPEG, with `url`, `width`, `height`, and `filesize`.
   - These fields are strings in the documentation example and are parsed defensively. They give the dimensions, so no probes are needed.
   - **The `full` TIFF is never requested.** A print URL that is not a `.jpg` on the policy host skips the candidate.
   - A 16:9 work is upscaled about 1.13×.
-- **Hosts.** Exactly `openaccess-api.clevelandart.org` and `openaccess-cdn.clevelandart.org`. The second is documented only in example URLs and is re-verified in Phase 3. A rendition on any other host is skipped with a counted warning.
+- **Hosts.** Exactly `openaccess-api.clevelandart.org` and `openaccess-cdn.clevelandart.org`. The second appears only in the documentation's example URLs (re-checked on 2026-09-27). A rendition on any other host is skipped with a counted warning.
 - **Identifier.** `cma:<id>`, where `id` is the documented "ID in AthenaCCMS" (an integer). The accession number is kept as metadata. Neither is documented as permanent (R-22).
 - **Pacing and cache.**
   - Requests are spaced 1 s apart.
@@ -636,7 +649,7 @@ There is one gateway, built on `urllib3` with its automatic retries and redirect
 
 **Encoding.** Images use identity encoding. Metadata may have one gzip layer, with the cap applied after decoding. A `Content-Length` over the cap is rejected before the body is read.
 
-**Hygiene.** No cookies. Environment proxies and credential files are ignored (§17.5). The User-Agent is `FrameGallery/<version> (+<project URL>)` (D-119), plus any courtesy headers the provider asks for.
+**Hygiene.** No cookies. Environment proxies and credential files are ignored (§17.5). The User-Agent is `FrameGallery/<version> (contact: <project contact>)`, plus any courtesy headers the provider asks for (D-119 as amended: no project URL until a public one exists; tests use a placeholder contact).
 
 **Logging.** Host, path without the query string, status, bytes, and duration. Never bodies or header values.
 
@@ -936,16 +949,17 @@ Tests cover failure injection at every stage (`F1`, `F2`), byte bounds over repe
 - **Not options:** there is no time-limit option (§7.2) and no library-path option (§9.3).
 - **Descriptions** in `translations/en.yaml` state which sources each filter applies to (§9.2).
 
-### 15.2 Filter vocabularies (D-124)
+### 15.2 Filter vocabularies (D-124, D-146)
 
-- The vocabularies are versioned; each entry has a key, a label, and aliases.
-- Departments are namespaced by source.
-  - Cleveland's come from its documented list of 21.
-  - The Art Institute's come from its department metadata and are fixed in Phase 3.
-- `style_…` keys apply only to the Art Institute. `period_…` keys (date ranges) apply to both museums.
-- Colour keys are the Art Institute's hue, saturation, and lightness bands.
+- The vocabularies are versioned; each entry has a key, a label, and aliases. The beta ships version `1` (Q-14, resolved). It is built only from values that the official documentation names (D-146).
+- **Departments** are namespaced by source.
+  - *Cleveland:* a small, curated subset of the 21 documented values, chosen for works suited to a wall display. Each label names the museum, so labels stay distinct across museums (D-143). The verbatim department name is an alias. The adapter maps each key to its exact documented value.
+  - *Art Institute:* none in the beta. The documentation names the `department_title` field but not its values (Q-25).
+- **Styles:** none in the beta. Cleveland documents no style field; the Art Institute documents `style_title` but not its values (Q-25).
+- **Periods:** five project-defined ranges of the earliest creation year, valid for both museums: before 1400, 1400–1599, 1600–1799, 1800–1899, and 1900 and later. They are labelled with years, not style names.
+- **Colours:** none in the beta. The Art Institute documents a dominant-colour object "in HSL" but not its members; Cleveland documents no colour field (Q-24, Q-25).
 - **Helper normalization.** Values are case-folded, NFKD-normalized with diacritics stripped, and separators become `_`. The result is matched against keys, labels, and aliases. `any`, `all`, `random`, `none`, and an empty value mean "no filter".
-- Final lists are fixed in Phase 3 (Q-14).
+- The mapping (keys, labels, aliases, and provider values) is documented in `frame_gallery/VOCABULARY.md`, and a test keeps it identical to the shipped vocabulary.
 
 ### 15.3 Helper overrides
 
@@ -1332,7 +1346,7 @@ The vertical slice makes the core behaviour testable before packaging hardening.
 | Phase | Delivers | Approvals needed first |
 | --- | --- | --- |
 | 2: core and deterministic selection and rendering | `budget` (phase calculator, 120 s table); `config` (options, IPv4, vocabularies, capability matrix); outcomes; ports; in-process executor seam; **`app` run-orchestrator skeleton** (lifecycle stages, outcome classification, SIGTERM handling) against fakes; `selection` (exclusion interface, classification, shortlist); `imaging` prepare pipeline and fit geometry; `logs`; tooling (`uv`, `ruff`, `mypy`, `pytest`); network-blocking guard; import-boundary check; the start of `THIRD_PARTY_NOTICES.md` (Pillow and its bundled libraries) | **This revision (Phase 2 gate)**; the dev-dependency rows (complete); the Pillow row, with its corrected bundled-library inventory (GPL-3.0-or-later `libimagequant`, LGPL FriBiDi) and the remaining `pillow.libs` entries are verified in Phase 6 (gate adjustment approved by Codex) |
-| 3: provider adapters | `net` gateway; `providers.local_media`, `providers.aic`, `providers.cma` with fake and synthesized fixtures, after a live-documentation re-check; **`ha` helper-override client** (≤ 4 reads, static fallback; acceptance items `B3`–`B5`); vocabularies; contract suite; `urllib3` and `certifi` added to the notices | Q-14, Q-22; the `urllib3` and `certifi` rows; any observation requests |
+| 3: provider adapters | `net` gateway; `providers.local_media`, `providers.aic`, `providers.cma` with fake and synthesized fixtures, after a live-documentation re-check; **`ha` helper-override client** (≤ 4 reads, static fallback; acceptance items `B3`–`B5`); vocabularies; contract suite; `urllib3` and `certifi` added to the notices Approved by the user on 2026-09-27: Q-14 and Q-22 resolved, the `urllib3` and `certifi` rows approved, no observation requests |
 | 4: bounded state and duplicate prevention | `store`: atomic primitive, history, **upload ledger and quarantine**, cache, workspace, preview publisher, run records, cleanup and sweep. PRE-STAGE, RECORD, and PUBLISH completed in the runner. `E7`–`E10` tested against a fake TV port that emits markers | — (Q-23 and D-113 accepted) |
 | 5: Samsung adapter contract | Adapter surface from the **installed** `samsungtvws` 3.0.6 only; process executor with the complete §11.3 bootstrap (privilege drop, rlimits, bytes channel, markers); TV worker; token store; mocked and double tests; `E7`–`E10` re-run with the process-based TV worker; worst-case prepare memory and time measured under the real limit | The `samsungtvws` row and its LGPL-3.0 obligations (D-135) |
 | 6: Home Assistant app packaging | `config.yaml`; Dockerfile; translations; `DOCS.md`; draft dashboard YAML; complain-mode `apparmor.txt`; container tests; D-130 checks a–d | Pulling the base image; Q-06, Q-10; the Buildx, QEMU, and SBOM-tool rows; the authoritative Pillow runtime-wheel inspection, including verification of the remaining `pillow.libs` entries (mandatory before packaging or publication) |
