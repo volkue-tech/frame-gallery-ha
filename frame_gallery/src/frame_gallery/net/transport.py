@@ -15,10 +15,15 @@ before calling it. What it does guarantee:
   checked again before the request is sent.
 - **No hidden behaviour.** urllib3 is used at the connection level: no pool,
   no retries, no redirects, no proxies, no cookies, and no content decoding.
-- **Bounded time.** The connect has its own timeout. A timer shuts the socket
-  down when the exchange time runs out, which also bounds a peer that sends
-  headers or body one byte at a time; each body read re-clamps the socket
-  timeout and performs at most one socket read.
+- **Bounded time.** The connect has its own timeout. Once connected, the
+  connection's own timeout becomes the exchange time, because urllib3 resets
+  the socket timeout to it before sending and before reading the headers. A
+  timer shuts the socket down when the exchange time runs out, which also
+  bounds a peer that sends headers or body one byte at a time; each body read
+  re-clamps the socket timeout and performs at most one socket read. The
+  socket is captured right after the connect: a response with
+  ``Connection: close`` makes http.client drop the connection's reference to
+  it while the body is still being read from it.
 - **Bounded resolution.** Name resolution runs in a daemon thread that the
   caller stops waiting for after its timeout.
 """
@@ -117,18 +122,27 @@ class SystemResolver:
 
 
 class _ExchangeGuard:
-    """Shuts the connection's socket down when the exchange time runs out."""
+    """Shuts the socket down when the exchange time runs out.
+
+    Until :meth:`bind` is called it uses whatever socket the connection holds
+    (so a slow TLS handshake is cut off too); afterwards it keeps the socket
+    it was given, which outlives the connection's own reference to it.
+    """
 
     def __init__(self, connection: HTTPConnection, seconds: float) -> None:
         self.fired = False
         self._connection = connection
+        self._sock: socket.socket | None = None
         self._timer = threading.Timer(seconds, self._fire)
         self._timer.daemon = True
         self._timer.start()
 
+    def bind(self, sock: socket.socket) -> None:
+        self._sock = sock
+
     def _fire(self) -> None:
         self.fired = True
-        sock = self._connection.sock
+        sock = self._sock if self._sock is not None else self._connection.sock
         if sock is not None:
             with suppress(OSError):
                 sock.shutdown(socket.SHUT_RDWR)
@@ -160,10 +174,12 @@ class _Response:
     def __init__(
         self,
         connection: HTTPConnection,
+        sock: socket.socket,
         response: urllib3.BaseHTTPResponse,
         guard: _ExchangeGuard,
     ) -> None:
         self._connection = connection
+        self._sock = sock
         self._response = response
         self._guard = guard
 
@@ -180,9 +196,10 @@ class _Response:
                 FailureStage.EXCHANGE, "exchange time limit reached", timed_out=True
             )
         try:
-            sock = self._connection.sock
-            if sock is not None:
-                sock.settimeout(timeout)
+            # Once the body is complete, http.client has closed the socket;
+            # the read below then reports the end of the body.
+            with suppress(OSError):
+                self._sock.settimeout(timeout)
             data = self._response.read1(amount, decode_content=False)
         except _FAILURES as exc:
             raise _failure(exc, FailureStage.EXCHANGE, self._guard) from None
@@ -199,6 +216,8 @@ class _Response:
             self._response.close()
         with suppress(*_FAILURES):
             self._connection.close()
+        with suppress(OSError):
+            self._sock.close()
 
 
 class Urllib3Transport:
@@ -221,10 +240,14 @@ class Urllib3Transport:
             sock = connection.sock
             if sock is None:
                 raise TransportFailure(stage, "no socket after connect")
+            guard.bind(sock)
             _check_peer(sock, request)
             if request.tls:
                 _check_tls(sock, request)
             stage = FailureStage.EXCHANGE
+            # urllib3 applies the connection's timeout to the socket before it
+            # sends and before it reads the headers.
+            connection.timeout = exchange_timeout
             sock.settimeout(exchange_timeout)
             connection.request(
                 "GET",
@@ -244,7 +267,7 @@ class Urllib3Transport:
             with suppress(*_FAILURES):
                 connection.close()
             raise _failure(exc, stage, guard) from None
-        return _Response(connection, response, guard)
+        return _Response(connection, sock, response, guard)
 
 
 def _check_peer(sock: socket.socket, request: WireRequest) -> None:

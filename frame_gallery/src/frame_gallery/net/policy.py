@@ -293,6 +293,7 @@ def _public(address: IPAddress) -> bool:
         and not address.is_loopback
         and not address.is_link_local
         and not (isinstance(address, IPv4Address) and address in _SHARED_ADDRESS_SPACE)
+        and not (isinstance(address, IPv6Address) and address.is_site_local)
     )
 
 
@@ -309,8 +310,8 @@ def _embedded_ipv4(address: IPv6Address) -> IPv4Address | None:
 
 def is_public_address(address: IPAddress) -> bool:
     """Whether ``address`` is globally routable (§10): not loopback, private,
-    link-local, shared (CGNAT), multicast, reserved, or unspecified. Mapped
-    and embedded IPv4 forms are unwrapped and checked too."""
+    link-local, site-local, shared (CGNAT), multicast, reserved, or
+    unspecified. Mapped and embedded IPv4 forms are unwrapped and checked too."""
     if isinstance(address, IPv6Address):
         if address.scope_id:
             return False

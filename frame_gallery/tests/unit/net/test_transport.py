@@ -7,6 +7,7 @@ import http.client
 import socket
 import ssl
 import threading
+import time
 from collections.abc import Callable, Sequence
 from ipaddress import IPv4Address, ip_address
 from typing import Any, cast
@@ -65,6 +66,9 @@ class _PlainSocket:
     def shutdown(self, how: int) -> None:
         self.shut.set()
 
+    def close(self) -> None:
+        self.closed = True
+
 
 class _TlsSocket(ssl.SSLSocket):
     """An ``SSLSocket`` instance without a real socket behind it."""
@@ -109,6 +113,9 @@ class _TlsSocket(ssl.SSLSocket):
         self.timeouts.append(cast("float", value))
 
     def shutdown(self, how: int) -> None:
+        pass
+
+    def close(self) -> None:
         pass
 
 
@@ -394,11 +401,16 @@ class TestRead:
         guard._timer.join(5)
         assert guard.fired
 
-    def test_a_read_after_the_socket_is_gone(self) -> None:
+    def test_reads_use_the_socket_captured_at_connect(self) -> None:
+        # With "Connection: close", http.client drops the connection's socket
+        # reference inside getresponse(); the body is still read from it.
         wire, connection = self._open(_Response([b"x"]))
+        sock = cast("_PlainSocket", connection.sock)
         connection.sock = None
-        assert wire.read(10, 1.0) == b"x"
+        assert wire.read(10, 1.5) == b"x"
+        assert sock.timeouts[-1] == 1.5
         wire.close()
+        assert sock.closed
 
     def test_close_suppresses_errors(self) -> None:
         response = _Response()
@@ -409,6 +421,8 @@ class TestRead:
 
         response.close = failing_close  # type: ignore[method-assign]
         connection.close_error = OSError("close")
+        sock = cast("_PlainSocket", connection.sock)
+        sock.close = failing_close  # type: ignore[method-assign]
         wire.close()
 
 
@@ -527,3 +541,157 @@ def test_protocol_conformance() -> None:
     assert transport is not None
     factory: Callable[[WireRequest, float, str], HTTPConnection] = default_connection
     assert factory is default_connection
+
+
+# --- the real http.client and urllib3 stack over a local socket pair ----------
+
+
+class _PeerSocket(socket.socket):
+    """One end of a socket pair that reports the validated address as its peer."""
+
+    def getpeername(self) -> Any:
+        return ("93.184.216.34", 80)
+
+
+class _PairedConnection(HTTPConnection):
+    """A real urllib3 connection whose connect() takes over one end of a pair."""
+
+    def __init__(self, sock: socket.socket, timeout: float) -> None:
+        super().__init__("93.184.216.34", 80, timeout=timeout)
+        self._paired = sock
+
+    def connect(self) -> None:
+        self.sock = self._paired
+
+
+class _Server:
+    """Answers one request on the other end of the pair with scripted parts."""
+
+    def __init__(self, parts: Sequence[tuple[float, bytes]]) -> None:
+        client, self.peer = socket.socketpair()
+        self.client = _PeerSocket(fileno=client.detach())
+        self.parts = parts
+        self.thread = threading.Thread(target=self._serve, daemon=True)
+        self.thread.start()
+
+    def _serve(self) -> None:
+        received = b""
+        with self.peer:
+            while b"\r\n\r\n" not in received:
+                chunk = self.peer.recv(4096)
+                if not chunk:
+                    return
+                received += chunk
+            for delay, data in self.parts:
+                if delay:
+                    time.sleep(delay)
+                try:
+                    self.peer.sendall(data)
+                except OSError:
+                    return
+
+    def transport(self, connect_timeout: float) -> Urllib3Transport:
+        def factory(request: WireRequest, timeout: float, cafile: str) -> HTTPConnection:
+            return _PairedConnection(self.client, timeout)
+
+        return Urllib3Transport(connection_factory=factory)
+
+
+def _open(server: _Server, *, connect_timeout: float, exchange_timeout: float) -> Any:
+    return server.transport(connect_timeout).open(
+        _request(tls=False), connect_timeout=connect_timeout, exchange_timeout=exchange_timeout
+    )
+
+
+HEADERS_CLOSE_CHUNKED = (
+    b"HTTP/1.1 200 OK\r\nContent-Type: application/json\r\n"
+    b"Connection: close\r\nTransfer-Encoding: chunked\r\n\r\n"
+)
+
+
+class TestRealStack:
+    def test_a_dripping_peer_is_cut_off_at_the_exchange_limit(self) -> None:
+        # One byte of chunk framing every 50 ms for 3 s, after "Connection: close".
+        drip = [(0.05, b"1")] * 60
+        server = _Server([(0.0, HEADERS_CLOSE_CHUNKED), *drip])
+        started = time.monotonic()
+        wire = _open(server, connect_timeout=0.2, exchange_timeout=0.4)
+
+        def drain() -> None:
+            while wire.read(65536, 0.3):
+                pass
+
+        with pytest.raises(TransportFailure) as excinfo:
+            drain()
+        elapsed = time.monotonic() - started
+        wire.close()
+        assert excinfo.value.timed_out
+        assert elapsed < 1.5
+
+    def test_headers_may_take_longer_than_the_connect_timeout(self) -> None:
+        body = b'{"ok": true}'
+        server = _Server(
+            [
+                (0.3, b"HTTP/1.1 200 OK\r\nContent-Type: application/json\r\n"),
+                (0.0, b"Content-Length: %d\r\nConnection: close\r\n\r\n" % len(body)),
+                (0.0, body),
+            ]
+        )
+        wire = _open(server, connect_timeout=0.1, exchange_timeout=3.0)
+        assert wire.status == 200
+        assert wire.read(65536, 2.0) == body
+        wire.close()
+
+    def test_body_reads_wait_for_the_read_timeout(self) -> None:
+        body = b"0123456789"
+        server = _Server(
+            [
+                (0.0, b"HTTP/1.1 200 OK\r\nContent-Length: 10\r\nConnection: close\r\n\r\n"),
+                (0.3, body),
+            ]
+        )
+        wire = _open(server, connect_timeout=0.1, exchange_timeout=3.0)
+        assert wire.read(65536, 2.0) == body
+        assert wire.read(65536, 2.0) == b""
+        wire.close()
+
+    def test_a_stalled_body_times_out_after_the_read_timeout(self) -> None:
+        server = _Server(
+            [
+                (0.0, b"HTTP/1.1 200 OK\r\nContent-Length: 10\r\nConnection: close\r\n\r\n"),
+                (2.0, b"too late!!"),
+            ]
+        )
+        wire = _open(server, connect_timeout=1.5, exchange_timeout=5.0)
+        started = time.monotonic()
+        with pytest.raises(TransportFailure) as excinfo:
+            wire.read(65536, 0.2)
+        elapsed = time.monotonic() - started
+        wire.close()
+        assert excinfo.value.timed_out
+        assert elapsed < 1.0
+
+
+@pytest.mark.parametrize(
+    ("head", "body_parts"),
+    [
+        (b"Content-Length: 10\r\nConnection: close\r\n", [b'{"a":', b" 123}"]),
+        (
+            b"Transfer-Encoding: chunked\r\nConnection: close\r\n",
+            [b'5\r\n{"a":\r\n', b"5\r\n 123}\r\n0\r\n\r\n"],
+        ),
+        (b"Connection: close\r\n", [b'{"a":', b" 123}"]),
+        (b"Content-Length: 12\r\n", [b'{"a": 123}  ']),
+    ],
+    ids=["length-close", "chunked-close", "close-delimited", "length-keep-alive"],
+)
+def test_bodies_read_to_the_end_over_the_real_stack(head: bytes, body_parts: list[bytes]) -> None:
+    parts = [(0.0, b"HTTP/1.1 200 OK\r\nContent-Type: application/json\r\n" + head + b"\r\n")]
+    parts += [(0.05, part) for part in body_parts]
+    server = _Server(parts)
+    wire = _open(server, connect_timeout=1.0, exchange_timeout=5.0)
+    received = b""
+    while chunk := wire.read(65536, 2.0):
+        received += chunk
+    wire.close()
+    assert received.strip() == b'{"a": 123}'

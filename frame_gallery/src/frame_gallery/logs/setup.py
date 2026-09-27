@@ -5,7 +5,9 @@ redacts the complete formatted text, including exception text and stack
 information (§18.1); the same redactor becomes the active redactor for
 untrusted text that is truncated before it is logged. Frame Gallery logs at
 INFO or DEBUG; everything else, and the third-party loggers in particular,
-stays at WARNING.
+stays at WARNING. ``urllib3`` is silenced completely: its warnings quote the
+full request URL, query included, and unparsed response header data (§10),
+and the gateway reports every failure itself.
 """
 
 from __future__ import annotations
@@ -20,7 +22,10 @@ from frame_gallery.config.options import LogLevel
 from frame_gallery.logs.redact import Redactor, set_active_redactor
 
 APP_LOGGER: Final = "frame_gallery"
-THIRD_PARTY_LOGGERS: Final = ("PIL", "urllib3", "samsungtvws", "websocket")
+THIRD_PARTY_LOGGERS: Final = ("PIL", "samsungtvws", "websocket")
+SILENCED_LOGGERS: Final = ("urllib3",)
+SILENT: Final = logging.CRITICAL + 10
+"""Above every level a library uses: nothing from these loggers is emitted."""
 
 LOG_FORMAT: Final = "%(asctime)s %(levelname)s %(name)s: %(message)s"
 DATE_FORMAT: Final = "%Y-%m-%dT%H:%M:%SZ"
@@ -79,6 +84,8 @@ def configure_logging(*, level: LogLevel, stream: TextIO, redactor: Redactor) ->
     root.setLevel(logging.WARNING)
     for name in THIRD_PARTY_LOGGERS:
         logging.getLogger(name).setLevel(logging.WARNING)
+    for name in SILENCED_LOGGERS:
+        logging.getLogger(name).setLevel(SILENT)
     app_logger = logging.getLogger(APP_LOGGER)
     app_logger.setLevel(_LEVELS[level])
     return app_logger

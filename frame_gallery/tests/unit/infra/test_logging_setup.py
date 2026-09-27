@@ -14,6 +14,8 @@ from frame_gallery.config.options import LogLevel
 from frame_gallery.logs.redact import REDACTED, Redactor, active_redactor
 from frame_gallery.logs.setup import (
     APP_LOGGER,
+    SILENCED_LOGGERS,
+    SILENT,
     THIRD_PARTY_LOGGERS,
     RedactingFormatter,
     configure_logging,
@@ -26,7 +28,13 @@ SUPERVISOR_TOKEN = "c0ffee" * 10 + "c0de"  # a test value, 64 characters
 LINE = re.compile(
     r"\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}Z (?P<level>[A-Z]+) (?P<name>\S+): (?P<msg>.*)"
 )
-TOUCHED_LOGGERS = (APP_LOGGER, *THIRD_PARTY_LOGGERS, "frame_gallery.selection", "other.library")
+TOUCHED_LOGGERS = (
+    APP_LOGGER,
+    *THIRD_PARTY_LOGGERS,
+    *SILENCED_LOGGERS,
+    "frame_gallery.selection",
+    "other.library",
+)
 
 
 @pytest.fixture(autouse=True)
@@ -109,7 +117,7 @@ def test_debug_level_shows_debug() -> None:
     assert "DEBUG frame_gallery.selection: child decision" in stream.getvalue()
 
 
-@pytest.mark.parametrize("name", [*THIRD_PARTY_LOGGERS, "urllib3.connectionpool", "other.library"])
+@pytest.mark.parametrize("name", [*THIRD_PARTY_LOGGERS, "other.library"])
 def test_other_loggers_are_capped_at_warning(name: str) -> None:
     _, stream = _configure(LogLevel.DEBUG)
     other = logging.getLogger(name)
@@ -129,7 +137,21 @@ def test_levels_are_set() -> None:
     assert logging.getLogger(APP_LOGGER).level == logging.INFO
     for name in THIRD_PARTY_LOGGERS:
         assert logging.getLogger(name).level == logging.WARNING
-    assert THIRD_PARTY_LOGGERS == ("PIL", "urllib3", "samsungtvws", "websocket")
+    assert THIRD_PARTY_LOGGERS == ("PIL", "samsungtvws", "websocket")
+    assert SILENCED_LOGGERS == ("urllib3",)
+    assert logging.getLogger("urllib3").level == SILENT
+
+
+@pytest.mark.parametrize("name", ["urllib3", "urllib3.connection", "urllib3.connectionpool"])
+def test_urllib3_is_silenced(name: str) -> None:
+    # urllib3 warnings quote the full URL, query included, and unparsed
+    # response header data (§10, D-147 item 16).
+    _, stream = _configure(LogLevel.DEBUG)
+    library = logging.getLogger(name)
+    library.warning("Failed to parse headers (url=https://h/p?q=private): x")
+    library.error("error detail")
+    library.critical("critical detail")
+    assert stream.getvalue() == ""
 
 
 def test_repeated_calls_replace_only_their_own_handler() -> None:

@@ -380,15 +380,24 @@ def third_party_violations(module: SourceModule) -> list[str]:
 
 
 def _banned_allowed(module: SourceModule, ref: ImportRef) -> bool:
-    if ref.top in TRANSPORT_NETWORK_MODULES and module.is_net_transport:
-        return ref.module == ref.top or ref.module.startswith(("http.client", "ssl.", "socket."))
-    return module.is_net and ref.module in NET_ONLY_MODULES
+    """Imports are listed with their members (``from http import server``
+    also gives ``http.server``), so a permitted package cannot hide a
+    forbidden submodule."""
+    if module.is_net_transport:
+        if ref.module in ("socket", "ssl", "http", "http.client"):
+            return True
+        if ref.module.startswith(("socket.", "ssl.", "http.client.")):
+            return True
+    return module.is_net and (
+        ref.module in NET_ONLY_MODULES
+        or any(ref.module.startswith(f"{name}.") for name in NET_ONLY_MODULES)
+    )
 
 
 def banned_module_violations(module: SourceModule) -> list[str]:
     return [
         _describe(module, ref)
-        for ref in _imports(module)
+        for ref in _imports(module, members=True)
         if ref.top in BANNED_EVERYWHERE and not _banned_allowed(module, ref)
     ]
 
@@ -574,6 +583,12 @@ VIOLATIONS: Final = [
             ("net/transport.py", "import select"),
             ("net/transport.py", "import subprocess"),
             ("net/transport.py", "import http.server"),
+            ("net/transport.py", "from http import server"),
+            ("net/transport.py", "from http import cookiejar"),
+            ("net/transport.py", "from http import cookies"),
+            ("net/transport.py", "from http.server import HTTPServer"),
+            ("net/policy.py", "from urllib import request"),
+            ("net/policy.py", "from urllib import parse"),
             ("ha/client.py", "import socket"),
             ("providers/aic.py", "from urllib.parse import quote"),
         )

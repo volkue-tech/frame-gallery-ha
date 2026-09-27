@@ -18,7 +18,8 @@ Last updated: 2026-09-27
 | 1. Documentation re-check and the approved decisions (D-146; `ARCHITECTURE.md` §8.3, §9.2, §9.5, §9.6, §10, §15.2, §23) | `09d7c46` |
 | 2. Guarded network gateway and the `urllib3` and `certifi` dependencies (D-147) | `51d9cf3` |
 | 3. Home Assistant helper reader (D-148) | `f614256` |
-| 4. Local media provider (D-149) | this commit |
+| 4. Local media provider (D-149) | `8761cca` |
+| 4a. Fixes from the internal review of the gateway (D-147 amendment) | this commit |
 | 5. Art Institute of Chicago adapter | pending |
 | 6. Cleveland Museum of Art adapter | pending |
 | 7. Vocabularies, shared contract tests, and closing documentation | pending |

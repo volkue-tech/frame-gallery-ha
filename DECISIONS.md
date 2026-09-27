@@ -901,6 +901,13 @@ Status: proposed (Phase 3).
 15. **No probe path.** No beta source needs a remote dimension probe (§8.3). The 256 KiB probe cap is therefore not implemented yet; the probe allowance stays enforced in selection.
 16. **Logs.** Each request is logged at DEBUG with the kind, the host, the path without its query, the status, the byte count, and the duration. A stop is logged at WARNING. Header values, queries, and bodies are never logged.
 
+**Amendment after the internal review of `51d9cf3`** (see *Review records*):
+
+- Item 2: IPv6 site-local addresses (`fec0::/10`) are refused too.
+- Item 8, the time bounds. The transport captures the socket right after the connect and uses it for the exchange timer and the per-read timeouts. A response with `Connection: close` makes http.client drop the connection's own reference while the body is still read from it; before this fix, the timer and the re-clamped reads then did nothing. After the connect, the connection's timeout becomes the exchange time, because urllib3 resets the socket timeout to the connection's timeout before sending and before reading the headers. Before this fix, headers and body gaps were bounded by the connect timeout. Once a body is complete, http.client closes the socket, so re-clamping its timeout is skipped. Tests over a local socket pair with the real http.client and urllib3 stack cover a dripping peer, slow headers, slow and stalled bodies, and four body framings.
+- Item 16: the `urllib3` logger is silenced completely (`logs/setup.py`). Its warnings quote the full request URL, query included, and unparsed response header data.
+- The boundary test lists imports with their members, so `from http import server` in `net/transport.py` is caught like `import http.server`.
+
 ### D-148 — Helper reader details [§15.3, D-112; B3–B5]
 
 Status: proposed (Phase 3).
@@ -1183,6 +1190,22 @@ L = likelihood, I = impact; H = high, M = medium, L = low.
 | Q-24 | Cleveland colour filtering by local analysis, for example of the documented 900 px web rendition, counted against the existing download allowance and the content-window time budget, not against the 30 remote dimension requests. Only if it fits the same download and time budgets. | Defer until after the beta | After the beta |
 
 ## Review records
+
+### Internal review of the gateway commit `51d9cf3` (Claude, Phase 3)
+
+One independent reviewer checked security, D-115 correctness, time bounds, and test quality, and verified each finding with a scratch script, using only a local socket pair (no network). Five findings were confirmed, and all are fixed in the commit that follows `8761cca` (D-147 amendment):
+
+1. **High.** The exchange timer and the per-read timeout stopped working after a `Connection: close` response, because the connection's socket reference disappears. A dripping peer held one read for the whole drip: 8.3 s against a 0.5 s limit.
+2. **Medium.** urllib3 reset the socket timeout to the connect timeout before sending and before reading the headers, so a slow first byte failed early, and body gaps were bounded by the connect timeout.
+3. **Medium-low.** urllib3's own warnings put the request URL, query included, and header data into the log.
+4. **Low.** Deprecated site-local IPv6 addresses passed the public-address check.
+5. **Low, test quality.** `from http import server` was not flagged in the transport module.
+
+The reviewer also confirmed as sound: the URL policy, the TLS setup (a fresh context, `certifi` only, host-name checking on, SNI, the post-handshake check), the address rules, header injection, gzip handling, file creation, the D-115 retry and stop logic, and the deadline semantics.
+
+Writing the fix's real-stack tests exposed a further defect: once a `Connection: close` body was complete, re-clamping the closed socket's timeout raised `OSError`. That would have failed every such response. It is fixed and tested too.
+
+*Disclosure.* To confirm finding 1, the reviewer once ran `grep` on the standard library's `http/client.py`, which lives with the local interpreter outside the repository. That is language source, not predecessor material; after that it checked behaviour only by running scripts.
 
 ### User approval of Phase 3 (2026-09-27)
 

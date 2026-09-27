@@ -220,6 +220,8 @@ class TestAddresses:
             "64:ff9b::7f00:1",  # NAT64 around 127.0.0.1
             "2001:0:4136:e378:8000:63bf:3fff:fdd2",  # Teredo
             "fe80::1%eth0",
+            "fec0::1",  # deprecated site-local
+            "fec0:1:2::3",
             # Tunnelled forms are refused even around a public address.
             "2002:5db8:d822::1",  # 6to4 around 93.184.216.34
             "64:ff9b::5db8:d822",  # NAT64 around 93.184.216.34
