@@ -16,7 +16,7 @@ Phase 1 added:
 
 Each architecture decision gives its rationale at the `ARCHITECTURE.md` section named in brackets.
 
-This version (revision 2) records the user decisions and corrections from the **Codex review of commit `8ea5491`** (see *Review records*).
+This version (revision 2) records the user decisions and corrections from the **Codex review of commit `d42adf5`** (see *Review records*).
 
 ## Accepted constraints
 
@@ -70,7 +70,7 @@ The provisional internal identifier `frame_gallery` is **accepted** (D-138), and
 
 ### D-102 — Project license
 
-Status: **accepted** (Codex review of `8ea5491`, user decision).
+Status: **accepted** (Codex review of `d42adf5`, user decision).
 
 The Apache License 2.0 applies to independently authored project code.
 
@@ -239,7 +239,7 @@ Status: proposed
 
 ### D-113 — Record history before publishing the preview [§4.1]
 
-Status: **accepted** (Codex final gate review of `4ea3e36`; Q-18 item 4 is resolved and `PRODUCT_SPEC.md` is amended).
+Status: **accepted** (Codex final gate review of `9352e77`; Q-18 item 4 is resolved and `PRODUCT_SPEC.md` is amended).
 
 **Decision:** Record the confirmed sent history immediately after `selected`, then publish the preview.
 
@@ -817,13 +817,13 @@ No package is modified or vendored into the source tree.
 | Package | Source and pin | SPDX (as published) | Use | Obligations | Reason | Enters |
 | --- | --- | --- | --- | --- | --- | --- |
 | `samsungtvws` | PyPI, `==3.0.6`; later `>=3.0.6,<4` after contract tests. sdist SHA-256 `166111d8370443cd2021b74cdfac9495896dfc41e3a87ea023289f24f922bb91`; wheel SHA-256 `6e3a1b23f928b3035570cc976b64b8c2a218b06022a333855fd7cd02dc74891d`. | `LGPL-3.0` (deprecated short form; treated as `LGPL-3.0-only` until the shipped `LICENSE` says otherwise) | dyn, redist, pure Python; core install only | See the LGPL obligations below | Television transport (D-104) | Phase 5 |
-| `Pillow` | PyPI `musllinux_1_2` wheels for `aarch64` and `x86_64`, `==12.3.0` (`<13` until validated); approved for use from Phase 2 (Codex final approval of Phase 1 at `ffca958`) | `MIT-CMU` **for Pillow itself; the wheel is a composite that includes GPL-3.0-or-later and LGPL-2.1-or-later components** (see the bundled-library table) | dyn, redist, native | Pillow `LICENSE`; every bundled component's licence and acknowledgement; copyleft source availability for `libimagequant` and FriBiDi (D-135) | Image pipeline (§11) | Phase 2 |
+| `Pillow` | PyPI `musllinux_1_2` wheels for `aarch64` and `x86_64`, `==12.3.0` (`<13` until validated); approved for use from Phase 2 (Codex final approval of Phase 1 at `dda877c`) | `MIT-CMU` **for Pillow itself; the wheel is a composite that includes GPL-3.0-or-later and LGPL-2.1-or-later components** (see the bundled-library table) | dyn, redist, native | Pillow `LICENSE`; every bundled component's licence and acknowledgement; copyleft source availability for `libimagequant` and FriBiDi (D-135) | Image pipeline (§11) | Phase 2 |
 | `urllib3` | PyPI `==2.8.0` (`<3`), `py3-none-any` | `MIT` (`LICENSE.txt`) | dyn, redist | License text | Gateway transport (D-131) | Phase 3 |
 | `certifi` | PyPI `==2026.7.22`, `py3-none-any` | `MPL-2.0` (`LICENSE`) | dyn, redist (CA bundle) | Files kept unmodified under MPL-2.0; identified in the notices; source pointer (D-135) | The gateway's explicit CA bundle (§10) | Phase 3 |
 
 ### Runtime: bundled in the Pillow wheels
 
-**Observed** in the Codex final gate review of `4ea3e36`. Codex inspected the official Pillow 12.3.0 CPython 3.14 `musllinux_1_2` wheels for `aarch64` and `x86_64` from PyPI, and both wheel SBOMs list the same components.
+**Observed** in the Codex final gate review of `9352e77`. Codex inspected the official Pillow 12.3.0 CPython 3.14 `musllinux_1_2` wheels for `aarch64` and `x86_64` from PyPI, and both wheel SBOMs list the same components.
 
 This inventory is **provisional**. When the container's exact Python version is chosen (D-130, check a), the inspection is repeated against the exact two runtime wheels, and that result becomes authoritative.
 
@@ -848,7 +848,7 @@ This inventory is **provisional**. When the container's exact Python version is 
 
 **Other shared objects in `pillow.libs/`, verified in Phase 6.** These are libXau, libXdmcp, Brotli, libbsd, liblzma, libmd, libpng, libsharpyuv, and libzstd.
 
-- **Gate adjustment, explicitly approved by Codex** at the final approval of Phase 1 (`ffca958`). Their verification moved from the Phase 2 approval gate to the authoritative Phase 6 runtime-wheel inspection (D-130 check (a)). The exact runtime wheel cannot be selected until the container's Python version is fixed in Phase 6.
+- **Gate adjustment, explicitly approved by Codex** at the final approval of Phase 1 (`dda877c`). Their verification moved from the Phase 2 approval gate to the authoritative Phase 6 runtime-wheel inspection (D-130 check (a)). The exact runtime wheel cannot be selected until the container's Python version is fixed in Phase 6.
 - Their exact versions and SPDX identifiers are then taken from the wheel's licence and SBOM material, and the notices must include them.
 - **Full verification remains mandatory before packaging or publication.** Nothing is packaged or published before it is complete.
 - The provisional notices created in Phase 2 carry the known inventory above, including `libimagequant` and FriBiDi, and list these nine entries as pending verification.
@@ -989,7 +989,7 @@ L = likelihood, I = impact; H = high, M = medium, L = low.
 
 ## Open questions
 
-### Resolved in the Codex review of `8ea5491`
+### Resolved in the Codex review of `d42adf5`
 
 | ID | Resolution |
 | --- | --- |
@@ -1001,7 +1001,7 @@ L = likelihood, I = impact; H = high, M = medium, L = low.
 | Q-18 | The specification is amended in this revision: providers, the filter model, the deadline, the upload ledger, and preview freshness (`PRODUCT_SPEC.md` and `ACCEPTANCE_TESTS.md` amendment logs). Item 4 was resolved in the final gate review (see below). |
 | Q-20 | The 30-probe limit means **30 remote dimension requests**. Local header inspection has its own bounded allowance of 300. |
 
-### Resolved in the Codex final gate review of `4ea3e36`
+### Resolved in the Codex final gate review of `9352e77`
 
 | ID | Resolution |
 | --- | --- |
@@ -1065,7 +1065,7 @@ L = likelihood, I = impact; H = high, M = medium, L = low.
   - the extra redaction patterns of D-145.
 - The sweeps inject a stop request, directly and as a real SIGTERM, at every Python function entry (11 641 points) and every traced line (5 429 points) across nine delivery and no-match scenarios. Run again against the final design with the production controller configuration (`start_deferred=True`), they report no violations: no marker, ledger write, RECORD, last-run record, or summary line is lost, and nothing is uploaded after an undeferred stop.
 
-### Codex final approval of Phase 1 at commit `ffca958` (external)
+### Codex final approval of Phase 1 at commit `dda877c` (external)
 
 **Outcome:** Phase 1 is approved. Phase 2 (core, deterministic selection, and rendering) is authorized; Phase 3 is not.
 
@@ -1076,11 +1076,11 @@ L = likelihood, I = impact; H = high, M = medium, L = low.
 - Full verification remains mandatory before packaging or publication.
 - The GPL/LGPL licence review and the source-availability obligations remain release blockers and are not weakened.
 
-### Codex final gate review of commit `4ea3e36` (external)
+### Codex final gate review of commit `9352e77` (external)
 
 **Outcome:** the architecture changes were accepted. One factual dependency error had to be corrected before Phase 2. Phase 1 stays open until the gate is approved again.
 
-Applied in the documentation-only commit that follows `4ea3e36`:
+Applied in the documentation-only commit that follows `9352e77`:
 
 1. **Pillow wheel inventory.**
    - Codex inspected the official Pillow 12.3.0 wheels. The earlier claim that the PyPI wheels omit `libimagequant` was false and has been withdrawn.
@@ -1089,13 +1089,13 @@ Applied in the documentation-only commit that follows `4ea3e36`:
    - Both libraries are added to D-135, and the qualified licence review remains a release gate. R-25 records the risk.
    - Pillow 12.3.0 stays proposed. The inspection is repeated against the exact runtime wheels once the Python version is fixed (D-130 check (a)); that result is authoritative.
 2. **Development-only rows.** `mypy-extensions` 1.1.0 (MIT) and `pathspec` 1.1.1 (MPL-2.0) were recorded; neither is shipped.
-3. **Accepted decisions.** Q-03, Q-04, Q-08, Q-09, Q-11, Q-12, Q-18 item 4 (D-113), and Q-23. See *Resolved in the Codex final gate review of `4ea3e36`*. `PRODUCT_SPEC.md` and `ACCEPTANCE_TESTS.md` were amended where these decisions are normative.
+3. **Accepted decisions.** Q-03, Q-04, Q-08, Q-09, Q-11, Q-12, Q-18 item 4 (D-113), and Q-23. See *Resolved in the Codex final gate review of `9352e77`*. `PRODUCT_SPEC.md` and `ACCEPTANCE_TESTS.md` were amended where these decisions are normative.
 
-### Codex review of commit `8ea5491` (external)
+### Codex review of commit `d42adf5` (external)
 
 **Outcome:** the architecture was conditionally accepted. Phase 2 was **not** approved.
 
-The user's decisions and the review's corrections were applied in the revision-2 commit that follows `8ea5491`:
+The user's decisions and the review's corrections were applied in the revision-2 commit that follows `d42adf5`:
 
 1. **Beta providers.**
    - Google Arts & Culture and Bing were removed, and their researched status was kept.

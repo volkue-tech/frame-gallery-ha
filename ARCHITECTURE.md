@@ -2,10 +2,10 @@
 
 Status: **Revision 2, with final gate corrections.**
 
-- Revision 1 (commit `8ea5491`) was conditionally accepted in the Codex review.
-- Revision 2 (commit `4ea3e36`) was accepted in the Codex final gate review, subject to one factual dependency correction and eight product decisions. Both are applied here.
+- Revision 1 (commit `d42adf5`) was conditionally accepted in the Codex review.
+- Revision 2 (commit `9352e77`) was accepted in the Codex final gate review, subject to one factual dependency correction and eight product decisions. Both are applied here.
 
-- Codex gave final approval of Phase 1 at commit `ffca958` and authorized Phase 2, with one gate adjustment: verification of the remaining `pillow.libs` entries moved to the Phase 6 runtime-wheel inspection (§23).
+- Codex gave final approval of Phase 1 at commit `dda877c` and authorized Phase 2, with one gate adjustment: verification of the remaining `pillow.libs` entries moved to the Phase 6 runtime-wheel inspection (§23).
 - Phase 2 (core, deterministic selection, and rendering) is implemented. Where the implementation refines this document, the refinement is recorded in D-141 to D-145 and marked in the text.
 
 Date: 2026-09-26
@@ -21,7 +21,7 @@ This document is documentation only. The YAML fragments, signatures, and pseudo-
 **Review history**
 
 1. *Internal review, revision 1.* Four of the five Phase 1 research areas were independently re-checked. The Python-dependency facts are re-verified from the pinned distributions before each dependency enters. A six-lens internal review produced 58 confirmed findings, and all of them were incorporated.
-2. *Codex review of `8ea5491`.* The architecture was conditionally accepted. This revision applies the user's decisions and the review's corrections on:
+2. *Codex review of `d42adf5`.* The architecture was conditionally accepted. This revision applies the user's decisions and the review's corrections on:
    - beta providers;
    - the filter model;
    - the 120 s deadline;
@@ -30,7 +30,7 @@ This document is documentation only. The YAML fragments, signatures, and pseudo-
    - approved decisions;
    - implementation sequencing.
 3. *Revision 2 research.* The new facts on the Cleveland API and Home Assistant preview options were researched from documentation pages only. The key facts were independently re-checked; the citation guidance and the refresh cadence were not (§25).
-4. *Codex final gate review of `4ea3e36`.* The architecture changes were accepted. Two changes were applied:
+4. *Codex final gate review of `9352e77`.* The architecture changes were accepted. Two changes were applied:
    - **Pillow inventory.** Codex inspected the official Pillow 12.3.0 wheels. They bundle GPL-3.0-or-later `libimagequant` and LGPL-2.1-or-later FriBiDi, contrary to revision 2's claim. The inventory, D-102, D-135, and R-25 are corrected.
    - **Accepted decisions.** Q-03 (strict ±1 %), Q-04, Q-08, Q-09, Q-11, Q-12 (RFC 1918 only), Q-18 item 4 (D-113), and Q-23 (30 days) are recorded as accepted.
 

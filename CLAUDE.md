@@ -26,11 +26,36 @@ You may consult:
 
 You must not consult predecessor implementations as examples.
 
-## First assignment
+## Current state and next assignment
 
-Complete only **Phase 1 — Independent architecture proposal** from `TASKS.md`.
+Phases 0, 1, and 2 are complete. Phase 2 is commit `36cda3d` after the
+personal-identity history rewrite. On 2026-09-27 Codex independently reran
+`frame_gallery/scripts/check.sh`: Ruff passed, strict mypy passed for 113 files,
+and all 2,755 tests passed with 100% line and branch coverage. D-141 to D-145
+remain proposed decisions at the Phase 3 approval gate.
 
-Produce an original architecture proposal in `ARCHITECTURE.md`, update `DECISIONS.md` with proposed decisions and unresolved questions, update `STATUS.md`, and commit those documentation changes. Do not write application code during Phase 1. Stop after the commit and ask the user to approve the architecture.
+Do not begin Phase 3 until the user explicitly authorizes it. Once authorized,
+complete only **Phase 3 — Provider adapters** from `TASKS.md`. Do not connect to
+the live Home Assistant Green or television, and do not publish or push
+anything. Provider tests must use independently authored or synthesized
+fixtures unless the user separately approves a recorded observation.
+
+Keep Phase 3 reviewable: prefer focused commits for the guarded network layer,
+local media, each museum adapter, and the final vocabulary/contract-test and
+documentation work instead of one oversized implementation commit. Stop at the
+Phase 3 gate for Codex review.
+
+## Git identity
+
+This is Alex's personal `volkue-tech` project. Before every commit, verify the
+repository-local identity is exactly:
+
+```text
+Alexander Wilke <volkue@gmail.com>
+```
+
+Never use an `@satoshipay.io` address or any SatoshiPay, EBMA, or Marcel account,
+credential, repository, remote, organization, or attribution for this project.
 
 After approval, continue milestone by milestone. For every milestone:
 
@@ -41,4 +66,3 @@ After approval, continue milestone by milestone. For every milestone:
 5. stop at the next approval gate.
 
 Never connect to the live Home Assistant Green or television, publish to GitHub, or push container images. Those steps are reserved for an explicitly approved validation or release phase.
-

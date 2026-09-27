@@ -1,13 +1,15 @@
 # Project status
 
-Last updated: 2026-09-26
+Last updated: 2026-09-27
 
 ## Current phase
 
 **Phase 2 (core skeleton, deterministic selection and rendering): complete, awaiting the Phase 3 gate.**
 
-- Codex gave final approval of Phase 1 at commit `ffca958` and authorized Phase 2 only. The gate adjustment for the remaining `pillow.libs` entries is recorded in commit `f41130f`.
+- Codex gave final approval of Phase 1 at commit `dda877c` and authorized Phase 2 only. The gate adjustment for the remaining `pillow.libs` entries is recorded in commit `63ebbc8`.
 - Phase 2 is implemented, tested, independently reviewed, and fixed. The decisions it proposes are D-141 to D-145.
+- Codex independently reran the complete Phase 2 quality gate on 2026-09-27: Ruff and strict mypy passed, all 2,755 tests passed, and total line and branch coverage was 100%.
+- The local history was rewritten before publication so every commit uses the personal identity `Alexander Wilke <volkue@gmail.com>`. The repository-local Git configuration enforces the same identity for future commits.
 - Nothing contacted Home Assistant, the television, a provider API, or GitHub. Nothing was published or pushed. Phase 3 has not started.
 
 ## Completed
@@ -21,13 +23,13 @@ Last updated: 2026-09-26
 - Wrote the agent instructions.
 - Defined the phases and approval gates.
 
-### Phase 1, revision 1: architecture proposal (Claude, commit `8ea5491`)
+### Phase 1, revision 1: architecture proposal (Claude, commit `d42adf5`)
 
 - Researched permitted sources only, with independent re-checks.
 - Ran an internal multi-agent review; 58 confirmed findings were incorporated.
 - Wrote `ARCHITECTURE.md` and the first `DECISIONS.md` (decisions, inventory, risks, questions).
 
-### Phase 1, revision 2: Codex review applied (Claude, commit `4ea3e36`)
+### Phase 1, revision 2: Codex review applied (Claude, commit `9352e77`)
 
 **Beta providers**
 
@@ -88,7 +90,7 @@ Last updated: 2026-09-26
 - The Cleveland Open Access and Home Assistant preview options were researched from documentation pages only. Key facts were independently re-checked; the citation guidance and the refresh cadence were not.
 - Cross-reference and consistency checks were run, followed by an independent review of this revision.
 
-### Phase 1, final gate corrections: Codex final gate review of `4ea3e36` applied (Claude, commit `ffca958`)
+### Phase 1, final gate corrections: Codex final gate review of `9352e77` applied (Claude, commit `dda877c`)
 
 **Pillow licensing correction**
 
@@ -118,7 +120,7 @@ Last updated: 2026-09-26
 - `PRODUCT_SPEC.md`: the RFC 1918 address rule, lifecycle steps 9 and 10 swapped, the strict ±1 % definition, and the 30-day quarantine. Each change is recorded in its amendment log.
 - `ACCEPTANCE_TESTS.md`: B7 reworded in place for RFC 1918. No IDs changed.
 
-### Phase 2: core skeleton, deterministic selection and rendering (Claude, this commit)
+### Phase 2: core skeleton, deterministic selection and rendering (Claude, commit `36cda3d`)
 
 **Project and tooling** (D-142)
 

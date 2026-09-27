@@ -204,7 +204,7 @@ Filter selection from a dashboard is desirable. The architecture proposal should
 
 ## Amendment log
 
-- **2026-09-26: Phase 1 Codex review of commit `8ea5491`, with user decisions.**
+- **2026-09-26: Phase 1 Codex review of commit `d42adf5`, with user decisions.**
   - Beta providers are now local media, Art Institute of Chicago, and Cleveland Museum of Art. Google Arts & Culture and Bing moved to *Researched and excluded sources*, and the Museum of Modern Art and Musée d'Orsay filter values were removed.
   - The filters were separated into source/museum, department/collection, style/period, and colour, with a published capability matrix. The landscape-only and strict-format defaults moved to *Filter inputs*.
   - The runtime limits were replaced with the 120-second total deadline and its phase split, the 70-second no-match bound, and the 30 remote dimension requests.
@@ -212,7 +212,7 @@ Filter selection from a dashboard is desirable. The architecture proposal should
   - Dashboard preview freshness was made release-blocking, and the preview platform basis was recorded.
   - Lifecycle step 5 now also excludes the upload ledger and quarantine. Step 10 now ties history to confirmed *selection*, not upload.
   - The order of lifecycle steps 9 and 10 is unchanged and remains subject to decision D-113.
-- **2026-09-26: Codex final gate review of commit `4ea3e36`, with user decisions.**
+- **2026-09-26: Codex final gate review of commit `9352e77`, with user decisions.**
   - *Target environment:* the TV address must be an RFC 1918 private IPv4 literal. Link-local (`169.254.0.0/16`), loopback, unspecified, multicast, and broadcast addresses and the container and Supervisor networks are rejected (Q-12, D-125).
   - *Run lifecycle:* steps 9 and 10 were swapped, so sent history is persisted before the preview is published (D-113, Q-18 item 4). The product vision sentence was reordered to match.
   - *Selection limits:* the strict near-16:9 match is defined as `abs(ln(r / (16/9))) <= ln(1.01)` (±1 %, about 1.760–1.796). It may be revisited after Phase 8 (Q-03, D-116).

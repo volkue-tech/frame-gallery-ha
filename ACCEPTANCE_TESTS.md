@@ -91,7 +91,7 @@ These are product-level acceptance criteria. Unit and integration test details s
 
 ## Amendment log
 
-- **2026-09-26: Phase 1 Codex review of commit `8ea5491`, with user decisions.**
+- **2026-09-26: Phase 1 Codex review of commit `d42adf5`, with user decisions.**
   - New items were appended at the end of their sections, so the position-based IDs used in `ARCHITECTURE.md` Appendix A stay stable.
   - Added: B7 (local IPv4 address), B8 (unsupported filters visibly reported), C9–C10 (AIC and CMA rights and renditions), C11 (no-match within 70 s), and E7–E10 (TV-upload exclusion ledger scenarios).
   - Reworded in place:
@@ -101,6 +101,6 @@ These are product-level acceptance criteria. Unit and integration test details s
     - E5: history changes only after upload *and* selection are confirmed.
     - G5: preview freshness, now release-blocking.
     - G6: no configuration edits of any kind.
-- **2026-09-26: Codex final gate review of commit `4ea3e36`, with user decisions.**
+- **2026-09-26: Codex final gate review of commit `9352e77`, with user decisions.**
   - Reworded in place: B7 now requires an RFC 1918 private IPv4 literal and names the rejected ranges (Q-12, D-125). No IDs changed.
 
