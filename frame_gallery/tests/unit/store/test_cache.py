@@ -264,6 +264,19 @@ class TestBounds:
         assert cache.get_count("aic:count:1") is None
         assert [cache.get_count(f"aic:count:{n}") for n in (0, 2, 3)] == [0, 2, 3]
 
+    def test_expired_entries_go_before_live_ones(
+        self, caches: Caches, monkeypatch: pytest.MonkeyPatch
+    ) -> None:
+        """Review finding: the entry bound evicted by last use only."""
+        monkeypatch.setattr(cache_module, "MAX_ENTRIES", 3)
+        cache = caches.open()
+        cache.put_count("aic:count:a", 1, COUNT_TTL)
+        cache.put_count("aic:count:b", 2, timedelta(seconds=10))
+        cache.put_count("aic:count:c", 3, COUNT_TTL)
+        caches.clock.advance(20)
+        cache.put_count("aic:count:d", 4, COUNT_TTL)
+        assert [cache.get_count(f"aic:count:{k}") for k in "abcd"] == [1, None, 3, 4]
+
     def test_the_file_bounds_hold_on_flush(
         self, caches: Caches, monkeypatch: pytest.MonkeyPatch
     ) -> None:

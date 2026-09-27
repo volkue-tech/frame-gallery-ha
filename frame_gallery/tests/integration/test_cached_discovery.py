@@ -10,6 +10,8 @@ from __future__ import annotations
 import json
 from pathlib import Path
 
+import pytest
+
 from frame_gallery.app.fetching import SourceFetcher
 from frame_gallery.app.outcomes import Hint, Outcome
 from frame_gallery.app.ports import ProviderBinding
@@ -20,6 +22,7 @@ from frame_gallery.net.gateway import Gateway
 from frame_gallery.net.wire import WireRequest
 from frame_gallery.providers.aic import AicProvider, aic_policy
 from frame_gallery.randomness import SeededRandomSource
+from frame_gallery.tv.port import Marker
 from tests.support.fakes import canvas_jpeg_bytes
 from tests.support.museums import AicMuseum, ParsedRequest
 from tests.support.net import (
@@ -29,7 +32,7 @@ from tests.support.net import (
     FakeTransport,
     image_response,
 )
-from tests.support.persistent import PersistentRig
+from tests.support.persistent import PersistentRig, ProcessKilled
 
 
 class CachedRuns:
@@ -38,8 +41,17 @@ class CachedRuns:
         self.museum = AicMuseum()
         self.museum.add(2)
 
-    def run(self, day: float) -> tuple[RunResult, list[ParsedRequest]]:
+    def run(
+        self, day: float, *, kill_at: Marker | None = None
+    ) -> tuple[RunResult, list[ParsedRequest]]:
         h = self.rig.harness(days=day)
+        if kill_at is not None:
+            h.tv.markers = [kill_at]
+
+            def die(marker: Marker) -> None:
+                raise ProcessKilled
+
+            h.tv.during = die
 
         def route(request: WireRequest) -> FakeResponse:
             if request.host == "www.artic.edu":
@@ -96,3 +108,18 @@ def test_counts_and_exhausted_pages_carry_over_between_runs(tmp_path: Path) -> N
     assert fourth.hint == Hint.NOTHING_NEW
     assert searches == []  # the page is known to be exhausted: nothing is fetched
     assert runs.pages_skipped() == 1
+
+
+def test_a_hint_never_outlasts_the_upload_quarantine(tmp_path: Path) -> None:
+    """Review finding: a page hinted while a work was quarantined hid it for
+    up to 7 more days. Hints now rest only on history and uploads."""
+    runs = CachedRuns(tmp_path / "rig")
+    with pytest.raises(ProcessKilled):
+        runs.run(0, kill_at=Marker.CONNECTED)  # the intent for aic:1 stays
+    assert runs.rig.ledger() == {"aic:1": "uncertain"}
+    assert runs.run(1)[0].delivered_id == "aic:2"
+    quarantined, _ = runs.run(29)
+    assert quarantined.outcome is Outcome.NO_MATCH
+    assert quarantined.hint == Hint.NOTHING_NEW
+    assert "aic:exhausted:any" not in runs.cache_keys()
+    assert runs.run(31)[0].delivered_id == "aic:1"

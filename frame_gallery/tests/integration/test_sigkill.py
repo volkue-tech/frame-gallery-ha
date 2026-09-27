@@ -3,10 +3,10 @@
 A child process runs the runner over the real store and kills itself with
 SIGKILL at one point: after the intent was committed, after the ``uploaded``
 promotion, or inside the promotion write, before its rename. Nothing in the
-child gets to clean up: the lock, the pre-staged history, the temporary
-ledger file, and the run directory stay as a power cut would leave them. The
-next run, in this process, must take the lock, sweep the leftovers, and not
-upload the work again.
+child gets to clean up: the pre-staged history, the temporary ledger file,
+the run directory, and the lock file stay as a power cut would leave them
+(the kernel releases the lock itself). The next run, in this process, must
+take the lock, sweep the leftovers, and not upload the work again.
 """
 
 from __future__ import annotations

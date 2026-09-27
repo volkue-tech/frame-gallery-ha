@@ -6,8 +6,8 @@ Only the documented API is used, through the guarded gateway:
    documented ``pagination.total`` for the filter (cached for a day).
 2. **Pages.** Pages of 50 works are sampled without replacement from the
    first ``min(total, 10 000)`` results; the documentation caps every search
-   query at 10 000 records. A page whose works are all excluded or unusable
-   is remembered for 7 days as exhausted (for the same total) and skipped.
+   query at 10 000 records. A page whose works were all sent already is
+   remembered for 7 days as exhausted (for the same total) and skipped.
    The Elasticsearch query travels as minified JSON in the documented
    ``params`` parameter. Every query requires
    ``is_public_domain`` and an ``image_id``; the period filter adds a range
@@ -146,7 +146,7 @@ class AicProvider:
         for page in pages:
             records = self._search(query, page, ctx.deadline)
             offered = list(self._offer(records, period, page, ctx.deadline))
-            if offers_nothing_new(offered, ctx.is_excluded):
+            if offers_nothing_new(offered, ctx.is_excluded_for_good):
                 self._cache.add_exhausted(hint_key, total, (page,), HINT_TTL)
             yield from offered
 

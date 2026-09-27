@@ -31,6 +31,11 @@ class ExclusionSet:
     def __len__(self) -> int:
         return len(self.history | self.uploaded | self.uncertain)
 
+    def excludes_for_good(self, qualified_id: str) -> bool:
+        """Excluded for good: in history, or known to be stored on the
+        television. An ``uncertain`` work is not, because its quarantine ends."""
+        return qualified_id in self.history or qualified_id in self.uploaded
+
 
 class ExclusionStore(Protocol):
     """Provides the exclusion set for a run."""

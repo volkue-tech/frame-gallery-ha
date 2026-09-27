@@ -10,19 +10,27 @@ a new process would.
 
 from __future__ import annotations
 
+import dataclasses
+import io
 import json
 import os
 import signal
 from collections.abc import Sequence
 from datetime import timedelta
+from functools import cache
 from pathlib import Path
 
+from PIL import Image
+
+from frame_gallery.domain import CANVAS
+from frame_gallery.imaging.contract import PrepareRequest
+from frame_gallery.isolation.executor import JsonObject
 from frame_gallery.providers.contract import Candidate
 from frame_gallery.store.atomic import TEMPORARY_NAME
 from frame_gallery.store.layout import StoreLayout
 from frame_gallery.store.workspace import RUN_NAME
 from tests.support.clock import FAKE_EPOCH, FakeClock
-from tests.support.fakes import make_candidate
+from tests.support.fakes import FakeExecutor, PrepareBehaviour, make_candidate
 from tests.unit.app.harness import Harness
 
 DAY = timedelta(days=1)
@@ -35,6 +43,25 @@ class ProcessKilled(BaseException):
 def kill_self() -> None:
     """A real SIGKILL of the current process (used in child processes only)."""
     os.kill(os.getpid(), signal.SIGKILL)
+
+
+@cache
+def distinct_canvas(shade: int) -> bytes:
+    """A real canvas JPEG whose bytes differ for every ``shade``."""
+    buffer = io.BytesIO()
+    Image.new("RGB", (CANVAS.width, CANVAS.height), (shade % 256, 90, 160)).save(
+        buffer, "JPEG", quality=90
+    )
+    return buffer.getvalue()
+
+
+def _distinct_prepare(executor: FakeExecutor, shade: int) -> PrepareBehaviour:
+    def prepare(request: PrepareRequest) -> JsonObject:
+        data = distinct_canvas(shade)
+        Path(request.output_path).write_bytes(data)
+        return dataclasses.replace(executor.ok_result(), output_bytes=len(data)).to_json()
+
+    return prepare
 
 
 class PersistentRig:
@@ -54,7 +81,7 @@ class PersistentRig:
         """A new run, ``days`` after the first one, over the same directories."""
         clock = FakeClock(wall_start=FAKE_EPOCH + days * DAY)
         self.runs += 1
-        return Harness(
+        h = Harness(
             self.root / f"harness-{self.runs}",
             candidates=self.candidates,
             clock=clock,
@@ -63,6 +90,12 @@ class PersistentRig:
             preview_port=self.layout.preview(),
             records_port=self.layout.records(clock),
         )
+        # Every delivery gets its own bytes, so a stale preview or record
+        # can never pass for a fresh one.
+        h.executor.behaviours = [
+            _distinct_prepare(h.executor, self.runs * 4 + attempt) for attempt in range(4)
+        ]
+        return h
 
     # ------------------------------------------------------------ inspection
 

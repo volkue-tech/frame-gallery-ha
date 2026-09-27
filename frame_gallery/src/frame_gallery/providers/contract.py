@@ -169,10 +169,12 @@ class DiscoveryContext:
     """The discovery deadline; every request is clamped to it."""
 
     random: RandomSource
-    is_excluded: Callable[[str], bool] = _nothing_excluded
-    """Whether selection will skip a qualified identifier (history or the
-    upload ledger). Adapters use it only to recognise result pages that offer
-    nothing new; they still yield every candidate, and selection decides."""
+    is_excluded_for_good: Callable[[str], bool] = _nothing_excluded
+    """Whether a qualified identifier is excluded for good: in history, or
+    stored on the television (``uploaded``). Adapters use it only to recognise
+    result pages that offer nothing new; they still yield every candidate, and
+    selection decides. A quarantined (``uncertain``) work is not excluded for
+    good, so a hint never outlasts its quarantine."""
 
     notes: DiscoveryNotes = field(default_factory=DiscoveryNotes)
 

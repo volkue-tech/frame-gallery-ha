@@ -45,3 +45,15 @@ def test_non_string_values_are_not_members() -> None:
     exclusions = ExclusionSet(history=frozenset({"aic:1001"}))
     assert 1001 not in exclusions
     assert None not in exclusions
+
+
+def test_only_history_and_uploads_exclude_for_good() -> None:
+    exclusions = ExclusionSet(
+        history=frozenset({"aic:1"}),
+        uploaded=frozenset({"aic:2"}),
+        uncertain=frozenset({"aic:3"}),
+    )
+    assert exclusions.excludes_for_good("aic:1")
+    assert exclusions.excludes_for_good("aic:2")
+    assert not exclusions.excludes_for_good("aic:3")  # its quarantine ends
+    assert "aic:3" in exclusions

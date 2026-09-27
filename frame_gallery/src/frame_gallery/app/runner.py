@@ -449,7 +449,7 @@ class Runner:
                 DiscoveryContext(
                     deadline=window.discovery,
                     random=self._random,
-                    is_excluded=exclusions.__contains__,
+                    is_excluded_for_good=exclusions.excludes_for_good,
                     notes=notes,
                 ),
             )

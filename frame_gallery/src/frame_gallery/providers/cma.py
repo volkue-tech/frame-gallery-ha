@@ -5,8 +5,9 @@ Only the documented Open Access API is used, through the guarded gateway:
 1. **Count.** ``GET /api/artworks/`` with ``limit=1`` reads the documented
    ``info.total`` for the filter (cached for a day).
 2. **Pages.** Pages of 25 works at random ``skip`` offsets, without
-   replacement. An offset whose works are all excluded or unusable is
-   remembered for 7 days as exhausted (for the same total) and skipped.
+   replacement. A page whose works were all sent already is remembered, by
+   its index (the offset is 25 times the index), for 7 days as exhausted (for the same
+   total) and skipped.
 
 Every request carries the valueless ``cc0`` flag and ``has_image=1``, and
 sets ``limit`` explicitly (the documented default is 1000 records). A
@@ -188,7 +189,7 @@ class CmaProvider:
                     for candidate in (self._offer(r, department, period) for r in records)
                     if candidate is not None
                 ]
-                if offers_nothing_new(offered, ctx.is_excluded):
+                if offers_nothing_new(offered, ctx.is_excluded_for_good):
                     self._cache.add_exhausted(hint_key, total, (page,), HINT_TTL)
                 yield from offered
         finally:

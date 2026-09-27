@@ -287,10 +287,14 @@ class FileMetadataCache:
             return
         entries = self._loaded()
         entries.pop(entry.key, None)
+        if len(entries) >= MAX_ENTRIES:
+            now = self._clock.utc_now()
+            for key in [key for key, other in entries.items() if not _fresh(other, now)]:
+                del entries[key]  # expired entries go first
+        while len(entries) >= MAX_ENTRIES:
+            del entries[_least_recently_used(entries.values())]
         entries[entry.key] = entry
         self._dirty = True
-        while len(entries) > MAX_ENTRIES:
-            del entries[_least_recently_used(entries.values(), keep=entry.key)]
 
 
 def _clamp(ttl: timedelta) -> timedelta:
@@ -301,9 +305,8 @@ def _fresh(entry: _Entry, now: datetime) -> bool:
     return now < entry.expires
 
 
-def _least_recently_used(entries: Collection[_Entry], *, keep: str) -> str:
-    candidates = [entry for entry in entries if entry.key != keep]
-    return min(candidates, key=lambda entry: (entry.used, entry.key)).key
+def _least_recently_used(entries: Collection[_Entry]) -> str:
+    return min(entries, key=lambda entry: (entry.used, entry.key)).key
 
 
 def _document(provider: str, entries: Collection[_Entry]) -> dict[str, object]:

@@ -148,6 +148,31 @@ class TestOpenDirectory:
         with open_directory(tmp_path, ("raced",), create=True) as opened:
             assert opened.label.endswith("raced")
 
+    def test_created_parts_get_exactly_their_mode(self, tmp_path: Path) -> None:
+        """Review finding: the umask used to narrow the mode of new directories."""
+        old = os.umask(0o077)
+        try:
+            open_directory(tmp_path, ("a", "b"), create=True, mode=0o755).close()
+        finally:
+            os.umask(old)
+        assert stat.S_IMODE((tmp_path / "a").stat().st_mode) == 0o755
+        assert stat.S_IMODE((tmp_path / "a" / "b").stat().st_mode) == 0o755
+
+    def test_an_existing_part_keeps_its_mode(self, tmp_path: Path) -> None:
+        (tmp_path / "a").mkdir(mode=0o700)
+        open_directory(tmp_path, ("a",), create=True, mode=0o755).close()
+        assert stat.S_IMODE((tmp_path / "a").stat().st_mode) == 0o700
+
+    def test_a_failed_chmod_of_a_new_part_is_an_error(
+        self, tmp_path: Path, monkeypatch: pytest.MonkeyPatch
+    ) -> None:
+        def failing_fchmod(_fd: int, _mode: int) -> None:
+            raise OSError(errno.EPERM, "denied")
+
+        monkeypatch.setattr(os, "fchmod", failing_fchmod)
+        with pytest.raises(StateError, match="EPERM"):
+            open_directory(tmp_path, ("a",), create=True)
+
     def test_invalid_parts_are_refused_before_anything_is_opened(self, tmp_path: Path) -> None:
         with pytest.raises(ValueError, match="invalid file name"):
             open_directory(tmp_path, ("..",))

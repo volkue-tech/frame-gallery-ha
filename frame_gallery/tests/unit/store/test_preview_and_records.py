@@ -86,6 +86,72 @@ class TestPreview:
         for name in ("preview_a.jpg", "preview_b.jpg"):
             assert (preview_dir(layout) / name).read_bytes() == b"second"
 
+    def test_a_name_that_cannot_be_staged_leaves_every_name_unchanged(
+        self, layout: StoreLayout, tmp_path: Path, monkeypatch: pytest.MonkeyPatch
+    ) -> None:
+        """Review finding: with two names, nothing is renamed until both are
+        written and verified."""
+        store = layout.preview(("preview_a.jpg", "preview_b.jpg"))
+        store.publish(artifact_for(tmp_path / "old.jpg", b"old"), deadline())
+        real_stage = Directory.stage
+
+        def stage(directory: Directory, name: str, data: bytes, *, mode: int = 0o600) -> Staged:
+            if name == "preview_b.jpg":
+                raise StateError("injected: full")
+            return real_stage(directory, name, data, mode=mode)
+
+        monkeypatch.setattr(Directory, "stage", stage)
+        with pytest.raises(PublishError, match="injected"):
+            store.publish(artifact_for(tmp_path / "new.jpg", b"new"), deadline())
+        monkeypatch.undo()
+        for name in ("preview_a.jpg", "preview_b.jpg"):
+            assert (preview_dir(layout) / name).read_bytes() == b"old"
+        assert sorted(p.name for p in preview_dir(layout).iterdir()) == [
+            "preview_a.jpg",
+            "preview_b.jpg",
+        ]
+
+    def test_no_name_is_renamed_when_time_runs_out(
+        self, layout: StoreLayout, tmp_path: Path, monkeypatch: pytest.MonkeyPatch
+    ) -> None:
+        store = layout.preview(("preview_a.jpg", "preview_b.jpg"))
+        store.publish(artifact_for(tmp_path / "old.jpg", b"old"), deadline())
+        clock = FakeClock()
+        limit = Deadline.after(clock, 5, "publish")
+        real_stage = Directory.stage
+
+        def slow_stage(
+            directory: Directory, name: str, data: bytes, *, mode: int = 0o600
+        ) -> Staged:
+            staged = real_stage(directory, name, data, mode=mode)
+            clock.advance(3)
+            return staged
+
+        monkeypatch.setattr(Directory, "stage", slow_stage)
+        with pytest.raises(DeadlineExceeded):
+            store.publish(artifact_for(tmp_path / "new.jpg", b"new"), limit)
+        monkeypatch.undo()
+        assert (preview_dir(layout) / "preview_a.jpg").read_bytes() == b"old"
+        assert (preview_dir(layout) / "preview_b.jpg").read_bytes() == b"old"
+        assert len(list(preview_dir(layout).iterdir())) == 2
+
+    def test_a_rename_failing_between_the_names_is_reported(
+        self, layout: StoreLayout, tmp_path: Path
+    ) -> None:
+        """The one remaining window (D-158): the run reports it."""
+        store = layout.preview(("preview_a.jpg", "preview_b.jpg"))
+        store.publish(artifact_for(tmp_path / "old.jpg", b"old"), deadline())
+        (preview_dir(layout) / "preview_b.jpg").unlink()
+        (preview_dir(layout) / "preview_b.jpg").mkdir()
+        (preview_dir(layout) / "preview_b.jpg" / "child").write_text("x")
+        with pytest.raises(PublishError, match="cannot replace"):
+            store.publish(artifact_for(tmp_path / "new.jpg", b"new"), deadline())
+        assert (preview_dir(layout) / "preview_a.jpg").read_bytes() == b"new"
+        assert sorted(p.name for p in preview_dir(layout).iterdir()) == [
+            "preview_a.jpg",
+            "preview_b.jpg",
+        ]
+
     def test_names_are_checked(self, layout: StoreLayout) -> None:
         with pytest.raises(ValueError, match="at least one"):
             layout.preview(())

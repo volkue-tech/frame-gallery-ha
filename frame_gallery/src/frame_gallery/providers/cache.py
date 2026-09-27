@@ -9,7 +9,7 @@ single run.
 
 from __future__ import annotations
 
-from collections.abc import Callable, Collection, Iterable
+from collections.abc import Callable, Collection, Sequence
 from datetime import datetime, timedelta
 from typing import Final, Protocol
 
@@ -27,14 +27,19 @@ def known_exhausted(hints: ExhaustedPages | None, total: int) -> frozenset[int]:
     return hints.pages if hints is not None and hints.total == total else frozenset()
 
 
-def offers_nothing_new(candidates: Iterable[Candidate], is_excluded: Callable[[str], bool]) -> bool:
-    """Whether a result page is exhausted: none of its candidates has
-    dimensions and is outside the exclusions. A candidate without dimensions
-    is skipped by selection anyway (``dims_unavailable``), whatever the
-    options; shape and format checks depend on the options and are ignored."""
-    return not any(
-        candidate.dims is not None and not is_excluded(candidate.qualified_id)
-        for candidate in candidates
+def offers_nothing_new(
+    candidates: Sequence[Candidate], is_excluded_for_good: Callable[[str], bool]
+) -> bool:
+    """Whether a result page is exhausted: it offered at least one candidate,
+    and every candidate it offered is excluded for good.
+
+    A page that offered nothing (an empty or failed page, or one whose records
+    the adapter could not use) is never exhausted, because the reason may be
+    passing; neither is a page with a work that was not sent yet, even one
+    without dimensions. Records that the adapter refuses for good (rights,
+    identifiers, the period, the rendition) do not count either way."""
+    return bool(candidates) and all(
+        is_excluded_for_good(candidate.qualified_id) for candidate in candidates
     )
 
 

@@ -20,7 +20,9 @@ This version (revision 2) records the user decisions and corrections from the **
 
 The **user's approval of Phase 3 on 2026-09-27** accepted D-108, D-112, D-115, D-124, D-127, D-131, D-134, the Phase 3 adapter details of D-132 and D-136, and D-141 to D-145. It amended D-119 and resolved Q-14 and Q-22. The documentation re-check at the start of Phase 3 is recorded in D-146.
 
-The **Phase 3 gate on 2026-09-27** accepted D-146 to D-152 and resolved Q-25 with option (a). Phase 3 is complete; Phase 4 has not started.
+The **Phase 3 gate on 2026-09-27** accepted D-146 to D-152 and resolved Q-25 with option (a).
+
+**Phase 4** (authorized by the user on 2026-09-27) proposes D-153 to D-159, which await the Phase 4 gate.
 
 ## Accepted constraints
 
@@ -1072,7 +1074,7 @@ These record how Phase 4 realizes §13 and §14, and every place where it deviat
 Status: proposed (Phase 4 gate).
 
 - **Modules.** `store/atomic.py` (the primitive, the reader, and the quarantine), `store/fields.py` (timestamps and identifiers), and `store/history.py`. The rule for qualified identifiers moves from `providers.contract` to `domain.py`, which `providers.contract` now imports, so that the store never imports a provider module (§5).
-- **Directories.** The anchor's last component and every part below it are opened with `O_DIRECTORY | O_NOFOLLOW`; a symbolic link or a file in their place is refused. Missing parts are created (mode 0700 below `/data`). Every file operation is relative to the directory descriptor.
+- **Directories.** The anchor's last component and every part below it are opened with `O_DIRECTORY | O_NOFOLLOW`; a symbolic link or a file in their place is refused. Missing parts are created with exactly the requested mode, whatever the umask (0700 below `/data`). Every file operation is relative to the directory descriptor.
 - **Writes.**
   - JSON is compact and ASCII-only, so lone surrogates in untrusted text are escaped rather than failing. NaN and Infinity are refused.
   - The self-check (step 2) requires the bytes to parse back to an equal value **and** to pass the reader's own envelope and schema checks. A document that this code could not read back is never written.
@@ -1152,13 +1154,15 @@ Status: proposed (Phase 4 gate).
 
 Status: proposed (Phase 4 gate). It closes the item that D-150 deferred to Phase 4.
 
-- **How an adapter learns about exclusions.** `DiscoveryContext` gains `is_excluded`, the runner's exclusion set (history, `uploaded`, and unexpired `uncertain`), and `notes`, a small record the adapter fills. Adapters still yield every candidate, and selection still decides (§9.1); they use the predicate only to recognise pages that offer nothing new.
-- **When a page is exhausted.** A page is exhausted when none of its offered candidates both has dimensions and is outside the exclusions. The adapter's own record checks (rights, identifiers, the period, the rendition host, the Art Institute's minimum width) are part of this, because they do not depend on the options. Shape and format checks do depend on the options and are ignored. A candidate without dimensions counts as nothing new, because selection skips it whatever the options (`dims_unavailable`).
-- **Keys.** `aic:exhausted:<period or any>` and `cma:exhausted:<department or any>:<period or any>`, next to the counts. A hint is valid only for the result count it was computed with (D-156). The Art Institute pages are numbered from 1 and Cleveland's offsets from 0, as each adapter already counts them.
+- **How an adapter learns about exclusions.** `DiscoveryContext` gains `is_excluded_for_good`, which is true for works in history or `uploaded` in the ledger (`ExclusionSet.excludes_for_good`), and `notes`, a small record the adapter fills. A quarantined (`uncertain`) work is not excluded for good, because its quarantine ends. Adapters still yield every candidate, and selection still decides (§9.1); they use the predicate only to recognise pages that offer nothing new.
+- **When a page is exhausted.** A page is exhausted when it offered at least one candidate and every candidate it offered is excluded for good. Records that the adapter refuses for good (rights, identifiers, the period, the rendition host, the Art Institute's minimum width) do not count either way. A page that offered nothing (an empty page, or one whose records the adapter could not use) is never exhausted, because the reason may be passing, and neither is a page with a work not yet sent, even one without dimensions.
+- **Keys.** `aic:exhausted:<period or any>` and `cma:exhausted:<department or any>:<period or any>`, next to the counts. A hint is valid only for the result count it was computed with (D-156). The Art Institute pages are numbered from 1; Cleveland's pages are indices from 0 (the offset is 25 times the index), as each adapter already counts them.
 - **Use.** Hinted pages are left out before the page order is shuffled, or treated as already drawn in Cleveland's lazy draw beyond 4 096 pages. The number skipped is added to `notes.pages_skipped`. Without hints, the page order and the requests are unchanged.
 - **Hint when nothing is seen.** `NoDeliveryEvidence` gains `pages_skipped`. A run in which every candidate seen was excluded (`candidates_seen` may be 0) and at least one page was skipped as exhausted gets the hint "nothing new left for these filters" instead of "filters too restrictive". `last_run.json` reports `pages_skipped` with the selection statistics.
 - **Writing the cache.** `ProviderBinding` gains an optional `cache` (a `CacheWriter` with `flush(deadline)`). The runner calls it once in FINISH, before the last-run record, with FINISH's deadline minus the last-run reserve; a failure only logs a warning and never changes the outcome. A run that stopped before SELECT (for example `already_running`) has no binding and never writes the cache. `StoreLayout.metadata_cache` builds the file cache for the Phase 6 wiring, which passes the same object to the adapter and to its binding.
 - **Limitation.** The documentation does not promise a stable order of search results. A hinted page that shifts within the 7 days hides its works until the hint expires, and the result count changes the hint's validity only when the total changes. The effect is a missed work, never a duplicate (R-13).
+
+**Amendment after the internal review of `4fcab6e` to `ec9e8a4`** (see *Review records*): hints first rested on every exclusion, `uncertain` included, and counted a page that offered nothing, or only works without dimensions, as exhausted. A quarantined work could then stay hidden up to 7 days beyond its 30-day quarantine, and one empty response hid a page for 7 days and later read as "nothing new left". Both are fixed as described above.
 
 ### D-158 — Preview publication and the run records [§13.1, §13.5, D-118, D8, F7]
 
@@ -1167,10 +1171,11 @@ Status: proposed (Phase 4 gate).
 - **Modules.** `store/preview.py` (`PreviewStore`, the `PreviewPublisher` port) and `store/records.py` (`RunRecordStore`, the `RunRecords` port).
 - **Fingerprint.** The D-118 fingerprint moves from `providers.local_media` into the shared top-level module `fingerprint.py`, next to `domain`, `errors`, and `randomness` (D-141). `imaging.delivery` and the store can then compute it without importing a provider. `DeliveryArtifact` gains `fingerprint`, which the parent computes over the same bytes as the SHA-256.
 - **Preview.**
-  - Every directory below `/media` is opened with `O_NOFOLLOW`, so a symbolic link at `frame_gallery` or `preview` is refused. Missing directories are created with mode 0755.
+  - Every directory below `/media` is opened with `O_NOFOLLOW`, so a symbolic link at `frame_gallery` or `preview` is refused. Missing directories are created with exactly mode 0755, whatever the umask (amended after the internal review).
   - `delivery.jpg` is read again without following a link, at most 15 MiB, and its size and SHA-256 must match the values from ATTEMPT.
   - Each name is written with the §13.2 primitive at exactly mode 0644. The temporary file is read back and hashed before the rename.
   - Every name receives the same bytes. The default is `latest.jpg` until Phase 8 chooses the refresh mechanism (D-140).
+  - Every name is staged and verified, and the deadline checked, before any name is renamed. With two names, only a rename that fails between the first and the second can leave them different; the run then reports `delivered_with_warnings`, and the next delivery writes both again. *Amended after the internal review:* before, each name was written and renamed in turn, so a failure on the second name left the names different in more cases.
   - A failed directory `fsync` after the rename only logs a warning. Any other failure raises `PublishError`, which gives `delivered_with_warnings`, for example when `/media` is unavailable.
 - **`current.json`.**
   - It holds the runner's record plus `preview_fingerprints`: this delivery's fingerprint merged with the earlier ones, newest first, without repeats, at most 10.
@@ -1191,6 +1196,7 @@ Status: proposed (Phase 4 gate).
   - repeated runs with no growth of temporary or state storage (F3), and a published preview copied into the library that `current.json`'s fingerprints keep out (F7).
 - **A real SIGKILL** (`tests/integration/test_sigkill.py`). A child process runs the same rig and kills itself with SIGKILL after the intent, after `uploaded`, after `selected`, or inside the promotion write before its rename. Nothing in the child cleans up. The next run, in the test process, takes the lock, sweeps the pre-staged history, the temporary ledger file, and the run directory, and does not upload the work again. An `uncertain` work returns after the 30-day quarantine; a confirmed one never does.
 - **The cache across runs** (`tests/integration/test_cached_discovery.py`). The real Art Institute adapter and gateway over the synthesized API, with the real file cache: the count and an exhausted page carry over between runs, and a run whose only page is known to be exhausted makes no search request and ends with "nothing new left".
+- **Distinct payloads and the full §12.4 table.** Every delivery of the rig gets its own canvas bytes, so a stale preview, SHA-256, or fingerprint can never pass for a fresh one. Every row of the §12.4 table runs against the real ledger, and a test with the real Art Institute adapter and file cache shows that a hint never outlasts an upload quarantine (both added after the internal review).
 - **Phase 5.** E7 to E10 are run again with the process-based television worker (`TASKS.md`).
 
 ## Proposed dependency inventory
@@ -1443,6 +1449,19 @@ L = likelihood, I = impact; H = high, M = medium, L = low.
 | Q-24 | Cleveland colour filtering by local analysis, for example of the documented 900 px web rendition, counted against the existing download allowance and the content-window time budget, not against the 30 remote dimension requests. Only if it fits the same download and time budgets. | Defer until after the beta | After the beta |
 
 ## Review records
+
+### Internal review of `4fcab6e` to `ec9e8a4` (Claude, Phase 4)
+
+A second independent reviewer checked the metadata cache, the exhausted-page hints, the preview and the run records, the runner changes, the fixes of `bb25277`, and the integration tests, on a snapshot of `ec9e8a4` in a scratch directory. It fuzzed the five document parsers with 150 000 random documents and ran mutation tests. It found no high-severity defect and no path to a duplicate upload. Six findings were confirmed, all fixed in the commit that follows `ec9e8a4`:
+
+1. **Low-medium.** A page that offered nothing (an empty response, or only unusable works) was hinted as exhausted for 7 days, and a later run then reported "nothing new left" although nothing had been sent.
+2. **Low.** Hints rested on `uncertain` entries too, so a quarantined work could stay hidden up to 7 days after its 30-day quarantine.
+3. **Low, latent until Phase 8.** With two preview names, a failure on the second name left the names different; each was written and renamed in turn.
+4. **Low (documentation).** Missing preview directories were created with 0755 narrowed by the umask, not exactly 0755.
+5. **Low (documentation).** The cache's entry bound evicted by last use only; expired entries did not go first there.
+6. **Low (documentation and tests).** D-157 called Cleveland's page indices offsets; a docstring said the lock survives a SIGKILL; every fake delivery had the same bytes; §12.4 rows 2, 3, 4, and 6 were covered only against the fake store.
+
+Each fix has a regression test, checked to fail against the defect. The reviewer confirmed as sound: hints only ever remove pages; only a run that holds the lock writes the cache; keys and page numbers per adapter; unchanged requests, laziness, and allowances when a page is kept as a list; the hint classification order; the cache bounds under load (1 000 entries of about 6 KB flushed to 357 entries below 2 MiB); the preview's path checks, mode, and hash re-check (D8); the 16 KiB record bound and the fingerprint merge; the runner's outcomes against §4.2; the `bb25277` fixes; and that the SIGKILL and pruning tests fail when the sweep or the pruning is disabled.
 
 ### Internal review of the store commits `a74ba1c`, `1677ccd`, and `f347ffb` (Claude, Phase 4)
 

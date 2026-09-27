@@ -71,9 +71,24 @@ def test_a_delivered_run_changes_history_ledger_preview_and_records(rig: Persist
 
 
 def test_the_next_runs_never_resend_and_prune_the_ledger(rig: PersistentRig) -> None:
-    """E6, C3: across restarts, each run delivers a new work."""
-    delivered = [rig.harness(days=day).run().delivered_id for day in range(3)]
+    """E6, C3, D8: across restarts, each run delivers a new work, and the
+    preview and the record follow each delivery."""
+    delivered: list[str | None] = []
+    previews: list[bytes] = []
+    for day in range(3):
+        h = rig.harness(days=day)
+        delivered.append(h.run().delivered_id)
+        payload = h.tv.payloads[0]
+        assert rig.preview_file.read_bytes() == payload
+        current = rig.current()
+        assert current is not None
+        assert current["sha256"] == hashlib.sha256(payload).hexdigest()
+        previews.append(payload)
     assert delivered == ["aic:1001", "aic:1002", "aic:1003"]
+    assert len(set(previews)) == 3
+    current = rig.current()
+    assert current is not None
+    assert current["preview_fingerprints"] == [fingerprint_bytes(p) for p in reversed(previews)]
     assert rig.history() == ["aic:1001", "aic:1002", "aic:1003"]
     # A work leaves the ledger once both copies of history hold it (D-154).
     assert rig.ledger() == {"aic:1002": "uploaded", "aic:1003": "uploaded"}
@@ -219,6 +234,32 @@ def test_an_uncertain_upload_is_quarantined(rig: PersistentRig) -> None:
     assert result.hint == Hint.UPLOAD_MAY_HAVE_REACHED_TV
     assert rig.ledger() == {"aic:1001": "uncertain"}
     assert rig.harness(days=10).run().delivered_id == "aic:1002"
+
+
+@pytest.mark.parametrize(
+    ("markers", "status", "outcome"),
+    [
+        ([Marker.CONNECTED], DeliveryStatus.NOT_AUTHORIZED, Outcome.TV_NOT_AUTHORIZED),
+        ([Marker.CONNECTED], DeliveryStatus.UNSUPPORTED, Outcome.TV_REJECTED),
+        ([Marker.CONNECTED], DeliveryStatus.INSUFFICIENT_TIME, Outcome.DEADLINE_EXCEEDED),
+        (
+            [Marker.CONNECTED, Marker.UPLOAD_STARTED],
+            DeliveryStatus.REFUSED,
+            Outcome.TV_REJECTED,
+        ),
+    ],
+)
+def test_results_that_prove_nothing_was_stored_remove_the_intent(
+    rig: PersistentRig, markers: list[Marker], status: DeliveryStatus, outcome: Outcome
+) -> None:
+    """§12.4 rows 2, 3, 4, and 6 against the real ledger."""
+    h = rig.harness()
+    h.tv.markers = markers
+    h.tv.status = status
+    assert h.run().outcome is outcome
+    assert rig.ledger() == {}
+    assert rig.history() == []
+    assert rig.harness(days=1).run().delivered_id == "aic:1001"
 
 
 def test_no_upload_started_removes_the_intent(rig: PersistentRig) -> None:

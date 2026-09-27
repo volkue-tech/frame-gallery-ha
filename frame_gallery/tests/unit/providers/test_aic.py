@@ -469,7 +469,7 @@ class TestExhaustedPages:
         context = DiscoveryContext(
             deadline=Deadline.after(rig.clock, 300, "discovery"),
             random=SeededRandomSource(seed),
-            is_excluded=excluded.__contains__,
+            is_excluded_for_good=excluded.__contains__,
         )
         list(rig.provider.iter_candidates(filters(), context))
         return context
@@ -496,7 +496,9 @@ class TestExhaustedPages:
         self.discover(rig, almost)
         assert rig.cache.get_exhausted("aic:exhausted:any") is None
 
-    def test_pages_without_usable_works_are_remembered(self) -> None:
+    def test_pages_without_new_works_to_offer_are_not_remembered(self) -> None:
+        """Review finding: an empty or unusable page may be passing, and a
+        skipped page would later read as "nothing new left"."""
         museum = AicMuseum()
         museum.add(PAGE_SIZE, width=1000, height=800)  # too narrow for the rendition
         museum.add(PAGE_SIZE, first=PAGE_SIZE + 1)
@@ -504,8 +506,25 @@ class TestExhaustedPages:
             del museum.sizes[aic_image_id(number)]  # no image record: no dimensions
         rig = Rig(museum)
         self.discover(rig, set())
+        assert rig.cache.get_exhausted("aic:exhausted:any") is None
+
+    def test_an_empty_page_is_not_remembered(self) -> None:
+        museum = self.museum()
+        museum.overrides["/api/v1/artworks/search"] = lambda request: json_response(
+            aic_search([], 3 * PAGE_SIZE)
+        )
+        rig = Rig(museum)
+        self.discover(rig, set())
+        assert rig.cache.get_exhausted("aic:exhausted:any") is None
+
+    def test_a_page_of_sent_and_unusable_works_is_remembered(self) -> None:
+        museum = AicMuseum()
+        museum.add(PAGE_SIZE - 1, width=1000, height=800)
+        museum.add(1, first=PAGE_SIZE)
+        rig = Rig(museum)
+        self.discover(rig, {f"aic:{PAGE_SIZE}"})
         hints = rig.cache.get_exhausted("aic:exhausted:any")
-        assert hints == ExhaustedPages(2 * PAGE_SIZE, frozenset({1, 2}))
+        assert hints == ExhaustedPages(PAGE_SIZE, frozenset({1}))
 
     def test_hints_for_another_total_are_ignored(self) -> None:
         rig = Rig(self.museum())

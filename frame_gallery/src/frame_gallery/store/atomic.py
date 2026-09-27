@@ -142,7 +142,8 @@ def open_directory(
     """Open ``anchor/parts…`` as a :class:`Directory`.
 
     Neither the anchor's last component nor any of ``parts`` may be a symbolic
-    link. Missing ``parts`` are created with ``mode`` if ``create`` is set.
+    link. Missing ``parts`` are created with exactly ``mode`` if ``create`` is
+    set.
     Raises :class:`StateError`.
     """
     for part in parts:
@@ -169,9 +170,19 @@ def _open_child(parent: int, name: str, label: str, *, create: bool, mode: int) 
         except FileNotFoundError:
             if not create:
                 raise
-        with contextlib.suppress(FileExistsError):  # created meanwhile: open it
+        created = True
+        try:
             os.mkdir(name, mode, dir_fd=parent)
-        return os.open(name, DIRECTORY_FLAGS, dir_fd=parent)
+        except FileExistsError:  # created meanwhile: open it as it is
+            created = False
+        child = os.open(name, DIRECTORY_FLAGS, dir_fd=parent)
+        if created:
+            try:
+                os.fchmod(child, mode)  # the umask may have narrowed the mode
+            except OSError:
+                _close_quietly(child)
+                raise
+        return child
     except OSError as exc:
         msg = f"{label}: cannot open {name} ({_refusal(exc)})"
         raise StateError(msg) from None

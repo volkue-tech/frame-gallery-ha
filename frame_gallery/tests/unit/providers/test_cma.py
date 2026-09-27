@@ -426,7 +426,7 @@ class TestExhaustedPages:
         context = DiscoveryContext(
             deadline=Deadline.after(rig.clock, 300, "discovery"),
             random=SeededRandomSource(seed),
-            is_excluded=excluded.__contains__,
+            is_excluded_for_good=excluded.__contains__,
         )
         list(rig.provider.iter_candidates(filters(), context))
         return context
@@ -448,15 +448,20 @@ class TestExhaustedPages:
         assert context.notes.pages_skipped == 1
         assert self.skips(rig) == [25, 50]
 
-    def test_prints_without_dimensions_offer_nothing_new(self) -> None:
+    def test_prints_without_dimensions_are_not_remembered(self) -> None:
+        """A work not sent yet keeps its page, even without dimensions."""
         museum = CmaMuseum()
         museum.add(25, width="unknown")
-        museum.add(25, first=26)
         rig = Rig(museum)
         self.discover(rig, set())
-        assert rig.cache.get_exhausted("cma:exhausted:any:any") == ExhaustedPages(
-            50, frozenset({0})
-        )
+        assert rig.cache.get_exhausted("cma:exhausted:any:any") is None
+
+    def test_an_empty_page_is_not_remembered(self) -> None:
+        museum = CmaMuseum()
+        museum.total = 25  # the count says 25, but the page comes back empty
+        rig = Rig(museum)
+        self.discover(rig, set())
+        assert rig.cache.get_exhausted("cma:exhausted:any:any") is None
 
     def test_hints_beyond_the_current_pages_are_not_counted(self) -> None:
         museum = CmaMuseum()

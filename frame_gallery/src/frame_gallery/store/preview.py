@@ -9,10 +9,13 @@ After ``selected``, the parent copies the validated delivery bytes into
   bounded by the 15 MiB output cap, and must have the size and SHA-256 that
   the parent computed in ATTEMPT, so the preview is exactly the television
   payload (D8);
-- each preview name is written with the §13.2 primitive at mode 0644. The
-  temporary file is read back and its SHA-256 checked before the rename;
+- each preview name is written with the §13.2 primitive at mode 0644, and
+  its temporary file is read back and its SHA-256 checked. Only when every
+  name is staged and verified, and time is left, are they renamed in turn;
 - every name receives the same bytes. Phase 8 chooses one name or two
-  alternating names (D-140); with two, neither can ever show an older work.
+  alternating names (D-140). With two, only a rename that fails between the
+  first and the second can leave them different; the run then reports
+  ``delivered_with_warnings``, and the next delivery writes both again.
 
 Any failure raises ``PublishError``: the runner then reports
 ``delivered_with_warnings``, for example when ``/media`` is unavailable.
@@ -33,6 +36,7 @@ from frame_gallery.store.atomic import (
     CommitError,
     Directory,
     ReadFailure,
+    Staged,
     check_name,
     open_directory,
     read_path,
@@ -67,9 +71,18 @@ class PreviewStore:
         except StateError as exc:
             raise PublishError(str(exc)) from None
         with directory:
-            for name in self._names:
+            pending: list[Staged] = []
+            try:
+                for name in self._names:
+                    deadline.check()
+                    pending.append(_stage_verified(directory, name, data, artifact.sha256))
                 deadline.check()
-                _publish_one(directory, name, data, artifact.sha256)
+                while pending:
+                    _commit(directory, pending[0])
+                    pending.pop(0)
+            finally:
+                for staged in pending:
+                    directory.discard(staged)
 
 
 def _delivery_bytes(artifact: DeliveryArtifact) -> bytes:
@@ -83,7 +96,7 @@ def _delivery_bytes(artifact: DeliveryArtifact) -> bytes:
     return data
 
 
-def _publish_one(directory: Directory, name: str, data: bytes, sha256: str) -> None:
+def _stage_verified(directory: Directory, name: str, data: bytes, sha256: str) -> Staged:
     try:
         staged = directory.stage(name, data, mode=PREVIEW_MODE)
     except StateError as exc:
@@ -93,6 +106,10 @@ def _publish_one(directory: Directory, name: str, data: bytes, sha256: str) -> N
         directory.discard(staged)
         msg = f"{directory.label}/{name}: the written preview does not match"
         raise PublishError(msg)
+    return staged
+
+
+def _commit(directory: Directory, staged: Staged) -> None:
     try:
         directory.commit(staged, refresh_backup=False)
     except CommitError as exc:

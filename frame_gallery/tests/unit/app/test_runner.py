@@ -420,12 +420,18 @@ def test_everything_excluded_is_nothing_new(h: Harness) -> None:
     assert_tv_untouched(h)
 
 
-def test_the_provider_learns_the_exclusions_for_its_hints(h: Harness) -> None:
-    h.state.exclusions = ExclusionSet(uploaded=frozenset({"aic:1001"}))
+def test_the_provider_learns_the_permanent_exclusions_for_its_hints(h: Harness) -> None:
+    h.state.exclusions = ExclusionSet(
+        history=frozenset({"aic:1001"}),
+        uploaded=frozenset({"aic:1002"}),
+        uncertain=frozenset({"aic:1003"}),
+    )
     h.run()
     [context] = h.provider.contexts
-    assert context.is_excluded("aic:1001")
-    assert not context.is_excluded("aic:1002")
+    assert context.is_excluded_for_good("aic:1001")
+    assert context.is_excluded_for_good("aic:1002")
+    # A quarantine ends, so a hint may not rest on it.
+    assert not context.is_excluded_for_good("aic:1003")
 
 
 def test_skipped_exhausted_pages_are_nothing_new_and_recorded(h: Harness) -> None:
