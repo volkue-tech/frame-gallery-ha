@@ -217,7 +217,7 @@ def test_mixed_helpers_apply_independently() -> None:
     assert merge.warnings == ("style_helper could not be read; using the static value",)
 
 
-def test_builtin_vocabulary_accepts_sources_and_no_filter_only() -> None:
+def test_builtin_vocabulary_v1_accepts_only_supported_helper_values() -> None:
     static = FilterSet(AIC)
     values: dict[FilterField, str | None] = {
         FilterField.SOURCE: "local_media",

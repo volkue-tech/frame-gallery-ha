@@ -2,6 +2,21 @@
 
 These instructions apply to every coding or review agent working in this repository.
 
+## Required reading
+
+Before proposing architecture, writing code, or reviewing, read these files completely:
+
+1. `PRODUCT_SPEC.md`
+2. `ARCHITECTURE_CONSTRAINTS.md`
+3. `ACCEPTANCE_TESTS.md`
+4. `LEGAL_BOUNDARIES.md`
+5. `ARCHITECTURE.md` (the approved architecture)
+6. `DECISIONS.md`
+7. `TASKS.md`
+8. `STATUS.md`
+
+`STATUS.md` and `TASKS.md` are the only sources of the current project state.
+
 ## Independent implementation boundary
 
 - Implement only from the specifications stored in this repository.
@@ -21,7 +36,7 @@ These instructions apply to every coding or review agent working in this reposit
 
 ## Development process
 
-- Read all specification files before proposing architecture or writing code.
+- Read all the files under *Required reading* before proposing architecture or writing code.
 - Treat `PRODUCT_SPEC.md` and `ACCEPTANCE_TESTS.md` as the definition of done.
 - Record material technical decisions in `DECISIONS.md`.
 - Keep `STATUS.md` current after every milestone.
@@ -29,6 +44,16 @@ These instructions apply to every coding or review agent working in this reposit
 - Use small, reviewable commits with descriptive messages.
 - Stop at every approval gate in `TASKS.md`.
 - Never claim a test passed unless its command was actually run and its result observed.
+
+## Git identity
+
+This is Alexander Wilke's personal project. Before every commit, verify that the repository-local Git identity (`git config user.name` and `git config user.email`) is exactly:
+
+```text
+Alexander Wilke <volkue@gmail.com>
+```
+
+For this project, never use any SatoshiPay, EBMA, or Marcel account, e-mail address (including any `@satoshipay.io` address), credential, organization, remote, or attribution.
 
 ## Home Assistant requirements
 

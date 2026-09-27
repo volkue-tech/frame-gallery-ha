@@ -313,7 +313,7 @@ def test_control_characters_are_escaped_in_messages() -> None:
     assert "'bad\\nline'" in issue.message
 
 
-def test_builtin_vocabulary_accepts_only_no_filter_values() -> None:
+def test_builtin_vocabulary_v1_accepts_only_offered_values() -> None:
     raw: dict[str, object] = {"tv_host": TV, "department": "any", "style": "", "color": None}
     options = parse_options(raw, vocabulary=BUILTIN_VOCABULARY, excluded_networks=())
     assert options.filters == FilterSet(SourceKey.ART_INSTITUTE_CHICAGO)

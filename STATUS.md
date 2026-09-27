@@ -24,7 +24,7 @@ Last updated: 2026-09-27
 | 6. Cleveland Museum of Art adapter (D-151) | `72dba4a` |
 | 6a. Fixes from the internal review of the helper reader and local media (D-147, D-148, D-149 amendments) | `37e85d0` |
 | 7. Vocabularies, shared contract tests, and closing documentation (D-152) | `979ef8a` |
-| Gate. Phase 3 gate decision: Q-25 resolved with option (a); D-146 to D-152 accepted; `PRODUCT_SPEC.md` and `ACCEPTANCE_TESTS.md` (B2, C1) amended | this commit |
+| Gate. Phase 3 gate decision: Q-25 resolved with option (a); D-146 to D-152 accepted; `PRODUCT_SPEC.md` and `ACCEPTANCE_TESTS.md` (B2, C1) amended | `b6578d8` |
 
 **Documentation re-check (D-146).** On 2026-09-27 the two official documentation pages were re-read in the in-app browser. No endpoint was called and nothing was recorded from a live response.
 
