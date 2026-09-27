@@ -106,12 +106,13 @@ Authorized by the user on 2026-09-27, after the Phase 4 gate.
 
 - [x] First check and document the version and the LGPL-3.0 obligations of `samsungtvws` 3.0.6 (D-135). The pinned version may be installed from PyPI into the git-ignored project environment only (D-160).
 - [x] Establish the adapter surface only by inspecting the installed `samsungtvws` 3.0.6 distribution (D-161).
-- [ ] Implement the isolated process executor with the complete bootstrap: privilege drop to an unprivileged user, the parent-death signal, umask, resource limits, the bytes-only channel, progress markers, and the bootstrap test.
-- [ ] Re-run E7–E10 with the process-based television worker. Measure worst-case prepare memory and time under the real limit.
-- [ ] Implement connection, pairing-token persistence, upload, and select in the television worker. The adapter owns the token store and the `auth` result, polls `DeliveryRequest.stop_requested` while it waits (killing the worker and relaying the markers already sent), and `deliver` returns only after its worker is dead (D-141).
+- [x] Implement the isolated process executor with the complete bootstrap: privilege drop to an unprivileged user, the parent-death signal, umask, resource limits, the bytes-only channel, progress markers, and the bootstrap test (D-163, D-164). The root-only and Linux-only assertions of the bootstrap test are written and first run in the Linux container (D-165).
+- [x] Re-run E7–E10 with the process-based television worker, including a real SIGKILL of the runner while its worker runs.
+- [ ] Measure worst-case prepare memory and time under the real limit. *Measured on the development host without `RLIMIT_AS`, which macOS cannot set (R-09, `scripts/measure_prepare.py`); under the real limit in the Linux container (D-165, open decision).*
+- [x] Implement connection, pairing-token persistence, upload, and select in the television worker. The adapter owns the token store and the `auth` result, polls `DeliveryRequest.stop_requested` while it waits (killing the worker and relaying the markers already sent), and `deliver` returns only after its worker is dead (D-141, D-162, D-163).
 - [x] Map library failures and markers to clear outcomes and ledger transitions (D-162).
 - [x] Add mocked adapter tests; do not contact the live television. They include runs of the unchanged library over a socket pair against a scripted television.
-- [ ] Update third-party notices, status, and decisions.
+- [x] Update third-party notices, status, and decisions.
 - [ ] Commit.
 
 Gate: Codex reviews the isolation design and its tests, the Samsung adapter against the installed library, and the `samsungtvws` row with its LGPL-3.0 obligations. Phase 6 does not start before it is explicitly authorized.

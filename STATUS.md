@@ -1,6 +1,6 @@
 # Project status
 
-Last updated: 2026-09-27 (Phase 5 in progress)
+Last updated: 2026-09-27 (Phase 5 in progress; gate next)
 
 ## Current phase
 
@@ -12,8 +12,9 @@ Last updated: 2026-09-27 (Phase 5 in progress)
 
 **Phase 5 progress**
 
-- Done: the `samsungtvws` 3.0.6 check and its LGPL-3.0 obligations (D-160); the adapter surface from the installed distribution (D-161); the television task, the Samsung adapter, and the pairing-token store, with their mapping to outcomes (D-162). They are tested in-process, against a stand-in of the library and against the unchanged library over a socket pair. No television was contacted.
-- In progress: the isolated process executor and its bootstrap, then the E7–E10 re-run with the process-based television worker and the prepare measurement.
+- Done: the `samsungtvws` 3.0.6 check and its LGPL-3.0 obligations (D-160); the adapter surface from the installed distribution (D-161); the television task, the Samsung adapter, and the pairing-token store (D-162); the process executor with the worker bootstrap (D-163); the workspace handed to the worker's group (D-164); E7–E10 re-run with the process-based television worker, including a real SIGKILL of the runner while its worker runs; the worst-case preparation measured on the development host (R-09). No television, Home Assistant instance, or provider was contacted.
+- Not run here, and first run in the Linux container (D-165): the root-only and Linux-only assertions of the bootstrap test (the drop to 65534, `RLIMIT_AS`, the refusal of threads), and the measurement under the real `RLIMIT_AS`.
+- Next: the internal review of the Phase 5 commits, then the Phase 5 gate.
 
 ## Completed
 

@@ -56,14 +56,14 @@ The project-owned source code is licensed under the Apache License 2.0 (D-102, a
 - Source: PyPI, `urllib3==2.8.0`, the pure-Python wheel `urllib3-2.8.0-py3-none-any.whl` (SHA-256 `0cf3cae568d36aa9576b28dfb35f11328f1cb974ca7647d9475ebb86c75ac6e3`), installed unmodified and hash-pinned (`frame_gallery/requirements/runtime.txt`). Approved by the user for Phase 3 (2026-09-27).
 - Licence: `MIT` (the `License-Expression` of the installed distribution; licence file `LICENSE.txt`, "Copyright (c) 2008-2020 Andrey Petrov and contributors"). Checked in the installed metadata on 2026-09-27.
 - No optional extras are installed (`brotli`, `h2`, `socks`, `zstd` are not used).
-- Used only by `net/transport.py`, the gateway's HTTP transport (D-108, D-131).
+- Used by `net/transport.py`, the gateway's HTTP transport (D-108, D-131), and, from Phase 5, inside the television worker through `requests`, which `samsungtvws` uses for the TV's REST check (D-161).
 - Obligation: the MIT licence text and copyright notice accompany every distribution.
 
 ### certifi 2026.7.22
 
 - Source: PyPI, `certifi==2026.7.22`, the pure-Python wheel `certifi-2026.7.22-py3-none-any.whl` (SHA-256 `62f22742b58a1a33014a2b6b706588a8d7e2a88ae7bd1a6ebe8c992928483775`), installed unmodified and hash-pinned. Approved by the user for Phase 3 (2026-09-27).
 - Licence: `MPL-2.0` (the legacy `License` field of the installed distribution, which has no `License-Expression`; licence file `LICENSE`). Its licence file states that the package contains a modified version of Mozilla's CA bundle (`ca-bundle.crt`, extracted from Mozilla's `certdata.txt`) under the Mozilla Public License 2.0. Checked in the installed metadata on 2026-09-27.
-- Used only by `net/transport.py`, as the gateway's explicit CA bundle (§10).
+- Used by `net/transport.py`, as the gateway's explicit CA bundle (§10); `requests` also loads it inside the television worker, where the library turns certificate verification off for the TV (D-161).
 - Obligations (MPL-2.0): the files are distributed unmodified; this notice identifies them and their licence; the MPL-2.0 text and a pointer to the source form (the PyPI sdist `certifi-2026.7.22.tar.gz`, SHA-256 `741e2c3b351ddf169a738da9f2c048608ff7f2c5cc02f1ebc6b118bb090d5d55`) accompany every release (D-135).
 
 ### samsungtvws 3.0.6
@@ -73,7 +73,7 @@ The project-owned source code is licensed under the Apache License 2.0 (D-102, a
 - Source: PyPI, `samsungtvws==3.0.6`, the pure-Python wheel `samsungtvws-3.0.6-py3-none-any.whl` (SHA-256 `6e3a1b23f928b3035570cc976b64b8c2a218b06022a333855fd7cd02dc74891d`), installed unmodified and hash-pinned (`frame_gallery/requirements/runtime.txt`). Approved by the user for Phase 5 (2026-09-27).
 - Licence: `LGPL-3.0` (the `License-Expression` of the installed distribution, a deprecated short form; treated as LGPL-3.0-only). Licence file `LICENSE` (the LGPL-3.0 text). Copyright (C) 2019, 2025 DSR! <xchwarze@gmail.com>; Copyright (C) 2021 Matthew Garrett <mjg59@srcf.ucam.org> (the art module).
 - Corresponding source: the sdist `samsungtvws-3.0.6.tar.gz` (SHA-256 `166111d8370443cd2021b74cdfac9495896dfc41e3a87ea023289f24f922bb91`), attached to every release (D-135).
-- Used only by the television worker task, as a separate package, through its public API. The library is not modified. It can be replaced by another version when the image is built.
+- Used only by the television worker task, as a separate package, through its public API. The library is not modified: at run time the worker only wraps standard-library `socket` functions and `websocket-client`'s `create_connection`, and answers `get_api_version` on its own connection object from its earlier check (D-160, D-162). It can be replaced by another version when the image is built.
 - Obligations (D-160): this notice; the LGPL-3.0 and GPL-3.0 texts with every distribution; the corresponding source; replaceability; no terms that restrict modification or reverse engineering to debug such modifications.
 
 ### Dependencies of samsungtvws
