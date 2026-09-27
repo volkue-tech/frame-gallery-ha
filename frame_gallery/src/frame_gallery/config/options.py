@@ -67,7 +67,7 @@ class Options:
 _ECHO_MAX_LENGTH: Final = 40
 """Echoed option values are cut to this many characters."""
 
-_HELPER_ENTITY_ID: Final = re.compile(
+HELPER_ENTITY_ID: Final = re.compile(
     r"(?:input_select|select|input_text)\.[a-z0-9_]{1,64}", re.ASCII
 )
 _HELPER_OPTIONS: Final = tuple((field, f"{field.value}_helper") for field in FilterField)
@@ -197,7 +197,7 @@ def _helpers(
         value = raw.get(option)
         if value is None or value == "":
             continue
-        if isinstance(value, str) and _HELPER_ENTITY_ID.fullmatch(value) is not None:
+        if isinstance(value, str) and HELPER_ENTITY_ID.fullmatch(value) is not None:
             helpers.append((field, value))
         else:
             issues.append(ConfigIssue(option, _HELPER_FORMAT))

@@ -901,6 +901,17 @@ Status: proposed (Phase 3).
 15. **No probe path.** No beta source needs a remote dimension probe (§8.3). The 256 KiB probe cap is therefore not implemented yet; the probe allowance stays enforced in selection.
 16. **Logs.** Each request is logged at DEBUG with the kind, the host, the path without its query, the status, the byte count, and the duration. A stop is logged at WARNING. Header values, queries, and bodies are never logged.
 
+### D-148 — Helper reader details [§15.3, D-112; B3–B5]
+
+Status: proposed (Phase 3).
+
+- **Module.** `ha/client.py`, `SupervisorHelperReader`, implements the `HelperReader` port. It shares the `net.wire` seam, so the real transport serves both the gateway and the reader. It does not go through the gateway, whose rules (HTTPS, public addresses, pacing) do not fit the Supervisor.
+- **Request.** `GET http://supervisor/core/api/states/<entity_id>` with `Authorization: Bearer <token>`, `Accept: application/json`, `Accept-Encoding: identity`, `Connection: close`, and `User-Agent: FrameGallery/<version>`. The Supervisor is local, so the User-Agent carries no contact. The entity ID is re-validated with the options pattern (now the public `config.options.HELPER_ENTITY_ID`) and percent-encoded.
+- **Where the token may go.** The name `supervisor` is resolved once per run, and every address must be private: not public, loopback, link-local, multicast, reserved, or unspecified. Otherwise nothing is sent. This keeps the token inside the Supervisor's internal network even if name resolution is wrong. Only the first address is used.
+- **Bounds.** One request per configured helper (at most four), no redirect (any 3xx fails), and no retry. Each read takes at most 3 s, clamped to the configuration deadline; a read that no longer fits is skipped. The body is at most 64 KiB, `identity` encoding, and JSON. Only `state` is used: a string of at most 255 characters.
+- **Failures.** Any failure gives `None` for that helper. The merge then falls back to the static value with exactly one WARNING (B4, B5). The reader logs its own reasons at INFO (no usable token; the Supervisor cannot be reached) and DEBUG (per helper), and never logs the token or a helper's value. Its `repr` hides the token. `unavailable` and `unknown` are returned as they are (B4). Only `Cancelled` propagates.
+- **Token.** The entry point (Phase 6) passes the token from the reduced environment and registers it with the redactor (D-145). An empty or non-printable token means no read at all.
+
 ## Proposed dependency inventory
 
 Status: **Phase 2 installed** the development tools and Pillow, and **Phase 3 installed** `urllib3` 2.8.0 and `certifi` 2026.7.22 (approved by the user on 2026-09-27), only in the local project environment (`frame_gallery/.venv`, from `uv.lock`). The runtime rows for later phases are still proposed.

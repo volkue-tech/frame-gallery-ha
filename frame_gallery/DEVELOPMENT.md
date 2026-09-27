@@ -22,7 +22,7 @@ The script runs, and fails on the first failure:
 
 1. `ruff check` and `ruff format --check`;
 2. `mypy` in strict mode, over `src` and `tests`;
-3. `pytest` with branch coverage: at least 90 % overall, and 100 % of lines and branches for the modules the architecture requires (§20.4): `budget`, `net` (the whole package, including the real transport), `selection`, `isolation`, `providers`, the outcome classification and the runner, and the imaging worker tasks with their header pre-scan and JPEG header parser.
+3. `pytest` with branch coverage: at least 90 % overall, and 100 % of lines and branches for the modules the architecture requires (§20.4): `budget`, `ha` (the helper reader), `net` (the whole package, including the real transport), `selection`, `isolation`, `providers`, the outcome classification and the runner, and the imaging worker tasks with their header pre-scan and JPEG header parser.
 
 `mypy` runs in strict mode over `src` and `tests`, with no per-module relaxations.
 

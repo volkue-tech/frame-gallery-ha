@@ -7,7 +7,7 @@ from collections.abc import Mapping, Sequence
 from dataclasses import dataclass, field
 from pathlib import Path
 
-from frame_gallery.app.ports import ProviderBinding
+from frame_gallery.app.ports import HelperReader, ProviderBinding
 from frame_gallery.app.runner import Runner, RunnerPorts, RunResult
 from frame_gallery.app.signals import CancellationController
 from frame_gallery.config.filters import FilterDimension
@@ -77,6 +77,8 @@ class Harness:
     events: Events = field(default_factory=Events)
     cancellation: CancellationController = field(default_factory=CancellationController)
     log_levels: list[LogLevel] = field(default_factory=list)
+    helper_reader: HelperReader | None = None
+    """Replaces the fake helper reader (for example with the real one)."""
 
     def __post_init__(self) -> None:
         clock, events = self.clock, self.events
@@ -113,7 +115,7 @@ class Harness:
             options_source=self.options,
             network_info=self.network,
             state=self.state,
-            helper_reader=self.helpers,
+            helper_reader=self.helper_reader or self.helpers,
             providers=self.providers(),
             fetcher=self.fetcher,
             executor=self.executor,
