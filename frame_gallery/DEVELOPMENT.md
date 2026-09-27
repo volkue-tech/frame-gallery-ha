@@ -21,12 +21,32 @@ scripts/check.sh
 The script runs, and fails on the first failure:
 
 1. `ruff check` and `ruff format --check`;
-2. `mypy` in strict mode, over `src` and `tests`;
-3. `pytest` with branch coverage: at least 90 % overall, and 100 % of lines and branches for the modules the architecture requires (§20.4): `budget`, `ha` (the helper reader), `net` (the whole package, including the real transport), `selection`, `store` (including the upload ledger), `isolation`, `providers`, the outcome classification and the runner, and the imaging worker tasks with their header pre-scan and JPEG header parser.
+2. `mypy` in strict mode, over `src` and `tests`, twice: for this host, and as on Linux (`mypy --platform linux`, the container's platform; D-163);
+3. `pytest` with branch coverage: at least 90 % overall, and 100 % of lines and branches for the modules the architecture requires (§20.4): `budget`, `ha` (the helper reader), `net` (the whole package, including the real transport), `selection`, `store` (including the upload ledger), `isolation` (including the process executor, the worker bootstrap, and the worker's entry), `providers`, `tv` (the Samsung adapter, the television worker task, and the pairing-token store), the outcome classification and the runner, and the imaging worker tasks with their header pre-scan and JPEG header parser.
 
-`mypy` runs in strict mode over `src` and `tests`, with no per-module relaxations.
+`mypy` runs in strict mode over `src` and `tests`, with no per-module relaxations. The worker's own code (`isolation/bootstrap.py`, `isolation/worker_main.py`, `isolation/process.py`, `tv/samsung_task.py`) may not exclude any line from coverage: every branch is reached in-process through injected seams, and real workers show the behaviour.
 
-Tests never use the network (acceptance item `H2`). For the whole session, collection included, `tests/conftest.py` makes these raise: `connect`, `connect_ex`, `sendto`, and `sendmsg` on `socket.socket`; `socket.create_connection`; and `getaddrinfo`, `gethostbyname`, `gethostbyname_ex`, `gethostbyaddr`, and `getnameinfo` on both `socket` and `_socket`. The architecture boundary test enforces the import rules of D-107, D-145, and D-147, and proves with self-tests that each of its detectors fires. Only `net/transport.py` may import `socket`, `ssl`, `http.client`, `urllib3`, and `certifi`, and only the entry point may import that module; the gateway and the adapters are tested against the fakes in `tests/support/net.py`. Tests never use the real project contact in a header: they pass a placeholder identity (D-119).
+Tests never use the network (acceptance item `H2`). For the whole session, collection included, `tests/conftest.py` installs the guard of `tests/support/h2.py`, which makes these raise: `connect`, `connect_ex`, `sendto`, and `sendmsg` on `socket.socket`; `socket.create_connection`; and `getaddrinfo`, `gethostbyname`, `gethostbyname_ex`, `gethostbyaddr`, and `getnameinfo` on both `socket` and `_socket`. Every task a test runs in a worker process (`tests/support/worker_tasks.py`) installs the same guard first; `tests/support/h2.py` lists the processes that are not guarded and why.
+
+The architecture boundary test enforces the import rules of D-107, D-145, D-147, D-160, D-162, and D-163, and proves with self-tests that each of its detectors fires:
+
+- `net/transport.py` is the only module that may import `ssl`, `http.client`, `urllib3`, and `certifi`, and only the entry point may import it; the gateway and the adapters are tested against the fakes in `tests/support/net.py`.
+- `socket` is allowed there and in `tv/samsung_task.py` (the television worker's connect guard, D-162).
+- `samsungtvws`, `websocket`, and `requests` only in `tv/samsung_task.py`, which the parent reaches only through the executor's lazy import.
+- `subprocess` and `select` only in `isolation/process.py`, which only the entry point may import; `ctypes` only in `isolation/bootstrap.py`; the worker's modules (`isolation/bootstrap.py`, `isolation/worker_main.py`) only in the worker (D-163).
+
+Tests never use the real project contact in a header: they pass a placeholder identity (D-119).
+
+## Worker processes
+
+`tests/unit/isolation/` and `tests/integration/test_process_television.py` start real worker processes through the process executor (`tests/support/processes.py`). Their test tasks reach the worker through an extra path, which a worker that drops privileges refuses, so these tests need a non-root parent; a root run skips them. `tests/unit/isolation/test_root_isolation.py` holds the checks that need root (the drop to 65534, the hand-over of the workspace), and some checks need Linux (`RLIMIT_AS`, threads under `RLIMIT_NPROC` 0, the parent-death signal). On a development host these are skipped. A container run names its mode, so that a skip of what the mode promises fails instead (D-165):
+
+```bash
+FRAME_GALLERY_REQUIRE_ISOLATION=user .venv/bin/pytest   # as a non-root user, on Linux
+FRAME_GALLERY_REQUIRE_ISOLATION=root .venv/bin/pytest tests/unit/isolation/test_root_isolation.py   # as root, on Linux
+```
+
+`scripts/measure_prepare.py` measures the worst-case preparation time and peak memory in real workers (R-09), and with `--inspections N` the cost of N local-media inspections. It uses no network; as root, its workers drop to 65534, and only on Linux is `RLIMIT_AS` enforced.
 
 The state tests run the runner over the real store in temporary directories (`tests/support/persistent.py`). `tests/integration/test_sigkill.py` also starts child processes of the same interpreter that kill themselves with SIGKILL at chosen points, so the next run can be checked against exactly what a killed process leaves behind (D-159). They need a POSIX system and nothing outside the test's temporary directory.
 
