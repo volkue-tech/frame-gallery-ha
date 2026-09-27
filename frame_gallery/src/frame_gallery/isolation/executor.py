@@ -23,7 +23,9 @@ EventSink = Callable[[JsonObject], None]
 """Receives each intermediate event a task sends (the television markers), in
 order, before :meth:`Executor.run` returns or raises. It may raise
 ``ValueError`` for an event it refuses; the task is then killed and the run
-fails with ``protocol``."""
+fails with ``protocol``. After a kill by the timer or a stop request, a
+refusal of an event still found in the pipe only ends the relay: the run
+keeps ``timeout`` or ``stopped``."""
 
 StopCheck = Callable[[], bool]
 
@@ -84,8 +86,10 @@ class Executor(Protocol):
         task sends go to ``on_event`` as they arrive. ``should_stop`` is polled
         while the task runs; once it returns true, the task is killed and the
         run fails with ``stopped``, after every event already sent was
-        delivered. Returns or raises only once the task has ended. Raises
-        :class:`WorkerError`; ``Cancelled`` may propagate.
+        delivered. Returns or raises only after the task was killed or ended
+        and its channel closed, so nothing it sends can arrive later. Raises
+        :class:`WorkerError`; the process executor also raises
+        ``IsolationFailure``; ``Cancelled`` may propagate.
         """
         ...
 

@@ -16,7 +16,9 @@ from frame_gallery.errors import FrameGalleryError
 from frame_gallery.isolation.executor import JsonObject
 
 MAX_MESSAGE_BYTES: Final = 64 * 1024
-"""The channel cap: ``recv_bytes(maxlength = 64 KiB)`` in Phase 5 (§11.3)."""
+"""The message cap (§11.3), in both executors. The process executor carries
+each message in a frame that may be ``framing.ENVELOPE_BYTES`` larger for its
+envelope; the body is still held to this cap (D-163)."""
 
 MAX_NESTING_DEPTH: Final = 32
 """Containers (objects and arrays) nested deeper than this are refused."""

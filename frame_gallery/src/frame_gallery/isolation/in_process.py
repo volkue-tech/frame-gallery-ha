@@ -148,7 +148,9 @@ def _inspect(payload: JsonObject) -> JsonObject:
 
 
 def default_tasks() -> dict[str, TaskFunction]:
-    """The production task table; imports worker modules lazily."""
+    """The prepare and inspect tasks for the in-process executor, which runs
+    only in tests (R-27); worker modules are imported lazily. Production
+    workers use ``launch.PRODUCTION_TASKS``."""
     return {PREPARE_TASK: _prepare, INSPECT_TASK: _inspect}
 
 

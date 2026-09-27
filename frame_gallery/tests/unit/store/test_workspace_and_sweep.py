@@ -194,7 +194,7 @@ class TestHandOver:
     def test_a_mode_that_did_not_take_is_a_state_error(
         self, layout: StoreLayout, monkeypatch: pytest.MonkeyPatch
     ) -> None:
-        gid = other_group()
+        gid = os.getegid()  # any host: an owner may always give its own group
         real = os.fchmod
 
         def drop_setgid(fd: int, mode: int) -> None:

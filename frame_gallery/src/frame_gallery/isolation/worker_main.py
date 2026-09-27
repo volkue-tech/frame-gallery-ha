@@ -1,9 +1,10 @@
 """The worker's entry point (§11.3, D-163).
 
-The process executor starts ``python -I -B -c BOOT <configuration> <paths>``;
-``BOOT`` puts the paths on ``sys.path`` and calls :func:`main`. This module
-imports only the standard library and the isolation package, so nothing
-third-party is loaded before the bootstrap has run.
+The process executor starts ``python -I -S -B -c BOOT <configuration>
+<paths>``; ``BOOT`` puts the paths on ``sys.path`` and calls :func:`main`.
+Without ``site``, and with this module importing only the standard library
+and the isolation and logging packages, nothing third-party is loaded before
+the bootstrap has run.
 
 The conversation, over the pipes the parent passed:
 
@@ -15,6 +16,9 @@ The conversation, over the pipes the parent passed:
 5. its ``result`` (with the worker's own peak memory and CPU time), or a
    ``failure`` naming only the exception type; then ``os._exit``, so no
    finalizer or library clean-up can follow.
+
+An event or a result over the 64 KiB message cap is a ``protocol`` failure,
+as in the in-process executor.
 """
 
 from __future__ import annotations
@@ -28,7 +32,7 @@ from typing import Final, NoReturn
 
 from frame_gallery.isolation.bootstrap import OsOps, RealOs, Refused
 from frame_gallery.isolation.bootstrap import run as run_bootstrap
-from frame_gallery.isolation.channel import ChannelError
+from frame_gallery.isolation.channel import ChannelError, encode_message
 from frame_gallery.isolation.executor import JsonObject
 from frame_gallery.isolation.framing import read_frame, write_frame
 from frame_gallery.isolation.launch import ExitCode, MessageType, WorkerConfig
@@ -98,13 +102,24 @@ def _payload(message: JsonObject | None) -> JsonObject:
     return message["payload"]
 
 
+class _EventOverCap(Exception):
+    """An event over the message cap: the task ends as a protocol failure."""
+
+
 def _run(config: WorkerConfig, payload: JsonObject, send: _Sender) -> int:
     def emit(event: JsonObject) -> None:
+        try:
+            encode_message(event)
+        except ChannelError:
+            raise _EventOverCap from None
         send({"type": MessageType.EVENT.value, "event": event})
 
     try:
         function = getattr(importlib.import_module(config.module), config.function)
         result = function(payload, emit) if config.events else function(payload)
+    except _EventOverCap:
+        send.attempt(_failure("protocol", "event"))
+        return ExitCode.CHANNEL
     except MemoryError:
         send.attempt(_failure("memory", "MemoryError"))
         return ExitCode.MEMORY
@@ -112,6 +127,7 @@ def _run(config: WorkerConfig, payload: JsonObject, send: _Sender) -> int:
         send.attempt(_failure("crash", type(exc).__name__))
         return ExitCode.CRASH
     try:
+        encode_message(result)
         send({"type": MessageType.RESULT.value, "result": result, "usage": usage(config.platform)})
     except ChannelError:
         send.attempt(_failure("protocol", "result"))

@@ -1,11 +1,14 @@
 """The process executor (§4.3, §11.3, D-109, D-139, D-141, D-163).
 
-Each task runs in a new worker process: ``python -I -B -c BOOT``, in its own
-process group, with a fixed environment, ``/`` as its working directory, and
-only four descriptors: the request pipe, the result pipe, a lifeline pipe
-(its end in the parent closes when the parent dies), and stderr, a pipe whose
-last 4 KiB the parent keeps. The worker's configuration is on its command
-line; it holds no secret.
+Each task runs in a new worker process: ``python -I -S -B -c BOOT``, in its
+own process group, with a fixed environment and ``/`` as its working
+directory. ``-S`` keeps ``site`` out: no ``.pth`` file or ``sitecustomize``
+runs before the bootstrap; the parent's site-packages directories are put
+at the end of the worker's path instead. The worker has six descriptors:
+stdin and stdout on ``/dev/null``, stderr (a pipe whose last 4 KiB the
+parent keeps), and the request, result, and lifeline pipes (the parent's
+end of the lifeline closes when the parent dies). The worker's
+configuration is on its command line; it holds no secret.
 
 The conversation (frames of :mod:`frame_gallery.isolation.framing`):
 
@@ -19,18 +22,27 @@ The conversation (frames of :mod:`frame_gallery.isolation.framing`):
    sanitized, and bounded (excess ones are dropped, never fatal).
 4. ``result``, or ``failure`` (``crash``, ``memory``, or ``protocol``).
 
+Each message body (request, event, result) is held to the 64 KiB cap of the
+in-process executor; a frame may be 1 KiB larger for its envelope.
+
 The kill timer is the task's timeout. ``should_stop`` is polled at least
 every 50 ms. On either, the worker's group and the worker itself get
 ``SIGKILL``; then the pipe is read to its end (bounded by 1 s and 1 MiB, not
-by a message count), every complete event is still relayed, and the run
-fails with ``timeout`` or ``stopped``. After every worker, on every path,
-its group and the worker are killed, the worker is reaped, and the
-descriptors are closed: :meth:`run` returns or raises only once the worker
-is dead. :meth:`terminate_all` kills the active worker from any thread.
+by a message count), and every complete event found before anything else
+(a result, another message, or a malformed frame) is still relayed; the run
+fails with ``timeout`` or ``stopped`` even if the sink refuses one of them.
+After every worker, on every path, its group and the worker get ``SIGKILL``
+and the worker is reaped, waiting at most 2 s: a worker that has not ended
+by then (for example one in uninterruptible I/O) is logged as an error and
+left unreaped, as the active worker. The descriptors are closed either way.
+:meth:`run` returns or raises only then, so nothing the worker writes can
+reach the caller afterwards. :meth:`terminate_all` kills the active worker
+from any thread.
 """
 
 from __future__ import annotations
 
+import contextlib
 import logging
 import os
 import re
@@ -38,15 +50,16 @@ import select
 import signal
 import subprocess
 import sys
+import sysconfig
 import threading
-from collections.abc import Callable, Mapping
+from collections.abc import Callable, Iterable, Mapping
 from dataclasses import dataclass, field
 from pathlib import Path
 from typing import Any, Final
 
 import frame_gallery
 from frame_gallery.budget.clock import Clock
-from frame_gallery.isolation.channel import ChannelError
+from frame_gallery.isolation.channel import ChannelError, encode_message
 from frame_gallery.isolation.executor import (
     EventSink,
     IsolationFailure,
@@ -72,10 +85,12 @@ from frame_gallery.isolation.launch import (
 from frame_gallery.logs.summary import sanitize_for_log
 
 BOOT: Final = (
-    "import sys;sys.path[:0]=sys.argv[2:];"
+    'import sys;a=sys.argv[2:];i=a.index("--");sys.path[:0]=a[:i];sys.path+=a[i+1:];'
     "from frame_gallery.isolation.worker_main import main;main(sys.argv[1])"
 )
-"""The whole program the interpreter is given: no decision is made here."""
+"""The whole program the interpreter is given: the paths before ``--`` go in
+front of ``sys.path`` (the source root, and test paths), the ones after it at
+the end (site-packages). No decision is made here."""
 
 POLL_S: Final = 0.05
 DRAIN_S: Final = 1.0
@@ -102,6 +117,16 @@ def _source_root() -> str:
     return str(Path(frame_gallery.__file__).resolve().parent.parent)
 
 
+def _site_paths() -> tuple[str, ...]:
+    """This interpreter's site-packages directories, in order, once each."""
+    found: list[str] = []
+    for name in ("purelib", "platlib"):
+        path = sysconfig.get_path(name)
+        if path not in found:
+            found.append(path)
+    return tuple(found)
+
+
 @dataclass(frozen=True, slots=True)
 class Launch:
     """How workers are started. Production uses :meth:`production`; the
@@ -114,6 +139,9 @@ class Launch:
     identity: tuple[int, int] | None
     require_pdeathsig: bool
     platform: str
+    site_paths: tuple[str, ...] = ()
+    """Appended to the worker's path: the worker starts without ``site``."""
+
     skip_limits: frozenset[Limit] = field(default=frozenset())
     extra_paths: tuple[str, ...] = ()
     extra_environment: Mapping[str, str] = field(default_factory=dict)
@@ -134,6 +162,7 @@ class Launch:
             identity=(WORKER_ID, WORKER_ID) if os.geteuid() == 0 else None,
             require_pdeathsig=is_linux,
             platform=sys.platform,
+            site_paths=_site_paths(),
             skip_limits=frozenset() if is_linux else frozenset({Limit.ADDRESS_SPACE}),
         )
 
@@ -154,6 +183,9 @@ class _Worker:
     request: int | None
     lifeline: int
     reaped: bool = False
+    gave_up: bool = False
+    """The reap waited its 2 s in vain; the worker stays the active one."""
+
     stderr_tail: bytearray = field(default_factory=bytearray)
     stderr_cut: bool = False
 
@@ -181,6 +213,22 @@ def _never() -> bool:
     return False
 
 
+def _close(fds: Iterable[int]) -> None:
+    for fd in fds:
+        with contextlib.suppress(OSError):
+            os.close(fd)
+
+
+def _within_cap(message: JsonObject) -> bool:
+    """Whether a request, event, or result body fits the 64 KiB message cap
+    of the in-process executor, so both executors accept the same sizes."""
+    try:
+        encode_message(message)
+    except ChannelError:
+        return False
+    return True
+
+
 def _signal(worker: _Worker) -> None:
     """``SIGKILL`` to the worker's process group, then to the worker itself:
     it may have left its group (§14)."""
@@ -201,10 +249,15 @@ class ProcessExecutor:
         *,
         popen: Callable[..., subprocess.Popen[bytes]] = subprocess.Popen,
         log_level: Callable[[], int] | None = None,
+        shield: Callable[[], contextlib.AbstractContextManager[object]] = contextlib.nullcontext,
     ) -> None:
+        """``shield`` wraps the start of each worker; the entry point passes
+        one that defers stop requests, so a SIGTERM can never land between
+        the fork and the worker's record (Phase 6)."""
         self._launch = launch
         self._clock = clock
         self._popen = popen
+        self._shield = shield
         self._log_level = log_level or (
             lambda: logging.getLogger("frame_gallery").getEffectiveLevel()
         )
@@ -233,6 +286,7 @@ class ProcessExecutor:
         if entry is None:
             raise WorkerError(WorkerErrorKind.UNKNOWN_TASK, sanitize_for_log(task, max_length=40))
         try:
+            encode_message(payload)
             request = encode_frame({"type": MessageType.REQUEST.value, "payload": payload})
         except ChannelError as error:
             raise WorkerError(WorkerErrorKind.PROTOCOL, f"request: {error}") from None
@@ -240,47 +294,63 @@ class ProcessExecutor:
         if stop():
             raise WorkerError(WorkerErrorKind.STOPPED)
         deadline = self._clock.monotonic() + timeout
-        worker = self._spawn(task, entry)
+        worker: _Worker | None = None
         try:
+            with self._shield():
+                worker = self._spawn(task, entry)
             return self._converse(worker, request, deadline, on_event, stop)
         finally:
-            self._end(worker)
+            if worker is not None:
+                self._end(worker)
 
     # --------------------------------------------------------------- spawn
 
     def _spawn(self, task: str, entry: TaskEntry) -> _Worker:
+        """Start the worker and record it as the active one. Every descriptor
+        is closed on every failure, and a worker that was started is killed
+        and reaped, whatever is raised (a stop request included)."""
         launch = self._launch
-        request_r, request_w = os.pipe()
-        results_r, results_w = os.pipe()
-        stderr_r, stderr_w = os.pipe()
-        lifeline_r, lifeline_w = os.pipe()
-        config = WorkerConfig(
-            task=task,
-            module=entry.module,
-            function=entry.function,
-            events=entry.events,
-            parent_pid=os.getpid(),
-            identity=launch.identity,
-            require_pdeathsig=launch.require_pdeathsig,
-            umask=WORKER_UMASK,
-            limits=ordered_limits(entry.limits, skip=launch.skip_limits),
-            environment=WORKER_ENVIRONMENT,
-            platform=launch.platform,
-            fds=Channels(request_r, results_w, lifeline_r),
-            log_level=self._log_level(),
-            extra_paths=launch.extra_paths,
-        )
-        argv = [
-            launch.python,
-            "-I",
-            "-B",
-            "-c",
-            BOOT,
-            config.to_json(),
-            launch.source_root,
-            *launch.extra_paths,
-        ]
+        fds: list[int] = []
+
+        def pipe() -> tuple[int, int]:
+            read, write = os.pipe()
+            fds.extend((read, write))
+            return read, write
+
         try:
+            request_r, request_w = pipe()
+            results_r, results_w = pipe()
+            stderr_r, stderr_w = pipe()
+            lifeline_r, lifeline_w = pipe()
+            config = WorkerConfig(
+                task=task,
+                module=entry.module,
+                function=entry.function,
+                events=entry.events,
+                parent_pid=os.getpid(),
+                identity=launch.identity,
+                require_pdeathsig=launch.require_pdeathsig,
+                umask=WORKER_UMASK,
+                limits=ordered_limits(entry.limits, skip=launch.skip_limits),
+                environment=WORKER_ENVIRONMENT,
+                platform=launch.platform,
+                fds=Channels(request_r, results_w, lifeline_r),
+                log_level=self._log_level(),
+                extra_paths=launch.extra_paths,
+            )
+            argv = [
+                launch.python,
+                "-I",
+                "-S",
+                "-B",
+                "-c",
+                BOOT,
+                config.to_json(),
+                launch.source_root,
+                *launch.extra_paths,
+                "--",
+                *launch.site_paths,
+            ]
             process = self._popen(
                 argv,
                 pass_fds=(request_r, results_w, lifeline_r),
@@ -292,19 +362,27 @@ class ProcessExecutor:
                 close_fds=True,
                 process_group=0,
             )
-        except (OSError, subprocess.SubprocessError) as exc:
-            for fd in (request_w, results_r, stderr_r, lifeline_w):
-                os.close(fd)
-            msg = f"the worker could not be started ({type(exc).__name__})"
-            raise IsolationFailure(msg) from None
-        finally:
-            for fd in (request_r, results_w, stderr_w, lifeline_r):
-                os.close(fd)
-        for fd in (request_w, results_r, stderr_r):
-            os.set_blocking(fd, False)
+        except BaseException as exc:
+            # Closing our ends of the request and lifeline pipes also ends a
+            # worker that was forked before Popen raised (its reads return).
+            _close(fds)
+            if isinstance(exc, OSError | subprocess.SubprocessError):
+                msg = f"the worker could not be started ({type(exc).__name__})"
+                raise IsolationFailure(msg) from None
+            raise
         worker = _Worker(task, entry, config, process, results_r, stderr_r, request_w, lifeline_w)
-        with self._lock:
-            self._active = worker
+        child_ends = [request_r, results_w, stderr_w, lifeline_r]
+        try:
+            with self._lock:
+                self._active = worker
+            while child_ends:
+                os.close(child_ends.pop())
+            for fd in (request_w, results_r, stderr_r):
+                os.set_blocking(fd, False)
+        except BaseException:
+            _close(child_ends)
+            self._end(worker)
+            raise
         return worker
 
     # ------------------------------------------------------- conversation
@@ -357,14 +435,12 @@ class ProcessExecutor:
         chunk = os.read(worker.results, READ_BYTES)
         if not chunk:
             raise self._ended(worker, state)
-        try:
-            messages = frames.feed(chunk)
-        except ChannelError as error:
-            raise _Abort(self._violation(state, f"channel: {error}")) from None
-        for message in messages:
+        for message in frames.feed(chunk):
             done = self._handle(worker, state, message, request, on_event)
             if done is not None:
                 return done
+        if frames.error is not None:
+            raise _Abort(self._violation(state, f"channel: {frames.error}"))
         return None
 
     def _violation(self, state: _Conversation, detail: str) -> Exception:
@@ -395,6 +471,8 @@ class ProcessExecutor:
             event = message["event"]
             if not worker.entry.events or not isinstance(event, dict) or on_event is None:
                 raise _Abort(WorkerError(WorkerErrorKind.PROTOCOL, "unexpected event"))
+            if not _within_cap(event):
+                raise _Abort(WorkerError(WorkerErrorKind.PROTOCOL, "event: over the message cap"))
             try:
                 on_event(event)
             except ValueError as error:
@@ -432,6 +510,8 @@ class ProcessExecutor:
         result, usage = message.get("result"), message.get("usage")
         if set(message) != {"type", "result", "usage"} or not isinstance(result, dict):
             raise _Abort(WorkerError(WorkerErrorKind.PROTOCOL, "result: not a JSON object"))
+        if not _within_cap(result):
+            raise _Abort(WorkerError(WorkerErrorKind.PROTOCOL, "result: over the message cap"))
         self.last_usage = usage if isinstance(usage, dict) else None
         return result
 
@@ -516,14 +596,17 @@ class ProcessExecutor:
 
     def _drain(self, worker: _Worker, frames: FrameBuffer, on_event: EventSink | None) -> None:
         """After a kill: read the result pipe to its end (bounded by time and
-        bytes) and relay every complete event it still held."""
+        bytes) and relay the complete events it still held, up to the first
+        thing that is not an event the main loop would relay (a result,
+        another message, or a malformed frame). A refused event ends the
+        relay; the run keeps its ``timeout`` or ``stopped``."""
         messages: list[JsonObject] = []
         end = self._clock.monotonic() + DRAIN_S
         total = 0
         os.set_blocking(worker.results, True)
         poller = select.poll()
         poller.register(worker.results, select.POLLIN)
-        while total < DRAIN_BYTES:
+        while total < DRAIN_BYTES and frames.error is None:
             left = end - self._clock.monotonic()
             if left <= 0 or not poller.poll(left * 1000):
                 break
@@ -531,16 +614,21 @@ class ProcessExecutor:
             if not chunk:
                 break
             total += len(chunk)
-            try:
-                messages += frames.feed(chunk)
-            except ChannelError:
-                break
+            messages += frames.feed(chunk)
         if not worker.entry.events or on_event is None:
             return
         for message in messages:
-            event = message.get("event")
-            if message.get("type") != MessageType.EVENT.value or not isinstance(event, dict):
+            kind = message.get("type")
+            if kind in (MessageType.LOG.value, MessageType.FAILURE.value):
                 continue
+            event = message.get("event")
+            if (
+                kind != MessageType.EVENT.value
+                or set(message) != {"type", "event"}
+                or not isinstance(event, dict)
+                or not _within_cap(event)
+            ):
+                return
             try:
                 on_event(event)
             except ValueError:
@@ -559,6 +647,7 @@ class ProcessExecutor:
             try:
                 code = worker.process.wait(timeout=REAP_S)
             except subprocess.TimeoutExpired:
+                worker.gave_up = True
                 _log.error("worker %s did not end after SIGKILL", worker.process.pid)
                 return None
             worker.reaped = True
@@ -567,24 +656,34 @@ class ProcessExecutor:
         return code
 
     def _end(self, worker: _Worker) -> None:
-        if not worker.reaped:
-            self._reap(worker)
-        for fd in (worker.results, worker.request, worker.lifeline):
-            if fd is not None:
-                os.close(fd)
-        worker.request = None
-        while self._take_stderr(worker) > 0:
-            continue  # only what is there now: another holder cannot stall the end
-        os.close(worker.stderr)
-        self._log_stderr(worker)
+        """Kill, reap, and close, whatever is raised meanwhile."""
+        try:
+            if not worker.reaped and not worker.gave_up:
+                self._reap(worker)
+        finally:
+            # A stop request raises once: a reap it interrupted runs again.
+            if not worker.reaped and not worker.gave_up:
+                self._reap(worker)
+            _close(fd for fd in (worker.results, worker.request, worker.lifeline) if fd is not None)
+            worker.request = None
+            while self._take_stderr(worker) > 0:
+                continue  # only what is there now: another holder cannot stall the end
+            _close((worker.stderr,))
+            self._log_stderr(worker)
 
     def _log_stderr(self, worker: _Worker) -> None:
-        """The tail of the worker's stderr, at DEBUG only (§18.1)."""
+        """The tail of the worker's stderr, at DEBUG only (§18.1). A line cut
+        by the 4 KiB bound is dropped when others follow; if it is the only
+        one, it is shown from its first whole word (a cut may split a secret,
+        which holds no whitespace), marked as cut."""
         if not worker.stderr_tail:
             return
         lines = bytes(worker.stderr_tail).decode("utf-8", errors="replace").splitlines()
-        if worker.stderr_cut:
+        if worker.stderr_cut and len(lines) > 1:
             lines = lines[1:]
+        elif worker.stderr_cut and lines:
+            rest = re.split(r"\s", lines[0], maxsplit=1)
+            lines = ["…" + (rest[1] if len(rest) > 1 else f" ({len(lines[0])} characters)")]
         logger = logging.getLogger(f"frame_gallery.worker.{worker.task}")
         for line in lines[-STDERR_LINES:]:
             logger.debug("stderr| %s", sanitize_for_log(line, max_length=300))

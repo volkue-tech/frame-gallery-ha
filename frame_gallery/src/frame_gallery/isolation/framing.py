@@ -76,27 +76,39 @@ class FrameBuffer:
 
     A frame's length is checked as soon as its header is complete, so at most
     one frame of :data:`MAX_FRAME_BYTES`, plus the chunk being fed, is held.
+    A malformed or oversize frame sets :attr:`error`; the messages decoded
+    before it in the same chunk are still returned, and nothing after it is.
     """
 
     def __init__(self) -> None:
         self._data = bytearray()
+        self.error: ChannelError | None = None
 
     def feed(self, chunk: bytes) -> list[JsonObject]:
-        """Add ``chunk``; return the messages it completes, in order.
-        Raises :class:`ChannelError` for an oversize or invalid frame."""
+        """Add ``chunk``; return the messages it completes, in order, up to
+        the first bad frame (then :attr:`error` is set, and later chunks are
+        ignored)."""
+        if self.error is not None:
+            return []
         self._data += chunk
         messages: list[JsonObject] = []
         while len(self._data) >= _HEADER.size:
             (length,) = _HEADER.unpack_from(self._data)
             if length > MAX_FRAME_BYTES:
-                msg = f"frame of {length} bytes exceeds {MAX_FRAME_BYTES}"
-                raise ChannelError(msg)
+                self.error = ChannelError(f"frame of {length} bytes exceeds {MAX_FRAME_BYTES}")
+                break
             end = _HEADER.size + length
             if len(self._data) < end:
                 break
             body = bytes(self._data[_HEADER.size : end])
             del self._data[:end]
-            messages.append(decode_message(body, max_bytes=MAX_FRAME_BYTES))
+            try:
+                messages.append(decode_message(body, max_bytes=MAX_FRAME_BYTES))
+            except ChannelError as error:
+                self.error = error
+                break
+        if self.error is not None:
+            self._data.clear()
         return messages
 
     @property

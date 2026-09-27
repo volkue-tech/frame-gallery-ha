@@ -71,16 +71,26 @@ def config(**changes: Any) -> WorkerConfig:
 
 
 class FakeControls:
-    def __init__(self) -> None:
+    def __init__(self, calls: list[str] | None = None) -> None:
         self.values = {"dumpable": 1, "no_new_privs": 0, "pdeathsig": 0}
         self.fail: str | None = None
         self.ignore: str | None = None
+        self.calls = calls if calls is not None else []
 
     def _set(self, name: str, value: int) -> None:
+        self.calls.append(f"prctl:{name}")
         if self.fail == name:
             raise OSError(errno.EPERM, "not permitted")
         if self.ignore != name:
             self.values[name] = value
+
+    def credentials_changed(self) -> None:
+        """What Linux's commit_creds does when an effective ID changes: the
+        parent-death signal is cleared and dumpability becomes
+        fs.suid_dumpable, here 2, the case the explicit PR_SET_DUMPABLE 0
+        guards against."""
+        self.values["pdeathsig"] = 0
+        self.values["dumpable"] = 2
 
     def set_dumpable(self, value: int) -> None:
         self._set("dumpable", value)
@@ -113,7 +123,7 @@ class FakeOs:
         self.mask = 0o022
         self.limits: dict[Limit, tuple[int, int]] = {}
         self.env: dict[str, str] = dict(WORKER_ENVIRONMENT)
-        self.prctl: FakeControls | None = FakeControls()
+        self.prctl: FakeControls | None = FakeControls(self.calls)
         self.status = LINUX_STATUS
         self.fail: str | None = None
         self.sticky_ids = False
@@ -135,11 +145,15 @@ class FakeOs:
         self._check("setresgid")
         if not self.sticky_ids:
             self.gid = (gid, gid, gid)
+            if self.prctl is not None:
+                self.prctl.credentials_changed()
 
     def setresuid(self, uid: int) -> None:
         self._check("setresuid")
         if not self.sticky_ids:
             self.uid = (uid, uid, uid)
+            if self.prctl is not None:
+                self.prctl.credentials_changed()
 
     def getresuid(self) -> tuple[int, int, int]:
         return self.uid
@@ -219,11 +233,15 @@ def refusal(ops: FakeOs, **changes: Any) -> str:
 
 
 def test_root_on_linux_passes_every_step_in_order() -> None:
+    """The prctl values come after the drop: a change of credentials clears
+    the parent-death signal (as Linux does), so an earlier setting would not
+    hold (§11.3 step 2)."""
     ops = FakeOs()
     report, _ = run(ops)
     assert ops.calls[:3] == ["setgroups", "setresgid", "setresuid"]
-    assert ops.calls[3:6] == ["lifeline", "umask:27", "umask:27"]
-    assert ops.calls[6:] == [f"setrlimit:{limit.value}" for limit, _ in config().limits]
+    assert ops.calls[3:6] == ["prctl:dumpable", "prctl:no_new_privs", "prctl:pdeathsig"]
+    assert ops.calls[6:9] == ["lifeline", "umask:27", "umask:27"]
+    assert ops.calls[9:] == [f"setrlimit:{limit.value}" for limit, _ in config().limits]
     assert ops.calls[-1] == "setrlimit:RLIMIT_NPROC"
     assert ops.prctl is not None
     assert ops.prctl.values == {"dumpable": 0, "no_new_privs": 1, "pdeathsig": signal.SIGKILL}
@@ -523,10 +541,15 @@ class TestRealOs:
             os.close(read)
         assert codes == [ExitCode.PARENT_GONE]
 
-    def test_controls_without_prctl(self) -> None:
-        """macOS has no prctl: the controls are missing, and Linux refuses that."""
-        if hasattr(__import__("ctypes").CDLL(None), "prctl"):
-            pytest.skip("this libc has prctl")
+    def test_controls_without_prctl(self, monkeypatch: pytest.MonkeyPatch) -> None:
+        """A libc without prctl (macOS): the controls are missing, and Linux
+        refuses that. Independent of this host's libc."""
+        import ctypes  # noqa: PLC0415
+
+        class Library:
+            pass
+
+        monkeypatch.setattr(ctypes, "CDLL", lambda name, use_errno: Library())
         assert RealOs().controls() is None
 
 

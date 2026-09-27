@@ -3,6 +3,7 @@ of synthesized images."""
 
 from __future__ import annotations
 
+import errno
 import hashlib
 import logging
 import os
@@ -559,6 +560,30 @@ class TestFetch:
         assert copy.declared_format is ImageFormat.JPEG
         assert target.read_bytes() == path.read_bytes()
         assert stat.S_IMODE(target.stat().st_mode) == 0o640  # readable by the worker (D-164)
+
+    def test_the_copy_is_0640_whatever_the_umask(self, library: Library, tmp_path: Path) -> None:
+        provider, candidate, _path = self._offered(library)
+        target = tmp_path / "source-0.bin"
+        previous = os.umask(0o077)
+        try:
+            provider.fetch(provider.full_ref(candidate), target, library.context().deadline)
+        finally:
+            os.umask(previous)
+        assert stat.S_IMODE(target.stat().st_mode) == 0o640  # D-164
+
+    def test_a_copy_whose_mode_cannot_be_set_is_removed(
+        self, library: Library, tmp_path: Path, monkeypatch: pytest.MonkeyPatch
+    ) -> None:
+        provider, candidate, _path = self._offered(library)
+
+        def refuse(_fd: int, _mode: int) -> None:
+            raise PermissionError(errno.EPERM, "not permitted")
+
+        monkeypatch.setattr(os, "fchmod", refuse)
+        target = tmp_path / "source-0.bin"
+        with pytest.raises(PermissionError):
+            provider.fetch(provider.full_ref(candidate), target, library.context().deadline)
+        assert not target.exists()
 
     def test_large_files_are_copied_in_chunks(self, library: Library, tmp_path: Path) -> None:
         data = b"\x89PNG" + os.urandom(3 * 1024 * 1024)

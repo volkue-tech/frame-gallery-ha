@@ -99,12 +99,26 @@ class TestFrameBuffer:
         assert frames.pending == 0
 
     def test_an_oversize_length_is_refused_before_the_body(self) -> None:
-        with pytest.raises(ChannelError, match="exceeds"):
-            FrameBuffer().feed(header(MAX_FRAME_BYTES + 1))
+        frames = FrameBuffer()
+        assert frames.feed(header(MAX_FRAME_BYTES + 1)) == []
+        assert frames.error is not None
+        assert "exceeds" in str(frames.error)
+        assert frames.pending == 0
 
     def test_an_invalid_body_is_refused(self) -> None:
-        with pytest.raises(ChannelError, match="not valid JSON"):
-            FrameBuffer().feed(header(2) + b"{]")
+        frames = FrameBuffer()
+        assert frames.feed(header(2) + b"{]") == []
+        assert "not valid JSON" in str(frames.error)
+
+    def test_messages_before_a_bad_frame_are_kept(self) -> None:
+        """Whatever the chunking, a message complete before a bad frame is
+        handed back (D-163)."""
+        frames = FrameBuffer()
+        data = encode_frame({"a": 1}) + header(3) + b"{x}" + encode_frame({"b": 2})
+        assert frames.feed(data) == [{"a": 1}]
+        assert frames.error is not None
+        assert frames.feed(encode_frame({"c": 3})) == []  # nothing after a bad frame
+        assert frames.pending == 0
 
     def test_the_largest_frame_is_accepted(self) -> None:
         body = b'{"x":"' + b"y" * (MAX_FRAME_BYTES - 8) + b'"}'

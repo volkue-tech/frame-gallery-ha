@@ -11,11 +11,16 @@ the message :data:`H2_MESSAGE`:
   ``getnameinfo``;
 * the same five resolver functions of the C module ``_socket``.
 
-The test session installs it in ``pytest_configure`` (``tests/conftest.py``);
-every task a test runs in a worker process installs it first
-(``tests/support/worker_tasks.py``), so no process a test starts can reach
-the network. Socket creation, ``socketpair``, pipes and subprocesses are
-unaffected. It needs nothing but the standard library.
+The test session installs it in ``pytest_configure`` (``tests/conftest.py``).
+Every task in ``tests/support/worker_tasks.py`` installs it first in its
+worker, and so do the child processes that run the runner or an executor
+(the E9 children and the orphan test's parent). Not guarded: the root-only
+workers, which load no test code by design and run only production tasks
+that open no socket (``tests/unit/isolation/test_root_isolation.py``), and
+helper interpreters that run only the standard library or fakes (scripted
+workers, sleeping children, and the import checks, which must not load
+``socket`` at all). Socket creation, ``socketpair``, pipes and subprocesses
+are unaffected. It needs nothing but the standard library.
 """
 
 from __future__ import annotations

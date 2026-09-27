@@ -247,3 +247,21 @@ def test_a_refusal_that_cannot_be_sent_still_refuses(worker: Worker) -> None:
     ops.ppid = 1
     os.close(worker.results_r)
     assert worker.run(worker.config(), ops) == ExitCode.REFUSED
+
+
+def test_an_event_over_the_message_cap_is_a_protocol_failure(worker: Worker) -> None:
+    def task(_payload: JsonObject, emit: EventSink) -> JsonObject:
+        emit({"x": "y" * 65_530})
+        return {}
+
+    worker.module.task = task  # type: ignore[attr-defined]
+    worker.request({})
+    assert worker.run(worker.config(events=True)) == ExitCode.CHANNEL
+    assert worker.messages()[-1] == {"type": "failure", "kind": "protocol", "detail": "event"}
+
+
+def test_a_result_over_the_message_cap_is_a_protocol_failure(worker: Worker) -> None:
+    worker.module.task = lambda _payload: {"x": "y" * 65_530}  # type: ignore[attr-defined]
+    worker.request({})
+    assert worker.run(worker.config()) == ExitCode.CHANNEL
+    assert worker.messages()[-1] == {"type": "failure", "kind": "protocol", "detail": "result"}

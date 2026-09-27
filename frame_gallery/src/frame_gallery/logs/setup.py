@@ -1,4 +1,8 @@
-"""Logging configuration for the parent and, from Phase 5, the workers (§19).
+"""Logging configuration for the parent (§19).
+
+Workers install their own handler, ``isolation.bootstrap.install_logging``,
+which sends redacted records to the parent over the channel; the parent
+re-emits them under ``frame_gallery.worker.<task>`` (D-163).
 
 One handler on the root logger writes UTC ISO-8601 lines. Its formatter
 redacts the complete formatted text, including exception text and stack

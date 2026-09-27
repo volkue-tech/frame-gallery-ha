@@ -3,9 +3,10 @@
 H2 (acceptance item; ARCHITECTURE.md §20.1): outbound networking is disabled
 for the whole pytest session, collection included. ``pytest_configure``
 installs the guard of ``tests/support/h2.py`` and ``pytest_unconfigure``
-restores the originals. Tasks that tests run in worker processes install the
-same guard there (``tests/support/worker_tasks.py``). The source may not
-import ``_socket`` at all (tests/unit/test_architecture_boundaries.py).
+restores the originals. The test tasks run in worker processes install the
+same guard there; ``tests/support/h2.py`` says which processes are guarded.
+The source may not import ``_socket`` at all
+(tests/unit/test_architecture_boundaries.py).
 
 Every test also restores Pillow's process-global ``Image.MAX_IMAGE_PIXELS``,
 which ``prepare_image`` sets (worker_tasks.py), to the value it started with.

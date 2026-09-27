@@ -31,6 +31,10 @@ CHILD = textwrap.dedent(
     import sys
     from pathlib import Path
 
+    from tests.support import h2
+
+    h2.install()
+
     from frame_gallery.store.atomic import Directory
     from frame_gallery.tv.port import Marker
     from tests.support.persistent import PersistentRig, kill_self

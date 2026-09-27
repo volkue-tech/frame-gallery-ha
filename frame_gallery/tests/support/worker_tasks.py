@@ -1,10 +1,10 @@
 """Tasks that tests run in real worker processes (the process executor).
 
-Every task installs the H2 network guard first (``tests/support/h2.py``), so
-a worker started by a test cannot reach the network even when it runs a
-production task with the real libraries. The worker reaches this module
-through the test launch's extra path (the project root); a worker that drops
-privileges refuses such a path (D-163).
+Every task here installs the H2 network guard first (``tests/support/h2.py``),
+so such a worker cannot reach the network even when it runs a production task
+with the real libraries. The worker reaches this module through the test
+launch's extra path (the project root); a worker that drops privileges
+refuses such a path (D-163), so these tasks need a non-root parent.
 """
 
 from __future__ import annotations
@@ -114,8 +114,10 @@ def logs(payload: JsonObject) -> JsonObject:
 
 
 @guarded
-def raw(payload: JsonObject) -> JsonObject:
-    """Writes ``payload["hex"]`` to the result pipe as it is, then sleeps."""
+def raw(payload: JsonObject, emit: EventSink | None = None) -> JsonObject:
+    """Writes ``payload["hex"]`` to the result pipe as it is, then sleeps;
+    registered both with and without an event sink."""
+    del emit
     data = payload.get("hex", "")
     assert isinstance(data, str)
     os.write(worker_main.result_fd(), bytes.fromhex(data))
@@ -187,10 +189,42 @@ def report(payload: JsonObject) -> JsonObject:
             "dont_write_bytecode": sys.flags.dont_write_bytecode,
         },
         "modules": sorted(
-            name for name in ("PIL", "samsungtvws", "requests") if name in sys.modules
+            {name.split(".")[0] for name in sys.modules}
+            - set(sys.stdlib_module_names)
+            - {"__main__"}
         ),
+        "pid": os.getpid(),
+        "pgrp": os.getpgrp(),
+        "sid": os.getsid(0),
+        "linux": _linux_controls(),
     }
     return observed
+
+
+def _linux_controls() -> dict[str, object] | None:
+    """On Linux, the parent-death signal, no-new-privileges, dumpability and
+    capability sets, read here and not through the bootstrap's own code."""
+    linux = sys.platform.startswith("linux")  # not a mypy platform check: both are typed
+    if not linux:
+        return None
+    import ctypes  # noqa: PLC0415
+
+    prctl = ctypes.CDLL(None, use_errno=True).prctl
+    signal_number = ctypes.c_int(0)
+    prctl(2, ctypes.byref(signal_number), 0, 0, 0)  # PR_GET_PDEATHSIG
+    status = dict(
+        line.split(":", 1)
+        for line in Path("/proc/self/status").read_text().splitlines()
+        if ":" in line
+    )
+    return {
+        "pdeathsig": signal_number.value,
+        "dumpable": prctl(3, 0, 0, 0, 0),  # PR_GET_DUMPABLE
+        "no_new_privs": prctl(39, 0, 0, 0, 0),  # PR_GET_NO_NEW_PRIVS
+        "capabilities": {
+            name: int(status[name].strip(), 16) for name in ("CapInh", "CapPrm", "CapEff", "CapAmb")
+        },
+    }
 
 
 def _open_fds() -> list[int]:
@@ -297,3 +331,73 @@ def close_stderr(payload: JsonObject) -> JsonObject:
     os.close(2)
     time.sleep(0.3)
     return {"closed": True}
+
+
+@guarded
+def fork_and_sleep(payload: JsonObject, emit: EventSink) -> JsonObject:
+    """Forks a child that stays in the worker's process group and sleeps;
+    writes its pid to ``payload["pid_file"]``, sends one event, and sleeps."""
+    pid = os.fork()
+    if pid == 0:
+        time.sleep(60)
+        os._exit(0)
+    Path(str(payload["pid_file"])).write_text(str(pid))
+    emit({"child": pid})
+    time.sleep(60)
+    return {}
+
+
+@guarded
+def tick(payload: JsonObject, emit: EventSink) -> JsonObject:
+    """Sends ``{"t": time.monotonic()}`` every 10 ms (the clock every process
+    on the host shares), for up to ``payload["seconds"]``."""
+    seconds = payload.get("seconds", 30)
+    assert isinstance(seconds, int | float)
+    end = time.monotonic() + seconds
+    while time.monotonic() < end:
+        emit({"t": time.monotonic()})
+        time.sleep(0.01)
+    return {}
+
+
+@guarded
+def big_event(payload: JsonObject, emit: EventSink) -> JsonObject:
+    """Sends one event of ``payload["size"]`` characters."""
+    size = payload["size"]
+    assert isinstance(size, int)
+    emit({"x": "y" * size})
+    return {}
+
+
+@guarded
+def big_result(payload: JsonObject) -> JsonObject:
+    size = payload["size"]
+    assert isinstance(size, int)
+    return {"x": "y" * size}
+
+
+@guarded
+def stderr_line(payload: JsonObject) -> JsonObject:
+    """Writes ``payload["text"]`` to stderr, as it is."""
+    sys.stderr.write(str(payload["text"]))
+    sys.stderr.flush()
+    return {}
+
+
+@guarded
+def big_frame(payload: JsonObject, emit: EventSink | None = None) -> JsonObject:
+    """Writes one valid frame whose body (an event or a result) holds
+    ``payload["size"]`` characters: built here, so the request stays small."""
+    del emit
+    size = payload["size"]
+    assert isinstance(size, int)
+    body = {"x": "y" * size}
+    message = (
+        {"type": "event", "event": body}
+        if payload["kind"] == "event"
+        else {"type": "result", "result": body, "usage": {}}
+    )
+    data = json.dumps(message).encode()
+    os.write(worker_main.result_fd(), struct.pack("!I", len(data)) + data)
+    time.sleep(60)
+    return {}

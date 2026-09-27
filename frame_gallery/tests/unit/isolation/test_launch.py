@@ -163,6 +163,7 @@ def test_the_production_tables() -> None:
 class TestProductionLaunch:
     def test_as_root_on_linux_everything_is_enforced(self, monkeypatch: pytest.MonkeyPatch) -> None:
         monkeypatch.setattr(os, "geteuid", lambda: 0)
+        monkeypatch.setattr(process, "_site_paths", lambda: ("/site",))
         monkeypatch.setattr(sys, "platform", "linux")
         launch = Launch.production()
         assert launch.identity == (WORKER_ID, WORKER_ID)
@@ -171,6 +172,7 @@ class TestProductionLaunch:
         assert launch.enforced
         assert launch.tasks is PRODUCTION_TASKS
         assert (launch.extra_paths, dict(launch.extra_environment)) == ((), {})
+        assert launch.site_paths == ("/site",)
         assert launch.python == sys.executable
         assert launch.source_root == str(process._source_root())
 
@@ -190,6 +192,22 @@ class TestProductionLaunch:
 def test_boot_decides_nothing() -> None:
     """BOOT only extends the path and hands over (D-163)."""
     assert BOOT == (
-        "import sys;sys.path[:0]=sys.argv[2:];"
+        'import sys;a=sys.argv[2:];i=a.index("--");sys.path[:0]=a[:i];sys.path+=a[i+1:];'
         "from frame_gallery.isolation.worker_main import main;main(sys.argv[1])"
     )
+
+
+def test_the_site_paths_are_this_interpreters() -> None:
+    import sysconfig  # noqa: PLC0415
+
+    paths = process._site_paths()
+    assert paths[0] == sysconfig.get_path("purelib")
+    assert set(paths) == {sysconfig.get_path("purelib"), sysconfig.get_path("platlib")}
+    assert len(paths) == len(set(paths))
+
+
+def test_distinct_site_paths_are_both_kept(monkeypatch: pytest.MonkeyPatch) -> None:
+    import sysconfig  # noqa: PLC0415
+
+    monkeypatch.setattr(sysconfig, "get_path", lambda name: f"/lib/{name}")
+    assert process._site_paths() == ("/lib/purelib", "/lib/platlib")
