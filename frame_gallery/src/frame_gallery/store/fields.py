@@ -28,7 +28,11 @@ def parse_timestamp(value: object) -> datetime:
     if not isinstance(value, str) or len(value) > MAX_TIMESTAMP_LENGTH:
         msg = "invalid timestamp"
         raise ValueError(msg)
-    moment = datetime.fromisoformat(value)
+    try:
+        moment = datetime.fromisoformat(value)
+    except ValueError:
+        msg = "invalid timestamp"
+        raise ValueError(msg) from None
     if moment.tzinfo is None:
         msg = "a timestamp without a time zone"
         raise ValueError(msg)

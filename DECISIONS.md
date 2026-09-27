@@ -1087,6 +1087,27 @@ Status: proposed (Phase 4 gate).
 - **Schema strictness.** One invalid entry makes the whole document damaged, so the reader falls back to `.bak`. Unknown fields are ignored and are not written back. A repeated identifier keeps its last position.
 - **History bounds.** 20 000 entries and 5 MiB; the oldest entries go first, and the new entry is always kept. Identifiers are at most 200 ASCII characters and timestamps have a fixed length, so 20 000 entries take at most about 4.64 MiB: the entry bound is the one that binds (a test checks this).
 
+### D-154 — The upload ledger and the file state store [§13.3, §13.6, D-137]
+
+Status: proposed (Phase 4 gate).
+
+- **Modules.** `store/upload_ledger.py` (the document and its pure transitions) and `store/state.py` (`FileStateStore`, the `StateStore` port). `store.state` uses `selection.exclusion` for the `ExclusionSet` value type. This is an internal dependency beyond §5's "stdlib" column, recorded as D-141 does. There is no cycle: `selection` does not import `store`.
+- **Lock.** `/data/state/.lock`, opened with `O_NOFOLLOW` and mode 0600, then `flock(LOCK_EX | LOCK_NB)`. `EWOULDBLOCK` gives `already_running`; any other failure gives `state_error`. The startup sweep runs only once the lock is held; a failing sweep only logs a warning.
+- **Loading.** History and the ledger are read once per run, in SELECT (`load_exclusions`). A newer version or an unreadable file ends the run with `state_error` before the television is contacted (D-153).
+- **Intent durability.** `commit_upload_intent` raises `StateError` on any failure, **including a failed directory `fsync` after the rename**. The run then ends with `state_error`, and the runner removes the intent, which the file may already hold. The television is therefore never contacted without a durable intent.
+- **Promotion.** A failed promotion raises `StateError`. The runner logs an ERROR and keeps the outcome (§13.6 step 4). If only the `fsync` failed, the file already says `uploaded`: stricter than required, never weaker.
+- **Recording history.** A failed rename raises `StateError`, which gives `delivered_unrecorded`. A failed directory `fsync` after the rename only logs a WARNING: the history is in place, and the ledger's `uploaded` entry excludes the work anyway.
+- **Memory mirrors the files.** After a failure before the rename, the previous entries stay. After a failure only in the `fsync`, the new entries are kept, because the file holds them.
+- **Pruning.** Each ledger write drops works that are in the history loaded for this run, and intents whose quarantine has ended. The delivered work's `uploaded` entry is therefore pruned when the next run commits its intent.
+- **Transitions.**
+  - An intent never turns an `uploaded` entry back into `uncertain`.
+  - A removal only ever removes an `uncertain` entry.
+  - A promotion replaces the intent, or adds an `uploaded` entry if the intent is missing.
+  - A repeated identifier in a file keeps its strongest entry: `uploaded` over `uncertain`, then the later time.
+- **Bounds.** 20 000 entries and 5 MiB. The oldest `uploaded` entries are dropped first, then the oldest `uncertain` ones. The entry being written is never dropped.
+- **Quarantine period.** An `uncertain` entry excludes its work until exactly 30 days after `at`. An `at` in the future (a clock that went back) keeps the quarantine until then, so it is never shortened.
+- **Leftovers.** `close` discards a pre-staged history file that was never recorded. The startup sweep removes any that a killed run left behind (D-155).
+
 ## Proposed dependency inventory
 
 Status: **Phase 2 installed** the development tools and Pillow, and **Phase 3 installed** `urllib3` 2.8.0 and `certifi` 2026.7.22 (approved by the user on 2026-09-27), only in the local project environment (`frame_gallery/.venv`, from `uv.lock`). The runtime rows for later phases are still proposed.
