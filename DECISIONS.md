@@ -1063,6 +1063,30 @@ Status: **accepted** (Phase 3 gate, user decision, 2026-09-27).
 - **Fixtures.** The API documents are synthesized in `tests/support/museums.py`: independently authored, with invented values and envelopes that follow the re-read documentation. Nothing was recorded from a live API (§20.3).
 - **Layout additions** (beyond §21 and D-141): `net/` (`wire`, `policy`, `identity`, `gateway`, `transport`), `ha/client.py`, `app/fetching.py`, and `providers/` (`aic`, `cma`, `local_media`, `jsonread`, `periods`, `cache`).
 
+## Phase 4 decisions (proposed)
+
+These record how Phase 4 realizes §13 and §14, and every place where it deviates from the text of `ARCHITECTURE.md`. They await the Phase 4 gate.
+
+### D-153 — The atomic primitive, the reader, and history [§13.2, §13.3, D-110]
+
+Status: proposed (Phase 4 gate).
+
+- **Modules.** `store/atomic.py` (the primitive, the reader, and the quarantine), `store/fields.py` (timestamps and identifiers), and `store/history.py`. The rule for qualified identifiers moves from `providers.contract` to `domain.py`, which `providers.contract` now imports, so that the store never imports a provider module (§5).
+- **Directories.** The anchor's last component and every part below it are opened with `O_DIRECTORY | O_NOFOLLOW`; a symbolic link or a file in their place is refused. Missing parts are created (mode 0700 below `/data`). Every file operation is relative to the directory descriptor.
+- **Writes.**
+  - JSON is compact and ASCII-only, so lone surrogates in untrusted text are escaped rather than failing. NaN and Infinity are refused.
+  - The self-check (step 2) requires the bytes to parse back to an equal value **and** to pass the reader's own envelope and schema checks. A document that this code could not read back is never written.
+  - The temporary file is `<name>.tmp-<16 hex digits>`. Its mode is set exactly with `fchmod`, so the umask cannot change it: 0600 for state, 0644 for the preview.
+  - `.bak` is refreshed only from a primary that was valid when it was read, or that this process wrote. A damaged primary therefore never replaces a good backup.
+  - A failed directory `fsync` after a successful rename is reported with `replaced = true`: the new content is in place, but its durability is uncertain. The callers decide what that means (D-154).
+- **Reader.**
+  - A file is *damaged* when it is not JSON; not an object of the expected `format`; has no integer `version`, or an older or unknown one; fails the schema; is not a regular file (a symbolic link is moved aside without being followed); or exceeds its size bound. Damaged files are quarantined.
+  - A *newer* version, or a file that exists but cannot be read (`EACCES`, `EIO`), is reported and not quarantined. History and the ledger then end the run with `state_error` before the television is touched (D-154). Falling back to `.bak` or to an empty state in that case could lose exclusions and resend a work.
+  - Both copies missing is a first run: an empty result without a warning.
+- **Quarantine.** `state/quarantine/<UTC time>-<random>-<name>`. After each move, the oldest entries beyond three are removed; a damaged entry that is a directory is removed as a tree.
+- **Schema strictness.** One invalid entry makes the whole document damaged, so the reader falls back to `.bak`. Unknown fields are ignored and are not written back. A repeated identifier keeps its last position.
+- **History bounds.** 20 000 entries and 5 MiB; the oldest entries go first, and the new entry is always kept. Identifiers are at most 200 ASCII characters and timestamps have a fixed length, so 20 000 entries take at most about 4.64 MiB: the entry bound is the one that binds (a test checks this).
+
 ## Proposed dependency inventory
 
 Status: **Phase 2 installed** the development tools and Pillow, and **Phase 3 installed** `urllib3` 2.8.0 and `certifi` 2026.7.22 (approved by the user on 2026-09-27), only in the local project environment (`frame_gallery/.venv`, from `uv.lock`). The runtime rows for later phases are still proposed.

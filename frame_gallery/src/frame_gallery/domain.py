@@ -5,8 +5,27 @@ from __future__ import annotations
 import enum
 import re
 from dataclasses import dataclass
+from typing import Final
 
 _HEX_COLOUR = re.compile(r"#([0-9A-Fa-f]{2})([0-9A-Fa-f]{2})([0-9A-Fa-f]{2})")
+
+QUALIFIED_ID_MAX_LENGTH: Final = 200
+PROVIDER_KEY_PATTERN: Final = re.compile(r"[a-z]{2,16}")
+NATIVE_ID_PATTERN: Final = re.compile(r"[A-Za-z0-9][A-Za-z0-9._:-]*")
+"""Native identifiers are plain tokens; adapters apply stricter patterns."""
+
+
+def is_qualified_id(value: object) -> bool:
+    """Whether ``value`` is a persistent identifier ``<provider key>:<native id>``
+    of at most 200 characters (the form history and the ledger store)."""
+    if not isinstance(value, str) or len(value) > QUALIFIED_ID_MAX_LENGTH:
+        return False
+    key, separator, native = value.partition(":")
+    return (
+        separator == ":"
+        and PROVIDER_KEY_PATTERN.fullmatch(key) is not None
+        and NATIVE_ID_PATTERN.fullmatch(native) is not None
+    )
 
 
 @dataclass(frozen=True, slots=True)

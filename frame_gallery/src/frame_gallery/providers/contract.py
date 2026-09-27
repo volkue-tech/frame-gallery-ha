@@ -9,22 +9,22 @@ eligibility; selection does.
 from __future__ import annotations
 
 import enum
-import re
 from collections.abc import Iterator
 from dataclasses import dataclass
-from typing import Final, Protocol
+from typing import Protocol
 
 from frame_gallery.budget.deadline import Deadline
 from frame_gallery.config.filters import EffectiveFilters
-from frame_gallery.domain import Size, SourceKey
+from frame_gallery.domain import (
+    NATIVE_ID_PATTERN,
+    PROVIDER_KEY_PATTERN,
+    QUALIFIED_ID_MAX_LENGTH,
+    Size,
+    SourceKey,
+)
 from frame_gallery.errors import FrameGalleryError
 from frame_gallery.providers.rights import RightsBasis
 from frame_gallery.randomness import RandomSource
-
-QUALIFIED_ID_MAX_LENGTH: Final = 200
-PROVIDER_KEY_PATTERN: Final = re.compile(r"[a-z]{2,16}")
-NATIVE_ID_PATTERN: Final = re.compile(r"[A-Za-z0-9][A-Za-z0-9._:-]*")
-"""Native identifiers are plain tokens; adapters apply stricter patterns."""
 
 
 @dataclass(frozen=True, slots=True)

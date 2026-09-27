@@ -12,12 +12,12 @@ from frame_gallery.domain import (
     BLACK,
     CANVAS,
     DEFAULT_SOURCE,
+    PROVIDER_KEY_PATTERN,
     FitMode,
     Rgb,
     Size,
     SourceKey,
 )
-from frame_gallery.providers.contract import PROVIDER_KEY_PATTERN
 
 
 class TestSize:

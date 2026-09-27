@@ -5,12 +5,15 @@ from __future__ import annotations
 import pytest
 
 from frame_gallery.budget.deadline import Deadline
-from frame_gallery.domain import Size, SourceKey
-from frame_gallery.errors import FrameGalleryError
-from frame_gallery.providers.contract import (
+from frame_gallery.domain import (
     NATIVE_ID_PATTERN,
     PROVIDER_KEY_PATTERN,
     QUALIFIED_ID_MAX_LENGTH,
+    Size,
+    SourceKey,
+)
+from frame_gallery.errors import FrameGalleryError
+from frame_gallery.providers.contract import (
     Attribution,
     Candidate,
     Capabilities,
