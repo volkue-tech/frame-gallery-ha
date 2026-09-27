@@ -98,6 +98,28 @@ def test_no_match_hints() -> None:
     )
 
 
+def test_pages_known_to_offer_nothing_new_give_nothing_new() -> None:
+    """Exhausted-page hints: the adapter skipped every page it knew to be
+    exhausted, so nothing new was even seen (§9.5, §9.6, R-13)."""
+    skipped = NoDeliveryEvidence(pages_skipped=4)
+    assert classify_no_delivery(skipped) == (Outcome.NO_MATCH, Hint.NOTHING_NEW)
+    skipped_and_excluded = NoDeliveryEvidence(
+        pages_skipped=4, candidates_seen=2, candidates_excluded=2
+    )
+    assert classify_no_delivery(skipped_and_excluded) == (Outcome.NO_MATCH, Hint.NOTHING_NEW)
+    skipped_but_rejected = NoDeliveryEvidence(
+        pages_skipped=4, candidates_seen=2, candidates_excluded=1
+    )
+    assert classify_no_delivery(skipped_but_rejected) == (
+        Outcome.NO_MATCH,
+        Hint.FILTERS_TOO_RESTRICTIVE,
+    )
+    assert classify_no_delivery(NoDeliveryEvidence(pages_skipped=4, limits_reached=True)) == (
+        Outcome.NO_MATCH,
+        Hint.LIMITS_REACHED,
+    )
+
+
 def test_an_empty_local_library_names_its_location() -> None:
     assert classify_no_delivery(NoDeliveryEvidence(library_empty=True)) == (
         Outcome.NO_MATCH,

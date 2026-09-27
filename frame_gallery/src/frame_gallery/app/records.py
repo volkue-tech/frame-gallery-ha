@@ -48,6 +48,8 @@ class AttemptNote:
 class RunStats:
     selection: SelectionResult | None = None
     attempts: list[AttemptNote] = field(default_factory=list)
+    pages_skipped: int = 0
+    """Result pages skipped as known to offer nothing new."""
 
 
 def _filters_record(filters: EffectiveFilters) -> dict[str, object]:
@@ -99,6 +101,7 @@ def _stats_record(stats: RunStats) -> dict[str, object]:
             "fallback_offered": s.fallback_offered,
             "probes_used": s.probes_used,
             "inspections_used": s.inspections_used,
+            "pages_skipped": stats.pages_skipped,
         }
     return record
 

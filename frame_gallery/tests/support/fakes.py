@@ -268,6 +268,8 @@ class FakeProvider:
         self.pulled = 0
         self.contexts: list[DiscoveryContext] = []
         self.filters: list[EffectiveFilters] = []
+        self.on_context: Callable[[DiscoveryContext], None] | None = None
+        """Called with each discovery context, for example to add notes."""
 
     @property
     def key(self) -> str:
@@ -282,6 +284,8 @@ class FakeProvider:
         self.events.append("provider.iter")
         self.contexts.append(ctx)
         self.filters.append(filters)
+        if self.on_context is not None:
+            self.on_context(ctx)
         if self.call_error is not None:
             raise self.call_error
         return self._generate()
@@ -542,6 +546,21 @@ class FakeRecords:
         self.last_run.append(dict(record))
 
 
+class FakeCacheWriter:
+    """A provider's metadata cache as the runner sees it."""
+
+    def __init__(self, events: Events, *, error: BaseException | None = None) -> None:
+        self.events = events
+        self.error = error
+        self.deadlines: list[Deadline] = []
+
+    def flush(self, deadline: Deadline) -> None:
+        self.events.append("cache.flush")
+        self.deadlines.append(deadline)
+        if self.error is not None:
+            raise self.error
+
+
 class FakeWatchdog:
     def __init__(self, events: Events) -> None:
         self.events = events
@@ -567,6 +586,7 @@ def binding(provider: FakeProvider) -> ProviderBinding:
 __all__ = [
     "TEST_TV_HOST",
     "Events",
+    "FakeCacheWriter",
     "FakeExecutor",
     "FakeFetcher",
     "FakeHelperReader",

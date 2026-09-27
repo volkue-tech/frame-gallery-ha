@@ -5,6 +5,7 @@ from __future__ import annotations
 
 import logging
 from collections.abc import MutableSequence
+from datetime import timedelta
 from typing import Any
 
 import pytest
@@ -40,6 +41,7 @@ from frame_gallery.providers.rights import RightsBasis
 from frame_gallery.randomness import SeededRandomSource
 from frame_gallery.selection.exclusion import ExclusionSet
 from frame_gallery.selection.shortlist import DiscoveryEnd, SelectionPolicy, build_shortlist
+from frame_gallery.store.cache import ExhaustedPages
 from tests.support.clock import FakeClock
 from tests.support.museums import CMA_CDN, CmaMuseum, ParsedRequest, cma_record
 from tests.support.net import (
@@ -415,6 +417,66 @@ class TestPageOrder:
                 raise AssertionError
 
         assert list(cma_module._page_order(10**6, Stuck(0))) == [7]
+
+
+class TestExhaustedPages:
+    """Offsets that offer nothing new are remembered for 7 days (§9.6, D-156)."""
+
+    def discover(self, rig: Rig, excluded: set[str], seed: int = 11) -> DiscoveryContext:
+        context = DiscoveryContext(
+            deadline=Deadline.after(rig.clock, 300, "discovery"),
+            random=SeededRandomSource(seed),
+            is_excluded=excluded.__contains__,
+        )
+        list(rig.provider.iter_candidates(filters(), context))
+        return context
+
+    def skips(self, rig: Rig) -> list[int]:
+        return sorted(int(r.query["skip"]) for r in rig.museum.seen if "skip" in r.query)
+
+    def test_a_fully_excluded_offset_is_remembered_and_then_skipped(self) -> None:
+        museum = CmaMuseum()
+        museum.add(75)
+        rig = Rig(museum)
+        first = {f"cma:{n}" for n in range(1, 26)}
+        self.discover(rig, first)
+        assert rig.cache.get_exhausted("cma:exhausted:any:any") == ExhaustedPages(
+            75, frozenset({0})
+        )
+        rig.museum.seen.clear()
+        context = self.discover(rig, first, seed=5)
+        assert context.notes.pages_skipped == 1
+        assert self.skips(rig) == [25, 50]
+
+    def test_prints_without_dimensions_offer_nothing_new(self) -> None:
+        museum = CmaMuseum()
+        museum.add(25, width="unknown")
+        museum.add(25, first=26)
+        rig = Rig(museum)
+        self.discover(rig, set())
+        assert rig.cache.get_exhausted("cma:exhausted:any:any") == ExhaustedPages(
+            50, frozenset({0})
+        )
+
+    def test_hints_beyond_the_current_pages_are_not_counted(self) -> None:
+        museum = CmaMuseum()
+        museum.add(25)
+        rig = Rig(museum)
+        rig.cache.add_exhausted("cma:exhausted:any:any", 25, [0, 7], timedelta(days=7))
+        context = self.discover(rig, set())
+        assert context.notes.pages_skipped == 1
+        assert self.skips(rig) == []
+
+    def test_large_totals_skip_hinted_pages_while_drawing(
+        self, monkeypatch: pytest.MonkeyPatch
+    ) -> None:
+        monkeypatch.setattr(cma_module, "SHUFFLE_LIMIT", 1)
+        order = list(cma_module._page_order(4, SeededRandomSource(3), skip=frozenset({0, 2})))
+        assert sorted(order) == [1, 3]
+
+    def test_small_totals_skip_hinted_pages(self) -> None:
+        order = list(cma_module._page_order(10, SeededRandomSource(3), skip=frozenset({1, 2})))
+        assert sorted(order) == [0, 3, 4, 5, 6, 7, 8, 9]
 
 
 class TestRefs:

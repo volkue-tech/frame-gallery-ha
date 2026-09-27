@@ -13,11 +13,12 @@ from pathlib import Path
 from typing import Final
 
 from frame_gallery.budget.clock import Clock
+from frame_gallery.store.cache import CACHE_DIRECTORY, FileMetadataCache
 from frame_gallery.store.state import STATE_DIRECTORY, FileStateStore
 from frame_gallery.store.sweep import StartupSweep, SweepTarget
 from frame_gallery.store.workspace import WORKSPACE_DIRECTORY, RunWorkspace
 
-CACHE_PARTS: Final = ("cache",)
+CACHE_PARTS: Final = (CACHE_DIRECTORY,)
 TOKEN_PARTS: Final = ("tv",)
 PREVIEW_PARTS: Final = ("frame_gallery", "preview")
 
@@ -46,3 +47,7 @@ class StoreLayout:
 
     def workspace(self) -> RunWorkspace:
         return RunWorkspace(self.tmp)
+
+    def metadata_cache(self, provider_key: str, clock: Clock) -> FileMetadataCache:
+        """The provider's cache; pass it to the adapter and to its binding."""
+        return FileMetadataCache(self.data, provider_key, clock=clock)

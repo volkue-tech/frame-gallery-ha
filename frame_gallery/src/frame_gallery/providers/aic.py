@@ -6,8 +6,10 @@ Only the documented API is used, through the guarded gateway:
    documented ``pagination.total`` for the filter (cached for a day).
 2. **Pages.** Pages of 50 works are sampled without replacement from the
    first ``min(total, 10 000)`` results; the documentation caps every search
-   query at 10 000 records. The Elasticsearch query travels as minified JSON
-   in the documented ``params`` parameter. Every query requires
+   query at 10 000 records. A page whose works are all excluded or unusable
+   is remembered for 7 days as exhausted (for the same total) and skipped.
+   The Elasticsearch query travels as minified JSON in the documented
+   ``params`` parameter. Every query requires
    ``is_public_domain`` and an ``image_id``; the period filter adds a range
    on the documented ``date_start``.
 3. **Sizes.** One batched request to the documented Images resource,
@@ -38,7 +40,13 @@ from frame_gallery.domain import Size, SourceKey
 from frame_gallery.net.gateway import ProviderChannel
 from frame_gallery.net.identity import ClientIdentity
 from frame_gallery.net.policy import HostPolicy, https_url, path_segment
-from frame_gallery.providers.cache import COUNT_TTL, MetadataCache
+from frame_gallery.providers.cache import (
+    COUNT_TTL,
+    HINT_TTL,
+    MetadataCache,
+    known_exhausted,
+    offers_nothing_new,
+)
 from frame_gallery.providers.contract import (
     Attribution,
     Candidate,
@@ -127,12 +135,20 @@ class AicProvider:
     ) -> Iterator[Candidate]:
         period = None if filters.period is None else period_range(filters.period)
         query = _query(period)
-        total = self._count(query, filters.period or "any", ctx.deadline)
-        pages = list(range(1, math.ceil(min(total, RESULT_WINDOW) / PAGE_SIZE) + 1))
+        signature = filters.period or "any"
+        total = self._count(query, signature, ctx.deadline)
+        page_count = math.ceil(min(total, RESULT_WINDOW) / PAGE_SIZE)
+        hint_key = f"{PROVIDER_KEY}:exhausted:{signature}"
+        known = known_exhausted(self._cache.get_exhausted(hint_key), total)
+        pages = [page for page in range(1, page_count + 1) if page not in known]
+        ctx.notes.pages_skipped += page_count - len(pages)
         ctx.random.shuffle(pages)
         for page in pages:
             records = self._search(query, page, ctx.deadline)
-            yield from self._offer(records, period, page, ctx.deadline)
+            offered = list(self._offer(records, period, page, ctx.deadline))
+            if offers_nothing_new(offered, ctx.is_excluded):
+                self._cache.add_exhausted(hint_key, total, (page,), HINT_TTL)
+            yield from offered
 
     def full_ref(self, candidate: Candidate) -> ImageRef:
         image_id = self._images.get(candidate.native_id)

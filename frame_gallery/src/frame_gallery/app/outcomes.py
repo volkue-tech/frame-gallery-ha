@@ -99,6 +99,9 @@ class NoDeliveryEvidence:
     library_empty: bool = False
     """The local library was scanned completely and offered no candidate."""
 
+    pages_skipped: int = 0
+    """Result pages the adapter skipped as known to offer nothing new."""
+
 
 def classify_no_delivery(evidence: NoDeliveryEvidence) -> tuple[Outcome, Hint | None]:
     """The first matching rule wins: ``source_failed``, ``image_failed``, ``no_match``."""
@@ -112,7 +115,11 @@ def classify_no_delivery(evidence: NoDeliveryEvidence) -> tuple[Outcome, Hint | 
         return Outcome.IMAGE_FAILED, None
     if evidence.limits_reached:
         return Outcome.NO_MATCH, Hint.LIMITS_REACHED
-    if evidence.candidates_seen > 0 and evidence.candidates_excluded == evidence.candidates_seen:
+    if evidence.candidates_excluded == evidence.candidates_seen and (
+        evidence.candidates_seen > 0 or evidence.pages_skipped > 0
+    ):
+        # Everything seen was excluded, or the cache already knew that the
+        # skipped pages offer nothing new (exhausted-page hints).
         return Outcome.NO_MATCH, Hint.NOTHING_NEW
     if evidence.library_empty:
         return Outcome.NO_MATCH, Hint.LIBRARY_EMPTY

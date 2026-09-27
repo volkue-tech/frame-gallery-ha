@@ -7,6 +7,7 @@ import errno
 import logging
 import os
 import stat
+from datetime import timedelta
 from pathlib import Path
 
 import pytest
@@ -246,6 +247,12 @@ class TestSweep:
 
 
 class TestLayout:
+    def test_the_metadata_cache_lives_below_data(self, layout: StoreLayout) -> None:
+        cache = layout.metadata_cache("aic", FakeClock())
+        cache.put_count("aic:count:any", 1, timedelta(days=1))
+        cache.flush(Deadline.after(FakeClock(), 5, "finish"))
+        assert names(layout.data / "cache") == ["aic.json"]
+
     def test_the_production_layout(self) -> None:
         layout = StoreLayout()
         assert layout.data == Path("/data")

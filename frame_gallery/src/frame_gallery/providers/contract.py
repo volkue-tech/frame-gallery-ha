@@ -9,8 +9,8 @@ eligibility; selection does.
 from __future__ import annotations
 
 import enum
-from collections.abc import Iterator
-from dataclasses import dataclass
+from collections.abc import Callable, Iterator
+from dataclasses import dataclass, field
 from typing import Protocol
 
 from frame_gallery.budget.deadline import Deadline
@@ -148,6 +148,19 @@ class SourceError(FrameGalleryError):
         return self.kind is not SourceErrorKind.NOT_FOUND
 
 
+def _nothing_excluded(_qualified_id: str) -> bool:
+    return False
+
+
+@dataclass(slots=True)
+class DiscoveryNotes:
+    """What a provider reports about a pass, beyond its candidates."""
+
+    pages_skipped: int = 0
+    """Result pages not fetched because the metadata cache holds them as
+    offering nothing new (exhausted-page hints, §9.5, §9.6)."""
+
+
 @dataclass(frozen=True, slots=True)
 class DiscoveryContext:
     """What a provider receives for one discovery pass."""
@@ -156,6 +169,12 @@ class DiscoveryContext:
     """The discovery deadline; every request is clamped to it."""
 
     random: RandomSource
+    is_excluded: Callable[[str], bool] = _nothing_excluded
+    """Whether selection will skip a qualified identifier (history or the
+    upload ledger). Adapters use it only to recognise result pages that offer
+    nothing new; they still yield every candidate, and selection decides."""
+
+    notes: DiscoveryNotes = field(default_factory=DiscoveryNotes)
 
 
 class Provider(Protocol):

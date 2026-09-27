@@ -105,12 +105,22 @@ class ImageFetcher(Protocol):
         ...
 
 
+class CacheWriter(Protocol):
+    def flush(self, deadline: Deadline) -> None:
+        """Write this run's metadata-cache changes, at most once per run.
+        Never raises."""
+        ...
+
+
 @dataclass(frozen=True, slots=True)
 class ProviderBinding:
-    """A provider and, if its metadata may lack dimensions, its probe."""
+    """A provider, its probe if its metadata may lack dimensions, and its
+    persistent metadata cache, if it has one."""
 
     provider: Provider
     probe: DimensionProbe | None = None
+    cache: CacheWriter | None = None
+    """Written once in FINISH, before the last-run record (§13.4)."""
 
 
 class Workspace(Protocol):

@@ -11,12 +11,13 @@ from pathlib import Path
 import pytest
 
 from frame_gallery.app.outcomes import Hint, Outcome
+from frame_gallery.app.ports import ProviderBinding
 from frame_gallery.app.runner import Stage
 from frame_gallery.budget.deadline import Deadline, DeadlineExceeded
-from frame_gallery.budget.phases import PREPARE_S
+from frame_gallery.budget.phases import LAST_RUN_RESERVE_S, PREPARE_S
 from frame_gallery.config.filters import FilterField
 from frame_gallery.config.options import LogLevel
-from frame_gallery.domain import Size
+from frame_gallery.domain import Size, SourceKey
 from frame_gallery.errors import AlreadyRunning, Cancelled, PublishError, StateError
 from frame_gallery.imaging.contract import (
     ImageFormat,
@@ -36,7 +37,7 @@ from frame_gallery.tv.port import (
     Marker,
     MarkerSink,
 )
-from tests.support.fakes import canvas_jpeg_bytes, make_candidate
+from tests.support.fakes import FakeCacheWriter, canvas_jpeg_bytes, make_candidate
 from tests.unit.app.harness import SYNTHETIC_VOCABULARY, Harness
 
 ALL_STAGES = (
@@ -417,6 +418,57 @@ def test_everything_excluded_is_nothing_new(h: Harness) -> None:
     assert result.outcome is Outcome.NO_MATCH
     assert result.hint == Hint.NOTHING_NEW
     assert_tv_untouched(h)
+
+
+def test_the_provider_learns_the_exclusions_for_its_hints(h: Harness) -> None:
+    h.state.exclusions = ExclusionSet(uploaded=frozenset({"aic:1001"}))
+    h.run()
+    [context] = h.provider.contexts
+    assert context.is_excluded("aic:1001")
+    assert not context.is_excluded("aic:1002")
+
+
+def test_skipped_exhausted_pages_are_nothing_new_and_recorded(h: Harness) -> None:
+    h.provider.candidates = []
+    h.provider.on_context = lambda context: setattr(context.notes, "pages_skipped", 3)
+    result = h.run()
+    assert result.outcome is Outcome.NO_MATCH
+    assert result.hint == Hint.NOTHING_NEW
+    stats = h.last_run["stats"]
+    assert isinstance(stats, dict)
+    selection = stats["selection"]
+    assert isinstance(selection, dict)
+    assert selection["pages_skipped"] == 3
+
+
+def test_the_metadata_cache_is_written_once_before_the_last_run_record(h: Harness) -> None:
+    writer = FakeCacheWriter(h.events)
+    h.bindings = {SourceKey.ART_INSTITUTE_CHICAGO: ProviderBinding(h.provider, cache=writer)}
+    result = h.run()
+    assert result.outcome is Outcome.DELIVERED
+    assert h.events.count("cache.flush") == 1
+    assert h.events.before("cache.flush", "records.last_run")
+    [deadline] = writer.deadlines
+    assert deadline.expires_at == h.records.deadlines["last_run"].expires_at - LAST_RUN_RESERVE_S
+
+
+def test_a_failing_cache_never_changes_the_outcome(
+    h: Harness, caplog: pytest.LogCaptureFixture
+) -> None:
+    writer = FakeCacheWriter(h.events, error=RuntimeError("cache bug"))
+    h.bindings = {SourceKey.ART_INSTITUTE_CHICAGO: ProviderBinding(h.provider, cache=writer)}
+    with caplog.at_level(logging.WARNING, h.logger.name):
+        result = h.run()
+    assert result.outcome is Outcome.DELIVERED
+    assert "the metadata cache could not be written" in caplog.text
+
+
+def test_a_run_that_lost_the_lock_writes_no_cache(h: Harness) -> None:
+    writer = FakeCacheWriter(h.events)
+    h.bindings = {SourceKey.ART_INSTITUTE_CHICAGO: ProviderBinding(h.provider, cache=writer)}
+    h.state.fail["open"] = AlreadyRunning()
+    assert h.run().outcome is Outcome.ALREADY_RUNNING
+    assert "cache.flush" not in h.events
 
 
 def test_excluded_works_are_skipped(h: Harness) -> None:

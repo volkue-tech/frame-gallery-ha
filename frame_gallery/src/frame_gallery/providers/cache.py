@@ -9,16 +9,33 @@ single run.
 
 from __future__ import annotations
 
-from collections.abc import Collection
+from collections.abc import Callable, Collection, Iterable
 from datetime import datetime, timedelta
 from typing import Final, Protocol
 
 from frame_gallery.budget.clock import Clock
+from frame_gallery.providers.contract import Candidate
 from frame_gallery.store.cache import ExhaustedPages, merge_exhausted
 
 COUNT_TTL: Final = timedelta(days=1)
 HINT_TTL: Final = timedelta(days=7)
 MEMORY_MAX_ENTRIES: Final = 1000
+
+
+def known_exhausted(hints: ExhaustedPages | None, total: int) -> frozenset[int]:
+    """The pages hinted as exhausted for exactly this result count."""
+    return hints.pages if hints is not None and hints.total == total else frozenset()
+
+
+def offers_nothing_new(candidates: Iterable[Candidate], is_excluded: Callable[[str], bool]) -> bool:
+    """Whether a result page is exhausted: none of its candidates has
+    dimensions and is outside the exclusions. A candidate without dimensions
+    is skipped by selection anyway (``dims_unavailable``), whatever the
+    options; shape and format checks depend on the options and are ignored."""
+    return not any(
+        candidate.dims is not None and not is_excluded(candidate.qualified_id)
+        for candidate in candidates
+    )
 
 
 class MetadataCache(Protocol):

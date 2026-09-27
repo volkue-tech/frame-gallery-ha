@@ -89,6 +89,7 @@ from frame_gallery.logs.summary import format_summary, sanitize_for_log
 from frame_gallery.providers.contract import (
     Candidate,
     DiscoveryContext,
+    DiscoveryNotes,
     SourceError,
     SourceErrorKind,
 )
@@ -441,9 +442,16 @@ class Runner:
             strict_tv_format=options.strict_tv_format,
             fit_mode=options.fit_mode,
         )
+        notes = DiscoveryNotes()
         try:
             candidates = binding.provider.iter_candidates(
-                filters, DiscoveryContext(deadline=window.discovery, random=self._random)
+                filters,
+                DiscoveryContext(
+                    deadline=window.discovery,
+                    random=self._random,
+                    is_excluded=exclusions.__contains__,
+                    notes=notes,
+                ),
             )
             selection = build_shortlist(
                 candidates,
@@ -474,6 +482,7 @@ class Runner:
                 entries=(), end=end, stats=SelectionStats(), provider_error=exc
             )
         run.stats.selection = selection
+        run.stats.pages_skipped = run.evidence.pages_skipped = notes.pages_skipped
         self._record_selection_evidence(run.evidence, selection)
         run.evidence.library_empty = (
             filters.source is SourceKey.LOCAL_MEDIA
@@ -990,6 +999,7 @@ class Runner:
         budget = self._run_budget()
         outcome = self._final_outcome(run)
         deadline = self._finish_deadline(run)
+        self._flush_cache(run, deadline)
         artwork_id = run.entry.candidate.qualified_id if run.selected and run.entry else None
         record = build_last_run_record(
             outcome=outcome,
@@ -1029,6 +1039,17 @@ class Runner:
             delivered_id=artwork_id,
             ignored_filters=ignored,
         )
+
+    def _flush_cache(self, run: _RunState, deadline: Deadline) -> None:
+        """Write the provider's metadata cache once; it may not use the
+        last-run record's reserve, and it never changes the outcome (§13.4)."""
+        cache = run.binding.cache if run.binding is not None else None
+        if cache is None:
+            return
+        try:
+            cache.flush(deadline.cap_at(deadline.expires_at - LAST_RUN_RESERVE_S, "cache"))
+        except Exception:  # noqa: BLE001 - a cache is never worth an outcome
+            self._log.warning("the metadata cache could not be written", exc_info=True)
 
     @staticmethod
     def _final_outcome(run: _RunState) -> Outcome:

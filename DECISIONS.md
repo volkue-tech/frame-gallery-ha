@@ -1140,6 +1140,18 @@ Status: proposed (Phase 4 gate).
 - **Damage.** Any structural problem (not JSON, another format or provider, an invalid entry, too many entries, oversize) discards the whole file with a WARNING, and the next write replaces it. There is no quarantine and no `.bak`: the cache is excluded from backups and can always be rebuilt. A file of a newer version is discarded and later overwritten too.
 - **Writes.** Once per run, through `flush(deadline)`. With no time left, the write is skipped (INFO); a failure only logs a warning. A cache directory that is a symbolic link is never read or written.
 
+### D-157 — Exhausted-page hints and the cache write [§9.5, §9.6, §13.4, R-13; amends D-150]
+
+Status: proposed (Phase 4 gate). It closes the item that D-150 deferred to Phase 4.
+
+- **How an adapter learns about exclusions.** `DiscoveryContext` gains `is_excluded`, the runner's exclusion set (history, `uploaded`, and unexpired `uncertain`), and `notes`, a small record the adapter fills. Adapters still yield every candidate, and selection still decides (§9.1); they use the predicate only to recognise pages that offer nothing new.
+- **When a page is exhausted.** A page is exhausted when none of its offered candidates both has dimensions and is outside the exclusions. The adapter's own record checks (rights, identifiers, the period, the rendition host, the Art Institute's minimum width) are part of this, because they do not depend on the options. Shape and format checks do depend on the options and are ignored. A candidate without dimensions counts as nothing new, because selection skips it whatever the options (`dims_unavailable`).
+- **Keys.** `aic:exhausted:<period or any>` and `cma:exhausted:<department or any>:<period or any>`, next to the counts. A hint is valid only for the result count it was computed with (D-156). The Art Institute pages are numbered from 1 and Cleveland's offsets from 0, as each adapter already counts them.
+- **Use.** Hinted pages are left out before the page order is shuffled, or treated as already drawn in Cleveland's lazy draw beyond 4 096 pages. The number skipped is added to `notes.pages_skipped`. Without hints, the page order and the requests are unchanged.
+- **Hint when nothing is seen.** `NoDeliveryEvidence` gains `pages_skipped`. A run in which every candidate seen was excluded (`candidates_seen` may be 0) and at least one page was skipped as exhausted gets the hint "nothing new left for these filters" instead of "filters too restrictive". `last_run.json` reports `pages_skipped` with the selection statistics.
+- **Writing the cache.** `ProviderBinding` gains an optional `cache` (a `CacheWriter` with `flush(deadline)`). The runner calls it once in FINISH, before the last-run record, with FINISH's deadline minus the last-run reserve; a failure only logs a warning and never changes the outcome. A run that stopped before SELECT (for example `already_running`) has no binding and never writes the cache. `StoreLayout.metadata_cache` builds the file cache for the Phase 6 wiring, which passes the same object to the adapter and to its binding.
+- **Limitation.** The documentation does not promise a stable order of search results. A hinted page that shifts within the 7 days hides its works until the hint expires, and the result count changes the hint's validity only when the total changes. The effect is a missed work, never a duplicate (R-13).
+
 ## Proposed dependency inventory
 
 Status: **Phase 2 installed** the development tools and Pillow, and **Phase 3 installed** `urllib3` 2.8.0 and `certifi` 2026.7.22 (approved by the user on 2026-09-27), only in the local project environment (`frame_gallery/.venv`, from `uv.lock`). The runtime rows for later phases are still proposed.

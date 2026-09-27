@@ -5,7 +5,8 @@ Only the documented Open Access API is used, through the guarded gateway:
 1. **Count.** ``GET /api/artworks/`` with ``limit=1`` reads the documented
    ``info.total`` for the filter (cached for a day).
 2. **Pages.** Pages of 25 works at random ``skip`` offsets, without
-   replacement.
+   replacement. An offset whose works are all excluded or unusable is
+   remembered for 7 days as exhausted (for the same total) and skipped.
 
 Every request carries the valueless ``cc0`` flag and ``has_image=1``, and
 sets ``limit`` explicitly (the documented default is 1000 records). A
@@ -36,7 +37,13 @@ from frame_gallery.config.filters import EffectiveFilters
 from frame_gallery.domain import Size, SourceKey
 from frame_gallery.net.gateway import ProviderChannel
 from frame_gallery.net.policy import HostPolicy, PolicyViolation, https_url, validate_url
-from frame_gallery.providers.cache import COUNT_TTL, MetadataCache
+from frame_gallery.providers.cache import (
+    COUNT_TTL,
+    HINT_TTL,
+    MetadataCache,
+    known_exhausted,
+    offers_nothing_new,
+)
 from frame_gallery.providers.contract import (
     Attribution,
     Candidate,
@@ -165,13 +172,25 @@ class CmaProvider:
         signature = f"{filters.department or 'any'}:{filters.period or 'any'}"
         total = self._count(base, signature, ctx.deadline)
         pages = math.ceil(total / PAGE_SIZE)
+        hint_key = f"{PROVIDER_KEY}:exhausted:{signature}"
+        known = frozenset(
+            page
+            for page in known_exhausted(self._cache.get_exhausted(hint_key), total)
+            if page < pages
+        )
+        ctx.notes.pages_skipped += len(known)
         self._off_host = 0
         try:
-            for page in _page_order(pages, ctx.random):
-                for record in self._page(base, page, ctx.deadline):
-                    candidate = self._offer(record, department, period)
-                    if candidate is not None:
-                        yield candidate
+            for page in _page_order(pages, ctx.random, skip=known):
+                records = self._page(base, page, ctx.deadline)
+                offered = [
+                    candidate
+                    for candidate in (self._offer(r, department, period) for r in records)
+                    if candidate is not None
+                ]
+                if offers_nothing_new(offered, ctx.is_excluded):
+                    self._cache.add_exhausted(hint_key, total, (page,), HINT_TTL)
+                yield from offered
         finally:
             if self._off_host:
                 _log.warning(
@@ -297,14 +316,16 @@ def _filter_query(department: str | None, period: YearRange | None) -> list[tupl
     return query
 
 
-def _page_order(pages: int, random: RandomSource) -> Iterator[int]:
-    """Page indices without replacement, in a random order."""
+def _page_order(
+    pages: int, random: RandomSource, *, skip: frozenset[int] = frozenset()
+) -> Iterator[int]:
+    """Page indices without replacement, in a random order, never one in ``skip``."""
     if pages <= SHUFFLE_LIMIT:
-        order = list(range(pages))
+        order = [page for page in range(pages) if page not in skip]
         random.shuffle(order)
         yield from order
         return
-    used: set[int] = set()
+    used: set[int] = set(skip)
     while True:
         for _ in range(DRAW_ATTEMPTS):
             page = random.randrange(pages)

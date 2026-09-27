@@ -38,6 +38,7 @@ from frame_gallery.providers.rights import RightsBasis
 from frame_gallery.randomness import SeededRandomSource
 from frame_gallery.selection.exclusion import ExclusionSet
 from frame_gallery.selection.shortlist import DiscoveryEnd, SelectionPolicy, build_shortlist
+from frame_gallery.store.cache import ExhaustedPages
 from tests.support.clock import FakeClock
 from tests.support.museums import (
     AicMuseum,
@@ -454,6 +455,74 @@ class TestRefs:
         )
         with pytest.raises(ValueError, match="another provider"):
             AicProvider(other, rig.cache)
+
+
+class TestExhaustedPages:
+    """Pages that offer nothing new are remembered for 7 days (§9.5, D-156)."""
+
+    def museum(self) -> AicMuseum:
+        museum = AicMuseum()
+        museum.add(3 * PAGE_SIZE)
+        return museum
+
+    def discover(self, rig: Rig, excluded: set[str], seed: int = 11) -> DiscoveryContext:
+        context = DiscoveryContext(
+            deadline=Deadline.after(rig.clock, 300, "discovery"),
+            random=SeededRandomSource(seed),
+            is_excluded=excluded.__contains__,
+        )
+        list(rig.provider.iter_candidates(filters(), context))
+        return context
+
+    def pages_searched(self, rig: Rig) -> list[int]:
+        pages = [r.params.get("page") for r in rig.searches() if r.params["limit"] != 0]
+        return sorted(page for page in pages if isinstance(page, int))
+
+    def test_a_fully_excluded_page_is_remembered_and_then_skipped(self) -> None:
+        rig = Rig(self.museum())
+        first_page = {f"aic:{n}" for n in range(1, PAGE_SIZE + 1)}
+        context = self.discover(rig, first_page)
+        assert context.notes.pages_skipped == 0
+        hints = rig.cache.get_exhausted("aic:exhausted:any")
+        assert hints == ExhaustedPages(3 * PAGE_SIZE, frozenset({1}))
+        rig.museum.seen.clear()
+        context = self.discover(rig, first_page, seed=12)
+        assert context.notes.pages_skipped == 1
+        assert self.pages_searched(rig) == [2, 3]
+
+    def test_a_page_with_one_new_work_is_not_remembered(self) -> None:
+        rig = Rig(self.museum())
+        almost = {f"aic:{n}" for n in range(1, PAGE_SIZE)}  # aic:50 stays new
+        self.discover(rig, almost)
+        assert rig.cache.get_exhausted("aic:exhausted:any") is None
+
+    def test_pages_without_usable_works_are_remembered(self) -> None:
+        museum = AicMuseum()
+        museum.add(PAGE_SIZE, width=1000, height=800)  # too narrow for the rendition
+        museum.add(PAGE_SIZE, first=PAGE_SIZE + 1)
+        for number in range(PAGE_SIZE + 1, 2 * PAGE_SIZE + 1):
+            del museum.sizes[aic_image_id(number)]  # no image record: no dimensions
+        rig = Rig(museum)
+        self.discover(rig, set())
+        hints = rig.cache.get_exhausted("aic:exhausted:any")
+        assert hints == ExhaustedPages(2 * PAGE_SIZE, frozenset({1, 2}))
+
+    def test_hints_for_another_total_are_ignored(self) -> None:
+        rig = Rig(self.museum())
+        rig.cache.add_exhausted("aic:exhausted:any", 999, [1, 2], timedelta(days=7))
+        context = self.discover(rig, set())
+        assert context.notes.pages_skipped == 0
+        assert self.pages_searched(rig) == [1, 2, 3]
+
+    def test_hints_are_kept_per_filter_signature(self) -> None:
+        rig = Rig(self.museum())
+        rig.cache.add_exhausted("aic:exhausted:any", 3 * PAGE_SIZE, [1, 2, 3], timedelta(days=7))
+        context = DiscoveryContext(
+            deadline=Deadline.after(rig.clock, 300, "discovery"), random=SeededRandomSource(1)
+        )
+        found = list(rig.provider.iter_candidates(filters("period_1800_1899"), context))
+        assert context.notes.pages_skipped == 0
+        assert len(found) == 3 * PAGE_SIZE
 
 
 def test_rendition_size() -> None:
