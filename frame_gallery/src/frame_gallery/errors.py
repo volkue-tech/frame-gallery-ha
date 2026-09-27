@@ -26,3 +26,7 @@ class StateError(FrameGalleryError):
 
 class AlreadyRunning(FrameGalleryError):
     """Another run holds the state lock (outcome ``already_running``)."""
+
+
+class PublishError(FrameGalleryError):
+    """The preview could not be published (outcome ``delivered_with_warnings``)."""

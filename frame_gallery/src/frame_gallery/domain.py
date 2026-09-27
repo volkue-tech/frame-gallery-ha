@@ -5,6 +5,7 @@ from __future__ import annotations
 import enum
 import re
 from dataclasses import dataclass
+from pathlib import Path
 from typing import Final
 
 _HEX_COLOUR = re.compile(r"#([0-9A-Fa-f]{2})([0-9A-Fa-f]{2})([0-9A-Fa-f]{2})")
@@ -123,3 +124,15 @@ _PROVIDER_KEYS = {
 
 DEFAULT_SOURCE = SourceKey.ART_INSTITUTE_CHICAGO
 """Accepted default remote source (Q-08)."""
+
+
+@dataclass(frozen=True, slots=True)
+class WorkspacePaths:
+    """This run's private scratch directory (§13.1)."""
+
+    root: Path
+    inbox: Path
+    """``in/``: downloads, read-only for the worker."""
+
+    outbox: Path
+    """``out/``: the worker's output."""

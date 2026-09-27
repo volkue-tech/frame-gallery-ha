@@ -336,7 +336,7 @@ class TestStageAndCommit:
     def test_a_temporary_name_collision_is_an_error(
         self, directory: Directory, monkeypatch: pytest.MonkeyPatch
     ) -> None:
-        monkeypatch.setattr(atomic, "_token", lambda: "0123456789abcdef")
+        monkeypatch.setattr(atomic, "new_token", lambda: "0123456789abcdef")
         put(directory, "f.tmp-0123456789abcdef", b"someone else's")
         with pytest.raises(StateError, match=r"cannot create a temporary file .EEXIST"):
             directory.stage("f", b"new")

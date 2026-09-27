@@ -18,11 +18,11 @@ from pathlib import Path
 
 from PIL import Image
 
-from frame_gallery.app.ports import FetchedImage, ProviderBinding, PublishError, WorkspacePaths
+from frame_gallery.app.ports import FetchedImage, ProviderBinding
 from frame_gallery.budget.deadline import Deadline
 from frame_gallery.config.filters import EffectiveFilters, FilterField
-from frame_gallery.domain import CANVAS, Size, SourceKey
-from frame_gallery.errors import StateError
+from frame_gallery.domain import CANVAS, Size, SourceKey, WorkspacePaths
+from frame_gallery.errors import PublishError, StateError
 from frame_gallery.imaging.contract import (
     ColourHandling,
     DeliveryArtifact,

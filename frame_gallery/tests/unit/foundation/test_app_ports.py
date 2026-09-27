@@ -5,15 +5,11 @@ from __future__ import annotations
 from collections.abc import Iterator
 from pathlib import Path
 
-from frame_gallery.app.ports import (
-    FetchedImage,
-    ProviderBinding,
-    PublishError,
-    WorkspacePaths,
-)
+from frame_gallery.app.ports import FetchedImage, ProviderBinding
 from frame_gallery.budget.deadline import Deadline
 from frame_gallery.config.filters import EffectiveFilters
-from frame_gallery.domain import Size, SourceKey
+from frame_gallery.domain import Size, SourceKey, WorkspacePaths
+from frame_gallery.errors import PublishError
 from frame_gallery.imaging.contract import ImageFormat
 from frame_gallery.providers.contract import (
     Candidate,

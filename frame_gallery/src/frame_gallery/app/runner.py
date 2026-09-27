@@ -40,12 +40,10 @@ from frame_gallery.app.ports import (
     OptionsSource,
     PreviewPublisher,
     ProviderBinding,
-    PublishError,
     RunRecords,
     StateStore,
     WatchdogControl,
     Workspace,
-    WorkspacePaths,
 )
 from frame_gallery.app.records import (
     AttemptNote,
@@ -75,8 +73,8 @@ from frame_gallery.config.filters import EffectiveFilters, FilterDimension, Filt
 from frame_gallery.config.options import ConfigError, LogLevel, Options, parse_options
 from frame_gallery.config.overrides import apply_helper_values
 from frame_gallery.config.vocabulary import BUILTIN_VOCABULARY, Vocabulary
-from frame_gallery.domain import SourceKey
-from frame_gallery.errors import AlreadyRunning, Cancelled, StateError
+from frame_gallery.domain import SourceKey, WorkspacePaths
+from frame_gallery.errors import AlreadyRunning, Cancelled, PublishError, StateError
 from frame_gallery.imaging.contract import (
     PREPARE_TASK,
     DeliveryArtifact,

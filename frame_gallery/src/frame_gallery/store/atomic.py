@@ -74,7 +74,7 @@ _NOT_REGULAR_ERRNOS: Final = frozenset({errno.ELOOP, errno.ENXIO, errno.EOPNOTSU
 _log = logging.getLogger("frame_gallery.store")
 
 
-def _token() -> str:
+def new_token() -> str:
     """16 random hex digits for a temporary name; ``O_EXCL`` guards collisions."""
     return secrets.token_hex(8)
 
@@ -256,7 +256,7 @@ class Directory:
         """Step 3: write ``data`` to a new temporary file with exactly ``mode``
         and ``fsync`` it. Raises :class:`StateError`."""
         check_name(name)
-        temporary = f"{name}{TEMPORARY_MARKER}{_token()}"
+        temporary = f"{name}{TEMPORARY_MARKER}{new_token()}"
         try:
             fd = os.open(temporary, CREATE_FLAGS, mode, dir_fd=self.fd)
         except OSError as exc:
@@ -325,7 +325,7 @@ class Directory:
     def _refresh_backup(self, name: str) -> None:
         """Step 4: point ``<name>.bak`` at the current primary (never raises)."""
         fd = self.fd
-        temporary = f"{name}{BACKUP_SUFFIX}{TEMPORARY_MARKER}{_token()}"
+        temporary = f"{name}{BACKUP_SUFFIX}{TEMPORARY_MARKER}{new_token()}"
         try:
             os.link(name, temporary, src_dir_fd=fd, dst_dir_fd=fd, follow_symlinks=False)
             try:
@@ -582,7 +582,7 @@ class Quarantine:
         """Move ``name`` into ``quarantine/``, then drop the oldest entries
         beyond the limit. Best-effort; never raises."""
         stamp = self._now().astimezone(UTC).strftime("%Y%m%dT%H%M%SZ")
-        target = f"{stamp}-{_token()}-{name}"
+        target = f"{stamp}-{new_token()}-{name}"
         label = f"{self._directory.label}/{name}"
         try:
             holding = self._directory.child(QUARANTINE_DIRECTORY, create=True)

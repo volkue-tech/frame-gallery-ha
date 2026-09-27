@@ -11,14 +11,13 @@ from pathlib import Path
 import pytest
 
 from frame_gallery.app.outcomes import Hint, Outcome
-from frame_gallery.app.ports import PublishError
 from frame_gallery.app.runner import Stage
 from frame_gallery.budget.deadline import Deadline, DeadlineExceeded
 from frame_gallery.budget.phases import PREPARE_S
 from frame_gallery.config.filters import FilterField
 from frame_gallery.config.options import LogLevel
 from frame_gallery.domain import Size
-from frame_gallery.errors import AlreadyRunning, Cancelled, StateError
+from frame_gallery.errors import AlreadyRunning, Cancelled, PublishError, StateError
 from frame_gallery.imaging.contract import (
     ImageFormat,
     PrepareFailure,

@@ -17,7 +17,7 @@ from typing import Protocol
 
 from frame_gallery.budget.deadline import Deadline
 from frame_gallery.config.filters import FilterField
-from frame_gallery.errors import FrameGalleryError
+from frame_gallery.domain import WorkspacePaths
 from frame_gallery.imaging.contract import DeliveryArtifact, ImageFormat
 from frame_gallery.providers.contract import DimensionProbe, ImageRef, Provider
 from frame_gallery.selection.exclusion import ExclusionStore
@@ -113,16 +113,6 @@ class ProviderBinding:
     probe: DimensionProbe | None = None
 
 
-@dataclass(frozen=True, slots=True)
-class WorkspacePaths:
-    root: Path
-    inbox: Path
-    """``in/``: downloads, read-only for the worker."""
-
-    outbox: Path
-    """``out/``: the worker's output."""
-
-
 class Workspace(Protocol):
     def create(self) -> WorkspacePaths:
         """Create this run's private scratch directory. Raises ``StateError``."""
@@ -133,13 +123,11 @@ class Workspace(Protocol):
         ...
 
 
-class PublishError(FrameGalleryError):
-    """The preview could not be published."""
-
-
 class PreviewPublisher(Protocol):
     def publish(self, artifact: DeliveryArtifact, deadline: Deadline) -> None:
-        """Publish the delivery bytes atomically. Raises :class:`PublishError`."""
+        """Publish the delivery bytes atomically.
+
+        Raises ``frame_gallery.errors.PublishError``."""
         ...
 
 

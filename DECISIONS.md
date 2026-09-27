@@ -1108,6 +1108,23 @@ Status: proposed (Phase 4 gate).
 - **Quarantine period.** An `uncertain` entry excludes its work until exactly 30 days after `at`. An `at` in the future (a clock that went back) keeps the quarantine until then, so it is never shortened.
 - **Leftovers.** `close` discards a pre-staged history file that was never recorded. The startup sweep removes any that a killed run left behind (D-155).
 
+### D-155 — Workspace, startup sweep, and store layout [§13.1, §14]
+
+Status: proposed (Phase 4 gate).
+
+- **Modules.** `store/workspace.py` (`RunWorkspace`, the `Workspace` port), `store/sweep.py` (`StartupSweep`), and `store/layout.py` (`StoreLayout`: the anchors `/data`, `/media`, and `/tmp`, and the store ports built from them for the Phase 6 entry point).
+- **Moved types.** `WorkspacePaths` moves from `app.ports` to `domain.py`, and `PublishError` from `app.ports` to `errors.py`. The store can then implement the runner's ports without importing `app` (§5).
+- **Workspace.**
+  - `/tmp/frame-gallery` must belong to the process's user and is narrowed to mode 0700. `run-<16 hex digits>` and its `in/` and `out/` are created with mode 0700, once per run, in ATTEMPT.
+  - Removal is a descriptor-relative `rmtree` that never follows a symbolic link. A failure only logs a warning.
+  - Phase 5 sets the modes that the unprivileged worker needs (§11.3).
+- **Sweep.**
+  - It runs in CONFIGURE, after the lock is taken, so a run that loses the lock sweeps nothing.
+  - It removes regular files named `<name>.tmp-<16 hex digits>` or `<name>.bak.tmp-<16 hex digits>` in `/data/state`, `/data/cache`, `/data/tv`, and `/media/frame_gallery/preview`, and directories named `run-<16 hex digits>` in `/tmp/frame-gallery`.
+  - Only exact names of the right kind are touched; symbolic links and other kinds are left alone.
+  - At most 1 000 entries are scanned per directory. A missing directory is skipped, errors only log a warning, and the number removed is logged at INFO.
+  - The quarantine directory is not swept; it has its own bound (D-153).
+
 ## Proposed dependency inventory
 
 Status: **Phase 2 installed** the development tools and Pillow, and **Phase 3 installed** `urllib3` 2.8.0 and `certifi` 2026.7.22 (approved by the user on 2026-09-27), only in the local project environment (`frame_gallery/.venv`, from `uv.lock`). The runtime rows for later phases are still proposed.

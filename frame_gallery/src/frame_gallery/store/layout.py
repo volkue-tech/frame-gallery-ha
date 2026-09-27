@@ -1,0 +1,48 @@
+"""Where the store keeps its files (§13.1).
+
+The production anchors are the container's ``/data``, ``/media``, and the
+RAM-backed ``/tmp``; tests pass temporary anchors. Every directory below an
+anchor is opened without following a symbolic link. The entry point (Phase 6)
+builds the store's ports from one layout.
+"""
+
+from __future__ import annotations
+
+from dataclasses import dataclass, field
+from pathlib import Path
+from typing import Final
+
+from frame_gallery.budget.clock import Clock
+from frame_gallery.store.state import STATE_DIRECTORY, FileStateStore
+from frame_gallery.store.sweep import StartupSweep, SweepTarget
+from frame_gallery.store.workspace import WORKSPACE_DIRECTORY, RunWorkspace
+
+CACHE_PARTS: Final = ("cache",)
+TOKEN_PARTS: Final = ("tv",)
+PREVIEW_PARTS: Final = ("frame_gallery", "preview")
+
+
+@dataclass(frozen=True, slots=True)
+class StoreLayout:
+    data: Path = field(default=Path("/data"))
+    media: Path = field(default=Path("/media"))
+    tmp: Path = field(default=Path("/tmp"))  # noqa: S108 - the container's RAM-backed /tmp
+
+    def startup_sweep(self) -> StartupSweep:
+        """The sweep of the state, cache, token, and preview directories and
+        of leftover run directories (§14)."""
+        return StartupSweep(
+            temporary_files=(
+                SweepTarget(self.data, (STATE_DIRECTORY,)),
+                SweepTarget(self.data, CACHE_PARTS),
+                SweepTarget(self.data, TOKEN_PARTS),
+                SweepTarget(self.media, PREVIEW_PARTS),
+            ),
+            run_directories=SweepTarget(self.tmp, (WORKSPACE_DIRECTORY,)),
+        )
+
+    def state_store(self, clock: Clock) -> FileStateStore:
+        return FileStateStore(self.data, clock=clock, sweep=self.startup_sweep())
+
+    def workspace(self) -> RunWorkspace:
+        return RunWorkspace(self.tmp)
