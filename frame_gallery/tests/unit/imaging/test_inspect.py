@@ -127,3 +127,26 @@ def test_result_validation() -> None:
         InspectRequest.from_json({"declared_format": "JPEG"})
     request = InspectRequest("x.png", ImageFormat.PNG)
     assert InspectRequest.from_json(request.to_json()) == request
+
+
+def test_the_worker_checks_the_scanned_identity(tmp_path: Path) -> None:
+    path = save_jpeg(marked((40, 30)), tmp_path / "a.jpg")
+    info = path.stat()
+    same = InspectRequest(str(path), ImageFormat.JPEG, info.st_dev, info.st_ino)
+    assert inspect_image(same).oriented_size == Size(40, 30)
+    other = InspectRequest(str(path), ImageFormat.JPEG, info.st_dev, info.st_ino + 1)
+    result = inspect_image(other)
+    assert result.failure is PrepareFailure.IO
+    assert result.detail == "the source is not the file the scan saw"
+    assert InspectRequest.from_json(same.to_json()) == same
+    half = InspectRequest(str(path), ImageFormat.JPEG, info.st_dev, None)
+    assert inspect_image(half).oriented_size == Size(40, 30)  # no identity: not checked
+
+
+def test_identity_fields_are_validated() -> None:
+    with pytest.raises(ValueError, match="device"):
+        InspectRequest.from_json({"path": "a", "declared_format": "JPEG", "device": -1})
+    with pytest.raises(ValueError, match="inode"):
+        InspectRequest.from_json(
+            {"path": "a", "declared_format": "JPEG", "device": None, "inode": "7"}
+        )

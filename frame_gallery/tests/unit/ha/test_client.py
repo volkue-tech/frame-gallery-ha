@@ -5,7 +5,7 @@ from __future__ import annotations
 import json
 import logging
 from collections.abc import Mapping
-from ipaddress import ip_address
+from ipaddress import IPv4Network, IPv6Network, ip_address
 
 import pytest
 
@@ -20,6 +20,7 @@ from tests.support.net import FakeResolver, FakeResponse, FakeTransport, connect
 
 TOKEN = "fake-supervisor-token-0123456789"  # noqa: S105 - a synthetic test value
 SUPERVISOR = ip_address("172.30.32.2")
+NETWORKS = (IPv4Network("172.30.32.0/23"), IPv4Network("172.30.33.0/24"))
 HELPERS: Mapping[FilterField, str] = {
     FilterField.SOURCE: "input_select.frame_source",
     FilterField.DEPARTMENT: "select.frame_department",
@@ -36,12 +37,18 @@ def state(value: object, **extra: object) -> FakeResponse:
 
 
 class Rig:
-    def __init__(self, *, token: str | None = TOKEN, resolver: FakeResolver | None = None) -> None:
+    def __init__(
+        self,
+        *,
+        token: str | None = TOKEN,
+        resolver: FakeResolver | None = None,
+        networks: tuple[IPv4Network | IPv6Network, ...] = NETWORKS,
+    ) -> None:
         self.clock = FakeClock()
         self.resolver = resolver or FakeResolver(default=(SUPERVISOR,), clock=self.clock)
         self.transport = FakeTransport(clock=self.clock)
         self.reader = SupervisorHelperReader(
-            token=token, resolver=self.resolver, transport=self.transport
+            token=token, resolver=self.resolver, transport=self.transport, networks=networks
         )
 
     def deadline(self, seconds: float = 10.0) -> Deadline:
@@ -116,11 +123,41 @@ def test_without_a_usable_token_nothing_is_sent(
         (ip_address("127.0.0.1"),),
         (ip_address("169.254.1.1"),),
         (),
+        (ip_address("192.168.1.50"),),  # private, but not the container's network
+        (SUPERVISOR, ip_address("10.0.0.7")),
+        (ip_address("2002:ac1e:2002::1"),),  # 6to4 around 172.30.32.2
+        (ip_address("2002:808:808::1"),),  # 6to4 around a public address
+        (ip_address("2001:0:4136:e378:8000:63bf:3fff:fdd2"),),  # Teredo
+        (ip_address("fd00::2"),),  # private IPv6, outside the container's networks
     ],
 )
-def test_the_token_goes_only_to_a_private_address(answer: tuple[object, ...]) -> None:
+def test_the_token_goes_only_to_the_containers_network(answer: tuple[object, ...]) -> None:
     resolver = FakeResolver(default=answer)  # type: ignore[arg-type]
     rig = Rig(resolver=resolver)
+    assert rig.read() == dict.fromkeys(HELPERS)
+    assert rig.transport.calls == []
+
+
+def test_without_known_networks_nothing_is_sent() -> None:
+    rig = Rig(networks=())
+    assert rig.read() == dict.fromkeys(HELPERS)
+    assert rig.transport.calls == []
+
+
+def test_an_ipv6_supervisor_inside_an_ipv6_container_network(rig: Rig) -> None:
+    address = ip_address("fd0c:ac1e:2100::2")
+    rig = Rig(
+        resolver=FakeResolver(default=(address,)),
+        networks=(IPv6Network("fd0c:ac1e:2100::/48"), IPv4Network("0.0.0.0/0")),
+    )
+    rig.transport.add(state("on"))
+    assert rig.read({FilterField.STYLE: "input_text.a"}) == {FilterField.STYLE: "on"}
+    assert rig.transport.calls[0].request.address == address
+
+
+def test_address_families_are_never_mixed() -> None:
+    # An IPv4 address is never "inside" an IPv6 network, whatever its bits.
+    rig = Rig(networks=(IPv6Network("::/0"),))
     assert rig.read() == dict.fromkeys(HELPERS)
     assert rig.transport.calls == []
 

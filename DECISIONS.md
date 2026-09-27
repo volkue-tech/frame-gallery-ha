@@ -908,6 +908,8 @@ Status: proposed (Phase 3).
 - Item 16: the `urllib3` logger is silenced completely (`logs/setup.py`). Its warnings quote the full request URL, query included, and unparsed response header data.
 - The boundary test lists imports with their members, so `from http import server` in `net/transport.py` is caught like `import http.server`.
 
+**Amendment after the internal review of `f614256` and `8761cca`:** item 4's end is renamed `provider_allowance`. It now covers any allowance of the provider's own: the gateway's metadata requests, and the local library's directory entries (D-149).
+
 ### D-148 — Helper reader details [§15.3, D-112; B3–B5]
 
 Status: proposed (Phase 3).
@@ -918,6 +920,13 @@ Status: proposed (Phase 3).
 - **Bounds.** One request per configured helper (at most four), no redirect (any 3xx fails), and no retry. Each read takes at most 3 s, clamped to the configuration deadline; a read that no longer fits is skipped. The body is at most 64 KiB, `identity` encoding, and JSON. Only `state` is used: a string of at most 255 characters.
 - **Failures.** Any failure gives `None` for that helper. The merge then falls back to the static value with exactly one WARNING (B4, B5). The reader logs its own reasons at INFO (no usable token; the Supervisor cannot be reached) and DEBUG (per helper), and never logs the token or a helper's value. Its `repr` hides the token. `unavailable` and `unknown` are returned as they are (B4). Only `Cancelled` propagates.
 - **Token.** The entry point (Phase 6) passes the token from the reduced environment and registers it with the redactor (D-145). An empty or non-printable token means no read at all.
+
+**Amendment after the internal review of `f614256`.** A private address alone was not enough: any RFC 1918 LAN address, or a 6to4 or Teredo address embedding a public IPv4 address, would have received the token. Now:
+
+- the reader takes the container's own networks (`NetworkInfo.container_networks()`, which include the Supervisor's internal network);
+- every resolved address must be private **and** inside one of those networks, with IPv4 and IPv6 never mixed;
+- without known networks, nothing is sent;
+- `is_private_address` refuses 6to4, Teredo, and NAT64 forms.
 
 ### D-149 — Local media provider details [§8.3, §9.3, D-118; F7]
 
@@ -944,6 +953,18 @@ Status: proposed (Phase 3).
   - *Deviation from §8.3:* one file per task instead of batches of up to 50. Batching only pays off with the process executor, so it is deferred to Phase 5.
 - **Delivery.** The fetcher copies only a file that this scan offered. The file must still be a regular file with the scanned size and fingerprint, and it is copied in 1 MiB steps, with deadline checks, into a new 0600 file. Any change since the scan is `NOT_FOUND`: the next candidate is tried, and it is not a transport failure. Remote references go to the channel whose host policy owns the URL, so downloads share that provider's pacing and 403/429 stop.
 - **Empty library.** When the local scan finishes without offering a candidate, the `no_match` hint is "no usable JPEG or PNG images in /media/frame_gallery/library" (new `Hint.LIBRARY_EMPTY`), as §9.3 requires.
+
+**Amendment after the internal review of `8761cca`:**
+
+- **Pinned identities (a symlink race).** A path-based open protects only the last component, so a subfolder swapped for a symbolic link during the run could have led outside the library. Now:
+  - each folder is opened with `O_DIRECTORY | O_NOFOLLOW` and listed through its own descriptor;
+  - every folder and file is recorded by device and inode as the listing saw it;
+  - a folder, when listed, and a file, when offered, copied, or inspected, must still have that identity. The worker's `inspect` task checks the device and inode it is given.
+  - A mismatch, or a folder that is now a link or a file, is skipped as the new reason `changed`, or refused as `NOT_FOUND` when copying.
+  - Guard 1 now compares identities instead of real paths.
+- **Read errors while copying** (`fstat` or `pread` on the library file) are `NOT_FOUND`, so the next candidate is tried. Before, they ended the run as `internal_error`.
+- **An inspection cut off by the discovery deadline** raises `DeadlineExceeded` and is not counted as a failed inspection of a healthy file (D-141 item 2).
+- **Entry limit.** A scan cut short by the 20 000-entry limit ends by raising `AllowanceExhausted` once its files are offered. The hint is then "search limits reached", not "no usable images". A library larger than the limit is only partly scanned, and it is the same part each run.
 
 ### D-150 — Art Institute adapter details [§9.5, D-132, D-146]
 
@@ -1254,6 +1275,28 @@ L = likelihood, I = impact; H = high, M = medium, L = low.
 | Q-24 | Cleveland colour filtering by local analysis, for example of the documented 900 px web rendition, counted against the existing download allowance and the content-window time budget, not against the 30 remote dimension requests. Only if it fits the same download and time budgets. | Defer until after the beta | After the beta |
 
 ## Review records
+
+### Internal review of the helper reader `f614256` and local media `8761cca` (Claude, Phase 3)
+
+One independent reviewer checked security, correctness against the requirements, time bounds, and test quality. Proofs used scratch scripts, with local files and a socket pair only. Six findings were confirmed, and all are fixed in the commit that follows `72dba4a` (amendments to D-147, D-148, and D-149):
+
+1. **Medium.** Symbolic links in the middle of a path were followed. A subfolder swapped for a link during discovery made a file outside the library usable, fetchable, and able to bypass preview guard 1.
+2. **Low-medium.** An I/O error while copying a library file ended the run as `internal_error` instead of trying the next candidate.
+3. **Low.** The token could reach any private LAN address, or a 6to4 or Teredo address embedding a public IPv4 address.
+4. **Low.** An inspection cut off by the discovery deadline was reported as a failed inspection of a healthy file.
+5. **Low.** A library cut short by the entry limit got the "no usable images" hint.
+6. **Low, test quality.** The aggregated-warning test tolerated six examples, and its hostile-name check depended on directory order.
+
+The reviewer confirmed as sound:
+
+- the helper bounds, measured on the real stack: 3 s per stalled read, 10 s for four dripping helpers;
+- exactly one WARNING per fallback;
+- token hygiene;
+- the depth, entry, and size limits, and the D-118 fingerprint;
+- FIFO handling;
+- the inspection contract;
+- sanitized file names;
+- the fetch re-check.
 
 ### Internal review of the gateway commit `51d9cf3` (Claude, Phase 3)
 

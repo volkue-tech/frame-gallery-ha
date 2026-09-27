@@ -313,20 +313,36 @@ class InspectStatus(enum.StrEnum):
     """The file cannot be read as the declared format within the limits."""
 
 
+_MAX_FILE_ID: Final = 2**64 - 1
+
+
 @dataclass(frozen=True, slots=True)
 class InspectRequest:
-    """Read one library file's header (§8.3). No pixels are decoded."""
+    """Read one library file's header (§8.3). No pixels are decoded.
+
+    ``device`` and ``inode`` pin the file the scan saw: the worker refuses a
+    file whose identity differs (D-149)."""
 
     path: str
     declared_format: ImageFormat
+    device: int | None = None
+    inode: int | None = None
 
     def to_json(self) -> JsonObject:
-        return {"path": self.path, "declared_format": self.declared_format.value}
+        return {
+            "path": self.path,
+            "declared_format": self.declared_format.value,
+            "device": self.device,
+            "inode": self.inode,
+        }
 
     @classmethod
     def from_json(cls, obj: JsonObject) -> InspectRequest:
         return cls(
-            path=_str(obj, "path"), declared_format=_enum(obj, "declared_format", ImageFormat)
+            path=_str(obj, "path"),
+            declared_format=_enum(obj, "declared_format", ImageFormat),
+            device=_optional_int(obj, "device", 0, _MAX_FILE_ID),
+            inode=_optional_int(obj, "inode", 0, _MAX_FILE_ID),
         )
 
 

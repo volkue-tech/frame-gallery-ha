@@ -5,7 +5,7 @@ from __future__ import annotations
 
 import json
 import logging
-from ipaddress import ip_address
+from ipaddress import IPv4Network, ip_address
 from pathlib import Path
 
 import pytest
@@ -31,6 +31,7 @@ def _harness(tmp_path: Path, raw: dict[str, object], *states: FakeResponse) -> H
         token=TOKEN,
         resolver=FakeResolver(default=(ip_address("172.30.32.2"),)),
         transport=transport,
+        networks=(IPv4Network("172.30.32.0/23"),),
     )
     return Harness(
         tmp_path,

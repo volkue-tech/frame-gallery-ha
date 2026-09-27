@@ -196,8 +196,13 @@ def inspect_image(request: InspectRequest) -> InspectResult:
         with warnings.catch_warnings():
             warnings.simplefilter("ignore", UserWarning)
             warnings.simplefilter("error", Image.DecompressionBombWarning)
+            expected = (
+                None
+                if request.device is None or request.inode is None
+                else (request.device, request.inode)
+            )
             with (
-                _open_source(request.path) as file,
+                _open_source(request.path, expected) as file,
                 contextlib.closing(_open_image(file, request.declared_format)) as image,
             ):
                 size = _check_limits(image, request.declared_format)
@@ -292,7 +297,9 @@ def _prepare(request: PrepareRequest, known: _Known, max_output_bytes: int) -> P
     )
 
 
-def _open_source(path: str) -> IO[bytes]:
+def _open_source(path: str, expected: tuple[int, int] | None = None) -> IO[bytes]:
+    """Open the source safely; with ``expected`` (device, inode), only if it is
+    still the file the parent's scan saw."""
     try:
         fd = os.open(path, _SOURCE_FLAGS)
     except OSError as exc:
@@ -302,6 +309,8 @@ def _open_source(path: str) -> IO[bytes]:
         # fstat before wrapping the descriptor: a file object refuses a
         # directory with its own error.
         info = os.fstat(fd)
+        if expected is not None and (info.st_dev, info.st_ino) != expected:
+            raise _Failed(PrepareFailure.IO, "the source is not the file the scan saw")
         if not stat.S_ISREG(info.st_mode):
             raise _Failed(PrepareFailure.IO, "the source is not a regular file")
         if info.st_size > MAX_SOURCE_BYTES:

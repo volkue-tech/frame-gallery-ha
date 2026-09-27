@@ -7,12 +7,13 @@ import hashlib
 import logging
 import os
 import stat
-from collections.abc import Iterator
+from collections.abc import Iterator, MutableSequence
 from pathlib import Path
+from typing import Any
 
 import pytest
 
-from frame_gallery.budget.allowance import Allowance
+from frame_gallery.budget.allowance import Allowance, AllowanceExhausted
 from frame_gallery.budget.deadline import Deadline, DeadlineExceeded
 from frame_gallery.config.filters import EffectiveFilters, FilterSet
 from frame_gallery.domain import FitMode, Size, SourceKey
@@ -195,14 +196,104 @@ class TestScan:
         # while fingerprinting: both are skipped, neither blocks or raises.
         fifo = library.root / "was_a_file.jpg"
         os.mkfifo(fifo)
-        assert local_media._inspect_file(fifo) == (0, None, SkipReason.NOT_REGULAR)
+        fifo_identity = (fifo.lstat().st_dev, fifo.lstat().st_ino)
+        assert local_media._inspect_file(fifo, fifo_identity) == (0, None, SkipReason.NOT_REGULAR)
         path = library.jpeg("a.jpg")
+        identity = (path.stat().st_dev, path.stat().st_ino)
+        assert local_media._inspect_file(path, (identity[0], identity[1] + 1))[2] is (
+            SkipReason.CHANGED
+        )
 
         def failing_pread(fd: int, length: int, offset: int) -> bytes:
             raise OSError("I/O error")
 
         monkeypatch.setattr(os, "pread", failing_pread)
-        assert local_media._inspect_file(path) == (0, None, SkipReason.UNREADABLE)
+        assert local_media._inspect_file(path, identity) == (0, None, SkipReason.UNREADABLE)
+
+    def test_a_folder_swapped_for_a_symlink_after_the_scan(
+        self, library: Library, tmp_path: Path
+    ) -> None:
+        # The review's race: "sub" is listed, then replaced by a link to a
+        # folder outside the library that holds a file of the same name.
+        library.jpeg("a.jpg")
+        library.jpeg("sub/x.jpg", (80, 45))
+        outside = tmp_path / "outside"
+        outside.mkdir()
+        save_jpeg(marked((80, 45)), outside / "x.jpg")
+        provider = library.provider()
+
+        class InOrder(SeededRandomSource):
+            def shuffle(self, items: MutableSequence[Any]) -> None:
+                pass  # keep the sorted order: a.jpg first, then sub/x.jpg
+
+        context = DiscoveryContext(Deadline.after(library.clock, 30, "d"), InOrder(0))
+        iterator = provider.iter_candidates(FILTERS, context)
+        first = next(iterator)  # the scan has run; offers are made lazily
+        assert first.attribution.title == "a"
+        (library.root / "sub").rename(tmp_path / "moved")
+        (library.root / "sub").symlink_to(outside, target_is_directory=True)
+        assert list(iterator) == []
+        assert provider.report.counts == {SkipReason.CHANGED: 1}
+
+    def test_an_offered_file_swapped_before_the_copy(
+        self, library: Library, tmp_path: Path
+    ) -> None:
+        library.jpeg("sub/x.jpg", (80, 45))
+        outside = tmp_path / "outside"
+        outside.mkdir()
+        save_jpeg(marked((80, 45)), outside / "x.jpg")
+        provider = library.provider()
+        (candidate,) = library.candidates(provider)
+        (library.root / "sub").rename(tmp_path / "moved")
+        (library.root / "sub").symlink_to(outside, target_is_directory=True)
+        with pytest.raises(SourceError, match="changed") as excinfo:
+            provider.fetch(
+                provider.full_ref(candidate), tmp_path / "copy", library.context().deadline
+            )
+        assert excinfo.value.kind is SourceErrorKind.NOT_FOUND
+        assert not (tmp_path / "copy").exists()
+
+    def test_a_folder_that_is_not_the_one_listed_is_not_entered(
+        self, library: Library, tmp_path: Path
+    ) -> None:
+        library.jpeg("sub/x.jpg")
+        provider = library.provider()
+        scan = local_media._Scan(preview=None)
+        sub = library.root / "sub"
+        wrong = (sub.stat().st_dev, sub.stat().st_ino + 1)
+        assert provider._list(sub, "sub/", 1, wrong, scan)
+        assert scan.found == []
+        assert provider.report.counts == {SkipReason.CHANGED: 1}
+        # A folder that became a symbolic link is refused as changed as well.
+        sub.rename(tmp_path / "gone")
+        sub.symlink_to(tmp_path / "gone", target_is_directory=True)
+        right = ((tmp_path / "gone").stat().st_dev, (tmp_path / "gone").stat().st_ino)
+        assert provider._list(sub, "sub/", 1, right, scan)
+        assert scan.found == []
+        assert provider.report.counts == {SkipReason.CHANGED: 2}
+
+    def test_a_file_that_shrinks_before_it_is_fingerprinted(
+        self, library: Library, monkeypatch: pytest.MonkeyPatch
+    ) -> None:
+        path = library.jpeg("a.jpg")
+        identity = (path.stat().st_dev, path.stat().st_ino)
+        monkeypatch.setattr(local_media, "fingerprint_fd", lambda fd, size: None)
+        size, fingerprint, reason = local_media._inspect_file(path, identity)
+        assert (fingerprint, reason) == (None, SkipReason.UNREADABLE)
+        assert size == path.stat().st_size
+
+    def test_a_listing_error_skips_the_folder(
+        self, library: Library, monkeypatch: pytest.MonkeyPatch
+    ) -> None:
+        library.jpeg("a.jpg")
+
+        def failing_scandir(fd: int) -> Iterator[os.DirEntry[str]]:
+            raise OSError(5, "Input/output error")
+
+        monkeypatch.setattr(os, "scandir", failing_scandir)
+        provider = library.provider()
+        assert library.candidates(provider) == []
+        assert provider.report.counts == {SkipReason.UNREADABLE: 1}
 
     def test_the_entry_limit_ends_the_scan(
         self, library: Library, monkeypatch: pytest.MonkeyPatch
@@ -211,7 +302,11 @@ class TestScan:
         for index in range(5):
             library.jpeg(f"img{index}.jpg")
         provider = library.provider()
-        assert len(library.candidates(provider)) == 3
+        found: list[Candidate] = []
+        with pytest.raises(AllowanceExhausted, match="local_directory_entries"):
+            found.extend(provider.iter_candidates(FILTERS, library.context()))
+        # A library cut short is a search limit, never an empty library.
+        assert len(found) == 3
         assert provider.report.counts == {SkipReason.ENTRY_LIMIT: 1}
 
     def test_the_order_is_shuffled_by_the_injected_source(self, library: Library) -> None:
@@ -361,16 +456,28 @@ class TestReport:
     ) -> None:
         for index in range(8):
             library.file(f"doc{index}.txt")
-        library.file("bad\nname\u202e.gif")
         library.jpeg("ok.jpg")
+        provider = library.provider()
+        with caplog.at_level(logging.WARNING):
+            library.candidates(provider)
+        (record,) = [r for r in caplog.records if r.levelno == logging.WARNING]
+        message = record.getMessage()
+        assert message.startswith("local library: 8 entries skipped (unsupported_extension=8)")
+        assert len(provider.report.examples) == 5
+        assert message.endswith("; examples: " + ", ".join(provider.report.examples))
+
+    def test_example_paths_are_sanitized(
+        self, library: Library, caplog: pytest.LogCaptureFixture
+    ) -> None:
+        library.file("bad\nname\u202e\u0007.gif")
         with caplog.at_level(logging.WARNING):
             library.candidates()
         (record,) = [r for r in caplog.records if r.levelno == logging.WARNING]
         message = record.getMessage()
-        assert message.startswith("local library: 9 entries skipped (unsupported_extension=9)")
-        assert message.count(", doc") + message.startswith("doc") <= 5
+        assert "examples: bad name" in message
         assert "\n" not in message
         assert "\u202e" not in message
+        assert "\u0007" not in message
 
     def test_no_warning_when_nothing_is_skipped(
         self, library: Library, caplog: pytest.LogCaptureFixture
@@ -518,6 +625,48 @@ class TestFetch:
             provider.fetch(provider.full_ref(candidate), tmp_path / "x", deadline)
         assert not (tmp_path / "x").exists()
 
+    @pytest.mark.parametrize("failing", ["fstat", "pread"])
+    def test_read_errors_are_not_found(
+        self,
+        library: Library,
+        tmp_path: Path,
+        monkeypatch: pytest.MonkeyPatch,
+        failing: str,
+    ) -> None:
+        # An I/O error on the library file tries the next candidate; it never
+        # ends the run as an internal error (review finding).
+        provider, candidate, _path = self._offered(library)
+        real_pread = os.pread
+        calls = {"n": 0}
+
+        def pread(fd: int, length: int, offset: int) -> bytes:
+            calls["n"] += 1
+            if calls["n"] <= 2:
+                return real_pread(fd, length, offset)
+            raise OSError(5, "Input/output error")
+
+        def fstat(fd: int) -> os.stat_result:
+            raise OSError(5, "Input/output error")
+
+        if failing == "pread":
+            monkeypatch.setattr(os, "pread", pread)
+        else:
+            monkeypatch.setattr(os, "fstat", fstat)
+        with pytest.raises(SourceError, match="cannot be read") as excinfo:
+            provider.fetch(provider.full_ref(candidate), tmp_path / "x", library.context().deadline)
+        assert excinfo.value.kind is SourceErrorKind.NOT_FOUND
+        assert not (tmp_path / "x").exists()
+
+    def test_a_different_file_with_the_same_content_is_refused(
+        self, library: Library, tmp_path: Path
+    ) -> None:
+        provider, candidate, path = self._offered(library)
+        data = path.read_bytes()
+        path.unlink()
+        path.write_bytes(data)  # a new inode with identical bytes
+        with pytest.raises(SourceError, match="changed"):
+            provider.fetch(provider.full_ref(candidate), tmp_path / "x", library.context().deadline)
+
     def test_the_destination_is_never_overwritten(self, library: Library, tmp_path: Path) -> None:
         provider, candidate, _path = self._offered(library)
         target = tmp_path / "x"
@@ -571,6 +720,34 @@ class TestInspection:
             probe.measure(candidate, library.context().deadline)
         assert excinfo.value.kind is SourceErrorKind.UNEXPECTED_FORMAT
         assert provider.report.counts == {SkipReason.INSPECTION_FAILED: 1}
+
+    def test_a_timeout_at_the_discovery_deadline_is_not_a_failure(self, library: Library) -> None:
+        library.jpeg("healthy.jpg")
+        provider = library.provider()
+        (candidate,) = library.candidates(provider)
+        clock = library.clock
+        deadline = Deadline.after(clock, 1.0, "discovery")
+
+        class Slow:
+            def run(self, task: str, payload: JsonObject, *, timeout: float) -> JsonObject:
+                clock.advance(timeout)
+                raise WorkerError(WorkerErrorKind.TIMEOUT, "slow")
+
+            def terminate_all(self) -> None: ...
+
+        with pytest.raises(DeadlineExceeded):
+            LocalInspectionProbe(provider, Slow()).measure(candidate, deadline)
+        assert provider.report.counts == {}
+
+    def test_the_worker_refuses_a_file_that_changed(self, library: Library) -> None:
+        path = library.jpeg("a.jpg")
+        provider, probe = self._probe(library)
+        (candidate,) = library.candidates(provider)
+        data = path.read_bytes()
+        path.unlink()
+        path.write_bytes(data)  # same bytes, another inode
+        assert probe.measure(candidate, library.context().deadline) is None
+        assert provider.report.counts == {SkipReason.UNREADABLE: 1}
 
     def test_no_time_left(self, library: Library) -> None:
         library.jpeg("a.jpg")

@@ -863,7 +863,7 @@ def test_a_request_cut_off_by_the_deadline_ends_discovery() -> None:
     assert not result.transport_failure
 
 
-def test_a_spent_metadata_allowance_ends_discovery_as_a_limit() -> None:
+def test_a_spent_provider_allowance_ends_discovery_as_a_limit() -> None:
     # The provider's gateway channel raises when its 15 metadata requests
     # are used up (§7.2); that is a search limit, not a failure.
     source = ScriptedSource(
@@ -872,7 +872,7 @@ def test_a_spent_metadata_allowance_ends_discovery_as_a_limit() -> None:
     result = select(source)
     assert ids(result) == ["aic:1001"]
     assert bases(result) == [ChoiceBasis.FALLBACK]
-    assert result.end is DiscoveryEnd.METADATA_ALLOWANCE
+    assert result.end is DiscoveryEnd.PROVIDER_ALLOWANCE
     assert result.provider_error is None
     assert result.limits_reached
     assert not result.transport_failure

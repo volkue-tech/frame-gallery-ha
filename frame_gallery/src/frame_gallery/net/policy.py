@@ -332,12 +332,13 @@ def is_public_address(address: IPAddress) -> bool:
 def is_private_address(address: IPAddress) -> bool:
     """Whether ``address`` is a private unicast address (the Supervisor's
     internal network): private, and not loopback, link-local, multicast,
-    reserved, or unspecified."""
+    reserved, or unspecified. 6to4, Teredo, and NAT64 forms are refused: they
+    may carry a public IPv4 address."""
     if isinstance(address, IPv6Address):
         mapped = address.ipv4_mapped
         if mapped is not None:
             return is_private_address(mapped)
-        if address.scope_id:
+        if address.scope_id or _embedded_ipv4(address) is not None:
             return False
     return (
         address.is_private

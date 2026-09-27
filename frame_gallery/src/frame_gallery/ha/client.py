@@ -6,8 +6,8 @@ most four helpers:
 - ``GET http://supervisor/core/api/states/<entity_id>``, where the entity ID
   is re-validated with ``fullmatch`` and percent-encoded;
 - the name ``supervisor`` is resolved once per run, and every address must be
-  private (the Supervisor's internal network), so the token can never reach
-  another host;
+  private and inside one of the container's own networks (which include the
+  Supervisor's internal network), so the token can never reach another host;
 - ``Authorization: Bearer <SUPERVISOR_TOKEN>`` is sent only here;
 - no redirects and no retries; each read takes at most 3 s, clamped to the
   configuration deadline;
@@ -28,6 +28,7 @@ import json
 import logging
 import re
 from collections.abc import Mapping, Sequence
+from ipaddress import IPv4Network, IPv6Network
 from typing import Final, NoReturn
 
 from frame_gallery import __version__
@@ -76,10 +77,14 @@ class SupervisorHelperReader:
         token: str | None,
         resolver: Resolver,
         transport: Transport,
+        networks: Sequence[IPv4Network | IPv6Network],
     ) -> None:
+        """``networks`` are the container's own interface networks
+        (``NetworkInfo.container_networks()``); the Supervisor must be in one."""
         self._token = token
         self._resolver = resolver
         self._transport = transport
+        self._networks = tuple(networks)
 
     def __repr__(self) -> str:
         return "SupervisorHelperReader(token=<hidden>)"
@@ -115,9 +120,14 @@ class SupervisorHelperReader:
             _fail(f"name resolution failed ({exc.detail})")
         except DeadlineExceeded:
             _fail("no time left")
-        if not addresses or not all(is_private_address(address) for address in addresses):
-            _fail("the name did not resolve to a private address")
+        if not addresses or not all(self._trusted(address) for address in addresses):
+            _fail("the name did not resolve to an address in the container's networks")
         return addresses
+
+    def _trusted(self, address: IPAddress) -> bool:
+        return is_private_address(address) and any(
+            address.version == network.version and address in network for network in self._networks
+        )
 
     def _read_one(
         self,

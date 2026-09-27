@@ -10,6 +10,11 @@ the start of discovery if it is missing. The scan is iterative and bounded:
 - hidden entries are skipped, and symbolic links are never followed;
 - only ``.jpg``, ``.jpeg``, and ``.png`` files are offered, in a shuffled
   order;
+- each folder is opened with ``O_NOFOLLOW`` and listed through its
+  descriptor, and each folder and file is pinned by its device and inode as
+  the scan saw it; a later open (to offer, inspect, or copy a file) must find
+  the same file, so replacing a folder by a symbolic link during the run
+  cannot lead outside the library;
 - each file is opened with ``O_NOFOLLOW`` (and ``O_NONBLOCK``, so a FIFO
   cannot block) and checked with ``fstat``: a regular file of at most 40 MiB.
 
@@ -18,7 +23,7 @@ where the size is 8 bytes, big-endian.
 
 **Preview exclusion** (acceptance item F7), three guards:
 
-1. the preview directory is excluded by its real path during the scan;
+1. the preview directory is excluded during the scan (by device and inode);
 2. the library folder may not contain the preview directory (checked when
    the provider is built);
 3. the fingerprints of the last previews (from ``current.json``, Phase 4)
@@ -37,6 +42,7 @@ and only a file this scan offered, still matching its fingerprint.
 from __future__ import annotations
 
 import enum
+import errno
 import hashlib
 import logging
 import os
@@ -47,7 +53,8 @@ from dataclasses import dataclass, field
 from pathlib import Path
 from typing import Final
 
-from frame_gallery.budget.deadline import Deadline
+from frame_gallery.budget.allowance import AllowanceExhausted
+from frame_gallery.budget.deadline import Deadline, DeadlineExceeded
 from frame_gallery.budget.limits import (
     LOCAL_DIRECTORY_DEPTH,
     LOCAL_DIRECTORY_ENTRY_ALLOWANCE,
@@ -63,7 +70,7 @@ from frame_gallery.imaging.contract import (
     InspectResult,
     InspectStatus,
 )
-from frame_gallery.isolation.executor import Executor, WorkerError
+from frame_gallery.isolation.executor import Executor, WorkerError, WorkerErrorKind
 from frame_gallery.logs.summary import sanitize_for_log
 from frame_gallery.providers.contract import (
     Attribution,
@@ -91,6 +98,7 @@ NATIVE_ID: Final = re.compile(r"fp:[0-9a-f]{64}")
 EXTENSIONS: Final = {".jpg": ImageFormat.JPEG, ".jpeg": ImageFormat.JPEG, ".png": ImageFormat.PNG}
 
 _READ_FLAGS: Final = os.O_RDONLY | os.O_NOFOLLOW | os.O_CLOEXEC | os.O_NONBLOCK
+_DIRECTORY_FLAGS: Final = os.O_RDONLY | os.O_DIRECTORY | os.O_NOFOLLOW | os.O_CLOEXEC
 _WRITE_FLAGS: Final = os.O_WRONLY | os.O_CREAT | os.O_EXCL | os.O_NOFOLLOW | os.O_CLOEXEC
 
 _log = logging.getLogger("frame_gallery.providers.local_media")
@@ -107,6 +115,10 @@ class SkipReason(enum.StrEnum):
     UNREADABLE = "unreadable"
     TOO_DEEP = "too_deep"
     ENTRY_LIMIT = "entry_limit"
+    CHANGED = "changed"
+    """A folder or file is no longer the one the scan saw (for example
+    replaced by a symbolic link)."""
+
     PREVIEW = "preview"
     INSPECTION_FAILED = "inspection_failed"
 
@@ -133,6 +145,14 @@ def fingerprint_fd(fd: int, size: int) -> str | None:
     if len(head) != edge or len(tail) != edge:
         return None
     return _digest(size, head, tail)
+
+
+type Identity = tuple[int, int]
+"""A file's ``(st_dev, st_ino)``: what the scan saw, re-checked on every open."""
+
+
+def _identity(info: os.stat_result) -> Identity:
+    return (info.st_dev, info.st_ino)
 
 
 def check_preview_outside_library(library: Path, preview: Path) -> None:
@@ -185,6 +205,7 @@ class LibraryFile:
     declared_format: ImageFormat
     size: int
     native_id: str
+    identity: Identity
 
 
 @dataclass(frozen=True, slots=True)
@@ -196,20 +217,40 @@ class LocalCopy:
     declared_format: ImageFormat
 
 
-type _Found = tuple[Path, str, ImageFormat]
-"""A supported file: its path, its path relative to the library, and its format."""
+@dataclass(frozen=True, slots=True)
+class _Found:
+    """A supported file as the scan saw it."""
+
+    path: Path
+    relative: str
+    declared_format: ImageFormat
+    identity: Identity
 
 
 @dataclass(slots=True)
 class _Scan:
-    preview_real: str
-    pending: list[tuple[Path, str, int]] = field(default_factory=list)
-    """Directories still to list: path, relative prefix, and depth."""
+    preview: Identity | None
+    pending: list[tuple[Path, str, int, Identity]] = field(default_factory=list)
+    """Folders still to list: path, relative prefix, depth, and identity."""
 
     found: list[_Found] = field(default_factory=list)
+    entries: int = 0
 
 
-def _inspect_file(path: Path) -> tuple[int, str | None, SkipReason | None]:
+def _problem(info: os.stat_result, expected: Identity) -> SkipReason | None:
+    """Why an opened library file cannot be offered, or ``None``."""
+    if _identity(info) != expected:
+        return SkipReason.CHANGED
+    if not stat.S_ISREG(info.st_mode):
+        return SkipReason.NOT_REGULAR
+    if info.st_size == 0:
+        return SkipReason.EMPTY
+    if info.st_size > MAX_SOURCE_BYTES:
+        return SkipReason.OVERSIZE
+    return None
+
+
+def _inspect_file(path: Path, expected: Identity) -> tuple[int, str | None, SkipReason | None]:
     """Open a library file safely and fingerprint it: its size, its
     fingerprint, and the reason to skip it (``None`` if it is usable)."""
     try:
@@ -218,18 +259,15 @@ def _inspect_file(path: Path) -> tuple[int, str | None, SkipReason | None]:
         return 0, None, SkipReason.UNREADABLE
     try:
         info = os.fstat(fd)
-        if not stat.S_ISREG(info.st_mode):
-            return 0, None, SkipReason.NOT_REGULAR
-        if info.st_size == 0:
-            return 0, None, SkipReason.EMPTY
-        if info.st_size > MAX_SOURCE_BYTES:
-            return info.st_size, None, SkipReason.OVERSIZE
-        fingerprint = fingerprint_fd(fd, info.st_size)
+        problem = _problem(info, expected)
+        fingerprint = None if problem is not None else fingerprint_fd(fd, info.st_size)
     except OSError:
         return 0, None, SkipReason.UNREADABLE
     finally:
         os.close(fd)
-    return info.st_size, fingerprint, None if fingerprint is not None else SkipReason.UNREADABLE
+    if problem is None and fingerprint is None:
+        problem = SkipReason.UNREADABLE
+    return info.st_size, fingerprint, problem
 
 
 def _title(relative: str) -> str:
@@ -280,15 +318,20 @@ class LocalMediaProvider:
         self.report = LibraryReport()
         self._files = {}
         try:
-            if not self._library_ready():
+            root = self._library_ready()
+            if root is None:
                 return
-            paths = self._scan(ctx.deadline)
-            ctx.random.shuffle(paths)
-            for path, relative, declared in paths:
+            found = self._scan(root, ctx.deadline)
+            ctx.random.shuffle(found)
+            for item in found:
                 ctx.deadline.check()
-                candidate = self._offer(path, relative, declared)
+                candidate = self._offer(item)
                 if candidate is not None:
                     yield candidate
+            if SkipReason.ENTRY_LIMIT in self.report.counts:
+                # Part of the library was never listed: a search limit, not an
+                # empty library (the no_match hint must say so).
+                raise AllowanceExhausted("local_directory_entries")
         finally:
             text = self.report.warning_text()
             if text is not None:
@@ -307,79 +350,112 @@ class LocalMediaProvider:
 
     # --------------------------------------------------------------- the scan
 
-    def _library_ready(self) -> bool:
+    def _library_ready(self) -> Identity | None:
+        """The library's identity, once it exists as a real folder."""
         try:
             self._root.mkdir(mode=0o755, parents=True, exist_ok=True)
             info = os.lstat(self._root)
         except OSError:
             _log.warning("the local library %s cannot be created or read", self._root)
-            return False
+            return None
         if not stat.S_ISDIR(info.st_mode):
             _log.warning("the local library %s is not a folder", self._root)
-            return False
-        return True
+            return None
+        return _identity(info)
 
-    def _scan(self, deadline: Deadline) -> list[_Found]:
+    def _preview_identity(self) -> Identity | None:
+        try:
+            return _identity(self._preview_dir.stat())
+        except OSError:
+            return None
+
+    def _scan(self, root: Identity, deadline: Deadline) -> list[_Found]:
         """Every supported file, sorted by relative path (the order is then
         shuffled with the injected random source, so tests are repeatable)."""
-        scan = _Scan(preview_real=os.path.realpath(self._preview_dir))
-        scan.pending.append((self._root, "", 0))
-        entries = 0
+        scan = _Scan(preview=self._preview_identity())
+        scan.pending.append((self._root, "", 0, root))
         while scan.pending:
             deadline.check()
-            directory, prefix, depth = scan.pending.pop()
-            try:
-                with os.scandir(directory) as listing:
-                    for entry in listing:
-                        entries += 1
-                        if entries > LOCAL_DIRECTORY_ENTRY_ALLOWANCE:
-                            self.report.skip(SkipReason.ENTRY_LIMIT)
-                            return sorted(scan.found, key=lambda item: item[1])
-                        self._classify(entry, prefix, depth, scan)
-            except OSError:
-                self.report.skip(SkipReason.UNREADABLE, prefix or ".")
-        return sorted(scan.found, key=lambda item: item[1])
+            directory, prefix, depth, expected = scan.pending.pop()
+            if not self._list(directory, prefix, depth, expected, scan):
+                break
+        return sorted(scan.found, key=lambda item: item.relative)
 
-    def _classify(self, entry: os.DirEntry[str], prefix: str, depth: int, scan: _Scan) -> None:
+    def _list(
+        self, directory: Path, prefix: str, depth: int, expected: Identity, scan: _Scan
+    ) -> bool:
+        """List one folder through its own descriptor; ``False`` once the entry
+        limit is reached."""
+        try:
+            fd = os.open(directory, _DIRECTORY_FLAGS)
+        except OSError as exc:
+            # ELOOP: now a symbolic link; ENOTDIR: no longer a folder.
+            replaced = exc.errno in (errno.ELOOP, errno.ENOTDIR)
+            self.report.skip(
+                SkipReason.CHANGED if replaced else SkipReason.UNREADABLE, prefix or "."
+            )
+            return True
+        try:
+            if _identity(os.fstat(fd)) != expected:
+                self.report.skip(SkipReason.CHANGED, prefix or ".")
+                return True
+            with os.scandir(fd) as listing:
+                for entry in listing:
+                    scan.entries += 1
+                    if scan.entries > LOCAL_DIRECTORY_ENTRY_ALLOWANCE:
+                        self.report.skip(SkipReason.ENTRY_LIMIT)
+                        return False
+                    self._classify(entry, directory, prefix, depth, scan)
+        except OSError:
+            self.report.skip(SkipReason.UNREADABLE, prefix or ".")
+        finally:
+            os.close(fd)
+        return True
+
+    def _classify(
+        self, entry: os.DirEntry[str], directory: Path, prefix: str, depth: int, scan: _Scan
+    ) -> None:
         name = entry.name
         if name.startswith("."):
             return
         relative = f"{prefix}{name}"
-        path = Path(entry.path)
         if entry.is_symlink():
             self.report.skip(SkipReason.SYMLINK, relative)
-        elif entry.is_dir(follow_symlinks=False):
-            if os.path.realpath(path) == scan.preview_real:
-                return  # guard 1 (F7)
-            if depth >= LOCAL_DIRECTORY_DEPTH:
-                self.report.skip(SkipReason.TOO_DEEP, relative)
-            else:
-                scan.pending.append((path, f"{relative}/", depth + 1))
-        elif entry.is_file(follow_symlinks=False):
+            return
+        path = directory / name
+        if entry.is_file(follow_symlinks=False):
             declared = EXTENSIONS.get(Path(name).suffix.lower())
             if declared is None:
                 self.report.skip(SkipReason.UNSUPPORTED_EXTENSION, relative)
             else:
-                scan.found.append((path, relative, declared))
-        else:
+                identity = _identity(entry.stat(follow_symlinks=False))
+                scan.found.append(_Found(path, relative, declared, identity))
+        elif not entry.is_dir(follow_symlinks=False):
             self.report.skip(SkipReason.NOT_REGULAR, relative)
+        elif depth >= LOCAL_DIRECTORY_DEPTH:
+            self.report.skip(SkipReason.TOO_DEEP, relative)
+        else:
+            identity = _identity(entry.stat(follow_symlinks=False))
+            if identity != scan.preview:  # guard 1 (F7)
+                scan.pending.append((path, f"{relative}/", depth + 1, identity))
 
-    def _offer(self, path: Path, relative: str, declared: ImageFormat) -> Candidate | None:
-        size, fingerprint, reason = _inspect_file(path)
+    def _offer(self, item: _Found) -> Candidate | None:
+        size, fingerprint, reason = _inspect_file(item.path, item.identity)
         if reason is None and fingerprint in self._preview_fingerprints:
             reason = SkipReason.PREVIEW  # guard 3 (F7)
         if reason is not None or fingerprint is None:
-            self.report.skip(reason or SkipReason.UNREADABLE, relative)
+            self.report.skip(reason or SkipReason.UNREADABLE, item.relative)
             return None
         native_id = f"fp:{fingerprint}"
         self._files.setdefault(
             native_id,
             LibraryFile(
-                path=path,
-                relative=relative,
-                declared_format=declared,
+                path=item.path,
+                relative=item.relative,
+                declared_format=item.declared_format,
                 size=size,
                 native_id=native_id,
+                identity=item.identity,
             ),
         )
         return Candidate(
@@ -387,7 +463,7 @@ class LocalMediaProvider:
             native_id=native_id,
             rights_basis=RightsBasis.USER_SUPPLIED,
             rights_field="library",
-            attribution=Attribution(title=_title(relative)),
+            attribution=Attribution(title=_title(item.relative)),
             dims=None,
         )
 
@@ -416,12 +492,17 @@ class LocalMediaProvider:
 
     @staticmethod
     def _check_unchanged(fd: int, file: LibraryFile) -> None:
-        info = os.fstat(fd)
-        if (
-            not stat.S_ISREG(info.st_mode)
-            or info.st_size != file.size
-            or f"fp:{fingerprint_fd(fd, info.st_size)}" != file.native_id
-        ):
+        try:
+            info = os.fstat(fd)
+            unchanged = (
+                _identity(info) == file.identity
+                and stat.S_ISREG(info.st_mode)
+                and info.st_size == file.size
+                and f"fp:{fingerprint_fd(fd, info.st_size)}" == file.native_id
+            )
+        except OSError:
+            raise SourceError(SourceErrorKind.NOT_FOUND, "the file cannot be read") from None
+        if not unchanged:
             raise SourceError(SourceErrorKind.NOT_FOUND, "the file changed since the scan")
 
 
@@ -432,7 +513,10 @@ def _copy(source: int, destination: Path, size: int, deadline: Deadline) -> None
         copied = 0
         while copied < size:
             deadline.check()
-            chunk = os.pread(source, min(COPY_CHUNK, size - copied), copied)
+            try:
+                chunk = os.pread(source, min(COPY_CHUNK, size - copied), copied)
+            except OSError:
+                raise SourceError(SourceErrorKind.NOT_FOUND, "the file cannot be read") from None
             if not chunk:
                 raise SourceError(SourceErrorKind.NOT_FOUND, "the file changed during the copy")
             view = memoryview(chunk)
@@ -464,12 +548,25 @@ class LocalInspectionProbe:
         cannot be read as its format (counted in the aggregated warning).
         A worker failure raises ``SourceError`` (an inspection failure)."""
         file = self._provider.library_file(candidate)
-        request = InspectRequest(path=str(file.path), declared_format=file.declared_format)
+        device, inode = file.identity
+        request = InspectRequest(
+            path=str(file.path),
+            declared_format=file.declared_format,
+            device=device,
+            inode=inode,
+        )
         timeout = deadline.clamp(LOCAL_INSPECTION_S)
         try:
             raw = self._executor.run(INSPECT_TASK, request.to_json(), timeout=timeout)
             result = InspectResult.from_json(raw)
         except (WorkerError, ValueError) as exc:
+            if (
+                isinstance(exc, WorkerError)
+                and exc.kind is WorkerErrorKind.TIMEOUT
+                and deadline.expired()
+            ):
+                # Cut off by discovery's own deadline: not the file's fault.
+                raise DeadlineExceeded(deadline.name) from None
             self._provider.report.skip(SkipReason.INSPECTION_FAILED, file.relative)
             detail = exc.kind.value if isinstance(exc, WorkerError) else "invalid result"
             raise SourceError(

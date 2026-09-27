@@ -19,6 +19,7 @@ from frame_gallery.app.outcomes import Hint, Outcome
 from frame_gallery.app.ports import FetchedImage, ProviderBinding
 from frame_gallery.app.runner import Stage
 from frame_gallery.app.signals import CancellationController, install_sigterm_handler
+from frame_gallery.budget.allowance import AllowanceExhausted
 from frame_gallery.budget.deadline import Deadline, DeadlineExceeded
 from frame_gallery.domain import Size, SourceKey
 from frame_gallery.errors import Cancelled, StateError
@@ -624,3 +625,14 @@ def test_a_failing_watchdog_disarm_is_logged_and_the_summary_still_appears(
     assert result.summary_emitted
     assert "cleanup step failed" in caplog.text
     assert result.summary_line in caplog.text
+
+
+def test_a_library_cut_short_by_its_entry_limit_is_a_search_limit(tmp_path: Path) -> None:
+    """The local scan stopped at its 20 000-entry limit before finding a usable
+    image: "search limits reached", never "no usable images" (review finding)."""
+    h = Harness(tmp_path, raw={"tv_host": "10.0.0.5", "source": "local_media"})
+    h.local_provider.error = AllowanceExhausted("local_directory_entries")
+    h.local_provider.raise_at = 0
+    result = h.run()
+    assert result.outcome is Outcome.NO_MATCH
+    assert result.hint == Hint.LIMITS_REACHED

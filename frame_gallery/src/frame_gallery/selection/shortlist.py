@@ -94,8 +94,9 @@ class DiscoveryEnd(enum.StrEnum):
     """The discovery deadline expired (including a request cut off by it)."""
 
     CANDIDATE_ALLOWANCE = "candidate_allowance"
-    METADATA_ALLOWANCE = "metadata_allowance"
-    """The provider used up its metadata requests (§7.2, D-114)."""
+    PROVIDER_ALLOWANCE = "provider_allowance"
+    """The provider used up one of its own allowances: its metadata requests
+    (§7.2, D-114) or the library's directory entries (§9.3)."""
 
     PROVIDER_ERROR = "provider_error"
     """A provider or transport error ended discovery (not a 403/429 stop)."""
@@ -153,7 +154,7 @@ class SelectionResult:
             in (
                 DiscoveryEnd.DEADLINE,
                 DiscoveryEnd.CANDIDATE_ALLOWANCE,
-                DiscoveryEnd.METADATA_ALLOWANCE,
+                DiscoveryEnd.PROVIDER_ALLOWANCE,
             )
             or self.stats.probe_allowance_hit
             or self.stats.inspection_allowance_hit
@@ -368,8 +369,8 @@ class _Discovery:
         except DeadlineExceeded:
             raise _DiscoveryEnded(DiscoveryEnd.DEADLINE) from None
         except AllowanceExhausted:
-            # The provider's metadata allowance, not a failure: a search limit.
-            raise _DiscoveryEnded(DiscoveryEnd.METADATA_ALLOWANCE) from None
+            # One of the provider's own allowances, not a failure: a search limit.
+            raise _DiscoveryEnded(DiscoveryEnd.PROVIDER_ALLOWANCE) from None
         self._tally.candidates_seen += 1
         return candidate
 

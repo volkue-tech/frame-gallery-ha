@@ -261,6 +261,13 @@ class TestAddresses:
     def test_mapped_private(self) -> None:
         assert is_private_address(ip_address("::ffff:10.1.2.3"))
 
+    @pytest.mark.parametrize(
+        "text",
+        ["2002:ac1e:2002::1", "2002:808:808::1", "64:ff9b::a00:1", "2001:0:4136:e378::1"],
+    )
+    def test_embedded_forms_are_never_private(self, text: str) -> None:
+        assert not is_private_address(ip_address(text))
+
 
 class TestHeaders:
     @pytest.mark.parametrize(

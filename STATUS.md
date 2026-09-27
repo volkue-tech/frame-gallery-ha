@@ -21,7 +21,8 @@ Last updated: 2026-09-27
 | 4. Local media provider (D-149) | `8761cca` |
 | 4a. Fixes from the internal review of the gateway (D-147 amendment) | `9b736f3` |
 | 5. Art Institute of Chicago adapter (D-150) | `571a210` |
-| 6. Cleveland Museum of Art adapter (D-151) | this commit |
+| 6. Cleveland Museum of Art adapter (D-151) | `72dba4a` |
+| 6a. Fixes from the internal review of the helper reader and local media (D-147, D-148, D-149 amendments) | this commit |
 | 7. Vocabularies, shared contract tests, and closing documentation | pending |
 
 **Documentation re-check (D-146).** On 2026-09-27 the two official documentation pages were re-read in the in-app browser. No endpoint was called and nothing was recorded from a live response.
