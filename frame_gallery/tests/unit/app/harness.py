@@ -7,7 +7,7 @@ from collections.abc import Mapping, Sequence
 from dataclasses import dataclass, field
 from pathlib import Path
 
-from frame_gallery.app.ports import HelperReader, ProviderBinding
+from frame_gallery.app.ports import HelperReader, ImageFetcher, ProviderBinding
 from frame_gallery.app.runner import Runner, RunnerPorts, RunResult
 from frame_gallery.app.signals import CancellationController
 from frame_gallery.config.filters import FilterDimension
@@ -80,6 +80,12 @@ class Harness:
     helper_reader: HelperReader | None = None
     """Replaces the fake helper reader (for example with the real one)."""
 
+    bindings: Mapping[SourceKey, ProviderBinding] | None = None
+    """Replace the fake providers of these sources (for example with real adapters)."""
+
+    image_fetcher: ImageFetcher | None = None
+    """Replaces the fake fetcher."""
+
     def __post_init__(self) -> None:
         clock, events = self.clock, self.events
         self.options = FakeOptionsSource(self.raw, events, clock)
@@ -108,6 +114,7 @@ class Harness:
             SourceKey.ART_INSTITUTE_CHICAGO: ProviderBinding(self.provider),
             SourceKey.CLEVELAND_MUSEUM_OF_ART: ProviderBinding(self.cma_provider),
             SourceKey.LOCAL_MEDIA: ProviderBinding(self.local_provider),
+            **(self.bindings or {}),
         }
 
     def runner(self) -> Runner:
@@ -117,7 +124,7 @@ class Harness:
             state=self.state,
             helper_reader=self.helper_reader or self.helpers,
             providers=self.providers(),
-            fetcher=self.fetcher,
+            fetcher=self.image_fetcher or self.fetcher,
             executor=self.executor,
             television=self.tv,
             workspace=self.workspace,

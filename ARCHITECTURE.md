@@ -8,6 +8,7 @@ Status: **Revision 2, with final gate corrections.**
 - Codex gave final approval of Phase 1 at commit `dda877c` and authorized Phase 2, with one gate adjustment: verification of the remaining `pillow.libs` entries moved to the Phase 6 runtime-wheel inspection (§23).
 - Phase 2 (core, deterministic selection, and rendering) is implemented. Where the implementation refines this document, the refinement is recorded in D-141 to D-145 and marked in the text.
 - The user approved Phase 3 (provider adapters) on 2026-09-27. At its start, the Art Institute and Cleveland documentation was re-read (documentation pages only, D-146). §8.3, §9.2, §9.5, §9.6, §10, §15.2, and §23 are amended to match.
+- Phase 3 is implemented. Its refinements of this document are recorded in D-147 (gateway), D-148 (helper reader), D-149 (local media), D-150 (Art Institute), D-151 (Cleveland), and D-152 (vocabulary version 1, the narrowed capability matrix, and the contract suite).
 
 Date: 2026-09-26 (Phase 3 amendments: 2026-09-27)
 Author: Claude (Phase 1 owner)

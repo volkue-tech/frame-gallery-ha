@@ -72,11 +72,12 @@ Owner: Claude
 - [x] Implement the local media provider (D-149).
 - [x] Implement the Art Institute of Chicago provider: documented API, CC0 public-domain works only (D-146, D-150).
 - [x] Implement the Cleveland Museum of Art provider: documented API, CC0 records only, documented print JPEG only (D-146, D-151).
-- [ ] Implement combined filters per the capability matrix, visible reporting of unsupported filters, orientation checks, the strict-format budget (30 remote dimension requests), and pacing.
-- [ ] Add independently authored or synthesized fixtures and the shared contract tests. Any recorded observation requires user approval.
-- [ ] In the contract suite, assert that each adapter agrees with `CAPABILITY_MATRIX` and `ALLOWED_RIGHTS`, that discovery-endpoint 404/410 responses map to `HTTP_ERROR`, and that local inspections return `None` for unreadable files (D-141).
-- [ ] Fix the vocabularies (Q-14) with labels that stay distinct across both museums (D-143).
-- [ ] Update status and commit.
+- [x] Implement combined filters per the capability matrix, visible reporting of unsupported filters, orientation checks, the strict-format budget (30 remote dimension requests), and pacing. The Art Institute supports only the period in the beta (D-146); Cleveland combines department and period (D-151, D-152).
+- [x] Add independently authored or synthesized fixtures and the shared contract tests. Any recorded observation requires user approval. (Synthesized only; nothing recorded; D-152.)
+- [x] In the contract suite, assert that each adapter agrees with `CAPABILITY_MATRIX` and `ALLOWED_RIGHTS`, that discovery-endpoint 404/410 responses map to `HTTP_ERROR`, and that local inspections return `None` for unreadable files (D-141).
+- [x] Fix the vocabularies (Q-14) with labels that stay distinct across both museums (D-143). Version 1, documented in `frame_gallery/VOCABULARY.md` (D-152).
+- [x] Run independent reviews of the gateway, the helper reader, and local media; fix every confirmed finding with regression tests (`9b736f3`, `37e85d0`).
+- [x] Update status and commit.
 
 Gate: Codex reviews provider access patterns, bounding, fixtures, and legal boundaries.
 

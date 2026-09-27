@@ -28,6 +28,10 @@ The script runs, and fails on the first failure:
 
 Tests never use the network (acceptance item `H2`). For the whole session, collection included, `tests/conftest.py` makes these raise: `connect`, `connect_ex`, `sendto`, and `sendmsg` on `socket.socket`; `socket.create_connection`; and `getaddrinfo`, `gethostbyname`, `gethostbyname_ex`, `gethostbyaddr`, and `getnameinfo` on both `socket` and `_socket`. The architecture boundary test enforces the import rules of D-107, D-145, and D-147, and proves with self-tests that each of its detectors fires. Only `net/transport.py` may import `socket`, `ssl`, `http.client`, `urllib3`, and `certifi`, and only the entry point may import that module; the gateway and the adapters are tested against the fakes in `tests/support/net.py`. Tests never use the real project contact in a header: they pass a placeholder identity (D-119).
 
+## Filter vocabulary
+
+`VOCABULARY.md` documents the shipped vocabulary (keys, labels, aliases, and the values the adapters send) and the capability matrix. `tests/unit/config/test_builtin_vocabulary.py` fails if the document and the code drift apart, so change both together.
+
 ## Runtime requirements
 
 `requirements/runtime.txt` is exported from the lock, with hashes, for the container build (Phase 6):

@@ -420,7 +420,7 @@ There is no time-limit option and no library-path option.
 
 ### D-124 — Filter model, vocabularies, and capability matrix [§9.2, §15.2]
 
-Status: **accepted** (user approval of Phase 3, 2026-09-27). The documentation re-check amends the Art Institute's column of the matrix (D-146).
+Status: **accepted** (user approval of Phase 3, 2026-09-27). The documentation re-check amends the Art Institute's column of the matrix (D-146); vocabulary version 1 and the narrowed matrix are implemented (D-152).
 
 **Decision:**
 
@@ -1029,6 +1029,32 @@ Status: proposed (Phase 3).
   - No CMA trademarks are used.
 - **Cache.** The count per filter signature (`cma:count:<department>:<period>`) is kept for 1 day (D-150).
 - **Stops.** 401 and 403 stop the provider for the run (D-136, D-147 item 5).
+
+### D-152 — Vocabulary version 1, the narrowed capability matrix, and the contract suite [§9.1, §9.2, §15.2, §20.1, Q-14]
+
+Status: proposed (Phase 3).
+
+- **Vocabulary version 1** (Q-14, resolved) is built only from documented values (D-146):
+  - *Departments:* the 12 curated Cleveland departments (D-151). Each label is `"<documented value> (Cleveland)"` and names the museum, so labels stay distinct between museums (D-143). The documented value itself is an alias.
+  - *Periods:* five periods labelled with years, each with plain aliases such as `1800-1899` and `19th century`. They share their keys with `providers.periods.PERIOD_RANGES`.
+  - *Excluded:* no Art Institute department, no style, and no colour (Q-25).
+  - Tests check normalization, aliases, uniqueness within each field, that no term is reserved, that no label repeats, and that the entries match the adapters' mappings.
+  - `frame_gallery/VOCABULARY.md` documents the whole mapping and the capability matrix. A test parses it and requires it to match the code.
+- **Capability matrix.** The Art Institute now supports only the period (D-146, amending D-124). The Phase 2 tests that used Art Institute departments as examples now use Cleveland departments. B2 and C1 therefore hold for the filters a source supports: Cleveland combines department and period; the Art Institute applies the period. Every other configured filter is reported as ignored (B8). In the beta, no source offers a colour filter.
+- **`dims_in_metadata`** now means "the documented metadata gives the rendition's size, so no probe is bound". A candidate whose metadata lacks the size carries `None`, and selection counts it as `dims_unavailable`.
+- **Contract suite** (`tests/unit/providers/test_contract_suite.py`). Every adapter, over its own synthesized fixture, is checked for:
+  - consistent source and key;
+  - agreement with `CAPABILITY_MATRIX`: a supported filter changes the requests and narrows the result, and an unsupported one changes nothing;
+  - rights bases within `ALLOWED_RIGHTS`;
+  - laziness;
+  - policy hosts only, for requests and renditions;
+  - discovery 404 and 410 → `HTTP_ERROR`, including the Art Institute's size lookup; rendition 404 and 410 → `NOT_FOUND`;
+  - (local media) `None` from inspecting an unreadable file (D-141).
+- **End-to-end tests** (`tests/integration/test_museum_pipeline.py`) run the runner with the real adapters, gateway, and fetcher over the synthesized APIs:
+  - a Cleveland run with department and period combined delivers a CC0 print JPEG, and never requests the TIFF (C1, C9, C10);
+  - an Art Institute run with a period delivers the 1686 px IIIF rendition, sends the courtesy header, and reports the unsupported department in the summary line (B8).
+- **Fixtures.** The API documents are synthesized in `tests/support/museums.py`: independently authored, with invented values and envelopes that follow the re-read documentation. Nothing was recorded from a live API (§20.3).
+- **Layout additions** (beyond §21 and D-141): `net/` (`wire`, `policy`, `identity`, `gateway`, `transport`), `ha/client.py`, `app/fetching.py`, and `providers/` (`aic`, `cma`, `local_media`, `jsonread`, `periods`, `cache`).
 
 ## Proposed dependency inventory
 

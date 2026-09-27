@@ -42,16 +42,17 @@ STYLE_DIM = FilterDimension.STYLE
 PERIOD_DIM = FilterDimension.PERIOD
 COLOR_DIM = FilterDimension.COLOR
 
-# The expected matrix, written out by hand from §9.2 (not derived from the code).
+# The expected matrix, written out by hand from §9.2 as amended by D-146
+# (not derived from the code).
 EXPECTED_SUPPORT = {
     (LOCAL, DEPARTMENT): False,
     (LOCAL, STYLE_DIM): False,
     (LOCAL, PERIOD_DIM): False,
     (LOCAL, COLOR_DIM): False,
-    (AIC, DEPARTMENT): True,
-    (AIC, STYLE_DIM): True,
+    (AIC, DEPARTMENT): False,
+    (AIC, STYLE_DIM): False,
     (AIC, PERIOD_DIM): True,
-    (AIC, COLOR_DIM): True,
+    (AIC, COLOR_DIM): False,
     (CMA, DEPARTMENT): True,
     (CMA, STYLE_DIM): False,
     (CMA, PERIOD_DIM): True,
@@ -78,11 +79,11 @@ EXPECTED_OUTCOME = {
     (LOCAL, STYLE): UNSUPPORTED,
     (LOCAL, PERIOD): UNSUPPORTED,
     (LOCAL, COLOR): UNSUPPORTED,
-    (AIC, AIC_DEPARTMENT): APPLIED,
-    (AIC, CMA_DEPARTMENT): OTHER,
-    (AIC, STYLE): APPLIED,
+    (AIC, AIC_DEPARTMENT): UNSUPPORTED,
+    (AIC, CMA_DEPARTMENT): UNSUPPORTED,
+    (AIC, STYLE): UNSUPPORTED,
     (AIC, PERIOD): APPLIED,
-    (AIC, COLOR): APPLIED,
+    (AIC, COLOR): UNSUPPORTED,
     (CMA, AIC_DEPARTMENT): OTHER,
     (CMA, CMA_DEPARTMENT): APPLIED,
     (CMA, STYLE): UNSUPPORTED,
@@ -105,7 +106,7 @@ def _filters(
 def test_matrix_is_exactly_the_published_one() -> None:
     assert dict(CAPABILITY_MATRIX) == {
         LOCAL: frozenset(),
-        AIC: frozenset({DEPARTMENT, STYLE_DIM, PERIOD_DIM, COLOR_DIM}),
+        AIC: frozenset({PERIOD_DIM}),
         CMA: frozenset({DEPARTMENT, PERIOD_DIM}),
     }
 
@@ -176,7 +177,9 @@ def test_explicit_any_choices_are_neither_applied_nor_ignored() -> None:
     assert effective.ignored == ()
 
 
-def test_all_filters_applied_on_aic() -> None:
+def test_only_the_period_applies_on_aic() -> None:
+    # D-146: the Art Institute's department, style, and colour values are
+    # undocumented, so the beta reports them as unsupported.
     filters = FilterSet(
         AIC,
         department=FilterChoice(AIC_DEPARTMENT),
@@ -184,13 +187,15 @@ def test_all_filters_applied_on_aic() -> None:
         color=FilterChoice(COLOR),
     )
     effective = resolve_effective_filters(filters, VOCABULARY)
-    assert (effective.department, effective.style, effective.period, effective.color) == (
-        AIC_DEPARTMENT,
-        STYLE,
-        None,
-        COLOR,
-    )
-    assert effective.ignored == ()
+    assert effective.active() == {}
+    assert [ignored.describe() for ignored in effective.ignored] == [
+        "department=aic_test_paintings(unsupported_by_source)",
+        "style=style_test_one(unsupported_by_source)",
+        "color=color_test_blue(unsupported_by_source)",
+    ]
+    period = resolve_effective_filters(FilterSet(AIC, style=FilterChoice(PERIOD)), VOCABULARY)
+    assert period.active() == {PERIOD_DIM: PERIOD}
+    assert period.ignored == ()
 
 
 def test_style_ignored_and_period_applied_on_cma() -> None:

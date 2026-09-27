@@ -56,7 +56,9 @@ def test_b1_missing_tv_address_prevents_start() -> None:
 
 def test_b2_static_filters_work_without_helpers() -> None:
     """B2: static source, department, style/period, and colour filters work
-    without helper entities, as four distinct dimensions."""
+    without helper entities, as four distinct dimensions, wherever the
+    selected source supports them (§9.2 as amended by D-146); the others are
+    reported, never silently dropped (B8)."""
     options = _parse(
         {
             "tv_host": TV,
@@ -71,12 +73,15 @@ def test_b2_static_filters_work_without_helpers() -> None:
     assert merge.filters == options.filters
     assert merge.warnings == ()
     effective = resolve_effective_filters(merge.filters, VOCABULARY)
-    assert effective.active() == {
-        FilterDimension.DEPARTMENT: AIC_DEPARTMENT,
-        FilterDimension.STYLE: STYLE,
-        FilterDimension.COLOR: COLOR,
-    }
-    assert effective.ignored == ()
+    assert effective.active() == {}
+    assert [ignored.dimension for ignored in effective.ignored] == [
+        FilterDimension.DEPARTMENT,
+        FilterDimension.STYLE,
+        FilterDimension.COLOR,
+    ]
+    period = _parse({"tv_host": TV, "source": "art_institute_chicago", "style": PERIOD})
+    effective = resolve_effective_filters(period.filters, VOCABULARY)
+    assert effective.active() == {FilterDimension.PERIOD: PERIOD}
 
     cma = _parse(
         {

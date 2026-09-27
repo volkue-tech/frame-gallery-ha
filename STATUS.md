@@ -4,12 +4,12 @@ Last updated: 2026-09-27
 
 ## Current phase
 
-**Phase 3 (provider adapters): in progress.**
+**Phase 3 (provider adapters): complete, awaiting the Phase 3 gate (Codex review of provider access patterns, bounding, fixtures, and legal boundaries).**
 
-- The user approved Phase 3 on 2026-09-27. D-141 to D-145 and the Phase 3 decisions D-108, D-112, D-115, D-124, D-127, D-131, D-134, D-132, and D-136 (adapter details) are accepted; D-119 is accepted with an amendment; Q-14 and Q-22 are resolved; `urllib3` 2.8.0 and `certifi` 2026.7.22 are approved.
-- Phase 2 was independently re-run by Codex on 2026-09-27: Ruff and strict mypy passed, all 2,755 tests passed, and total line and branch coverage was 100%.
+- The user approved Phase 3 on 2026-09-27. D-141 to D-145 and the Phase 3 decisions D-108, D-112, D-115, D-124, D-127, D-131, D-134, D-132, and D-136 (adapter details) are accepted; D-119 is accepted with an amendment; Q-14 and Q-22 are resolved; `urllib3` 2.8.0 and `certifi` 2026.7.22 are approved and installed.
+- Phase 3 proposes D-146 to D-152 and asks Q-25 (see *Next action*).
 - Every commit uses the personal identity `Alexander Wilke <volkue@gmail.com>`, which the repository-local Git configuration also enforces.
-- Nothing contacted Home Assistant, the television, a provider API, or GitHub. Nothing was published or pushed.
+- Nothing contacted Home Assistant, the television, a provider API, or GitHub. Nothing was published or pushed. The local backup branch was not touched.
 
 ### Phase 3 progress
 
@@ -22,8 +22,8 @@ Last updated: 2026-09-27
 | 4a. Fixes from the internal review of the gateway (D-147 amendment) | `9b736f3` |
 | 5. Art Institute of Chicago adapter (D-150) | `571a210` |
 | 6. Cleveland Museum of Art adapter (D-151) | `72dba4a` |
-| 6a. Fixes from the internal review of the helper reader and local media (D-147, D-148, D-149 amendments) | this commit |
-| 7. Vocabularies, shared contract tests, and closing documentation | pending |
+| 6a. Fixes from the internal review of the helper reader and local media (D-147, D-148, D-149 amendments) | `37e85d0` |
+| 7. Vocabularies, shared contract tests, and closing documentation (D-152) | this commit |
 
 **Documentation re-check (D-146).** On 2026-09-27 the two official documentation pages were re-read in the in-app browser. No endpoint was called and nothing was recorded from a live response.
 
@@ -174,25 +174,72 @@ Last updated: 2026-09-27
 - The sweeps found two remaining stop-request windows, TIFF-directory bombs in image metadata, and redaction bypasses. All are fixed (D-141, D-144, D-145).
 - The final design passes exhaustive stop-request sweeps with no violations: a stop request, direct or as a real SIGTERM, at every Python function entry (11 641 points) and every traced line (5 429 points).
 
+### Phase 3: provider adapters (Claude, commits `09d7c46` to the closing commit)
+
+**Implemented**
+
+- *Documentation re-check* (D-146). Only the two official documentation pages were read. Consequences:
+  - the Art Institute supports only the period filter in the beta, and takes image sizes from its Images resource;
+  - Cleveland's 21 departments are confirmed verbatim, and it sends an explicit `limit` on every request.
+- *Guarded gateway* (`net/`, D-108, D-115, D-131, D-147):
+  - exact host policies, HTTPS on 443, public addresses only, a connection pinned to the validated IP with SNI and a post-handshake TLS and peer check;
+  - at most 3 re-validated redirects; pacing; the 401/403/429 stop; the single metadata retry;
+  - byte caps with one gzip layer, per-request totals enforced by a socket-shutdown timer, and the metadata allowance;
+  - only `net/transport.py` imports `socket`, `ssl`, `http.client`, `urllib3`, and `certifi`.
+- *Helper reader* (`ha/client.py`, D-112, D-148): one read per helper, the token sent only to a private Supervisor address inside the container's own networks, 3 s and 64 KiB per read, and the `state` string only, with the static fallback (B3–B5).
+- *Local media* (`providers/local_media.py`, D-149):
+  - a bounded scan through `O_NOFOLLOW` folder descriptors, with every folder and file pinned by device and inode;
+  - the D-118 fingerprint, the three preview guards (F7), and one aggregated warning;
+  - a header-only `inspect` worker task;
+  - a guarded copy for delivery, and an empty-library hint.
+- *Art Institute* (`providers/aic.py`, D-150) and *Cleveland* (`providers/cma.py`, D-151): the documented APIs only, CC0 works only, every record re-checked, the documented renditions only (IIIF `1686,`; the Cleveland print JPEG, never the TIFF), random pages without replacement, and the counts cached behind a cache port.
+- *Vocabulary version 1* (D-152): 12 curated Cleveland departments and 5 periods, documented in `frame_gallery/VOCABULARY.md`, which a test keeps identical to the code. The capability matrix is narrowed for the Art Institute.
+- *Tests:*
+  - the shared contract suite for all three adapters;
+  - end-to-end runs through the real adapters, gateway, and fetcher over synthesized APIs;
+  - real HTTP-stack tests over a local socket pair.
+
+**Dependencies.** `urllib3` 2.8.0 (MIT) and `certifi` 2026.7.22 (MPL-2.0) were installed from PyPI into the git-ignored environment only. Their installed metadata was checked, and they are recorded in the lock, `requirements/runtime.txt`, the inventory, and `THIRD_PARTY_NOTICES.md`.
+
+**Quality gates** (`frame_gallery/scripts/check.sh`, run for the closing commit):
+
+- Ruff check and format: clean.
+- `mypy --strict` over `src` and `tests`: clean.
+- pytest: **3 454 passed**, with **100 % line and branch coverage overall** (5 458 statements, 1 162 branches).
+- The architecture's 100 % gate, now including `net` and `ha`, also passes (4 037 statements, 884 branches).
+
+**Independent reviews.** Two reviewers checked the gateway (`51d9cf3`) and the helper reader and local media (`f614256`, `8761cca`). They found 11 defects, all verified, and all are fixed with regression tests in `9b736f3` and `37e85d0`. The most serious:
+
+- the transport's time bounds did not hold after a `Connection: close` response;
+- a symbolic-link swap during discovery could reach a file outside the library.
+
+Writing the real-stack tests exposed one more transport defect, which is fixed too. See *Review records* in `DECISIONS.md`.
+
 ## Specification deviations still awaiting decision
 
 | Item | Where |
 | --- | --- |
-| The Art Institute supports only the period filter in the beta: its department and style values and its colour members are undocumented. No source supports a colour filter in the beta, which narrows acceptance items B2 and C1 to the filters a source supports. | D-146, Q-25 |
+| The Art Institute supports only the period filter in the beta: its department and style values and its colour members are undocumented. No source supports a colour filter in the beta, so acceptance items B2 and C1 hold for the filters a source supports (Cleveland combines department and period). Every other configured filter is reported (B8). | D-146, D-152, Q-25 |
+| Art Institute image sizes come from the documented Images resource, one batched request per page, instead of the undocumented artwork `thumbnail`; images narrower than 1686 px are not offered. | D-146, D-150 |
+| 401 stops a provider for the run for every provider, not only for Cleveland; IMF-fixdate is the only accepted HTTP-date form in `Retry-After`. | D-147 |
+| Local header inspections run one file per worker task, not in batches of 50 (batching deferred to Phase 5). | D-149 |
+| The exhausted-page hints of the metadata cache are deferred to Phase 4, together with the persistent cache; Phase 3 caches counts in memory. | D-150 |
+| The empty-library `no_match` hint is a new hint naming `/media/frame_gallery/library` (§9.3). | D-149 |
+| The helper reader sends the token only to a Supervisor address inside the container's own networks. The entry point (Phase 6) must pass them from the `NetworkInfo` port; without them, no helper is read. | D-148 |
 
 ## Next action
 
-Continue Phase 3 with step 7 (vocabularies, shared contract tests, and closing documentation), then stop at the Phase 3 gate for the Codex review.
+The user and Codex review Phase 3 at its gate: provider access patterns, bounding, fixtures, and legal boundaries. Phase 4 does not start before approval.
 
 **Decisions needed, by phase:**
 
 | Before | Decisions |
 | --- | --- |
-| Phase 3 gate | D-146 and Q-25 (Art Institute filters in the beta). The Phase 3 implementation decisions proposed at the end of the phase. |
-| Phase 4 | None (Q-23 and D-113 accepted). |
+| Phase 3 gate | D-146 to D-152; Q-25 (keep the Art Institute to the period filter for the beta, or approve a one-time, recorded observation of the documented `category-terms` endpoint and the colour object to curate department and style lists). |
+| Phase 4 | None (Q-23 and D-113 accepted). The persistent metadata cache and the exhausted-page hints arrive here (D-150). |
 | Phase 5 | The `samsungtvws` row and its LGPL-3.0 obligations (D-135). |
 | Phase 6 | The base-image pull (D-130); Q-06, Q-10; the Buildx, QEMU, and SBOM-tool rows. The authoritative Pillow runtime-wheel inspection, including the remaining `pillow.libs` entries (mandatory before packaging or publication). |
-| Phase 8 | Explicit approval for the live run; Q-21 (install route). |
+| Phase 8 | Explicit approval for the live run, which is also the first live request to the museums and the first time the project contact is transmitted (Q-22); Q-21 (install route). The live check of the Art Institute `params` form (D-150). |
 | Phase 9 | D-101 (final name), Q-13 (repository URL, which also replaces the contact in the User-Agent, D-119); the builder-action and Cosign rows; the qualified licence review (D-135, release gate); approval to publish. |
 
 ## External state
@@ -202,7 +249,10 @@ Continue Phase 3 with step 7 (vocabularies, shared contract tests, and closing d
 - No GitHub repository accessed, created, or modified; no GitHub-hosted page fetched.
 - No container image pulled, built, or published.
 - Dependencies were installed only into the git-ignored project environment (`frame_gallery/.venv`) and the git-ignored `.tools/` directory, from PyPI (`pypi.org`, `files.pythonhosted.org`) only. Nothing else was installed or modified on the machine.
-- No provider API or image endpoint called. The Phase 3 re-check read only the two official documentation pages (D-146). Research read public documentation pages, policy pages, and `robots.txt` files, plus one Microsoft Q&A answer (cited as a non-documentation source) and search-result snippets where a page blocked automated readers. Reading used web-fetch tools, `curl` (including PyPI's JSON metadata API), and the in-app browser.
+- No provider API or image endpoint called. The Phase 3 re-check read only the two official documentation pages (D-146). Every provider test uses synthesized documents (`tests/support/museums.py`); nothing was recorded from a live API.
+- Phase 3 installed `urllib3` 2.8.0 and `certifi` 2026.7.22 from PyPI into the git-ignored project environment only.
+- The two internal reviewers worked only inside the repository and without network access, using local files and a socket pair. One of them once ran `grep` on the standard library's `http/client.py`, which lives with the local interpreter outside the repository. That is language source, not predecessor material, and the disclosure is recorded in `DECISIONS.md`.
+- Earlier research (Phases 1 and 2) read public documentation pages, policy pages, and `robots.txt` files, plus one Microsoft Q&A answer (cited as a non-documentation source) and search-result snippets where a page blocked automated readers. Reading used web-fetch tools, `curl` (including PyPI's JSON metadata API), and the in-app browser.
 - Apache-2.0 is approved. The `LICENSE` file will be added when publication is prepared (Phase 9).
 
 ## Known open decisions
@@ -214,5 +264,6 @@ See `DECISIONS.md` for the full list. The most material:
 - **Final name** (D-101). The trademark wording is tracked as R-14.
 - **Copyleft source-availability mechanism** (D-135).
 - **Art Institute filters in the beta** (D-146, Q-25), listed above.
+- **Phase 3 proposals** (D-146 to D-152), listed above.
 - **Local tests versus the runtime build** (R-26): the full suite runs inside the container in Phase 6.
 - **No pre-emption before Phase 5** (R-27): the process executor with its kill timer arrives in Phase 5.

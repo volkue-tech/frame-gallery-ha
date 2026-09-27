@@ -14,6 +14,7 @@ from frame_gallery.app.outcomes import Outcome
 from frame_gallery.config.filters import FilterField
 from frame_gallery.domain import SourceKey
 from frame_gallery.ha.client import SupervisorHelperReader
+from tests.support.fakes import make_candidate
 from tests.support.net import FakeResolver, FakeResponse, FakeTransport
 from tests.unit.app.harness import SYNTHETIC_VOCABULARY, Harness
 
@@ -33,23 +34,29 @@ def _harness(tmp_path: Path, raw: dict[str, object], *states: FakeResponse) -> H
         transport=transport,
         networks=(IPv4Network("172.30.32.0/23"),),
     )
-    return Harness(
+    harness = Harness(
         tmp_path,
         raw={"tv_host": "10.0.0.5", **raw},
         vocabulary=SYNTHETIC_VOCABULARY,
         helper_reader=reader,
     )
+    harness.cma_provider.candidates = [make_candidate("2001", provider_key="cma")]
+    return harness
 
 
 def test_b3_a_valid_helper_value_overrides_the_static_value(tmp_path: Path) -> None:
     h = _harness(
         tmp_path,
-        {"department": "cma_test_prints", "department_helper": "input_select.fg_department"},
-        _state("Test Paintings"),
+        {
+            "source": "cleveland_museum_of_art",
+            "department": "aic_test_paintings",
+            "department_helper": "input_select.fg_department",
+        },
+        _state("Test Prints"),
     )
     result = h.run()
     assert result.outcome is Outcome.DELIVERED
-    assert h.provider.filters[0].department == "aic_test_paintings"
+    assert h.cma_provider.filters[0].department == "cma_test_prints"
     assert h.last_run["filters"]["provenance"]["department"] == "helper"  # type: ignore[index]
 
 
@@ -59,13 +66,17 @@ def test_b4_an_unavailable_helper_falls_back(
 ) -> None:
     h = _harness(
         tmp_path,
-        {"department": "aic_test_paintings", "department_helper": "input_select.fg_department"},
+        {
+            "source": "cleveland_museum_of_art",
+            "department": "cma_test_prints",
+            "department_helper": "input_select.fg_department",
+        },
         _state(state),
     )
     with caplog.at_level(logging.WARNING):
         result = h.run()
     assert result.outcome is Outcome.DELIVERED
-    assert h.provider.filters[0].department == "aic_test_paintings"
+    assert h.cma_provider.filters[0].department == "cma_test_prints"
     assert "department_helper is unavailable" in caplog.text
 
 
@@ -74,12 +85,16 @@ def test_b4_an_unreachable_supervisor_falls_back(
 ) -> None:
     h = _harness(
         tmp_path,
-        {"department": "aic_test_paintings", "department_helper": "input_select.fg_department"},
+        {
+            "source": "cleveland_museum_of_art",
+            "department": "cma_test_prints",
+            "department_helper": "input_select.fg_department",
+        },
         FakeResponse(status=502),
     )
     with caplog.at_level(logging.WARNING):
         h.run()
-    assert h.provider.filters[0].department == "aic_test_paintings"
+    assert h.cma_provider.filters[0].department == "cma_test_prints"
     assert "department_helper could not be read" in caplog.text
     assert TOKEN not in caplog.text
 

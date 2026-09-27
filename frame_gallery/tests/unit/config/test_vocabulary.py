@@ -421,14 +421,3 @@ def test_lookup_source_field_is_rejected() -> None:
 def test_lookup_source(value: str, expected: SourceKey | None) -> None:
     assert VOCABULARY.lookup_source(value) is expected
     assert BUILTIN_VOCABULARY.lookup_source(value) is expected
-
-
-# -- the built-in vocabulary ------------------------------------------------------------------
-
-
-def test_builtin_vocabulary_is_provisional_and_empty() -> None:
-    assert BUILTIN_VOCABULARY.version == "0-provisional"
-    for field in (FilterField.DEPARTMENT, FilterField.STYLE, FilterField.COLOR):
-        assert BUILTIN_VOCABULARY.entries_for(field) == ()
-        assert BUILTIN_VOCABULARY.lookup(field, "any") == Lookup(LookupStatus.ANY)
-        assert BUILTIN_VOCABULARY.lookup(field, AIC_DEPARTMENT) == Lookup(LookupStatus.INVALID)

@@ -27,21 +27,18 @@ from frame_gallery.domain import SourceKey
 CAPABILITY_MATRIX: Final[Mapping[SourceKey, frozenset[FilterDimension]]] = MappingProxyType(
     {
         SourceKey.LOCAL_MEDIA: frozenset(),
-        SourceKey.ART_INSTITUTE_CHICAGO: frozenset(
-            {
-                FilterDimension.DEPARTMENT,
-                FilterDimension.STYLE,
-                FilterDimension.PERIOD,
-                FilterDimension.COLOR,
-            }
-        ),
+        SourceKey.ART_INSTITUTE_CHICAGO: frozenset({FilterDimension.PERIOD}),
         SourceKey.CLEVELAND_MUSEUM_OF_ART: frozenset(
             {FilterDimension.DEPARTMENT, FilterDimension.PERIOD}
         ),
     }
 )
 """The dimensions each source supports (§9.2). Landscape-only, strict
-near-16:9, and the fit mode apply to every source and are not listed."""
+near-16:9, and the fit mode apply to every source and are not listed.
+
+The Art Institute supports only the period in the beta: its documentation
+names the department, style, and colour fields but not their values or
+members, and undocumented values are not used (D-146, Q-25)."""
 
 _FILTER_FIELDS: Final = (FilterField.DEPARTMENT, FilterField.STYLE, FilterField.COLOR)
 """The fields resolved, in the order ignored filters are reported."""

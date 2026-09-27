@@ -274,8 +274,54 @@ class Vocabulary:
         return f"Vocabulary({self._version!r}, entries={len(self._entries)})"
 
 
-BUILTIN_VOCABULARY: Final = Vocabulary(version="0-provisional", entries=())
-"""The shipped vocabulary. Phase 2 ships the mechanism only: the final lists
-(AIC departments, style and period keys, AIC colour bands, and the subset of
-the CMA departments) are fixed in Phase 3 after the documentation re-check
-(Q-14). Until then every non-empty filter value is invalid."""
+def _cleveland(key: str, documented: str) -> VocabularyEntry:
+    """A Cleveland department: the label names the museum (labels stay
+    distinct across museums, D-143); the documented value is an alias."""
+    return VocabularyEntry(
+        key=key,
+        label=f"{documented} (Cleveland)",
+        dimension=FilterDimension.DEPARTMENT,
+        source=SourceKey.CLEVELAND_MUSEUM_OF_ART,
+        aliases=(documented,),
+    )
+
+
+def _period(key: str, label: str, *aliases: str) -> VocabularyEntry:
+    return VocabularyEntry(key=key, label=label, dimension=FilterDimension.PERIOD, aliases=aliases)
+
+
+BUILTIN_VOCABULARY: Final = Vocabulary(
+    version="1",
+    entries=(
+        _cleveland("cma_american_painting_sculpture", "American Painting and Sculpture"),
+        _cleveland("cma_european_painting_sculpture", "European Painting and Sculpture"),
+        _cleveland(
+            "cma_modern_european_painting_sculpture", "Modern European Painting and Sculpture"
+        ),
+        _cleveland("cma_drawings", "Drawings"),
+        _cleveland("cma_prints", "Prints"),
+        _cleveland("cma_photography", "Photography"),
+        _cleveland("cma_chinese_art", "Chinese Art"),
+        _cleveland("cma_japanese_art", "Japanese Art"),
+        _cleveland("cma_korean_art", "Korean Art"),
+        _cleveland("cma_indian_southeast_asian_art", "Indian and South East Asian Art"),
+        _cleveland("cma_islamic_art", "Islamic Art"),
+        _cleveland("cma_textiles", "Textiles"),
+        _period("period_before_1400", "Before 1400", "up to 1399"),
+        _period("period_1400_1599", "1400 to 1599", "1400-1599", "15th and 16th centuries"),
+        _period("period_1600_1799", "1600 to 1799", "1600-1799", "17th and 18th centuries"),
+        _period("period_1800_1899", "1800 to 1899", "1800-1899", "19th century"),
+        _period("period_1900_and_later", "1900 and later", "since 1900", "20th century and later"),
+    ),
+)
+"""The shipped vocabulary, version 1 (Q-14, D-152), built only from values the
+official documentation names (D-146):
+
+- the curated Cleveland departments, whose documented values the Cleveland
+  adapter sends (``providers.cma.DEPARTMENTS``);
+- five project-defined periods of the earliest creation year, valid for both
+  museums (``providers.periods.PERIOD_RANGES``).
+
+There are no Art Institute departments, no styles, and no colours: their
+values are undocumented (Q-25). The mapping is documented in
+``VOCABULARY.md``; tests keep the two identical."""

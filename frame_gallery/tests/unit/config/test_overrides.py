@@ -167,15 +167,16 @@ def test_invalid_helper_value_keeps_static_with_one_log_safe_warning(
 
 def test_other_source_key_still_overrides() -> None:
     """A known key that does not apply to the source overrides the static value (§9.2)."""
-    merge = _merge({FilterField.DEPARTMENT: CMA_DEPARTMENT})
-    assert merge.filters.department == FilterChoice(CMA_DEPARTMENT, Provenance.HELPER)
+    static = FilterSet(CMA, department=FilterChoice(CMA_DEPARTMENT))
+    merge = _merge({FilterField.DEPARTMENT: AIC_DEPARTMENT}, static)
+    assert merge.filters.department == FilterChoice(AIC_DEPARTMENT, Provenance.HELPER)
     assert merge.warnings == ()
     effective = resolve_effective_filters(merge.filters, VOCABULARY)
     assert effective.department is None
     assert effective.ignored[0] == IgnoredFilter(
         FilterField.DEPARTMENT,
         FilterDimension.DEPARTMENT,
-        CMA_DEPARTMENT,
+        AIC_DEPARTMENT,
         IgnoreReason.OTHER_SOURCE,
         Provenance.HELPER,
     )
@@ -266,15 +267,15 @@ def test_helper_source_change_makes_static_department_other_source() -> None:
 
 
 def test_helper_source_and_department_combine() -> None:
-    static = FilterSet(CMA, department=FilterChoice(CMA_DEPARTMENT), style=FilterChoice(PERIOD))
+    static = FilterSet(AIC, department=FilterChoice(AIC_DEPARTMENT), style=FilterChoice(PERIOD))
     values: dict[FilterField, str | None] = {
-        FilterField.SOURCE: "art_institute_chicago",
-        FilterField.DEPARTMENT: "test canvas works",
+        FilterField.SOURCE: "cleveland_museum_of_art",
+        FilterField.DEPARTMENT: "tëst engravings",
     }
     merge = apply_helper_values(static, values, VOCABULARY)
     effective = resolve_effective_filters(merge.filters, VOCABULARY)
     assert effective.active() == {
-        FilterDimension.DEPARTMENT: AIC_DEPARTMENT,
+        FilterDimension.DEPARTMENT: CMA_DEPARTMENT,
         FilterDimension.PERIOD: PERIOD,
     }
     assert effective.ignored == ()

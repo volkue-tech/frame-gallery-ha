@@ -323,14 +323,19 @@ def test_ignored_filters_are_reported_in_log_summary_and_record(
 def test_helper_values_override_static_values(tmp_path: Path) -> None:
     h = Harness(
         tmp_path,
-        raw={"tv_host": "10.0.0.5", "department_helper": "input_select.fg_department"},
+        raw={
+            "tv_host": "10.0.0.5",
+            "source": "cleveland_museum_of_art",
+            "department_helper": "input_select.fg_department",
+        },
         vocabulary=SYNTHETIC_VOCABULARY,
     )
-    h.helpers.values = {FilterField.DEPARTMENT: "Test Paintings"}
+    h.cma_provider.candidates = [make_candidate("2001", provider_key="cma")]
+    h.helpers.values = {FilterField.DEPARTMENT: "Test Prints"}
     h.run()
     assert h.helpers.requested == {FilterField.DEPARTMENT: "input_select.fg_department"}
-    applied = h.provider.filters[0]
-    assert applied.department == "aic_test_paintings"
+    applied = h.cma_provider.filters[0]
+    assert applied.department == "cma_test_prints"
     assert h.last_run["filters"]["provenance"]["department"] == "helper"  # type: ignore[index]
 
 
@@ -341,16 +346,18 @@ def test_a_failing_helper_reader_falls_back_to_static_values(
         tmp_path,
         raw={
             "tv_host": "10.0.0.5",
-            "department": "aic_test_paintings",
+            "source": "cleveland_museum_of_art",
+            "department": "cma_test_prints",
             "department_helper": "input_select.fg_department",
         },
         vocabulary=SYNTHETIC_VOCABULARY,
     )
+    h.cma_provider.candidates = [make_candidate("2001", provider_key="cma")]
     h.helpers.error = RuntimeError("proxy down")
     with caplog.at_level(logging.WARNING, logger=h.logger.name):
         result = h.run()
     assert result.outcome is Outcome.DELIVERED
-    assert h.provider.filters[0].department == "aic_test_paintings"
+    assert h.cma_provider.filters[0].department == "cma_test_prints"
     assert "static options" in caplog.text
 
 
@@ -1141,16 +1148,18 @@ def test_an_unreadable_helper_falls_back_with_a_warning(
         tmp_path,
         raw={
             "tv_host": "10.0.0.5",
-            "department": "aic_test_paintings",
+            "source": "cleveland_museum_of_art",
+            "department": "cma_test_prints",
             "department_helper": "input_select.fg_department",
         },
         vocabulary=SYNTHETIC_VOCABULARY,
     )
+    h.cma_provider.candidates = [make_candidate("2001", provider_key="cma")]
     h.helpers.values = {FilterField.DEPARTMENT: None}
     with caplog.at_level(logging.WARNING, logger=h.logger.name):
         result = h.run()
     assert result.outcome is Outcome.DELIVERED
-    assert h.provider.filters[0].department == "aic_test_paintings"
+    assert h.cma_provider.filters[0].department == "cma_test_prints"
     assert "department_helper" in caplog.text
 
 

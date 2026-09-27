@@ -101,7 +101,9 @@ class Capabilities:
     source: SourceKey
     provider_key: str
     dims_in_metadata: bool
-    """True when every candidate carries ``dims`` (no probes needed)."""
+    """True when the source's documented metadata gives the rendition's size,
+    so no probe is bound. A candidate whose metadata lacks it carries ``None``
+    and selection counts it as ``dims_unavailable`` (D-152)."""
 
 
 class SourceErrorKind(enum.StrEnum):
