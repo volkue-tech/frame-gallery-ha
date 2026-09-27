@@ -128,3 +128,95 @@ class AicMuseum:
 
     def paths(self) -> list[str]:
         return [request.path for request in self.seen]
+
+
+# --- Cleveland Museum of Art -------------------------------------------------
+
+CMA_API = "openaccess-api.clevelandart.org"
+CMA_CDN = "openaccess-cdn.clevelandart.org"
+
+
+def cma_record(
+    artwork_id: int,
+    *,
+    status: object = "CC0",
+    department: object = "Prints",
+    earliest: object = 1880,
+    print_url: object = None,
+    width: object = "3400",
+    height: object = "1913",
+    title: object = None,
+) -> dict[str, object]:
+    accession = f"1999.{artwork_id}"
+    url = f"https://{CMA_CDN}/{accession}/{accession}_print.jpg" if print_url is None else print_url
+    return {
+        "id": artwork_id,
+        "accession_number": accession,
+        "share_license_status": status,
+        "title": f"Synthetic Work {artwork_id}" if title is None else title,
+        "creators": [{"description": f"Synthetic Artist {artwork_id % 5} (invented, 1800-1880)"}],
+        "creation_date": "c. 1880",
+        "creation_date_earliest": earliest,
+        "department": department,
+        "url": f"https://clevelandart.org/art/{accession}",
+        "images": {
+            "web": {
+                "url": f"https://{CMA_CDN}/{accession}/{accession}_web.jpg",
+                "width": "900",
+                "height": "506",
+            },
+            "print": {"url": url, "filesize": "1000000", "width": width, "height": height},
+            "full": {
+                "url": f"https://{CMA_CDN}/{accession}/{accession}_full.tif",
+                "width": "6000",
+                "height": "3375",
+            },
+        },
+    }
+
+
+@dataclass
+class CmaMuseum:
+    """A synthetic Cleveland Open Access API over a list of records. The
+    ``created_after``/``created_before`` filters are applied exclusively on
+    ``creation_date_earliest`` (one possible reading; D-146)."""
+
+    records: list[object] = field(default_factory=list)
+    total: int | None = None
+    seen: list[ParsedRequest] = field(default_factory=list)
+    targets: list[str] = field(default_factory=list)
+    overrides: dict[str, Callable[[ParsedRequest], FakeResponse]] = field(default_factory=dict)
+
+    def add(self, count: int, *, first: int = 1, **options: object) -> None:
+        for artwork_id in range(first, first + count):
+            self.records.append(cma_record(artwork_id, **options))
+
+    def _matches(self, record: object, query: Mapping[str, str]) -> bool:
+        if not isinstance(record, dict):
+            return True
+        if "department" in query and record.get("department") != query["department"]:
+            return False
+        earliest = record.get("creation_date_earliest")
+        if not isinstance(earliest, int):
+            return "created_after" not in query and "created_before" not in query
+        if "created_after" in query and earliest <= int(query["created_after"]):
+            return False
+        return not ("created_before" in query and earliest >= int(query["created_before"]))
+
+    def __call__(self, request: WireRequest) -> FakeResponse:
+        parsed = parse(request)
+        self.seen.append(parsed)
+        self.targets.append(request.target)
+        override = self.overrides.get(parsed.path)
+        if override is not None:
+            return override(parsed)
+        if parsed.host != CMA_API or parsed.path != "/api/artworks/":
+            return status_response(404)
+        matching = [r for r in self.records if self._matches(r, parsed.query)]
+        total = len(matching) if self.total is None else self.total
+        skip = int(parsed.query.get("skip", "0"))
+        limit = int(parsed.query["limit"])
+        data = matching[skip : skip + limit]
+        return json_response(
+            {"info": {"total": total, "parameters": dict(parsed.query)}, "data": data}
+        )

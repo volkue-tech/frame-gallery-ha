@@ -974,6 +974,41 @@ Status: proposed (Phase 3).
 - **Cache.** The count per filter signature (`aic:count:<period key or "any">`) is kept for 1 day through the `MetadataCache` port. Phase 3 uses the in-memory implementation; the bounded, persistent cache is Phase 4 (§13.4). *Deferred to Phase 4:* the exhausted-page hints (§9.5), because they need the exclusion set, which the adapter does not see.
 - **Errors.** A structurally malformed response (not an object, a missing list, a total that is not a count) is `UNEXPECTED_FORMAT`. HTTP errors, stops, and time limits come from the gateway (D-147).
 
+### D-151 — Cleveland adapter details [§9.6, D-136, D-146]
+
+Status: proposed (Phase 3).
+
+- **Module.** `providers/cma.py`. It uses the shared helpers of D-150. `net.policy.https_url` now accepts valueless flags, so `cc0` is sent bare, as the documentation writes it.
+- **Every request** starts `?cc0&has_image=1` and sets `limit` explicitly: 1 for the count, 25 for a page.
+  - The count request asks only for `fields=id` and reads `info.total`.
+  - A page request sends `skip`, `limit=25`, and the D-136 field list, with `creation_date_earliest` added.
+- **Random pages.** Page offsets are multiples of 25. Up to 4 096 pages, the page order is a shuffled list. Beyond that, pages are drawn lazily without repeats; 64 repeated draws in a row end the pass. Per run: 1 count and at most 14 pages (the 15-request allowance).
+- **Departments.** The vocabulary key maps to the exact documented value, which is sent URL-encoded. Every record's `department` must equal it. The curated list:
+  - American Painting and Sculpture;
+  - European Painting and Sculpture;
+  - Modern European Painting and Sculpture;
+  - Drawings; Prints; Photography;
+  - Chinese Art; Japanese Art; Korean Art;
+  - Indian and South East Asian Art; Islamic Art;
+  - Textiles.
+
+  These are the documented departments that hold two-dimensional works suited to a wall display. The other documented departments are mostly objects: African Art, Art of the Americas, Contemporary Art, Decorative Art and Design, Egyptian and Ancient Near Eastern Art, Greek and Roman Art, Medieval Art, and Oceania. "Performing Arts, Music, & Film" is left out as undocumented to parse (D-146). All 21 documented values are kept verbatim in the module, and a test checks that the curated values are a subset.
+- **Period.** `created_after = first − 1` and `created_before = last + 1`, sent only for the bounds a period has. The exact range is enforced on `creation_date_earliest`, an integer year.
+- **Record checks.**
+  - `id` must be a positive integer.
+  - `share_license_status` must be exactly `"CC0"`.
+  - `images.print` must be an object whose `url` is an `https` URL on `openaccess-cdn.clevelandart.org` (port 443). The path must end in `.jpg` (any case) and contain only letters, digits, `.`, `_`, `-`, and `/`, with no empty, `.`, or `..` segments, and there may be no query.
+  - A print that fails the URL check is counted, and the pass ends with one WARNING giving the count. Other failures are skipped silently.
+  - `images.full` (the TIFF) is never read.
+- **Dimensions** are the print's `width` and `height`: integers or digit strings, positive, at most 100 000. If either is missing or invalid, the work is offered without dimensions.
+- **Attribution.**
+  - Title and creation date, cleaned (D-150).
+  - The first creator's documented `description`.
+  - The documented `url` as the detail link, but only in the form `https://(www.)clevelandart.org/art/<accession>`.
+  - No CMA trademarks are used.
+- **Cache.** The count per filter signature (`cma:count:<department>:<period>`) is kept for 1 day (D-150).
+- **Stops.** 401 and 403 stop the provider for the run (D-136, D-147 item 5).
+
 ## Proposed dependency inventory
 
 Status: **Phase 2 installed** the development tools and Pillow, and **Phase 3 installed** `urllib3` 2.8.0 and `certifi` 2026.7.22 (approved by the user on 2026-09-27), only in the local project environment (`frame_gallery/.venv`, from `uv.lock`). The runtime rows for later phases are still proposed.

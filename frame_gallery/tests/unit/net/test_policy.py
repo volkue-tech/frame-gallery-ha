@@ -325,3 +325,9 @@ class TestRules:
         assert image.accept_encoding == "identity"
         assert metadata.media_types == {"application/json"}
         assert image.media_types == {"image/jpeg", "image/png"}
+
+
+def test_https_url_supports_valueless_flags() -> None:
+    url = https_url("api.example.org", "/a/", [("cc0", None), ("has_image", "1"), ("q", "a b")])
+    assert url == "https://api.example.org/a/?cc0&has_image=1&q=a%20b"
+    assert validate_url(url, POLICY).target == "/a/?cc0&has_image=1&q=a%20b"

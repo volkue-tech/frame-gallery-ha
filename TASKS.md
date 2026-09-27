@@ -71,7 +71,7 @@ Owner: Claude
 - [x] Implement the `ha` helper-override client (at most 4 reads, static fallback; B3–B5) (D-148).
 - [x] Implement the local media provider (D-149).
 - [x] Implement the Art Institute of Chicago provider: documented API, CC0 public-domain works only (D-146, D-150).
-- [ ] Implement the Cleveland Museum of Art provider: documented API, CC0 records only, documented print JPEG only.
+- [x] Implement the Cleveland Museum of Art provider: documented API, CC0 records only, documented print JPEG only (D-146, D-151).
 - [ ] Implement combined filters per the capability matrix, visible reporting of unsupported filters, orientation checks, the strict-format budget (30 remote dimension requests), and pacing.
 - [ ] Add independently authored or synthesized fixtures and the shared contract tests. Any recorded observation requires user approval.
 - [ ] In the contract suite, assert that each adapter agrees with `CAPABILITY_MATRIX` and `ALLOWED_RIGHTS`, that discovery-endpoint 404/410 responses map to `HTTP_ERROR`, and that local inspections return `None` for unreadable files (D-141).

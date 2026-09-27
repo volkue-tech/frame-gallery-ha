@@ -15,7 +15,7 @@ from datetime import UTC, datetime
 from ipaddress import IPv4Address, IPv4Network, IPv6Address, IPv6Network, ip_address
 from types import MappingProxyType
 from typing import Final
-from urllib.parse import quote, urlencode, urljoin, urlsplit
+from urllib.parse import quote, urljoin, urlsplit
 
 from frame_gallery.budget.limits import DOWNLOAD_REQUEST_S, METADATA_REQUEST_S
 from frame_gallery.imaging.contract import MAX_SOURCE_BYTES
@@ -259,16 +259,21 @@ def _is_ip_literal(host: str) -> bool:
     return True
 
 
-def https_url(host: str, path: str, query: Sequence[tuple[str, str]] = ()) -> str:
+def https_url(host: str, path: str, query: Sequence[tuple[str, str | None]] = ()) -> str:
     """Build an HTTPS URL from a host, an already encoded path, and query
-    parameters, which are percent-encoded here (spaces as ``%20``)."""
+    parameters, which are percent-encoded here (spaces as ``%20``). A value
+    of ``None`` is a valueless flag, such as Cleveland's ``cc0``."""
     _check_host_name(host)
     if not path.startswith("/"):
         msg = "the path must start with /"
         raise ValueError(msg)
     if not query:
         return f"https://{host}{path}"
-    return f"https://{host}{path}?{urlencode(list(query), quote_via=quote, safe='')}"
+    parts = [
+        quote(key, safe="") if value is None else f"{quote(key, safe='')}={quote(value, safe='')}"
+        for key, value in query
+    ]
+    return f"https://{host}{path}?{'&'.join(parts)}"
 
 
 def path_segment(value: str, pattern: re.Pattern[str]) -> str:
