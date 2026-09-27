@@ -704,7 +704,9 @@ class TestInspection:
         (candidate,) = library.candidates(provider)
 
         class Broken:
-            def run(self, task: str, payload: JsonObject, *, timeout: float) -> JsonObject:
+            def run(
+                self, task: str, payload: JsonObject, *, timeout: float, **_: object
+            ) -> JsonObject:
                 assert task == "inspect"
                 assert timeout == 2.0
                 if isinstance(outcome, BaseException):
@@ -727,7 +729,9 @@ class TestInspection:
         deadline = Deadline.after(clock, 1.0, "discovery")
 
         class Slow:
-            def run(self, task: str, payload: JsonObject, *, timeout: float) -> JsonObject:
+            def run(
+                self, task: str, payload: JsonObject, *, timeout: float, **_: object
+            ) -> JsonObject:
                 clock.advance(timeout)
                 raise WorkerError(WorkerErrorKind.TIMEOUT, "slow")
 

@@ -31,7 +31,7 @@ from frame_gallery.imaging.contract import (
     PrepareResult,
     PrepareStatus,
 )
-from frame_gallery.isolation.executor import JsonObject, WorkerError
+from frame_gallery.isolation.executor import EventSink, JsonObject, StopCheck, WorkerError
 from frame_gallery.providers.contract import (
     Attribution,
     Candidate,
@@ -363,7 +363,15 @@ class FakeExecutor:
     timeouts: list[float] = field(default_factory=list)
     terminated: int = 0
 
-    def run(self, task: str, payload: JsonObject, *, timeout: float) -> JsonObject:
+    def run(
+        self,
+        task: str,
+        payload: JsonObject,
+        *,
+        timeout: float,
+        on_event: EventSink | None = None,
+        should_stop: StopCheck | None = None,
+    ) -> JsonObject:
         self.events.append(f"executor.run:{task}")
         self.timeouts.append(timeout)
         request = PrepareRequest.from_json(payload)

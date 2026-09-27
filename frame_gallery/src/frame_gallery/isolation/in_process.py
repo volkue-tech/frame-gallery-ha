@@ -23,7 +23,10 @@ from frame_gallery.isolation.channel import (
     encode_message,
 )
 from frame_gallery.isolation.executor import (
+    EventSink,
+    EventTaskFunction,
     JsonObject,
+    StopCheck,
     TaskFunction,
     WorkerError,
     WorkerErrorKind,
@@ -37,17 +40,33 @@ _WORKER_TASKS_MODULE: Final = "frame_gallery.imaging.worker_tasks"
 """Imported only when a task runs: the parent never imports Pillow (D-107)."""
 
 
+class _Stopped(BaseException):
+    """Ends an event task at the event after which a stop was requested, as
+    the process executor's kill would. Task code cannot catch it."""
+
+
 class InProcessExecutor:
-    """Runs tasks from ``tasks`` in the calling thread (Phase 2 seam)."""
+    """Runs tasks from ``tasks`` in the calling thread (Phase 2 seam).
+
+    Tasks in ``event_tasks`` also receive an event sink. Each event crosses
+    the same encoding as a result and goes to ``on_event`` at once. A stop
+    request is checked before the task starts and after each event; the task
+    then ends there, as if its worker had been killed, and the run fails with
+    ``stopped``.
+    """
 
     def __init__(
         self,
         tasks: Mapping[str, TaskFunction],
         clock: Clock,
         *,
+        event_tasks: Mapping[str, EventTaskFunction] | None = None,
         max_message_bytes: int = MAX_MESSAGE_BYTES,
     ) -> None:
-        self._tasks = dict(tasks)
+        self._tasks: dict[str, EventTaskFunction] = {
+            name: _without_events(function) for name, function in tasks.items()
+        }
+        self._tasks.update(event_tasks or {})
         self._clock = clock
         self._max_bytes = max_message_bytes
 
@@ -59,7 +78,15 @@ class InProcessExecutor:
         except ChannelError as error:
             raise WorkerError(WorkerErrorKind.PROTOCOL, f"{direction}: {error}") from None
 
-    def run(self, task: str, payload: JsonObject, *, timeout: float) -> JsonObject:
+    def run(
+        self,
+        task: str,
+        payload: JsonObject,
+        *,
+        timeout: float,
+        on_event: EventSink | None = None,
+        should_stop: StopCheck | None = None,
+    ) -> JsonObject:
         """Run ``task`` and return its result, as the process executor would.
 
         Raises :class:`WorkerError`; :class:`Cancelled` propagates unchanged.
@@ -72,9 +99,27 @@ class InProcessExecutor:
             raise WorkerError(WorkerErrorKind.UNKNOWN_TASK, sanitize_for_log(task, max_length=40))
         started = self._clock.monotonic()
         request = self._round_trip(payload, "request")
+        stop = should_stop or _never
+
+        def emit(event: JsonObject) -> None:
+            decoded = self._round_trip(event, "event")
+            if on_event is not None:
+                try:
+                    on_event(decoded)
+                except ValueError as error:
+                    raise WorkerError(WorkerErrorKind.PROTOCOL, f"event: {error}") from None
+            if stop():
+                raise _Stopped
+
+        if stop():
+            raise WorkerError(WorkerErrorKind.STOPPED)
         try:
-            result = function(request)
+            result = function(request, emit)
         except Cancelled:
+            raise
+        except _Stopped:
+            raise WorkerError(WorkerErrorKind.STOPPED) from None
+        except WorkerError:
             raise
         except MemoryError:
             raise WorkerError(WorkerErrorKind.MEMORY) from None
@@ -105,3 +150,14 @@ def _inspect(payload: JsonObject) -> JsonObject:
 def default_tasks() -> dict[str, TaskFunction]:
     """The production task table; imports worker modules lazily."""
     return {PREPARE_TASK: _prepare, INSPECT_TASK: _inspect}
+
+
+def _never() -> bool:
+    return False
+
+
+def _without_events(function: TaskFunction) -> EventTaskFunction:
+    def call(payload: JsonObject, _emit: EventSink) -> JsonObject:
+        return function(payload)
+
+    return call

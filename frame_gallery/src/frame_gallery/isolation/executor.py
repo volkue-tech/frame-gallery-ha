@@ -19,6 +19,18 @@ type JsonObject = dict[str, JsonValue]
 
 TaskFunction = Callable[[JsonObject], JsonObject]
 
+EventSink = Callable[[JsonObject], None]
+"""Receives each intermediate event a task sends (the television markers), in
+order, before :meth:`Executor.run` returns or raises. It may raise
+``ValueError`` for an event it refuses; the task is then killed and the run
+fails with ``protocol``."""
+
+StopCheck = Callable[[], bool]
+
+EventTaskFunction = Callable[[JsonObject, EventSink], JsonObject]
+"""A task that sends intermediate events: it calls the sink for each one,
+and the sink returns once the event is on its way to the parent."""
+
 
 class WorkerErrorKind(enum.StrEnum):
     TIMEOUT = "timeout"
@@ -35,6 +47,10 @@ class WorkerErrorKind(enum.StrEnum):
 
     UNKNOWN_TASK = "unknown_task"
 
+    STOPPED = "stopped"
+    """A stop request ended the task: the worker was killed after the events
+    it had already sent were delivered (D-141)."""
+
 
 class WorkerError(FrameGalleryError):
     def __init__(self, kind: WorkerErrorKind, detail: str = "") -> None:
@@ -44,10 +60,22 @@ class WorkerError(FrameGalleryError):
 
 
 class Executor(Protocol):
-    def run(self, task: str, payload: JsonObject, *, timeout: float) -> JsonObject:
+    def run(
+        self,
+        task: str,
+        payload: JsonObject,
+        *,
+        timeout: float,
+        on_event: EventSink | None = None,
+        should_stop: StopCheck | None = None,
+    ) -> JsonObject:
         """Run ``task`` with ``payload`` and return its JSON result.
 
-        ``timeout`` must already be clamped to the phase deadline. Raises
+        ``timeout`` must already be clamped to the phase deadline. Events the
+        task sends go to ``on_event`` as they arrive. ``should_stop`` is polled
+        while the task runs; once it returns true, the task is killed and the
+        run fails with ``stopped``, after every event already sent was
+        delivered. Returns or raises only once the task has ended. Raises
         :class:`WorkerError`; ``Cancelled`` may propagate.
         """
         ...

@@ -15,6 +15,7 @@ from frame_gallery.errors import Cancelled
 from frame_gallery.imaging import contract
 from frame_gallery.isolation import in_process
 from frame_gallery.isolation.executor import (
+    EventSink,
     Executor,
     JsonObject,
     TaskFunction,
@@ -296,3 +297,72 @@ def test_importing_the_executor_does_not_load_pillow() -> None:
         check=True,
     )
     assert completed.stdout.strip() == "[]"
+
+
+class TestEvents:
+    """Event tasks, event delivery, and stop requests (D-141, Phase 5)."""
+
+    def executor(self, clock: FakeClock) -> InProcessExecutor:
+        def markers(payload: JsonObject, emit: EventSink) -> JsonObject:
+            for name in ("a", "b", "c"):
+                emit({"marker": name})
+            return {"done": True}
+
+        def bad_event(payload: JsonObject, emit: EventSink) -> JsonObject:
+            emit({"value": float("nan")})
+            return {}
+
+        return InProcessExecutor(
+            {"plain": lambda payload: {"plain": True}},
+            clock,
+            event_tasks={"markers": markers, "bad_event": bad_event},
+        )
+
+    def test_events_arrive_in_order_before_the_result(self, clock: FakeClock) -> None:
+        seen: list[JsonObject] = []
+        result = self.executor(clock).run("markers", {}, timeout=1.0, on_event=seen.append)
+        assert seen == [{"marker": "a"}, {"marker": "b"}, {"marker": "c"}]
+        assert result == {"done": True}
+
+    def test_events_without_a_sink_are_dropped(self, clock: FakeClock) -> None:
+        assert self.executor(clock).run("markers", {}, timeout=1.0) == {"done": True}
+
+    def test_plain_tasks_still_run(self, clock: FakeClock) -> None:
+        assert self.executor(clock).run("plain", {}, timeout=1.0) == {"plain": True}
+
+    def test_a_stop_ends_the_task_after_the_current_event(self, clock: FakeClock) -> None:
+        seen: list[JsonObject] = []
+        with pytest.raises(WorkerError) as caught:
+            self.executor(clock).run(
+                "markers",
+                {},
+                timeout=1.0,
+                on_event=seen.append,
+                should_stop=lambda: len(seen) >= 2,
+            )
+        assert caught.value.kind is WorkerErrorKind.STOPPED
+        assert seen == [{"marker": "a"}, {"marker": "b"}]
+
+    def test_a_stop_before_the_start_runs_nothing(self, clock: FakeClock) -> None:
+        seen: list[JsonObject] = []
+        with pytest.raises(WorkerError) as caught:
+            self.executor(clock).run(
+                "markers", {}, timeout=1.0, on_event=seen.append, should_stop=lambda: True
+            )
+        assert caught.value.kind is WorkerErrorKind.STOPPED
+        assert seen == []
+
+    def test_a_refused_event_is_a_protocol_error(self, clock: FakeClock) -> None:
+        def refuse(event: JsonObject) -> None:
+            msg = "out of order"
+            raise ValueError(msg)
+
+        with pytest.raises(WorkerError) as caught:
+            self.executor(clock).run("markers", {}, timeout=1.0, on_event=refuse)
+        assert caught.value.kind is WorkerErrorKind.PROTOCOL
+        assert "out of order" in str(caught.value)
+
+    def test_an_invalid_event_is_a_protocol_error(self, clock: FakeClock) -> None:
+        with pytest.raises(WorkerError) as caught:
+            self.executor(clock).run("bad_event", {}, timeout=1.0, on_event=lambda e: None)
+        assert caught.value.kind is WorkerErrorKind.PROTOCOL
