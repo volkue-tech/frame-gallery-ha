@@ -16,6 +16,8 @@ from typing import Final
 import pytest
 from PIL import Image
 
+from tests.support import h2
+
 H2: Final = r"^network access is disabled in tests \(H2\)$"
 LOOPBACK: Final = ("127.0.0.1", 9)
 CONFTEST: Final = Path(__file__).resolve().parents[2] / "conftest.py"
@@ -116,7 +118,8 @@ def test_local_pipes_still_work() -> None:
 def test_the_guard_restores_the_originals_at_the_end(pytestconfig: pytest.Config) -> None:
     # Remove the session guard as pytest_unconfigure does, then reinstall it.
     conftest = _session_conftest(pytestconfig)
-    blocked = conftest._blocked  # the guard's own replacement
+    blocked = h2.blocked  # the guard's own replacement (tests/support/h2.py)
+    assert set(h2.targets()) == set(BLOCKED_ENTRY_POINTS)
     assert all(getattr(owner, name) is blocked for owner, name in BLOCKED_ENTRY_POINTS)
     conftest.pytest_unconfigure(pytestconfig)
     try:

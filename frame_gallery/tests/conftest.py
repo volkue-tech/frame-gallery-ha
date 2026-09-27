@@ -2,22 +2,10 @@
 
 H2 (acceptance item; ARCHITECTURE.md §20.1): outbound networking is disabled
 for the whole pytest session, collection included. ``pytest_configure``
-replaces the entry points below and ``pytest_unconfigure`` restores the
-originals. Each replacement raises :class:`NetworkBlockedError` (a
-``RuntimeError``) with the message ``network access is disabled in tests (H2)``:
-
-* the ``socket.socket`` methods ``connect``, ``connect_ex``, ``sendto`` and
-  ``sendmsg``, and so the same methods of its subclasses (``ssl.SSLSocket``);
-* the ``socket`` functions ``create_connection``, ``getaddrinfo``,
-  ``gethostbyname``, ``gethostbyname_ex``, ``gethostbyaddr`` and
-  ``getnameinfo``;
-* the same five resolver functions of the C module ``_socket``.
-
-The attributes are replaced, so a call through the module or the class is
-blocked; a reference bound before the session started is not. The methods of
-the C type ``_socket.socket`` cannot be replaced; the source may not import
-``_socket`` at all (tests/unit/test_architecture_boundaries.py). Socket
-creation, ``socketpair``, pipes and subprocesses are unaffected.
+installs the guard of ``tests/support/h2.py`` and ``pytest_unconfigure``
+restores the originals. Tasks that tests run in worker processes install the
+same guard there (``tests/support/worker_tasks.py``). The source may not
+import ``_socket`` at all (tests/unit/test_architecture_boundaries.py).
 
 Every test also restores Pillow's process-global ``Image.MAX_IMAGE_PIXELS``,
 which ``prepare_image`` sets (worker_tasks.py), to the value it started with.
@@ -25,47 +13,25 @@ which ``prepare_image`` sets (worker_tasks.py), to the value it started with.
 
 from __future__ import annotations
 
-import _socket
-import socket
 from collections.abc import Iterator
-from typing import Final, NoReturn
+from typing import Final
 
 import pytest
 from PIL import Image
 
 from frame_gallery.logs.redact import active_redactor, set_active_redactor
+from tests.support import h2
+from tests.support.h2 import H2_MESSAGE, NetworkBlockedError
 
-H2_MESSAGE: Final = "network access is disabled in tests (H2)"
-
-_SOCKET_METHODS: Final = ("connect", "connect_ex", "sendto", "sendmsg")
-_RESOLVERS: Final = (
-    "getaddrinfo",
-    "gethostbyname",
-    "gethostbyname_ex",
-    "gethostbyaddr",
-    "getnameinfo",
-)
+__all__ = ["H2_MESSAGE", "NetworkBlockedError"]
 
 _GUARD: Final = pytest.StashKey[pytest.MonkeyPatch]()
-
-
-class NetworkBlockedError(RuntimeError):
-    """A test tried to use the network."""
-
-
-def _blocked(*_args: object, **_kwargs: object) -> NoReturn:
-    raise NetworkBlockedError(H2_MESSAGE)
 
 
 def pytest_configure(config: pytest.Config) -> None:
     """Install the H2 guard before collection starts."""
     guard = pytest.MonkeyPatch()
-    for method in _SOCKET_METHODS:
-        guard.setattr(socket.socket, method, _blocked)
-    guard.setattr(socket, "create_connection", _blocked)
-    for resolver in _RESOLVERS:
-        guard.setattr(socket, resolver, _blocked)
-        guard.setattr(_socket, resolver, _blocked)
+    h2.install(guard.setattr)
     config.stash[_GUARD] = guard
 
 

@@ -59,6 +59,15 @@ class WorkerError(FrameGalleryError):
         self.detail = detail
 
 
+class IsolationFailure(FrameGalleryError):
+    """The isolation itself failed: a worker could not be started, or refused
+    to run because its bootstrap did not complete (§11.3: "If dropping
+    privileges fails, the worker refuses to run (``internal_error``)").
+
+    Deliberately not a :class:`WorkerError`: no caller treats it as a failure
+    of one task, so it ends the run as ``internal_error`` (D-163)."""
+
+
 class Executor(Protocol):
     def run(
         self,

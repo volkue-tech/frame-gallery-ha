@@ -42,6 +42,11 @@ WORKER_TASKS = "frame_gallery.imaging.worker_tasks"
 WORKER_PREFIX = "frame_gallery.imaging.worker_"
 TV_WORKER = PACKAGE_ROOT / "tv" / "samsung_task.py"
 TV_WORKER_MODULE = "frame_gallery.tv.samsung_task"
+ISOLATION_PROCESS = ISOLATION_ROOT / "process.py"
+ISOLATION_BOOTSTRAP = ISOLATION_ROOT / "bootstrap.py"
+PROCESS_MODULE = "frame_gallery.isolation.process"
+BOOTSTRAP_MODULE = "frame_gallery.isolation.bootstrap"
+WORKER_MAIN_MODULE = "frame_gallery.isolation.worker_main"
 
 TV_THIRD_PARTY = frozenset({"samsungtvws", "websocket", "requests"})
 """The television library and the two packages whose exception types the
@@ -87,10 +92,12 @@ BANNED_EVERYWHERE = frozenset(
     }
 )
 """Networking, process and foreign-code modules banned in every module, with
-two deliberate exceptions: ``net/transport.py`` may import ``socket``, ``ssl``,
-and ``http`` (Phase 3), and ``net`` modules may import ``urllib.parse``. Phase 5
-will admit process management in ``isolation`` only; there is no ``asyncio``
-at all (D-106)."""
+deliberate exceptions: ``net/transport.py`` may import ``socket``, ``ssl``,
+and ``http`` (Phase 3), and ``net`` modules may import ``urllib.parse``; from
+Phase 5, ``isolation/process.py`` may import ``subprocess`` and ``select``,
+``isolation/bootstrap.py`` ``ctypes`` (for ``prctl``), and the television
+worker task ``socket`` (its connect guard). There is no ``asyncio`` at all
+(D-106)."""
 
 BANNED_IN_SELECTION = BANNED_EVERYWHERE | frozenset(
     {"os", "pathlib", "shutil", "tempfile", "glob", "io", "fileinput"}
@@ -123,6 +130,7 @@ FORBIDDEN_AT_RUNTIME = (
     "ssl",
     "_ssl",
     "http.client",
+    "ctypes",
 )
 """Modules the parent must not have loaded after importing the whole package,
 apart from ``net.transport``, which only the entry point imports (Phase 6)."""
@@ -402,6 +410,10 @@ def _banned_allowed(module: SourceModule, ref: ImportRef) -> bool:
             return True
     if module.is_tv_worker and (ref.module == "socket" or ref.module.startswith("socket.")):
         return True  # the television worker's connect guard (Phase 5)
+    if module.path == ISOLATION_PROCESS and ref.module in ("subprocess", "select"):
+        return True  # the process executor (Phase 5, D-163)
+    if module.path == ISOLATION_BOOTSTRAP and ref.module == "ctypes":
+        return True  # prctl in the worker bootstrap (Phase 5, D-163)
     return module.is_net and (
         ref.module in NET_ONLY_MODULES
         or any(ref.module.startswith(f"{name}.") for name in NET_ONLY_MODULES)
@@ -425,6 +437,31 @@ def transport_import_violations(module: SourceModule) -> list[str]:
         _describe(module, ref)
         for ref in _imports(module, members=True)
         if ref.module == NET_TRANSPORT_MODULE
+    ]
+
+
+def process_import_violations(module: SourceModule) -> list[str]:
+    """Only the entry point (Phase 6) builds the process executor; every other
+    module works against the ``Executor`` protocol."""
+    if module.path == PACKAGE_ROOT / "__main__.py":
+        return []
+    return [
+        _describe(module, ref)
+        for ref in _imports(module, members=True)
+        if ref.module == PROCESS_MODULE
+    ]
+
+
+def child_module_violations(module: SourceModule) -> list[str]:
+    """The worker's own modules run only in the worker: ``BOOT`` names
+    ``worker_main`` in a string, and only ``worker_main`` imports the
+    bootstrap."""
+    in_worker_main = module.path == ISOLATION_ROOT / "worker_main.py"
+    return [
+        _describe(module, ref)
+        for ref in _imports(module, members=True)
+        if ref.module == WORKER_MAIN_MODULE
+        or (ref.module == BOOTSTRAP_MODULE and not in_worker_main)
     ]
 
 
@@ -548,6 +585,27 @@ def test_networking_is_confined_to_the_transport_module() -> None:
         assert not {ref.top for ref in _imports(module)} & forbidden, module.relative
 
 
+def test_only_the_entry_point_builds_the_process_executor() -> None:
+    assert _tree_violations(process_import_violations) == []
+
+
+def test_the_worker_modules_run_only_in_the_worker() -> None:
+    assert _tree_violations(child_module_violations) == []
+
+
+def test_process_management_is_confined_to_the_executor() -> None:
+    # Guard against the exceptions above passing vacuously.
+    modules = {module.path: module for module in _source_modules()}
+    assert {"subprocess", "select"} <= {ref.top for ref in _imports(modules[ISOLATION_PROCESS])}
+    assert "ctypes" in {ref.top for ref in _imports(modules[ISOLATION_BOOTSTRAP])}
+    for path, module in modules.items():
+        tops = {ref.top for ref in _imports(module)}
+        if path != ISOLATION_PROCESS:
+            assert not tops & {"subprocess", "select"}, module.relative
+        if path != ISOLATION_BOOTSTRAP:
+            assert "ctypes" not in tops, module.relative
+
+
 def test_no_module_starts_a_process_through_os() -> None:
     assert _tree_violations(process_call_violations) == []
 
@@ -618,7 +676,33 @@ VIOLATIONS: Final = [
             ("tv/samsung.py", "import socket"),
             ("tv/samsung_task.py", "import ssl"),
             ("tv/samsung_task.py", "import subprocess"),
+            ("isolation/in_process.py", "import subprocess"),
+            ("isolation/bootstrap.py", "import subprocess"),
+            ("isolation/worker_main.py", "import select"),
+            ("isolation/process.py", "import ctypes"),
+            ("isolation/process.py", "import multiprocessing"),
+            ("isolation/process.py", "import selectors"),
+            ("isolation/bootstrap.py", "import socket"),
             ("providers/aic.py", "from urllib.parse import quote"),
+        )
+    ),
+    # The process executor outside the entry point; the worker's modules
+    # outside the worker.
+    *(
+        pytest.param(process_import_violations, relative, source, id=f"{relative}: {source}")
+        for relative, source in (
+            ("app/runner.py", "from frame_gallery.isolation.process import ProcessExecutor"),
+            ("tv/samsung.py", "import frame_gallery.isolation.process"),
+            ("isolation/in_process.py", "from frame_gallery.isolation import process"),
+        )
+    ),
+    *(
+        pytest.param(child_module_violations, relative, source, id=f"{relative}: {source}")
+        for relative, source in (
+            ("isolation/process.py", "from frame_gallery.isolation.bootstrap import run"),
+            ("app/runner.py", "import frame_gallery.isolation.worker_main"),
+            ("isolation/in_process.py", "from frame_gallery.isolation import worker_main"),
+            ("isolation/bootstrap.py", "from frame_gallery.isolation.worker_main import main"),
         )
     ),
     # The real transport outside the entry point.
@@ -840,6 +924,30 @@ ALLOWED: Final = [
         "__main__.py",
         "from frame_gallery.net.transport import Urllib3Transport",
         id="entry-point-wires-the-transport",
+    ),
+    pytest.param(
+        banned_module_violations,
+        "isolation/process.py",
+        "import select\nimport subprocess",
+        id="the-process-executor-manages-processes",
+    ),
+    pytest.param(
+        banned_module_violations,
+        "isolation/bootstrap.py",
+        "def controls():\n    import ctypes",
+        id="the-bootstrap-calls-prctl",
+    ),
+    pytest.param(
+        process_import_violations,
+        "__main__.py",
+        "from frame_gallery.isolation.process import Launch, ProcessExecutor",
+        id="entry-point-builds-the-process-executor",
+    ),
+    pytest.param(
+        child_module_violations,
+        "isolation/worker_main.py",
+        "from frame_gallery.isolation.bootstrap import run",
+        id="the-worker-entry-runs-the-bootstrap",
     ),
 ]
 
