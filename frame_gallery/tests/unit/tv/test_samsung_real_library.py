@@ -18,7 +18,6 @@ from __future__ import annotations
 
 import gc
 import hashlib
-import json
 import time
 import warnings
 from collections.abc import Iterator
@@ -39,6 +38,7 @@ from tests.support.socket_tv import D2D_PORT, SocketTV, TvScript
 HOST = IPv4Address("192.0.2.20")
 JPEG = b"\xff\xd8" + b"x" * 300 + b"\xff\xd9"
 SEED = "87654321"
+NEW = "NEWTOKEN42"
 
 
 @pytest.fixture(autouse=True)
@@ -208,8 +208,61 @@ def test_the_libraries_select_refusal_is_recognised(
     del guard
 
 
-def test_the_socket_tv_replies_parse_as_the_library_expects() -> None:
-    """A guard against drift in the test double itself."""
-    reply = {"event": "d2d_service_message", "data": json.dumps({"event": "api_version"})}
-    frame = samsungtvws.helper.process_api_response(json.dumps(reply))
-    assert frame["event"] == "d2d_service_message"
+def test_the_socket_tv_speaks_as_the_library_expects(
+    tmp_path: Path, monkeypatch: pytest.MonkeyPatch
+) -> None:
+    """A guard against drift in the test double: its real frames, read by the
+    installed library, give the version it was told to send."""
+    run = Run(tmp_path, monkeypatch, api_version="9.9.9")
+    art = samsung_task.load_library().art_class(str(HOST), port=8002, timeout=1, key_press_delay=0)
+    try:
+        connection = art.open()
+        assert art.get_api_version() == "9.9.9"
+    finally:
+        connection.shutdown()
+        run.tv.close()
+    assert run.tv.requests == ["api_version"]
+
+
+def test_start_up_events_do_not_stretch_the_pairing_wait(
+    tmp_path: Path, monkeypatch: pytest.MonkeyPatch, guard: ConnectGuard
+) -> None:
+    """The library ignores ed.edenTV.update and waits again; the pairing wait
+    is one deadline all the same (§12.2, R13)."""
+    run = Run(tmp_path, monkeypatch, connections=["chatty"])
+    started = time.monotonic()
+    outcome = run.deliver(guard)
+    assert (outcome["status"], outcome["pairing"]) == ("not_authorized", "prompt")
+    assert time.monotonic() - started < 1.5  # the pairing wait here is 0.4 s
+    assert len(run.tv.urls) == 1
+
+
+def test_a_token_issued_before_a_missing_ready_is_used_for_the_retry(
+    tmp_path: Path, monkeypatch: pytest.MonkeyPatch, guard: ConnectGuard
+) -> None:
+    run = Run(tmp_path, monkeypatch, connections=["no_ready", "ok"], issue_token=NEW)
+    run.deliver(guard)
+    assert run.events[0] == {"token": NEW}
+    assert "token=" not in run.tv.urls[0]
+    assert run.tv.urls[1].endswith(f"&token={NEW}")
+
+
+def test_a_malformed_connect_event_is_a_protocol_failure(
+    tmp_path: Path, monkeypatch: pytest.MonkeyPatch, guard: ConnectGuard
+) -> None:
+    run = Run(tmp_path, monkeypatch, connections=["malformed"])
+    outcome = run.deliver(guard)
+    assert outcome["status"] == "protocol"
+    assert outcome["detail"] == (
+        "the TV's art service answered the connection unexpectedly (AttributeError)"
+    )
+    assert len(run.tv.urls) == 2
+
+
+def test_the_first_connection_is_dropped_before_the_retry(
+    tmp_path: Path, monkeypatch: pytest.MonkeyPatch, guard: ConnectGuard
+) -> None:
+    """Even when the library's own open() never stored it (R15)."""
+    run = Run(tmp_path, monkeypatch, connections=["malformed", "ok"])
+    run.deliver(guard)
+    assert run.tv.earlier_closed == [True, True]

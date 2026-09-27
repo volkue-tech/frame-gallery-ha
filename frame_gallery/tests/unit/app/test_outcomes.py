@@ -226,6 +226,8 @@ def test_before_upload_the_intent_is_removed(
     outcome: Outcome,
     hint: Hint | None,
 ) -> None:
+    if status is DeliveryStatus.INSUFFICIENT_TIME and Marker.CONNECTED not in markers:
+        hint = None  # nothing was paired before the art channel was reached
     verdict = classify_delivery(markers, status, cancelled=False)
     assert verdict == verdict.__class__(
         selected=False, outcome=outcome, ledger=LedgerAction.REMOVE_INTENT, hint=hint

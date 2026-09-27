@@ -5,8 +5,8 @@ answers with a :func:`result` object. All of them cross the executor seam as
 JSON only. The worker sends two kinds of event:
 
 * a **marker** event, ``{"marker": <name>, "content_id": <id or null>}``;
-* at most one **token** event, ``{"token": <token>}``, before ``connected``,
-  when the television issued a new pairing token.
+* a **token** event, ``{"token": <token>}``, before ``connected``, when the
+  television issued a new pairing token: at most one per connection attempt.
 """
 
 from __future__ import annotations

@@ -860,6 +860,7 @@ def test_television_reserve_is_rechecked_before_the_intent(h: Harness) -> None:
             {},
             Hint.PAIRED_START_AGAIN,
         ),
+        ((), DeliveryStatus.INSUFFICIENT_TIME, Outcome.DEADLINE_EXCEEDED, {}, None),
         (
             (Marker.CONNECTED, Marker.UPLOAD_STARTED),
             DeliveryStatus.UNREACHABLE,

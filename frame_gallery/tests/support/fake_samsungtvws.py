@@ -8,9 +8,10 @@ behaviour of it that the television task depends on (D-162):
   installed signatures (a conformance test compares them);
 * ``open()`` opens the websocket through ``websocket.create_connection``,
   looked up at call time on the module it was given, sends the token it holds,
-  and keeps a token the television issues in ``token``; after a failure that
-  follows the handshake, a second ``open()`` on the same object returns the
-  stale connection, as the library does;
+  and keeps a token the television issues in ``token``; after a failure while
+  waiting for the ready event, a second ``open()`` on the same object does not
+  connect again (the library waits once more on the stale connection; the
+  stand-in raises that wait's ``ConnectionFailure`` at once);
 * ``upload()`` asks ``self.get_api_version()`` first and, on 0.97, falls back
   to a second upload after an error reply to the first;
 * the library's own exception classes, and those of ``websocket-client`` and
@@ -24,6 +25,7 @@ here opens a socket.
 
 from __future__ import annotations
 
+import hashlib
 import json
 import time
 from collections.abc import Callable
@@ -57,9 +59,10 @@ class Script:
     """One outcome per ``open()`` call; the last one repeats. ``ok``,
     ``unauthorized``, ``prompt_timeout`` (a time-out after the handshake),
     ``handshake_timeout`` (a time-out during it), ``ready_timeout`` (the
-    connect event arrived, the ready event did not), ``close_frame``
-    (``ResponseError``), ``refused`` (``ConnectionRefusedError``), ``failure``
-    (``ConnectionFailure``)."""
+    connect event arrived, with its token, the ready event did not),
+    ``close_frame`` (``ResponseError``), ``refused``
+    (``ConnectionRefusedError``), ``failure`` (``ConnectionFailure``),
+    ``malformed`` (``AttributeError``: connect data that is not an object)."""
 
     issue_token: str | None = "12345678"  # noqa: S105 - a fake pairing token
     """The token the television sends on connect; ``None`` sends none."""
@@ -113,6 +116,10 @@ class FakeConnection:
 
     def shutdown(self) -> None:
         self._record("shutdown")
+
+    def recv(self) -> str:
+        """Never called: the stand-in's methods do not read frames."""
+        raise AssertionError
 
 
 def make_websocket(record: Callable[[str], None]) -> SimpleNamespace:
@@ -199,6 +206,8 @@ def make_art_class(script: Script, record: Callable[[str], None], ws: Any) -> ty
                 raise exceptions.ResponseError(PARSE_FAILURE)
             if outcome == "failure":
                 raise exceptions.ConnectionFailure({"event": "unexpected"})
+            if outcome == "malformed":
+                raise AttributeError("'str' object has no attribute 'get'")
             if script.issue_token is not None:
                 self.token = script.issue_token
             self.connection = connection
@@ -225,7 +234,8 @@ def make_art_class(script: Script, record: Callable[[str], None], ws: Any) -> ty
             file_type: str = "png",
             date: str | None = None,
         ) -> str:
-            record(f"upload:{len(file)}:{matte}:{portrait_matte}:{file_type}:{self.timeout}")
+            digest = hashlib.sha256(file).hexdigest()
+            record(f"upload:{digest}:{matte}:{portrait_matte}:{file_type}:{self.timeout}")
             try:
                 if self.get_api_version() == "0.97":
                     record("upload:binary")

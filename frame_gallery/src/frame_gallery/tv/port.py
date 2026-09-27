@@ -124,8 +124,9 @@ class Television(Protocol):
 
         If the worker is killed by its timer or the deadline, the adapter also
         returns ``UNREACHABLE`` with the markers seen so far. The method
-        returns or raises only once its worker is dead, so no marker can
-        arrive after the caller has classified the result (D-137); the caller
-        also kills every worker before classifying an interrupted delivery.
+        returns or raises only after its worker was killed and its channel
+        closed, so no marker can arrive after the caller has classified the
+        result (D-137); the caller also kills every worker before classifying
+        an interrupted delivery.
         """
         ...

@@ -183,7 +183,7 @@ def classify_delivery(
         return _after_uploaded(status, cancelled=cancelled)
     if Marker.UPLOAD_STARTED in markers:
         return _after_upload_started(status, cancelled=cancelled)
-    return _before_upload(status, cancelled=cancelled)
+    return _before_upload(status, cancelled=cancelled, connected=Marker.CONNECTED in markers)
 
 
 def _after_uploaded(status: DeliveryStatus | None, *, cancelled: bool) -> TelevisionVerdict:
@@ -222,14 +222,22 @@ def _after_upload_started(status: DeliveryStatus | None, *, cancelled: bool) -> 
     )
 
 
-def _before_upload(status: DeliveryStatus | None, *, cancelled: bool) -> TelevisionVerdict:
-    """Nothing was uploaded (no ``upload_started``): the intent is removed."""
+def _before_upload(
+    status: DeliveryStatus | None, *, cancelled: bool, connected: bool
+) -> TelevisionVerdict:
+    """Nothing was uploaded (no ``upload_started``): the intent is removed.
+
+    ``insufficient_time`` gets the hint "paired; start the app again" only
+    after ``connected``; before it, the worker stopped without contacting the
+    art channel (D-162 point 5), and nothing was paired."""
     if cancelled:
         outcome, hint = Outcome.CANCELLED, None
     elif status is None:
         outcome, hint = Outcome.TV_UNREACHABLE, None
     else:
         outcome, hint = _STATUS_OUTCOMES[status], _STATUS_HINTS.get(status)
+        if status is DeliveryStatus.INSUFFICIENT_TIME and not connected:
+            hint = None
     return TelevisionVerdict(
         selected=False, outcome=outcome, ledger=LedgerAction.REMOVE_INTENT, hint=hint
     )

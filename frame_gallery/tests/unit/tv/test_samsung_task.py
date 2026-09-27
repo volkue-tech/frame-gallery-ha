@@ -3,6 +3,7 @@ samsungtvws 3.0.6 (tv/samsung_task.py; §12.1, §12.4, D-161, D-162)."""
 
 from __future__ import annotations
 
+import dataclasses
 import hashlib
 import inspect
 import json
@@ -16,6 +17,7 @@ from collections.abc import Callable, Iterator
 from importlib.metadata import version
 from ipaddress import IPv4Address
 from pathlib import Path
+from types import SimpleNamespace
 
 import pytest
 import samsungtvws
@@ -140,7 +142,7 @@ def test_a_first_pairing_in_the_documented_order(tmp_path: Path) -> None:
         marker("connected"),
         f"api_version:{CONNECT_S}",
         marker("upload_started"),
-        f"upload:{len(JPEG)}:none:none:jpg:{left}",
+        f"upload:{rig.sha256}:none:none:jpg:{left}",
         "upload:d2d",
         marker("uploaded", "MY_F0042"),
         f"select:MY_F0042:True:{left}",
@@ -194,6 +196,29 @@ def test_without_a_redactor_the_tokens_are_still_used(tmp_path: Path) -> None:
     rig = Rig(tmp_path, issue_token=NEW)
     assert rig.run(token=SEED)["status"] == "ok"
     assert token(NEW) in rig.events
+
+
+def test_only_the_bytes_read_and_checked_first_are_uploaded(tmp_path: Path) -> None:
+    """The file is replaced after its check, before the upload: the upload
+    still carries the validated bytes, because the file is read only once
+    (D-162 point 2)."""
+    rig = Rig(tmp_path)
+    real_class = rig.library.art_class
+
+    def replacing(*args: object, **kwargs: object) -> object:
+        art = real_class(*args, **kwargs)
+        real_supported = art.supported
+
+        def supported() -> bool:
+            rig.jpeg.write_bytes(b"\xff\xd8" + b"z" * 1000 + b"\xff\xd9")  # same length
+            return bool(real_supported())
+
+        art.supported = supported
+        return art
+
+    rig.library = dataclasses.replace(rig.library, art_class=replacing)
+    assert rig.run()["status"] == "ok"
+    assert rig.calls("upload:")[0].startswith(f"upload:{rig.sha256}:")
 
 
 def test_upload_started_is_written_before_the_upload_is_called(tmp_path: Path) -> None:
@@ -279,7 +304,8 @@ def test_the_capability_check(tmp_path: Path, supported: str, status: str) -> No
         (["prompt_timeout"], "not_authorized", Pairing.PROMPT.value, 1),
         (["handshake_timeout"], "unreachable", None, 2),
         (["ready_timeout"], "unreachable", None, 2),
-        (["close_frame"], "unreachable", None, 2),
+        (["close_frame"], "protocol", None, 2),
+        (["malformed"], "protocol", None, 2),
         (["failure"], "unreachable", None, 2),
         (["refused"], "unreachable", None, 2),
     ],
@@ -300,14 +326,36 @@ def test_connection_failures_come_before_any_marker(
 def test_a_failed_connection_is_tried_once_more_on_a_new_connection(
     tmp_path: Path, first: str
 ) -> None:
-    """The library's open() returns a stale connection on the same object, so
-    the retry makes a new one (D-162)."""
+    """A second open() on the same object would wait again on the stale
+    connection instead of connecting, so the retry makes a new object; the
+    first connection is dropped before it (D-162)."""
     rig = Rig(tmp_path, open=[first, "ok"])
     assert rig.run()["status"] == "ok"
-    assert len(rig.calls(f"init:{HOST}:{ART_PORT}:{PAIRING_WAIT_S}")) == 2
+    inits = [i for i, e in enumerate(rig.events) if e.startswith(f"init:{HOST}:{ART_PORT}:20.0")]
+    assert len(inits) == 2
     assert "open:stale" not in rig.events
-    if first == "ready_timeout":
-        assert rig.events.count("shutdown") == 2  # the first connection is dropped
+    handshakes = [i for i, e in enumerate(rig.events) if e.startswith("handshake:wss")]
+    if handshakes[0] < inits[1]:  # the first attempt got a connection: dropped first
+        assert "shutdown" in rig.events[handshakes[0] : inits[1]]
+
+
+def test_a_token_issued_before_a_failed_ready_wait_is_kept_and_used(tmp_path: Path) -> None:
+    """The TV sends ms.channel.connect with a new token, then no ready: the
+    token goes to the parent at once, and the retry sends it (R11)."""
+    rig = Rig(tmp_path, open=["ready_timeout", "ok"], issue_token=NEW)
+    assert rig.run()["status"] == "ok"
+    opens = rig.calls("open:")
+    assert opens[0].startswith("open:ready_timeout:token=None:")
+    assert opens[1].startswith(f"open:ok:token={NEW}:")
+    assert rig.events.count(token(NEW)) == 1
+    assert rig.events.index(token(NEW)) < rig.events.index(opens[1])
+
+
+def test_a_token_issued_before_a_failure_without_a_retry_is_still_sent(tmp_path: Path) -> None:
+    rig = Rig(tmp_path, open=["ready_timeout", "prompt_timeout"], issue_token=NEW)
+    outcome = rig.run()
+    assert (outcome["status"], outcome["pairing"]) == ("not_authorized", "prompt")
+    assert token(NEW) in rig.events
 
 
 def test_a_pairing_timeout_is_never_retried(tmp_path: Path) -> None:
@@ -807,3 +855,72 @@ def test_the_worker_entry_installs_the_guard_before_the_library(
     rig2 = Rig(tmp_path, supported="unreachable")
     monkeypatch.setattr(samsung_task, "load_library", lambda: rig2.library)
     assert samsung_task.deliver_task(payload, rig2.emit)["status"] == "protocol"
+
+
+class TestHandshakes:
+    """The create_connection wrapper, driven directly (D-162 points 4 and 5)."""
+
+    class Connection:
+        def __init__(self) -> None:
+            self.timeouts: list[float | None] = []
+            self.reads = 0
+
+        def settimeout(self, timeout: float | None) -> None:
+            self.timeouts.append(timeout)
+
+        def recv(self) -> str:
+            self.reads += 1
+            return "frame"
+
+        def shutdown(self) -> None:
+            raise OSError(9, "already closed")
+
+    def wrapper(self, now: list[float]) -> tuple[samsung_task._Handshakes, SimpleNamespace]:
+        made: list[tuple[object, object]] = []
+
+        def create_connection(url: object, timeout: object = None, **_: object) -> object:
+            made.append((url, timeout))
+            return TestHandshakes.Connection()
+
+        module = SimpleNamespace(create_connection=create_connection, made=made)
+        handshakes = samsung_task._Handshakes(module, TimeoutError, lambda: now[0])
+        return handshakes, module
+
+    def test_without_a_deadline_nothing_is_bounded(self) -> None:
+        handshakes, module = self.wrapper([100.0])
+        connection = module.create_connection("wss://tv", 20.0)
+        assert module.made == [("wss://tv", 20.0)]
+        assert connection.recv() == "frame"
+        assert connection.timeouts == []
+        assert handshakes.count == 1
+
+    def test_with_a_deadline_the_connect_and_every_read_are_bounded(self) -> None:
+        now = [100.0]
+        handshakes, module = self.wrapper(now)
+        handshakes.deadline = 103.0
+        connection = module.create_connection("wss://tv", 20.0)
+        assert module.made == [("wss://tv", 3.0)]  # clamped to the time left
+        now[0] = 102.0
+        assert connection.recv() == "frame"
+        assert connection.timeouts == [1.0]
+        now[0] = 103.5
+        with pytest.raises(TimeoutError, match="the pairing wait ended"):
+            connection.recv()
+        handshakes.settle()
+        assert connection.recv() == "frame"  # its own time-out again
+        assert handshakes.deadline is None
+
+    def test_a_missing_time_out_becomes_the_time_left(self) -> None:
+        handshakes, module = self.wrapper([100.0])
+        handshakes.deadline = 100.1
+        module.create_connection("wss://tv")
+        assert module.made == [("wss://tv", samsung_task.MIN_WAIT_S)]
+
+    def test_every_connection_is_dropped_once(self) -> None:
+        handshakes, module = self.wrapper([100.0])
+        module.create_connection("wss://tv", 1.0)
+        module.create_connection("wss://tv", 1.0)
+        handshakes.drop_all()  # a failing shutdown is ignored
+        handshakes.drop_all()
+        handshakes.undo()
+        assert module.create_connection is not handshakes._create_connection

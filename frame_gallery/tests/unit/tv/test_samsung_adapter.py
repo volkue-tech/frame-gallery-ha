@@ -381,15 +381,28 @@ def test_a_repeated_marker_is_not_relayed_again(tmp_path: Path) -> None:
 @pytest.mark.parametrize(
     "events",
     [
-        [{"token": NEW}, {"token": NEW}],
+        [{"token": NEW}, {"token": OTHER}, {"token": NEW}],
         [*markers("connected"), {"token": NEW}],
     ],
 )
-def test_a_token_only_once_and_only_before_connected(
+def test_at_most_two_tokens_and_only_before_connected(
     tmp_path: Path, events: list[JsonObject]
 ) -> None:
     rig, television, _ = scripted(tmp_path, events, OK)
     assert rig.deliver(television).status is DeliveryStatus.PROTOCOL
+
+
+def test_one_token_per_attempt_the_last_one_kept(tmp_path: Path) -> None:
+    """A retry that sends the first token may be given another (D-162)."""
+    events: list[JsonObject] = [
+        {"token": NEW},
+        {"token": OTHER},
+        *markers("connected", "upload_started", "uploaded", "selected"),
+    ]
+    rig, television, _ = scripted(tmp_path, events, OK)
+    result = rig.deliver(television)
+    assert (result.status, result.auth) == (DeliveryStatus.OK, AuthChange.NEW_TOKEN)
+    assert rig.tokens.load() == OTHER
 
 
 def test_a_token_event_is_installed_at_once(tmp_path: Path) -> None:

@@ -179,26 +179,73 @@ class _Clock:
     def left(self) -> float:
         return self._deadline - self._monotonic()
 
+    def now(self) -> float:
+        return self._monotonic()
+
 
 class _Handshakes:
-    """Counts completed websocket handshakes of the art channel (D-162).
+    """Wraps ``websocket.create_connection``, which ``samsungtvws`` looks up at
+    call time, for the art channel (D-162):
 
-    ``websocket-client`` raises the same time-out when the television never
-    answers the upgrade and when it answers but then waits for the user; only
-    the second is a pairing prompt. ``samsungtvws`` looks up
-    ``websocket.create_connection`` at call time, so a wrapper sees it return.
+    * it counts completed handshakes: ``websocket-client`` raises the same
+      time-out when the television never answers the upgrade and when it
+      answers but then waits for the user; only the second is a prompt;
+    * it keeps every connection it hands out, so the connection of a failed
+      attempt is dropped even when the library's ``open()`` never stored it;
+    * while an attempt has a pairing deadline, it clamps the connect time-out
+      to the time left, and every read of the new connection waits at most
+      until that deadline, so start-up events the library ignores cannot
+      stretch the pairing wait (§12.2).
     """
 
-    def __init__(self, module: Any) -> None:
+    def __init__(
+        self, module: Any, timeout_error: type[BaseException], monotonic: Callable[[], float]
+    ) -> None:
         self._module = module
         self._real = module.create_connection
+        self._timeout_error = timeout_error
+        self._monotonic = monotonic
+        self._opened: list[Any] = []
         self.count = 0
+        self.deadline: float | None = None
         module.create_connection = self._create_connection
 
-    def _create_connection(self, *args: Any, **kwargs: Any) -> Any:
-        connection = self._real(*args, **kwargs)
+    def _create_connection(self, url: Any, timeout: Any = None, *args: Any, **kwargs: Any) -> Any:
+        deadline = self.deadline
+        if deadline is not None:
+            left = max(MIN_WAIT_S, deadline - self._monotonic())
+            timeout = left if timeout is None else min(timeout, left)
+        connection = self._real(url, timeout, *args, **kwargs)
         self.count += 1
+        self._opened.append(connection)
+        if deadline is not None:
+            self._bound_reads(connection, deadline)
         return connection
+
+    def _bound_reads(self, connection: Any, deadline: float) -> None:
+        real_recv = connection.recv
+
+        def recv() -> Any:
+            left = deadline - self._monotonic()
+            if left <= 0:
+                raise self._timeout_error("the pairing wait ended")
+            connection.settimeout(max(MIN_WAIT_S, left))
+            return real_recv()
+
+        connection.recv = recv
+
+    def settle(self) -> None:
+        """The attempt is over: later reads use the connection's own time-out."""
+        self.deadline = None
+        for connection in self._opened:
+            vars(connection).pop("recv", None)
+
+    def drop_all(self) -> None:
+        """Drop every connection handed out, without the close handshake."""
+        opened, self._opened = self._opened, []
+        for connection in opened:
+            with contextlib.suppress(Exception):
+                connection.shutdown()
 
     def undo(self) -> None:
         self._module.create_connection = self._real
@@ -231,9 +278,15 @@ def run_delivery(
     """
     if request.token is not None:
         _register_secret(request.token)
-    handshakes = _Handshakes(library.websocket)
+    handshakes = _Handshakes(library.websocket, library.websocket_timeout, monotonic)
     delivery = _Delivery(
-        library, request, emit, handshakes, guard_tripped, _Clock(request.deadline, monotonic)
+        library,
+        request,
+        emit,
+        handshakes,
+        guard_tripped,
+        _Clock(request.deadline, monotonic),
+        token=request.token,
     )
     try:
         return delivery.run()
@@ -250,6 +303,10 @@ class _Delivery:
     handshakes: _Handshakes
     guard_tripped: Callable[[], bool]
     clock: _Clock
+    token: str | None = None
+    """The token the next connection sends: the stored one, or one the TV
+    issued during an earlier attempt of this delivery."""
+
     art: Any = field(default=None)
 
     def run(self) -> JsonObject:
@@ -285,7 +342,7 @@ class _Delivery:
         self.abandon()
         self.art = self.library.art_class(
             str(self.request.host),
-            token=self.request.token,
+            token=self.token,
             port=ART_PORT,
             timeout=max(MIN_WAIT_S, timeout),
             key_press_delay=0,
@@ -294,13 +351,10 @@ class _Delivery:
         return self.art
 
     def abandon(self) -> None:
-        """Drop the connection without the websocket close handshake, which
-        waits up to 3 s for the television; the worker exits anyway."""
-        art, self.art = self.art, None
-        shutdown = getattr(getattr(art, "connection", None), "shutdown", None)
-        if callable(shutdown):
-            with contextlib.suppress(Exception):
-                shutdown()
+        """Drop every connection so far without the websocket close handshake,
+        which waits up to 3 s for the television; the worker exits anyway."""
+        self.art = None
+        self.handshakes.drop_all()
 
     def _set_timeout(self, seconds: float) -> None:
         """Apply ``seconds`` to each later wait of the open connection."""
@@ -367,12 +421,15 @@ class _Delivery:
         )
 
     def _open(self, wait: float) -> _Finished | None:
-        """One attempt, on a new connection object: ``SamsungTVArt.open()``
-        returns the old, stale connection if an earlier ``open()`` on the same
-        object failed after the handshake. Returns ``None`` on success, or the
+        """One attempt, on a new connection object: after an ``open()`` that
+        failed while waiting for ``ms.channel.ready``, a second
+        ``SamsungTVArt.open()`` on the same object would not connect again but
+        wait once more on the old connection. The pairing wait is one
+        deadline for the whole attempt. Returns ``None`` on success, or the
         failure if a retry may help."""
         art = self._new_art(wait)
         before = self.handshakes.count
+        self.handshakes.deadline = self.clock.now() + wait
         try:
             art.open()
         except self.library.unauthorized:
@@ -381,6 +438,9 @@ class _Delivery:
             ) from None
         except Exception as exc:  # noqa: BLE001 - every failure has an outcome
             self._unless_blocked()
+            # A token the TV issued with ms.channel.connect is kept even when
+            # the wait for ms.channel.ready fails afterwards.
+            self._relay_token(art)
             if isinstance(exc, self.library.websocket_timeout) and self.handshakes.count > before:
                 # The TV answered the handshake but did not confirm the
                 # connection: the prompt was not accepted in time (D-115: no retry).
@@ -389,21 +449,31 @@ class _Delivery:
                     "the connection prompt was not accepted in time",
                     Pairing.PROMPT,
                 ) from None
+            if isinstance(exc, self.library.transport_errors):
+                return _finished(
+                    DeliveryStatus.UNREACHABLE,
+                    f"the TV's art service did not connect ({type(exc).__name__})",
+                )
             return _finished(
-                DeliveryStatus.UNREACHABLE,
-                f"the TV's art service did not connect ({type(exc).__name__})",
+                DeliveryStatus.PROTOCOL,
+                f"the TV's art service answered the connection unexpectedly ({type(exc).__name__})",
             )
+        finally:
+            self.handshakes.settle()
         self._relay_token(art)
         return None
 
     def _relay_token(self, art: Any) -> None:
+        """Send a token the TV issued to the parent at once, and use it for
+        any later attempt of this delivery."""
         issued = getattr(art, "token", None)
-        if not isinstance(issued, str) or issued == self.request.token:
+        if not isinstance(issued, str) or issued == self.token:
             return
         if TOKEN_PATTERN.fullmatch(issued) is None:
             _log.warning("the TV issued a pairing token of an unexpected form; it is not kept")
             return
         _register_secret(issued)
+        self.token = issued
         self.emit(token_event(issued))
 
     def _pin_api_version(self) -> None:

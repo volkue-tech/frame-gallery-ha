@@ -20,6 +20,7 @@ import json
 import socket
 import struct
 import threading
+import time
 from dataclasses import dataclass, field
 from typing import Any
 
@@ -34,7 +35,9 @@ class TvScript:
     """One behaviour per connection; the last one repeats. ``ok`` (connect,
     then ready), ``unauthorized``, ``silent`` (nothing after the handshake:
     a pairing prompt), ``no_ready`` (connect, then nothing), ``hang`` (the
-    handshake itself times out)."""
+    handshake itself times out), ``chatty`` (a start-up event the library
+    ignores, every 0.1 s, and never a connect), ``malformed`` (a connect
+    event whose data is not an object)."""
 
     issue_token: str | None = "12345678"  # noqa: S105 - a fake pairing token
     api_version: str = "4.3.4.0"
@@ -47,6 +50,13 @@ class SocketTV:
         self.script = script
         self.urls: list[str] = []
         self.requests: list[str] = []
+        self.log: list[str] = []
+        """``open:<n>`` when connection n is made, ``closed:<n>`` when the
+        server sees its client side go, in order."""
+        self.earlier_closed: list[bool] = []
+        """For each connection made, whether every earlier client socket was
+        already closed at that moment."""
+        self._clients: list[socket.socket] = []
         self._threads: list[threading.Thread] = []
         self._sockets: list[socket.socket] = []
 
@@ -58,13 +68,17 @@ class SocketTV:
         self.urls.append(url)
         if behaviour == "hang":
             raise websocket.WebSocketTimeoutException("Connection timed out")
+        self.earlier_closed.append(all(sock.fileno() == -1 for sock in self._clients))
         client, server = socket.socketpair()
+        self._clients.append(client)
         self._sockets += [client, server]
         connection = websocket.WebSocket()
         connection.sock = client
         connection.connected = True
         connection.settimeout(timeout)
-        thread = threading.Thread(target=self._serve, args=(server, behaviour), daemon=True)
+        number = len(self.urls) - 1
+        self.log.append(f"open:{number}")
+        thread = threading.Thread(target=self._serve, args=(server, behaviour, number), daemon=True)
         self._threads.append(thread)
         thread.start()
         return connection
@@ -81,10 +95,16 @@ class SocketTV:
 
     # ------------------------------------------------------------ server side
 
-    def _serve(self, sock: socket.socket, behaviour: str) -> None:
+    def _serve(self, sock: socket.socket, behaviour: str, number: int) -> None:
         try:
             if behaviour == "unauthorized":
                 _send(sock, {"event": "ms.channel.unauthorized"})
+            if behaviour == "malformed":
+                _send(sock, {"event": "ms.channel.connect", "data": "x"})
+            if behaviour == "chatty":
+                while True:
+                    _send(sock, {"event": "ed.edenTV.update", "data": {}})
+                    time.sleep(0.1)
             if behaviour in ("ok", "no_ready"):
                 data = {} if self.script.issue_token is None else {"token": self.script.issue_token}
                 _send(sock, {"event": "ms.channel.connect", "data": data})
@@ -93,7 +113,8 @@ class SocketTV:
             while (message := _receive(sock)) is not None:
                 self._answer(sock, message)
         except OSError:
-            return
+            pass
+        self.log.append(f"closed:{number}")
 
     def _answer(self, sock: socket.socket, message: dict[str, Any]) -> None:
         request = json.loads(message["params"]["data"])

@@ -14,6 +14,7 @@ the work again.
 
 from __future__ import annotations
 
+import hashlib
 import json
 import os
 import signal
@@ -38,11 +39,16 @@ from frame_gallery.tv.samsung import SamsungTelevision
 from frame_gallery.tv.token_store import TokenStore
 from tests.support.fakes import TEST_TV_HOST
 from tests.support.persistent import PersistentRig
-from tests.support.processes import worker_executor
+from tests.support.processes import require, worker_executor
 from tests.unit.app.harness import Harness
 
 PROJECT = Path(__file__).resolve().parents[2]
 HOST = IPv4Address(TEST_TV_HOST)
+
+
+@pytest.fixture(autouse=True)
+def _needs_a_non_root_parent() -> None:
+    require("unprivileged")
 
 
 @pytest.fixture
@@ -74,6 +80,9 @@ def test_a_delivery_through_the_worker(rig: PersistentRig) -> None:
     assert TokenStore(rig.layout.data, HOST).load() == "12345678"
     made = calls(rig)
     assert made[-1] == "shutdown"
+    # The bytes uploaded are the ones published as the preview (D8, D-162 point 2).
+    digest = hashlib.sha256(rig.preview_file.read_bytes()).hexdigest()
+    assert any(call.startswith(f"upload:{digest}:") for call in made)
     assert any(call.startswith("select:MY_F0042:True") for call in made)
     assert rig.leftovers() == []
 
@@ -145,12 +154,16 @@ CHILD = textwrap.dedent(
     from ipaddress import IPv4Address
     from pathlib import Path
 
+    from tests.support import h2
+
+    h2.install()
+
     from frame_gallery.tv.port import Marker
     from frame_gallery.tv.samsung import SamsungTelevision
     from frame_gallery.tv.token_store import TokenStore
     from tests.support.fakes import TEST_TV_HOST
     from tests.support.persistent import PersistentRig, kill_self
-    from tests.support.processes import worker_executor
+    from tests.support.processes import require, worker_executor
 
     root, point = Path(sys.argv[1]), sys.argv[2]
     rig = PersistentRig(root)

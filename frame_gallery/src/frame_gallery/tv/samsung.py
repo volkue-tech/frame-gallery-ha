@@ -12,16 +12,20 @@ The parent side of a delivery:
    once, so the runner promotes the ledger entry as soon as ``uploaded``
    arrives; a marker out of order is still relayed (the runner handles it
    conservatively) before the worker is stopped for the protocol violation.
-   A new pairing token, sent before ``connected``, is registered with the
-   redactor and installed at once (``new_token``), even if the worker dies
-   later. After a rejection, a stored token is removed (``token_rejected``).
+   A new pairing token, sent before ``connected`` (at most one per
+   connection attempt, so at most two), is registered with the redactor and
+   installed at once (``new_token``; the last one wins), even if the worker
+   dies later. After a rejection, a stored token is removed
+   (``token_rejected``).
 4. The worker's status must fit the markers the parent relayed; otherwise it
    is ``protocol``. The worker runs the third-party library, so the parent
    does not let its status alone remove an upload intent.
 
-``deliver`` returns only after the worker is dead: the executor returns or
-raises only then. A marker the worker writes is never lost to a SIGTERM,
-because the runner defers stop requests for the whole call.
+``deliver`` returns only after its worker was killed and its channel closed
+(the executor returns or raises only then), so no marker can arrive after
+the runner has classified the result. A marker the worker writes is never
+lost to a SIGTERM, because the runner defers stop requests for the whole
+call.
 """
 
 from __future__ import annotations
@@ -53,6 +57,8 @@ DELIVER_TIMEOUT_S: Final = 40.0
 """The DELIVER phase (§7.2); the deadline clamps it further."""
 
 MAX_DETAIL: Final = 160
+MAX_TOKEN_EVENTS: Final = 2
+"""One per connection attempt (D-162 point 4: at most one reconnect)."""
 
 _log = logging.getLogger("frame_gallery.tv")
 
@@ -75,7 +81,7 @@ class _EventRelay:
         self._on_marker = on_marker
         self._on_token = on_token
         self.seen: list[Marker] = []
-        self.token_sent = False
+        self.tokens = 0
 
     def __call__(self, event: JsonObject) -> None:
         """Raises ``ValueError`` for an event that breaks the protocol."""
@@ -85,13 +91,13 @@ class _EventRelay:
             self._marker(event)
 
     def _token(self, token: object) -> None:
-        if self.token_sent or self.seen:
-            msg = "a token event after a marker or a second token event"
+        if self.tokens >= MAX_TOKEN_EVENTS or self.seen:
+            msg = "a token event after a marker or a third token event"
             raise ValueError(msg)
         if not isinstance(token, str) or TOKEN_PATTERN.fullmatch(token) is None:
             msg = "a token of an unexpected form"
             raise ValueError(msg)
-        self.token_sent = True
+        self.tokens += 1
         self._on_token(token)
 
     def _marker(self, event: JsonObject) -> None:
