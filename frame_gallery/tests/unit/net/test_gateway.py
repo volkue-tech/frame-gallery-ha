@@ -2,8 +2,10 @@
 
 from __future__ import annotations
 
+import errno
 import gzip
 import logging
+import os
 import stat
 from ipaddress import ip_address
 from pathlib import Path
@@ -646,7 +648,20 @@ class TestTime:
 
 
 class TestDownload:
-    def test_writes_a_new_private_file(self, rig: Rig, tmp_path: Path) -> None:
+    def test_a_file_whose_mode_cannot_be_set_is_removed(
+        self, rig: Rig, tmp_path: Path, monkeypatch: pytest.MonkeyPatch
+    ) -> None:
+        def refuse(_fd: int, _mode: int) -> None:
+            raise PermissionError(errno.EPERM, "not permitted")
+
+        monkeypatch.setattr(os, "fchmod", refuse)
+        target = tmp_path / "source-0.bin"
+        with pytest.raises(PermissionError):
+            rig.channel.download(f"https://{CDN}/i/a.png", target, rig.deadline())
+        assert not target.exists()
+        assert rig.transport.calls == []
+
+    def test_writes_a_new_file_the_worker_group_can_read(self, rig: Rig, tmp_path: Path) -> None:
         body = b"\x89PNG\r\n\x1a\n" + b"p" * 1000
         rig.transport.add(image_response(body, "image/png"))
         target = tmp_path / "source-0.bin"
@@ -655,7 +670,7 @@ class TestDownload:
         assert result.size_bytes == len(body)
         assert result.media_type == "image/png"
         assert target.read_bytes() == body
-        assert stat.S_IMODE(target.stat().st_mode) == 0o600
+        assert stat.S_IMODE(target.stat().st_mode) == 0o640  # D-164
         request = rig.transport.calls[0].request
         assert request.headers["Accept"] == "image/jpeg, image/png"
         assert request.headers["Accept-Encoding"] == "identity"

@@ -856,3 +856,39 @@ class TestInternals:
         assert seen == [{"n": 0}, {"n": 1}, {"n": 2}]  # one read held them all
         worker_executor()._end(worker)
         self.close()
+
+
+def test_as_root_the_worker_reads_in_and_writes_only_out(tmp_path: Path) -> None:
+    """Root only (the Phase 6 container): with the workspace handed to group
+    65534 (D-164), the dropped worker reads a source in ``in/``, creates its
+    output in ``out/``, and cannot create a file in ``in/``."""
+    require_isolation(os.geteuid() == 0, "the privilege drop needs root")
+    from frame_gallery.isolation.launch import WORKER_ID  # noqa: PLC0415
+    from frame_gallery.store.workspace import RunWorkspace  # noqa: PLC0415
+
+    workspace = RunWorkspace(tmp_path, worker_gid=WORKER_ID)
+    paths = workspace.create()
+    source = save_jpeg_file(tmp_path)
+    handed = paths.inbox / "source-0.bin"
+    handed.write_bytes(source.read_bytes())
+    handed.chmod(0o640)
+    executor = ProcessExecutor(Launch.production(), SystemClock())
+
+    def prepare(output: Path) -> JsonObject:
+        request = PrepareRequest(
+            source_path=str(handed),
+            output_path=str(output),
+            declared_format=ImageFormat.JPEG,
+            fit_mode=FitMode.CONTAIN,
+            background=BLACK,
+            landscape_only=True,
+            require_near_16_9=False,
+            canvas=Size(384, 216),
+        )
+        return executor.run("prepare", request.to_json(), timeout=20)
+
+    assert prepare(paths.outbox / "delivery-0.jpg")["status"] == "ok"
+    assert (paths.outbox / "delivery-0.jpg").stat().st_uid == WORKER_ID
+    refused = prepare(paths.inbox / "delivery-1.jpg")
+    assert (refused["status"], refused["failure"]) == ("failed", "io")
+    workspace.remove()

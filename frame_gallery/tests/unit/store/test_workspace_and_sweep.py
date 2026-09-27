@@ -145,6 +145,67 @@ class TestWorkspace:
         assert "the run directory could not be removed" in caplog.text
 
 
+def other_group() -> int:
+    """A group of this user that is not its effective group, so a missing
+    chown cannot pass unnoticed."""
+    groups = [gid for gid in os.getgroups() if gid != os.getegid()]
+    if not groups:
+        pytest.skip("this user has no supplementary group")
+    return groups[0]
+
+
+class TestHandOver:
+    """The directories the unprivileged worker needs (D-164)."""
+
+    def test_modes_and_groups(self, layout: StoreLayout) -> None:
+        gid = other_group()
+        paths = layout.workspace(worker_gid=gid).create()
+        expected = {
+            paths.root.parent: 0o710,
+            paths.root: 0o710,
+            paths.inbox: 0o2750,
+            paths.outbox: 0o2770,
+        }
+        for path, wanted in expected.items():
+            info = path.lstat()
+            assert (info.st_uid, info.st_gid, stat.S_IMODE(info.st_mode)) == (
+                os.geteuid(),
+                gid,
+                wanted,
+            ), path
+
+    def test_files_below_get_the_workers_group(self, layout: StoreLayout) -> None:
+        gid = other_group()
+        paths = layout.workspace(worker_gid=gid).create()
+        for folder in (paths.inbox, paths.outbox):
+            (folder / "file").write_bytes(b"x")
+            assert (folder / "file").stat().st_gid == gid
+
+    def test_a_group_that_cannot_be_given_is_a_state_error(
+        self, layout: StoreLayout, monkeypatch: pytest.MonkeyPatch
+    ) -> None:
+        def refuse(_fd: int, _uid: int, _gid: int) -> None:
+            raise PermissionError(errno.EPERM, "not permitted")
+
+        monkeypatch.setattr(os, "fchown", refuse)
+        with pytest.raises(StateError, match=r"cannot create the run directory .EPERM"):
+            layout.workspace(worker_gid=12345).create()
+
+    def test_a_mode_that_did_not_take_is_a_state_error(
+        self, layout: StoreLayout, monkeypatch: pytest.MonkeyPatch
+    ) -> None:
+        gid = other_group()
+        real = os.fchmod
+
+        def drop_setgid(fd: int, mode: int) -> None:
+            real(fd, mode & ~stat.S_ISGID)
+
+        monkeypatch.setattr(os, "fchmod", drop_setgid)
+        with pytest.raises(StateError, match="did not take owner, group, and mode 2750"):
+            layout.workspace(worker_gid=gid).create()
+        assert names(layout.tmp / "frame-gallery") == []
+
+
 class TestSweep:
     def seed(self, layout: StoreLayout, tmp_path: Path) -> None:
         """Leftovers of a killed run, and things the sweep must leave alone."""

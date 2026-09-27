@@ -482,9 +482,10 @@ class LocalMediaProvider:
 
 
 def _copy(source: int, destination: Path, size: int, deadline: Deadline) -> None:
-    target = os.open(destination, _WRITE_FLAGS, 0o600)
+    target = os.open(destination, _WRITE_FLAGS, 0o640)
     done = False
     try:
+        os.fchmod(target, 0o640)  # readable by the worker's group, whatever the umask
         copied = 0
         while copied < size:
             deadline.check()

@@ -119,7 +119,13 @@ class _FileSink:
 
     def __init__(self, path: Path) -> None:
         flags = os.O_WRONLY | os.O_CREAT | os.O_EXCL | os.O_NOFOLLOW | os.O_CLOEXEC
-        self._fd = os.open(path, flags, 0o600)
+        self._fd = os.open(path, flags, 0o640)
+        try:
+            os.fchmod(self._fd, 0o640)  # readable by the worker's group, whatever the umask
+        except OSError:
+            os.close(self._fd)
+            path.unlink(missing_ok=True)
+            raise
 
     def write(self, data: bytes) -> None:
         view = memoryview(data)

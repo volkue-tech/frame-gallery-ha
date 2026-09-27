@@ -19,7 +19,12 @@ from frame_gallery.config.filters import EffectiveFilters, FilterSet
 from frame_gallery.domain import FitMode, Size, SourceKey
 from frame_gallery.fingerprint import FINGERPRINT_EDGE, fingerprint_bytes, fingerprint_fd
 from frame_gallery.imaging.contract import MAX_SOURCE_BYTES, ImageFormat
-from frame_gallery.isolation.executor import JsonObject, WorkerError, WorkerErrorKind
+from frame_gallery.isolation.executor import (
+    IsolationFailure,
+    JsonObject,
+    WorkerError,
+    WorkerErrorKind,
+)
 from frame_gallery.isolation.in_process import InProcessExecutor, default_tasks
 from frame_gallery.providers import local_media
 from frame_gallery.providers.contract import (
@@ -553,7 +558,7 @@ class TestFetch:
         assert copy.size_bytes == path.stat().st_size
         assert copy.declared_format is ImageFormat.JPEG
         assert target.read_bytes() == path.read_bytes()
-        assert stat.S_IMODE(target.stat().st_mode) == 0o600
+        assert stat.S_IMODE(target.stat().st_mode) == 0o640  # readable by the worker (D-164)
 
     def test_large_files_are_copied_in_chunks(self, library: Library, tmp_path: Path) -> None:
         data = b"\x89PNG" + os.urandom(3 * 1024 * 1024)
@@ -693,6 +698,22 @@ class TestInspection:
         (candidate,) = library.candidates(provider)
         assert probe.measure(candidate, library.context().deadline) is None
         assert provider.report.counts == {SkipReason.UNREADABLE: 1}
+
+    def test_an_isolation_failure_is_not_an_inspection_failure(self, library: Library) -> None:
+        """D-163: it ends the run as internal_error instead of skipping files."""
+        library.jpeg("a.jpg")
+        provider = library.provider()
+        (candidate,) = library.candidates(provider)
+
+        class Refusing:
+            def run(self, task: str, payload: JsonObject, **_: object) -> JsonObject:
+                raise IsolationFailure("the worker refused to run (environment)")
+
+            def terminate_all(self) -> None: ...
+
+        probe = LocalInspectionProbe(provider, Refusing())
+        with pytest.raises(IsolationFailure):
+            probe.measure(candidate, library.context().deadline)
 
     @pytest.mark.parametrize(
         "outcome",

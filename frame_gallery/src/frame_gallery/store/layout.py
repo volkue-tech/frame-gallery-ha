@@ -47,8 +47,9 @@ class StoreLayout:
     def state_store(self, clock: Clock) -> FileStateStore:
         return FileStateStore(self.data, clock=clock, sweep=self.startup_sweep())
 
-    def workspace(self) -> RunWorkspace:
-        return RunWorkspace(self.tmp)
+    def workspace(self, worker_gid: int | None = None) -> RunWorkspace:
+        """The run's scratch space, handed to ``worker_gid`` if given (D-164)."""
+        return RunWorkspace(self.tmp, worker_gid=worker_gid)
 
     def metadata_cache(self, provider_key: str, clock: Clock) -> FileMetadataCache:
         """The provider's cache; pass it to the adapter and to its binding."""

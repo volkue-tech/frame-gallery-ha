@@ -26,7 +26,12 @@ from frame_gallery.imaging.contract import (
     PrepareResult,
     PrepareStatus,
 )
-from frame_gallery.isolation.executor import JsonObject, WorkerError, WorkerErrorKind
+from frame_gallery.isolation.executor import (
+    IsolationFailure,
+    JsonObject,
+    WorkerError,
+    WorkerErrorKind,
+)
 from frame_gallery.providers.contract import Candidate, SourceError, SourceErrorKind
 from frame_gallery.selection.exclusion import ExclusionSet
 from frame_gallery.selection.geometry import Rejection
@@ -1151,6 +1156,24 @@ def test_internal_error_before_the_television_keeps_a_committed_intent(h: Harnes
     assert "tv.deliver" not in h.events
     assert h.state.ledger == {"aic:1001": "uncertain"}
     assert "state.remove_intent:aic:1001" not in h.events
+
+
+def test_a_worker_that_refuses_to_run_is_internal_error_not_a_bad_image(h: Harness) -> None:
+    """D-163: a failed isolation is not a failure of one image; the run does
+    not try the next candidate (§11.3: the worker refuses, internal_error)."""
+    h.executor.behaviours = [IsolationFailure("the worker refused to run (privileges:EPERM)")]
+    result = h.run()
+    assert result.outcome is Outcome.INTERNAL_ERROR
+    assert h.events.count("executor.run:prepare") == 1
+    assert_tv_untouched(h)
+
+
+def test_an_isolation_failure_of_the_television_worker_keeps_the_intent(h: Harness) -> None:
+    h.tv.markers = []
+    h.tv.error = IsolationFailure("the worker could not be started (OSError)")
+    result = h.run()
+    assert result.outcome is Outcome.INTERNAL_ERROR
+    assert h.state.ledger == {"aic:1001": "uncertain"}
 
 
 def test_cleanup_failures_never_escape(h: Harness, caplog: pytest.LogCaptureFixture) -> None:
