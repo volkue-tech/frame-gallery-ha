@@ -945,6 +945,35 @@ Status: proposed (Phase 3).
 - **Delivery.** The fetcher copies only a file that this scan offered. The file must still be a regular file with the scanned size and fingerprint, and it is copied in 1 MiB steps, with deadline checks, into a new 0600 file. Any change since the scan is `NOT_FOUND`: the next candidate is tried, and it is not a transport failure. Remote references go to the channel whose host policy owns the URL, so downloads share that provider's pacing and 403/429 stop.
 - **Empty library.** When the local scan finishes without offering a candidate, the `no_match` hint is "no usable JPEG or PNG images in /media/frame_gallery/library" (new `Hint.LIBRARY_EMPTY`), as §9.3 requires.
 
+### D-150 — Art Institute adapter details [§9.5, D-132, D-146]
+
+Status: proposed (Phase 3).
+
+- **Modules.** `providers/aic.py`, plus helpers shared with Cleveland:
+  - `providers/jsonread.py`: defensive readers for untrusted JSON;
+  - `providers/periods.py`: the five period ranges;
+  - `providers/cache.py`: the metadata cache port and an in-memory implementation.
+- **Query form.** The whole search request travels as minified JSON in `params` (the documented "entire query" form for production use): the Elasticsearch `query`, `fields` as an array, `limit`, and `page`.
+  - The query is a `bool` filter: the term `is_public_domain: true`, `exists: image_id`, and, for a period, a `range` on `date_start`.
+  - Whether the server honours `fields`, `limit`, and `page` inside `params` exactly as it does as separate parameters is checked in the first approved live observation (Phase 8). Every record is validated either way.
+- **Count and pages.**
+  - The count request uses `limit` 0 and reads `pagination.total`.
+  - Pages hold 50 records. The page numbers `1..ceil(min(total, 10 000) / 50)` are shuffled with the injected random source, so no page is fetched twice in a run.
+  - Per run: 1 count, then 2 requests per page (search and sizes). At most 7 pages fit the 15-request allowance, and when it is spent the pass ends as a search limit (D-147 item 4).
+- **Sizes.** The Images resource is read with `ids`, `fields=id,width,height`, and an explicit `limit` equal to the number of IDs, because the documented default page size is 12. Repeated image IDs are looked up once. A width and height must be positive and at most 100 000; digit strings are accepted.
+  - An image narrower than 1686 px is not offered.
+  - A work whose image record is missing is offered without dimensions, and selection counts it as `dims_unavailable`.
+- **Record checks.**
+  - `id` must be a positive integer of at most 10^10; booleans and strings are refused.
+  - `is_public_domain` must be exactly `true`.
+  - `image_id` must be a lowercase UUID (the form of the documentation's examples).
+  - With a period filter, `date_start` must be an integer year within the range.
+  - A record that fails any check is skipped silently; a page summary is logged at DEBUG.
+- **Attribution.** Title, artist, date text, and credit line, each cleaned: control and format characters become spaces, whitespace collapses, and the text is cut to 300 characters. No detail URL is stored, because the documentation defines none for artworks.
+- **Rendition.** `https://www.artic.edu/iiif/2/<image_id>/full/1686,/0/default.jpg`, built only for works this run offered; the image ID is re-validated and percent-encoded. The size is `1686 × round(1686 · h / w)`, at least 1 px high.
+- **Cache.** The count per filter signature (`aic:count:<period key or "any">`) is kept for 1 day through the `MetadataCache` port. Phase 3 uses the in-memory implementation; the bounded, persistent cache is Phase 4 (§13.4). *Deferred to Phase 4:* the exhausted-page hints (§9.5), because they need the exclusion set, which the adapter does not see.
+- **Errors.** A structurally malformed response (not an object, a missing list, a total that is not a count) is `UNEXPECTED_FORMAT`. HTTP errors, stops, and time limits come from the gateway (D-147).
+
 ## Proposed dependency inventory
 
 Status: **Phase 2 installed** the development tools and Pillow, and **Phase 3 installed** `urllib3` 2.8.0 and `certifi` 2026.7.22 (approved by the user on 2026-09-27), only in the local project environment (`frame_gallery/.venv`, from `uv.lock`). The runtime rows for later phases are still proposed.

@@ -70,7 +70,7 @@ Owner: Claude
 - [x] Implement the guarded network gateway, and add `urllib3` and `certifi` to the third-party notices (D-147).
 - [x] Implement the `ha` helper-override client (at most 4 reads, static fallback; B3–B5) (D-148).
 - [x] Implement the local media provider (D-149).
-- [ ] Implement the Art Institute of Chicago provider: documented API, CC0 public-domain works only.
+- [x] Implement the Art Institute of Chicago provider: documented API, CC0 public-domain works only (D-146, D-150).
 - [ ] Implement the Cleveland Museum of Art provider: documented API, CC0 records only, documented print JPEG only.
 - [ ] Implement combined filters per the capability matrix, visible reporting of unsupported filters, orientation checks, the strict-format budget (30 remote dimension requests), and pacing.
 - [ ] Add independently authored or synthesized fixtures and the shared contract tests. Any recorded observation requires user approval.

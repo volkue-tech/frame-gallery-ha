@@ -108,12 +108,20 @@ class OpenCall:
 
 
 class FakeTransport:
-    """Plays back one scripted step per ``open``; records every call."""
+    """Plays back one scripted step per ``open``; records every call. When the
+    steps run out, ``handler`` (if any) answers every further request."""
 
-    def __init__(self, steps: Iterable[Step] = (), *, clock: FakeClock | None = None) -> None:
+    def __init__(
+        self,
+        steps: Iterable[Step] = (),
+        *,
+        clock: FakeClock | None = None,
+        handler: Callable[[WireRequest], FakeResponse] | None = None,
+    ) -> None:
         self.steps: deque[Step] = deque(steps)
         self.calls: list[OpenCall] = []
         self.clock = clock
+        self.handler = handler
         self.opened: list[FakeResponse] = []
 
     def add(self, *steps: Step) -> None:
@@ -124,9 +132,12 @@ class FakeTransport:
     ) -> FakeResponse:
         self.calls.append(OpenCall(request, connect_timeout, exchange_timeout))
         if not self.steps:
-            msg = f"no scripted response for {request.host}{request.target}"
-            raise AssertionError(msg)
-        step = self.steps.popleft()
+            if self.handler is None:
+                msg = f"no scripted response for {request.host}{request.target}"
+                raise AssertionError(msg)
+            step: Step = self.handler
+        else:
+            step = self.steps.popleft()
         if isinstance(step, TransportFailure):
             raise step
         response = step if isinstance(step, FakeResponse) else step(request)
