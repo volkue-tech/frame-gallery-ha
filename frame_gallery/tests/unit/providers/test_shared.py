@@ -8,7 +8,12 @@ from itertools import pairwise
 
 import pytest
 
-from frame_gallery.providers.cache import COUNT_TTL, MemoryMetadataCache, MetadataCache
+from frame_gallery.providers.cache import (
+    COUNT_TTL,
+    HINT_TTL,
+    MemoryMetadataCache,
+    MetadataCache,
+)
 from frame_gallery.providers.contract import SourceError, SourceErrorKind
 from frame_gallery.providers.jsonread import (
     as_count,
@@ -19,6 +24,7 @@ from frame_gallery.providers.jsonread import (
     year,
 )
 from frame_gallery.providers.periods import PERIOD_RANGES, YearRange, period_range
+from frame_gallery.store.cache import ExhaustedPages
 from tests.support.clock import FakeClock
 
 
@@ -140,3 +146,29 @@ class TestCache:
         cache.put_count("d", 4, timedelta(hours=1))
         assert cache.get_count("c") is None
         assert (cache.get_count("b"), cache.get_count("d")) == (20, 4)
+
+    def test_exhausted_pages_merge_for_the_same_total_and_keep_their_expiry(self) -> None:
+        clock = FakeClock()
+        cache: MetadataCache = MemoryMetadataCache(clock)
+        assert cache.get_exhausted("h") is None
+        cache.add_exhausted("h", 100, [], HINT_TTL)
+        assert cache.get_exhausted("h") is None  # nothing to remember
+        cache.add_exhausted("h", 100, [3], HINT_TTL)
+        clock.advance(HINT_TTL.total_seconds() - 10)
+        cache.add_exhausted("h", 100, [5], HINT_TTL)
+        assert cache.get_exhausted("h") == ExhaustedPages(100, frozenset({3, 5}))
+        clock.advance(10)
+        assert cache.get_exhausted("h") is None  # the first expiry still applies
+
+    def test_exhausted_pages_for_another_total_replace_the_old_ones(self) -> None:
+        cache = MemoryMetadataCache(FakeClock())
+        cache.add_exhausted("h", 100, [3], HINT_TTL)
+        cache.add_exhausted("h", 101, [4], HINT_TTL)
+        assert cache.get_exhausted("h") == ExhaustedPages(101, frozenset({4}))
+
+    def test_a_count_is_not_a_hint_and_back(self) -> None:
+        cache = MemoryMetadataCache(FakeClock())
+        cache.put_count("c", 5, COUNT_TTL)
+        cache.add_exhausted("h", 5, [1], HINT_TTL)
+        assert cache.get_exhausted("c") is None
+        assert cache.get_count("h") is None

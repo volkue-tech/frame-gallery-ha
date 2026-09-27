@@ -1125,6 +1125,21 @@ Status: proposed (Phase 4 gate).
   - At most 1 000 entries are scanned per directory. A missing directory is skipped, errors only log a warning, and the number removed is logged at INFO.
   - The quarantine directory is not swept; it has its own bound (D-153).
 
+### D-156 — The bounded metadata cache [§13.4, D-150, D-151; F6]
+
+Status: proposed (Phase 4 gate).
+
+- **Modules.** `store/cache.py` holds `FileMetadataCache`, the value type `ExhaustedPages`, and its merge rule. The port in `providers/cache.py` gains exhausted-page hints (`get_exhausted`, `add_exhausted`, and `HINT_TTL` of 7 days) and imports the value type from `store.cache`, as §5 lists (`providers` depends on `store.cache`). The in-memory cache implements the same port for tests.
+- **File.** `/data/cache/<provider>.json` (mode 0600; directory 0700) with `format`, `version`, `provider`, and a list of entries. Each entry has `key`, `expires`, `used`, and either `count` or `total` and `pages`. Keys must start with the provider's own key.
+- **Bounds.**
+  - 1 000 entries and 2 MiB per file; 8 KiB per entry (an entry that would exceed it is not kept); at most 800 page numbers per hint, the lowest kept.
+  - A time to live is clamped to 7 days. On reading, an entry that would expire more than 7 days ahead (a clock that went back) is dropped.
+  - Expired entries go first, then the least recently used (by last use, then key).
+- **Recency.** Every hit updates `used`, so a run with a cache hit writes the file. That is still at most one write per run.
+- **Hints.** A hint belongs to the result count it was computed for; hints for another count replace it, because the pages may have shifted. An entry keeps its first expiry when pages are added, so no hint is older than 7 days.
+- **Damage.** Any structural problem (not JSON, another format or provider, an invalid entry, too many entries, oversize) discards the whole file with a WARNING, and the next write replaces it. There is no quarantine and no `.bak`: the cache is excluded from backups and can always be rebuilt. A file of a newer version is discarded and later overwritten too.
+- **Writes.** Once per run, through `flush(deadline)`. With no time left, the write is skipped (INFO); a failure only logs a warning. A cache directory that is a symbolic link is never read or written.
+
 ## Proposed dependency inventory
 
 Status: **Phase 2 installed** the development tools and Pillow, and **Phase 3 installed** `urllib3` 2.8.0 and `certifi` 2026.7.22 (approved by the user on 2026-09-27), only in the local project environment (`frame_gallery/.venv`, from `uv.lock`). The runtime rows for later phases are still proposed.
