@@ -105,12 +105,12 @@ Owner: Claude
 Authorized by the user on 2026-09-27, after the Phase 4 gate.
 
 - [x] First check and document the version and the LGPL-3.0 obligations of `samsungtvws` 3.0.6 (D-135). The pinned version may be installed from PyPI into the git-ignored project environment only (D-160).
-- [ ] Establish the adapter surface only by inspecting the installed `samsungtvws` 3.0.6 distribution.
+- [x] Establish the adapter surface only by inspecting the installed `samsungtvws` 3.0.6 distribution (D-161).
 - [ ] Implement the isolated process executor with the complete bootstrap: privilege drop to an unprivileged user, the parent-death signal, umask, resource limits, the bytes-only channel, progress markers, and the bootstrap test.
 - [ ] Re-run E7–E10 with the process-based television worker. Measure worst-case prepare memory and time under the real limit.
 - [ ] Implement connection, pairing-token persistence, upload, and select in the television worker. The adapter owns the token store and the `auth` result, polls `DeliveryRequest.stop_requested` while it waits (killing the worker and relaying the markers already sent), and `deliver` returns only after its worker is dead (D-141).
-- [ ] Map library failures and markers to clear outcomes and ledger transitions.
-- [ ] Add mocked adapter tests; do not contact the live television.
+- [x] Map library failures and markers to clear outcomes and ledger transitions (D-162).
+- [x] Add mocked adapter tests; do not contact the live television. They include runs of the unchanged library over a socket pair against a scripted television.
 - [ ] Update third-party notices, status, and decisions.
 - [ ] Commit.
 

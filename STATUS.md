@@ -10,6 +10,11 @@ Last updated: 2026-09-27 (Phase 5 in progress)
 - **Phase 5 conditions:** first check and document the version and the LGPL-3.0 obligations of `samsungtvws` 3.0.6; then the isolated process executor and the Samsung adapter, tested against simulations. The installed distribution and the official package information may be inspected, and the pinned version may be installed from PyPI into the git-ignored project environment only. No access to the Home Assistant Green or the television; nothing published or pushed. Stop at the Phase 5 gate; Phase 6 does not start.
 - Every commit uses the personal identity `Alexander Wilke <volkue@gmail.com>`.
 
+**Phase 5 progress**
+
+- Done: the `samsungtvws` 3.0.6 check and its LGPL-3.0 obligations (D-160); the adapter surface from the installed distribution (D-161); the television task, the Samsung adapter, and the pairing-token store, with their mapping to outcomes (D-162). They are tested in-process, against a stand-in of the library and against the unchanged library over a socket pair. No television was contacted.
+- In progress: the isolated process executor and its bootstrap, then the E7–E10 re-run with the process-based television worker and the prepare measurement.
+
 ## Completed
 
 ### Phase 0: specification package (Codex)

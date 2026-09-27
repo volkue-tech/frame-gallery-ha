@@ -1220,11 +1220,76 @@ Status: proposed (Phase 5 gate). The user allowed the pinned version to be insta
 - **LGPL-3.0 obligations** (an engineering reading, not legal advice; the qualified review of D-135 is a release gate):
   1. The documentation and `THIRD_PARTY_NOTICES.md` state prominently that the image contains `samsungtvws` under LGPL-3.0, with its copyright notices.
   2. The LGPL-3.0 and GPL-3.0 texts accompany every distribution.
-  3. The library stays unmodified: installed as a separate package from its PyPI wheel, never vendored or patched. The app uses only its public API and does not subclass or monkeypatch its internals. The television worker's connect guard wraps functions of the standard library's `socket` module, not the library.
+  3. The library stays unmodified: installed as a separate package from its PyPI wheel, never vendored or patched. The app uses only its public API and does not subclass it or change its code. At run time, inside the television worker only (D-162): the connect guard wraps functions of the standard library's `socket` module; a wrapper around `websocket-client`'s `create_connection` counts completed handshakes; and on its own connection object the task answers the public `get_api_version()` from its earlier check. None of these touches a file of the library, and none stops a user from replacing it.
   4. Users can replace it: the documentation explains how to build the image with another version, and no technical measure prevents that.
   5. The exact sdist (SHA-256 above) is attached to every release as the corresponding source, and stays available for at least 3 years (D-135).
   6. No term restricts modification, or reverse engineering to debug such modifications.
 - **Use.** Only the television worker task imports it (D-107); the boundary test enforces this.
+
+### D-161 — The adapter surface of the installed `samsungtvws` 3.0.6 [§12.2, Q-15, D-104]
+
+Status: proposed (Phase 5 gate).
+
+The surface below was taken **only** from reading the installed wheel (`samsungtvws/connection.py`, `art/art.py`, `rest.py`, `helper.py`, `exceptions.py`) and from running it offline. Nothing was taken from any other project, and no television was contacted.
+
+- **Constructor.** `SamsungTVArt(host, token=None, token_file=None, port=8001, timeout=None, key_press_delay=1, name="SamsungTvRemote")`. The task passes the IPv4 literal, `port=8002`, the stored token or `None`, `token_file=None`, `key_press_delay=0` (otherwise the library sleeps after every request), and `name="frame_gallery"` (D-138).
+  - With `token_file=None`, a token the TV issues is kept in the object's `token` attribute. With a token file, the library reads the file with `readline()`, keeping any newline in the URL, and treats every read error as "no token".
+  - `timeout` applies to **each** blocking wait, not to a whole call, and restarts on unrelated frames. `0` means no time-out at all. The REST client is created once, with the constructor's value. The websocket keeps the value it was opened with; `connection.settimeout()` changes it.
+- **`supported()`.** A REST `GET https://<host>:8002/api/v2/` through `requests` with `verify=False`. It returns whether `FrameTVSupport` is `"true"`. It raises `HttpApiError` for a connection error, a raw `requests.Timeout` subclass for a time-out, `ResponseError` for an unparsable reply, and `AttributeError` for JSON that is not an object.
+- **`open()`.** Calls `websocket.create_connection(url, timeout, sslopt={"cert_reqs": ssl.CERT_NONE})`, looked up at call time. The token is in the URL query, on port 8002 only. It then waits for `ms.channel.connect`, which may carry a new token, and then for `ms.channel.ready`.
+  - Silence before or after the websocket handshake raises the same `websocket.WebSocketTimeoutException`, so only the handshake's completion tells a pairing prompt from a TV that does not answer.
+  - `ms.channel.unauthorized` raises `UnauthorizedError`, a subclass of `ConnectionFailure`.
+  - A time-out while waiting for `ready` raises `ConnectionFailure("Websocket Time out…")` and **leaves the connection set**: a second `open()` on the same object returns the stale connection without connecting again.
+  - A close frame gives `ResponseError` (the empty frame does not parse), and an empty event name an `AssertionError`.
+- **`get_api_version()`.** The `api_version` request, then the legacy `get_api_version`; `ResponseError` without a version.
+- **`upload(file, matte="shadowbox_polar", portrait_matte="shadowbox_polar", file_type="png", date=None)`.** It first calls `self.get_api_version()`.
+  - On `"0.97"` it sends the image as a websocket binary frame. If a `ResponseError` follows (an error reply, or any frame that does not parse), it falls through to the second path and **uploads the same bytes again**.
+  - Otherwise: `send_image`, then `ready_to_use` with a `conn_info` naming an address and port; a plain or TLS socket to that address; then the first `image_added` on the channel, **matched without a request id**. It returns that event's `content_id`.
+  - The library itself uses `"none"` when no matte is given; the task passes `"none"` for both mattes, so the 16:9 rendition fills the screen.
+- **`select_image(content_id, category=None, show=True)`.** The TV's own error reply raises ``ResponseError("`select_image` request failed with error number N")``; a frame that does not parse raises a `ResponseError` with another text.
+- **`close()`** performs the websocket close handshake, which can wait up to 3 s. The task drops the connection with the websocket's `shutdown()` instead.
+- **Logging.** The library logs a new token at INFO and every `ms.error` frame, in full, at WARNING.
+- **Exceptions.** `UnauthorizedError` ⊂ `ConnectionFailure`; `ResponseError`, `HttpApiError`, and `MessageError` are separate; the `websocket` exceptions are not `OSError`s; `requests`' exceptions are.
+- **How it is held to this surface.** `tests/unit/tv/test_samsung_real_library.py` runs the unchanged library over a socket pair against a scripted television (no network): the token in the URL, the token it relays, the prompt and hang cases, the stale connection, the 0.97 refusal, the D2D address check, and the select refusal text. The in-process stand-in (`tests/support/fake_samsungtvws.py`) must keep the installed signatures (a conformance test compares them) and raises the library's own exception classes.
+
+### D-162 — The television task and the Samsung adapter [§12.1–§12.4, §7.2; amends §12.1, §12.2; D-114, D-115, D-137, D-141]
+
+Status: proposed (Phase 5 gate). An independent critique (four lenses, adversarially verified) of the Phase 5 design shaped points 1–7.
+
+1. **The token travels in the channel, not in a file** (amends §12.1 `token_seed_path` and §12.2 "seeds the token file into `out/`"). The stored token goes to the worker inside its request message; the worker builds the library object with `token_file=None`. A token the TV issues comes back as one `token` event before `connected`. The parent checks its form, registers it with the redactor, and installs it at once (mode 0600, atomically), so it is kept even if the worker dies later; `auth` is then `new_token`. After a rejection, a stored token is removed (`token_rejected`). The reasons:
+   - the library would send a seeded file's newline as part of the token, and so reject or re-pair on every run;
+   - a token file would sit in the worker-writable `out/`, readable by any process of the worker's group, and the parent would have to read back a file the worker controls;
+   - the redactor learns a new token before any later worker log line reaches the parent.
+   A token must be 6 to 64 ASCII letters or digits: the redactor ignores secrets shorter than 6 characters.
+2. **Only validated bytes are uploaded.** `DeliveryRequest` carries the parent's SHA-256 of `delivery.jpg` (a port change). The worker reads the file once, without following a link, and uploads only a buffer with exactly that hash; it checks this before it contacts the TV.
+3. **Art API 0.97 is `unsupported` in the beta.** On 0.97 the library may upload the same image twice (D-161), against D-115. The version is read after `connected` and before `upload_started`, so a refusal removes the intent. The version is then answered from that check on the connection object, so `upload()` neither asks again nor takes the 0.97 path. *Alternative for the gate:* accept the residual double upload on 0.97, which happens only after an error reply to the first upload. The TV's real version is observed in Phase 8.
+4. **Connecting.** Each attempt uses a new library object (the old connection is dropped), because a second `open()` on the same object reuses a stale connection. A websocket time-out after a **completed handshake** is an unaccepted prompt: `not_authorized` (`prompt`), never retried (D-115). Any other failure before `connected` is retried once, if the connect time and the upload allowance are still left.
+5. **Time.** The worker gets the delivery's end as an absolute `time.monotonic()` value, which every process on the host shares, so its own start-up counts against it, and it keeps 1 s to send its result.
+   - With less than the connect time plus the upload allowance left, it returns `insufficient_time` before contacting the TV.
+   - The pairing wait is `min(20 s, time left − 15 s)`.
+   - The upload and the selection may each use all the time left; the kill timer is the only total bound, and a kill during the selection still leaves `uploaded`.
+   - The connect guard bounds every TCP connect (REST, websocket, and D2D) to 5 s. The TLS handshake, the HTTP upgrade, and the wait for `ms.channel.connect` share the pairing wait. D-114's "connect ≤ 5 s" is thus the TCP connect.
+   - No library time-out is ever below 0.5 s: the library reads 0 as "none".
+6. **The connect guard** lets the worker reach only the TV's IPv4 literal (any port), passes only that literal to `getaddrinfo`, and refuses every other name and every other address, including a D2D address the TV names. A refusal raises `GuardViolation`, which is not an `OSError`, and sets a flag; the task reports it as `protocol` ("the worker's connect guard refused…"), not as a TV that is off.
+7. **The mapping is total.** Each step catches every `Exception`:
+   - before `connected`: `UnauthorizedError` → `not_authorized` (`rejected`); a post-handshake time-out → `not_authorized` (`prompt`); a transport failure → `unreachable`; anything else → `protocol`; `supported()` false → `unsupported`;
+   - after `connected`, before `upload_started`: the version check as in point 3; `insufficient_time` if less than the upload allowance is left;
+   - after `upload_started`: a `ResponseError` → `protocol` (the TV's error number, if any, goes into the detail); a transport failure → `unreachable`; anything else → `protocol`. The quarantine is always kept: the library does not tell a refusal before the transfer from one after it, so §12.4 row 6 (explicit upload refusal) is not produced in the beta;
+   - after `uploaded`: only the TV's own error reply to `select_image` → `refused`; another `ResponseError` or anything else → `protocol`; a transport failure → `unreachable`.
+8. **`uploaded` may come without a content ID** (a port change). The TV confirmed the upload when `upload()` returns. If the returned ID does not have the strict form, `uploaded` is still sent, without an ID, so the ledger entry is promoted, and the result is `protocol`; the selection is skipped.
+9. **The parent checks the worker.**
+   - Each event must have the exact shape.
+   - A marker that repeats is refused. A marker out of order is relayed first (the runner handles it conservatively) and then stops the worker as a protocol violation.
+   - The status must fit the markers the parent itself relayed: `ok` needs `selected`; `refused` needs `uploaded` and no `selected`; `not_authorized`, `unsupported`, and `insufficient_time` need no `upload_started`; nothing follows `selected`; a pairing value comes only with `not_authorized`. Otherwise the status is `protocol`.
+10. **Library loggers** (`samsungtvws`, `websocket`, `urllib3`, `requests`) are capped at WARNING in the worker, and both tokens are registered with the worker's redactor. The "unverified HTTPS request" warning is filtered, because the unverified TLS on port 8002 is the library's documented behaviour.
+11. **Known limitations.**
+    - The library matches `image_added` without a request id, so an upload by another client at the same moment could be taken for ours (R-30).
+    - TLS to the TV is not verified (R-03). Pinning the certificate on first use is feasible without touching the library: the standard `ssl.SSLContext.sslsocket_class` hook can compare the certificate before any byte is sent. It is left to the gate as a decision (see *Open decisions for the Phase 5 gate*), because whether the TV's certificate survives firmware updates and resets cannot be observed before Phase 8.
+
+### Open decisions for the Phase 5 gate
+
+- **TLS pinning (R-03).** (a) Keep the library's unverified TLS for the beta and revisit it after the Phase 8 live checks; or (b) pin the TV's certificate on the first successful pairing, store the pin with the token, never reset it automatically, and report a mismatch as `not_authorized` with a "re-pair" hint. Recommendation: (a) now, and (b) decided in Phase 8, once the certificate's stability is observed.
+- **Art API 0.97 (D-162 point 3).** (a) `unsupported` in the beta, as implemented; or (b) allowed, with the library's possible second upload after an error reply accepted as a residual risk. Recommendation: (a) until Phase 8 shows the TV's version.
 
 ## Proposed dependency inventory
 
@@ -1395,7 +1460,7 @@ L = likelihood, I = impact; H = high, M = medium, L = low.
 | --- | --- | --- | --- | --- |
 | R-01 | Google Arts & Culture has no documented API, and its terms and image rights conflict with automated retrieval | — | **Excluded from the beta** (Q-01, resolved). Its researched status is kept. | Only if an official API appears |
 | R-02 | Google Arts & Culture page formats change | — | Not applicable while the source is excluded | — |
-| R-03 | The Samsung art protocol is undocumented and changes with firmware. The TLS or certificate behaviour and the token scope are unknown. | M / H | Isolated, pinned library; surface taken from the installed package (Q-15); marker-based classification; trust-on-first-use decided in Phase 5; Phase 8 live validation | Phase 5/8 |
+| R-03 | The Samsung art protocol is undocumented and changes with firmware. The TLS or certificate behaviour and the token scope are unknown. The library connects without verifying the TV's certificate (D-161), so a machine that takes over the TV's address on the LAN could learn the token. | M / H | Isolated, pinned library; surface taken from the installed package (D-161); marker-based classification; the connect guard (D-162); trust-on-first-use pinning is feasible and put to the Phase 5 gate as a decision; Phase 8 live validation | Phase 5/8 |
 | R-04 | `samsungtvws` has a single maintainer, an undocumented 3.x art API, LGPL obligations, and inherited licence provenance | M / M | Hash pin; contract tests; D-135; the Phase 5 check of `LICENSE` and headers found only LGPL-3.0 (D-160) | Licence review |
 | R-05 | Bing: undocumented endpoint, a `robots.txt` image-path rule, and restrictive Services Agreement terms | — | **Excluded** (Q-17, resolved) | — |
 | R-06 | The loading state depends on the Running entity (disabled by default, undocumented polling); short runs may never show it | M / M | 130 s guaranteed exit. The **normative** 150 s timer indicator, started by the card script, does not depend on the sensor. Phase 8 cases: a run under 10 s, a mistyped slug, a non-admin tap. | Phase 8 (Q-09, Q-19) |
@@ -1421,6 +1486,7 @@ L = likelihood, I = impact; H = high, M = medium, L = low.
 | R-26 | **Local tests run a different Pillow build.** Phase 2 tests use the macOS `arm64` Pillow wheel and CPython 3.12.14; the runtime uses the Linux `musllinux_1_2` wheels, with other bundled library builds, on the container's Python. Rendering bytes and edge-case behaviour may differ. | M / M | The imaging tests assert properties (size, baseline, components, pixels, metadata) rather than byte-exact output; Phase 6 runs the full suite inside the container image for both architectures; CI covers 3.12–3.14 (Phase 9) | Phase 6/9 |
 | R-27 | **No pre-emption before Phase 5.** The Phase 2 in-process executor cannot interrupt a hung decode, so the 15 s preparation limit and the 70 s and 120 s bounds hold only when tasks return. A timeout is detected after the fact. | L / M | Phase 2 never runs against real providers or the television; the Phase 5 process executor adds the kill timer, `RLIMIT_AS`, and the unprivileged worker (D-109, D-139); the watchdog (130 s) remains the last resort | Phase 5 |
 | R-28 | **The credential-pattern redaction is heuristic.** It catches common forms of unregistered secrets but not every serialization (D-145). | L / M | Every real secret (the Supervisor token, the TV token) is registered with the redactor and redacted in all its encodings; worker output passes through the parent's formatter; H3 tests cover both layers; new secrets must be registered where they enter | Ongoing (Phases 3, 5) |
+| R-30 | **Another client's upload.** The library takes the first `image_added` event on the art channel as its own (D-161). If another client (for example the SmartThings app) uploads at the same moment, its content ID could be recorded and selected, and our upload would stay on the TV untracked. | L / L | Rare timing; the ledger still records our upload, so the work is not uploaded again; no destructive action on the TV ever uses the content ID. Recorded as a known limitation. | Phase 8 |
 | R-29 | **Very old works can come back.** History keeps the latest 20 000 delivered works, and the ledger 20 000 entries (D-153, D-154). When a bound is reached, the oldest entry is dropped, and that work is no longer excluded, so it could in theory be shown again. At one artwork a day this first happens after about 55 years; at one an hour, after about 2.3 years; at one every 15 minutes, after about 7 months. | L / L | Accepted for the first beta at the Phase 4 gate; stated in the user documentation's known limitations (Phase 6). Every more recent work stays excluded. | Accepted |
 
 ## Open questions
