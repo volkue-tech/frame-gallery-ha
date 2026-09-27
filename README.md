@@ -16,9 +16,11 @@ No SSH access or `configuration.yaml` changes should be required for end users.
 
 ## Project status
 
-Phases 2 to 4 are implemented. They cover the core, deterministic selection and rendering, the guarded network gateway, the Home Assistant helper reader, the three source adapters, and the bounded persistent state: history, the TV-upload exclusion ledger, the metadata cache, the workspace, the preview, and the run records. Everything is tested offline against fakes and synthesized fixtures. Phase 4 awaits its gate review; Phase 5 has not started.
+Phases 2 to 4 are implemented. They cover the core, deterministic selection and rendering, the guarded network gateway, the Home Assistant helper reader, the three source adapters, and the bounded persistent state: history, the TV-upload exclusion ledger, the metadata cache, the workspace, the preview, and the run records. Everything is tested offline against fakes and synthesized fixtures. The Phase 4 gate passed on 2026-09-27; Phase 5 (the Samsung adapter) is in progress.
 
 The app is not usable yet: the television adapter and packaging follow in Phases 5 and 6. In the first beta, the Art Institute offers the period filter, and Cleveland offers department and period; no source offers a colour filter (see `frame_gallery/VOCABULARY.md`). Developer setup and quality gates: `frame_gallery/DEVELOPMENT.md`.
+
+One known limitation of the design: the app remembers the latest 20 000 artworks it has shown. Older ones are forgotten, so a very old artwork could in theory be shown again. At one artwork a day that takes about 55 years (R-29 in `DECISIONS.md`).
 
 Planned first-beta sources:
 
@@ -28,7 +30,7 @@ Planned first-beta sources:
 
 The two museum sources use only their documented open-access APIs and CC0 images; local media uses your own images. See:
 
-- `ARCHITECTURE.md` (the approved architecture, with the Phase 2 and Phase 3 refinements marked)
+- `ARCHITECTURE.md` (the approved architecture, with the Phase 2, Phase 3, and Phase 4 refinements marked)
 - `PRODUCT_SPEC.md`
 - `ARCHITECTURE_CONSTRAINTS.md`
 - `ACCEPTANCE_TESTS.md`

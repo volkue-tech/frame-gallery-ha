@@ -96,12 +96,15 @@ Owner: Claude
 - [x] Run independent reviews of the store and of the later Phase 4 commits; fix every confirmed finding with regression tests.
 - [x] Update status and commit.
 
-Gate: Codex reviews crash safety, the bounds, duplicate prevention (E7–E10), and the proposed decisions D-153 to D-159.
+Gate: Codex reviews crash safety, the bounds, duplicate prevention (E7–E10), and the proposed decisions D-153 to D-159. **Passed** (user decision, 2026-09-27): D-153 to D-159 accepted; Codex re-ran the quality gates; the 20 000-entry bound is accepted for the first beta (R-29).
 
 ## Phase 5 — Samsung adapter contract
 
 Owner: Claude
 
+Authorized by the user on 2026-09-27, after the Phase 4 gate.
+
+- [ ] First check and document the version and the LGPL-3.0 obligations of `samsungtvws` 3.0.6 (D-135). The pinned version may be installed from PyPI into the git-ignored project environment only.
 - [ ] Establish the adapter surface only by inspecting the installed `samsungtvws` 3.0.6 distribution.
 - [ ] Implement the isolated process executor with the complete bootstrap: privilege drop to an unprivileged user, the parent-death signal, umask, resource limits, the bytes-only channel, progress markers, and the bootstrap test.
 - [ ] Re-run E7–E10 with the process-based television worker. Measure worst-case prepare memory and time under the real limit.
@@ -110,6 +113,8 @@ Owner: Claude
 - [ ] Add mocked adapter tests; do not contact the live television.
 - [ ] Update third-party notices, status, and decisions.
 - [ ] Commit.
+
+Gate: Codex reviews the isolation design and its tests, the Samsung adapter against the installed library, and the `samsungtvws` row with its LGPL-3.0 obligations. Phase 6 does not start before it is explicitly authorized.
 
 ## Phase 6 — Home Assistant app packaging
 
@@ -122,7 +127,7 @@ Owner: Claude
 - [ ] Add local container build tests for supported architectures where available, including the D-130 checks.
 - [ ] Once the Python version is fixed, repeat the Pillow wheel SBOM inspection against the exact two runtime wheels (`aarch64`, `amd64`). Record the result in `DECISIONS.md` and the third-party notices; it is authoritative for the bundled-library inventory.
 - [ ] In the same inspection, verify the versions and SPDX identifiers of the remaining `pillow.libs` entries (libXau, libXdmcp, Brotli, libbsd, liblzma, libmd, libpng, libsharpyuv, libzstd). This is mandatory before packaging or publication (gate adjustment approved by Codex at `dda877c`).
-- [ ] Write complete installation, configuration, capability-matrix, troubleshooting, and draft dashboard documentation.
+- [ ] Write complete installation, configuration, capability-matrix, troubleshooting, and draft dashboard documentation, with the known limitations in plain language (among them R-29: very old works can come back once they leave the 20 000-entry history).
 - [ ] Update status and commit.
 
 Gate: Codex reviews Home Assistant OS/Green compatibility and security.

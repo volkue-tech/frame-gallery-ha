@@ -22,7 +22,7 @@ The **user's approval of Phase 3 on 2026-09-27** accepted D-108, D-112, D-115, D
 
 The **Phase 3 gate on 2026-09-27** accepted D-146 to D-152 and resolved Q-25 with option (a).
 
-**Phase 4** (authorized by the user on 2026-09-27) proposes D-153 to D-159, which await the Phase 4 gate.
+The **Phase 4 gate on 2026-09-27** accepted D-153 to D-159, after Codex re-ran the quality gates (3 850 tests, 100 % line and branch coverage). The 20 000-entry bound of history and the ledger is accepted for the first beta; R-29 explains its consequence. The user authorized Phase 5 the same day.
 
 ## Accepted constraints
 
@@ -108,7 +108,7 @@ Status: proposed (refined in Phase 1).
 
 ### D-104 — Samsung transport
 
-Status: **accepted for design.** The inspection method was approved in the Codex review. The dependency row is approved before Phase 5.
+Status: **accepted for design.** The inspection method was approved in the Codex review. The dependency row was to be approved before Phase 5. *Amended at the Phase 4 gate (user decision, 2026-09-27):* the user authorized Phase 5 with the check of the version and the LGPL-3.0 obligations as its first step, and allowed the pinned version to be installed from PyPI into the git-ignored environment. The row is recorded in Phase 5 and confirmed at the Phase 5 gate.
 
 **Decision:**
 
@@ -1065,13 +1065,13 @@ Status: **accepted** (Phase 3 gate, user decision, 2026-09-27).
 - **Fixtures.** The API documents are synthesized in `tests/support/museums.py`: independently authored, with invented values and envelopes that follow the re-read documentation. Nothing was recorded from a live API (§20.3).
 - **Layout additions** (beyond §21 and D-141): `net/` (`wire`, `policy`, `identity`, `gateway`, `transport`), `ha/client.py`, `app/fetching.py`, and `providers/` (`aic`, `cma`, `local_media`, `jsonread`, `periods`, `cache`).
 
-## Phase 4 decisions (proposed)
+## Phase 4 decisions (accepted)
 
-These record how Phase 4 realizes §13 and §14, and every place where it deviates from the text of `ARCHITECTURE.md`. They await the Phase 4 gate.
+These record how Phase 4 realizes §13 and §14, and every place where it deviates from the text of `ARCHITECTURE.md`. The user accepted them at the Phase 4 gate on 2026-09-27, and `ARCHITECTURE.md` is amended to match.
 
 ### D-153 — The atomic primitive, the reader, and history [§13.2, §13.3, D-110]
 
-Status: proposed (Phase 4 gate).
+Status: **accepted** (Phase 4 gate, user decision, 2026-09-27).
 
 - **Modules.** `store/atomic.py` (the primitive, the reader, and the quarantine), `store/fields.py` (timestamps and identifiers), and `store/history.py`. The rule for qualified identifiers moves from `providers.contract` to `domain.py`, which `providers.contract` now imports, so that the store never imports a provider module (§5).
 - **Directories.** The anchor's last component and every part below it are opened with `O_DIRECTORY | O_NOFOLLOW`; a symbolic link or a file in their place is refused. Missing parts are created with exactly the requested mode, whatever the umask (0700 below `/data`). Every file operation is relative to the directory descriptor.
@@ -1088,6 +1088,7 @@ Status: proposed (Phase 4 gate).
 - **Quarantine.** `state/quarantine/<UTC time>-<random>-<name>`. After each move, the oldest entries beyond three are removed; a damaged entry that is a directory is removed as a tree.
 - **Schema strictness.** One invalid entry makes the whole document damaged, so the reader falls back to `.bak`. Unknown fields are ignored and are not written back. A repeated identifier keeps its last position.
 - **History bounds.** 20 000 entries and 5 MiB; the oldest entries go first, and the new entry is always kept. Identifiers are at most 200 ASCII characters and timestamps have a fixed length, so 20 000 entries take at most about 4.64 MiB: the entry bound is the one that binds (a test checks this).
+- **Known limitation: very old works can come back** (accepted for the first beta at the Phase 4 gate; R-29). History keeps the latest 20 000 delivered works. When a new delivery would exceed that, the oldest entry is dropped. The ledger has already let go of that work, so it is no longer excluded, and it could in theory be chosen and shown again. At one artwork a day, the first entry is dropped after about 55 years; at one an hour, after about 2.3 years; at one every 15 minutes, after about 7 months. Nothing else is affected: every more recent work stays excluded.
 
 **Amendment after the internal review of `a74ba1c`, `1677ccd`, and `f347ffb`** (see *Review records*):
 
@@ -1098,7 +1099,7 @@ Status: proposed (Phase 4 gate).
 
 ### D-154 — The upload ledger and the file state store [§13.3, §13.6, D-137]
 
-Status: proposed (Phase 4 gate).
+Status: **accepted** (Phase 4 gate, user decision, 2026-09-27).
 
 - **Modules.** `store/upload_ledger.py` (the document and its pure transitions) and `store/state.py` (`FileStateStore`, the `StateStore` port). `store.state` uses `selection.exclusion` for the `ExclusionSet` value type. This is an internal dependency beyond §5's "stdlib" column, recorded as D-141 does. There is no cycle: `selection` does not import `store`.
 - **Lock.** `/data/state/.lock`, opened with `O_NOFOLLOW` and mode 0600, then `flock(LOCK_EX | LOCK_NB)`. `EWOULDBLOCK` gives `already_running`; any other failure gives `state_error`. The startup sweep runs only once the lock is held; a failing sweep only logs a warning.
@@ -1113,13 +1114,13 @@ Status: proposed (Phase 4 gate).
   - A removal only ever removes an `uncertain` entry.
   - A promotion replaces the intent, or adds an `uploaded` entry if the intent is missing.
   - A repeated identifier in a file keeps its strongest entry: `uploaded` over `uncertain`, then the later time.
-- **Bounds.** 20 000 entries and 5 MiB. The oldest `uploaded` entries are dropped first, then the oldest `uncertain` ones. The entry being written is never dropped.
+- **Bounds.** 20 000 entries and 5 MiB. The oldest `uploaded` entries are dropped first, then the oldest `uncertain` ones. The entry being written is never dropped. Entries normally leave the ledger long before, once history holds their work; only 20 000 uploads that never reached history (for example, repeated refusals of selection) could reach the bound. A dropped `uploaded` entry would no longer exclude its work (R-29).
 - **Quarantine period.** An `uncertain` entry excludes its work until exactly 30 days after `at`. An `at` in the future (a clock that went back) keeps the quarantine until then, so it is never shortened.
 - **Leftovers.** `close` discards a pre-staged history file that was never recorded. The startup sweep removes any that a killed run left behind (D-155).
 
 ### D-155 — Workspace, startup sweep, and store layout [§13.1, §14]
 
-Status: proposed (Phase 4 gate).
+Status: **accepted** (Phase 4 gate, user decision, 2026-09-27).
 
 - **Modules.** `store/workspace.py` (`RunWorkspace`, the `Workspace` port), `store/sweep.py` (`StartupSweep`), and `store/layout.py` (`StoreLayout`: the anchors `/data`, `/media`, and `/tmp`, and the store ports built from them for the Phase 6 entry point).
 - **Moved types.** `WorkspacePaths` moves from `app.ports` to `domain.py`, and `PublishError` from `app.ports` to `errors.py`. The store can then implement the runner's ports without importing `app` (§5).
@@ -1137,7 +1138,7 @@ Status: proposed (Phase 4 gate).
 
 ### D-156 — The bounded metadata cache [§13.4, D-150, D-151; F6]
 
-Status: proposed (Phase 4 gate).
+Status: **accepted** (Phase 4 gate, user decision, 2026-09-27).
 
 - **Modules.** `store/cache.py` holds `FileMetadataCache`, the value type `ExhaustedPages`, and its merge rule. The port in `providers/cache.py` gains exhausted-page hints (`get_exhausted`, `add_exhausted`, and `HINT_TTL` of 7 days) and imports the value type from `store.cache`, as §5 lists (`providers` depends on `store.cache`). The in-memory cache implements the same port for tests.
 - **File.** `/data/cache/<provider>.json` (mode 0600; directory 0700) with `format`, `version`, `provider`, and a list of entries. Each entry has `key`, `expires`, `used`, and either `count` or `total` and `pages`. Keys must start with the provider's own key.
@@ -1152,7 +1153,7 @@ Status: proposed (Phase 4 gate).
 
 ### D-157 — Exhausted-page hints and the cache write [§9.5, §9.6, §13.4, R-13; amends D-150]
 
-Status: proposed (Phase 4 gate). It closes the item that D-150 deferred to Phase 4.
+Status: **accepted** (Phase 4 gate, user decision, 2026-09-27). It closes the item that D-150 deferred to Phase 4.
 
 - **How an adapter learns about exclusions.** `DiscoveryContext` gains `is_excluded_for_good`, which is true for works in history or `uploaded` in the ledger (`ExclusionSet.excludes_for_good`), and `notes`, a small record the adapter fills. A quarantined (`uncertain`) work is not excluded for good, because its quarantine ends. Adapters still yield every candidate, and selection still decides (§9.1); they use the predicate only to recognise pages that offer nothing new.
 - **When a page is exhausted.** A page is exhausted when it offered at least one candidate and every candidate it offered is excluded for good. Records that the adapter refuses for good (rights, identifiers, the period, the rendition host, the Art Institute's minimum width) do not count either way. A page that offered nothing (an empty page, or one whose records the adapter could not use) is never exhausted, because the reason may be passing, and neither is a page with a work not yet sent, even one without dimensions.
@@ -1166,7 +1167,7 @@ Status: proposed (Phase 4 gate). It closes the item that D-150 deferred to Phase
 
 ### D-158 — Preview publication and the run records [§13.1, §13.5, D-118, D8, F7]
 
-Status: proposed (Phase 4 gate).
+Status: **accepted** (Phase 4 gate, user decision, 2026-09-27).
 
 - **Modules.** `store/preview.py` (`PreviewStore`, the `PreviewPublisher` port) and `store/records.py` (`RunRecordStore`, the `RunRecords` port).
 - **Fingerprint.** The D-118 fingerprint moves from `providers.local_media` into the shared top-level module `fingerprint.py`, next to `domain`, `errors`, and `randomness` (D-141). `imaging.delivery` and the store can then compute it without importing a provider. `DeliveryArtifact` gains `fingerprint`, which the parent computes over the same bytes as the SHA-256.
@@ -1185,7 +1186,7 @@ Status: proposed (Phase 4 gate).
 
 ### D-159 — Tests for state and duplicate prevention [§20.1; C3, E1-E10, F1-F7]
 
-Status: proposed (Phase 4 gate).
+Status: **accepted** (Phase 4 gate, user decision, 2026-09-27).
 
 - **Rig.** `tests/support/persistent.py` (`PersistentRig`) runs the runner over the real store ports (state, workspace, preview, records, and a provider's file cache) below temporary `data`, `media`, and `tmp` anchors. Each run builds fresh ports over the same directories, as a new process would, and may start days after the first. The provider, fetcher, executor, and television stay fakes; the fake television emits its progress markers. `Harness` gains optional overrides for the state, workspace, preview, and records ports.
 - **Scenarios in process** (`tests/integration/test_state_scenarios.py`):
@@ -1394,6 +1395,7 @@ L = likelihood, I = impact; H = high, M = medium, L = low.
 | R-26 | **Local tests run a different Pillow build.** Phase 2 tests use the macOS `arm64` Pillow wheel and CPython 3.12.14; the runtime uses the Linux `musllinux_1_2` wheels, with other bundled library builds, on the container's Python. Rendering bytes and edge-case behaviour may differ. | M / M | The imaging tests assert properties (size, baseline, components, pixels, metadata) rather than byte-exact output; Phase 6 runs the full suite inside the container image for both architectures; CI covers 3.12–3.14 (Phase 9) | Phase 6/9 |
 | R-27 | **No pre-emption before Phase 5.** The Phase 2 in-process executor cannot interrupt a hung decode, so the 15 s preparation limit and the 70 s and 120 s bounds hold only when tasks return. A timeout is detected after the fact. | L / M | Phase 2 never runs against real providers or the television; the Phase 5 process executor adds the kill timer, `RLIMIT_AS`, and the unprivileged worker (D-109, D-139); the watchdog (130 s) remains the last resort | Phase 5 |
 | R-28 | **The credential-pattern redaction is heuristic.** It catches common forms of unregistered secrets but not every serialization (D-145). | L / M | Every real secret (the Supervisor token, the TV token) is registered with the redactor and redacted in all its encodings; worker output passes through the parent's formatter; H3 tests cover both layers; new secrets must be registered where they enter | Ongoing (Phases 3, 5) |
+| R-29 | **Very old works can come back.** History keeps the latest 20 000 delivered works, and the ledger 20 000 entries (D-153, D-154). When a bound is reached, the oldest entry is dropped, and that work is no longer excluded, so it could in theory be shown again. At one artwork a day this first happens after about 55 years; at one an hour, after about 2.3 years; at one every 15 minutes, after about 7 months. | L / L | Accepted for the first beta at the Phase 4 gate; stated in the user documentation's known limitations (Phase 6). Every more recent work stays excluded. | Accepted |
 
 ## Open questions
 
@@ -1449,6 +1451,17 @@ L = likelihood, I = impact; H = high, M = medium, L = low.
 | Q-24 | Cleveland colour filtering by local analysis, for example of the documented 900 px web rendition, counted against the existing download allowance and the content-window time budget, not against the 30 remote dimension requests. Only if it fits the same download and time budgets. | Defer until after the beta | After the beta |
 
 ## Review records
+
+### Phase 4 gate decision (user, 2026-09-27)
+
+- The Phase 4 gate is passed, and D-153 to D-159 are accepted. Codex checked the critical state transitions and ran `scripts/check.sh` itself: 3 850 tests passed, with 100 % line and branch coverage.
+- The 20 000-entry bound is accepted for the first beta. The consequence, that very old works can in theory come back once they leave history, is documented in plain language (D-153, R-29) and does not block Phase 5.
+- Phase 5 is authorized under these conditions:
+  - first check and document the version and the LGPL-3.0 obligations of `samsungtvws` 3.0.6;
+  - then implement the isolated process executor and the Samsung adapter, tested against simulations;
+  - the installed distribution and the official package information may be inspected, and the pinned version may be installed from PyPI into the git-ignored project environment only;
+  - no access to the Home Assistant Green or the television; nothing published to GitHub or pushed;
+  - reviewable commits, the complete quality gates, and a stop at the Phase 5 gate for the Codex review; Phase 6 does not start.
 
 ### Internal review of `4fcab6e` to `ec9e8a4` (Claude, Phase 4)
 

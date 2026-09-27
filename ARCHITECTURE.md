@@ -10,8 +10,9 @@ Status: **Revision 2, with final gate corrections.**
 - The user approved Phase 3 (provider adapters) on 2026-09-27. At its start, the Art Institute and Cleveland documentation was re-read (documentation pages only, D-146). §8.3, §9.2, §9.5, §9.6, §10, §15.2, and §23 are amended to match.
 - Phase 3 is implemented. Its refinements of this document are recorded in D-147 (gateway), D-148 (helper reader), D-149 (local media), D-150 (Art Institute), D-151 (Cleveland), and D-152 (vocabulary version 1, the narrowed capability matrix, and the contract suite).
 - The Phase 3 gate passed on 2026-09-27 (user decision). D-146 to D-152 are accepted, and Q-25 is resolved with option (a): the first beta ships without a colour filter, and the Art Institute supports only the period filter. §1, §9.2, §9.3, §15.1, §22.1, §23, and Appendix A are amended to match.
+- Phase 4 (bounded state and duplicate prevention) is implemented, and its gate passed on 2026-09-27 (user decision). D-153 to D-159 are accepted, and the 20 000-entry bound is accepted for the first beta (R-29). §4.1, §4.2, §5, §9.1, §12.4, §13.2 to §13.6, §14, §21, §22.1, §23, and Appendix A are amended to match. Phase 5 is authorized (§23).
 
-Date: 2026-09-26 (Phase 3 amendments: 2026-09-27)
+Date: 2026-09-26 (Phase 3 and Phase 4 amendments: 2026-09-27)
 Author: Claude (Phase 1 owner)
 
 This document is documentation only. The YAML fragments, signatures, and pseudo-code below illustrate interfaces and configuration *shape*. They are not application code. Everything is authored and tested in the phases that follow approval.
@@ -192,7 +193,7 @@ START ─► CONFIGURE ─► RESOLVE_FILTERS ─► SELECT ─► ┌─ ATTEMP
 | DELIVER | The television worker connects, checks art mode, uploads, and selects, reporting markers (§12.1). On `uploaded`, the parent promotes the ledger entry. | see §12.4 |
 | RECORD | Only after `selected`: rotate `.bak` (best-effort), then rename the pre-staged history into place. Not cancellable. | changed |
 | PUBLISH | Only after `selected`: publish the delivery bytes atomically as the preview, and update `current.json`. | changed |
-| FINISH | Write the last-run record (every outcome except watchdog termination), log the summary line, and exit. | — |
+| FINISH | Write the last-run record (every outcome except watchdog termination), log the summary line, and exit. *Amended at the Phase 4 gate (D-157):* first write the provider's metadata cache once, within FINISH's deadline minus the last-run reserve. | — |
 
 **Ordering (D-113, accepted).** The confirmed sent history is recorded before the preview is published. `PRODUCT_SPEC.md` lifecycle steps 9 and 10 were amended to this order in the final gate review. Duplicate prevention does not depend on the order, because the upload ledger already excludes the work once it is uploaded.
 
@@ -206,7 +207,7 @@ START ─► CONFIGURE ─► RESOLVE_FILTERS ─► SELECT ─► ┌─ ATTEMP
 | `no_match` | Nothing deliverable and no transport failure (rule below) | unchanged | unchanged | unchanged | INFO with a hint |
 | `config_invalid` | Options or television address invalid | unchanged | unchanged | unchanged | ERROR |
 | `already_running` | State lock held | unchanged | unchanged | unchanged | WARNING |
-| `state_error` | History or ledger written by a newer version, or pre-staging failed (full or read-only `/data`) | unchanged | unchanged | unchanged | ERROR |
+| `state_error` | History or ledger written by a newer version, or pre-staging failed (full or read-only `/data`). *Amended at the Phase 4 gate (D-153, D-154):* also a history or ledger file that exists but cannot be read, a lock failure other than contention, and an upload intent that could not be made durable. | unchanged | unchanged | unchanged | ERROR |
 | `source_failed` | Provider or network failure, nothing delivered | unchanged | unchanged | unchanged | ERROR |
 | `image_failed` | Processing failed for every attempted candidate | unchanged | unchanged | unchanged | ERROR |
 | `tv_unreachable` | Connect failure, or a connection lost, timed out, or given an unexpected response before `selected` | per the last marker (§12.4) | unchanged | per the last marker | ERROR |
@@ -236,6 +237,8 @@ START ─► CONFIGURE ─► RESOLVE_FILTERS ─► SELECT ─► ┌─ ATTEMP
    - every attempt answered with HTTP 404 or 410, or failing verification.
 
    The hints are "filters too restrictive", "nothing new left for these filters", and "search limits reached".
+
+   *Amended at the Phase 4 gate (D-157).* "Nothing new left" also applies when nothing was seen because the adapter skipped pages whose works were all sent already (exhausted-page hints).
 
 ### 4.3 Concurrency model
 
@@ -272,6 +275,8 @@ The package name follows the accepted provisional identifier `frame_gallery` (D-
 | `logs` | Parent and worker logging, redaction, summary line | stdlib | Emit bodies, headers, or query strings |
 
 Third-party imports are confined to the `imaging` and `tv` worker tasks and to `net.transport`. An import-boundary check enforces this (D-107). "stdlib" in the table means "no third-party packages"; the permitted internal dependencies that Phase 2 added (for example `budget.watchdog` using `logs.summary`) are recorded in D-141.
+
+*Amended at the Phase 4 gate (D-153, D-154, D-155, D-156, D-158).* `store` also uses `selection.exclusion` (the `ExclusionSet` value type), `imaging.contract` (`DeliveryArtifact`), and `budget`; it still knows nothing about providers or the television. The direction is the reverse of the `selection` row above: `selection` imports no `store` module, and `store.state` builds the `ExclusionSet` that `selection.exclusion` defines, so there is no cycle. `providers.cache` imports its value type from `store.cache`, as the table lists. The shared top-level modules are now `domain`, `errors`, `randomness`, and `fingerprint` (the D-118 fingerprint); `WorkspacePaths` lives in `domain`, and `PublishError` in `errors`.
 
 ---
 
@@ -473,6 +478,8 @@ Candidate
 - every candidate carries an allowed rights basis (D-134);
 - filter capabilities are reported per §9.2;
 - adapters write only to their own cache namespace.
+
+*Amended at the Phase 4 gate (D-157).* The discovery context also carries `is_excluded_for_good` (history and `uploaded` works, never quarantined ones) and a small `notes` record. Adapters use them only for exhausted-page hints: they still yield every candidate, and selection decides.
 
 ### 9.2 Filter model and capability matrix (D-124)
 
@@ -798,12 +805,14 @@ The whole delivery is one coarse operation inside one worker.
 | `connected`; `insufficient_time` (upload allowance guard) | `deadline_exceeded` | unchanged | unchanged | intent removed |
 | `upload_started`; connection lost, kill timer, or `protocol` | `tv_unreachable`: "the upload may have reached the TV" | may hold the upload | unchanged | intent **kept as `uncertain`** (quarantine: 30 days, Q-23) |
 | `upload_started`; explicit upload refusal | `tv_rejected` | unchanged | unchanged | intent removed |
-| `uploaded`; selection explicitly refused | `tv_rejected` | holds an undisplayed upload | unchanged | **`uploaded`**: never uploaded again |
-| `uploaded`; connection lost, kill timer, or `protocol` during selection | `tv_unreachable`: "stored on the TV and may be displayed" | holds the upload; may display it | unchanged | **`uploaded`**: never uploaded again |
+| `uploaded`; selection explicitly refused | `tv_rejected` | holds an undisplayed upload | unchanged | **`uploaded`**: never uploaded again (within the bounds, R-29) |
+| `uploaded`; connection lost, kill timer, or `protocol` during selection | `tv_unreachable`: "stored on the TV and may be displayed" | holds the upload; may display it | unchanged | **`uploaded`**: never uploaded again (within the bounds, R-29) |
 | process killed (SIGKILL, power loss) after PRE-STAGE | *(next run)* | unknown | unchanged | the committed intent remains `uncertain`, or `uploaded` if promoted, so the work is excluded |
 | `selected` | `delivered*` | changed | +1 (unless the rename failed) | `uploaded`; pruned once the work is in history |
 
 A later run **never** uploads an artwork whose confirmed upload was durably recorded (promoted to `uploaded` and `fsync`ed).
+
+*Amended at the Phase 4 gate (D-153, D-154; R-29).* "Never" holds within the 20 000-entry bounds of history and the ledger. Once a work leaves history (after 20 000 later deliveries), or its `uploaded` entry is dropped at the ledger's bound, it is no longer excluded and could in theory be shown again.
 
 There is one exception. If the process dies, or the promotion write fails, between receiving `uploaded` and the promotion `fsync`, the entry stays `uncertain` and excludes the work only for the quarantine period.
 
@@ -867,10 +876,19 @@ After `uploaded`, one small atomic write promotes the ledger entry. After `selec
 
 **Reader.** Primary, then `.bak`, then empty with a WARNING. Only parse or schema failures are quarantined. The reader never raises.
 
+*Amended at the Phase 4 gate (D-153, D-154, D-158).*
+
+- The self-check (step 2) reads each document back with the reader's own rules, so nothing is written that this code could not read.
+- Files that are not regular, or exceed their size bound, count as damaged and are quarantined too. A file that exists but cannot be read, or one written by a newer version, is not quarantined: history and the ledger then end the run with `state_error`, instead of falling back to `.bak` or an empty state.
+- `.bak` is refreshed only from a primary that was valid, so a damaged primary never replaces a good backup.
+- A failed directory `fsync` after a successful rename: for the upload intent it is an error (`state_error`), so the television is never contacted without a durable intent. For a promotion the file already says `uploaded`, but the runner logs an ERROR and the outcome is unchanged (§13.6 step 4). Recorded history, the preview, and the run records count as written, with a warning.
+- Timestamps must lie from 2000 to 8999, and every version writes `format` and `version` first, so a newer file over the size bound is still recognised as newer.
+
 ### 13.3 History
 
 - **Format.** `{"format": "frame-gallery-history", "version": 1, "entries": [{"id": "aic:…", "at": "…"}]}`.
 - **Bounds.** At most 20 000 entries and 5 MiB; the oldest are dropped first.
+- **Known limitation (accepted at the Phase 4 gate; R-29).** Only the latest 20 000 delivered works are remembered. When the bound is reached, the oldest entry is dropped, and that very old work could in theory be shown again. At one artwork a day this first happens after about 55 years; at one an hour, after about 2.3 years.
 - **Versions.** A newer version is not treated as corruption; the run ends with `state_error` before the TV is touched.
 - **Lock.** `flock(LOCK_EX | LOCK_NB)` in CONFIGURE. Contention gives `already_running`.
 
@@ -880,6 +898,7 @@ After `uploaded`, one small atomic write promotes the ledger entry. After `selec
 - **Bounds.** At most 1 000 entries and 2 MiB, TTL at most 7 days. Expired entries are evicted first, then least-recently-used ones.
 - **Writes.** At most one per run; corruption means discard.
 - **Beta use.** Counts and hints for the Art Institute and Cleveland (acceptance item `F6`).
+- *Amended at the Phase 4 gate (D-156, D-157).* The file holds counts (1 day) and exhausted-page hints (7 days); an entry is at most 8 KiB, and one hint at most 800 pages. A page is hinted only if it offered works and every one of them is in history or uploaded; a hint is valid only for the same result count. The cache is written once, in FINISH, before the last-run record. An expiry more than 7 days ahead (a clock that went back) is cut to 7 days from now. Damage discards the whole file; there is no quarantine and no `.bak`.
 
 ### 13.5 Preview publication
 
@@ -887,10 +906,11 @@ After `uploaded`, one small atomic write promotes the ledger entry. After `selec
 - **Guard.** Publication is refused if any path component is a symbolic link.
 - **File naming** follows the refresh mechanism chosen in Phase 8 (§16.3): one `latest.jpg`, or two alternating names.
 - **Failure.** If `/media` is unavailable, the outcome is `delivered_with_warnings`.
+- *Amended at the Phase 4 gate (D-158).* Every name is staged, read back, and hashed before any is renamed, and new directories get exactly mode 0755. `current.json` keeps the D-118 fingerprints of the last 10 previews, newest first, for the local library's guard 3; the fingerprint is recorded even if the preview could not be published.
 
 ### 13.6 TV-upload exclusion ledger (D-137)
 
-- **Purpose.** Never re-upload an artwork the TV already received, even if selection was never confirmed. History keeps its specified meaning: confirmed sent or displayed.
+- **Purpose.** Never re-upload an artwork the TV already received, even if selection was never confirmed. History keeps its specified meaning: confirmed sent or displayed. *Amended at the Phase 4 gate:* within the 20 000-entry bounds of history and the ledger (R-29).
 - **Format:**
 
   ```json
@@ -907,8 +927,10 @@ After `uploaded`, one small atomic write promotes the ledger entry. After `selec
      It remains as an uncertainty quarantine only after `upload_started` without `uploaded`, or when the process dies without classifying the run.
   4. **Failed promotion.** If the promotion write after `uploaded` fails (for example, the disk is full), the run logs an ERROR and keeps the `uncertain` intent. The run outcome does not change.
   5. **Pruning.** Once the work is in history, its entry is pruned on the next ledger write.
+
+     *Amended at the Phase 4 gate (D-154).* Only the intent write prunes. It drops `uncertain` intents whose quarantine has ended and, of the works in history, only those that both copies hold (the primary and its `.bak`), so a damaged primary never loses the newest delivery's exclusion.
 - **Bounds.**
-  - At most 20 000 entries and 5 MiB; the oldest `uploaded` entries are dropped first.
+  - At most 20 000 entries and 5 MiB; the oldest `uploaded` entries are dropped first. A dropped `uploaded` entry no longer excludes its work (R-29, accepted at the Phase 4 gate); entries normally leave the ledger long before, once history holds their work.
   - `uncertain` entries expire after the **30-day** quarantine period (Q-23, accepted).
 - **Exclusion.** Selection skips `history ∪ uploaded ∪ unexpired uncertain` (§8.2).
 - **Reader and versions.** Same as history.
@@ -925,6 +947,8 @@ After `uploaded`, one small atomic write promotes the ledger entry. After `selec
 5. Persistent state is bounded: history, ledger, cache, quarantine, and one token.
 
 Tests cover failure injection at every stage (`F1`, `F2`), byte bounds over repeated runs (`F3`), and that no worker survives a watchdog kill.
+
+*Amended at the Phase 4 gate (D-155).* The sweep runs only after the state lock is taken. It removes only exact names of the right kind (regular files `<name>.tmp-<16 hex digits>` and `<name>.bak.tmp-<16 hex digits>`, and directories `run-<16 hex digits>`), never follows a link, and scans at most 1 000 entries per directory. `in/` and `out/` have mode 0700 until Phase 5 gives the unprivileged worker its modes.
 
 ---
 
@@ -1281,6 +1305,7 @@ frame_gallery/                      # app directory = Docker build context
   src/frame_gallery/
     __main__.py                     # Phase 6 (entry point)
     domain.py  errors.py  randomness.py                  # Phase 2 additions (D-141)
+    fingerprint.py                                       # Phase 4 addition (D-158): the D-118 fingerprint
     app/         runner, outcomes, ports, records, signals, environment
     config/      options, filters, overrides, vocabulary, capabilities, tv_address
     ha/          supervisor_client                     # helper merging lives in config/overrides
@@ -1290,7 +1315,7 @@ frame_gallery/                      # app directory = Docker build context
     selection/   exclusion, shortlist, geometry
     imaging/     contract, sniff, delivery, worker_tasks (inspect, prepare), fit, jpeg_header
     tv/          port, samsung_task, token_store
-    store/       atomic, history, upload_ledger, cache, workspace, preview, records
+    store/       atomic, fields, history, upload_ledger, state, cache, workspace, sweep, layout, preview, records   # Phase 4 (D-153 to D-158)
     isolation/   executor, channel, in_process, process, bootstrap
     logs/        setup, redact, summary
   tests/  support/  unit/  integration/  contract/  component/  timing/  container/  fixtures/authored/
@@ -1312,7 +1337,7 @@ frame_gallery/                      # app directory = Docker build context
   - installation, options, and the capability matrix;
   - the dashboard card and setup order, with the freshness mechanism proven in Phase 8;
   - helpers, scheduling, and troubleshooting;
-  - honest limitations: Art Institute images are upscaled up to ≈ 2.28×; the Art Institute offers only the period filter, and Cleveland department and period; no source offers a style or colour filter; Google Arts & Culture, Bing, MoMA, and Orsay are not offered; keep the app's Watchdog off.
+  - honest limitations: Art Institute images are upscaled up to ≈ 2.28×; the Art Institute offers only the period filter, and Cleveland department and period; no source offers a style or colour filter; Google Arts & Culture, Bing, MoMA, and Orsay are not offered; keep the app's Watchdog off; very old works can come back once they leave the 20 000-entry history (R-29, amended at the Phase 4 gate).
 - `aarch64` and `amd64` images.
 
 ### 22.2 Deferred
@@ -1350,8 +1375,8 @@ The vertical slice makes the core behaviour testable before packaging hardening.
 | --- | --- | --- |
 | 2: core and deterministic selection and rendering | `budget` (phase calculator, 120 s table); `config` (options, IPv4, vocabularies, capability matrix); outcomes; ports; in-process executor seam; **`app` run-orchestrator skeleton** (lifecycle stages, outcome classification, SIGTERM handling) against fakes; `selection` (exclusion interface, classification, shortlist); `imaging` prepare pipeline and fit geometry; `logs`; tooling (`uv`, `ruff`, `mypy`, `pytest`); network-blocking guard; import-boundary check; the start of `THIRD_PARTY_NOTICES.md` (Pillow and its bundled libraries) | **This revision (Phase 2 gate)**; the dev-dependency rows (complete); the Pillow row, with its corrected bundled-library inventory (GPL-3.0-or-later `libimagequant`, LGPL FriBiDi) and the remaining `pillow.libs` entries are verified in Phase 6 (gate adjustment approved by Codex) |
 | 3: provider adapters | `net` gateway; `providers.local_media`, `providers.aic`, `providers.cma` with fake and synthesized fixtures, after a live-documentation re-check; **`ha` helper-override client** (≤ 4 reads, static fallback; acceptance items `B3`–`B5`); vocabularies; contract suite; `urllib3` and `certifi` added to the notices | Approved by the user on 2026-09-27: Q-14 and Q-22 resolved, the `urllib3` and `certifi` rows approved, no observation requests. **Gate passed** on 2026-09-27: D-146 to D-152 accepted, Q-25 resolved with option (a) |
-| 4: bounded state and duplicate prevention | `store`: atomic primitive, history, **upload ledger and quarantine**, cache, workspace, preview publisher, run records, cleanup and sweep. PRE-STAGE, RECORD, and PUBLISH completed in the runner. `E7`–`E10` tested against a fake TV port that emits markers | — (Q-23 and D-113 accepted) |
-| 5: Samsung adapter contract | Adapter surface from the **installed** `samsungtvws` 3.0.6 only; process executor with the complete §11.3 bootstrap (privilege drop, rlimits, bytes channel, markers); TV worker; token store; mocked and double tests; `E7`–`E10` re-run with the process-based TV worker; worst-case prepare memory and time measured under the real limit | The `samsungtvws` row and its LGPL-3.0 obligations (D-135) |
+| 4: bounded state and duplicate prevention | `store`: atomic primitive, history, **upload ledger and quarantine**, cache, workspace, preview publisher, run records, cleanup and sweep. PRE-STAGE, RECORD, and PUBLISH completed in the runner. `E7`–`E10` tested against a fake TV port that emits markers | — (Q-23 and D-113 accepted). **Gate passed** on 2026-09-27: D-153 to D-159 accepted; the 20 000-entry bound accepted for the first beta (R-29) |
+| 5: Samsung adapter contract | Adapter surface from the **installed** `samsungtvws` 3.0.6 only; process executor with the complete §11.3 bootstrap (privilege drop, rlimits, bytes channel, markers); TV worker; token store; mocked and double tests; `E7`–`E10` re-run with the process-based TV worker; worst-case prepare memory and time measured under the real limit | The `samsungtvws` row and its LGPL-3.0 obligations (D-135). **Authorized** by the user on 2026-09-27, after the Phase 4 gate: first check and document the version and the LGPL-3.0 obligations of `samsungtvws` 3.0.6, then build the executor and the adapter against simulations; the pinned version may be installed from PyPI into the git-ignored environment. The dependency row is recorded in Phase 5 and confirmed at the Phase 5 gate |
 | 6: Home Assistant app packaging | `config.yaml`; Dockerfile; translations; `DOCS.md`; draft dashboard YAML; complain-mode `apparmor.txt`; container tests; D-130 checks a–d | Pulling the base image; Q-06, Q-10; the Buildx, QEMU, and SBOM-tool rows; the authoritative Pillow runtime-wheel inspection, including verification of the remaining `pillow.libs` entries (mandatory before packaging or publication) |
 | 7: offline release-candidate validation | Full gate run; provenance and license audit; failure-path exercises; release-candidate report | — (gate: the user approves the live test) |
 | 8: supervised Home Assistant Green and TV validation | Checklist: install via Q-21; the TV at the user's test value `192.168.178.30`, entered in the options and never hard-coded; **Q-16** (connectivity without `host_network`); **preview freshness, with one mechanism proven over repeated tests (card-started, automation-started, app-page-started, and `no_match` runs) and documented (D-140)**; entity IDs for the card (everything except the public slug); Q-05, Q-07, Q-09, Q-19 (including a mistyped slug); R-09, R-21; a backup without `tv/` | **Explicit user approval**; Q-21 (install route) |
@@ -1460,7 +1485,7 @@ All research was read-only. It used public documentation pages, package-index me
 | E6 | No resend while unsent works remain | §8.2, §13.6 | Integration (multi-run) |
 | E7 | Upload OK, selection refused → ledger entry, not resent | §12.4, §13.6 | Integration |
 | E8 | Upload OK, connection lost during selection → ledger entry, not resent | §12.4, §13.6 | Integration |
-| E9 | Process killed after upload → excluded on the next run | §13.2, §13.6 | Integration (SIGKILL after PRE-STAGE and after `uploaded`) |
+| E9 | Process killed after upload → excluded on the next run | §13.2, §13.6 | Integration: simulated kills, and a real SIGKILL of a child process after the intent, after `uploaded`, after `selected`, and inside the promotion write (D-159) |
 | E10 | History, current artwork, and preview change only after `selected` | §4.1, §12.4 | Integration |
 | F1 | Temporary files are removed after success | §14 | Integration |
 | F2 | Temporary files are removed after failures | §14, §4.2 | Failure matrix |

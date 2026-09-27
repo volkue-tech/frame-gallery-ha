@@ -1,30 +1,14 @@
 # Project status
 
-Last updated: 2026-09-27 (Phase 4 gate)
+Last updated: 2026-09-27 (Phase 5 in progress)
 
 ## Current phase
 
-**Phase 4 (bounded state and duplicate prevention): complete. Stopped at the Phase 4 gate for the Codex review. Phase 5 has not started.**
+**Phase 5 (Samsung adapter contract): in progress. The user authorized it on 2026-09-27, after the Phase 4 gate passed.**
 
-- The user authorized Phase 4 on 2026-09-27. The Phase 3 gate had passed the same day.
-- The proposed decisions D-153 to D-159 await the gate.
+- **Phase 4 gate (user decision, 2026-09-27):** passed. D-153 to D-159 are accepted, and Codex re-ran `scripts/check.sh` (3 850 tests, 100 % line and branch coverage). The 20 000-entry bound is accepted for the first beta; its consequence is documented in plain language (R-29).
+- **Phase 5 conditions:** first check and document the version and the LGPL-3.0 obligations of `samsungtvws` 3.0.6; then the isolated process executor and the Samsung adapter, tested against simulations. The installed distribution and the official package information may be inspected, and the pinned version may be installed from PyPI into the git-ignored project environment only. No access to the Home Assistant Green or the television; nothing published or pushed. Stop at the Phase 5 gate; Phase 6 does not start.
 - Every commit uses the personal identity `Alexander Wilke <volkue@gmail.com>`.
-- Nothing contacted Home Assistant, the Home Assistant Green, the television, a provider API, or GitHub. Nothing was published or pushed. The local backup branch was not touched. Every test uses synthesized data.
-
-### Phase 4 progress
-
-| Step | Commit |
-| --- | --- |
-| 1. Atomic write primitive, reader and quarantine, and history (D-153) | `a74ba1c` |
-| 2. TV-upload ledger and the file state store (D-154) | `1677ccd` |
-| 3. Workspace lifecycle, startup sweep, and store layout (D-155) | `f347ffb` |
-| 4. Bounded, persistent metadata cache (D-156) | `4fcab6e` |
-| 5. Exhausted-page hints and the once-per-run cache write (D-157) | `b8a6c44` |
-| 6. Atomic preview publication and the run records (D-158) | `5435d06` |
-| 6a. Fixes from the internal review of steps 1 to 3 (D-153 to D-155 amendments) | `bb25277` |
-| 7. End-to-end state scenarios E7–E10, with a real SIGKILL (D-159; D-156 amended) | `ec9e8a4` |
-| 7a. Fixes from the second internal review (D-153, D-157, D-158, and D-159 amendments) | `86cc82b` |
-| 8. Status, tasks, README, and development notes for the gate | this commit |
 
 ## Completed
 
@@ -231,7 +215,7 @@ Writing the real-stack tests exposed one more transport defect, which is fixed t
 - *Cleveland:* the parameters, the response fields, the print JPEG, the CDN host, and the 21 departments are confirmed verbatim. The adapter sets `limit` on every request (the default is 1000), leaves out the one department whose name contains commas, and enforces period bounds on `creation_date_earliest`, because the inclusivity of `created_after` and `created_before` is undocumented.
 - *Art Institute:* the search, count, pagination, courtesy, IIIF, and Images resource facts are confirmed. The documentation does **not** name the department or style values, the members of the colour object, or the members of the artwork `thumbnail`. Under the user's Q-14 instruction, the Art Institute therefore supports only the period filter in the beta, and it reads image sizes from the documented Images resource instead of the thumbnail. **Q-25** is resolved with option (a) at the Phase 3 gate: this stays so for the first beta, which ships without a colour filter, and no observation is approved.
 
-### Phase 4: bounded state and duplicate prevention (Claude, commits `a74ba1c` to `86cc82b` and the closing documentation commit; awaiting the gate)
+### Phase 4: bounded state and duplicate prevention (Claude, commits `a74ba1c` to `b1ef7bb`; gate passed 2026-09-27)
 
 **Implemented** (the new `store` package, standard library only)
 
@@ -282,31 +266,45 @@ Writing the real-stack tests exposed one more transport defect, which is fixed t
 
 See *Review records* in `DECISIONS.md`.
 
+**Commits**
+
+| Step | Commit |
+| --- | --- |
+| 1. Atomic write primitive, reader and quarantine, and history (D-153) | `a74ba1c` |
+| 2. TV-upload ledger and the file state store (D-154) | `1677ccd` |
+| 3. Workspace lifecycle, startup sweep, and store layout (D-155) | `f347ffb` |
+| 4. Bounded, persistent metadata cache (D-156) | `4fcab6e` |
+| 5. Exhausted-page hints and the once-per-run cache write (D-157) | `b8a6c44` |
+| 6. Atomic preview publication and the run records (D-158) | `5435d06` |
+| 6a. Fixes from the internal review of steps 1 to 3 (D-153 to D-155 amendments) | `bb25277` |
+| 7. End-to-end state scenarios E7–E10, with a real SIGKILL (D-159; D-156 amended) | `ec9e8a4` |
+| 7a. Fixes from the second internal review (D-153, D-157, D-158, and D-159 amendments) | `86cc82b` |
+| 8. Status, tasks, README, and development notes for the gate | `b1ef7bb` |
+
 ## Specification deviations
 
-Every Phase 3 deviation was accepted at the Phase 3 gate. The Phase 4 deviations below are proposed and await the Phase 4 gate; `ARCHITECTURE.md` is not amended before they are accepted.
+None is awaiting a decision. The Phase 3 deviations were accepted at the Phase 3 gate, and the Phase 4 deviations below at the Phase 4 gate (2026-09-27); `ARCHITECTURE.md` is amended to match.
 
-| Proposed item | Where |
+| Accepted item (Phase 4) | Where |
 | --- | --- |
 | The ledger prunes only when an intent is committed, and only works that both copies of history hold (§13.6 step 5 says: on the next ledger write, once the work is in history). This is stricter: a damaged history primary can never lose the newest delivery's exclusion. | D-154 |
 | The reader also quarantines files that are not regular or exceed the size bound (§13.2: "only parse or schema failures"). A file that exists but cannot be read, or one written by a newer version, ends the run with `state_error` instead of falling back to `.bak` or an empty state. | D-153 |
 | After a failed directory `fsync` that follows a successful rename, an intent is an error (`state_error`, stricter), while recorded history, a promotion, the preview, and the records count as written, with a warning. | D-153, D-154, D-158 |
 | Adapters receive a predicate for the works excluded for good (history or `uploaded`), for the exhausted-page hints only, and still yield every candidate (§9.1). A page is hinted only if it offered works and all of them were sent already. Skipped pages lead to the hint "nothing new left for these filters" (an extension of §4.2), and `last_run.json` reports them. | D-157 |
 | The metadata cache is written once per run in FINISH, before the last-run record (§4.1 names only the last-run record there). An expiry more than 7 days ahead is cut to 7 days from now. | D-156, D-157 |
-| Internal dependencies beyond §5: `store` uses `selection.exclusion`, `imaging.contract`, and `budget`; `providers.cache` imports `store.cache` (as §5 lists). `WorkspacePaths` moves to `domain.py`, `PublishError` to `errors.py`, the qualified-identifier rule to `domain.py`, and the D-118 fingerprint to the shared `fingerprint.py`; `DeliveryArtifact` gains `fingerprint`. | D-153, D-155, D-156, D-158 |
+| Internal dependencies beyond §5: `store` uses `selection.exclusion`, `imaging.contract`, and `budget` (`selection` imports no `store` module, so there is no cycle); `providers.cache` imports `store.cache` (as §5 lists). `WorkspacePaths` moves to `domain.py`, `PublishError` to `errors.py`, the qualified-identifier rule to `domain.py`, and the D-118 fingerprint to the shared `fingerprint.py`; `DeliveryArtifact` gains `fingerprint`. | D-153, D-154, D-155, D-156, D-158 |
 | Timestamps in state files must lie from 2000 to 8999, and later versions must keep writing `format` and `version` first. | D-153 |
 | `in/` and `out/` have mode 0700 until Phase 5 sets the modes that the unprivileged worker needs (§11.3). The preview file is `latest.jpg` until Phase 8 chooses the refresh mechanism (D-140). | D-155, D-158 |
 
 ## Next action
 
-The Codex review at the Phase 4 gate. Phase 5 does not start before it is explicitly authorized.
+Implement Phase 5 as authorized, then stop at the Phase 5 gate for the Codex review. Phase 6 does not start before it is explicitly authorized.
 
 **Decisions needed, by phase:**
 
 | Before | Decisions |
 | --- | --- |
-| Phase 4 gate | D-153 to D-159 and the deviations above. |
-| Phase 5 | Authorization to start; the `samsungtvws` row and its LGPL-3.0 obligations (D-135). E7–E10 are run again with the process-based television worker. |
+| Phase 5 gate | Confirmation of the `samsungtvws` row and its LGPL-3.0 obligations (D-135), which Phase 5 records first (authorized 2026-09-27, with the pinned install allowed), and the Phase 5 decisions. |
 | Phase 6 | The base-image pull (D-130); Q-06, Q-10; the Buildx, QEMU, and SBOM-tool rows. The authoritative Pillow runtime-wheel inspection, including the remaining `pillow.libs` entries (mandatory before packaging or publication). The option descriptions state the capability matrix, including that no source supports colour yet (B8). The entry point wires the store from `StoreLayout`. |
 | Phase 8 | Explicit approval for the live run, which is also the first live request to the museums and the first time the project contact is transmitted (Q-22); Q-21 (install route). The live check of the Art Institute `params` form (D-150). The preview refresh mechanism and file names (D-140). |
 | Phase 9 | D-101 (final name), Q-13 (repository URL, which also replaces the contact in the User-Agent, D-119); the builder-action and Cosign rows; the qualified licence review (D-135, release gate); approval to publish. |
@@ -325,6 +323,10 @@ The Codex review at the Phase 4 gate. Phase 5 does not start before it is explic
 - Phase 4 worked only in the repository, in temporary directories created by the tests, and in this session's scratch directory. The SIGKILL tests start child processes of the project interpreter on this machine. No dependency was added.
 - The two Phase 4 reviewers worked on `git archive` snapshots in the session's scratch directory, without network access, and changed nothing in the repository.
 - Apache-2.0 is approved. The `LICENSE` file will be added when publication is prepared (Phase 9).
+
+## Known limitations
+
+- **Very old works can come back** (R-29, accepted for the first beta at the Phase 4 gate). The app remembers the latest 20 000 delivered works; an older one could in theory be shown again. At one artwork a day that takes about 55 years.
 
 ## Known open decisions
 
