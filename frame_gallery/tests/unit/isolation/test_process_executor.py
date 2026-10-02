@@ -395,7 +395,8 @@ def test_test_paths_are_refused_with_an_identity() -> None:
 
 
 def test_a_worker_that_dies_before_ready_is_an_isolation_failure() -> None:
-    executor = worker_executor(source_root="/nonexistent")
+    # Neither path holds the package (an image installs it in site-packages too).
+    executor = worker_executor(source_root="/nonexistent", site_paths=())
     with pytest.raises(IsolationFailure, match=r"during its bootstrap \(exit status 1\)"):
         executor.run("echo", {}, timeout=10)
 

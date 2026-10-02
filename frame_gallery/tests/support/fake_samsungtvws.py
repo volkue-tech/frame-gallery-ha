@@ -25,6 +25,7 @@ here opens a socket.
 
 from __future__ import annotations
 
+import errno
 import hashlib
 import json
 import time
@@ -73,7 +74,8 @@ class Script:
     upload: str = "ok"
     """``ok``, ``error`` (the TV's error reply), ``garbage`` (an unparsable
     reply), ``lost`` (``WebSocketConnectionClosedException``), ``timeout``
-    (``ConnectionFailure`` for a websocket time-out), ``socket`` (``OSError``),
+    (``ConnectionFailure`` for a websocket time-out), ``socket`` (a connection
+    reset: ``ConnectionResetError``, an ``OSError``),
     ``hang`` (sleeps ``hang_s``), ``bad_id`` (returns an invalid id),
     ``keyerror`` (a malformed reply)."""
 
@@ -271,7 +273,7 @@ def make_art_class(script: Script, record: Callable[[str], None], ws: Any) -> ty
             if outcome == "timeout":
                 raise exceptions.ConnectionFailure("Websocket Time out: timed out")
             if outcome == "socket":
-                raise OSError(104, "Connection reset by peer")
+                raise OSError(errno.ECONNRESET, "Connection reset by peer")
             if outcome == "hang":
                 time.sleep(script.hang_s)
             if outcome == "bad_id":

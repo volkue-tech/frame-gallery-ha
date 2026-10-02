@@ -477,7 +477,11 @@ def test_the_fake_models_the_libraries_second_upload_on_0_97() -> None:
             "unreachable",
             "the upload was cut off (ConnectionFailure); the TV may hold the image",
         ),
-        ("socket", "unreachable", "the upload was cut off (OSError); the TV may hold the image"),
+        (
+            "socket",
+            "unreachable",
+            "the upload was cut off (ConnectionResetError); the TV may hold the image",
+        ),
         ("keyerror", "protocol", "unexpected upload reply (KeyError); the TV may hold the image"),
     ],
 )
@@ -512,7 +516,7 @@ def test_a_confirmed_upload_without_a_usable_id_is_still_recorded(tmp_path: Path
         ),
         ("garbage", "protocol", "unexpected selection reply (ResponseError)"),
         ("lost", "unreachable", "the selection was cut off (WebSocketConnectionClosedException)"),
-        ("socket", "unreachable", "the selection was cut off (OSError)"),
+        ("socket", "unreachable", "the selection was cut off (ConnectionResetError)"),
         ("keyerror", "protocol", "unexpected selection reply (KeyError)"),
     ],
 )
