@@ -20,7 +20,8 @@ Last updated: 2026-10-03 (Phase 7 done; stopped at the Phase 7 gate)
 | 0b. Phase 6 gate decision and Phase 7 authorization recorded; `ARCHITECTURE.md` amended for D-166 to D-172; the outdated libbsd and libmd line under *Known open decisions* corrected | `722bae1` |
 | 1. The container checks of the existing images, without a build or network; the notices held to the image (D-173) | `4faa907` |
 | 2. The failure paths through the real image (D-173) | `f42f72a` |
-| 3. The release-candidate report, with status, tasks, and decisions for the gate | this commit |
+| 3. The release-candidate report, with status, tasks, and decisions for the gate | `284e4d3` |
+| 4. The commit references in the status | this commit |
 
 ### Phase 7 results (for the gate)
 
@@ -442,7 +443,7 @@ The condition of D-165 is met: the Linux and root isolation tests pass on both a
 | 22. Decisions, notices, tasks, and documentation after the review | `79dc8f7` |
 | 23. Status and the final results for the gate | `4b21f9d` |
 | 24. Codex's follow-up checks recorded (the libbsd and libmd licences, the AppArmor syntax check); the Pillow statements in `ARCHITECTURE.md` corrected; the native `amd64` measurement recorded as open | `818d803` |
-| Gate. Phase 6 gate decision: D-166 to D-172 accepted, the 1 GiB limit unchanged; the native `amd64` measurement mandatory before an `amd64` version is published; Phase 7 authorized | this commit |
+| Gate. Phase 6 gate decision: D-166 to D-172 accepted, the 1 GiB limit unchanged; the native `amd64` measurement mandatory before an `amd64` version is published; Phase 7 authorized | `722bae1` |
 
 ## Specification deviations
 
