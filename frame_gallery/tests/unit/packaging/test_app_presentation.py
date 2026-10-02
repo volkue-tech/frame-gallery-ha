@@ -1,5 +1,5 @@
 """The app's presentation files: icon, logo, store text, changelog, and the
-user documentation (ARCHITECTURE.md §17.4, §16.3; G1, G6, B8, R-29)."""
+user documentation (ARCHITECTURE.md §17.4, §16.3; G1, G6, B8, R-29, Q-06)."""
 
 from __future__ import annotations
 
@@ -96,6 +96,14 @@ def test_the_known_limitations_are_stated_plainly() -> None:
     assert "about 55 years" in DOCS
     assert "30 days" in DOCS
     assert "0.97" in DOCS
+
+
+def test_starting_over_is_explained() -> None:
+    """Q-06 (D-172): reinstalling is the reset; pairing again needs none."""
+    section = DOCS.split("\n## Starting over\n", 1)[1].split("\n## ", 1)[0]
+    assert "uninstall the app and install it again" in section
+    assert "the pairing key" in section
+    assert "the next start asks the TV again" in section
 
 
 def test_the_capability_matrix_is_published() -> None:

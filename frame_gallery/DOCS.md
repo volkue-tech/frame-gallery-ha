@@ -207,6 +207,12 @@ Every run ends with one line such as `outcome=delivered exit=0 elapsed=23.4`. Wh
 - **Old artworks stay on the TV.** The app does not delete earlier uploads from the TV's memory.
 - **The security profile is a draft.** The app runs with a restrictive AppArmor profile in a logging-only mode until it is verified before the release.
 
+## Starting over
+
+There is no button to make the app forget what it has shown, and you need none to pair the TV again: when the TV refuses the stored pairing key, the app deletes it, and the next start asks the TV again.
+
+To start over completely, uninstall the app and install it again. Uninstalling removes the app's private data: the list of works already sent, the record of uploads, the cache, and the pairing key (to be confirmed in the supervised test). The artworks already on your TV and the last preview in your media folder stay where they are.
+
 ## Privacy
 
 - The app sends nothing about you, your images, your configuration, or your TV to any third party, and it has no analytics.
