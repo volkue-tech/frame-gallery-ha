@@ -27,6 +27,12 @@ It prints one JSON document:
 ``--summary FILE`` reads such a document on the host and prints one line per
 part; it exits 1 if a library in ``pillow.libs`` differs from the wheel's
 ``RECORD``, or if the image holds a wheel.
+
+``--notices FILE NOTICES`` holds the third-party notices to such a document
+(acceptance item H4, Phase 7): every Alpine package with its version and
+apk's licence field, every Python distribution with its version, every
+library in ``pillow.libs``, and the components outside apk must be listed. It
+prints what is missing and exits 1 if anything is.
 """
 
 from __future__ import annotations
@@ -294,7 +300,55 @@ def summary(inventory: dict[str, Any]) -> tuple[list[str], bool]:
     return lines, not mismatched and not wheels
 
 
+def _listed(notices: str, *patterns: str) -> bool:
+    return any(re.search(pattern, notices, re.MULTILINE | re.IGNORECASE) for pattern in patterns)
+
+
+def notices_problems(inventory: dict[str, Any], notices: str) -> list[str]:
+    """What the third-party notices do not list of an inventory (H4)."""
+    problems: list[str] = []
+    for package in inventory["alpine"]:
+        name, version, licence = package["name"], package["version"], package["license"]
+        if f"| `{name}` | {version} | `{licence}` |" not in notices:
+            problems.append(f"Alpine package {name} {version} ({licence})")
+    for distribution in inventory["python"]:
+        name, version = re.escape(distribution["name"]), re.escape(distribution["version"])
+        if not _listed(notices, rf"^### {name} {version}$", rf"^\| `{name}` \| {version} \|"):
+            problems.append(f"Python distribution {distribution['name']} {distribution['version']}")
+    for library in inventory["pillow"]["libs"]:
+        stem = library["file"].split("-", 1)[0].split(".", 1)[0]
+        if not _listed(notices, rf"\b{re.escape(stem)}\b"):
+            problems.append(f"Pillow's bundled {stem}")
+    base = inventory["base"]
+    for package in base["s6"]:
+        name, version = re.escape(package["name"]), re.escape(package["version"])
+        if not _listed(notices, rf"\b{name} {version}\b", rf"^\| {name} \| {version} \|"):
+            problems.append(f"{package['name']} {package['version']} (outside apk)")
+    for program in base["go_programs"]:
+        name = program["module"].rsplit("/", 1)[-1]
+        modules = len(program.get("dependencies", []))
+        go = str(program.get("go", "")).removeprefix("go")
+        listed = f"| {name} | {program['version']} |" in notices
+        if not listed or f"Go {go} and {modules} Go modules" not in notices:
+            problems.append(f"{name} {program['version']} (Go {go}, {modules} Go modules)")
+    if base["bashio_present"] and "| bashio |" not in notices:
+        problems.append("bashio (outside apk)")
+    return problems
+
+
 def main(argv: list[str]) -> int:
+    if argv[:1] == ["--notices"] and len(argv) == 3:
+        found = json.loads(Path(argv[1]).read_text(encoding="utf-8"))
+        problems = notices_problems(found, Path(argv[2]).read_text(encoding="utf-8"))
+        sys.stdout.write("".join(f"not in the notices: {problem}\n" for problem in problems))
+        if not problems:
+            sys.stdout.write(
+                f"the notices list the image's {len(found['alpine'])} Alpine packages, "
+                f"{len(found['python'])} Python distributions, "
+                f"{len(found['pillow']['libs'])} Pillow libraries, "
+                "and the components outside apk\n"
+            )
+        return 1 if problems else 0
     if argv[:1] == ["--summary"] and len(argv) == 2:
         lines, consistent = summary(json.loads(Path(argv[1]).read_text(encoding="utf-8")))
         sys.stdout.write("\n".join(lines) + "\n")

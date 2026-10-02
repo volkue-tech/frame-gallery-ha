@@ -319,3 +319,125 @@ def test_the_inventory_is_one_json_document(
     assert document["base"] == {"s6": [], "go_programs": [], "bashio_present": False}
     assert [package["name"] for package in document["alpine"]] == ["busybox", "zlib"]
     assert "pillow" in {distribution["name"].lower() for distribution in document["python"]}
+
+
+# --- the notices against an inventory (H4, Phase 7) -------------------------------
+
+NOTICES: Final = """\
+### Pillow 12.3.0
+
+| libavif (`pillow.libs`) | 1.4.2 | `BSD-2-Clause` | |
+| libpng: libpng16 | 1.6.58 | `libpng-2.0` | |
+
+| `requests` | 2.34.2 | `Apache-2.0` | `LICENSE`, `NOTICE` | Licence text |
+
+| `zlib` | 1.3.2-r0 | `Zlib` | base |
+
+| s6-overlay | 3.2.3.0 | **to verify** | The init system, with execline 2.9.9.0 |
+| tool | 2026.07.0 | **to verify** | Built with Go 1.26.5 and 1 Go modules |
+| bashio | not recorded in the image | **to verify** | |
+"""
+
+
+def _shipped() -> dict[str, Any]:
+    return {
+        "alpine": [{"name": "zlib", "version": "1.3.2-r0", "license": "Zlib"}],
+        "base": {
+            "s6": [
+                {"name": "s6-overlay", "version": "3.2.3.0"},
+                {"name": "execline", "version": "2.9.9.0"},
+            ],
+            "go_programs": [
+                {
+                    "module": "example.org/tool",
+                    "version": "2026.07.0",
+                    "go": "go1.26.5",
+                    "dependencies": [{"module": "example.org/x", "version": "v1.0.0"}],
+                }
+            ],
+            "bashio_present": True,
+        },
+        "python": [
+            {"name": "pillow", "version": "12.3.0"},
+            {"name": "requests", "version": "2.34.2"},
+        ],
+        "pillow": {
+            "libs": [
+                {"file": "libavif-de6ae66a.so.16.4.2"},
+                {"file": "libpng16-0a1b2c3d.so.16.58.0"},
+            ]
+        },
+    }
+
+
+def test_the_notices_list_what_the_image_ships() -> None:
+    assert INVENTORY.notices_problems(_shipped(), NOTICES) == []
+
+
+@pytest.mark.parametrize(
+    ("part", "index", "change", "missing"),
+    [
+        ("alpine", 0, {"version": "1.3.2-r1"}, "Alpine package zlib 1.3.2-r1 (Zlib)"),
+        ("alpine", 0, {"license": "MIT"}, "Alpine package zlib 1.3.2-r0 (MIT)"),
+        ("python", 0, {"version": "12.4.0"}, "Python distribution pillow 12.4.0"),
+        ("python", 1, {"name": "yarl"}, "Python distribution yarl 2.34.2"),
+    ],
+)
+def test_a_package_the_notices_do_not_list_is_named(
+    part: str, index: int, change: dict[str, str], missing: str
+) -> None:
+    shipped = _shipped()
+    shipped[part][index].update(change)
+    assert INVENTORY.notices_problems(shipped, NOTICES) == [missing]
+
+
+def test_a_component_the_notices_do_not_list_is_named() -> None:
+    shipped = _shipped()
+    shipped["pillow"]["libs"].append({"file": "libraw-0123abcd.so.23.0.0"})
+    shipped["base"]["s6"].append({"name": "s6-rc", "version": "0.6.1.0"})
+    shipped["base"]["go_programs"][0]["dependencies"] = []
+    assert INVENTORY.notices_problems(shipped, NOTICES.replace("| bashio |", "| other |")) == [
+        "Pillow's bundled libraw",
+        "s6-rc 0.6.1.0 (outside apk)",
+        "tool 2026.07.0 (Go 1.26.5, 0 Go modules)",
+        "bashio (outside apk)",
+    ]
+    shipped["base"]["bashio_present"] = False
+    assert "bashio (outside apk)" not in INVENTORY.notices_problems(shipped, NOTICES)
+
+
+def test_the_notices_mode_reports_and_fails(
+    tmp_path: Path, capsys: pytest.CaptureFixture[str]
+) -> None:
+    inventory = tmp_path / "inventory.json"
+    notices = tmp_path / "NOTICES.md"
+    inventory.write_text(json.dumps(_shipped()))
+    notices.write_text(NOTICES)
+    assert INVENTORY.main(["--notices", str(inventory), str(notices)]) == 0
+    assert capsys.readouterr().out == (
+        "the notices list the image's 1 Alpine packages, 2 Python distributions, "
+        "2 Pillow libraries, and the components outside apk\n"
+    )
+    notices.write_text(NOTICES.replace("| `zlib` |", "| `zlib-ng` |"))
+    assert INVENTORY.main(["--notices", str(inventory), str(notices)]) == 1
+    assert capsys.readouterr().out == "not in the notices: Alpine package zlib 1.3.2-r0 (Zlib)\n"
+
+
+def test_the_repository_notices_list_every_runtime_requirement() -> None:
+    """H4 without the image: every package that the image installs, from its
+    requirement file, is in THIRD_PARTY_NOTICES.md with its version. The
+    notices live beside the app directory, outside the image's build context,
+    so the image's own copy of the tests has no file to check."""
+    notices = PROJECT.parent / "THIRD_PARTY_NOTICES.md"
+    if not notices.exists():
+        pytest.skip("THIRD_PARTY_NOTICES.md is outside the image's build context")
+    requirements = (PROJECT / "requirements" / "image-runtime.txt").read_text()
+    pins = [line.split(" ", 1)[0].split("==") for line in requirements.splitlines() if "==" in line]
+    assert len(pins) == 11
+    shipped = {
+        "alpine": [],
+        "base": {"s6": [], "go_programs": [], "bashio_present": False},
+        "python": [{"name": name, "version": version} for name, version in pins],
+        "pillow": {"libs": []},
+    }
+    assert INVENTORY.notices_problems(shipped, notices.read_text()) == []

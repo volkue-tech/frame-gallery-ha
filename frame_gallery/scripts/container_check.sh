@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 # Build the app image for one architecture and check it (Phase 6; D-130, D-165).
 #
-#   scripts/container_check.sh aarch64|amd64 [--measure]
+#   scripts/container_check.sh aarch64|amd64 [--measure] [--no-build]
 #
 # 1. Builds the "runtime" (app) and "test" targets with Docker Buildx; amd64
 #    runs under the emulation that Docker Desktop provides. A build without a
@@ -13,7 +13,8 @@
 #    reaches the app.
 # 3. The inventory of what the image ships (scripts/image_inventory.py, run
 #    inside the app image): its Alpine packages, its Python distributions,
-#    and Pillow's bundled libraries, each held to the wheel's RECORD.
+#    and Pillow's bundled libraries, each held to the wheel's RECORD; and
+#    THIRD_PARTY_NOTICES.md must list all of it (H4).
 # 4. A smoke run of the app itself: a local-media run without any network
 #    (--network none), so the television step fails as "unreachable" without
 #    a packet leaving the container.
@@ -23,6 +24,15 @@
 # 6. With --measure: scripts/measure_prepare.py as root, under the real
 #    RLIMIT_AS (R-09).
 #
+# With --no-build (Phase 7: offline, with the images already built), step 1
+# changes: nothing is built, and the script checks instead that both images
+# exist, that the test image builds on the app image, and that the app image
+# holds exactly this checkout's src/frame_gallery (otherwise they must be
+# rebuilt). It lists every file in which the test image's copy differs from
+# this checkout's build context, and fails if one of them is a build input.
+# Whether a build without a target gives the app image is checked only when
+# building. Nothing in this mode uses the network.
+#
 # Every container runs with --network none; the only network use is the
 # build itself (the pinned base image, the Alpine package source for python3,
 # and PyPI for the hash-pinned wheels). No host directory is mounted: inputs
@@ -31,8 +41,17 @@
 set -euo pipefail
 cd "$(dirname "$0")/.."
 
-ARCH=${1:?usage: container_check.sh aarch64|amd64 [--measure]}
-MEASURE=${2:-}
+ARCH=${1:?usage: container_check.sh aarch64|amd64 [--measure] [--no-build]}
+shift
+MEASURE=
+NO_BUILD=
+for option in "$@"; do
+    case "$option" in
+        --measure) MEASURE=1 ;;
+        --no-build) NO_BUILD=1 ;;
+        *) echo "unknown option: $option" >&2; exit 2 ;;
+    esac
+done
 case "$ARCH" in
     aarch64) PLATFORM=linux/arm64 ;;
     amd64) PLATFORM=linux/amd64 ;;
@@ -49,23 +68,93 @@ note() { printf '== %s\n' "$*"; }
 fail() { printf 'FAILED: %s\n' "$*"; FAILED=1; }
 run() { docker run --rm --platform "$PLATFORM" --network none "$@"; }
 
-note "build ($PLATFORM, version $VERSION)"
-for target in runtime test; do
-    tag=$APP
-    [ "$target" = test ] && tag=$CHECKS
+# The files of a tree, as "<sha256> <path>" lines, without compiled files.
+MANIFEST='import hashlib, os, sys
+root = sys.argv[1]
+for base, dirs, files in os.walk(root):
+    dirs[:] = [name for name in dirs if name != "__pycache__"]
+    for name in files:
+        if not name.endswith((".pyc", ".pyo")):
+            path = os.path.join(base, name)
+            with open(path, "rb") as handle:
+                digest = hashlib.sha256(handle.read()).hexdigest()
+            print(digest, os.path.relpath(path, root))'
+# The same for this checkout's build context: the allowlist of .dockerignore,
+# without what its patterns leave out.
+CONTEXT='import hashlib, os, sys
+root = sys.argv[1]
+with open(os.path.join(root, ".dockerignore")) as handle:
+    allowed = [line[1:].rstrip("/") for line in handle.read().splitlines() if line.startswith("!")]
+skipped = ("__pycache__", ".pytest_cache", ".mypy_cache", ".ruff_cache")
+def emit(path):
+    with open(path, "rb") as handle:
+        print(hashlib.sha256(handle.read()).hexdigest(), os.path.relpath(path, root))
+for entry in allowed:
+    top = os.path.join(root, entry)
+    if os.path.isfile(top):
+        emit(top)
+    for base, dirs, files in os.walk(top):
+        dirs[:] = [name for name in dirs if name not in skipped]
+        for name in files:
+            if not name.endswith((".pyc", ".pyo", ".pyd")) and not name.startswith(".coverage"):
+                emit(os.path.join(base, name))'
+sorted_by_path() { LC_ALL=C sort -k 2; }
+
+if [ -z "$NO_BUILD" ]; then
+    note "build ($PLATFORM, version $VERSION)"
+    for target in runtime test; do
+        tag=$APP
+        [ "$target" = test ] && tag=$CHECKS
+        docker buildx build --platform "$PLATFORM" --build-arg BUILD_ARCH="$ARCH" \
+            --build-arg BUILD_VERSION="$VERSION" --target "$target" --load -t "$tag" . \
+            > "$OUT/build-$target.log" 2>&1 || { tail -20 "$OUT/build-$target.log"; exit 1; }
+    done
     docker buildx build --platform "$PLATFORM" --build-arg BUILD_ARCH="$ARCH" \
-        --build-arg BUILD_VERSION="$VERSION" --target "$target" --load -t "$tag" . \
-        > "$OUT/build-$target.log" 2>&1 || { tail -20 "$OUT/build-$target.log"; exit 1; }
-done
-docker buildx build --platform "$PLATFORM" --build-arg BUILD_ARCH="$ARCH" \
-    --build-arg BUILD_VERSION="$VERSION" --load -t "$APP-default" . \
-    > "$OUT/build-default.log" 2>&1 || fail "a build without a target"
-content() {
-    docker image inspect "$1" --format \
-        '{{json .RootFS.Layers}} {{json .Config.Cmd}} {{json .Config.Env}} {{json .Config.Labels}}'
-}
-[ "$(content "$APP-default")" = "$(content "$APP")" ] || fail "a build without a target is not the app"
-docker image rm "$APP-default" > /dev/null 2>&1 || true
+        --build-arg BUILD_VERSION="$VERSION" --load -t "$APP-default" . \
+        > "$OUT/build-default.log" 2>&1 || fail "a build without a target"
+    content() {
+        docker image inspect "$1" --format \
+            '{{json .RootFS.Layers}} {{json .Config.Cmd}} {{json .Config.Env}} {{json .Config.Labels}}'
+    }
+    [ "$(content "$APP-default")" = "$(content "$APP")" ] || fail "a build without a target is not the app"
+    docker image rm "$APP-default" > /dev/null 2>&1 || true
+else
+    note "the images already built, without a build: $APP and $CHECKS"
+    for image in "$APP" "$CHECKS"; do
+        docker image inspect "$image" > /dev/null 2>&1 \
+            || { echo "no image $image: build it first (without --no-build)" >&2; exit 1; }
+    done
+    layers() { docker image inspect "$1" --format '{{range .RootFS.Layers}}{{println .}}{{end}}'; }
+    app_layers=$(layers "$APP")
+    count=$(printf '%s\n' "$app_layers" | wc -l)
+    [ "$(layers "$CHECKS" | head -n "$count")" = "$app_layers" ] \
+        || fail "the test image does not build on the app image"
+    run --entrypoint /opt/frame-gallery/bin/python "$APP" -I -c "$MANIFEST" \
+        /opt/frame-gallery/lib/python3.14/site-packages/frame_gallery | sorted_by_path \
+        > "$OUT/sources-app.txt"
+    .venv/bin/python -I -c "$MANIFEST" src/frame_gallery | sorted_by_path > "$OUT/sources-src.txt"
+    if cmp -s "$OUT/sources-src.txt" "$OUT/sources-app.txt"; then
+        echo "the app image holds this checkout's src/frame_gallery ($(wc -l < "$OUT/sources-src.txt" | tr -d ' ') files)"
+    else
+        { diff "$OUT/sources-src.txt" "$OUT/sources-app.txt" || true; } | head -20
+        fail "the app image does not hold this checkout's src/frame_gallery: rebuild it"
+    fi
+    run --entrypoint /opt/frame-gallery/bin/python "$CHECKS" -I -c "$MANIFEST" \
+        /opt/frame-gallery-checks | sorted_by_path > "$OUT/sources-checks.txt"
+    .venv/bin/python -I -c "$CONTEXT" . | sorted_by_path > "$OUT/sources-context.txt"
+    { diff "$OUT/sources-context.txt" "$OUT/sources-checks.txt" || true; } \
+        | sed -n 's/^[<>] [0-9a-f]* //p' | LC_ALL=C sort -u > "$OUT/sources-differ.txt"
+    if [ -s "$OUT/sources-differ.txt" ]; then
+        echo "the test image's copy differs from this checkout in:"
+        sed 's/^/  /' "$OUT/sources-differ.txt"
+        if grep -qE '^(src/|requirements/|Dockerfile$|\.dockerignore$|pyproject\.toml$|uv\.lock$)' \
+            "$OUT/sources-differ.txt"; then
+            fail "the test image was built from other build inputs: rebuild it"
+        fi
+    else
+        echo "the test image holds this checkout's build context"
+    fi
+fi
 docker image inspect "$APP" --format '{{json .Config.Labels}}' > "$OUT/labels.json"
 grep -q "\"io.hass.arch\":\"$ARCH\"" "$OUT/labels.json" || fail "label io.hass.arch"
 grep -q "\"io.hass.version\":\"$VERSION\"" "$OUT/labels.json" || fail "label io.hass.version"
@@ -85,6 +174,8 @@ note "inventory: Alpine packages, Python distributions, and Pillow's libraries"
 run -i --entrypoint /opt/frame-gallery/bin/python "$APP" -I - < scripts/image_inventory.py \
     > "$OUT/inventory.json" || fail "inventory"
 .venv/bin/python scripts/image_inventory.py --summary "$OUT/inventory.json" || fail "inventory"
+.venv/bin/python scripts/image_inventory.py --notices "$OUT/inventory.json" ../THIRD_PARTY_NOTICES.md \
+    || fail "the notices do not list what the image ships (H4)"
 
 note "(b) the container stops with the app's exit status"
 set +e
@@ -176,7 +267,7 @@ set -e
 grep -E "PASSED|FAILED|SKIPPED|ERROR" "$OUT/root-pass.txt" || true
 [ "$status" -eq 0 ] || fail "root pass"
 
-if [ "$MEASURE" = --measure ]; then
+if [ -n "$MEASURE" ]; then
     note "R-09: worst-case preparation under the real RLIMIT_AS, as root"
     set +e
     run --init --tmpfs /tmp:exec,size=4g --entrypoint /opt/frame-gallery/bin/python "$CHECKS" \
