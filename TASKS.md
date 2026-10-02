@@ -108,7 +108,7 @@ Authorized by the user on 2026-09-27, after the Phase 4 gate.
 - [x] Establish the adapter surface only by inspecting the installed `samsungtvws` 3.0.6 distribution (D-161).
 - [x] Implement the isolated process executor with the complete bootstrap: privilege drop to an unprivileged user, the parent-death signal, umask, resource limits, the bytes-only channel, progress markers, and the bootstrap test (D-163, D-164). The root-only and Linux-only assertions of the bootstrap test are written and first run in the Linux container (D-165).
 - [x] Re-run E7–E10 with the process-based television worker, including a real SIGKILL of the runner while its worker runs.
-- [ ] Measure worst-case prepare memory and time under the real limit. *Measured on the development host without `RLIMIT_AS`, which macOS cannot set, for the §11.1 worst cases with sources filling the 40 MiB cap (R-09, `scripts/measure_prepare.py`); under the real limit in the Linux container, as root (D-165, open decision).*
+- [ ] Measure worst-case prepare memory and time under the real limit. *Measured on the development host without `RLIMIT_AS`, which macOS cannot set, for the §11.1 worst cases with sources filling the 40 MiB cap (R-09, `scripts/measure_prepare.py`); under the real limit in the Linux container, as root (D-165).* **Moved to Phase 6** as the condition of D-165 (Phase 5 gate).
 - [x] Implement connection, pairing-token persistence, upload, and select in the television worker. The adapter owns the token store and the `auth` result, polls `DeliveryRequest.stop_requested` while it waits (killing the worker and relaying the markers already sent), and `deliver` returns only after its worker is dead (D-141, D-162, D-163).
 - [x] Map library failures and markers to clear outcomes and ledger transitions (D-162).
 - [x] Add mocked adapter tests; do not contact the live television. They include runs of the unchanged library over a socket pair against a scripted television.
@@ -116,20 +116,26 @@ Authorized by the user on 2026-09-27, after the Phase 4 gate.
 - [x] Run independent reviews of the design and of the Phase 5 commits; fix or record every confirmed finding.
 - [x] Commit.
 
-Gate: Codex reviews the isolation design and its tests, the Samsung adapter against the installed library, and the `samsungtvws` row with its LGPL-3.0 obligations. Phase 6 does not start before it is explicitly authorized. **Awaiting the gate** (2026-09-27): D-160 to D-165 and the open decisions in `DECISIONS.md` (*Open decisions for the Phase 5 gate*).
+Gate: Codex reviews the isolation design and its tests, the Samsung adapter against the installed library, and the `samsungtvws` row with its LGPL-3.0 obligations. Phase 6 does not start before it is explicitly authorized. **Passed** (user decision, 2026-10-02, after the Codex gate review): D-160 to D-164 accepted; D-165 accepted on the condition that the Linux and root checks and the measurement under the real `RLIMIT_AS` pass in Phase 6 (mandatory before any live test on the Green); Art API 0.97 stays unsupported in the beta; TLS pinning is decided after the Phase 8 observation; `inspect` gets parent-opened read-only descriptors, where possible, and batching in Phase 6; the 1 GiB limit stays until the Linux measurement; AppArmor child profiles stay in Phase 9 (`DECISIONS.md`, *Phase 5 gate decisions*).
 
 ## Phase 6 — Home Assistant app packaging
 
 Owner: Claude
 
+Authorized by the user on 2026-10-02, after the Phase 5 gate. Network access for the build is limited to what the user approved separately the same day: starting Docker Desktop; reading the tags of `ghcr.io/home-assistant/base` and pulling it for `aarch64` and `amd64`, pinned by tag and digest; the Alpine package source for `python3`; and PyPI for the hash-checked `musllinux` wheels of the runtime and the test tools. No access to the Green, the television, a provider API, or GitHub; nothing installed, pushed, or published.
+
 - [ ] Create current-format Home Assistant app metadata and option translations that state source applicability.
 - [ ] Package the one-shot runtime and the persistent and media mappings, starting without `host_network`.
-- [ ] Wire the entry point (`__main__`): logging with the redactor, a `CancellationController(start_deferred=True)` created before the SIGTERM handler is installed, the environment allowlist, the watchdog (fire time and start from `RunBudget`; if `RunResult.summary_emitted` is false, wait for the watchdog's exit instead of exiting), container-network discovery, and the options file.
+- [ ] Wire the entry point (`__main__`), with the one process executor that the runner, the Samsung adapter, and the watchdog share, a start shield that defers stop requests, and the refusal to run unless `Launch.enforced` in the container (D-163): logging with the redactor, a `CancellationController(start_deferred=True)` created before the SIGTERM handler is installed, the environment allowlist, the watchdog (fire time and start from `RunBudget`; if `RunResult.summary_emitted` is false, wait for the watchdog's exit instead of exiting), container-network discovery, and the options file.
 - [ ] Create a modern multi-platform Dockerfile and a draft AppArmor profile in complain mode.
 - [ ] Add local container build tests for supported architectures where available, including the D-130 checks.
 - [ ] Once the Python version is fixed, repeat the Pillow wheel SBOM inspection against the exact two runtime wheels (`aarch64`, `amd64`). Record the result in `DECISIONS.md` and the third-party notices; it is authoritative for the bundled-library inventory.
 - [ ] In the same inspection, verify the versions and SPDX identifiers of the remaining `pillow.libs` entries (libXau, libXdmcp, Brotli, libbsd, liblzma, libmd, libpng, libsharpyuv, libzstd). This is mandatory before packaging or publication (gate adjustment approved by Codex at `dda877c`).
 - [ ] Write complete installation, configuration, capability-matrix, troubleshooting, and draft dashboard documentation, with the known limitations in plain language (among them R-29: very old works can come back once they leave the 20 000-entry history).
+- [ ] Implement `inspect` batching (§8.3, D-149), with read-only descriptors that the parent opened, where possible (Phase 5 gate decision).
+- [ ] Run the Linux and root isolation tests in the container (the two passes of D-165) and the worst-case preparation measurement under the real `RLIMIT_AS`, as root. Both must pass (the condition of D-165); they are mandatory before any live test on the Green. The 1 GiB limit changes only if the measurement calls for it.
+- [ ] Record the Buildx and QEMU rows (bundled with Docker Desktop, whose start the user approved on 2026-10-02 so that they can be used) and the SBOM approach (no SBOM tool is downloaded or installed without a separate approval), and propose answers to Q-06 and Q-10.
+- [ ] Run an independent review of the Phase 6 commits; fix or record every confirmed finding.
 - [ ] Update status and commit.
 
 Gate: Codex reviews Home Assistant OS/Green compatibility and security.

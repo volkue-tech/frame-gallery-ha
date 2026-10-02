@@ -1,36 +1,22 @@
 # Project status
 
-Last updated: 2026-09-27 (Phase 5 gate)
+Last updated: 2026-10-02 (Phase 6 in progress)
 
 ## Current phase
 
-**Phase 5 (Samsung adapter contract): complete. Stopped at the Phase 5 gate for the Codex review. Phase 6 has not started.**
+**Phase 6 (Home Assistant app packaging): in progress. The user authorized it on 2026-10-02, after the Phase 5 gate passed.**
 
-- **Phase 4 gate (user decision, 2026-09-27):** passed. D-153 to D-159 are accepted, and Codex re-ran `scripts/check.sh` (3 850 tests, 100 % line and branch coverage). The 20 000-entry bound is accepted for the first beta; its consequence is documented in plain language (R-29).
-- **Phase 5 conditions:** first check and document the version and the LGPL-3.0 obligations of `samsungtvws` 3.0.6; then the isolated process executor and the Samsung adapter, tested against simulations. The installed distribution and the official package information may be inspected, and the pinned version may be installed from PyPI into the git-ignored project environment only. No access to the Home Assistant Green or the television; nothing published or pushed. Stop at the Phase 5 gate; Phase 6 does not start.
-- The proposed decisions D-160 to D-165, the proposed deviations below, and the open decisions in `DECISIONS.md` (*Open decisions for the Phase 5 gate*) await the gate.
-- Not run here, and first run in the Linux container (D-165): the root-only and Linux-only assertions of the bootstrap test (the drop to 65534, `RLIMIT_AS`, the refusal of threads), and the measurement under the real `RLIMIT_AS`. The TASKS measurement item is therefore met only in part.
+- **Phase 5 gate (user decision, 2026-10-02, after the Codex gate review):** passed. D-160 to D-164 are accepted. D-165 is accepted on the condition that the Linux and root isolation tests and the worst-case preparation measurement under the real `RLIMIT_AS` run successfully in Phase 6; they are mandatory before any live test on the Green. Art API 0.97 stays unsupported in the beta; TLS pinning is decided after the TV's certificate is observed in the supervised Phase 8 test; `inspect` gets parent-opened read-only descriptors, where possible, and batching in Phase 6; the 1 GiB limit stays until the Linux measurement; AppArmor child profiles stay in Phase 9.
+- **Phase 6 conditions:** only Phase 6 of `TASKS.md`: the app packaging for Home Assistant OS and the Green, the entry point, the options, the multi-architecture container, tests, the authoritative inventory of the exact Pillow runtime wheels, and plain-language installation and dashboard documentation. The complete quality gates and the Linux, root, and memory checks run. Findings and open risks are documented, the commits are small, and the work stops at the Phase 6 gate for the Codex review.
+- **Approved network steps for the build** (user, 2026-10-02): starting Docker Desktop; reading the tags of `ghcr.io/home-assistant/base` and pulling it for `aarch64` and `amd64`, pinned by tag and digest; the Alpine package source (`dl-cdn.alpinelinux.org`) for `python3`; PyPI (`pypi.org`, `files.pythonhosted.org`) for the hash-checked `musllinux` wheels of the runtime and the test tools. Anything else needs a separate approval that names the registry, the image, and the purpose.
+- No access to the Home Assistant Green, the television, a provider API, or GitHub; nothing installed, pushed, or published; the existing Home Assistant configuration, `configuration.yaml` in particular, stays untouched.
 - Every commit uses the personal identity `Alexander Wilke <volkue@gmail.com>`.
-- Nothing contacted Home Assistant, the Home Assistant Green, the television, a provider API, or GitHub. Nothing was published or pushed. The local backup branch was not touched. Every test uses synthesized data or a scripted television over a socket pair.
 
-### Phase 5 progress
+### Phase 6 progress
 
 | Step | Commit |
 | --- | --- |
-| 1. `samsungtvws` 3.0.6 checked against the official metadata, its LGPL-3.0 obligations recorded, and the pinned version installed (D-160) | `bfc66c7` |
-| 2. Events and stop requests in the executor seam (D-141) | `7a2d8e5` |
-| 3. Samsung adapter, television task, and pairing-token store (D-161, D-162) | `33a1b83` |
-| 4. The adapter surface and the television task design recorded (D-160 to D-162) | `9fca785` |
-| 5. Process executor, worker bootstrap, and worker entry (D-163) | `83602de` |
-| 6. Workspace handed to the worker's group (D-164) | `f98c4c8` |
-| 7. E7–E10 with the process-based television worker, including a real SIGKILL of the runner | `4d8e87f` |
-| 8. The prepare measurement, and Linux type checks in the gates (R-09) | `0f930ce` |
-| 9. The executor, the workspace hand-over, and what ran where recorded (D-163 to D-165) | `779e341` |
-| 9a. Fixes from the implementation review: the executor, the bootstrap, and runnable container checks | `dfe5be2` |
-| 9b. Fixes from the implementation review: the television task, the adapter, and the outcome hint | `d449e64` |
-| 9c. Fixes from the implementation review: the measurement covers the §11.1 worst cases and fills the source cap | `98f92ce` |
-| 9d. Decisions, status, and development notes after the review (D-160 to D-165 amended) | `1c1516c` |
-| 10. Status, tasks, and README for the gate | this commit |
+| 0. Phase 5 gate decision and Phase 6 authorization recorded; `ARCHITECTURE.md` amended for D-160 to D-165 | this commit |
 
 ## Completed
 
@@ -304,7 +290,7 @@ See *Review records* in `DECISIONS.md`.
 | 8. Status, tasks, README, and development notes for the gate | `b1ef7bb` |
 | Gate. Phase 4 gate decision: D-153 to D-159 accepted; the 20 000-entry bound documented in plain language (R-29); Phase 5 authorized | `13247b8` |
 
-### Phase 5: Samsung adapter contract (Claude, commits `bfc66c7` to `1c1516c` and the closing documentation commit; awaiting the gate)
+### Phase 5: Samsung adapter contract (Claude, commits `bfc66c7` to `937ce13`; gate passed 2026-10-02)
 
 **Implemented**
 
@@ -356,11 +342,31 @@ See *Review records* in `DECISIONS.md`.
 
 See *Review records* in `DECISIONS.md`.
 
+**Commits**
+
+| Step | Commit |
+| --- | --- |
+| 1. `samsungtvws` 3.0.6 checked against the official metadata, its LGPL-3.0 obligations recorded, and the pinned version installed (D-160) | `bfc66c7` |
+| 2. Events and stop requests in the executor seam (D-141) | `7a2d8e5` |
+| 3. Samsung adapter, television task, and pairing-token store (D-161, D-162) | `33a1b83` |
+| 4. The adapter surface and the television task design recorded (D-160 to D-162) | `9fca785` |
+| 5. Process executor, worker bootstrap, and worker entry (D-163) | `83602de` |
+| 6. Workspace handed to the worker's group (D-164) | `f98c4c8` |
+| 7. E7–E10 with the process-based television worker, including a real SIGKILL of the runner | `4d8e87f` |
+| 8. The prepare measurement, and Linux type checks in the gates (R-09) | `0f930ce` |
+| 9. The executor, the workspace hand-over, and what ran where recorded (D-163 to D-165) | `779e341` |
+| 9a. Fixes from the implementation review: the executor, the bootstrap, and runnable container checks | `dfe5be2` |
+| 9b. Fixes from the implementation review: the television task, the adapter, and the outcome hint | `d449e64` |
+| 9c. Fixes from the implementation review: the measurement covers the §11.1 worst cases and fills the source cap | `98f92ce` |
+| 9d. Decisions, status, and development notes after the review (D-160 to D-165 amended) | `1c1516c` |
+| 10. Status, tasks, and README for the gate | `937ce13` |
+| Gate. Phase 5 gate decision: D-160 to D-164 accepted, D-165 with a condition; the open questions decided; Phase 6 authorized | this commit |
+
 ## Specification deviations
 
-The Phase 5 deviations below are **proposed** and await the Phase 5 gate; `ARCHITECTURE.md` is not amended before they are accepted. The Phase 3 deviations were accepted at the Phase 3 gate, and the Phase 4 deviations at the Phase 4 gate (2026-09-27); `ARCHITECTURE.md` is amended to match those.
+None is awaiting a decision. The Phase 3 and Phase 4 deviations were accepted at their gates (2026-09-27), and the Phase 5 deviations below at the Phase 5 gate (2026-10-02; D-165 with a condition); `ARCHITECTURE.md` is amended to match.
 
-| Proposed item (Phase 5) | Where |
+| Accepted item (Phase 5) | Where |
 | --- | --- |
 | The pairing token travels in the request and comes back as a `token` event (at most one per connection attempt), not in a seeded token file (§12.1 `token_seed_path`, §12.2). A token must have 6 to 64 characters. | D-162 |
 | `DeliveryRequest` carries the delivery's SHA-256, and the worker uploads only bytes with it; `uploaded` may come without a content ID (port changes, §12.1). | D-162 |
@@ -369,8 +375,9 @@ The Phase 5 deviations below are **proposed** and await the Phase 5 gate; `ARCHI
 | `tv/samsung_task.py` imports `socket` for its connect guard (D-147 made `net/transport.py` the only one); new modules and internal dependencies beyond §5 and §21. | D-162 |
 | Frames are a 4-byte length and canonical JSON of up to 64 KiB plus 1 KiB of envelope, bodies held to 64 KiB (§11.3 `recv_bytes(maxlength = 64 KiB)`). Workers start with `-I -S -B`. The bootstrap adds dumpability 0, no-new-privileges, a lifeline thread, `RLIMIT_NPROC` 0, and a `ready` handshake; a failed isolation is `IsolationFailure`, reported as `internal_error`. | D-163 |
 | The workspace is handed to the worker's group: `frame-gallery/` and `run-*/` 0710, `in/` 2750, `out/` 2770; downloads and local copies 0640 (amends the accepted D-155 and §13.1). | D-164 |
-| The root-only and Linux-only checks and the measurement under the real `RLIMIT_AS` run first in the Phase 6 container; the TASKS measurement item is met only in part. | D-165 |
-| `inspect` still runs one worker per file, not batches of up to 50 (§8.3); D-149 deferred batching to Phase 5. | Open decision (D-149) |
+| The root-only and Linux-only checks and the measurement under the real `RLIMIT_AS` run first in the Phase 6 container; the TASKS measurement item is met only in part. Accepted on the condition that they pass in Phase 6; mandatory before any live test on the Green. | D-165 |
+
+Not accepted as a deviation: `inspect` still runs one worker per file, not batches of up to 50 (§8.3). The Phase 5 gate decided to implement batching in Phase 6, with parent-opened read-only descriptors where possible (D-149, D-164).
 
 | Accepted item (Phase 4) | Where |
 | --- | --- |
@@ -381,19 +388,18 @@ The Phase 5 deviations below are **proposed** and await the Phase 5 gate; `ARCHI
 | The metadata cache is written once per run in FINISH, before the last-run record (§4.1 names only the last-run record there). An expiry more than 7 days ahead is cut to 7 days from now. | D-156, D-157 |
 | Internal dependencies beyond §5: `store` uses `selection.exclusion`, `imaging.contract`, and `budget` (`selection` imports no `store` module, so there is no cycle); `providers.cache` imports `store.cache` (as §5 lists). `WorkspacePaths` moves to `domain.py`, `PublishError` to `errors.py`, the qualified-identifier rule to `domain.py`, and the D-118 fingerprint to the shared `fingerprint.py`; `DeliveryArtifact` gains `fingerprint`. | D-153, D-154, D-155, D-156, D-158 |
 | Timestamps in state files must lie from 2000 to 8999, and later versions must keep writing `format` and `version` first. | D-153 |
-| `in/` and `out/` have mode 0700 until Phase 5 sets the modes that the unprivileged worker needs (§11.3; amended by D-164, proposed). The preview file is `latest.jpg` until Phase 8 chooses the refresh mechanism (D-140). | D-155, D-158 |
+| `in/` and `out/` have mode 0700 until Phase 5 sets the modes that the unprivileged worker needs (§11.3; amended by D-164, accepted at the Phase 5 gate). The preview file is `latest.jpg` until Phase 8 chooses the refresh mechanism (D-140). | D-155, D-158 |
 
 ## Next action
 
-Phase 5 is implemented and stops at the Phase 5 gate for the Codex review. Phase 6 does not start before it is explicitly authorized.
+Implement Phase 6 as authorized, then stop at the Phase 6 gate for the Codex review. Phase 7 does not start before it is explicitly authorized.
 
 **Decisions needed, by phase:**
 
 | Before | Decisions |
 | --- | --- |
-| Phase 5 gate | Confirmation of the `samsungtvws` row and its LGPL-3.0 obligations (D-160), and the Phase 5 decisions D-160 to D-165. The open decisions listed in `DECISIONS.md` (*Open decisions for the Phase 5 gate*): TLS pinning (R-03), Art API 0.97, when the Linux checks run, library files for `inspect`, worker containment after an exploit (R-31), `inspect` batching (D-149), and the progressive-JPEG peak under `RLIMIT_AS` (R-09). |
-| Phase 6 | The base-image pull (D-130); Q-06, Q-10; the Buildx, QEMU, and SBOM-tool rows. The authoritative Pillow runtime-wheel inspection, including the remaining `pillow.libs` entries (mandatory before packaging or publication). The option descriptions state the capability matrix, including that no source supports colour yet (B8). The entry point wires the store from `StoreLayout`. |
-| Phase 8 | Explicit approval for the live run, which is also the first live request to the museums and the first time the project contact is transmitted (Q-22); Q-21 (install route). The live check of the Art Institute `params` form (D-150). The preview refresh mechanism and file names (D-140). |
+| Phase 6 gate | The Phase 6 decisions; Q-06 and Q-10; the Buildx and QEMU rows (bundled with Docker Desktop, whose start the user approved on 2026-10-02 so that they can be used) and the SBOM approach (any SBOM-tool download needs its own approval naming the registry, the image, and the purpose); the base image and its pins (D-130), approved for pulling on 2026-10-02; the authoritative Pillow runtime-wheel inventory, including the remaining `pillow.libs` entries (mandatory before packaging or publication); the results of the Linux and root checks and of the measurement under the real `RLIMIT_AS` (the condition of D-165). |
+| Phase 8 | Explicit approval for the live run, which is also the first live request to the museums and the first time the project contact is transmitted (Q-22); Q-21 (install route). The Linux and root checks and the measurement must have passed first (D-165). The live check of the Art Institute `params` form (D-150). The preview refresh mechanism and file names (D-140). TLS pinning, once the TV's certificate is observed (R-03). |
 | Phase 9 | D-101 (final name), Q-13 (repository URL, which also replaces the contact in the User-Agent, D-119); the builder-action and Cosign rows; the qualified licence review (D-135, release gate); approval to publish. |
 
 ## External state
@@ -427,5 +433,6 @@ See `DECISIONS.md` for the full list. The most material:
 - **Final name** (D-101). The trademark wording is tracked as R-14.
 - **Copyleft source-availability mechanism** (D-135).
 - **Local tests versus the runtime build** (R-26): the full suite runs inside the container in Phase 6.
-- **The Phase 5 gate decisions** (`DECISIONS.md`, *Open decisions for the Phase 5 gate*): TLS pinning (R-03), Art API 0.97, when the Linux checks run (D-165), library files for `inspect` (D-164), worker containment after an exploit (R-31), `inspect` batching (D-149), and the progressive-JPEG peak under `RLIMIT_AS` (R-09).
+- **TLS pinning** (R-03): decided after the TV's certificate is observed in the supervised Phase 8 test.
+- **The image worker's memory limit** (R-09): 1 GiB stays; a change is decided only from the measurement under the real `RLIMIT_AS` in Phase 6.
 - **Pre-emption** (R-27): the process executor with its kill timer exists since Phase 5; it is in force once the Phase 6 entry point builds it.

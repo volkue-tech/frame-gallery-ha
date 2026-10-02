@@ -11,8 +11,9 @@ Status: **Revision 2, with final gate corrections.**
 - Phase 3 is implemented. Its refinements of this document are recorded in D-147 (gateway), D-148 (helper reader), D-149 (local media), D-150 (Art Institute), D-151 (Cleveland), and D-152 (vocabulary version 1, the narrowed capability matrix, and the contract suite).
 - The Phase 3 gate passed on 2026-09-27 (user decision). D-146 to D-152 are accepted, and Q-25 is resolved with option (a): the first beta ships without a colour filter, and the Art Institute supports only the period filter. §1, §9.2, §9.3, §15.1, §22.1, §23, and Appendix A are amended to match.
 - Phase 4 (bounded state and duplicate prevention) is implemented, and its gate passed on 2026-09-27 (user decision). D-153 to D-159 are accepted, and the 20 000-entry bound is accepted for the first beta (R-29). §4.1, §4.2, §5, §9.1, §12.4, §13.2 to §13.6, §14, §21, §22.1, §23, and Appendix A are amended to match. Phase 5 is authorized (§23).
+- Phase 5 (Samsung adapter contract) is implemented, and its gate passed on 2026-10-02 (user decision, after the Codex gate review). D-160 to D-164 are accepted. D-165 is accepted on the condition that the Linux and root isolation tests and the worst-case preparation measurement under the real `RLIMIT_AS` pass in Phase 6; they are mandatory before any live test on the Home Assistant Green. Art API 0.97 stays unsupported in the beta, TLS pinning is decided after the TV's certificate is observed in Phase 8, `inspect` gets parent-opened read-only descriptors (where possible) and batches in Phase 6, the 1 GiB image-worker limit stays until the Linux measurement, and AppArmor child profiles stay in Phase 9. §4.2, §4.3, §5, §7.2, §11.1, §11.3, §12.1, §12.2, §12.4, §13.1, §13.6, §14, §17.6, §18.1, §20.4, §21, §23, §24, and Appendix A are amended to match. Phase 6 is authorized (§23).
 
-Date: 2026-09-26 (Phase 3 and Phase 4 amendments: 2026-09-27)
+Date: 2026-09-26 (Phase 3 and Phase 4 amendments: 2026-09-27; Phase 5 amendments: 2026-10-02)
 Author: Claude (Phase 1 owner)
 
 This document is documentation only. The YAML fragments, signatures, and pseudo-code below illustrate interfaces and configuration *shape*. They are not application code. Everything is authored and tested in the phases that follow approval.
@@ -213,7 +214,7 @@ START ─► CONFIGURE ─► RESOLVE_FILTERS ─► SELECT ─► ┌─ ATTEMP
 | `tv_unreachable` | Connect failure, or a connection lost, timed out, or given an unexpected response before `selected` | per the last marker (§12.4) | unchanged | per the last marker | ERROR |
 | `tv_not_authorized` | Pairing not accepted in time, or token rejected | unchanged | unchanged | intent removed | ERROR |
 | `tv_rejected` | Art mode unsupported, or an explicit refusal of the upload or selection | per the last marker | unchanged | per the last marker | ERROR |
-| `deadline_exceeded` | Not enough budget left for the television phase (PRE-STAGE check), or for the upload after pairing (`insufficient_time`, §12.1), or a CONFIGURE overrun (D-141) | unchanged | unchanged | unchanged; any intent removed | ERROR |
+| `deadline_exceeded` | Not enough budget left for the television phase (PRE-STAGE check), or for the upload after pairing (`insufficient_time`, §12.1), or a CONFIGURE overrun (D-141). *Amended at the Phase 5 gate (D-162):* also `insufficient_time` before the TV is contacted (too little time to connect and upload), without a hint. | unchanged | unchanged | unchanged; any intent removed | ERROR |
 | `cancelled` | SIGTERM. If `selected` was already seen, the run finishes as `delivered*` instead (§7.6). | per the markers | unchanged | per the markers | WARNING |
 | `internal_error` | A bug | unknown | unchanged, or +1 after RECORD | a committed intent stays as quarantine | ERROR with traceback |
 | watchdog termination | Hard cap reached | unknown | unchanged, or +1 after RECORD | a committed intent stays as quarantine | ERROR, one line |
@@ -249,6 +250,7 @@ START ─► CONFIGURE ─► RESOLVE_FILTERS ─► SELECT ─► ┌─ ATTEMP
   3. logs one line;
   4. calls `os._exit(71)`.
 - **Workers.** At most one runs at a time, in its own process group. Each sets `PR_SET_PDEATHSIG` *after* dropping privileges (§11.3).
+  *Amended at the Phase 5 gate (D-163).* Each worker also runs a lifeline thread that ends it as soon as the parent is gone (macOS has no parent-death signal), and sets `RLIMIT_NPROC` 0 last, so nothing it starts can outlive it. After every task, on every path, the worker's group and the worker are killed and the worker is reaped (waiting at most 2 s) before the executor returns.
 - **DNS.** Each lookup runs in a fresh daemon thread, joined with a clamped timeout. The number of such threads is bounded by the request allowances.
 
 There is no `asyncio` and no concurrent provider requests (D-106).
@@ -275,6 +277,8 @@ The package name follows the accepted provisional identifier `frame_gallery` (D-
 | `logs` | Parent and worker logging, redaction, summary line | stdlib | Emit bodies, headers, or query strings |
 
 Third-party imports are confined to the `imaging` and `tv` worker tasks and to `net.transport`. An import-boundary check enforces this (D-107). "stdlib" in the table means "no third-party packages"; the permitted internal dependencies that Phase 2 added (for example `budget.watchdog` using `logs.summary`) are recorded in D-141.
+
+*Amended at the Phase 5 gate (D-162, D-163).* New modules: `tv/contract.py`, `tv/samsung.py`, `tv/samsung_task.py`, and `tv/token_store.py`; `isolation/framing.py`, `isolation/launch.py`, `isolation/process.py`, `isolation/bootstrap.py`, and `isolation/worker_main.py`. New internal dependencies: `tv.contract`, `tv.samsung`, and `tv.samsung_task` use `isolation.executor`; `tv.samsung`, `tv.samsung_task`, and `tv.token_store` use `logs.redact`, and `tv.samsung` also `logs.summary`; `tv.token_store` uses `store.atomic`; `tv.samsung_task` uses `imaging.contract`; `isolation.bootstrap` uses `logs.redact`; `isolation.process` uses `budget.clock` and `logs.summary`; `isolation.launch` names the worker task modules only as strings. There is no cycle. Besides `net.transport`, `tv/samsung_task.py` imports `socket`, only for its connect guard (amends D-147). `subprocess` and `select` are allowed only in `isolation/process.py`, and `ctypes` only in the bootstrap.
 
 *Amended at the Phase 4 gate (D-153, D-154, D-155, D-156, D-158).* `store` also uses `selection.exclusion` (the `ExclusionSet` value type), `imaging.contract` (`DeliveryArtifact`), and `budget`; it still knows nothing about providers or the television. The direction is the reverse of the `selection` row above: `selection` imports no `store` module, and `store.state` builds the `ExclusionSet` that `selection.exclusion` defines, so there is no cycle. `providers.cache` imports its value type from `store.cache`, as the table lists. The shared top-level modules are now `domain`, `errors`, `randomness`, and `fingerprint` (the D-118 fingerprint); `WorkspacePaths` lives in `domain`, and `PublishError` in `errors`.
 
@@ -332,6 +336,8 @@ One file and its parent-computed SHA-256 serve as the television payload, the pr
 | FINISH (reserved) | **10 s** | RECORD, PUBLISH, run records, cleanup. |
 | **Total `T`** | **120 s** | The sum of the phases. A unit test asserts it. |
 | Shutdown allowance | 10 s | The watchdog fires at 130 s (acceptance item `C5`). |
+
+*Amended at the Phase 5 gate (D-162).* In DELIVER, "connect ≤ 5 s" bounds each TCP connect. The pairing wait is one deadline per connection attempt, `min(20 s, time left − 15 s)`, which also ends the waits for the TV's first messages. The kill timer is the only total bound of the upload and the selection.
 
 **Content window breakdown:**
 
@@ -691,6 +697,8 @@ Steps 2 to 9 run only in the `prepare` worker.
 - The beta renditions are much smaller: 1686 px (AIC) and 3400 px (CMA).
 - The worker ceiling is 1 GiB of virtual address space (`RLIMIT_AS`). The worst cases are tested under that real limit, and R-09 records the measured peak.
 
+*Amended at the Phase 5 gate (R-09).* The measurement on the development host, without `RLIMIT_AS`, does not confirm the estimate: progressive JPEGs need the most, up to 839 MiB resident for a 64 MP progressive CMYK panorama in `cover`. The 1 GiB limit stays. Any change is decided only from the measurement under the real limit in the Linux container (Phase 6), which must pass before any live test on the Green (D-165).
+
 ### 11.2 Fit geometry (pure, table-tested)
 
 - **`contain`** (default): `s = min(W/w, H/h)`, centred on `background_color` (`#000000`). Every source pixel is present.
@@ -738,6 +746,16 @@ It then computes the SHA-256 itself.
 | `prepare` | one source file plus selection constraints | 15 s |
 | `deliver` | see §12 | 40 s |
 
+*Amended at the Phase 5 gate (D-163, D-164, D-165).*
+
+- **Start.** Each task runs in a new worker, `python -I -S -B`, in its own process group, with `/` as its working directory, exactly the environment `PATH`, `LC_ALL=C.UTF-8`, and `TZ=UTC`, and six descriptors. The configuration on the command line holds no secret.
+- **Bootstrap additions.** On Linux, dumpability 0 and no-new-privileges, then the parent-death signal, each read back, and empty capability sets. On every platform, a lifeline thread. Every limit is set as soft = hard, with `RLIMIT_NPROC` 0 last. The environment must be exactly the one above.
+- **Handshake.** The worker's first message is a `ready` report of what it verified; the parent compares it with what it asked for before it sends the request. A worker that cannot be started, refuses to run, or reports values that do not match is an `IsolationFailure`: the run ends as `internal_error`, and no second candidate is tried.
+- **Channel.** Frames are a 4-byte length and canonical JSON of at most 64 KiB plus 1 KiB of envelope; each body is held to 64 KiB, as in the in-process executor.
+- **Workspace** (D-164). With a worker group, `frame-gallery/` and `run-*/` are 0710, `in/` 2750, and `out/` 2770, all in that group, and checked after creation. Downloads and local copies are 0640.
+- **`inspect`.** From Phase 6, the parent opens each library file and passes the read-only descriptor to the worker where possible, and `inspect` runs in batches (§8.3).
+- **Verification** (D-165). The root-only and Linux-only checks, and the worst-case measurement under the real `RLIMIT_AS`, run in the Phase 6 container. They must pass there, and they are mandatory before any live test on the Green.
+
 **Implementation order (D-139).**
 
 - **Phase 2:** the executor seam, with an in-process executor.
@@ -761,6 +779,8 @@ Television
 ```
 
 The whole delivery is one coarse operation inside one worker.
+
+*Amended at the Phase 5 gate (D-141, D-162).* The port is `deliver(request, on_marker)`. The request carries the IPv4 literal, the path of `delivery.jpg` and the parent's SHA-256 of it, the deadline, and a stop signal; it carries no token path. The worker receives the stored token in its request message, and reports a token the TV issues as a `token` event before `connected`, at most one per connection attempt. `uploaded` may come without a content ID, which still promotes the ledger entry. `insufficient_time` before `connected` gets no hint; after `connected`, it keeps "paired; start the app again".
 
 - `content_id` must match a strict pattern of at most 64 characters.
 - The parent classifies the result from the **last marker seen**.
@@ -788,6 +808,15 @@ The whole delivery is one coarse operation inside one worker.
   - Only the current address's token is kept.
   - Tokens are excluded from backups through `backup_exclude: tv/**`. This is expected behaviour; Phase 8 inspects a backup to confirm it.
 - **First run.** The prompt must be accepted within 20 s. Otherwise the outcome is `tv_not_authorized`, with the message *"Accept the connection prompt on your TV, then start the app again."*
+
+*Amended at the Phase 5 gate (D-160, D-161, D-162).*
+
+- **Library surface** (D-161): `SamsungTVArt` on port 8002, with `token_file=None` and the client name `frame_gallery` (D-138). Each connection attempt uses a new library object, and the connection of a failed attempt is dropped.
+- **Token.** It travels in the worker's request and comes back as a `token` event; no token file is seeded into `out/`. The parent registers a new token with the redactor and installs it at once (mode 0600, atomically); it removes a rejected one.
+- **TLS** to the TV is not verified, as the library does (R-03). Pinning is decided after the TV's certificate is observed in the supervised Phase 8 test.
+- **Art API 0.97** is `unsupported` in the beta, because the library may upload the same image twice there.
+- **Network.** A connect guard lets the worker reach only the TV's IPv4 literal, and bounds each TCP connect to 5 s.
+- **Licence** (D-160): `samsungtvws` 3.0.6 under `LGPL-3.0`, treated as `LGPL-3.0-only`; it stays an unmodified, replaceable package.
 
 ### 12.3 Bounding
 
@@ -817,6 +846,8 @@ A later run **never** uploads an artwork whose confirmed upload was durably reco
 There is one exception. If the process dies, or the promotion write fails, between receiving `uploaded` and the promotion `fsync`, the entry stays `uncertain` and excludes the work only for the quarantine period.
 
 An artwork whose upload is uncertain is never uploaded on the next run, and not again until the quarantine period ends.
+
+*Amended at the Phase 5 gate (D-162).* Row 6 (explicit upload refusal) is not produced in the beta: the library does not tell a refusal before the transfer from one after it, so after `upload_started` the quarantine is always kept. A failure before `connected` that is not a transport failure (a close frame, a malformed or unexpected answer) is `protocol`. `connected` is sent only once the art channel is open, after pairing, and Frame support is checked before it: a rejected token, an unaccepted prompt, a TV without Frame support, and `insufficient_time` before the TV is contacted therefore come with no marker, and rows 2–4 apply to them with "none" as the last marker. The Art API 0.97 refusal and `insufficient_time` after pairing come after `connected`. The intent is removed in each of these cases; only `insufficient_time` after `connected` gets the hint "paired; start the app again".
 
 **Status → outcome:**
 
@@ -852,6 +883,8 @@ The television state and the ledger always follow the last marker seen.
 | `/tmp/frame-gallery/run-<random>/{in,out}/` | RAM-backed scratch | removed every run | n/a |
 | `/media/frame_gallery/library/` | User images (read-only for the app) | user-managed | per the user's settings |
 | `/media/frame_gallery/preview/` | The published preview | 1–2 files (§16.3) | per the user's settings |
+
+*Amended at the Phase 5 gate (D-164).* With a worker group, `/tmp/frame-gallery/` and `run-*/` are 0710, `in/` 2750, and `out/` 2770, all in the worker's group (65534 when the parent is root).
 
 "Expected" means two assumptions that Phase 8 checks by inspecting a backup: `/data` is included in app backups, and `backup_exclude` paths are relative to `/data`.
 
@@ -925,6 +958,8 @@ After `uploaded`, one small atomic write promotes the ledger entry. After `selec
      - the upload was explicitly refused.
 
      It remains as an uncertainty quarantine only after `upload_started` without `uploaded`, or when the process dies without classifying the run.
+
+     *Amended at the Phase 5 gate (D-162, D-163).* The second case is not produced in the beta: the installed library does not tell a refusal before the transfer from one after it, so after `upload_started` the intent always stays as quarantine (§12.4). A television worker that fails its isolation (`IsolationFailure`) ends the run as `internal_error`, and a committed intent then stays as quarantine even without `upload_started` (§4.2, §11.3).
   4. **Failed promotion.** If the promotion write after `uploaded` fails (for example, the disk is full), the run logs an ERROR and keeps the `uncertain` intent. The run outcome does not change.
   5. **Pruning.** Once the work is in history, its entry is pruned on the next ledger write.
 
@@ -949,6 +984,8 @@ After `uploaded`, one small atomic write promotes the ledger entry. After `selec
 Tests cover failure injection at every stage (`F1`, `F2`), byte bounds over repeated runs (`F3`), and that no worker survives a watchdog kill.
 
 *Amended at the Phase 4 gate (D-155).* The sweep runs only after the state lock is taken. It removes only exact names of the right kind (regular files `<name>.tmp-<16 hex digits>` and `<name>.bak.tmp-<16 hex digits>`, and directories `run-<16 hex digits>`), never follows a link, and scans at most 1 000 entries per directory. `in/` and `out/` have mode 0700 until Phase 5 gives the unprivileged worker its modes.
+
+*Amended at the Phase 5 gate (D-163, D-164).* The workspace modes are those of §13.1. Workers also end with the parent through their lifeline thread, and after every task the worker's group and the worker are killed and the worker is reaped (waiting at most 2 s).
 
 ---
 
@@ -1202,6 +1239,8 @@ With the custom AppArmor profile, the security rating is 6.
 | Network | `inet`/`inet6` stream and dgram only; raw and packet sockets denied |
 | Capabilities | Only what the privilege drop and worker management need (expected: `setuid`, `setgid`, `chown`, `kill`), plus what the s6 base needs; recorded from complain mode |
 
+*Amended at the Phase 5 gate (R-31).* Phase 9 adds AppArmor child profiles per worker (the image worker without network; the television worker with TCP only); the inherited (`ix`) spawn rule for the workers is revisited then.
+
 **Sequencing (D-139).**
 
 - Phases 6–8 run the profile in complain mode.
@@ -1221,7 +1260,7 @@ With the custom AppArmor profile, the security rating is 6.
 | Secret leakage | Formatter-level redaction, including exception text; worker output piped through the parent; third-party loggers capped at WARNING; tokens excluded from backups (expected; Phase 8) |
 | Path traversal, symlinks | Fixed paths; `dir_fd` with `O_NOFOLLOW`; `O_EXCL` random temp names; refusal on symlinks |
 | TV misuse, internal services | IPv4 literal in LAN ranges only; container networks rejected |
-| LAN adversary impersonating the TV | DHCP-reserved IPv4 address; same subnet. Token scope and TLS behaviour are undocumented; trust-on-first-use is decided in Phase 5 (R-03). |
+| LAN adversary impersonating the TV | DHCP-reserved IPv4 address; same subnet. Token scope and TLS behaviour are undocumented; trust-on-first-use is decided in Phase 5 (R-03). *Amended at the Phase 5 gate:* the library does not verify the TV's certificate (D-161); pinning is decided after the certificate is observed in the supervised Phase 8 test. |
 | Duplicate uploads | History, upload ledger, and write-ahead quarantine (D-137) |
 | Supply chain | Hash-pinned wheels; digest-pinned base image; exact apk pins; license inventory |
 | Excess privilege | Least-privilege config; AppArmor (§17.6); unprivileged workers |
@@ -1288,6 +1327,7 @@ A `conftest` guard makes any socket connection raise (acceptance item `H2`).
   - 100 % branches in the imaging encode fallback, the runner's attempt loop and outcome classification, and the TV reconnect path.
 - CI runs on Python 3.12, 3.13, and 3.14.
 - An import-boundary check.
+- *Amended at the Phase 5 gate (D-163).* `mypy --strict` also runs as on Linux (`--platform linux`), `tv` joins the 100 % gate, and no coverage exemption is allowed in the worker's code.
 - A license-inventory check (acceptance item `H4`).
 
 ---
@@ -1321,6 +1361,8 @@ frame_gallery/                      # app directory = Docker build context
   tests/  support/  unit/  integration/  contract/  component/  timing/  container/  fixtures/authored/
   scripts/check.sh   DEVELOPMENT.md   uv.lock
 ```
+
+*Amended at the Phase 5 gate (D-162, D-163; R-09, D-165).* `tv/` also holds `contract` and `samsung`, and `isolation/` also `framing`, `launch`, and `worker_main`; `scripts/` also holds `measure_prepare.py`, the R-09 measurement.
 
 ---
 
@@ -1376,11 +1418,11 @@ The vertical slice makes the core behaviour testable before packaging hardening.
 | 2: core and deterministic selection and rendering | `budget` (phase calculator, 120 s table); `config` (options, IPv4, vocabularies, capability matrix); outcomes; ports; in-process executor seam; **`app` run-orchestrator skeleton** (lifecycle stages, outcome classification, SIGTERM handling) against fakes; `selection` (exclusion interface, classification, shortlist); `imaging` prepare pipeline and fit geometry; `logs`; tooling (`uv`, `ruff`, `mypy`, `pytest`); network-blocking guard; import-boundary check; the start of `THIRD_PARTY_NOTICES.md` (Pillow and its bundled libraries) | **This revision (Phase 2 gate)**; the dev-dependency rows (complete); the Pillow row, with its corrected bundled-library inventory (GPL-3.0-or-later `libimagequant`, LGPL FriBiDi) and the remaining `pillow.libs` entries are verified in Phase 6 (gate adjustment approved by Codex) |
 | 3: provider adapters | `net` gateway; `providers.local_media`, `providers.aic`, `providers.cma` with fake and synthesized fixtures, after a live-documentation re-check; **`ha` helper-override client** (≤ 4 reads, static fallback; acceptance items `B3`–`B5`); vocabularies; contract suite; `urllib3` and `certifi` added to the notices | Approved by the user on 2026-09-27: Q-14 and Q-22 resolved, the `urllib3` and `certifi` rows approved, no observation requests. **Gate passed** on 2026-09-27: D-146 to D-152 accepted, Q-25 resolved with option (a) |
 | 4: bounded state and duplicate prevention | `store`: atomic primitive, history, **upload ledger and quarantine**, cache, workspace, preview publisher, run records, cleanup and sweep. PRE-STAGE, RECORD, and PUBLISH completed in the runner. `E7`–`E10` tested against a fake TV port that emits markers | — (Q-23 and D-113 accepted). **Gate passed** on 2026-09-27: D-153 to D-159 accepted; the 20 000-entry bound accepted for the first beta (R-29) |
-| 5: Samsung adapter contract | Adapter surface from the **installed** `samsungtvws` 3.0.6 only; process executor with the complete §11.3 bootstrap (privilege drop, rlimits, bytes channel, markers); TV worker; token store; mocked and double tests; `E7`–`E10` re-run with the process-based TV worker; worst-case prepare memory and time measured under the real limit | The `samsungtvws` row and its LGPL-3.0 obligations (D-135). **Authorized** by the user on 2026-09-27, after the Phase 4 gate: first check and document the version and the LGPL-3.0 obligations of `samsungtvws` 3.0.6, then build the executor and the adapter against simulations; the pinned version may be installed from PyPI into the git-ignored environment. The dependency row is recorded in Phase 5 and confirmed at the Phase 5 gate |
-| 6: Home Assistant app packaging | `config.yaml`; Dockerfile; translations; `DOCS.md`; draft dashboard YAML; complain-mode `apparmor.txt`; container tests; D-130 checks a–d | Pulling the base image; Q-06, Q-10; the Buildx, QEMU, and SBOM-tool rows; the authoritative Pillow runtime-wheel inspection, including verification of the remaining `pillow.libs` entries (mandatory before packaging or publication) |
+| 5: Samsung adapter contract | Adapter surface from the **installed** `samsungtvws` 3.0.6 only; process executor with the complete §11.3 bootstrap (privilege drop, rlimits, bytes channel, markers); TV worker; token store; mocked and double tests; `E7`–`E10` re-run with the process-based TV worker; worst-case prepare memory and time measured on the development host without `RLIMIT_AS` (under the real limit: moved to Phase 6, D-165) | The `samsungtvws` row and its LGPL-3.0 obligations (D-135). **Authorized** by the user on 2026-09-27, after the Phase 4 gate: first check and document the version and the LGPL-3.0 obligations of `samsungtvws` 3.0.6, then build the executor and the adapter against simulations; the pinned version may be installed from PyPI into the git-ignored environment. The dependency row is recorded in Phase 5 and confirmed at the Phase 5 gate. **Gate passed** on 2026-10-02: D-160 to D-164 accepted; D-165 accepted on the condition that the Linux and root checks and the measurement under the real `RLIMIT_AS` pass in Phase 6 |
+| 6: Home Assistant app packaging | `config.yaml`; Dockerfile; translations; `DOCS.md`; draft dashboard YAML; complain-mode `apparmor.txt`; container tests; D-130 checks a–d. *Added at the Phase 5 gate:* `inspect` batches, with parent-opened read-only descriptors where possible (D-149, D-164); the Linux and root checks and the worst-case measurement under the real `RLIMIT_AS` (the condition of D-165) | Pulling the base image; Q-06, Q-10; the Buildx, QEMU, and SBOM-tool rows; the authoritative Pillow runtime-wheel inspection, including verification of the remaining `pillow.libs` entries (mandatory before packaging or publication). **Authorized** by the user on 2026-10-02, after the Phase 5 gate, with separate approvals for starting Docker Desktop, pulling `ghcr.io/home-assistant/base` (pinned by tag and digest), the Alpine package source for `python3`, and PyPI for the hash-checked runtime wheels and test tools. |
 | 7: offline release-candidate validation | Full gate run; provenance and license audit; failure-path exercises; release-candidate report | — (gate: the user approves the live test) |
-| 8: supervised Home Assistant Green and TV validation | Checklist: install via Q-21; the TV at the user's test value `192.168.178.30`, entered in the options and never hard-coded; **Q-16** (connectivity without `host_network`); **preview freshness, with one mechanism proven over repeated tests (card-started, automation-started, app-page-started, and `no_match` runs) and documented (D-140)**; entity IDs for the card (everything except the public slug); Q-05, Q-07, Q-09, Q-19 (including a mistyped slug); R-09, R-21; a backup without `tv/` | **Explicit user approval**; Q-21 (install route) |
-| 9: AppArmor, release hardening, public beta | Enforce-mode AppArmor and verification of the isolation design (with an approved live re-check); notices and SBOM; CI; signed multi-architecture images; one-click link; the dashboard card finalized with the public slug (Q-13); release notes; release gates (§17.3) | D-101 (name), Q-13; the builder-action and Cosign rows; publication approval |
+| 8: supervised Home Assistant Green and TV validation | Checklist: install via Q-21; the TV at the user's test value `192.168.178.30`, entered in the options and never hard-coded; **Q-16** (connectivity without `host_network`); **preview freshness, with one mechanism proven over repeated tests (card-started, automation-started, app-page-started, and `no_match` runs) and documented (D-140)**; entity IDs for the card (everything except the public slug); Q-05, Q-07, Q-09, Q-19 (including a mistyped slug); R-09, R-21; a backup without `tv/`; *added at the Phase 5 gate:* the TV's certificate, observed for the TLS-pinning decision (R-03), and its art API version (D-162) | **Explicit user approval**; Q-21 (install route); the Linux and root checks and the worst-case measurement under the real `RLIMIT_AS` have passed in Phase 6 (the condition of D-165) |
+| 9: AppArmor, release hardening, public beta | Enforce-mode AppArmor and verification of the isolation design (with an approved live re-check); AppArmor child profiles per worker (R-31; confirmed for Phase 9 at the Phase 5 gate); notices and SBOM; CI; signed multi-architecture images; one-click link; the dashboard card finalized with the public slug (Q-13); release notes; release gates (§17.3) | D-101 (name), Q-13; the builder-action and Cosign rows; publication approval |
 
 ---
 
@@ -1388,7 +1430,7 @@ The vertical slice makes the core behaviour testable before packaging hardening.
 
 `DECISIONS.md` has the full lists. The most consequential remaining items:
 
-- **R-03.** Samsung Art Mode is undocumented. The adapter is established from the installed package and validated live in Phase 8.
+- **R-03.** Samsung Art Mode is undocumented. The adapter is established from the installed package and validated live in Phase 8. *Amended at the Phase 5 gate:* the library does not verify the TV's certificate; pinning is decided after the Phase 8 observation.
 - **R-07 / D-140.** Preview freshness is release-blocking, and its mechanism is unproven until Phase 8.
 - **R-06 / Q-09.** The Running sensor's latency is undocumented. The normative 150 s timer indicator does not depend on it.
 - **R-22.** Neither museum documents that its provider identifiers are stable.
@@ -1477,7 +1519,7 @@ All research was read-only. It used public documentation pages, package-index me
 | D6 | All image modes become a TV-compatible JPEG | §11.1 | Mode matrix |
 | D7 | Excess size, pixels, or bytes are rejected | §10, §11 | Component + worker |
 | D8 | The preview bytes equal the TV image | §6, §13.5 | Integration (SHA-256) |
-| E1 | Upload and select | §12 | Adapter tests; Phase 8 |
+| E1 | Upload and select | §12 | Adapter tests, including the unchanged library against a scripted TV (D-161); Phase 8 |
 | E2 | Pairing problems are reported clearly | §12.2, §12.4 | Mapping tests |
 | E3 | Timeouts and rejection end cleanly | §12.3, §12.4 | Kill and classification tests |
 | E4 | Failed uploads never reach the sent history | §12.4, §13.6 | Integration |
@@ -1485,7 +1527,7 @@ All research was read-only. It used public documentation pages, package-index me
 | E6 | No resend while unsent works remain | §8.2, §13.6 | Integration (multi-run) |
 | E7 | Upload OK, selection refused → ledger entry, not resent | §12.4, §13.6 | Integration |
 | E8 | Upload OK, connection lost during selection → ledger entry, not resent | §12.4, §13.6 | Integration |
-| E9 | Process killed after upload → excluded on the next run | §13.2, §13.6 | Integration: simulated kills, and a real SIGKILL of a child process after the intent, after `uploaded`, after `selected`, and inside the promotion write (D-159) |
+| E9 | Process killed after upload → excluded on the next run | §13.2, §13.6 | Integration: simulated kills, and a real SIGKILL of a child process after the intent, after `uploaded`, after `selected`, and inside the promotion write (D-159); with the process-based TV worker, a real SIGKILL of the runner while its worker runs (Phase 5) |
 | E10 | History, current artwork, and preview change only after `selected` | §4.1, §12.4 | Integration |
 | F1 | Temporary files are removed after success | §14 | Integration |
 | F2 | Temporary files are removed after failures | §14, §4.2 | Failure matrix |
