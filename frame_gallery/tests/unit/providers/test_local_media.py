@@ -32,12 +32,13 @@ from frame_gallery.imaging.contract import (
     inspected_event,
 )
 from frame_gallery.isolation.executor import (
+    EventSink,
     IsolationFailure,
     JsonObject,
     WorkerError,
     WorkerErrorKind,
 )
-from frame_gallery.isolation.in_process import default_executor
+from frame_gallery.isolation.in_process import InProcessExecutor, default_executor
 from frame_gallery.providers import local_media
 from frame_gallery.providers.contract import (
     Attribution,
@@ -111,8 +112,12 @@ class Library:
         )
 
     def candidates(self, provider: LocalMediaProvider | None = None) -> list[Candidate]:
+        """Every candidate, then the aggregated warning, as the runner asks
+        for it once selection is done."""
         provider = provider or self.provider()
-        return list(provider.iter_candidates(FILTERS, self.context()))
+        found = list(provider.iter_candidates(FILTERS, self.context()))
+        provider.report_discovery()
+        return found
 
 
 @pytest.fixture
@@ -311,7 +316,7 @@ class TestScan:
         assert provider.report.counts == {SkipReason.UNREADABLE: 1}
 
     def test_the_entry_limit_ends_the_scan(
-        self, library: Library, monkeypatch: pytest.MonkeyPatch
+        self, library: Library, monkeypatch: pytest.MonkeyPatch, caplog: pytest.LogCaptureFixture
     ) -> None:
         monkeypatch.setattr(local_media, "LOCAL_DIRECTORY_ENTRY_ALLOWANCE", 3)
         for index in range(5):
@@ -323,6 +328,9 @@ class TestScan:
         # A library cut short is a search limit, never an empty library.
         assert len(found) == 3
         assert provider.report.counts == {SkipReason.ENTRY_LIMIT: 1}
+        with caplog.at_level(logging.WARNING):
+            provider.report_discovery()
+        assert caplog.messages == ["local library: 1 entries skipped (entry_limit=1)"]
 
     def test_the_order_is_shuffled_by_the_injected_source(self, library: Library) -> None:
         for index in range(12):
@@ -501,19 +509,24 @@ class TestReport:
         library.candidates()
         assert caplog.records == []
 
-    def test_the_warning_is_emitted_when_discovery_stops_early(
+    def test_the_warning_waits_for_the_end_of_discovery(
         self, library: Library, caplog: pytest.LogCaptureFixture
     ) -> None:
+        """Selection measures its last batch after the scan has ended, so
+        the warning comes only when the runner asks for it, and only once."""
         library.file("a.txt")
         library.jpeg("b.jpg")
         library.jpeg("c.jpg")
-        iterator: Iterator[Candidate] = library.provider().iter_candidates(
-            FILTERS, library.context()
-        )
+        provider = library.provider()
+        iterator: Iterator[Candidate] = provider.iter_candidates(FILTERS, library.context())
         next(iterator)
-        assert "local library" not in caplog.text
         iterator.close()  # type: ignore[attr-defined]
-        assert "unsupported_extension=1" in caplog.text
+        assert "local library" not in caplog.text
+        with caplog.at_level(logging.WARNING):
+            provider.report_discovery()
+            provider.report_discovery()
+        (record,) = [r for r in caplog.records if r.levelno == logging.WARNING]
+        assert "unsupported_extension=1" in record.getMessage()
 
     def test_report_text(self) -> None:
         report = LibraryReport()
@@ -919,6 +932,22 @@ class TestInspection:
         probe = LocalInspectionProbe(provider, ScriptedInspector(odd_result))
         assert probe.measure(candidate, library.context().deadline) == Size(4, 3)
 
+    def test_an_event_too_many_is_a_protocol_failure(self, library: Library) -> None:
+        """A worker that reports a file it was not given fails as `protocol`
+        in the executor; the files it did report keep their results."""
+        library.jpeg("a.jpg")
+        provider = library.provider()
+        (candidate,) = library.candidates(provider)
+
+        def two_events(payload: JsonObject, emit: EventSink) -> JsonObject:
+            for index in (0, 1):
+                emit(inspected_event(index, InspectResult(InspectStatus.OK, Size(4, 3))))
+            return {"inspected": 2}
+
+        executor = InProcessExecutor({}, library.clock, event_tasks={"inspect": two_events})
+        probe = LocalInspectionProbe(provider, executor)
+        assert probe.measure(candidate, library.context().deadline) == Size(4, 3)
+
     def test_an_isolation_failure_is_not_an_inspection_failure(self, library: Library) -> None:
         """D-163: it ends the run as internal_error instead of skipping files."""
         library.jpeg("a.jpg")
@@ -1058,4 +1087,11 @@ def test_selection_over_a_real_library(library: Library, caplog: pytest.LogCaptu
     assert result.stats.inspections_used >= 2
     assert result.stats.probes_used == 0
     assert not result.transport_failure
+    # The four images form one batch, measured after the scan had ended; the
+    # warning still counts the broken one.
+    assert "local library" not in caplog.text
+    with caplog.at_level(logging.WARNING):
+        provider.report_discovery()
+    assert "unreadable=1" in caplog.text
+    assert "unsupported_extension=1" in caplog.text
     assert result.end in (DiscoveryEnd.SHORTLIST_FULL, DiscoveryEnd.EXHAUSTED)

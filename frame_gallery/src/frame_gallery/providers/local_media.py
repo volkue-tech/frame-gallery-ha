@@ -31,7 +31,10 @@ where the size is 8 bytes, big-endian.
 
 **Reporting.** Unsupported, oversized, unreadable, and uninspectable files
 are summarized in one aggregated WARNING when discovery ends: counts per
-reason and at most 5 sanitized example paths, relative to the library.
+reason and at most 5 sanitized example paths, relative to the library. The
+runner asks for it (:meth:`LocalMediaProvider.report_discovery`) once
+selection is done, so that the files of the last inspection batch, which
+selection measures after the scan has ended, count too.
 
 **Dimensions** come from the header inspection in the worker
 (:class:`LocalInspectionProbe`, its own allowance of 300). **Delivery**
@@ -272,6 +275,7 @@ class LocalMediaProvider:
         self._preview_fingerprints = frozenset(preview_fingerprints)
         self._files: dict[str, LibraryFile] = {}
         self.report = LibraryReport()
+        self._reported = False
 
     @property
     def key(self) -> str:
@@ -296,26 +300,33 @@ class LocalMediaProvider:
         """
         del filters
         self.report = LibraryReport()
+        self._reported = False
         self._files = {}
-        try:
-            root = self._library_ready()
-            if root is None:
-                return
-            found = self._scan(root, ctx.deadline)
-            ctx.random.shuffle(found)
-            for item in found:
-                ctx.deadline.check()
-                candidate = self._offer(item)
-                if candidate is not None:
-                    yield candidate
-            if SkipReason.ENTRY_LIMIT in self.report.counts:
-                # Part of the library was never listed: a search limit, not an
-                # empty library (the no_match hint must say so).
-                raise AllowanceExhausted("local_directory_entries")
-        finally:
-            text = self.report.warning_text()
-            if text is not None:
-                _log.warning("%s", text)
+        root = self._library_ready()
+        if root is None:
+            return
+        found = self._scan(root, ctx.deadline)
+        ctx.random.shuffle(found)
+        for item in found:
+            ctx.deadline.check()
+            candidate = self._offer(item)
+            if candidate is not None:
+                yield candidate
+        if SkipReason.ENTRY_LIMIT in self.report.counts:
+            # Part of the library was never listed: a search limit, not an
+            # empty library (the no_match hint must say so).
+            raise AllowanceExhausted("local_directory_entries")
+
+    def report_discovery(self) -> None:
+        """Log this scan's aggregated WARNING (§9.3), once, if anything was
+        skipped. Call it when selection is done with the candidates, after
+        their last inspection (``ProviderBinding.after_discovery``)."""
+        if self._reported:
+            return
+        self._reported = True
+        text = self.report.warning_text()
+        if text is not None:
+            _log.warning("%s", text)
 
     def full_ref(self, candidate: Candidate) -> ImageRef:
         return ImageRef(ImageRefKind.LOCAL, str(self.library_file(candidate).path))
@@ -630,6 +641,10 @@ class LocalInspectionProbe:
 
         def on_event(event: JsonObject) -> None:
             nonlocal received, last
+            if received >= len(opened):
+                # The executor turns this into a protocol failure (D-163).
+                msg = "more inspection events than files"
+                raise ValueError(msg)
             result = parse_inspected_event(event, received)
             index = opened[received][0]
             results[index] = self._measurement(files[index], result)

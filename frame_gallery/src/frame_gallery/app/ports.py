@@ -8,7 +8,7 @@ reader and container-network discovery in Phase 6.
 
 from __future__ import annotations
 
-from collections.abc import Mapping, Sequence
+from collections.abc import Callable, Mapping, Sequence
 from dataclasses import dataclass
 from datetime import datetime
 from ipaddress import IPv4Network
@@ -122,6 +122,10 @@ class ProviderBinding:
     probe: DimensionProbe | None = None
     cache: CacheWriter | None = None
     """Written once in FINISH, before the last-run record (§13.4)."""
+    after_discovery: Callable[[], None] | None = None
+    """Called once when selection is done with the provider, whatever ended
+    it, after its last measurement: the local library logs its aggregated
+    warning there, so that the files of the last batch count too (§9.3)."""
 
 
 class Workspace(Protocol):

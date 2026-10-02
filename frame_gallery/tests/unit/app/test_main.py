@@ -231,6 +231,17 @@ def test_a_local_media_run_delivers_through_the_production_wiring(rig: Rig) -> N
     assert not list((rig.layout.tmp / "frame-gallery").iterdir())  # workspace removed
 
 
+def test_the_library_warning_counts_the_last_inspection_batch(rig: Rig) -> None:
+    """Both files form one batch, inspected after the scan has ended; the
+    wiring still logs the broken one in the aggregated warning (§9.3)."""
+    rig.options(source="local_media")
+    rig.library_image("harbour.jpg", (1920, 1080))
+    library = rig.layout.media / "frame_gallery" / "library"
+    (library / "broken.jpg").write_bytes(b"\xff\xd8\xff\xe0 not a real JPEG")
+    assert rig.run() == 0
+    assert "local library: 1 entries skipped (unreadable=1)" in rig.output
+
+
 def test_the_environment_is_reduced_before_anything_runs(rig: Rig) -> None:
     rig.options(source="local_media")
     rig.run()

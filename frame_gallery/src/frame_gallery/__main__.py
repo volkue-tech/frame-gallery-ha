@@ -205,7 +205,9 @@ def run_app(environ: MutableMapping[str, str], stream: TextIO, wiring: Wiring) -
                 CmaProvider(cma_channel, cma_cache), cache=cma_cache
             ),
             SourceKey.LOCAL_MEDIA: ProviderBinding(
-                local, probe=LocalInspectionProbe(local, executor)
+                local,
+                probe=LocalInspectionProbe(local, executor),
+                after_discovery=local.report_discovery,
             ),
         },
         fetcher=SourceFetcher(local=local, channels=(aic_channel, cma_channel)),

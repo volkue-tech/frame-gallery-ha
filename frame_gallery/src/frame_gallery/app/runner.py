@@ -95,6 +95,7 @@ from frame_gallery.providers.contract import (
 )
 from frame_gallery.providers.rights import ALLOWED_RIGHTS
 from frame_gallery.randomness import RandomSource
+from frame_gallery.selection.exclusion import ExclusionSet
 from frame_gallery.selection.geometry import check_rendition
 from frame_gallery.selection.shortlist import (
     DiscoveryEnd,
@@ -444,6 +445,31 @@ class Runner:
         )
         notes = DiscoveryNotes()
         try:
+            selection = self._discover(binding, filters, exclusions, policy, window, notes)
+        finally:
+            if binding.after_discovery is not None:
+                binding.after_discovery()
+        run.stats.selection = selection
+        run.stats.pages_skipped = run.evidence.pages_skipped = notes.pages_skipped
+        self._record_selection_evidence(run.evidence, selection)
+        run.evidence.library_empty = (
+            filters.source is SourceKey.LOCAL_MEDIA
+            and selection.end is DiscoveryEnd.EXHAUSTED
+            and selection.stats.candidates_seen == 0
+        )
+        self._log_selection(selection)
+
+    def _discover(  # noqa: PLR0917 - one discovery's inputs
+        self,
+        binding: ProviderBinding,
+        filters: EffectiveFilters,
+        exclusions: ExclusionSet,
+        policy: SelectionPolicy,
+        window: ContentWindow,
+        notes: DiscoveryNotes,
+    ) -> SelectionResult:
+        """Run the provider's candidates through selection (§8)."""
+        try:
             candidates = binding.provider.iter_candidates(
                 filters,
                 DiscoveryContext(
@@ -453,7 +479,7 @@ class Runner:
                     notes=notes,
                 ),
             )
-            selection = build_shortlist(
+            return build_shortlist(
                 candidates,
                 exclusions=exclusions,
                 policy=policy,
@@ -468,9 +494,7 @@ class Runner:
             )
         except DeadlineExceeded:
             # The provider's first request was cut off before it yielded anything.
-            selection = SelectionResult(
-                entries=(), end=DiscoveryEnd.DEADLINE, stats=SelectionStats()
-            )
+            return SelectionResult(entries=(), end=DiscoveryEnd.DEADLINE, stats=SelectionStats())
         except SourceError as exc:
             # The provider failed before yielding anything iterable.
             end = (
@@ -478,18 +502,7 @@ class Runner:
                 if exc.kind is SourceErrorKind.STOPPED
                 else DiscoveryEnd.PROVIDER_ERROR
             )
-            selection = SelectionResult(
-                entries=(), end=end, stats=SelectionStats(), provider_error=exc
-            )
-        run.stats.selection = selection
-        run.stats.pages_skipped = run.evidence.pages_skipped = notes.pages_skipped
-        self._record_selection_evidence(run.evidence, selection)
-        run.evidence.library_empty = (
-            filters.source is SourceKey.LOCAL_MEDIA
-            and selection.end is DiscoveryEnd.EXHAUSTED
-            and selection.stats.candidates_seen == 0
-        )
-        self._log_selection(selection)
+            return SelectionResult(entries=(), end=end, stats=SelectionStats(), provider_error=exc)
 
     @staticmethod
     def _record_selection_evidence(

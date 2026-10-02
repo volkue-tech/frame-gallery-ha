@@ -482,6 +482,33 @@ def test_a_run_that_lost_the_lock_writes_no_cache(h: Harness) -> None:
     assert "cache.flush" not in h.events
 
 
+@pytest.mark.parametrize(
+    "failure",
+    [None, SourceError(SourceErrorKind.STOPPED, "403"), DeadlineExceeded("discovery")],
+    ids=["delivered", "provider-stopped-first", "cut-off-first"],
+)
+def test_the_provider_hears_once_that_discovery_is_over(
+    h: Harness, failure: BaseException | None
+) -> None:
+    """After selection, whatever ended it, and before preparation: the local
+    library's aggregated warning then counts the last batch (§9.3)."""
+
+    def after_discovery() -> None:
+        h.events.append("after_discovery")
+
+    h.provider.call_error = failure
+    h.bindings = {
+        SourceKey.ART_INSTITUTE_CHICAGO: ProviderBinding(
+            h.provider, after_discovery=after_discovery
+        )
+    }
+    result = h.run()
+    assert h.events.count("after_discovery") == 1
+    if failure is None:
+        assert result.outcome is Outcome.DELIVERED
+        assert h.events.before("after_discovery", "executor.run:prepare")
+
+
 def test_excluded_works_are_skipped(h: Harness) -> None:
     h.state.exclusions = ExclusionSet(history=frozenset({"aic:1001"}))
     result = h.run()
