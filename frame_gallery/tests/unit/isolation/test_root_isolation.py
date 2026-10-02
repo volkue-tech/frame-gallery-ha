@@ -4,8 +4,8 @@ They run only as root on Linux, the Phase 6 container
 (``FRAME_GALLERY_REQUIRE_ISOLATION=root`` makes a skip a failure). A root
 parent drops every worker to 65534, and such a worker loads no test code, so
 these tests run production tasks without the H2 guard. That is safe only
-because each task here opens no socket: ``prepare`` works on files, and the
-``deliver`` request is refused before the library is loaded.
+because each task here opens no socket: ``prepare`` and ``inspect`` work on
+files, and the ``deliver`` request is refused before the library is loaded.
 """
 
 from __future__ import annotations
@@ -19,11 +19,16 @@ import pytest
 from PIL import Image
 
 from frame_gallery.budget.clock import SystemClock
-from frame_gallery.domain import BLACK, FitMode, Size
+from frame_gallery.budget.deadline import Deadline
+from frame_gallery.config.filters import EffectiveFilters, FilterSet
+from frame_gallery.domain import BLACK, FitMode, Size, SourceKey
 from frame_gallery.imaging.contract import ImageFormat, PrepareRequest
 from frame_gallery.isolation.executor import JsonObject, WorkerError, WorkerErrorKind
 from frame_gallery.isolation.launch import PRODUCTION_TASKS, WORKER_ID
 from frame_gallery.isolation.process import Launch, ProcessExecutor
+from frame_gallery.providers.contract import DiscoveryContext
+from frame_gallery.providers.local_media import LocalInspectionProbe, LocalMediaProvider
+from frame_gallery.randomness import SeededRandomSource
 from frame_gallery.store.workspace import HANDED_OVER_FILE, RunWorkspace
 from tests.support.images import save_jpeg
 from tests.support.processes import require
@@ -44,7 +49,7 @@ def production_executor(*tasks: str) -> ProcessExecutor:
     return ProcessExecutor(launch, SystemClock())
 
 
-@pytest.mark.parametrize("task", ["prepare", "deliver"])
+@pytest.mark.parametrize("task", ["prepare", "inspect", "deliver"])
 def test_a_production_worker_drops_to_65534(task: str) -> None:
     """The parent checks the worker's ready report (uid and gid 65534, no
     groups, every limit including RLIMIT_AS 1 GiB or 512 MiB) before it sends
@@ -92,4 +97,38 @@ def test_the_dropped_worker_reads_in_and_writes_only_out() -> None:
         )
     finally:
         workspace.remove()
+        shutil.rmtree(anchor, ignore_errors=True)
+
+
+def test_the_dropped_worker_inspects_a_file_only_root_can_read() -> None:
+    """Phase 5 gate decision: the root parent opens each library file and
+    passes the read-only descriptor, so the worker, at 65534, measures a file
+    it could not open itself (a 0600 file in a 0700 folder)."""
+    anchor = Path(tempfile.mkdtemp(prefix="frame-gallery-root-test-", dir="/tmp"))
+    try:
+        root = anchor / "library"
+        root.mkdir(mode=0o700)
+        path = save_jpeg(Image.new("RGB", (96, 54), (30, 120, 30)), root / "private.jpg")
+        path.chmod(0o600)
+        provider = LocalMediaProvider(
+            root=root, preview_dir=anchor / "preview", preview_fingerprints=frozenset()
+        )
+        filters = EffectiveFilters(
+            source=SourceKey.LOCAL_MEDIA,
+            department=None,
+            style=None,
+            period=None,
+            color=None,
+            ignored=(),
+            requested=FilterSet(source=SourceKey.LOCAL_MEDIA),
+        )
+        context = DiscoveryContext(
+            deadline=Deadline.after(SystemClock(), 30.0, "discovery"),
+            random=SeededRandomSource(1),
+        )
+        (candidate,) = provider.iter_candidates(filters, context)
+        probe = LocalInspectionProbe(provider, production_executor("inspect"))
+        assert probe.measure(candidate, context.deadline) == Size(96, 54)
+        assert provider.report.counts == {}
+    finally:
         shutil.rmtree(anchor, ignore_errors=True)
