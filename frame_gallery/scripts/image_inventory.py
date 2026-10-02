@@ -17,6 +17,8 @@ It prints one JSON document:
   the ``bashio`` shell library is present;
 * ``python``: every distribution in the app's environment (name, version,
   licence expression or field, and licence files);
+* ``wheels``: every wheel file under ``/usr`` and ``/opt``; the app ships
+  none (D-167), since a wheel would carry code the inventory does not list;
 * ``pillow``: each library in ``pillow.libs`` with its SHA-256 and whether it
   matches the wheel's ``RECORD``, the CycloneDX SBOMs that the wheel embeds,
   the features that Pillow reports, the zlib it loads, and the versions
@@ -24,7 +26,7 @@ It prints one JSON document:
 
 ``--summary FILE`` reads such a document on the host and prints one line per
 part; it exits 1 if a library in ``pillow.libs`` differs from the wheel's
-``RECORD``.
+``RECORD``, or if the image holds a wheel.
 """
 
 from __future__ import annotations
@@ -53,6 +55,7 @@ APK_FIELDS: Final = {
 S6_PACKAGES: Final = Path("/package/admin")
 GO_PROGRAMS: Final = (Path("/usr/bin/tempio"),)
 BASHIO: Final = Path("/usr/lib/bashio")
+WHEEL_ROOTS: Final = (Path("/usr"), Path("/opt"))
 
 type Record = dict[str, object]
 """One entry of the inventory, as it goes into the JSON document."""
@@ -128,6 +131,15 @@ def base_components() -> Record:
         "go_programs": [program for path in GO_PROGRAMS if (program := go_program(path))],
         "bashio_present": BASHIO.is_dir(),
     }
+
+
+def wheel_files(roots: Iterable[Path]) -> list[str]:
+    """Every ``*.whl`` file below ``roots``, sorted."""
+    found: list[str] = []
+    for root in roots:
+        if root.is_dir():
+            found.extend(str(path) for path in root.rglob("*.whl"))
+    return sorted(found)
 
 
 def python_distributions(paths: Iterable[str]) -> list[Record]:
@@ -247,8 +259,9 @@ def pillow_inventory() -> Record:
 
 
 def summary(inventory: dict[str, Any]) -> tuple[list[str], bool]:
-    """One line per part of an inventory, and whether every library in
-    ``pillow.libs`` is the one the wheel's ``RECORD`` names."""
+    """One line per part of an inventory, and whether it is consistent:
+    every library in ``pillow.libs`` is the one the wheel's ``RECORD``
+    names, and the image holds no wheel."""
     pillow = inventory["pillow"]
     libs = pillow["libs"]
     mismatched = [lib["file"] for lib in libs if not lib["matches_record"]]
@@ -276,7 +289,9 @@ def summary(inventory: dict[str, Any]) -> tuple[list[str], bool]:
         ),
     ]
     lines.extend(f"differs from RECORD: {name}" for name in mismatched)
-    return lines, not mismatched
+    wheels = inventory["wheels"]
+    lines.append(f"wheels in the image: {', '.join(wheels) or 'none'}")
+    return lines, not mismatched and not wheels
 
 
 def main(argv: list[str]) -> int:
@@ -288,6 +303,7 @@ def main(argv: list[str]) -> int:
         "alpine": apk_packages(APK_DATABASE.read_text(encoding="utf-8")),
         "base": base_components(),
         "python": python_distributions(sys.path),
+        "wheels": wheel_files(WHEEL_ROOTS),
         "pillow": pillow_inventory(),
     }
     json.dump(inventory, sys.stdout, indent=1, sort_keys=True)

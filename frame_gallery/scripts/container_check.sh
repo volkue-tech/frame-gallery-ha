@@ -4,7 +4,9 @@
 #   scripts/container_check.sh aarch64|amd64 [--measure]
 #
 # 1. Builds the "runtime" (app) and "test" targets with Docker Buildx; amd64
-#    runs under the emulation that Docker Desktop provides.
+#    runs under the emulation that Docker Desktop provides. A build without a
+#    target, as the Supervisor makes one, must give the same image as
+#    "runtime" (its layers, command, environment, and labels).
 # 2. D-130 checks: (a) the Alpine and Python versions; (b) the container stops
 #    when the app exits, with its exit status; (c) a stop request reaches the
 #    app at once, and the app has the whole stop timeout; (d) SUPERVISOR_TOKEN
@@ -55,6 +57,15 @@ for target in runtime test; do
         --build-arg BUILD_VERSION="$VERSION" --target "$target" --load -t "$tag" . \
         > "$OUT/build-$target.log" 2>&1 || { tail -20 "$OUT/build-$target.log"; exit 1; }
 done
+docker buildx build --platform "$PLATFORM" --build-arg BUILD_ARCH="$ARCH" \
+    --build-arg BUILD_VERSION="$VERSION" --load -t "$APP-default" . \
+    > "$OUT/build-default.log" 2>&1 || fail "a build without a target"
+content() {
+    docker image inspect "$1" --format \
+        '{{json .RootFS.Layers}} {{json .Config.Cmd}} {{json .Config.Env}} {{json .Config.Labels}}'
+}
+[ "$(content "$APP-default")" = "$(content "$APP")" ] || fail "a build without a target is not the app"
+docker image rm "$APP-default" > /dev/null 2>&1 || true
 docker image inspect "$APP" --format '{{json .Config.Labels}}' > "$OUT/labels.json"
 grep -q "\"io.hass.arch\":\"$ARCH\"" "$OUT/labels.json" || fail "label io.hass.arch"
 grep -q "\"io.hass.version\":\"$VERSION\"" "$OUT/labels.json" || fail "label io.hass.version"
@@ -64,6 +75,11 @@ run --entrypoint /bin/sh "$APP" -c \
     'cat /etc/alpine-release; /opt/frame-gallery/bin/python -VV; apk info -v 2>/dev/null | sort' \
     > "$OUT/a-versions.txt"
 head -2 "$OUT/a-versions.txt"
+# The Alpine series of the base tag, and the pinned interpreter's version.
+ALPINE=$(sed -n 's|^FROM ghcr.io/home-assistant/base:\([0-9]*\.[0-9]*\)-.*|\1|p' Dockerfile)
+PYTHON=$(sed -n 's|.*apk add --no-cache python3=\([0-9.]*\)-r[0-9]*.*|\1|p' Dockerfile | sort -u)
+sed -n 1p "$OUT/a-versions.txt" | grep -q "^${ALPINE//./\\.}\." || fail "(a) Alpine is not $ALPINE"
+sed -n 2p "$OUT/a-versions.txt" | grep -q "^Python ${PYTHON//./\\.} " || fail "(a) Python is not $PYTHON"
 
 note "inventory: Alpine packages, Python distributions, and Pillow's libraries"
 run -i --entrypoint /opt/frame-gallery/bin/python "$APP" -I - < scripts/image_inventory.py \

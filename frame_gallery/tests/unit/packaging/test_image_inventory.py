@@ -235,6 +235,7 @@ def _inventory() -> dict[str, Any]:
             "bashio_present": True,
         },
         "python": [{"name": "pillow"}, {"name": "urllib3"}],
+        "wheels": [],
         "pillow": {
             "version": "12.3.0",
             "wheel_tags": ["cp314-cp314-musllinux_1_2_aarch64"],
@@ -263,6 +264,7 @@ def test_the_summary_names_each_part(tmp_path: Path, capsys: pytest.CaptureFixtu
             "RECORD; SBOMs: auditwheel.cdx.json, pillow.cdx.json"
         ),
         "zlib loaded: 1.3.2; libavif 1.4.2: dav1d [dec]:1.5.3; libyuv 1916",
+        "wheels in the image: none",
     ]
 
 
@@ -274,13 +276,30 @@ def test_the_summary_fails_for_a_library_that_differs(tmp_path: Path) -> None:
     lines, consistent = INVENTORY.summary(inventory)
     assert not consistent
     assert lines[1] == "outside apk: no s6; no Go program; bashio absent"
-    assert lines[-2:] == [
+    assert lines[-3:] == [
         "zlib loaded: 1.3.2; libavif None: None; libyuv None",
         "differs from RECORD: libb.so.2",
+        "wheels in the image: none",
     ]
     path = tmp_path / "inventory.json"
     path.write_text(json.dumps(inventory))
     assert INVENTORY.main(["--summary", str(path)]) == 1
+
+
+def test_a_wheel_in_the_image_is_found_and_fails_the_summary(tmp_path: Path) -> None:
+    """D-167: a wheel (for example the one Python bundles for ensurepip)
+    would ship code the inventory does not list."""
+    bundled = tmp_path / "usr" / "lib" / "python3.14" / "ensurepip" / "_bundled"
+    bundled.mkdir(parents=True)
+    (bundled / "pip-26.2.1-py3-none-any.whl").write_bytes(b"PK")
+    (tmp_path / "usr" / "lib" / "other.txt").write_text("not a wheel")
+    found = INVENTORY.wheel_files([tmp_path / "usr", tmp_path / "missing"])
+    assert found == [str(bundled / "pip-26.2.1-py3-none-any.whl")]
+    inventory = _inventory()
+    inventory["wheels"] = found
+    lines, consistent = INVENTORY.summary(inventory)
+    assert not consistent
+    assert lines[-1] == f"wheels in the image: {found[0]}"
 
 
 def test_the_inventory_is_one_json_document(
@@ -292,9 +311,11 @@ def test_the_inventory_is_one_json_document(
     monkeypatch.setattr(INVENTORY, "S6_PACKAGES", tmp_path / "admin")
     monkeypatch.setattr(INVENTORY, "GO_PROGRAMS", ())
     monkeypatch.setattr(INVENTORY, "BASHIO", tmp_path / "bashio")
+    monkeypatch.setattr(INVENTORY, "WHEEL_ROOTS", (tmp_path,))
     assert INVENTORY.main([]) == 0
     document = json.loads(capsys.readouterr().out)
-    assert set(document) == {"alpine", "base", "python", "pillow"}
+    assert set(document) == {"alpine", "base", "python", "pillow", "wheels"}
+    assert document["wheels"] == []
     assert document["base"] == {"s6": [], "go_programs": [], "bashio_present": False}
     assert [package["name"] for package in document["alpine"]] == ["busybox", "zlib"]
     assert "pillow" in {distribution["name"].lower() for distribution in document["python"]}

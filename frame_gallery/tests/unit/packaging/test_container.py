@@ -21,7 +21,7 @@ DOCKERIGNORE: Final = PROJECT / ".dockerignore"
 
 BASE: Final = re.compile(
     r"^FROM ghcr\.io/home-assistant/base:(?P<tag>3\.\d+-20\d\d\.\d\d\.\d+)"
-    r"@sha256:(?P<digest>[0-9a-f]{64}) AS python$",
+    r"@sha256:(?P<digest>[0-9a-f]{64}) AS base$",
     re.MULTILINE,
 )
 
@@ -51,12 +51,29 @@ def test_the_base_image_is_pinned_by_tag_and_digest() -> None:
 
 
 def test_python3_is_an_exact_apk_version() -> None:
-    assert re.search(r"apk add --no-cache python3=3\.14\.\d+-r\d+$", _dockerfile(), re.MULTILINE)
+    """The build's interpreter and the app's are the same exact apk version."""
+    pins = re.findall(r"apk add --no-cache python3=(3\.14\.\d+-r\d+)\b", _dockerfile())
+    assert len(pins) == 2
+    assert len(set(pins)) == 1
+
+
+def test_the_app_has_no_pip() -> None:
+    """D-167: the app stage installs the interpreter from the base, not from
+    the build's stage, and drops the pip wheel that it bundles for ensurepip
+    in the same layer, so no layer of the app holds pip or what it vendors."""
+    text = _dockerfile()
+    app = text.split("FROM base AS app\n", 1)[1].split("\nFROM ", 1)[0]
+    assert "&& apk add --no-cache python3=" in app
+    assert "\n    && rm -rf /usr/lib/python3.14/ensurepip/_bundled\n" in app
+    instructions = "\n".join(line for line in app.splitlines() if not line.lstrip().startswith("#"))
+    assert "pip" not in instructions.replace("ensurepip", "")  # no installer runs here
 
 
 def test_wheels_come_only_from_pypi_hash_checked_and_binary() -> None:
     text = _dockerfile()
     installs = re.findall(r"pip --isolated .*?-r (\S+)", text, re.DOTALL)
+    # No configuration file of the image may add an index (CP-5 of the review).
+    assert text.count("PIP_CONFIG_FILE=/dev/null /tmp/build/installer/bin/pip --isolated") == 2
     build = "/tmp/build"  # noqa: S108 - a path inside the image's build stage
     assert installs == [f"{build}/requirements.txt", f"{build}/test-requirements.txt"]
     for flags in re.findall(r"pip --isolated (.*?)-r \S+", text, re.DOTALL):
@@ -82,7 +99,7 @@ def test_the_app_image_runs_the_entry_point_under_the_base_init() -> None:
     )
     assert "ENV S6_CMD_RECEIVE_SIGNALS=1 S6_VERBOSITY=1" in text
     assert "ENTRYPOINT" not in text
-    assert "USER" not in text.split("FROM runtime AS test")[0]  # the parent runs as root
+    assert "USER" not in text.split("FROM app AS test")[0]  # the parent runs as root
 
 
 def test_the_labels_come_from_required_build_arguments() -> None:
@@ -90,16 +107,25 @@ def test_the_labels_come_from_required_build_arguments() -> None:
     assert 'io.hass.type="app"' in text
     assert 'io.hass.arch="${BUILD_ARCH}"' in text
     assert 'io.hass.version="${BUILD_VERSION}"' in text
+    # The base's OCI labels would describe the base: version, source, and time.
+    assert 'org.opencontainers.image.version="${BUILD_VERSION}"' in text
+    assert 'org.opencontainers.image.source=""' in text
+    assert 'org.opencontainers.image.created=""' in text
     assert "licenses" not in text  # D-130: the OCI licenses label is omitted
     assert 'test -n "${BUILD_VERSION}"' in text
     assert "arm64/aarch64|amd64/amd64" in text
 
 
-def test_the_test_stage_is_built_on_the_app_image() -> None:
+def test_the_app_image_is_the_last_stage() -> None:
+    """A build without a target (the Supervisor's) produces the last stage:
+    it must be the app, never the test stage (CP-1 of the review)."""
     text = _dockerfile()
     stages = re.findall(r"^FROM (\S+) AS (\w+)$", text, re.MULTILINE)
-    assert [name for _, name in stages] == ["python", "builder", "runtime", "test"]
-    assert stages[3][0] == "runtime"
+    assert [name for _, name in stages] == ["base", "python", "builder", "app", "test", "runtime"]
+    parents = {name: parent for parent, name in stages}
+    assert parents["app"] == "base"  # not the build's stage, which holds pip's wheel
+    assert parents["test"] == parents["runtime"] == "app"
+    assert text.rstrip().endswith("FROM app AS runtime")
 
 
 def test_the_build_context_is_an_allowlist() -> None:
