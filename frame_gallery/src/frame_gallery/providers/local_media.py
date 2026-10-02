@@ -47,7 +47,8 @@ import logging
 import os
 import re
 import stat
-from collections.abc import Collection, Iterator
+import time
+from collections.abc import Callable, Collection, Iterator, Sequence
 from dataclasses import dataclass, field
 from pathlib import Path
 from typing import Final
@@ -64,13 +65,16 @@ from frame_gallery.domain import Size, SourceKey
 from frame_gallery.fingerprint import fingerprint_fd
 from frame_gallery.imaging.contract import (
     INSPECT_TASK,
+    MAX_INSPECT_BATCH,
     MAX_SOURCE_BYTES,
     ImageFormat,
-    InspectRequest,
+    InspectBatch,
+    InspectFile,
     InspectResult,
     InspectStatus,
+    parse_inspected_event,
 )
-from frame_gallery.isolation.executor import Executor, WorkerError, WorkerErrorKind
+from frame_gallery.isolation.executor import Executor, JsonObject, WorkerError, WorkerErrorKind
 from frame_gallery.logs.summary import sanitize_for_log
 from frame_gallery.providers.contract import (
     Attribution,
@@ -80,6 +84,7 @@ from frame_gallery.providers.contract import (
     DiscoveryContext,
     ImageRef,
     ImageRefKind,
+    Measurement,
     SourceError,
     SourceErrorKind,
 )
@@ -507,48 +512,163 @@ def _copy(source: int, destination: Path, size: int, deadline: Deadline) -> None
 
 
 class LocalInspectionProbe:
-    """Header inspection in the worker (§8.3): ``source`` is local, so the
-    selection charges its own allowance of 300 and counts a failure as an
-    inspection failure, never as a transport failure."""
+    """Header inspection in the worker (§8.3), in batches of at most
+    :data:`MAX_INSPECT_BATCH` files.
 
-    def __init__(self, provider: LocalMediaProvider, executor: Executor) -> None:
+    The parent opens each file read-only, without following a link, and only
+    if it is still the regular file the scan saw; the worker receives the
+    descriptors and never opens a library path itself, so it can read every
+    file the app can (Phase 5 gate decision). ``source`` is local, so
+    selection charges its own allowance of 300 per file and counts a failure
+    as an inspection failure, never as a transport failure. Each file may
+    take :data:`LOCAL_INSPECTION_S` from the previous one: a slower file, or
+    a worker that fails, fails the file it was on, and the files after it go
+    to a new worker.
+    """
+
+    def __init__(
+        self,
+        provider: LocalMediaProvider,
+        executor: Executor,
+        *,
+        monotonic: Callable[[], float] = time.monotonic,
+    ) -> None:
         self._provider = provider
         self._executor = executor
+        self._monotonic = monotonic
 
     @property
     def source(self) -> DimensionSource:
         return DimensionSource.LOCAL_INSPECTION
 
+    @property
+    def max_batch(self) -> int:
+        return MAX_INSPECT_BATCH
+
     def measure(self, candidate: Candidate, deadline: Deadline) -> Size | None:
-        """The dimensions after EXIF orientation; ``None`` for a file that
-        cannot be read as its format (counted in the aggregated warning).
-        A worker failure raises ``SourceError`` (an inspection failure)."""
-        file = self._provider.library_file(candidate)
-        device, inode = file.identity
-        request = InspectRequest(
-            path=str(file.path),
-            declared_format=file.declared_format,
-            device=device,
-            inode=inode,
-        )
-        timeout = deadline.clamp(LOCAL_INSPECTION_S)
+        """One file; see :meth:`measure_batch`. A failed inspection raises
+        ``SourceError``."""
+        (measurement,) = self.measure_batch([candidate], deadline)
+        if measurement.error is not None:
+            raise measurement.error
+        return measurement.size
+
+    def measure_batch(
+        self, candidates: Sequence[Candidate], deadline: Deadline
+    ) -> list[Measurement]:
+        """The dimensions after EXIF orientation, in order; ``None`` for a file
+        that cannot be read as its format or changed since the scan (counted
+        in the aggregated warning). Raises ``DeadlineExceeded`` when the
+        discovery deadline ends the batch."""
+        files = [self._provider.library_file(candidate) for candidate in candidates]
+        results: dict[int, Measurement] = {}
+        pending = list(range(len(files)))
+        while pending:
+            deadline.check()
+            opened = self._open(files, pending, results)
+            try:
+                if opened:
+                    self._inspect(files, opened, results, deadline)
+            finally:
+                for _, fd in opened:
+                    os.close(fd)
+            pending = [index for index, _ in opened if index not in results]
+        return [results[index] for index in range(len(files))]
+
+    def _open(
+        self, files: Sequence[LibraryFile], pending: Sequence[int], results: dict[int, Measurement]
+    ) -> list[tuple[int, int]]:
+        """Open each pending file; the ones that cannot be opened, or are no
+        longer the file the scan saw, get their result at once."""
+        opened: list[tuple[int, int]] = []
         try:
-            raw = self._executor.run(INSPECT_TASK, request.to_json(), timeout=timeout)
-            result = InspectResult.from_json(raw)
-        except (WorkerError, ValueError) as exc:
-            if (
-                isinstance(exc, WorkerError)
-                and exc.kind is WorkerErrorKind.TIMEOUT
-                and deadline.expired()
-            ):
+            for index in pending:
+                file = files[index]
+                try:
+                    fd = os.open(file.path, _READ_FLAGS)
+                except OSError:
+                    self._provider.report.skip(SkipReason.UNREADABLE, file.relative)
+                    results[index] = Measurement()
+                    continue
+                try:
+                    info = os.fstat(fd)
+                except OSError:
+                    os.close(fd)
+                    self._provider.report.skip(SkipReason.UNREADABLE, file.relative)
+                    results[index] = Measurement()
+                    continue
+                if not stat.S_ISREG(info.st_mode) or _identity(info) != file.identity:
+                    os.close(fd)
+                    self._provider.report.skip(SkipReason.CHANGED, file.relative)
+                    results[index] = Measurement()
+                    continue
+                opened.append((index, fd))
+        except BaseException:
+            for _, fd in opened:
+                os.close(fd)
+            raise
+        return opened
+
+    def _inspect(
+        self,
+        files: Sequence[LibraryFile],
+        opened: Sequence[tuple[int, int]],
+        results: dict[int, Measurement],
+        deadline: Deadline,
+    ) -> None:
+        """One worker for the opened files. A file whose event arrives gets
+        its result; after a failure, the file in progress fails, and the files
+        after it stay pending."""
+        batch = InspectBatch(
+            tuple(
+                InspectFile(fd, files[index].declared_format, *files[index].identity)
+                for index, fd in opened
+            )
+        )
+        received = 0
+        last = self._monotonic()
+
+        def on_event(event: JsonObject) -> None:
+            nonlocal received, last
+            result = parse_inspected_event(event, received)
+            index = opened[received][0]
+            results[index] = self._measurement(files[index], result)
+            received += 1
+            last = self._monotonic()
+
+        def too_slow() -> bool:
+            return self._monotonic() - last > LOCAL_INSPECTION_S
+
+        timeout = deadline.clamp(LOCAL_INSPECTION_S * len(opened))
+        try:
+            raw = self._executor.run(
+                INSPECT_TASK,
+                batch.to_json(),
+                timeout=timeout,
+                on_event=on_event,
+                should_stop=too_slow,
+                files=[fd for _, fd in opened],
+            )
+        except WorkerError as exc:
+            if exc.kind is WorkerErrorKind.TIMEOUT and deadline.expired():
                 # Cut off by discovery's own deadline: not the file's fault.
                 raise DeadlineExceeded(deadline.name) from None
-            self._provider.report.skip(SkipReason.INSPECTION_FAILED, file.relative)
-            detail = exc.kind.value if isinstance(exc, WorkerError) else "invalid result"
-            raise SourceError(
-                SourceErrorKind.UNEXPECTED_FORMAT, f"inspection failed ({detail})"
-            ) from None
+            if received < len(opened):
+                index = opened[received][0]
+                detail = "too slow" if exc.kind is WorkerErrorKind.STOPPED else exc.kind.value
+                results[index] = self._failure(files[index], detail)
+            return
+        if received < len(opened) or raw != {"inspected": len(opened)}:
+            for index, _ in opened[received:]:
+                results[index] = self._failure(files[index], "invalid result")
+
+    def _measurement(self, file: LibraryFile, result: InspectResult) -> Measurement:
         if result.status is InspectStatus.FAILED:
             self._provider.report.skip(SkipReason.UNREADABLE, file.relative)
-            return None
-        return result.oriented_size
+            return Measurement()
+        return Measurement(size=result.oriented_size)
+
+    def _failure(self, file: LibraryFile, detail: str) -> Measurement:
+        self._provider.report.skip(SkipReason.INSPECTION_FAILED, file.relative)
+        error = SourceError(SourceErrorKind.UNEXPECTED_FORMAT, f"inspection failed ({detail})")
+        return Measurement(error=error)

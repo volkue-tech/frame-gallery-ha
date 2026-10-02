@@ -70,7 +70,7 @@ TEST_TASKS: Final[Mapping[str, TaskEntry]] = {
     "spawn": entry("spawn"),
     "orphan": entry("orphan"),
     "prepare": entry("guarded_prepare"),
-    "inspect": entry("guarded_inspect"),
+    "inspect": entry("guarded_inspect", events=True),
     "deliver": entry("fake_deliver", events=True, limits=TELEVISION_LIMITS),
     "deliver_real": entry("guarded_deliver", events=True, limits=TELEVISION_LIMITS),
 }

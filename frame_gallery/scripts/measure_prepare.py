@@ -17,8 +17,8 @@ with transparency, grey with a transparent key, 16-bit grey), one behind a
 chunk flood. The files are handed to the worker as the runner does (D-164),
 so the script also works as root, where every worker drops to 65534.
 
-``--inspections N`` also times N ``inspect`` tasks, one worker each, as a
-local-media scan runs them (D-149).
+``--inspections N`` also times N local-media inspections in batches of up to
+16 files per worker, as a scan runs them (D-149, Phase 5 gate decision).
 
 The address-space limit (``RLIMIT_AS``, 1 GiB) is enforced only on Linux;
 on another host each row says so. Nothing here uses the network. The exit
@@ -51,12 +51,15 @@ sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "src"))
 from frame_gallery.budget.clock import SystemClock
 from frame_gallery.domain import BLACK, FitMode
 from frame_gallery.imaging.contract import (
+    MAX_INSPECT_BATCH,
     MAX_SOURCE_BYTES,
     ImageFormat,
-    InspectRequest,
+    InspectBatch,
+    InspectFile,
     PrepareRequest,
+    parse_inspected_event,
 )
-from frame_gallery.isolation.executor import WorkerError
+from frame_gallery.isolation.executor import JsonObject, WorkerError
 from frame_gallery.isolation.launch import Limit
 from frame_gallery.isolation.process import Launch, ProcessExecutor
 from frame_gallery.store.workspace import HANDED_OVER_FILE, RunWorkspace
@@ -263,19 +266,40 @@ def _prepare(  # noqa: PLR0917 - one row's inputs
 
 
 def _inspect(executor: ProcessExecutor, inbox: Path, count: int) -> dict[str, object]:
-    """``count`` inspections of one small JPEG, one worker each (D-149)."""
+    """``count`` inspections of one small JPEG, in batches of up to
+    ``MAX_INSPECT_BATCH`` descriptors per worker, as a local-media scan runs
+    them (§8.3, Phase 5 gate decision)."""
     source = inbox / "inspect.jpg"
     Image.new("RGB", (1920, 1080), (40, 90, 160)).save(source, "JPEG", quality=85)
     source.chmod(HANDED_OVER_FILE)
-    request = InspectRequest(str(source), ImageFormat.JPEG).to_json()
     started = time.monotonic()
-    failures = 0
-    for _ in range(count):
-        result = executor.run("inspect", request, timeout=INSPECT_TIMEOUT_S)
-        failures += result.get("status") != "ok"
+    failures = workers = 0
+    remaining = count
+    while remaining:
+        size = min(remaining, MAX_INSPECT_BATCH)
+        fds = [os.open(source, os.O_RDONLY | os.O_CLOEXEC) for _ in range(size)]
+        try:
+            info = os.fstat(fds[0])
+            files = tuple(InspectFile(fd, ImageFormat.JPEG, info.st_dev, info.st_ino) for fd in fds)
+            events: list[JsonObject] = []
+            executor.run(
+                "inspect",
+                InspectBatch(files).to_json(),
+                timeout=INSPECT_TIMEOUT_S * size,
+                on_event=events.append,
+                files=fds,
+            )
+        finally:
+            for fd in fds:
+                os.close(fd)
+        results = [parse_inspected_event(event, index) for index, event in enumerate(events)]
+        failures += size - sum(result.oriented_size is not None for result in results)
+        workers += 1
+        remaining -= size
     elapsed = time.monotonic() - started
     return {
         "inspections": count,
+        "workers": workers,
         "total_s": round(elapsed, 2),
         "each_s": round(elapsed / count, 3),
         "failures": failures,

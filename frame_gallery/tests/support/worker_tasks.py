@@ -300,10 +300,10 @@ def guarded_prepare(payload: JsonObject) -> JsonObject:
 
 
 @guarded
-def guarded_inspect(payload: JsonObject) -> JsonObject:
+def guarded_inspect(payload: JsonObject, emit: EventSink) -> JsonObject:
     from frame_gallery.imaging.worker_tasks import inspect_task  # noqa: PLC0415
 
-    return inspect_task(payload)
+    return inspect_task(payload, emit)
 
 
 @guarded

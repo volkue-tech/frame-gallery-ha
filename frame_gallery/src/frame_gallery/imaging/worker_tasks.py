@@ -53,17 +53,19 @@ from frame_gallery.imaging.contract import (
     MAX_SOURCE_BYTES,
     ColourHandling,
     ImageFormat,
-    InspectRequest,
+    InspectBatch,
+    InspectFile,
     InspectResult,
     InspectStatus,
     PrepareFailure,
     PrepareRequest,
     PrepareResult,
     PrepareStatus,
+    inspected_event,
 )
 from frame_gallery.imaging.fit import contain_layout, cover_crop, scaled_source
 from frame_gallery.imaging.source_scan import SourceLimitError, SourceScanError, scan_source
-from frame_gallery.isolation.executor import JsonObject
+from frame_gallery.isolation.executor import EventSink, JsonObject
 from frame_gallery.selection.geometry import check_rendition
 
 _CMS_AVAILABLE = features.check_module("littlecms2")
@@ -181,31 +183,30 @@ def prepare_task(payload: JsonObject) -> JsonObject:
     return prepare_image(request).to_json()
 
 
-def inspect_task(payload: JsonObject) -> JsonObject:
-    """The ``inspect`` task: one library file's dimensions after EXIF
-    orientation, from its header only (§8.3)."""
-    request = InspectRequest.from_json(payload)
-    return inspect_image(request).to_json()
+def inspect_task(payload: JsonObject, emit: EventSink) -> JsonObject:
+    """The ``inspect`` task: the dimensions after EXIF orientation of each
+    file of a batch, from its header only (§8.3), as one event per file and
+    in order. The parent opened the files read-only; the worker never opens
+    a library path itself (Phase 5 gate decision)."""
+    batch = InspectBatch.from_json(payload)
+    for index, file in enumerate(batch.files):
+        emit(inspected_event(index, inspect_file(file)))
+    return {"inspected": len(batch.files)}
 
 
-def inspect_image(request: InspectRequest) -> InspectResult:
-    """Open, pre-scan, identify, and limit-check one file, as ``prepare``
-    does before decoding, and read its orientation. No pixels are decoded."""
+def inspect_file(file: InspectFile) -> InspectResult:
+    """Pre-scan, identify, and limit-check one file, as ``prepare`` does
+    before decoding, and read its orientation. No pixels are decoded."""
     Image.MAX_IMAGE_PIXELS = MAX_JPEG_PIXELS
     try:
         with warnings.catch_warnings():
             warnings.simplefilter("ignore", UserWarning)
             warnings.simplefilter("error", Image.DecompressionBombWarning)
-            expected = (
-                None
-                if request.device is None or request.inode is None
-                else (request.device, request.inode)
-            )
             with (
-                _open_source(request.path, expected) as file,
-                contextlib.closing(_open_image(file, request.declared_format)) as image,
+                _wrap_descriptor(file.fd, (file.device, file.inode), owned=False) as handle,
+                contextlib.closing(_open_image(handle, file.declared_format)) as image,
             ):
-                size = _check_limits(image, request.declared_format)
+                size = _check_limits(image, file.declared_format)
                 orientation = _orientation(image)
     except _Failed as failed:
         return InspectResult(
@@ -297,18 +298,31 @@ def _prepare(request: PrepareRequest, known: _Known, max_output_bytes: int) -> P
     )
 
 
-def _open_source(path: str, expected: tuple[int, int] | None = None) -> IO[bytes]:
-    """Open the source safely; with ``expected`` (device, inode), only if it is
-    still the file the parent's scan saw."""
+def _open_source(path: str) -> IO[bytes]:
+    """Open the source safely: never through a link, and only a regular file
+    within the source cap."""
     try:
         fd = os.open(path, _SOURCE_FLAGS)
     except OSError as exc:
         detail = f"cannot open the source ({_errno_name(exc)})"
         raise _Failed(PrepareFailure.IO, detail) from None
+    return _wrap_descriptor(fd, None, owned=True)
+
+
+def _wrap_descriptor(fd: int, expected: tuple[int, int] | None, *, owned: bool) -> IO[bytes]:
+    """``fd`` as a file object, once it is a regular file within the source
+    cap and, with ``expected`` (device, inode), still the file the parent's
+    scan saw. An ``owned`` descriptor is closed with the file object, or at
+    once when a check fails; a lent one (a descriptor the parent passed) is
+    never closed here: its owner closes it (``Executor.run``, ``files``)."""
     try:
         # fstat before wrapping the descriptor: a file object refuses a
         # directory with its own error.
-        info = os.fstat(fd)
+        try:
+            info = os.fstat(fd)
+        except OSError as exc:
+            detail = f"cannot read the source ({_errno_name(exc)})"
+            raise _Failed(PrepareFailure.IO, detail) from None
         if expected is not None and (info.st_dev, info.st_ino) != expected:
             raise _Failed(PrepareFailure.IO, "the source is not the file the scan saw")
         if not stat.S_ISREG(info.st_mode):
@@ -316,9 +330,11 @@ def _open_source(path: str, expected: tuple[int, int] | None = None) -> IO[bytes
         if info.st_size > MAX_SOURCE_BYTES:
             detail = f"the source exceeds {MAX_SOURCE_BYTES} bytes"
             raise _Failed(PrepareFailure.LIMITS, detail)
-        return os.fdopen(fd, "rb")
+        return os.fdopen(fd, "rb", closefd=owned)
     except BaseException:
-        os.close(fd)
+        if owned:
+            with contextlib.suppress(OSError):
+                os.close(fd)
         raise
 
 

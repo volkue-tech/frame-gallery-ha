@@ -9,8 +9,8 @@ the same at this seam.
 from __future__ import annotations
 
 import enum
-from collections.abc import Callable
-from typing import Protocol
+from collections.abc import Callable, Sequence
+from typing import Final, Protocol
 
 from frame_gallery.errors import FrameGalleryError
 
@@ -29,9 +29,25 @@ keeps ``timeout`` or ``stopped``."""
 
 StopCheck = Callable[[], bool]
 
+MAX_PASSED_FILES: Final = 16
+"""At most this many descriptors go to one worker: with its own six, they
+stay well inside the worker's ``RLIMIT_NOFILE`` of 32 (D-163)."""
+
 EventTaskFunction = Callable[[JsonObject, EventSink], JsonObject]
 """A task that sends intermediate events: it calls the sink for each one,
 and the sink returns once the event is on its way to the parent."""
+
+
+def check_files(files: Sequence[int]) -> None:
+    """Raises ``ValueError`` unless ``files`` are at most
+    :data:`MAX_PASSED_FILES` distinct descriptors above the standard three."""
+    if (
+        len(files) > MAX_PASSED_FILES
+        or len(set(files)) != len(files)
+        or not all(isinstance(fd, int) and not isinstance(fd, bool) and fd > 2 for fd in files)
+    ):
+        msg = f"at most {MAX_PASSED_FILES} distinct descriptors above 2 can be passed"
+        raise ValueError(msg)
 
 
 class WorkerErrorKind(enum.StrEnum):
@@ -79,6 +95,7 @@ class Executor(Protocol):
         timeout: float,
         on_event: EventSink | None = None,
         should_stop: StopCheck | None = None,
+        files: Sequence[int] = (),
     ) -> JsonObject:
         """Run ``task`` with ``payload`` and return its JSON result.
 
@@ -86,8 +103,12 @@ class Executor(Protocol):
         task sends go to ``on_event`` as they arrive. ``should_stop`` is polled
         while the task runs; once it returns true, the task is killed and the
         run fails with ``stopped``, after every event already sent was
-        delivered. Returns or raises only after the task was killed or ended
-        and its channel closed, so nothing it sends can arrive later. Raises
+        delivered. ``files`` are descriptors the parent opened read-only for
+        the task (at most :data:`MAX_PASSED_FILES`); the task finds them at
+        the same numbers, named in its payload, and never closes them: the
+        caller closes its own after the run (Phase 5 gate decision). Returns
+        or raises only after the task was killed or ended and its channel
+        closed, so nothing it sends can arrive later. Raises
         :class:`WorkerError`; the process executor also raises
         ``IsolationFailure``; ``Cancelled`` may propagate.
         """

@@ -372,6 +372,7 @@ class FakeExecutor:
         timeout: float,
         on_event: EventSink | None = None,
         should_stop: StopCheck | None = None,
+        files: Sequence[int] = (),
     ) -> JsonObject:
         self.events.append(f"executor.run:{task}")
         self.timeouts.append(timeout)

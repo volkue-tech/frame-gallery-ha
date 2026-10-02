@@ -20,7 +20,7 @@ from frame_gallery.app.outcomes import Outcome
 from frame_gallery.app.signals import install_sigterm_handler
 from frame_gallery.domain import CANVAS, Size
 from frame_gallery.imaging.jpeg_header import parse_jpeg
-from frame_gallery.isolation.in_process import InProcessExecutor, default_tasks
+from frame_gallery.isolation.in_process import default_executor
 from frame_gallery.providers.contract import Candidate
 from frame_gallery.selection.shortlist import ChoiceBasis
 from frame_gallery.tv.port import DeliveryStatus, Marker
@@ -38,7 +38,7 @@ def jpeg(size: Size, colour: tuple[int, int, int] = BRIGHT) -> bytes:
 
 def real_harness(tmp_path: Path, candidates: list[Candidate], **raw: object) -> Harness:
     h = Harness(tmp_path, raw={"tv_host": "10.0.0.5", **raw}, candidates=candidates)
-    h.executor = InProcessExecutor(default_tasks(), h.clock)  # type: ignore[assignment]
+    h.executor = default_executor(h.clock)  # type: ignore[assignment]
     for candidate in candidates:
         if candidate.dims is not None:
             h.fetcher.payloads[candidate.native_id] = jpeg(candidate.dims)

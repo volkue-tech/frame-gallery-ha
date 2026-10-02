@@ -135,7 +135,7 @@ def test_the_production_tables() -> None:
             "frame_gallery.imaging.worker_tasks", "prepare_task", events=False, limits=IMAGE_LIMITS
         ),
         "inspect": TaskEntry(
-            "frame_gallery.imaging.worker_tasks", "inspect_task", events=False, limits=IMAGE_LIMITS
+            "frame_gallery.imaging.worker_tasks", "inspect_task", events=True, limits=IMAGE_LIMITS
         ),
         "deliver": TaskEntry(
             "frame_gallery.tv.samsung_task", "deliver_task", events=True, limits=TELEVISION_LIMITS

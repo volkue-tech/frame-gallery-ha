@@ -33,9 +33,16 @@ import pytest
 
 from frame_gallery.budget.clock import SystemClock
 from frame_gallery.domain import BLACK, FitMode, Size
-from frame_gallery.imaging.contract import ImageFormat, InspectRequest, PrepareRequest
+from frame_gallery.imaging.contract import (
+    ImageFormat,
+    InspectBatch,
+    InspectFile,
+    PrepareRequest,
+    parse_inspected_event,
+)
 from frame_gallery.isolation import process
 from frame_gallery.isolation.executor import (
+    MAX_PASSED_FILES,
     IsolationFailure,
     JsonObject,
     WorkerError,
@@ -626,10 +633,58 @@ def test_prepare_in_a_worker(tmp_path: Path) -> None:
     assert (tmp_path / "delivery-0.jpg").stat().st_size > 0
 
 
-def test_inspect_in_a_worker(tmp_path: Path) -> None:
+def _open_for_worker(path: Path) -> InspectFile:
+    fd = os.open(path, os.O_RDONLY | os.O_NOFOLLOW | os.O_CLOEXEC)
+    info = os.fstat(fd)
+    return InspectFile(fd, ImageFormat.JPEG, info.st_dev, info.st_ino)
+
+
+def test_inspect_in_a_worker_over_passed_descriptors(tmp_path: Path) -> None:
+    """The parent opens the files; the worker reads them at the same
+    numbers and reports each one as an event (Phase 5 gate decision)."""
+    from PIL import Image  # noqa: PLC0415
+
+    first = save_jpeg_file(tmp_path)
+    second = save_jpeg(Image.new("RGB", (100, 50)), tmp_path / "second.jpg")
+    batch = InspectBatch((_open_for_worker(first), _open_for_worker(second)))
+    events: list[JsonObject] = []
+    try:
+        result = run(
+            "inspect",
+            batch.to_json(),
+            on_event=events.append,
+            files=[file.fd for file in batch.files],
+        )
+        assert all(os.fstat(file.fd) for file in batch.files)  # the caller's stay open
+    finally:
+        for file in batch.files:
+            os.close(file.fd)
+    assert result == {"inspected": 2}
+    sizes = [
+        parse_inspected_event(event, index).oriented_size for index, event in enumerate(events)
+    ]
+    assert sizes == [Size(768, 432), Size(100, 50)]
+
+
+def test_passed_descriptors_are_the_only_extra_ones(tmp_path: Path) -> None:
     source = save_jpeg_file(tmp_path)
-    result = run("inspect", InspectRequest(str(source), ImageFormat.JPEG).to_json())
-    assert result["status"] == "ok", result
+    fd = os.open(source, os.O_RDONLY | os.O_CLOEXEC)
+    try:
+        report = run("report", files=[fd])
+    finally:
+        os.close(fd)
+    assert fd in report["fds"]  # type: ignore[operator]
+    assert len(report["fds"]) == 7  # type: ignore[arg-type]  # the six, and the file
+
+
+@pytest.mark.parametrize(
+    "files",
+    [list(range(3, 4 + MAX_PASSED_FILES)), [5, 5], [2], [True]],
+    ids=["too-many", "repeated", "standard", "boolean"],
+)
+def test_descriptors_that_cannot_be_passed_are_refused(files: list[int]) -> None:
+    with pytest.raises(ValueError, match="descriptors above 2"):
+        run("echo", files=files)
 
 
 def save_jpeg_file(tmp_path: Path) -> Path:

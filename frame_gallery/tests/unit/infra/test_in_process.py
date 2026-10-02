@@ -26,6 +26,8 @@ from frame_gallery.isolation.in_process import (
     INSPECT_TASK,
     PREPARE_TASK,
     InProcessExecutor,
+    default_event_tasks,
+    default_executor,
     default_tasks,
 )
 from tests.support.clock import FakeClock
@@ -228,7 +230,9 @@ def test_the_task_table_is_copied(tasks: Tasks, clock: FakeClock) -> None:
 
 
 def test_default_tasks_offer_prepare_and_inspect() -> None:
-    assert set(default_tasks()) == {PREPARE_TASK, INSPECT_TASK} == {"prepare", "inspect"}
+    """Prepare returns one result; inspect reports each file as an event."""
+    assert set(default_tasks()) == {PREPARE_TASK} == {"prepare"}
+    assert set(default_event_tasks()) == {INSPECT_TASK} == {"inspect"}
     assert (contract.PREPARE_TASK, contract.INSPECT_TASK) == (PREPARE_TASK, INSPECT_TASK)
 
 
@@ -237,16 +241,21 @@ def test_inspect_imports_the_worker_module_when_it_runs(
 ) -> None:
     received: list[JsonObject] = []
 
-    def inspect_task(payload: JsonObject) -> JsonObject:
+    def inspect_task(payload: JsonObject, emit: EventSink) -> JsonObject:
         received.append(payload)
-        return {"status": "inspected"}
+        emit({"index": 0})
+        return {"inspected": 1}
 
     fake = types.ModuleType(WORKER_TASKS)
     fake.inspect_task = inspect_task  # type: ignore[attr-defined]
     monkeypatch.setitem(sys.modules, WORKER_TASKS, fake)
-    executor = InProcessExecutor(default_tasks(), clock)
-    assert executor.run("inspect", {"path": "a.jpg"}, timeout=2.0) == {"status": "inspected"}
-    assert received == [{"path": "a.jpg"}]
+    events: list[JsonObject] = []
+    result = default_executor(clock).run(
+        "inspect", {"files": []}, timeout=2.0, on_event=events.append
+    )
+    assert result == {"inspected": 1}
+    assert received == [{"files": []}]
+    assert events == [{"index": 0}]
 
 
 def test_prepare_imports_the_worker_module_when_it_runs(
@@ -284,7 +293,8 @@ def test_importing_the_executor_does_not_load_pillow() -> None:
     code = (
         "import sys\n"
         "import frame_gallery.isolation.in_process as module\n"
-        "module.default_tasks()\n"
+        "from frame_gallery.budget.clock import SystemClock\n"
+        "module.default_executor(SystemClock())\n"
         "loaded = [n for n in sys.modules if n.split('.')[0] == 'PIL' or 'worker_tasks' in n]\n"
         "print(loaded)\n"
     )

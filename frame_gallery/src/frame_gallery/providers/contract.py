@@ -9,9 +9,9 @@ eligibility; selection does.
 from __future__ import annotations
 
 import enum
-from collections.abc import Callable, Iterator
+from collections.abc import Callable, Iterator, Sequence
 from dataclasses import dataclass, field
-from typing import Protocol
+from typing import Protocol, runtime_checkable
 
 from frame_gallery.budget.deadline import Deadline
 from frame_gallery.config.filters import EffectiveFilters
@@ -215,4 +215,33 @@ class DimensionProbe(Protocol):
         A local inspection returns ``None`` for a file it cannot read (counted in
         the aggregated warning, §9.3); if it raises, the failure counts as an
         inspection failure, never as a transport failure."""
+        ...
+
+
+@dataclass(frozen=True, slots=True)
+class Measurement:
+    """One candidate's result in a batch: its size, ``None`` when it cannot
+    be determined, or the error that :meth:`DimensionProbe.measure` would
+    have raised for it."""
+
+    size: Size | None = None
+    error: SourceError | None = None
+
+
+@runtime_checkable
+class BatchDimensionProbe(DimensionProbe, Protocol):
+    """A probe that measures several candidates at once: the local
+    inspection, which starts one worker for a batch of files (§8.3)."""
+
+    @property
+    def max_batch(self) -> int:
+        """At most this many candidates per :meth:`measure_batch`."""
+        ...
+
+    def measure_batch(
+        self, candidates: Sequence[Candidate], deadline: Deadline
+    ) -> Sequence[Measurement]:
+        """One measurement per candidate, in order. Raises
+        ``DeadlineExceeded`` when ``deadline`` ends the batch, and lets
+        ``Cancelled`` propagate."""
         ...

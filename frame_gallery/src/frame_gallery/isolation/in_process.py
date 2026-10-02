@@ -11,7 +11,7 @@ process executor (Phase 5) enforces the timeout with a kill timer instead.
 from __future__ import annotations
 
 import importlib
-from collections.abc import Mapping
+from collections.abc import Mapping, Sequence
 from typing import Final
 
 from frame_gallery.budget.clock import Clock
@@ -30,6 +30,7 @@ from frame_gallery.isolation.executor import (
     TaskFunction,
     WorkerError,
     WorkerErrorKind,
+    check_files,
 )
 from frame_gallery.logs.summary import sanitize_for_log
 
@@ -86,14 +87,17 @@ class InProcessExecutor:
         timeout: float,
         on_event: EventSink | None = None,
         should_stop: StopCheck | None = None,
+        files: Sequence[int] = (),
     ) -> JsonObject:
         """Run ``task`` and return its result, as the process executor would.
 
+        ``files`` stay valid as they are: the task runs in this process.
         Raises :class:`WorkerError`; :class:`Cancelled` propagates unchanged.
         """
         if not timeout > 0:
             msg = f"timeout must be positive, got {timeout!r}"
             raise ValueError(msg)
+        check_files(files)
         function = self._tasks.get(task)
         if function is None:
             raise WorkerError(WorkerErrorKind.UNKNOWN_TASK, sanitize_for_log(task, max_length=40))
@@ -141,17 +145,27 @@ def _prepare(payload: JsonObject) -> JsonObject:
     return prepare_task(payload)
 
 
-def _inspect(payload: JsonObject) -> JsonObject:
+def _inspect(payload: JsonObject, emit: EventSink) -> JsonObject:
     module = importlib.import_module(_WORKER_TASKS_MODULE)
-    inspect_task: TaskFunction = module.inspect_task
-    return inspect_task(payload)
+    inspect_task: EventTaskFunction = module.inspect_task
+    return inspect_task(payload, emit)
 
 
 def default_tasks() -> dict[str, TaskFunction]:
-    """The prepare and inspect tasks for the in-process executor, which runs
-    only in tests (R-27); worker modules are imported lazily. Production
-    workers use ``launch.PRODUCTION_TASKS``."""
-    return {PREPARE_TASK: _prepare, INSPECT_TASK: _inspect}
+    """The prepare task for the in-process executor, which runs only in tests
+    (R-27); worker modules are imported lazily. Production workers use
+    ``launch.PRODUCTION_TASKS``."""
+    return {PREPARE_TASK: _prepare}
+
+
+def default_event_tasks() -> dict[str, EventTaskFunction]:
+    """The inspect task, which reports each file as an event (§8.3)."""
+    return {INSPECT_TASK: _inspect}
+
+
+def default_executor(clock: Clock) -> InProcessExecutor:
+    """The in-process executor with the production image tasks (tests only)."""
+    return InProcessExecutor(default_tasks(), clock, event_tasks=default_event_tasks())
 
 
 def _never() -> bool:

@@ -10,6 +10,7 @@ from __future__ import annotations
 import hashlib
 import logging
 import time
+from collections.abc import Sequence
 from ipaddress import IPv4Address
 from pathlib import Path
 
@@ -270,10 +271,16 @@ def test_the_default_clock_is_the_monotonic_one(tmp_path: Path) -> None:
             timeout: float,
             on_event: EventSink | None = None,
             should_stop: StopCheck | None = None,
+            files: Sequence[int] = (),
         ) -> JsonObject:
             captured.append(payload)
             return super().run(
-                task, payload, timeout=timeout, on_event=on_event, should_stop=should_stop
+                task,
+                payload,
+                timeout=timeout,
+                on_event=on_event,
+                should_stop=should_stop,
+                files=files,
             )
 
     before = time.monotonic()
@@ -302,6 +309,7 @@ class ScriptedExecutor:
         timeout: float,
         on_event: EventSink | None = None,
         should_stop: StopCheck | None = None,
+        files: Sequence[int] = (),
     ) -> JsonObject:
         self.timeouts.append(timeout)
         assert on_event is not None

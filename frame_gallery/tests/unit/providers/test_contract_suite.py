@@ -28,7 +28,7 @@ from frame_gallery.budget.deadline import Deadline
 from frame_gallery.config.capabilities import CAPABILITY_MATRIX
 from frame_gallery.config.filters import EffectiveFilters, FilterDimension, FilterSet
 from frame_gallery.domain import SourceKey
-from frame_gallery.isolation.in_process import InProcessExecutor, default_tasks
+from frame_gallery.isolation.in_process import default_executor
 from frame_gallery.net.gateway import Gateway
 from frame_gallery.net.policy import HostPolicy, validate_url
 from frame_gallery.providers.aic import AicProvider, aic_policy
@@ -304,7 +304,7 @@ def test_local_inspection_returns_none_for_unreadable_files(tmp_path: Path) -> N
     (root / "broken.jpg").write_bytes(b"\xff\xd8\xff\xe0 not a real JPEG")
     provider = subject.provider
     assert isinstance(provider, LocalMediaProvider)
-    probe = LocalInspectionProbe(provider, InProcessExecutor(default_tasks(), subject.clock))
+    probe = LocalInspectionProbe(provider, default_executor(subject.clock))
     found = subject.run()
     broken = [c for c in found if c.attribution.title == "broken"]
     assert len(broken) == 1

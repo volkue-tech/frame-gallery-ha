@@ -52,7 +52,7 @@ import subprocess
 import sys
 import sysconfig
 import threading
-from collections.abc import Callable, Iterable, Mapping
+from collections.abc import Callable, Iterable, Mapping, Sequence
 from dataclasses import dataclass, field
 from pathlib import Path
 from typing import Any, Final
@@ -67,6 +67,7 @@ from frame_gallery.isolation.executor import (
     StopCheck,
     WorkerError,
     WorkerErrorKind,
+    check_files,
 )
 from frame_gallery.isolation.framing import FrameBuffer, encode_frame
 from frame_gallery.isolation.launch import (
@@ -276,12 +277,14 @@ class ProcessExecutor:
         timeout: float,
         on_event: EventSink | None = None,
         should_stop: StopCheck | None = None,
+        files: Sequence[int] = (),
     ) -> JsonObject:
         """See :class:`~frame_gallery.isolation.executor.Executor`. Raises
         :class:`WorkerError` and :class:`IsolationFailure`."""
         if not timeout > 0:
             msg = f"timeout must be positive, got {timeout!r}"
             raise ValueError(msg)
+        check_files(files)
         entry = self._launch.tasks.get(task)
         if entry is None:
             raise WorkerError(WorkerErrorKind.UNKNOWN_TASK, sanitize_for_log(task, max_length=40))
@@ -297,7 +300,7 @@ class ProcessExecutor:
         worker: _Worker | None = None
         try:
             with self._shield():
-                worker = self._spawn(task, entry)
+                worker = self._spawn(task, entry, tuple(files))
             return self._converse(worker, request, deadline, on_event, stop)
         finally:
             if worker is not None:
@@ -305,10 +308,11 @@ class ProcessExecutor:
 
     # --------------------------------------------------------------- spawn
 
-    def _spawn(self, task: str, entry: TaskEntry) -> _Worker:
+    def _spawn(self, task: str, entry: TaskEntry, files: tuple[int, ...] = ()) -> _Worker:
         """Start the worker and record it as the active one. Every descriptor
-        is closed on every failure, and a worker that was started is killed
-        and reaped, whatever is raised (a stop request included)."""
+        of its own is closed on every failure, and a worker that was started
+        is killed and reaped, whatever is raised (a stop request included).
+        ``files`` are passed on at the same numbers; the caller closes them."""
         launch = self._launch
         fds: list[int] = []
 
@@ -353,7 +357,7 @@ class ProcessExecutor:
             ]
             process = self._popen(
                 argv,
-                pass_fds=(request_r, results_w, lifeline_r),
+                pass_fds=(request_r, results_w, lifeline_r, *files),
                 stdin=subprocess.DEVNULL,
                 stdout=subprocess.DEVNULL,
                 stderr=stderr_w,

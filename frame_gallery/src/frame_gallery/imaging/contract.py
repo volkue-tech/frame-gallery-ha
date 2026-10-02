@@ -13,7 +13,7 @@ from pathlib import Path
 from typing import Final
 
 from frame_gallery.domain import CANVAS, FitMode, Rgb, Size
-from frame_gallery.isolation.executor import JsonObject, JsonValue
+from frame_gallery.isolation.executor import MAX_PASSED_FILES, JsonObject, JsonValue
 from frame_gallery.selection.geometry import Rejection
 
 MAX_DIMENSION: Final = 20_000
@@ -29,7 +29,8 @@ JPEG_FALLBACK_QUALITY: Final = 85
 
 PREPARE_TASK: Final = "prepare"
 INSPECT_TASK: Final = "inspect"
-"""The local header inspection (§8.3): dimensions after EXIF orientation."""
+"""The local header inspection (§8.3): dimensions after EXIF orientation, for
+a batch of files; one event per file (Phase 6)."""
 
 
 class ImageFormat(enum.StrEnum):
@@ -315,35 +316,75 @@ class InspectStatus(enum.StrEnum):
 
 _MAX_FILE_ID: Final = 2**64 - 1
 
+MAX_INSPECT_BATCH: Final = MAX_PASSED_FILES
+"""At most this many library files go to one ``inspect`` worker (§8.3 allows
+up to 50): each arrives as a descriptor, and the worker's ``RLIMIT_NOFILE``
+leaves room for 16 (Phase 5 gate decision)."""
+
 
 @dataclass(frozen=True, slots=True)
-class InspectRequest:
-    """Read one library file's header (§8.3). No pixels are decoded.
+class InspectFile:
+    """One library file for the ``inspect`` task: a descriptor the parent
+    opened read-only, and the identity (device, inode) its scan saw. The
+    worker reads the file only if the descriptor still leads to that regular
+    file (D-149)."""
 
-    ``device`` and ``inode`` pin the file the scan saw: the worker refuses a
-    file whose identity differs (D-149)."""
-
-    path: str
+    fd: int
     declared_format: ImageFormat
-    device: int | None = None
-    inode: int | None = None
+    device: int
+    inode: int
 
     def to_json(self) -> JsonObject:
         return {
-            "path": self.path,
+            "fd": self.fd,
             "declared_format": self.declared_format.value,
             "device": self.device,
             "inode": self.inode,
         }
 
     @classmethod
-    def from_json(cls, obj: JsonObject) -> InspectRequest:
-        return cls(
-            path=_str(obj, "path"),
-            declared_format=_enum(obj, "declared_format", ImageFormat),
-            device=_optional_int(obj, "device", 0, _MAX_FILE_ID),
-            inode=_optional_int(obj, "inode", 0, _MAX_FILE_ID),
-        )
+    def from_json(cls, obj: JsonObject) -> InspectFile:
+        if set(obj) != {"fd", "declared_format", "device", "inode"}:
+            msg = "an inspected file has exactly fd, declared_format, device, and inode"
+            raise ValueError(msg)
+        fd = _optional_int(obj, "fd", 3, 4096)
+        device = _optional_int(obj, "device", 0, _MAX_FILE_ID)
+        inode = _optional_int(obj, "inode", 0, _MAX_FILE_ID)
+        if fd is None or device is None or inode is None:
+            msg = "fd, device, and inode are required"
+            raise ValueError(msg)
+        return cls(fd, _enum(obj, "declared_format", ImageFormat), device, inode)
+
+
+@dataclass(frozen=True, slots=True)
+class InspectBatch:
+    """The ``inspect`` task's request: 1 to :data:`MAX_INSPECT_BATCH` files,
+    each with its own descriptor (§8.3). No pixels are decoded."""
+
+    files: tuple[InspectFile, ...]
+
+    def __post_init__(self) -> None:
+        fds = [file.fd for file in self.files]
+        if not 1 <= len(fds) <= MAX_INSPECT_BATCH or len(set(fds)) != len(fds):
+            msg = f"a batch holds 1 to {MAX_INSPECT_BATCH} files with distinct descriptors"
+            raise ValueError(msg)
+
+    def to_json(self) -> JsonObject:
+        return {"files": [file.to_json() for file in self.files]}
+
+    @classmethod
+    def from_json(cls, obj: JsonObject) -> InspectBatch:
+        files = _field(obj, "files")
+        if set(obj) != {"files"} or not isinstance(files, list):
+            msg = "an inspect request has exactly a list of files"
+            raise ValueError(msg)
+        parsed = []
+        for item in files:
+            if not isinstance(item, dict):
+                msg = "an inspected file must be an object"
+                raise ValueError(msg)
+            parsed.append(InspectFile.from_json(item))
+        return cls(tuple(parsed))
 
 
 @dataclass(frozen=True, slots=True)
@@ -377,6 +418,26 @@ class InspectResult:
             failure=_optional_enum(obj, "failure", PrepareFailure),
             detail=_optional_str(obj, "detail"),
         )
+
+
+def inspected_event(index: int, result: InspectResult) -> JsonObject:
+    """The event the ``inspect`` task sends after each file, in order."""
+    return {"index": index, "result": result.to_json()}
+
+
+def parse_inspected_event(event: JsonObject, expected_index: int) -> InspectResult:
+    """The result in ``event``, which must be the next file's. Raises
+    ``ValueError`` for anything else."""
+    index, result = event.get("index"), event.get("result")
+    if (
+        set(event) != {"index", "result"}
+        or isinstance(index, bool)
+        or index != expected_index
+        or not isinstance(result, dict)
+    ):
+        msg = f"expected the result of file {expected_index}"
+        raise ValueError(msg)
+    return InspectResult.from_json(result)
 
 
 @dataclass(frozen=True, slots=True)

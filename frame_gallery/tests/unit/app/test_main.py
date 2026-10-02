@@ -16,7 +16,7 @@ import os
 import signal
 import sys
 import threading
-from collections.abc import Iterator, Mapping
+from collections.abc import Iterator, Mapping, Sequence
 from dataclasses import replace
 from ipaddress import IPv4Network, ip_address
 from pathlib import Path
@@ -29,7 +29,11 @@ from frame_gallery.app.networks import ContainerNetworks
 from frame_gallery.app.signals import CancellationController
 from frame_gallery.budget.clock import Clock
 from frame_gallery.isolation.executor import EventSink, JsonObject, StopCheck
-from frame_gallery.isolation.in_process import InProcessExecutor, default_tasks
+from frame_gallery.isolation.in_process import (
+    InProcessExecutor,
+    default_event_tasks,
+    default_tasks,
+)
 from frame_gallery.isolation.process import Launch
 from frame_gallery.net.wire import Resolver, Transport, WireRequest
 from frame_gallery.randomness import SeededRandomSource
@@ -65,7 +69,7 @@ class RecordingExecutor(InProcessExecutor):
     watchdog's kill is recorded."""
 
     def __init__(self, clock: Clock) -> None:
-        super().__init__(default_tasks(), clock)
+        super().__init__(default_tasks(), clock, event_tasks=default_event_tasks())
         self.tasks: list[str] = []
         self.terminated = 0
 
@@ -77,10 +81,16 @@ class RecordingExecutor(InProcessExecutor):
         timeout: float,
         on_event: EventSink | None = None,
         should_stop: StopCheck | None = None,
+        files: Sequence[int] = (),
     ) -> JsonObject:
         self.tasks.append(task)
         return super().run(
-            task, payload, timeout=timeout, on_event=on_event, should_stop=should_stop
+            task,
+            payload,
+            timeout=timeout,
+            on_event=on_event,
+            should_stop=should_stop,
+            files=files,
         )
 
     def terminate_all(self) -> None:

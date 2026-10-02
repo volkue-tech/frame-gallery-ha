@@ -16,17 +16,28 @@ import pytest
 
 from frame_gallery.budget.allowance import Allowance, AllowanceExhausted
 from frame_gallery.budget.deadline import Deadline, DeadlineExceeded
+from frame_gallery.budget.limits import LOCAL_INSPECTION_S
 from frame_gallery.config.filters import EffectiveFilters, FilterSet
 from frame_gallery.domain import FitMode, Size, SourceKey
+from frame_gallery.errors import Cancelled
 from frame_gallery.fingerprint import FINGERPRINT_EDGE, fingerprint_bytes, fingerprint_fd
-from frame_gallery.imaging.contract import MAX_SOURCE_BYTES, ImageFormat
+from frame_gallery.imaging.contract import (
+    MAX_INSPECT_BATCH,
+    MAX_SOURCE_BYTES,
+    ImageFormat,
+    InspectBatch,
+    InspectResult,
+    InspectStatus,
+    PrepareFailure,
+    inspected_event,
+)
 from frame_gallery.isolation.executor import (
     IsolationFailure,
     JsonObject,
     WorkerError,
     WorkerErrorKind,
 )
-from frame_gallery.isolation.in_process import InProcessExecutor, default_tasks
+from frame_gallery.isolation.in_process import default_executor
 from frame_gallery.providers import local_media
 from frame_gallery.providers.contract import (
     Attribution,
@@ -704,10 +715,79 @@ class TestFetch:
         assert target.read_bytes() == b"keep"
 
 
+def _open_fds() -> set[int]:
+    found = set()
+    for fd in range(256):
+        try:
+            os.fstat(fd)
+        except OSError:
+            continue
+        found.add(fd)
+    return found
+
+
+class ScriptedInspector:
+    """Stands in for the worker: answers a batch with scripted events per
+    call, checks what it was given, and records it."""
+
+    def __init__(self, *calls: object) -> None:
+        self.calls = list(calls)
+        self.batches: list[list[int]] = []
+        self.timeouts: list[float] = []
+
+    def run(
+        self,
+        task: str,
+        payload: JsonObject,
+        *,
+        timeout: float,
+        on_event: Any = None,
+        should_stop: Any = None,
+        files: Any = (),
+    ) -> JsonObject:
+        assert task == "inspect"
+        batch = InspectBatch.from_json(payload)
+        assert [file.fd for file in batch.files] == list(files)
+        assert all(os.fstat(fd) for fd in files)  # open while the worker runs
+        self.batches.append(list(files))
+        self.timeouts.append(timeout)
+        script = self.calls.pop(0)
+        assert callable(script)
+        return script(batch, on_event, should_stop)  # type: ignore[no-any-return]
+
+    def terminate_all(self) -> None: ...
+
+
+def _sizes(*sizes: Size | None) -> Any:
+    """A script that reports these sizes in order and then returns."""
+
+    def answer(batch: InspectBatch, on_event: Any, _stop: Any) -> JsonObject:
+        for index, size in enumerate(sizes):
+            if size is None:
+                result = InspectResult(status=InspectStatus.FAILED, failure=PrepareFailure.DECODE)
+            else:
+                result = InspectResult(status=InspectStatus.OK, oriented_size=size)
+            on_event(inspected_event(index, result))
+        return {"inspected": len(batch.files)}
+
+    return answer
+
+
+def _then_fail(*sizes: Size, error: WorkerError) -> Any:
+    """A script that reports these sizes, then fails like a worker would."""
+
+    def answer(batch: InspectBatch, on_event: Any, _stop: Any) -> JsonObject:
+        for index, size in enumerate(sizes):
+            on_event(inspected_event(index, InspectResult(InspectStatus.OK, oriented_size=size)))
+        raise error
+
+    return answer
+
+
 class TestInspection:
     def _probe(self, library: Library) -> tuple[LocalMediaProvider, LocalInspectionProbe]:
         provider = library.provider()
-        executor = InProcessExecutor(default_tasks(), library.clock)
+        executor = default_executor(library.clock)
         return provider, LocalInspectionProbe(provider, executor)
 
     def test_sizes_after_orientation(self, library: Library) -> None:
@@ -715,57 +795,144 @@ class TestInspection:
         provider, probe = self._probe(library)
         (candidate,) = library.candidates(provider)
         assert probe.source is DimensionSource.LOCAL_INSPECTION
+        assert probe.max_batch == MAX_INSPECT_BATCH
         assert probe.measure(candidate, library.context().deadline) == Size(96, 54)
 
-    def test_unreadable_images_give_none(self, library: Library) -> None:
-        library.file("broken.jpg", b"\xff\xd8\xff\xe0garbage")
-        provider, probe = self._probe(library)
-        (candidate,) = library.candidates(provider)
-        assert probe.measure(candidate, library.context().deadline) is None
+    def test_a_batch_runs_in_one_worker_and_closes_its_descriptors(self, library: Library) -> None:
+        library.jpeg("a.jpg", (40, 30))
+        library.png("b.png", (30, 40))
+        library.file("c.jpg", b"\xff\xd8\xff\xe0garbage")
+        provider = library.provider()
+        candidates = sorted(library.candidates(provider), key=lambda c: c.attribution.title or "")
+        before = _open_fds()
+        inspector = ScriptedInspector(_sizes(Size(40, 30), Size(30, 40), None))
+        probe = LocalInspectionProbe(provider, inspector)
+        measurements = probe.measure_batch(candidates, library.context().deadline)
+        assert [m.size for m in measurements] == [Size(40, 30), Size(30, 40), None]
+        assert all(m.error is None for m in measurements)
+        assert len(inspector.batches) == 1
+        assert inspector.timeouts == [3 * LOCAL_INSPECTION_S]
+        assert _open_fds() == before
         assert provider.report.counts == {SkipReason.UNREADABLE: 1}
+
+    def test_the_real_task_reads_the_passed_descriptors(self, library: Library) -> None:
+        library.jpeg("a.jpg", (40, 30))
+        library.file("b.jpg", b"\xff\xd8\xff\xe0garbage")
+        provider, probe = self._probe(library)
+        candidates = sorted(library.candidates(provider), key=lambda c: c.attribution.title or "")
+        before = _open_fds()
+        measurements = probe.measure_batch(candidates, library.context().deadline)
+        assert [m.size for m in measurements] == [Size(40, 30), None]
+        assert _open_fds() == before
+        assert provider.report.counts == {SkipReason.UNREADABLE: 1}
+
+    def test_a_file_that_is_too_slow_fails_and_the_rest_go_to_a_new_worker(
+        self, library: Library
+    ) -> None:
+        for name in ("a", "b", "c", "d"):
+            library.jpeg(f"{name}.jpg")
+        provider = library.provider()
+        candidates = sorted(library.candidates(provider), key=lambda c: c.attribution.title or "")
+        now = [100.0]
+        stops: list[bool] = []
+
+        def slow_third(batch: InspectBatch, on_event: Any, should_stop: Any) -> JsonObject:
+            for index in range(2):
+                on_event(inspected_event(index, InspectResult(InspectStatus.OK, Size(4, 3))))
+            stops.append(should_stop())
+            now[0] += LOCAL_INSPECTION_S + 0.1
+            stops.append(should_stop())
+            raise WorkerError(WorkerErrorKind.STOPPED)
+
+        inspector = ScriptedInspector(slow_third, _sizes(Size(8, 6)))
+        probe = LocalInspectionProbe(provider, inspector, monotonic=lambda: now[0])
+        measurements = probe.measure_batch(candidates, library.context().deadline)
+        assert stops == [False, True]
+        assert [m.size for m in measurements] == [Size(4, 3), Size(4, 3), None, Size(8, 6)]
+        failed = measurements[2].error
+        assert failed is not None
+        assert failed.kind is SourceErrorKind.UNEXPECTED_FORMAT
+        assert str(failed).endswith("inspection failed (too slow)")
+        assert [len(batch) for batch in inspector.batches] == [4, 1]
+        assert provider.report.counts == {SkipReason.INSPECTION_FAILED: 1}
+
+    def test_a_worker_that_fails_after_every_event_fails_no_file(self, library: Library) -> None:
+        library.jpeg("a.jpg")
+        provider = library.provider()
+        (candidate,) = library.candidates(provider)
+        inspector = ScriptedInspector(
+            _then_fail(Size(4, 3), error=WorkerError(WorkerErrorKind.CRASH, "late"))
+        )
+        probe = LocalInspectionProbe(provider, inspector)
+        assert probe.measure(candidate, library.context().deadline) == Size(4, 3)
+        assert len(inspector.batches) == 1
+
+    @pytest.mark.parametrize(
+        ("error", "detail"),
+        [
+            (WorkerError(WorkerErrorKind.CRASH, "boom"), "crash"),
+            (WorkerError(WorkerErrorKind.PROTOCOL, "event"), "protocol"),
+            (WorkerError(WorkerErrorKind.TIMEOUT, "slow"), "timeout"),
+        ],
+    )
+    def test_a_failed_worker_fails_the_file_in_progress(
+        self, library: Library, error: WorkerError, detail: str
+    ) -> None:
+        library.jpeg("a.jpg")
+        provider = library.provider()
+        (candidate,) = library.candidates(provider)
+        probe = LocalInspectionProbe(provider, ScriptedInspector(_then_fail(error=error)))
+        with pytest.raises(SourceError) as excinfo:
+            probe.measure(candidate, library.context().deadline)
+        assert excinfo.value.kind is SourceErrorKind.UNEXPECTED_FORMAT
+        assert str(excinfo.value).endswith(f"inspection failed ({detail})")
+        assert provider.report.counts == {SkipReason.INSPECTION_FAILED: 1}
+
+    @pytest.mark.parametrize("result", [{"inspected": 7}, {"status": "nonsense"}])
+    def test_an_invalid_result_fails_the_files_without_an_event(
+        self, library: Library, result: JsonObject
+    ) -> None:
+        library.jpeg("a.jpg")
+        library.jpeg("b.jpg")
+        provider = library.provider()
+        candidates = sorted(library.candidates(provider), key=lambda c: c.attribution.title or "")
+
+        def one_event(batch: InspectBatch, on_event: Any, _stop: Any) -> JsonObject:
+            on_event(inspected_event(0, InspectResult(InspectStatus.OK, Size(4, 3))))
+            return result
+
+        probe = LocalInspectionProbe(provider, ScriptedInspector(one_event))
+        measurements = probe.measure_batch(candidates, library.context().deadline)
+        assert measurements[0].size == Size(4, 3)
+        assert measurements[1].error is not None
+        assert str(measurements[1].error).endswith("inspection failed (invalid result)")
+
+    def test_a_wrong_result_after_every_event_changes_nothing(self, library: Library) -> None:
+        library.jpeg("a.jpg")
+        provider = library.provider()
+        (candidate,) = library.candidates(provider)
+
+        def odd_result(batch: InspectBatch, on_event: Any, _stop: Any) -> JsonObject:
+            on_event(inspected_event(0, InspectResult(InspectStatus.OK, Size(4, 3))))
+            return {"inspected": 2}
+
+        probe = LocalInspectionProbe(provider, ScriptedInspector(odd_result))
+        assert probe.measure(candidate, library.context().deadline) == Size(4, 3)
 
     def test_an_isolation_failure_is_not_an_inspection_failure(self, library: Library) -> None:
         """D-163: it ends the run as internal_error instead of skipping files."""
         library.jpeg("a.jpg")
         provider = library.provider()
         (candidate,) = library.candidates(provider)
+        before = _open_fds()
 
-        class Refusing:
-            def run(self, task: str, payload: JsonObject, **_: object) -> JsonObject:
-                raise IsolationFailure("the worker refused to run (environment)")
+        def refuse(batch: InspectBatch, on_event: Any, _stop: Any) -> JsonObject:
+            raise IsolationFailure("the worker refused to run (environment)")
 
-            def terminate_all(self) -> None: ...
-
-        probe = LocalInspectionProbe(provider, Refusing())
+        probe = LocalInspectionProbe(provider, ScriptedInspector(refuse))
         with pytest.raises(IsolationFailure):
             probe.measure(candidate, library.context().deadline)
-
-    @pytest.mark.parametrize(
-        "outcome",
-        [WorkerError(WorkerErrorKind.CRASH, "boom"), {"status": "nonsense"}],
-    )
-    def test_worker_failures_raise(self, library: Library, outcome: object) -> None:
-        library.jpeg("a.jpg")
-        provider = library.provider()
-        (candidate,) = library.candidates(provider)
-
-        class Broken:
-            def run(
-                self, task: str, payload: JsonObject, *, timeout: float, **_: object
-            ) -> JsonObject:
-                assert task == "inspect"
-                assert timeout == 2.0
-                if isinstance(outcome, BaseException):
-                    raise outcome
-                return outcome  # type: ignore[return-value]
-
-            def terminate_all(self) -> None: ...
-
-        probe = LocalInspectionProbe(provider, Broken())
-        with pytest.raises(SourceError) as excinfo:
-            probe.measure(candidate, library.context().deadline)
-        assert excinfo.value.kind is SourceErrorKind.UNEXPECTED_FORMAT
-        assert provider.report.counts == {SkipReason.INSPECTION_FAILED: 1}
+        assert _open_fds() == before
 
     def test_a_timeout_at_the_discovery_deadline_is_not_a_failure(self, library: Library) -> None:
         library.jpeg("healthy.jpg")
@@ -774,28 +941,80 @@ class TestInspection:
         clock = library.clock
         deadline = Deadline.after(clock, 1.0, "discovery")
 
-        class Slow:
-            def run(
-                self, task: str, payload: JsonObject, *, timeout: float, **_: object
-            ) -> JsonObject:
-                clock.advance(timeout)
-                raise WorkerError(WorkerErrorKind.TIMEOUT, "slow")
-
-            def terminate_all(self) -> None: ...
+        def slow(batch: InspectBatch, on_event: Any, _stop: Any) -> JsonObject:
+            clock.advance(1.0)
+            raise WorkerError(WorkerErrorKind.TIMEOUT, "slow")
 
         with pytest.raises(DeadlineExceeded):
-            LocalInspectionProbe(provider, Slow()).measure(candidate, deadline)
+            LocalInspectionProbe(provider, ScriptedInspector(slow)).measure(candidate, deadline)
         assert provider.report.counts == {}
 
-    def test_the_worker_refuses_a_file_that_changed(self, library: Library) -> None:
+    def test_the_parent_refuses_a_file_that_changed(self, library: Library) -> None:
         path = library.jpeg("a.jpg")
-        provider, probe = self._probe(library)
+        provider = library.provider()
         (candidate,) = library.candidates(provider)
         data = path.read_bytes()
         path.unlink()
         path.write_bytes(data)  # same bytes, another inode
+        inspector = ScriptedInspector()
+        probe = LocalInspectionProbe(provider, inspector)
+        assert probe.measure(candidate, library.context().deadline) is None
+        assert inspector.batches == []  # no worker for it
+        assert provider.report.counts == {SkipReason.CHANGED: 1}
+
+    def test_the_parent_never_follows_a_link(self, library: Library) -> None:
+        path = library.jpeg("a.jpg")
+        provider = library.provider()
+        (candidate,) = library.candidates(provider)
+        real = path.with_name("elsewhere.jpg")
+        path.rename(real)
+        path.symlink_to(real)
+        probe = LocalInspectionProbe(provider, ScriptedInspector())
         assert probe.measure(candidate, library.context().deadline) is None
         assert provider.report.counts == {SkipReason.UNREADABLE: 1}
+
+    def test_a_file_whose_status_cannot_be_read_is_unreadable(
+        self, library: Library, monkeypatch: pytest.MonkeyPatch
+    ) -> None:
+        library.jpeg("a.jpg")
+        provider = library.provider()
+        (candidate,) = library.candidates(provider)
+        before = _open_fds()
+
+        def failing_fstat(fd: int) -> os.stat_result:
+            raise OSError(errno.EIO, "I/O error")
+
+        monkeypatch.setattr(os, "fstat", failing_fstat)
+        probe = LocalInspectionProbe(provider, ScriptedInspector())
+        assert probe.measure(candidate, library.context().deadline) is None
+        monkeypatch.undo()
+        assert _open_fds() == before
+        assert provider.report.counts == {SkipReason.UNREADABLE: 1}
+
+    def test_an_interruption_while_opening_closes_what_was_opened(
+        self, library: Library, monkeypatch: pytest.MonkeyPatch
+    ) -> None:
+        library.jpeg("a.jpg")
+        library.jpeg("b.jpg")
+        provider = library.provider()
+        candidates = sorted(library.candidates(provider), key=lambda c: c.attribution.title or "")
+        before = _open_fds()
+        real_open = os.open
+        opened: list[int] = []
+
+        def open_once(path: Any, flags: int, *args: Any, **kwargs: Any) -> int:
+            if opened:
+                raise Cancelled
+            fd = real_open(path, flags, *args, **kwargs)
+            opened.append(fd)
+            return fd
+
+        monkeypatch.setattr(os, "open", open_once)
+        probe = LocalInspectionProbe(provider, ScriptedInspector())
+        with pytest.raises(Cancelled):
+            probe.measure_batch(candidates, library.context().deadline)
+        monkeypatch.undo()
+        assert _open_fds() == before
 
     def test_no_time_left(self, library: Library) -> None:
         library.jpeg("a.jpg")
