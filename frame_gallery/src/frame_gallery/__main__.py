@@ -34,7 +34,7 @@ import os
 import sys
 from collections.abc import Callable, MutableMapping
 from dataclasses import dataclass, field
-from typing import Final, Protocol, TextIO
+from typing import Final, TextIO
 
 from frame_gallery.app.environment import (
     SUPERVISOR_TOKEN_VARIABLE,
@@ -81,15 +81,7 @@ REFUSED_EXIT_CODE: Final = Outcome.INTERNAL_ERROR.exit_code
 _log = logging.getLogger("frame_gallery.app")
 
 
-class WorkerExecutor(Executor, Protocol):
-    """An executor whose active worker the watchdog can kill (§4.3)."""
-
-    def terminate_all(self) -> None: ...
-
-
-def _process_executor(
-    launch: Launch, clock: Clock, controller: CancellationController
-) -> WorkerExecutor:
+def _process_executor(launch: Launch, clock: Clock, controller: CancellationController) -> Executor:
     return ProcessExecutor(launch, clock, shield=functools.partial(deferring, controller))
 
 
@@ -112,7 +104,7 @@ class Wiring:
     random: Callable[[], RandomSource] = SystemRandomSource
     networks: NetworkInfo = field(default_factory=ContainerNetworks)
     launch: Callable[[], Launch] = Launch.production
-    executor: Callable[[Launch, Clock, CancellationController], WorkerExecutor] = _process_executor
+    executor: Callable[[Launch, Clock, CancellationController], Executor] = _process_executor
     network: Callable[[], tuple[Resolver, Transport]] = _system_network
     television: Callable[[Executor, StoreLayout], Television] = _host_television
     identity: Callable[[], ClientIdentity] = project_identity
