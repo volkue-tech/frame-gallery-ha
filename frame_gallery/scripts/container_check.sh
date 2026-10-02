@@ -9,13 +9,16 @@
 #    when the app exits, with its exit status; (c) a stop request reaches the
 #    app at once, and the app has the whole stop timeout; (d) SUPERVISOR_TOKEN
 #    reaches the app.
-# 3. A smoke run of the app itself: a local-media run without any network
+# 3. The inventory of what the image ships (scripts/image_inventory.py, run
+#    inside the app image): its Alpine packages, its Python distributions,
+#    and Pillow's bundled libraries, each held to the wheel's RECORD.
+# 4. A smoke run of the app itself: a local-media run without any network
 #    (--network none), so the television step fails as "unreachable" without
 #    a packet leaving the container.
-# 4. The two test passes of D-165: the whole suite as a non-root user
+# 5. The two test passes of D-165: the whole suite as a non-root user
 #    (FRAME_GALLERY_REQUIRE_ISOLATION=user) and the root checks as root
 #    (FRAME_GALLERY_REQUIRE_ISOLATION=root).
-# 5. With --measure: scripts/measure_prepare.py as root, under the real
+# 6. With --measure: scripts/measure_prepare.py as root, under the real
 #    RLIMIT_AS (R-09).
 #
 # Every container runs with --network none; the only network use is the
@@ -61,6 +64,11 @@ run --entrypoint /bin/sh "$APP" -c \
     'cat /etc/alpine-release; /opt/frame-gallery/bin/python -VV; apk info -v 2>/dev/null | sort' \
     > "$OUT/a-versions.txt"
 head -2 "$OUT/a-versions.txt"
+
+note "inventory: Alpine packages, Python distributions, and Pillow's libraries"
+run -i --entrypoint /opt/frame-gallery/bin/python "$APP" -I - < scripts/image_inventory.py \
+    > "$OUT/inventory.json" || fail "inventory"
+.venv/bin/python scripts/image_inventory.py --summary "$OUT/inventory.json" || fail "inventory"
 
 note "(b) the container stops with the app's exit status"
 set +e
