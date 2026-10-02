@@ -108,4 +108,12 @@ def test_the_capability_matrix_is_published() -> None:
 def test_the_documentation_carries_the_required_acknowledgements() -> None:
     assert "Independent JPEG Group" in DOCS
     assert "The FreeType Project" in DOCS
+
+
+def test_the_documentation_says_the_image_is_not_free_of_gpl_components() -> None:
+    """D-102, D-171: the copyleft parts of the image are named, not hidden."""
+    assert "LGPL-3.0 library `samsungtvws`" in DOCS
+    assert "LGPL-2.1-or-later code inside the Pillow image library" in DOCS
     assert "GPL-3.0-or-later" in DOCS
+    assert "not free of GPL components" in DOCS
+    assert "libimagequant" not in DOCS  # not in the runtime wheels (D-171)

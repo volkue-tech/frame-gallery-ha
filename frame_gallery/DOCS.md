@@ -215,6 +215,6 @@ Every run ends with one line such as `outcome=delivered exit=0 elapsed=23.4`. Wh
 
 ## Licences
 
-The project's own code is licensed under the Apache License 2.0. The app image also contains third-party software under its own licences, among them the LGPL-3.0 library `samsungtvws` and, inside the Pillow image library, the GPL-3.0-or-later component `libimagequant` and the LGPL-2.1-or-later component FriBiDi; the image is therefore not free of GPL components. The third-party notices list every component and its licence, and each release carries the corresponding source code of the copyleft components.
+The project's own code is licensed under the Apache License 2.0. The app image also contains third-party software under its own licences, among them the LGPL-3.0 library `samsungtvws`, LGPL-2.1-or-later code inside the Pillow image library, and parts of the Alpine Linux system the image is built on that are under the GPL, such as BusyBox (GPL-2.0-only) and bash (GPL-3.0-or-later); the image is therefore not free of GPL components. The third-party notices list every component and its licence, and each release carries the corresponding source code of the copyleft components.
 
 This software is based in part on the work of the Independent JPEG Group. Portions of this software are copyright © The FreeType Project (www.freetype.org). All rights reserved.
