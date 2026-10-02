@@ -121,14 +121,19 @@ class RunRecordStore:
 
     def preview_fingerprints(self) -> tuple[str, ...]:
         """The fingerprints of the last published previews, newest first, for
-        the local library's guard 3. Never raises."""
+        the local library's guard 3. Never raises.
+
+        The entry point reads them while it builds the run, before the run
+        holds the state lock, so this read changes nothing: a damaged file
+        is only reported, and the next write under the lock quarantines it.
+        """
         try:
             directory = open_directory(self._data_root, (STATE_DIRECTORY,))
         except StateError as exc:
             _log.debug("no run records: %s", exc)
             return ()
         with directory:
-            return self._current(directory).load().value or ()
+            return DocumentFile(directory, CURRENT_FILE, CURRENT_SPEC).load().value or ()
 
     def _open(self) -> Directory:
         return open_directory(self._data_root, (STATE_DIRECTORY,), create=True, mode=0o700)

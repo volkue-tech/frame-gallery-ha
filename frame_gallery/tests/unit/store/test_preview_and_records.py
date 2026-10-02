@@ -313,17 +313,22 @@ class TestRecords:
         with pytest.raises(StateError, match="invalid preview fingerprint"):
             layout.records(FakeClock()).write_current(record, deadline())
 
-    def test_a_damaged_current_record_is_quarantined(
+    def test_a_damaged_current_record_is_quarantined_only_under_the_lock(
         self, layout: StoreLayout, caplog: pytest.LogCaptureFixture
     ) -> None:
+        """Reading the fingerprints changes nothing (the entry point reads
+        them before the run holds the state lock); the next write does."""
         records = layout.records(FakeClock())
         records.write_current(current_record(1), deadline())
-        (layout.data / "state" / "current.json").write_text("{damaged")
+        current = layout.data / "state" / "current.json"
+        current.write_text("{damaged")
         with caplog.at_level(logging.WARNING, "frame_gallery.store"):
             assert records.preview_fingerprints() == ()
         assert "is damaged" in caplog.text
-        assert len(list((layout.data / "state" / "quarantine").iterdir())) == 1
+        assert current.read_text() == "{damaged"
+        assert not (layout.data / "state" / "quarantine").exists()
         records.write_current(current_record(2), deadline())
+        assert len(list((layout.data / "state" / "quarantine").iterdir())) == 1
         assert records.preview_fingerprints() == (_fp(2),)
 
     def test_the_last_run_record_is_written(self, layout: StoreLayout) -> None:

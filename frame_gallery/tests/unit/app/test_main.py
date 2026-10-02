@@ -9,6 +9,7 @@ emits its markers. Nothing here touches the network (H2).
 
 from __future__ import annotations
 
+import fcntl
 import io
 import json
 import logging
@@ -240,6 +241,24 @@ def test_the_library_warning_counts_the_last_inspection_batch(rig: Rig) -> None:
     (library / "broken.jpg").write_bytes(b"\xff\xd8\xff\xe0 not a real JPEG")
     assert rig.run() == 0
     assert "local library: 1 entries skipped (unreadable=1)" in rig.output
+
+
+def test_a_second_start_changes_no_state(rig: Rig) -> None:
+    """While another run holds the state lock, a damaged current.json stays
+    where it is: the early read of the preview fingerprints changes nothing."""
+    rig.options(source="local_media")
+    state = rig.layout.data / "state"
+    state.mkdir(mode=0o700)
+    (state / "current.json").write_text("{damaged")
+    lock = os.open(state / ".lock", os.O_RDWR | os.O_CREAT, 0o600)
+    try:
+        fcntl.flock(lock, fcntl.LOCK_EX | fcntl.LOCK_NB)  # the other run
+        assert rig.run() == 0
+    finally:
+        os.close(lock)
+    assert "outcome=already_running" in rig.output
+    assert (state / "current.json").read_text() == "{damaged"
+    assert not (state / "quarantine").exists()
 
 
 def test_the_environment_is_reduced_before_anything_runs(rig: Rig) -> None:
