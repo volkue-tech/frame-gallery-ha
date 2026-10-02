@@ -101,5 +101,5 @@ python_version = "3.12"
 strict = true
 warn_unreachable = true
 mypy_path = "src"
-files = ["src", "tests"]
+files = ["src", "tests", "scripts"]
 explicit_package_bases = true

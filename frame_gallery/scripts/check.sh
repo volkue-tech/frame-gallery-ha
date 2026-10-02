@@ -6,8 +6,8 @@ cd "$(dirname "$0")/.."
 BIN=.venv/bin
 
 echo "== ruff"
-"$BIN/ruff" check src tests
-"$BIN/ruff" format --check src tests
+"$BIN/ruff" check src tests scripts
+"$BIN/ruff" format --check src tests scripts
 
 echo "== mypy (strict)"
 "$BIN/mypy"

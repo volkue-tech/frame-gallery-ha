@@ -1,0 +1,26 @@
+# The build context is an allowlist. The app image copies only
+# src/frame_gallery and the requirement files; the test stage copies the rest,
+# so that the tests find the files they check.
+*
+!Dockerfile
+!.dockerignore
+!pyproject.toml
+!uv.lock
+!requirements/
+!src/frame_gallery/
+!tests/
+!scripts/
+!config.yaml
+!translations/
+!apparmor.txt
+!DOCS.md
+!README.md
+!CHANGELOG.md
+!VOCABULARY.md
+!DEVELOPMENT.md
+**/__pycache__
+**/*.py[cod]
+**/.pytest_cache
+**/.mypy_cache
+**/.ruff_cache
+**/.coverage*
