@@ -1,0 +1,62 @@
+#include <tunables/global>
+
+# Frame Gallery's AppArmor profile (ARCHITECTURE.md §17.6, D-129).
+#
+# A draft in complain mode for Phases 6 to 8: nothing outside the explicit
+# "deny" rules is refused; the kernel logs what the profile would refuse, so
+# that the Phase 8 live run can show what is missing:
+#     journalctl _TRANSPORT="audit" -g 'apparmor="ALLOWED"'
+# Phase 9 removes "complain", verifies the profile, and adds a child profile
+# per worker (R-31). Until then the workers run under this profile too.
+profile frame_gallery flags=(attach_disconnected,mediate_deleted,complain) {
+  #include <abstractions/base>
+
+  # Process control: the parent drops each worker to user 65534, hands the
+  # run's workspace to that group, and ends its workers (§11.3, D-163, D-164).
+  capability setuid,
+  capability setgid,
+  capability chown,
+  capability kill,
+  signal (send) set=(kill,term),
+  signal (receive) set=(kill,term),
+
+  # TCP to the selected museum and the TV, DNS lookups; no raw or packet
+  # sockets (§17.6).
+  network inet stream,
+  network inet6 stream,
+  network inet dgram,
+  network inet6 dgram,
+  network unix stream,
+  deny network raw,
+  deny network packet,
+
+  # S6-Overlay, as in the official example.
+  /init ix,
+  /bin/** ix,
+  /usr/bin/** ix,
+  /run/{s6,s6-rc*,service}/** ix,
+  /package/** ix,
+  /command/** ix,
+  /etc/services.d/** rwix,
+  /etc/cont-init.d/** rwix,
+  /etc/cont-finish.d/** rwix,
+  /run/{,**} rwk,
+  /dev/tty rw,
+
+  # The interpreter and the app; workers start the same interpreter.
+  /usr/lib/** mr,
+  /opt/frame-gallery/** mr,
+  /etc/** r,
+  /dev/null rw,
+  /dev/urandom r,
+  @{PROC}/@{pid}/** r,
+
+  # State, the RAM-backed scratch space, and the media folder (§13.1).
+  /data/{,**} rwk,
+  /tmp/{,**} rwk,
+  /media/ r,
+  /media/** r,
+  /media/frame_gallery/ w,
+  /media/frame_gallery/library/ w,
+  /media/frame_gallery/preview/{,**} rw,
+}
