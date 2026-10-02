@@ -110,8 +110,21 @@ def test_the_build_context_is_an_allowlist() -> None:
     ]
     assert lines[0] == "*"
     allowed = {line[1:].rstrip("/") for line in lines if line.startswith("!")}
-    for needed in ("pyproject.toml", "uv.lock", "requirements", "src/frame_gallery", "tests"):
-        assert needed in allowed
+    checked = [
+        path.name
+        for path in PROJECT.iterdir()
+        if path.suffix in {".yaml", ".txt", ".md", ".png"} or path.name == "translations"
+    ]
+    for needed in (
+        "pyproject.toml",
+        "uv.lock",
+        "requirements",
+        "src/frame_gallery",
+        "tests",
+        "scripts",
+        *checked,
+    ):
+        assert needed in allowed, needed
     assert ".venv" not in allowed
     assert "**/__pycache__" in lines
 

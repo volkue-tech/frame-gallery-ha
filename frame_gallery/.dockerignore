@@ -13,6 +13,8 @@
 !config.yaml
 !translations/
 !apparmor.txt
+!icon.png
+!logo.png
 !DOCS.md
 !README.md
 !CHANGELOG.md
