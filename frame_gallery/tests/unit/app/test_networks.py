@@ -46,20 +46,45 @@ def test_a_big_endian_kernel_writes_the_bytes_in_order() -> None:
     assert parse_route_table(table, "big") == (IPv4Network("172.30.32.0/23"),)
 
 
-def test_rows_without_the_expected_form_are_skipped() -> None:
+def test_repeats_and_empty_lines_are_left_out() -> None:
     table = "\n".join(
         [
             HEADER,
-            "eth0\t00201EAC",  # too short
-            row("XYZ01EAC", "00FEFFFF"),  # not hexadecimal
-            row("00201EAC", "00FE"),  # not eight digits
-            row("0000A8C0", "00FF00FF"),  # not a prefix: 255.0.255.0
             row("00201EAC", "00FEFFFF"),
+            "  ",
             row("00201EAC", "00FEFFFF", iface="eth1"),  # a repeat
             "",
         ]
     )
     assert parse_route_table(table, "little") == (IPv4Network("172.30.32.0/23"),)
+
+
+@pytest.mark.parametrize(
+    "line",
+    [
+        "eth0\t00201EAC",
+        row("XYZ01EAC", "00FEFFFF"),
+        row("00201EAC", "00FE"),
+        row("0000A8C0", "00FF00FF"),  # 255.0.255.0
+    ],
+    ids=["too-short", "not-hexadecimal", "not-eight-digits", "not-a-prefix"],
+)
+def test_a_route_in_another_form_makes_the_table_unusable(line: str) -> None:
+    """D-166: the TV-address rule depends on this table, so a table the app
+    cannot understand never counts as one without networks."""
+    table = "\n".join([HEADER, row("00201EAC", "00FEFFFF"), line])
+    with pytest.raises(ValueError):  # noqa: PT011 - the reason does not matter
+        parse_route_table(table, "little")
+
+
+@pytest.mark.parametrize(
+    "text",
+    ["", "garbage that is not a route table\nfoo bar baz\n", "Iface\tDestination\n"],
+    ids=["empty", "garbage", "short-header"],
+)
+def test_a_table_without_the_kernels_header_is_unusable(text: str) -> None:
+    with pytest.raises(ValueError, match="not the kernel's route table"):
+        parse_route_table(text, "little")
 
 
 def test_a_host_route_and_unaligned_destinations_are_kept_as_networks() -> None:
@@ -91,10 +116,16 @@ def test_a_host_other_than_linux_has_no_route_table(tmp_path: Path) -> None:
 
 @pytest.mark.parametrize(
     "content",
-    [None, b"x" * (MAX_ROUTE_TABLE_BYTES + 1), b"Iface\n\xff\n"],
-    ids=["missing", "oversize", "not-ascii"],
+    [
+        None,
+        b"x" * (MAX_ROUTE_TABLE_BYTES + 1),
+        b"Iface\n\xff\n",
+        b"garbage that is not a route table\nfoo bar baz\n",
+        (HEADER + "\neth0\tnot-a-route\n").encode(),
+    ],
+    ids=["missing", "oversize", "not-ascii", "not-the-kernels", "malformed-row"],
 )
-def test_an_unreadable_table_fails_closed_on_linux(tmp_path: Path, content: bytes | None) -> None:
+def test_an_unusable_table_fails_closed_on_linux(tmp_path: Path, content: bytes | None) -> None:
     table = tmp_path / "route"
     if content is not None:
         table.write_bytes(content)

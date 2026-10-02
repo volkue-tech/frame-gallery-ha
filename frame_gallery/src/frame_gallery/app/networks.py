@@ -5,13 +5,16 @@ which includes the Supervisor's internal network, and the helper reader
 sends the Supervisor token only to an address inside one of them. On Linux
 the networks come from the kernel's IPv4 route table of this network
 namespace, ``/proc/net/route``: every route except the default route names a
-network the container reaches over one of its interfaces. A development host
-has no such table, and the list is empty there.
+network the container reaches over one of its interfaces. On Linux a table
+that is missing, oversized, not ASCII, or not in the kernel's form fails
+closed (``config_invalid``): a table the app cannot understand must not
+count as one without networks. A table with only its header is valid (a
+container without a network has one). A development host has no such
+table, and the list is empty there.
 """
 
 from __future__ import annotations
 
-import contextlib
 import os
 import re
 import sys
@@ -26,6 +29,7 @@ MAX_ROUTE_TABLE_BYTES: Final = 64 * 1024
 READ_CHUNK: Final = 4096
 
 _HEX: Final = re.compile(r"[0-9A-Fa-f]{8}")
+_IFACE: Final = 0
 _DESTINATION: Final = 1
 _MASK: Final = 7
 _UNKNOWN: Final = (
@@ -41,23 +45,37 @@ def parse_route_table(
     without the default route, sorted and without repeats.
 
     The kernel writes each address as the hexadecimal value of its four bytes
-    in network order, read as a number in the host's byte order. Rows that do
-    not have this form, and masks that are not a prefix, are skipped.
+    in network order, read as a number in the host's byte order. Raises
+    ``ValueError`` unless the first line is the kernel's header and every
+    other non-empty line is a route in that form, with a prefix mask.
     """
+    lines = text.splitlines()
+    header = lines[0].split() if lines else []
+    if len(header) <= _MASK or (header[_IFACE], header[_DESTINATION], header[_MASK]) != (
+        "Iface",
+        "Destination",
+        "Mask",
+    ):
+        msg = "not the kernel's route table"
+        raise ValueError(msg)
     found: set[IPv4Network] = set()
-    for line in text.splitlines()[1:]:
+    for line in lines[1:]:
         fields = line.split()
-        if len(fields) <= _MASK:
+        if not fields:
             continue
-        destination, mask = fields[_DESTINATION], fields[_MASK]
-        if _HEX.fullmatch(destination) is None or _HEX.fullmatch(mask) is None:
-            continue
-        address = IPv4Address(int(destination, 16).to_bytes(4, byteorder))
-        netmask = IPv4Address(int(mask, 16).to_bytes(4, byteorder))
+        if (
+            len(fields) <= _MASK
+            or _HEX.fullmatch(fields[_DESTINATION]) is None
+            or _HEX.fullmatch(fields[_MASK]) is None
+        ):
+            msg = "a route in an unknown form"
+            raise ValueError(msg)
+        address = IPv4Address(int(fields[_DESTINATION], 16).to_bytes(4, byteorder))
+        netmask = IPv4Address(int(fields[_MASK], 16).to_bytes(4, byteorder))
         if int(netmask) == 0:
             continue  # the default route
-        with contextlib.suppress(ValueError):
-            found.add(IPv4Network((address, str(netmask)), strict=False))
+        # A mask that is not a prefix raises ValueError too.
+        found.add(IPv4Network((address, str(netmask)), strict=False))
     return tuple(sorted(found))
 
 
@@ -72,9 +90,9 @@ class ContainerNetworks:
     def container_networks(self) -> tuple[IPv4Network, ...]:
         """The container's networks; empty on a host other than Linux.
 
-        Raises ``ConfigError`` on Linux when the table cannot be read: the TV
-        address could not be checked then, so the run fails closed
-        (``config_invalid``).
+        Raises ``ConfigError`` on Linux when the table cannot be read or
+        understood: the TV address could not be checked then, so the run
+        fails closed (``config_invalid``).
         """
         if self._networks is None:
             self._networks = self._read() if self._linux else ()
@@ -91,7 +109,6 @@ class ContainerNetworks:
                         raise ConfigError([ConfigIssue("tv_host", _UNKNOWN)])
             finally:
                 os.close(fd)
-            text = data.decode("ascii")
-        except (OSError, UnicodeDecodeError):
+            return parse_route_table(data.decode("ascii"))
+        except (OSError, ValueError):  # UnicodeDecodeError is a ValueError
             raise ConfigError([ConfigIssue("tv_host", _UNKNOWN)]) from None
-        return parse_route_table(text)
