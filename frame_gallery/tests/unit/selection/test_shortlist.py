@@ -29,6 +29,7 @@ from frame_gallery.providers.contract import (
     Candidate,
     DimensionProbe,
     DimensionSource,
+    Measurement,
     SourceError,
     SourceErrorKind,
 )
@@ -1145,3 +1146,214 @@ def test_a_local_inspection_exceeding_its_own_time_is_an_inspection_failure() ->
     result = select([work(1, None)], probe=probe)
     assert result.stats.inspection_failures == 1
     assert not result.transport_failure
+
+
+# --- Batches (local inspection, §8.3; Phase 5 gate decision) ------------------
+
+
+class BatchProbe(FakeProbe):
+    """A local inspection that measures up to ``max_batch`` candidates at once."""
+
+    def __init__(
+        self,
+        max_batch: int = 3,
+        default: Size | None = PORTRAIT,
+        outcomes: Mapping[str, Size | SourceError | None] | None = None,
+        *,
+        raises: BaseException | None = None,
+        clock: FakeClock | None = None,
+        advance_s: float = 0.0,
+    ) -> None:
+        super().__init__(DimensionSource.LOCAL_INSPECTION, default)
+        self._max_batch = max_batch
+        self._batch_outcomes = dict(outcomes or {})
+        self._raises = raises
+        self._clock = clock
+        self._advance_s = advance_s
+        self.batches: list[list[str]] = []
+
+    @property
+    def max_batch(self) -> int:
+        return self._max_batch
+
+    def measure_batch(
+        self, candidates: Sequence[Candidate], deadline: Deadline
+    ) -> list[Measurement]:
+        self.batches.append([candidate.qualified_id for candidate in candidates])
+        self.deadlines.append(deadline)
+        if self._clock is not None:
+            self._clock.advance(self._advance_s)
+        if self._raises is not None:
+            raise self._raises
+        measurements = []
+        for candidate in candidates:
+            outcome = self._batch_outcomes.get(candidate.qualified_id, self._default)
+            if isinstance(outcome, SourceError):
+                measurements.append(Measurement(error=outcome))
+            else:
+                measurements.append(Measurement(size=outcome))
+        return measurements
+
+
+def _decisions() -> tuple[list[tuple[str, str]], DecisionSink]:
+    seen: list[tuple[str, str]] = []
+    return seen, lambda candidate, decision: seen.append((candidate.qualified_id, decision))
+
+
+def test_candidates_without_sizes_are_measured_in_batches_in_order() -> None:
+    probe = BatchProbe(outcomes={"aic:1004": STRICT, "aic:1005": STRICT})
+    seen, sink = _decisions()
+    result = select(works(1001, 9, None), probe=probe, on_decision=sink)
+    assert probe.batches == [
+        ["aic:1001", "aic:1002", "aic:1003"],
+        ["aic:1004", "aic:1005", "aic:1006"],
+    ]
+    assert probe.calls == []  # never one by one
+    assert ids(result) == ["aic:1004", "aic:1005"]
+    assert result.end is DiscoveryEnd.SHORTLIST_FULL
+    assert result.stats.inspections_used == 6  # charged per candidate, as they were measured
+    assert ("aic:1006", "unranked:shortlist_full") in seen
+    assert [decision for _, decision in seen[:3]] == ["rejected:not_landscape"] * 3
+
+
+def test_a_batch_probe_of_one_is_used_one_by_one() -> None:
+    probe = BatchProbe(max_batch=1, outcomes={"aic:1002": STRICT})
+    probe._outcomes = {"aic:1002": STRICT, "aic:1003": STRICT}
+    result = select(works(1001, 5, None), probe=probe)
+    assert probe.batches == []
+    assert probe.calls == ["aic:1001", "aic:1002", "aic:1003"]
+    assert ids(result) == ["aic:1002", "aic:1003"]
+
+
+def test_a_candidate_with_a_size_waits_for_the_batch_before_it() -> None:
+    """The order stays the provider's: earlier candidates rank first."""
+    probe = BatchProbe(outcomes={"aic:1001": STRICT, "aic:1002": STRICT})
+    seen, sink = _decisions()
+    result = select([*works(1001, 2, None), work(1003, STRICT)], probe=probe, on_decision=sink)
+    assert probe.batches == [["aic:1001", "aic:1002"]]
+    assert ids(result) == ["aic:1001", "aic:1002"]
+    assert ("aic:1003", "unranked:shortlist_full") in seen
+
+
+def test_a_candidate_with_a_size_after_a_partial_batch_is_ranked() -> None:
+    probe = BatchProbe()
+    result = select([work(1001, None), work(1002, STRICT), work(1003, STRICT)], probe=probe)
+    assert probe.batches == [["aic:1001"]]
+    assert ids(result) == ["aic:1002", "aic:1003"]
+
+
+@pytest.mark.parametrize(
+    ("end", "expected"),
+    [
+        (StopIteration(), DiscoveryEnd.EXHAUSTED),
+        (SourceError(SourceErrorKind.TRANSPORT, "lost"), DiscoveryEnd.PROVIDER_ERROR),
+        (AllowanceExhausted("local_directory_entries"), DiscoveryEnd.PROVIDER_ALLOWANCE),
+    ],
+)
+def test_a_partial_batch_is_measured_when_the_provider_ends(
+    end: BaseException, expected: DiscoveryEnd
+) -> None:
+    probe = BatchProbe(outcomes={"aic:1002": STRICT})
+    script: list[Candidate | BaseException] = [*works(1001, 2, None)]
+    if not isinstance(end, StopIteration):
+        script.append(end)
+    result = select(ScriptedSource(script), probe=probe)
+    assert probe.batches == [["aic:1001", "aic:1002"]]
+    assert ids(result) == ["aic:1002"]
+    assert result.end is expected
+
+
+def test_a_final_batch_that_fills_the_shortlist_ends_it_full() -> None:
+    probe = BatchProbe(outcomes={"aic:1001": STRICT, "aic:1002": STRICT})
+    result = select(works(1001, 2, None), probe=probe)
+    assert ids(result) == ["aic:1001", "aic:1002"]
+    assert result.end is DiscoveryEnd.SHORTLIST_FULL
+
+
+def test_waiting_candidates_are_dropped_when_the_time_runs_out() -> None:
+    budget = make_budget()
+    probe = BatchProbe(max_batch=10)
+    source = ScriptedSource(works(1001, 4, None), clock=budget.clock, step_s=DISCOVERY_S / 3)
+    seen, sink = _decisions()
+    result = select(source, budget=budget, probe=probe, on_decision=sink)
+    assert probe.batches == []
+    assert result.end is DiscoveryEnd.DEADLINE
+    assert result.stats.dims_unavailable == 3
+    assert {decision for _, decision in seen} == {"dims_unavailable:deadline"}
+
+
+def test_the_provider_running_out_of_time_drops_waiting_candidates() -> None:
+    probe = BatchProbe(max_batch=10)
+    script: list[Candidate | BaseException] = [*works(1001, 2, None), DeadlineExceeded("discovery")]
+    result = select(ScriptedSource(script), probe=probe)
+    assert probe.batches == []
+    assert result.end is DiscoveryEnd.DEADLINE
+    assert result.stats.dims_unavailable == 2
+
+
+def test_a_batch_cut_off_by_the_discovery_deadline_ends_the_pass() -> None:
+    budget = make_budget()
+    probe = BatchProbe(
+        max_batch=2, raises=DeadlineExceeded("discovery"), clock=budget.clock, advance_s=DISCOVERY_S
+    )
+    result = select(works(1001, 4, None), budget=budget, probe=probe)
+    assert probe.batches == [["aic:1001", "aic:1002"]]
+    assert result.end is DiscoveryEnd.DEADLINE
+    assert result.stats.dims_unavailable == 2
+
+
+def test_a_batch_cut_off_by_its_own_limit_fails_its_candidates() -> None:
+    probe = BatchProbe(max_batch=2, raises=DeadlineExceeded("inspection"))
+    result = select(works(1001, 2, None), probe=probe)
+    assert result.stats.inspection_failures == 2
+    assert result.end is DiscoveryEnd.EXHAUSTED
+    assert not result.transport_failure
+
+
+def test_errors_in_a_batch_count_per_candidate() -> None:
+    probe = BatchProbe(
+        outcomes={
+            "aic:1001": SourceError(SourceErrorKind.UNEXPECTED_FORMAT, "inspection failed (crash)"),
+            "aic:1002": SourceError(SourceErrorKind.NOT_FOUND, "gone"),
+            "aic:1003": None,
+        }
+    )
+    seen, sink = _decisions()
+    result = select(works(1001, 3, None), probe=probe, on_decision=sink)
+    assert result.stats.inspection_failures == 1
+    assert result.stats.probe_not_found == 1
+    assert result.stats.dims_unavailable == 1
+    assert [decision for _, decision in seen] == [
+        "inspection_failed",
+        "probe_not_found",
+        "dims_unavailable",
+    ]
+
+
+def test_a_stop_reported_in_a_batch_ends_the_pass() -> None:
+    stop = SourceError(SourceErrorKind.STOPPED, "403")
+    probe = BatchProbe(outcomes={"aic:1001": STRICT, "aic:1002": stop})
+    result = select(works(1001, 3, None), probe=probe)
+    assert result.end is DiscoveryEnd.PROVIDER_STOPPED
+    assert result.provider_error is stop
+    assert ids(result) == ["aic:1001"]  # no fallbacks after a stop
+
+
+def test_the_inspection_allowance_is_charged_when_a_candidate_joins_a_batch() -> None:
+    budget = make_budget()
+    budget.inspections = Allowance("inspections", 2)
+    probe = BatchProbe(max_batch=5)
+    seen, sink = _decisions()
+    result = select(works(1001, 4, None), budget=budget, probe=probe, on_decision=sink)
+    assert probe.batches == [["aic:1001", "aic:1002"]]
+    assert result.stats.inspection_allowance_hit
+    assert result.stats.inspections_used == 2
+    assert seen.count(("aic:1003", "dims_unavailable:allowance")) == 1
+
+
+def test_a_remote_batch_probe_charges_the_probe_allowance() -> None:
+    probe = BatchProbe(outcomes={"aic:1001": STRICT})
+    probe._source = DimensionSource.REMOTE_PROBE
+    result = select(works(1001, 2, None), probe=probe)
+    assert result.stats.probes_used == 2
+    assert result.stats.inspections_used == 0

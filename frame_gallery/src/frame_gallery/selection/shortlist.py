@@ -25,6 +25,7 @@ from frame_gallery.budget.deadline import Deadline, DeadlineExceeded
 from frame_gallery.budget.limits import PROBE_REQUEST_S, SHORTLIST_SIZE
 from frame_gallery.domain import CANVAS, FitMode, Size
 from frame_gallery.providers.contract import (
+    BatchDimensionProbe,
     Candidate,
     DimensionProbe,
     DimensionSource,
@@ -331,6 +332,13 @@ class _Discovery:
         self._probe_allowance = probe_allowance
         self._inspection_allowance = inspection_allowance
         self._probe = probe
+        self._batch = (
+            probe if isinstance(probe, BatchDimensionProbe) and probe.max_batch > 1 else None
+        )
+        """A probe that measures several candidates at once (local inspection,
+        §8.3): candidates that need it wait in ``_pending`` until a batch is
+        full or the pass ends, and are then ranked in their original order."""
+        self._pending: list[Candidate] = []
         self._shortlist_size = shortlist_size
         self._entries: list[ShortlistEntry] = []
         self._fallbacks = _Fallbacks(shortlist_size)
@@ -348,8 +356,21 @@ class _Discovery:
         try:
             while len(self._entries) < self._shortlist_size:
                 if self._deadline.expired():
+                    self._drop_pending()
                     return DiscoveryEnd.DEADLINE, None
-                self._consider(self._pull(candidates))
+                try:
+                    candidate = self._pull(candidates)
+                except _DiscoveryEnded as ended:
+                    # Candidates still waiting for a batch are measured first,
+                    # unless the pass ran out of time.
+                    if ended.end is DiscoveryEnd.DEADLINE:
+                        self._drop_pending()
+                        raise
+                    self._flush()
+                    if len(self._entries) >= self._shortlist_size:
+                        return DiscoveryEnd.SHORTLIST_FULL, None
+                    raise
+                self._consider(candidate)
         except _DiscoveryEnded as ended:
             return ended.end, ended.error
         return DiscoveryEnd.SHORTLIST_FULL, None
@@ -395,7 +416,18 @@ class _Discovery:
             tally.rights_rejected += 1
             self._decide(candidate, "rights_rejected")
             return
-        size = candidate.dims if candidate.dims is not None else self._measure(candidate)
+        if candidate.dims is not None:
+            # Candidates before this one are ranked first: keep the order.
+            self._flush()
+            if len(self._entries) < self._shortlist_size:
+                self._rank(candidate, candidate.dims)
+            else:
+                self._decide(candidate, "unranked:shortlist_full")
+            return
+        if self._batch is not None:
+            self._enqueue(self._batch, candidate)
+            return
+        size = self._measure(candidate)
         if size is not None:
             self._rank(candidate, size)
 
@@ -404,17 +436,10 @@ class _Discovery:
         if self._on_decision is not None:
             self._on_decision(candidate, decision)
 
-    def _measure(self, candidate: Candidate) -> Size | None:
-        """The probed dimensions, charged to the probe's own allowance (§8.3).
-
-        ``None`` skips the candidate; the reason has already been counted.
-        """
+    def _take_measurement(self, probe: DimensionProbe, candidate: Candidate) -> bool:
+        """Charge one measurement to the probe's own allowance (§8.3); when
+        it is spent, the candidate is skipped and counted, and ``False``."""
         tally = self._tally
-        probe = self._probe
-        if probe is None:
-            tally.dims_unavailable += 1
-            self._decide(candidate, "dims_unavailable")
-            return None
         remote = probe.source is DimensionSource.REMOTE_PROBE
         allowance = self._probe_allowance if remote else self._inspection_allowance
         if not allowance.try_take():
@@ -424,14 +449,84 @@ class _Discovery:
                 tally.inspection_allowance_hit = True
             tally.dims_unavailable += 1
             self._decide(candidate, "dims_unavailable:allowance")
-            return None
+            return False
         if remote:
             tally.probes_used += 1
-            deadline = self._deadline.child(PROBE_REQUEST_S, "probe")
         else:
             tally.inspections_used += 1
+        return True
+
+    def _measure(self, candidate: Candidate) -> Size | None:
+        """The probed dimensions, charged to the probe's own allowance (§8.3).
+
+        ``None`` skips the candidate; the reason has already been counted.
+        """
+        probe = self._probe
+        if probe is None:
+            self._tally.dims_unavailable += 1
+            self._decide(candidate, "dims_unavailable")
+            return None
+        if not self._take_measurement(probe, candidate):
+            return None
+        if probe.source is DimensionSource.REMOTE_PROBE:
+            deadline = self._deadline.child(PROBE_REQUEST_S, "probe")
+        else:
             deadline = self._deadline
         return self._call_probe(probe, candidate, deadline)
+
+    def _enqueue(self, probe: BatchDimensionProbe, candidate: Candidate) -> None:
+        """Charge the measurement now, and measure when the batch is full."""
+        if not self._take_measurement(probe, candidate):
+            return
+        self._pending.append(candidate)
+        if len(self._pending) >= probe.max_batch:
+            self._flush()
+
+    def _flush(self) -> None:
+        """Measure the waiting candidates in one batch, then rank them in
+        order; the ones after a full shortlist are only reported."""
+        probe = self._batch
+        if probe is None or not self._pending:
+            return
+        batch, self._pending = self._pending, []
+        try:
+            measurements = probe.measure_batch(batch, self._deadline)
+        except DeadlineExceeded:
+            if self._deadline.expired():
+                self._drop(batch)
+                raise _DiscoveryEnded(DiscoveryEnd.DEADLINE) from None
+            for candidate in batch:
+                self._probe_failed(probe, candidate)
+            return
+        for candidate, measurement in zip(batch, measurements, strict=True):
+            if len(self._entries) >= self._shortlist_size:
+                self._decide(candidate, "unranked:shortlist_full")
+            elif measurement.error is not None:
+                self._probe_error(probe, candidate, measurement.error)
+            elif measurement.size is None:
+                self._tally.dims_unavailable += 1
+                self._decide(candidate, "dims_unavailable")
+            else:
+                self._rank(candidate, measurement.size)
+
+    def _drop_pending(self) -> None:
+        batch, self._pending = self._pending, []
+        self._drop(batch)
+
+    def _drop(self, batch: list[Candidate]) -> None:
+        """Candidates the pass ran out of time for: no dimensions."""
+        for candidate in batch:
+            self._tally.dims_unavailable += 1
+            self._decide(candidate, "dims_unavailable:deadline")
+
+    def _probe_error(self, probe: DimensionProbe, candidate: Candidate, error: SourceError) -> None:
+        if error.kind is SourceErrorKind.STOPPED:
+            raise _DiscoveryEnded(DiscoveryEnd.PROVIDER_STOPPED, error) from None
+        if error.kind is SourceErrorKind.NOT_FOUND:
+            self._tally.probe_not_found += 1
+            self._decide(candidate, "probe_not_found")
+        else:
+            self._probe_failed(probe, candidate)
 
     def _call_probe(
         self, probe: DimensionProbe, candidate: Candidate, deadline: Deadline
@@ -440,13 +535,7 @@ class _Discovery:
         try:
             size = probe.measure(candidate, deadline)
         except SourceError as error:
-            if error.kind is SourceErrorKind.STOPPED:
-                raise _DiscoveryEnded(DiscoveryEnd.PROVIDER_STOPPED, error) from None
-            if error.kind is SourceErrorKind.NOT_FOUND:
-                tally.probe_not_found += 1
-                self._decide(candidate, "probe_not_found")
-            else:
-                self._probe_failed(probe, candidate)
+            self._probe_error(probe, candidate, error)
             return None
         except DeadlineExceeded:
             if self._deadline.expired():
