@@ -30,7 +30,15 @@ Last updated: 2026-10-02 (Phase 6 in progress)
 | 11. The entry point uses the executor protocol directly | `0be1cb7` |
 | 12. An inventory of what the image ships, without an SBOM tool (D-171) | `9deceff` |
 | 13. The documentation names the image's actual copyleft parts (D-171) | `3ef529f` |
-| 14. Decisions D-166 to D-172, the authoritative inventory, the notices, and the development notes | this commit |
+| 14. Decisions D-166 to D-172, the authoritative inventory, the notices, and the development notes | `60aed51` |
+| 15. Review fix: every end of the selection pass measures the waiting batch (high) | `4b6a0fd` |
+| 16. Review fix: the library warning counts the last inspection batch; an extra event is a protocol failure | `19ab47b` |
+| 17. Review fix: the early read of the preview fingerprints changes nothing | `bdaf81e` |
+| 18. Review fix: a route table the app cannot understand fails closed | `cd7fd88` |
+| 19. Review fix: every options-file message says what to do | `1af2b26` |
+| 20. Review fix: the app image is the last stage and holds no pip (two high) | `9f8984c` |
+| 21. Review fix: the AppArmor draft names the parent's six capabilities | `26d2284` |
+| 22. Decisions, notices, tasks, and documentation after the review | this commit |
 
 ## Completed
 

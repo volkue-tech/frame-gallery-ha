@@ -17,7 +17,7 @@ No SSH, no command line, and no change to `configuration.yaml` is needed at any 
 
 ## Installation
 
-The public repository and its one-click link are published with the first release. Until then, the app can be installed only as a local development copy, as described in the project's development notes.
+The public repository and its one-click link are published with the first release. Until then, the app can be installed only as a local development copy, as described in the project's development notes (`DEVELOPMENT.md`, *Installing a local development copy*). Until images are published, Home Assistant builds the app on your device when you install it, which needs an internet connection and may take several minutes.
 
 1. Add the repository in **Settings → Apps → App store → ⋮ → Repositories**, or use the one-click link from the release notes.
 2. Open **Frame Gallery** in the app store and select **Install**. Home Assistant downloads the image for your device (`aarch64` for the Green, `amd64` for a PC).
@@ -180,7 +180,7 @@ Every run ends with one line such as `outcome=delivered exit=0 elapsed=23.4`. Wh
 | `delivered` | The TV shows the new artwork. | Nothing. |
 | `delivered_with_warnings` | The TV shows it, but the preview or a record could not be written. | Check that Home Assistant's media storage is available. |
 | `delivered_unrecorded` | The TV shows it, but the history could not be saved. | Check the free space of the Home Assistant system. The work is still not sent again. |
-| `no_match` | Nothing new matched. The last line has a hint: "filters too restrictive", "nothing new left for these filters", or "search limits reached". | Loosen the filters, or add images. "Search limits reached" can work on the next start. |
+| `no_match` | Nothing new matched. The last line has a hint: "filters too restrictive", "nothing new left for these filters", "search limits reached", or, for your own images, "no usable JPEG or PNG images in /media/frame_gallery/library". | Loosen the filters, or add images (for your own images: JPEG or PNG files in that folder). "Search limits reached" can work on the next start. |
 | `config_invalid` | An option is invalid; the log names it. | Correct the option and save. |
 | `tv_unreachable` | The TV did not answer, or the connection broke. | Check that the TV is on and on the same subnet, and that its address is right. |
 | `tv_not_authorized` | The pairing prompt was not accepted in time, or the TV refused the stored key. | Start again and accept the prompt within 20 seconds. |

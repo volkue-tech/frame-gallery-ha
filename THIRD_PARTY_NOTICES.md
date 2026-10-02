@@ -30,8 +30,8 @@ The project-owned source code is licensed under the Apache License 2.0 (D-102, a
 | libavif (`pillow.libs`) | 1.4.2 | `BSD-2-Clause` | Contains, linked statically: dav1d 1.5.3 (`BSD-2-Clause`), aom 3.14.1 (`BSD-2-Clause`; AOMedia's patent licence is checked in the licence review), libyuv (version number 1924, `BSD-3-Clause`), and libsharpyuv |
 | Brotli: libbrotlicommon, libbrotlidec | 1.2.0 | `MIT` | |
 | FreeType: libfreetype | 2.14.3 | `FTL` | Contains bzip2 1.0.8 (`bzip2-1.0.6`), linked statically. See the acknowledgement below. |
-| HarfBuzz: libharfbuzz | 14.2.1 | `MIT` | |
-| libjpeg-turbo: libjpeg | 3.1.4.1 | `IJG AND BSD-3-Clause` | See the acknowledgement below. The wheel's licence file carries only the IJG text. |
+| HarfBuzz: libharfbuzz | 14.2.1 | `MIT-Modern-Variant` | HarfBuzz's "Old MIT" licence, as the wheel's licence file carries it |
+| libjpeg-turbo: libjpeg | 3.1.4.1 | `IJG AND BSD-3-Clause AND Zlib` | See the acknowledgement below. The wheel's licence file carries only the IJG text; the zlib licence covers the SIMD extensions, which both wheels contain (upstream's licence file, to confirm in the licence review). |
 | Little CMS 2: liblcms2 | 2.19.1 | `MIT` | |
 | liblzma (XZ Utils) | 5.8.3 | `0BSD` | The wheel's licence file still carries XZ Utils' older public-domain notice. |
 | OpenJPEG: libopenjp2 | 2.5.4 | `BSD-2-Clause` | |
@@ -100,7 +100,7 @@ Installed unmodified from PyPI and hash-pinned (`frame_gallery/requirements/runt
 
 ### Base image and OS packages
 
-- **Base image:** `ghcr.io/home-assistant/base:3.24-2026.08.0@sha256:93ef607824e3f27e868f11b10938283a98bf880ed57bcf8eaa81c6c2d521f6f5` (Alpine Linux 3.24.1), unmodified. The app adds Alpine's `python3` package, pinned to 3.14.8-r0, with what it needs.
+- **Base image:** `ghcr.io/home-assistant/base:3.24-2026.08.0@sha256:93ef607824e3f27e868f11b10938283a98bf880ed57bcf8eaa81c6c2d521f6f5` (Alpine Linux 3.24.1), unmodified. The app adds Alpine's `python3` package, pinned to 3.14.8-r0, with what it needs, but without the pip wheel that Python bundles for `ensurepip` (`pip-26.2.1-py3-none-any.whl`), which the app image removes (D-167); the image holds no wheel.
 - **Alpine packages**, read from apk's database in the built image, with apk's licence field; the same on both architectures. The last column says whether the base image brings the package or `python3` adds it.
 
 | Package | Version | Licence (apk) | From |
