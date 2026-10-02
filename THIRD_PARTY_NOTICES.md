@@ -42,8 +42,8 @@ The project-owned source code is licensed under the Apache License 2.0 (D-102, a
 | libxcb | 1.17.0 | `X11` | |
 | libXau | 1.0.12 | `MIT-open-group` | From Alpine's package 1.0.12-r0 |
 | libXdmcp | 1.1.5 | `MIT-open-group` | From Alpine's package 1.1.5-r1 |
-| libbsd | 0.12.2 | **to verify** | From Alpine's package 0.12.2-r0; the wheel carries no licence text for it |
-| libmd | 1.1.0 | **to verify** | From Alpine's package 1.1.0-r0; the wheel carries no licence text for it |
+| libbsd | 0.12.2 | `BSD-3-Clause` | From Alpine's package 0.12.2-r0; its licence as the official Alpine package directory gives it (checked by Codex at the Phase 6 gate, reported on 2026-10-03). The wheel carries no licence text for it; the release adds it. |
+| libmd | 1.1.0 | `BSD-3-Clause AND BSD-2-Clause AND ISC AND Beerware` and "Public Domain" | From Alpine's package 1.1.0-r0, whose licence field in the official Alpine package directory reads "BSD-3-Clause AND BSD-2-Clause AND ISC AND Beerware AND Public Domain" (checked by Codex at the Phase 6 gate, reported on 2026-10-03). **"Public Domain" is not an SPDX identifier**; the licence review settles how that part is expressed. The wheel carries no licence text for it; the release adds the texts. |
 | libzstd | 1.5.7 | `BSD-3-Clause` | Zstandard is offered as `BSD-3-Clause OR GPL-2.0-only`; the wheel carries the BSD text. |
 | raqm (in `_imagingft`) | 0.10.5 | `MIT` | |
 | fribidi-shim (in `_imagingft`) | 1.x | `LGPL-2.1-or-later` | **Copyleft.** Pillow's code that loads FriBiDi at run time, if the system has it; the image does not. The LGPL-2.1 text and the corresponding source (the Pillow 12.3.0 sdist) are provided with each release (D-135). |
@@ -102,6 +102,8 @@ Installed unmodified from PyPI and hash-pinned (`frame_gallery/requirements/runt
 
 - **Base image:** `ghcr.io/home-assistant/base:3.24-2026.08.0@sha256:93ef607824e3f27e868f11b10938283a98bf880ed57bcf8eaa81c6c2d521f6f5` (Alpine Linux 3.24.1), unmodified. The app adds Alpine's `python3` package, pinned to 3.14.8-r0, with what it needs, but without the pip wheel that Python bundles for `ensurepip` (`pip-26.2.1-py3-none-any.whl`), which the app image removes (D-167); the image holds no wheel.
 - **Alpine packages**, read from apk's database in the built image, with apk's licence field; the same on both architectures. The last column says whether the base image brings the package or `python3` adds it.
+
+The licence column is apk's own field. It is not always an SPDX expression: "Public-Domain" (in `tzdata`, `xz`, and `xz-libs`) is apk's notation, not an SPDX identifier.
 
 | Package | Version | Licence (apk) | From |
 | --- | --- | --- | --- |
