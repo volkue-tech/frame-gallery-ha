@@ -3,9 +3,11 @@
 Generates the worst legal cases in a temporary directory, runs each through
 the production ``prepare`` task in a real worker process (the process
 executor with this host's production launch), and prints one row per run:
-the result, the wall time, and the worker's own CPU time and peak resident
-memory (``ru_maxrss``, in bytes on every platform). Each source is made as
-large as the 40 MiB source cap allows, so the decoders have the most work.
+the result, the wall time, and the worker's own CPU time and peak memory:
+resident, and on Linux also the address space that ``RLIMIT_AS`` limits
+(``VmHWM`` and ``VmPeak``; ``ru_maxrss`` elsewhere, see ``worker_main.usage``).
+Each source is made as large as the 40 MiB source cap allows, so the
+decoders have the most work.
 
 The cases: 64 MP JPEGs (baseline, progressive, progressive 4:4:4, CMYK,
 progressive CMYK; a 16:9 frame in ``contain`` and a 19 999 x 3 200 panorama
@@ -253,6 +255,7 @@ def _prepare(  # noqa: PLR0917 - one row's inputs
         "wall_s": round(elapsed, 2),
         "cpu_s": usage.get("cpu_s"),
         "peak_rss_mib": _mib(usage.get("max_rss_bytes")),
+        "peak_vm_mib": _mib(usage.get("max_vm_bytes")),
         "rlimit_as": (
             "not enforced on this host" if Limit.ADDRESS_SPACE in launch.skip_limits else "1 GiB"
         ),
@@ -290,7 +293,16 @@ def main() -> None:
     worker = "the parent's identity" if launch.identity is None else f"uid/gid {launch.identity}"
     host = f"{platform.system()} {platform.machine()}, Python {platform.python_version()}"
     lines = [f"host: {host}; parent euid {os.geteuid()}; workers run as {worker}"]
-    columns = ("case", "fit", "source_mib", "outcome", "wall_s", "cpu_s", "peak_rss_mib")
+    columns = (
+        "case",
+        "fit",
+        "source_mib",
+        "outcome",
+        "wall_s",
+        "cpu_s",
+        "peak_rss_mib",
+        "peak_vm_mib",
+    )
     lines.append(" | ".join((*columns, "rlimit_as")))
     lines += [" | ".join(str(row[column]) for column in (*columns, "rlimit_as")) for row in rows]
     if inspected:

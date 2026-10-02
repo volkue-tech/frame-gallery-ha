@@ -12,6 +12,7 @@ import os
 import sys
 import types
 from collections.abc import Iterator
+from pathlib import Path
 from typing import Any, NoReturn
 
 import pytest
@@ -107,7 +108,7 @@ def test_a_task_runs_after_ready_and_its_result_is_sent(worker: Worker) -> None:
     assert messages[1]["result"] == {"doubled": 42}
     usage_data = messages[1]["usage"]
     assert isinstance(usage_data, dict)
-    assert set(usage_data) == {"max_rss_bytes", "cpu_s"}
+    assert set(usage_data) == {"max_rss_bytes", "max_vm_bytes", "cpu_s"}
     assert result_fd() == worker.results_w
 
 
@@ -220,13 +221,38 @@ def test_result_fd_outside_a_worker() -> None:
         result_fd()
 
 
-def test_usage_is_in_bytes_on_every_platform() -> None:
-    darwin, linux = usage("darwin"), usage("linux")
+def test_usage_is_in_bytes_on_every_platform(tmp_path: Path) -> None:
+    status = tmp_path / "status"
+    status.write_text("Name:\tpython\nVmPeak:\t  812345 kB\nVmHWM:\t   23456 kB\n")
+    darwin, linux = usage("darwin"), usage("linux", str(status))
     assert isinstance(darwin["max_rss_bytes"], int)
-    assert isinstance(linux["max_rss_bytes"], int)
+    assert darwin["max_vm_bytes"] is None
+    assert linux["max_rss_bytes"] == 23456 * 1024
+    assert linux["max_vm_bytes"] == 812345 * 1024
     unit = worker_main.MAXRSS_UNIT
     assert unit == {"darwin": 1}
     assert isinstance(darwin["cpu_s"], float)
+
+
+@pytest.mark.parametrize(
+    "content",
+    [
+        None,
+        "VmPeak:\t812345 MB\nVmHWM:\tlots kB\nVmRSS\n",
+        "Name:\tpython\n",
+    ],
+    ids=["unreadable", "malformed", "absent"],
+)
+def test_usage_without_the_status_peaks_reports_none_on_linux(
+    tmp_path: Path, content: str | None
+) -> None:
+    """``ru_maxrss`` would count the parent's memory at the fork on Linux."""
+    status = tmp_path / "status"
+    if content is not None:
+        status.write_text(content)
+    report = usage("linux", str(status))
+    assert report["max_rss_bytes"] is None
+    assert report["max_vm_bytes"] is None
 
 
 def test_the_real_os_is_the_default(monkeypatch: pytest.MonkeyPatch, worker: Worker) -> None:

@@ -144,11 +144,48 @@ def _failure(kind: str, detail: str) -> JsonObject:
 MAXRSS_UNIT: Final = {"darwin": 1}
 """``ru_maxrss`` is in bytes on macOS and in KiB elsewhere (Linux)."""
 
+STATUS_FILE: Final = "/proc/self/status"
+MAX_STATUS_BYTES: Final = 16 * 1024
+_PEAKS: Final = {"VmHWM": "max_rss_bytes", "VmPeak": "max_vm_bytes"}
 
-def usage(platform: str) -> JsonObject:
-    """The worker's own peak memory and CPU time so far."""
+
+def usage(platform: str, status_file: str = STATUS_FILE) -> JsonObject:
+    """The worker's own peak memory and CPU time so far.
+
+    On Linux the peaks come from ``status_file``: ``VmHWM`` (resident) and
+    ``VmPeak`` (address space, which ``RLIMIT_AS`` limits). Linux carries a
+    process's ``ru_maxrss`` over ``exec``, so there it would also count the
+    parent's resident memory at the fork. Elsewhere ``ru_maxrss`` is used and
+    the address-space peak is unknown (``None``); so is any peak that the
+    file does not give.
+    """
     own = resource.getrusage(resource.RUSAGE_SELF)
-    return {
+    report: JsonObject = {
         "max_rss_bytes": own.ru_maxrss * MAXRSS_UNIT.get(platform, 1024),
+        "max_vm_bytes": None,
         "cpu_s": round(own.ru_utime + own.ru_stime, 3),
     }
+    if platform.startswith("linux"):
+        report["max_rss_bytes"] = None
+        report.update(_status_peaks(status_file))
+    return report
+
+
+def _status_peaks(status_file: str) -> dict[str, int]:
+    """The ``VmHWM`` and ``VmPeak`` lines of ``status_file`` in bytes; the
+    ones it lacks, or a file that cannot be read, give nothing."""
+    try:
+        fd = os.open(status_file, os.O_RDONLY | os.O_CLOEXEC)
+        try:
+            text = os.read(fd, MAX_STATUS_BYTES).decode("ascii", "replace")
+        finally:
+            os.close(fd)
+    except OSError:
+        return {}
+    peaks: dict[str, int] = {}
+    for line in text.splitlines():
+        name, _, value = line.partition(":")
+        fields = value.split()
+        if name in _PEAKS and len(fields) == 2 and fields[0].isdigit() and fields[1] == "kB":
+            peaks[_PEAKS[name]] = int(fields[0]) * 1024
+    return peaks
