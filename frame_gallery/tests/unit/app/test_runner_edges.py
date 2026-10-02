@@ -21,6 +21,7 @@ from frame_gallery.app.runner import Stage
 from frame_gallery.app.signals import CancellationController, install_sigterm_handler
 from frame_gallery.budget.allowance import AllowanceExhausted
 from frame_gallery.budget.deadline import Deadline, DeadlineExceeded
+from frame_gallery.budget.phases import RunBudget
 from frame_gallery.domain import Size, SourceKey
 from frame_gallery.errors import Cancelled, StateError
 from frame_gallery.imaging.contract import DeliveryArtifact
@@ -155,7 +156,8 @@ def test_workers_are_killed_before_an_interrupted_delivery_is_classified(h: Harn
 
 
 def test_a_stop_while_arming_the_watchdog_is_still_a_classified_run(h: Harness) -> None:
-    def stop_on_arm() -> None:
+    def stop_on_arm(budget: RunBudget) -> None:
+        del budget
         h.events.append("watchdog.arm")
         h.cancellation.request_stop()
 

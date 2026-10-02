@@ -33,6 +33,7 @@ from __future__ import annotations
 import logging
 import time
 from collections.abc import Callable
+from pathlib import Path
 from typing import Final
 
 from frame_gallery.errors import StateError
@@ -192,6 +193,31 @@ class SamsungTelevision:
             _log.warning("the TV rejected the stored pairing token; it was removed")
             return AuthChange.TOKEN_REJECTED
         return AuthChange.UNCHANGED
+
+
+class HostTelevision:
+    """The ``Television`` port of the production wiring (Phase 6).
+
+    The television's address is known only once CONFIGURE has read the
+    options, so the pairing-token store is bound to ``request.tv_host`` when
+    the delivery starts; one :class:`SamsungTelevision` then serves it.
+    """
+
+    def __init__(
+        self,
+        executor: Executor,
+        data_root: Path,
+        *,
+        monotonic: Callable[[], float] = time.monotonic,
+    ) -> None:
+        self._executor = executor
+        self._data_root = data_root
+        self._monotonic = monotonic
+
+    def deliver(self, request: DeliveryRequest, on_marker: MarkerSink) -> DeliveryResult:
+        tokens = TokenStore(self._data_root, request.tv_host)
+        adapter = SamsungTelevision(self._executor, tokens, monotonic=self._monotonic)
+        return adapter.deliver(request, on_marker)
 
 
 _STATUSES: Final = frozenset(status.value for status in DeliveryStatus)

@@ -16,6 +16,7 @@ from pathlib import Path
 from typing import Protocol
 
 from frame_gallery.budget.deadline import Deadline
+from frame_gallery.budget.phases import RunBudget
 from frame_gallery.config.filters import FilterField
 from frame_gallery.domain import WorkspacePaths
 from frame_gallery.imaging.contract import DeliveryArtifact, ImageFormat
@@ -152,7 +153,10 @@ class RunRecords(Protocol):
 
 
 class WatchdogControl(Protocol):
-    def arm(self) -> None: ...
+    def arm(self, budget: RunBudget) -> None:
+        """Start the watchdog: it fires at ``budget.watchdog_at`` and reports
+        the time elapsed since ``budget.started_at`` (§4.3)."""
+        ...
 
     def disarm(self) -> bool:
         """Stop the watchdog; ``False`` if it had already claimed a firing,

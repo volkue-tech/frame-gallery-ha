@@ -10,7 +10,11 @@ from types import FrameType
 
 import pytest
 
-from frame_gallery.app.signals import CancellationController, install_sigterm_handler
+from frame_gallery.app.signals import (
+    CancellationController,
+    deferring,
+    install_sigterm_handler,
+)
 from frame_gallery.errors import Cancelled
 
 
@@ -203,3 +207,49 @@ def test_restore_falls_back_to_the_default_handler(monkeypatch: pytest.MonkeyPat
     restore()
     assert calls[-1] is signal.SIG_DFL
     assert len(calls) == 2
+
+
+def _stop_inside(controller: CancellationController) -> None:
+    with deferring(controller):
+        controller.request_stop()  # only recorded inside the block
+        assert controller.stop_requested
+
+
+def test_deferring_holds_a_request_until_the_block_ends() -> None:
+    controller = CancellationController()
+    with pytest.raises(Cancelled):
+        _stop_inside(controller)
+    assert not controller.deferred
+
+
+def test_deferring_without_a_request_raises_nothing() -> None:
+    controller = CancellationController()
+    with deferring(controller):
+        assert controller.deferred
+    assert not controller.deferred
+
+
+def _stop_and_fail_inside(controller: CancellationController) -> None:
+    with deferring(controller):
+        controller.request_stop()
+        raise KeyError
+
+
+def test_deferring_lets_the_blocks_own_exception_through() -> None:
+    controller = CancellationController()
+    with pytest.raises(KeyError):
+        _stop_and_fail_inside(controller)
+    assert controller.stop_requested
+    assert not controller.deferred
+    with pytest.raises(Cancelled):
+        controller.check()
+
+
+def test_deferring_inside_an_outer_deferral_leaves_the_request_pending() -> None:
+    controller = CancellationController(start_deferred=True)
+    with deferring(controller):
+        controller.request_stop()
+    assert controller.deferred  # the start deferral is still active
+    controller.end_start_deferral()
+    with pytest.raises(Cancelled):
+        controller.check()

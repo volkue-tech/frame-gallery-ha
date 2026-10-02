@@ -73,6 +73,9 @@ HELPER_ENTITY_ID: Final = re.compile(
 _HELPER_OPTIONS: Final = tuple((field, f"{field.value}_helper") for field in FilterField)
 """``(field, option)`` in ``FilterField`` order: ``source_helper`` first."""
 
+HELPER_OPTION_NAMES: Final = tuple(option for _, option in _HELPER_OPTIONS)
+"""The names of the four helper options, ``source_helper`` first."""
+
 _FILTER_NOUNS: Final = {
     FilterField.DEPARTMENT: "department or collection",
     FilterField.STYLE: "style or period",

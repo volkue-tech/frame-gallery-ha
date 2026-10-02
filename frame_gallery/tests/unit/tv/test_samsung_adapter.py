@@ -35,7 +35,12 @@ from frame_gallery.tv.port import (
     Marker,
     MarkerEvent,
 )
-from frame_gallery.tv.samsung import DELIVER_TASK, DELIVER_TIMEOUT_S, SamsungTelevision
+from frame_gallery.tv.samsung import (
+    DELIVER_TASK,
+    DELIVER_TIMEOUT_S,
+    HostTelevision,
+    SamsungTelevision,
+)
 from frame_gallery.tv.samsung_task import run_delivery
 from frame_gallery.tv.token_store import TokenStore
 from tests.support.clock import FakeClock
@@ -124,6 +129,19 @@ def test_no_token_file_is_shared_with_the_worker(tmp_path: Path) -> None:
     rig.tokens.install(STORED)
     rig.deliver()
     assert sorted(path.name for path in rig.jpeg.parent.iterdir()) == ["delivery-0.jpg"]
+
+
+def test_the_host_television_binds_the_token_to_the_requested_address(tmp_path: Path) -> None:
+    """Phase 6 wiring: the address is known only from the request."""
+    rig = Rig(tmp_path, issue_token=STORED)
+    rig.tokens.install(STORED)
+    TokenStore(rig.data, IPv4Address("192.0.2.99")).install(OTHER)  # removes STORED
+    rig.tokens.install(STORED)  # and this removes OTHER again
+    television = HostTelevision(rig.executor, rig.data, monotonic=lambda: rig.now)
+    result = television.deliver(rig.request(), rig.markers.append)
+    assert result.status is DeliveryStatus.OK
+    assert rig.requests[0].token == STORED
+    assert sorted(path.name for path in (rig.data / "tv").iterdir()) == ["192-0-2-20.token"]
 
 
 def test_a_new_token_replaces_the_stored_one(tmp_path: Path) -> None:

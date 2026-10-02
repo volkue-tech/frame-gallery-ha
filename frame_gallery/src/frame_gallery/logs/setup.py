@@ -93,3 +93,8 @@ def configure_logging(*, level: LogLevel, stream: TextIO, redactor: Redactor) ->
     app_logger = logging.getLogger(APP_LOGGER)
     app_logger.setLevel(_LEVELS[level])
     return app_logger
+
+
+def set_app_level(level: LogLevel) -> None:
+    """Set the ``frame_gallery`` loggers to ``level`` (the ``log_level`` option)."""
+    logging.getLogger(APP_LOGGER).setLevel(_LEVELS[level])

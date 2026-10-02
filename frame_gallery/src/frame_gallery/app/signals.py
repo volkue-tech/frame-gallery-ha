@@ -13,8 +13,9 @@ deadlock. Each method reads or writes single attributes only.
 
 from __future__ import annotations
 
+import contextlib
 import signal
-from collections.abc import Callable
+from collections.abc import Callable, Iterator
 from types import FrameType
 
 from frame_gallery.errors import Cancelled
@@ -97,6 +98,24 @@ class CancellationController:
             raise RuntimeError(msg)
         self._deferrals -= 1
         return self._stop_requested
+
+
+@contextlib.contextmanager
+def deferring(controller: CancellationController) -> Iterator[None]:
+    """Defer stop requests for the block, then honour one that arrived meanwhile.
+
+    The entry point wraps the start of each worker in it (D-163): a SIGTERM
+    can then never land between the fork and the executor's record of the
+    worker. When the block ends normally and no other deferral is active, a
+    pending request raises :class:`Cancelled`; when the block raises, its
+    exception propagates and the request stays pending.
+    """
+    controller.begin_deferral()
+    try:
+        yield
+    finally:
+        controller.end_deferral()
+    controller.check()
 
 
 def install_sigterm_handler(controller: CancellationController) -> Callable[[], None]:

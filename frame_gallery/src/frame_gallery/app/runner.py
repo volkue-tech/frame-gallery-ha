@@ -277,7 +277,7 @@ class Runner:
                 # recorded (the controller started deferred); honour it here.
                 self._cancel.end_start_deferral()
                 self._cancel.check()
-                self._ports.watchdog.arm()
+                self._ports.watchdog.arm(self._run_budget())
                 self._configure(run)
                 self._resolve_filters(run)
                 self._select(run)

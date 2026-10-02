@@ -38,6 +38,7 @@ SELECTION_ROOT = PACKAGE_ROOT / "selection"
 NET_ROOT = PACKAGE_ROOT / "net"
 NET_TRANSPORT = NET_ROOT / "transport.py"
 NET_TRANSPORT_MODULE = "frame_gallery.net.transport"
+ENTRY_POINT_MODULE = "frame_gallery.__main__"
 WORKER_TASKS = "frame_gallery.imaging.worker_tasks"
 WORKER_PREFIX = "frame_gallery.imaging.worker_"
 TV_WORKER = PACKAGE_ROOT / "tv" / "samsung_task.py"
@@ -993,7 +994,11 @@ for info in pkgutil.walk_packages(frame_gallery.__path__, "frame_gallery."):
     if info.name.startswith("frame_gallery.imaging.") and leaf.startswith("worker_"):
         skipped.append(info.name)
         continue
-    if info.name in ("frame_gallery.net.transport", "frame_gallery.tv.samsung_task"):
+    if info.name in (
+        "frame_gallery.net.transport",
+        "frame_gallery.tv.samsung_task",
+        "frame_gallery.__main__",
+    ):
         skipped.append(info.name)
         continue
     before = set(present())
@@ -1038,6 +1043,7 @@ def test_the_parent_package_loads_no_worker_or_network_library() -> None:
     assert WORKER_TASKS in report["skipped"]
     assert NET_TRANSPORT_MODULE in report["skipped"]
     assert TV_WORKER_MODULE in report["skipped"]
+    assert ENTRY_POINT_MODULE in report["skipped"]
     assert "frame_gallery.tv.samsung" in report["imported"]
     assert "frame_gallery.net.gateway" in report["imported"]
     assert not any(name.startswith("frame_gallery.imaging.worker_") for name in report["imported"])
@@ -1045,26 +1051,30 @@ def test_the_parent_package_loads_no_worker_or_network_library() -> None:
 
 
 _TRANSPORT_SCRIPT = """
+import importlib
 import json
 import sys
 
-names = sys.argv[1:]
+module, names = sys.argv[1], sys.argv[2:]
 before = sorted(name for name in names if name in sys.modules)
-import frame_gallery.net.transport
+importlib.import_module(module)
 after = sorted(name for name in names if name in sys.modules)
 print(json.dumps({"before": before, "after": after}))
 """
 
 
-def test_the_transport_loads_only_the_network_stack() -> None:
+@pytest.mark.parametrize("module", [NET_TRANSPORT_MODULE, ENTRY_POINT_MODULE])
+def test_the_transport_loads_only_the_network_stack(module: str) -> None:
+    """The real transport, and the entry point that alone imports it (Phase
+    6), load the network stack and nothing of the workers (D-107, D-147)."""
     env = {
         "PATH": os.environ.get("PATH", os.defpath),
         "PYTHONPATH": str(SRC_ROOT),
         "PYTHONDONTWRITEBYTECODE": "1",
     }
-    names = (*TRANSPORT_LOADS, *TRANSPORT_NEVER_LOADS)
+    names = (*TRANSPORT_LOADS, *TRANSPORT_NEVER_LOADS, "ctypes")
     completed = subprocess.run(  # noqa: S603 - fixed arguments: this interpreter and a literal
-        [sys.executable, "-P", "-c", _TRANSPORT_SCRIPT, *names],
+        [sys.executable, "-P", "-c", _TRANSPORT_SCRIPT, module, *names],
         capture_output=True,
         text=True,
         env=env,

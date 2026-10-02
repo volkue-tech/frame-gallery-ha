@@ -16,6 +16,7 @@ from collections.abc import Callable, Sequence
 from typing import Final
 
 from frame_gallery.budget.clock import Clock
+from frame_gallery.budget.phases import RunBudget
 from frame_gallery.logs.summary import format_summary
 
 WATCHDOG_EXIT_CODE: Final = 71
@@ -142,3 +143,56 @@ class Watchdog:
                 self._emit_line(line)
         finally:
             self._exit_process(WATCHDOG_EXIT_CODE)
+
+
+class RunWatchdog:
+    """The runner's ``WatchdogControl`` in production (Phase 6).
+
+    :meth:`arm` starts a :class:`Watchdog` from the run's own budget: it fires
+    at ``budget.watchdog_at`` (``T`` + 10 s) and reports the time elapsed
+    since ``budget.started_at``, so the watchdog and the run share one start.
+    """
+
+    def __init__(
+        self,
+        *,
+        clock: Clock,
+        on_fire: Sequence[Callable[[], None]],
+        emit_line: Callable[[str], None],
+        exit_process: Callable[[int], object] = os._exit,
+        wait: Callable[[float], bool] | None = None,
+    ) -> None:
+        """``exit_process`` and ``wait`` are passed to :class:`Watchdog`."""
+        self._clock = clock
+        self._on_fire = tuple(on_fire)
+        self._emit_line = emit_line
+        self._exit_process = exit_process
+        self._wait = wait
+        self._watchdog: Watchdog | None = None
+
+    def arm(self, budget: RunBudget) -> None:
+        """Start the watchdog once; a second call does nothing."""
+        if self._watchdog is not None:
+            return
+        self._watchdog = Watchdog(
+            clock=self._clock,
+            fire_at=budget.watchdog_at,
+            on_fire=self._on_fire,
+            emit_line=self._emit_line,
+            exit_process=self._exit_process,
+            wait=self._wait,
+            started_at=budget.started_at,
+        )
+        self._watchdog.arm()
+
+    def disarm(self) -> bool:
+        """See :meth:`Watchdog.disarm`; ``True`` if it was never armed."""
+        return True if self._watchdog is None else self._watchdog.disarm()
+
+    def wait_for_exit(self) -> None:
+        """Wait for a watchdog that claimed the run: it ends the process with
+        exit code 71 after it has emitted the only summary line. Returns at
+        once if no watchdog thread exists (or, in tests, once it has ended)."""
+        thread = None if self._watchdog is None else self._watchdog.thread
+        if thread is not None:
+            thread.join()

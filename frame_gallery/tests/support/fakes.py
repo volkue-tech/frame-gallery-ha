@@ -20,6 +20,7 @@ from PIL import Image
 
 from frame_gallery.app.ports import FetchedImage, ProviderBinding
 from frame_gallery.budget.deadline import Deadline
+from frame_gallery.budget.phases import RunBudget
 from frame_gallery.config.filters import EffectiveFilters, FilterField
 from frame_gallery.domain import CANVAS, Size, SourceKey, WorkspacePaths
 from frame_gallery.errors import PublishError, StateError
@@ -576,10 +577,12 @@ class FakeWatchdog:
         self.disarmed = False
         self.fired = False
         """Set by a test to simulate a watchdog that claimed the run first."""
+        self.budget: RunBudget | None = None
 
-    def arm(self) -> None:
+    def arm(self, budget: RunBudget) -> None:
         self.events.append("watchdog.arm")
         self.armed = True
+        self.budget = budget
 
     def disarm(self) -> bool:
         self.events.append("watchdog.disarm")

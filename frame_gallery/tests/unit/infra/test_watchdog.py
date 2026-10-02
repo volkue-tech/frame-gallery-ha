@@ -5,12 +5,19 @@ from __future__ import annotations
 import inspect
 import os
 import threading
+import time
 from collections.abc import Callable, Sequence
 
 import pytest
 
 from frame_gallery.budget.clock import SystemClock
-from frame_gallery.budget.watchdog import WATCHDOG_EXIT_CODE, WATCHDOG_OUTCOME, Watchdog
+from frame_gallery.budget.phases import RunBudget
+from frame_gallery.budget.watchdog import (
+    WATCHDOG_EXIT_CODE,
+    WATCHDOG_OUTCOME,
+    RunWatchdog,
+    Watchdog,
+)
 from tests.support.clock import FakeClock
 
 JOIN_S = 5.0
@@ -372,3 +379,82 @@ def test_elapsed_is_measured_from_the_given_start() -> None:
     )
     watchdog.fire()
     assert recorder.lines == ["outcome=watchdog_termination exit=71 elapsed=12.3"]
+
+
+def _run_watchdog(
+    recorder: Recorder, clock: FakeClock, wait: Callable[[float], bool] | None = None
+) -> RunWatchdog:
+    return RunWatchdog(
+        clock=clock,
+        on_fire=[recorder.callback("kill_worker_group"), recorder.callback("remove_workspace")],
+        emit_line=recorder.emit_line,
+        exit_process=recorder.exit_process,
+        wait=wait,
+    )
+
+
+def test_the_run_watchdog_fires_at_the_runs_own_deadline() -> None:
+    """Phase 6: fire time and start come from the run's budget (§4.3)."""
+    clock = FakeClock()
+    recorder = Recorder()
+    budget = RunBudget(clock)
+    clock.advance(131.25)  # past T + 10 s
+    watchdog = _run_watchdog(recorder, clock)
+    watchdog.arm(budget)
+    assert recorder.exited.wait(JOIN_S)
+    watchdog.wait_for_exit()
+    assert recorder.lines == ["outcome=watchdog_termination exit=71 elapsed=131.2"]
+    assert recorder.events == ["kill_worker_group", "remove_workspace", "line", "exit"]
+    assert watchdog.disarm() is False
+
+
+def test_the_run_watchdog_waits_until_the_budget_says_so() -> None:
+    clock = FakeClock()
+    recorder = Recorder()
+    budget = RunBudget(clock)
+    waits: list[float] = []
+    waited = threading.Event()
+
+    def wait(seconds: float) -> bool:
+        waits.append(seconds)
+        waited.set()
+        return True
+
+    watchdog = _run_watchdog(recorder, clock, wait)
+    clock.advance(100.0)
+    watchdog.arm(budget)
+    assert waited.wait(JOIN_S)
+    assert watchdog.disarm() is True
+    watchdog.wait_for_exit()
+    assert waits[0] == pytest.approx(30.0)  # 130 s after the run started, 100 s in
+    assert recorder.events == []
+
+
+def _nap(seconds: float) -> bool:
+    """Waits a millisecond instead of ``seconds`` of a fake clock."""
+    del seconds
+    time.sleep(0.001)
+    return False
+
+
+def test_the_run_watchdog_arms_once() -> None:
+    """A second ``arm`` is ignored: the first budget's start and deadline stay."""
+    clock = FakeClock()
+    recorder = Recorder()
+    first = RunBudget(clock)
+    watchdog = _run_watchdog(recorder, clock, wait=_nap)
+    watchdog.arm(first)
+    clock.advance(50.0)
+    watchdog.arm(RunBudget(clock))
+    clock.advance(81.0)  # 131 s after the first budget's start, 81 s after the second's
+    assert recorder.exited.wait(JOIN_S)
+    watchdog.wait_for_exit()
+    assert recorder.lines == ["outcome=watchdog_termination exit=71 elapsed=131.0"]
+
+
+def test_an_unarmed_run_watchdog_disarms_and_never_waits() -> None:
+    recorder = Recorder()
+    watchdog = _run_watchdog(recorder, FakeClock())
+    assert watchdog.disarm() is True
+    watchdog.wait_for_exit()
+    assert recorder.events == []

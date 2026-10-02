@@ -66,6 +66,9 @@ source_pkgs = ["frame_gallery"]
 show_missing = true
 exclude_also = [
     "if TYPE_CHECKING:",
+    # The entry point's guard runs only under `python -m frame_gallery`, which
+    # the container smoke run exercises; run_app and main are tested directly.
+    "if __name__ == .__main__.:",
     "@overload",
     "raise NotImplementedError",
     "^\\s*\\.\\.\\.$",

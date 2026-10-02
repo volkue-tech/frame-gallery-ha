@@ -19,6 +19,7 @@ from frame_gallery.logs.setup import (
     THIRD_PARTY_LOGGERS,
     RedactingFormatter,
     configure_logging,
+    set_app_level,
 )
 from frame_gallery.logs.summary import sanitize_for_log
 from tests.support.clock import FAKE_EPOCH
@@ -299,3 +300,15 @@ def test_a_digest_after_bearer_text_is_logged_whole() -> None:
     assert stream.getvalue().endswith(
         f"chosen: aic:1 (strict) The Standard Bearer sha256={digest}\n"
     )
+
+
+def test_the_log_level_option_sets_the_app_loggers_only() -> None:
+    logger, stream = _configure(LogLevel.INFO)
+    set_app_level(LogLevel.DEBUG)
+    logger.debug("now visible")
+    assert logging.getLogger("frame_gallery.worker.prepare").isEnabledFor(logging.DEBUG)
+    assert not logging.getLogger("samsungtvws").isEnabledFor(logging.INFO)
+    set_app_level(LogLevel.INFO)
+    logger.debug("hidden again")
+    assert "now visible" in stream.getvalue()
+    assert "hidden again" not in stream.getvalue()
