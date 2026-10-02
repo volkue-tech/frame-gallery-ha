@@ -21,7 +21,7 @@ import threading
 import time
 from collections.abc import Callable
 from pathlib import Path
-from typing import Any
+from typing import Any, Final
 
 from frame_gallery.isolation import worker_main
 from frame_gallery.isolation.executor import EventSink, JsonObject
@@ -227,7 +227,21 @@ def _linux_controls() -> dict[str, object] | None:
     }
 
 
+EMULATORS: Final = ("/run/rosetta/rosetta",)
+"""Emulators that keep descriptors in the process they run: Docker Desktop
+runs amd64 containers under Rosetta, which holds itself and the emulated
+binary open in every process."""
+
+
+def _target(fd: int) -> str | None:
+    try:
+        return str(Path(f"/proc/self/fd/{fd}").readlink())
+    except OSError:
+        return None  # no /proc here (macOS), or the descriptor just closed
+
+
 def _open_fds() -> list[int]:
+    """The worker's open descriptors, without an emulator's own ones."""
     found = []
     for fd in range(64):
         try:
@@ -235,6 +249,10 @@ def _open_fds() -> list[int]:
         except OSError:
             continue
         found.append(fd)
+    targets = {fd: _target(fd) for fd in found}
+    if any(target in EMULATORS for target in targets.values()):
+        own = {*EMULATORS, str(Path(sys.executable).resolve())}
+        found = [fd for fd in found if targets[fd] not in own]
     return found
 
 
