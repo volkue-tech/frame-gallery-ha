@@ -359,21 +359,25 @@ class _Discovery:
                     self._drop_pending()
                     return DiscoveryEnd.DEADLINE, None
                 try:
-                    candidate = self._pull(candidates)
+                    self._consider(self._pull(candidates))
                 except _DiscoveryEnded as ended:
-                    # Candidates still waiting for a batch are measured first,
-                    # unless the pass ran out of time.
-                    if ended.end is DiscoveryEnd.DEADLINE:
-                        self._drop_pending()
-                        raise
-                    self._flush()
-                    if len(self._entries) >= self._shortlist_size:
-                        return DiscoveryEnd.SHORTLIST_FULL, None
-                    raise
-                self._consider(candidate)
+                    return self._end(ended)
         except _DiscoveryEnded as ended:
             return ended.end, ended.error
         return DiscoveryEnd.SHORTLIST_FULL, None
+
+    def _end(self, ended: _DiscoveryEnded) -> tuple[DiscoveryEnd, SourceError | None]:
+        """End the pass, whatever ended it. Candidates still waiting for a
+        batch are measured first, as a file-by-file pass would have measured
+        them, unless the pass ran out of time; a shortlist they fill ends
+        the pass full. The final batch may itself end it (``_DiscoveryEnded``)."""
+        if ended.end is DiscoveryEnd.DEADLINE:
+            self._drop_pending()
+            return ended.end, ended.error
+        self._flush()
+        if len(self._entries) >= self._shortlist_size:
+            return DiscoveryEnd.SHORTLIST_FULL, None
+        return ended.end, ended.error
 
     def _pull(self, candidates: Iterator[Candidate]) -> Candidate:
         try:
@@ -498,11 +502,18 @@ class _Discovery:
             for candidate in batch:
                 self._probe_failed(probe, candidate)
             return
-        for candidate, measurement in zip(batch, measurements, strict=True):
+        for position, (candidate, measurement) in enumerate(zip(batch, measurements, strict=True)):
             if len(self._entries) >= self._shortlist_size:
                 self._decide(candidate, "unranked:shortlist_full")
             elif measurement.error is not None:
-                self._probe_error(probe, candidate, measurement.error)
+                try:
+                    self._probe_error(probe, candidate, measurement.error)
+                except _DiscoveryEnded:
+                    # The provider stopped the pass: the rest were measured
+                    # in the same batch but are not used.
+                    for rest in batch[position + 1 :]:
+                        self._decide(rest, "unranked:provider_stopped")
+                    raise
             elif measurement.size is None:
                 self._tally.dims_unavailable += 1
                 self._decide(candidate, "dims_unavailable")

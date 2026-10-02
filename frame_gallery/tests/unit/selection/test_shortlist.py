@@ -1333,10 +1333,58 @@ def test_errors_in_a_batch_count_per_candidate() -> None:
 def test_a_stop_reported_in_a_batch_ends_the_pass() -> None:
     stop = SourceError(SourceErrorKind.STOPPED, "403")
     probe = BatchProbe(outcomes={"aic:1001": STRICT, "aic:1002": stop})
-    result = select(works(1001, 3, None), probe=probe)
+    seen, sink = _decisions()
+    result = select(works(1001, 3, None), probe=probe, on_decision=sink)
     assert result.end is DiscoveryEnd.PROVIDER_STOPPED
     assert result.provider_error is stop
     assert ids(result) == ["aic:1001"]  # no fallbacks after a stop
+    assert ("aic:1003", "unranked:provider_stopped") in seen  # every candidate is decided
+
+
+def test_the_final_batch_can_itself_end_the_pass() -> None:
+    """The provider is exhausted; measuring the waiting candidates then
+    meets a stop (or the deadline), which decides how the pass ends."""
+    stop = SourceError(SourceErrorKind.STOPPED, "403")
+    probe = BatchProbe(outcomes={"aic:1001": stop})
+    result = select(works(1001, 2, None), probe=probe)
+    assert probe.batches == [["aic:1001", "aic:1002"]]
+    assert result.end is DiscoveryEnd.PROVIDER_STOPPED
+    budget = make_budget()
+    late = BatchProbe(
+        raises=DeadlineExceeded("discovery"), clock=budget.clock, advance_s=DISCOVERY_S
+    )
+    result = select(works(1001, 2, None), budget=budget, probe=late)
+    assert result.end is DiscoveryEnd.DEADLINE
+    assert result.stats.dims_unavailable == 2
+
+
+@pytest.mark.parametrize("pending", [1, 2])
+def test_waiting_candidates_are_measured_when_the_candidate_allowance_ends_the_pass(
+    pending: int,
+) -> None:
+    """A file-by-file pass would have measured them before the allowance
+    ran out; so does the batched one, and every charged candidate is
+    decided."""
+    probe = BatchProbe(outcomes={"aic:1004": STRICT, "aic:1005": STRICT})
+    seen, sink = _decisions()
+    limit = 3 + pending
+    result = select(
+        works(1001, 9, None),
+        probe=probe,
+        budget=make_budget(candidate_limit=limit),
+        on_decision=sink,
+    )
+    assert probe.batches == [
+        ["aic:1001", "aic:1002", "aic:1003"],
+        [f"aic:{1004 + index}" for index in range(pending)],
+    ]
+    assert ids(result) == [f"aic:{1004 + index}" for index in range(pending)]
+    assert result.stats.inspections_used == limit
+    assert len(seen) == limit
+    if pending == 2:
+        assert result.end is DiscoveryEnd.SHORTLIST_FULL
+    else:
+        assert result.end is DiscoveryEnd.CANDIDATE_ALLOWANCE
 
 
 def test_the_inspection_allowance_is_charged_when_a_candidate_joins_a_batch() -> None:
