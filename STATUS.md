@@ -1,22 +1,38 @@
 # Project status
 
-Last updated: 2026-10-03 (Phase 6 gate passed; Phase 7 in progress)
+Last updated: 2026-10-03 (Phase 7 done; stopped at the Phase 7 gate)
 
 ## Current phase
 
-**Phase 7 (offline release validation): in progress. The user authorized it on 2026-10-03, after the Phase 6 gate passed.**
+**Phase 7 (offline release validation): done. Work has stopped at the Phase 7 gate: Codex reviews the release-candidate report and the local results, and the user decides on the supervised live test (Phase 8). The user authorized Phase 7 on 2026-10-03, after the Phase 6 gate passed. Phase 8 does not start before it is explicitly authorized.**
 
 - **Phase 6 gate (user decision, 2026-10-03, after the Codex review and its follow-up checks):** passed. D-166 to D-172 are accepted, including the unchanged 1 GiB limit of the image worker (D-170). The native `amd64` memory measurement is mandatory before an `amd64` version is published, at the latest in Phase 9. The qualified licence review and the enforcement of the AppArmor profile stay release prerequisites.
 - **Phase 7 conditions:** only Phase 7 of `TASKS.md`: offline validation with the existing local environments and container images, failure-path tests, and a release-candidate report. No new features, and no additional review loops without a concrete finding. The work stops at the Phase 7 gate.
 - No access to the Home Assistant Green, the television, or a provider API; nothing created, pushed, or published on GitHub; the existing Home Assistant configuration, `configuration.yaml` in particular, stays untouched.
 - Every commit uses the personal identity `Alexander Wilke <volkue@gmail.com>`.
+- **Coordination note (2026-10-03):** a message in the user's chat, signed as Codex acting for the user, confirmed that Phase 7 continues unchanged and that Codex reviews the report and the local results at the gate; the locks and the identity stay as they are (*Review records* in `DECISIONS.md`).
 
 ### Phase 7 progress
 
 | Step | Commit |
 | --- | --- |
 | 0a. `DOCS.md`: how to start over, as D-172 provides (Q-06) | `e3da3f5` |
-| 0b. Phase 6 gate decision and Phase 7 authorization recorded; `ARCHITECTURE.md` amended for D-166 to D-172; the outdated libbsd and libmd line under *Known open decisions* corrected | this commit |
+| 0b. Phase 6 gate decision and Phase 7 authorization recorded; `ARCHITECTURE.md` amended for D-166 to D-172; the outdated libbsd and libmd line under *Known open decisions* corrected | `722bae1` |
+| 1. The container checks of the existing images, without a build or network; the notices held to the image (D-173) | `4faa907` |
+| 2. The failure paths through the real image (D-173) | `f42f72a` |
+| 3. The release-candidate report, with status, tasks, and decisions for the gate | this commit |
+
+### Phase 7 results (for the gate)
+
+The release candidate is `f42f72a`; `RELEASE_CANDIDATE.md` reports every result, with the commands to repeat them.
+
+- **Quality gates** (`check.sh`, on the host): Ruff and `mypy --strict` (for this host and as on Linux) clean; **4 600 passed**, 8 skipped (the Linux-only and root-only checks); **100 % line and branch coverage** (8 940 statements, 1 894 branches; the architecture's gate 7 323 and 1 584).
+- **Timing:** the tests of the time bounds (an injected clock for the budget; the real clock for workers, sockets, and the pairing deadline): 725 passed, 3 skipped (Linux-only, which pass in the images). On the real image, a run that found nothing took 0.2 s at most (70 s allowed), every run 7.3 s at most (120 s allowed), and the worst legal source 1.41 s to prepare (15 s allowed).
+- **Container checks of the existing images** (`container_check.sh --no-build`; no build, no network; D-173), both architectures: the app images hold exactly the release candidate's `src/frame_gallery` (90 files); D-130 (a) to (d); the inventory; the notices list everything the image ships; the smoke run; the D-165 user pass (4 562 passed, 5 root-only skipped) and root pass (5 of 5). Under the real 1 GiB `RLIMIT_AS` on `aarch64`, all 13 worst cases succeed; the heaviest peaks at 765.5 MiB of address space, as in Phase 6.
+- **Failure paths through the real image** (`scripts/failure_paths.py`; D-173): all 10 scenarios as specified on both architectures (no result, failed decode, corrupt history with and without a backup, three ledger states, a museum without a network, and a silent television). A failed upload after `upload_started` is covered by the suite (E7-E10).
+- **Provenance** (H5): the names of the excluded projects appear only in the three files that state the boundary, in each of the 72 commits; every commit has the personal identity; no third-party code, header, or asset; the images derive from the pinned base alone.
+- **Licences and notices** (H4, H6): complete for what the image ships; Apache-2.0 approved for the project's own code; the licence texts, the corresponding sources, and the open licence questions stay with the qualified licence review (Phase 9).
+- **Findings:** none that needed a change of the app's code. One observation: a television that never answers ends after the 5 s REST check, without a second connection, which is within D-115; D-162 point 4 reads as if it were retried, so a clarification is proposed (D-173).
 
 ## Completed
 
@@ -430,7 +446,7 @@ The condition of D-165 is met: the Linux and root isolation tests pass on both a
 
 ## Specification deviations
 
-The Phase 3 and Phase 4 deviations were accepted at their gates (2026-09-27), the Phase 5 deviations at the Phase 5 gate (2026-10-02; D-165 with a condition, met in Phase 6), and the Phase 6 deviations at the Phase 6 gate (2026-10-03); `ARCHITECTURE.md` is amended to match.
+The Phase 3 and Phase 4 deviations were accepted at their gates (2026-09-27), the Phase 5 deviations at the Phase 5 gate (2026-10-02; D-165 with a condition, met in Phase 6), and the Phase 6 deviations at the Phase 6 gate (2026-10-03); `ARCHITECTURE.md` is amended to match. Phase 7 adds no deviation; D-173, proposed for its gate, records how it validated and proposes a clarification of D-162's wording.
 
 | Accepted item (Phase 6) | Where |
 | --- | --- |
@@ -468,13 +484,13 @@ Not accepted as a deviation at the Phase 5 gate: `inspect` ran one worker per fi
 
 ## Next action
 
-**Phase 7:** the offline validation as authorized, then a stop at the Phase 7 gate, where the user decides on the live installation on the Home Assistant Green and the television test (Phase 8).
+**Phase 7 gate:** Codex reviews `RELEASE_CANDIDATE.md` and the local results; then the user decides on the supervised live installation on the Home Assistant Green and the television test. Phase 8 does not start before it is explicitly authorized.
 
 **Decisions needed, by phase:**
 
 | Before | Decisions |
 | --- | --- |
-| Phase 7 gate | The release-candidate report; the user's approval of the live installation on the Home Assistant Green and of the television test (Phase 8). |
+| Phase 7 gate | The release-candidate report and D-173 (proposed); the user's approval of the live installation on the Home Assistant Green and of the television test (Phase 8). |
 | Phase 8 | Explicit approval for the live run, which is also the first live request to the museums and the first time the project contact is transmitted (Q-22); Q-21 (install route). The Linux and root checks and the measurement under the real `RLIMIT_AS` passed in Phase 6 (the condition of D-165). The exact `python3` pin breaks later builds once Alpine replaces the package (R-32), which matters for the install route. The live check of the Art Institute `params` form (D-150). The preview refresh mechanism and file names (D-140). TLS pinning, once the TV's certificate is observed (R-03). |
 | Phase 9 | D-101 (final name), Q-13 (repository URL, which also replaces the contact in the User-Agent, D-119); the builder-action and Cosign rows; the native `amd64` memory measurement (mandatory before an `amd64` version is published, D-170); the enforcement of the AppArmor profile (D-168); the qualified licence review (D-135, with R-33 and libmd's "Public Domain" part; a release prerequisite); approval to publish. |
 
@@ -485,6 +501,7 @@ Not accepted as a deviation at the Phase 5 gate: `inspect` ran one worker per fi
 - No GitHub repository accessed, created, or modified; no GitHub-hosted page fetched.
 - Phase 5 pulled, built, and published no container image.
 - **Phase 6** used only the network steps the user approved on 2026-10-02: Docker Desktop was started (it may contact Docker's own servers, for example to check for updates); the tags of `ghcr.io/home-assistant/base` were read, and the image was pulled for `aarch64` and `amd64`, pinned by tag and digest; every build installed `python3` from `dl-cdn.alpinelinux.org` and the hash-checked `musllinux` wheels of the runtime and the test tools from PyPI; the two Pillow runtime wheels were downloaded from `files.pythonhosted.org` into this session's scratch directory for the inventory (D-171). The images were built locally (`frame-gallery:dev-*`, `frame-gallery-checks:dev-*`) and never pushed. Every container ran with `--network none` and without a host directory mounted; results went to the git-ignored `build/container-checks/`. The local Docker image store also holds images from other, unrelated work; they were neither inspected nor used.
+- **Phase 7** used no network and built, pulled, downloaded, and installed nothing. Docker Desktop was still running from Phase 6 (as approved on 2026-10-02, it may contact Docker's own servers). The checks ran in containers of the existing images `frame-gallery:dev-*` and `frame-gallery-checks:dev-*`, each with `--network none` and without a host directory; the silent television of the failure-path runs was a helper container whose own network namespace has no interface but loopback. The runs created the Docker volumes `fg-check-data-<arch>`, `fg-check-media-<arch>`, `fg-paths-<arch>-data`, and `fg-paths-<arch>-media` and the helper `fg-paths-<arch>-tv`, and removed them again; the results went to the git-ignored `build/container-checks/` and `build/failure-paths/`. Two older volumes, `fg-smoke-data` and `fg-smoke-media` (created on 2026-10-02 at 19:01 UTC, not by a committed script), were left untouched. The images of unrelated work in the local Docker store were neither inspected nor used.
 - At the Phase 6 gate, Codex ran the follow-up checks the user had narrowly approved, outside this session, and reported them on 2026-10-03: it read the licences of libbsd and libmd in the official Alpine package directory, and ran `apparmor_parser -Q -T` on the profile in a temporary aarch64 container. This session used no network for them and only recorded the results.
 - The Phase 6 review (8 agents) worked only in the repository, on the container-check outputs, and on the Pillow wheels in this session's scratch directory, without network access or Docker, and changed nothing in the repository.
 - Dependencies were installed only into the git-ignored project environment (`frame_gallery/.venv`) and the git-ignored `.tools/` directory, from PyPI (`pypi.org`, `files.pythonhosted.org`) only. Nothing else was installed or modified on the machine.
@@ -508,6 +525,7 @@ Not accepted as a deviation at the Phase 5 gate: `inspect` ran one worker per fi
 See `DECISIONS.md` for the full list. The most material:
 
 - **Preview freshness mechanism** (D-140). This is release-blocking and is selected in Phase 8.
+- **D-173** (proposed for the Phase 7 gate): how Phase 7 validated, and a clarification of D-162 point 4 (the REST check before the art channel is not retried, which is within D-115).
 - **Copyleft components in the runtime image** (R-17, D-135, D-171). The Phase 6 inspection of the exact runtime wheels found neither `libimagequant` nor FriBiDi in them, so R-25 is closed (Phase 6 gate); the image's copyleft parts are `samsungtvws`, Pillow's fribidi-shim, and GPL and LGPL Alpine packages such as BusyBox, bash, readline, and gdbm. The licences of libbsd and libmd are verified from the official Alpine package directory (Codex's follow-up check at the Phase 6 gate); libmd's "Public Domain" is not an SPDX identifier, and the licence review settles its form. Only the licences of s6-overlay, tempio with its Go modules, and bashio are still to be read from upstream (R-33). The qualified licence review is a release prerequisite.
 - **Final name** (D-101). The trademark wording is tracked as R-14.
 - **Copyleft source-availability mechanism** (D-135).

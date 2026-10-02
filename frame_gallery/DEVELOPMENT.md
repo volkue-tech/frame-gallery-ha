@@ -92,4 +92,17 @@ scripts/container_check.sh aarch64 --measure   # the Green's architecture, with 
 scripts/container_check.sh amd64
 ```
 
-It first checks that a build without a target, as the Supervisor makes one, gives the app image. Then it runs, each in a container with `--network none`: the D-130 checks (a)–(d); the inventory (`scripts/image_inventory.py`, inside the app image: its Alpine packages, what the base image installs outside apk, its Python distributions, Pillow's bundled libraries held to the wheel's `RECORD`, and any wheel file, of which there must be none; D-171); a smoke run of the app on one library file; the two test passes of D-165 (the whole suite as user 1000, and the root checks as root); and with `--measure`, `scripts/measure_prepare.py` as root under the real `RLIMIT_AS`. No host directory is mounted: inputs go in on stdin, and every result is kept in `../build/container-checks/<arch>/` (git-ignored). The script exits 1 if any check fails. Measure only on the native architecture: under Rosetta every `amd64` process carries about 278 MiB more address space, so the heaviest case then fails the 1 GiB limit (D-170).
+It first checks that a build without a target, as the Supervisor makes one, gives the app image. Then it runs, each in a container with `--network none`: the D-130 checks (a)–(d); the inventory (`scripts/image_inventory.py`, inside the app image: its Alpine packages, what the base image installs outside apk, its Python distributions, Pillow's bundled libraries held to the wheel's `RECORD`, and any wheel file, of which there must be none; D-171), and `THIRD_PARTY_NOTICES.md` must list all of it (`--notices`, H4); a smoke run of the app on one library file; the two test passes of D-165 (the whole suite as user 1000, and the root checks as root); and with `--measure`, `scripts/measure_prepare.py` as root under the real `RLIMIT_AS`. No host directory is mounted: inputs go in on stdin, and every result is kept in `../build/container-checks/<arch>/` (git-ignored). The script exits 1 if any check fails. Measure only on the native architecture: under Rosetta every `amd64` process carries about 278 MiB more address space, so the heaviest case then fails the 1 GiB limit (D-170).
+
+**Without a build** (Phase 7, D-173): `--no-build` checks the images already built and uses no network at all. It requires that the app image holds exactly this checkout's `src/frame_gallery` (otherwise rebuild), lists every file in which the test image's copy differs from the checkout, and fails if one of them is a build input; the rest is the same.
+
+```bash
+scripts/container_check.sh aarch64 --no-build --measure
+scripts/container_check.sh amd64 --no-build
+```
+
+**Failure paths** (Phase 7, D-173): `scripts/failure_paths.py` runs the app image's own command through 10 scenarios (no result, a failed decode, corrupt history, the upload ledger, a museum without a network, and a silent television), each on new Docker volumes, with `--network none` and no host directory, and checks what the specification says about each path. The silent television is a helper container that adds a second loopback address in its own network namespace (`NET_ADMIN`, that container only); the app's container joins that namespace. Results go to `../build/failure-paths/<arch>.json`; the script exits 1 if a scenario deviates.
+
+```bash
+.venv/bin/python scripts/failure_paths.py aarch64
+```

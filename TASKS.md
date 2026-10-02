@@ -147,13 +147,13 @@ Owner: Codex and Claude
 
 Authorized by the user on 2026-10-03, after the Phase 6 gate: offline validation with the existing local environments and container images, failure-path tests, and a release-candidate report. No new features, and no additional review loops without a concrete finding. No access to the Green, the television, or a provider API; nothing created, pushed, or published on GitHub.
 
-- [ ] Run full unit, integration, lint, type, timing, and container tests.
-- [ ] Verify no excluded predecessor material is present.
-- [ ] Verify dependency notices and the approved project license.
-- [ ] Exercise the no-result, timeout, corrupt-history, failed-download, failed-decode, failed-upload, and upload-ledger paths.
-- [ ] Produce a release-candidate report.
+- [x] Run full unit, integration, lint, type, timing, and container tests. *At the release candidate `f42f72a`: `check.sh` (4 600 passed, 8 skipped, 100 % line and branch coverage); the timing tests; the container checks of the existing images on both architectures, without a build or network (`container_check.sh --no-build`, D-173): the images hold the release candidate's sources, D-130 a-d, the inventory, both D-165 passes, and the measurement under the real `RLIMIT_AS` on `aarch64` (`RELEASE_CANDIDATE.md`).*
+- [x] Verify no excluded predecessor material is present. *The names of the excluded projects appear only in the three files that state the boundary, in each of the 72 commits; no third-party code, header, or asset; the icon and logo are drawn by a script; the fixtures are synthesized; the images derive from the pinned base alone (`RELEASE_CANDIDATE.md` 3.6).*
+- [x] Verify dependency notices and the approved project license. *The notices list everything the image ships, on both architectures (`image_inventory.py --notices`, now part of `container_check.sh`; D-173); Apache-2.0 is approved for the project's own code (D-102), and its `LICENSE` file follows in Phase 9. The licence texts, the corresponding sources, and the open licence questions stay with the qualified licence review (Phase 9).*
+- [x] Exercise the no-result, timeout, corrupt-history, failed-download, failed-decode, failed-upload, and upload-ledger paths. *Through the real image on both architectures, 10 scenarios, each as specified (`scripts/failure_paths.py`, D-173); a failed upload after `upload_started`, which needs a television that takes the upload, through the suite (E7-E10, the unchanged library against a scripted television).*
+- [x] Produce a release-candidate report. *`RELEASE_CANDIDATE.md`.*
 
-Gate: user approves live Home Assistant Green installation and television test.
+Gate: user approves live Home Assistant Green installation and television test. **Awaiting the gate** (2026-10-03): Codex reviews the report and the local results; the user decides on the live test; D-173 is proposed.
 
 ## Phase 8 — Supervised Home Assistant Green validation
 

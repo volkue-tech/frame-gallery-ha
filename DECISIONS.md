@@ -1489,6 +1489,20 @@ Status: **accepted** (Phase 6 gate, user decision, 2026-10-03). Q-06 and Q-10 ar
 - **Q-06 (a reset of history, or a new pairing).** Not in the beta. Uninstalling the app removes its `/data` folder, with the history, the upload ledger, the quarantine, the cache, and the pairing key, so reinstalling is the reset; the artworks on the TV and the preview in `/media` stay. A new pairing alone already happens on its own: when the TV rejects the stored key, the key is removed, and the next start asks the TV again (D-162). `DOCS.md` has a short "Starting over" section, and Phase 8 confirms that an uninstall removes `/data`.
 - **Q-10 (an unprivileged parent).** Not in the beta. The parent needs root, or at least `CAP_SETUID` and `CAP_SETGID` to drop every worker to 65534, `CAP_CHOWN` and `CAP_FSETID` to hand the workspace to the worker's group, `CAP_DAC_READ_SEARCH` to read what a worker wrote, and `CAP_KILL` to end it (D-163, D-164, D-168). Without them, the workers would run as the parent's own user and could read the pairing key and the state in `/data`, which removes the separation that §11.3 is built on. The parent's own exposure is small: it parses no image (the workers do), reaches only the selected museum through the gateway's allowlist and, for helpers, the Supervisor, and runs under the AppArmor profile with these six capabilities. Revisit in Phase 9, together with the per-worker AppArmor child profiles (R-31): for example a parent with only those capabilities as ambient capabilities of a dedicated user, if s6-overlay and the Supervisor support it.
 
+## Phase 7 decisions (proposed)
+
+This records how Phase 7 validated the release candidate offline. It is proposed for the Phase 7 gate.
+
+### D-173 — How Phase 7 validated the release candidate [§20, §23; D-130, D-162, D-165, D-170, D-171]
+
+Status: proposed.
+
+- **The existing images, not a rebuild.** As the user's authorization says, Phase 7 built nothing and used no network. `scripts/container_check.sh --no-build` checks the images that Phase 6 built instead: both must exist, the test image must build on the app image, and the app image must hold exactly the checkout's `src/frame_gallery`, compared file by file through SHA-256 manifests. The script lists every file in which the test image's copy differs from the checkout, and fails if one of them is a build input (`src/`, `requirements/`, the Dockerfile, `.dockerignore`, `pyproject.toml`, `uv.lock`). Whether a build without a target gives the app image is checked only when building, as Phase 6 did. The images' tests are therefore the Phase 6 suite; the tests added in Phase 7 ran on the host.
+- **The notices as a check** (H4, §20.4). `scripts/image_inventory.py --notices` holds `THIRD_PARTY_NOTICES.md` to the image's own inventory: every Alpine package with its version and apk's licence field, every Python distribution with its version, every library in `pillow.libs`, and the components outside apk. `container_check.sh` runs it after the inventory, so every later container check fails when the notices miss a component. A test holds the notices to `requirements/image-runtime.txt`, without the image.
+- **Failure paths through the real image.** `scripts/failure_paths.py` runs the image's own command, as the Supervisor starts it, through 10 scenarios on `/data` and `/media` prepared in new Docker volumes, with `--network none` and no host directory, and checks the outcome, the hint, the exit status, `last_run.json`, the ledger, the history and its quarantine, and what the run left behind (C5, C7, C11, E4, F2, F5). The silent television is a listener on a second loopback address that a helper container adds in its own network namespace (`NET_ADMIN`, that container only); the app's container joins that namespace, which has no other interface. A failed upload after `upload_started` needs a television that takes the upload, so it stays with the suite (E7-E10, the unchanged library against a scripted television).
+- **The report.** `RELEASE_CANDIDATE.md`, at the repository root; a later release candidate replaces it.
+- **Proposed: a clarification of D-162 point 4.** "Any other failure before `connected` is retried once" means a failure while opening the art channel. A failure of the REST check that comes first (`supported()`) ends the delivery as `unreachable` (or `protocol`) without a retry, which is within D-115's "at most one reconnect". The code and the task's own documentation already say so; the Phase 7 scenario `silent-tv` shows it (one connection, `tv_unreachable` after 5.3 s). Only D-162's text would change.
+
 ## Proposed dependency inventory
 
 Status: **Phase 2 installed** the development tools and Pillow, **Phase 3 installed** `urllib3` 2.8.0 and `certifi` 2026.7.22, and **Phase 5 installed** `samsungtvws` 3.0.6 and its dependencies (each approved by the user on 2026-09-27; the `samsungtvws` row is confirmed at the Phase 5 gate on 2026-10-02), only in the local project environment (`frame_gallery/.venv`, from `uv.lock`). **Phase 6** built the app image from the pinned base image and the hash-pinned `musllinux` wheels (approved on 2026-10-02) and verified the bundled-library and base-image rows in it (D-171, accepted at the Phase 6 gate).
@@ -1764,6 +1778,11 @@ L = likelihood, I = impact; H = high, M = medium, L = low.
 | Q-24 | Cleveland colour filtering by local analysis, for example of the documented 900 px web rendition, counted against the existing download allowance and the content-window time budget, not against the 30 remote dimension requests. Only if it fits the same download and time budgets. | Defer until after the beta | After the beta |
 
 ## Review records
+
+### Phase 7 coordination note (user, 2026-10-03)
+
+- During Phase 7 a message reached this session in the user's chat, signed as a coordination note from Codex acting for the user. It said that the user had authorized Codex to coordinate this session for the project, and that Phase 7 continues unchanged, without additional review loops without a concrete finding; Codex reviews the final report and the local results; the work stops at the Phase 7 gate with the commit ID, the test results, and the remaining release prerequisites. The Home Assistant Green, the television, live provider access, and publication stay locked, and the Git identity stays Alexander Wilke `<volkue@gmail.com>`.
+- The note changed no scope; Phase 7 followed it.
 
 ### Phase 6 gate decision (user, 2026-10-03)
 
