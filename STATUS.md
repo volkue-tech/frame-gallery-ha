@@ -16,7 +16,21 @@ Last updated: 2026-10-02 (Phase 6 in progress)
 
 | Step | Commit |
 | --- | --- |
-| 0. Phase 5 gate decision and Phase 6 authorization recorded; `ARCHITECTURE.md` amended for D-160 to D-165 | this commit |
+| 0. Phase 5 gate decision and Phase 6 authorization recorded; `ARCHITECTURE.md` amended for D-160 to D-165 | `31e3868` |
+| 1. The entry point and its production adapters: options file, container networks, watchdog, start shield, refusal without isolation (D-166) | `ff64da8` |
+| 2. A worker's memory peaks from `/proc` on Linux (R-09) | `c346c1a` |
+| 3. Tests that hold on Linux and in an installed image | `e0e56e7` |
+| 4. The container image, its pinned inputs, and its checks (D-167) | `505cc2f` |
+| 5. App metadata, translations, the AppArmor draft, and the documentation (D-168) | `1b29e4e` |
+| 6. The test stage sees every file the tests check | `d91927a` |
+| 7. The descriptor check ignores an emulator's own descriptors | `ec04883` |
+| 8. `inspect` reads parent-opened descriptors in batches (D-169) | `0a8379c` |
+| 9. Selection inspects local candidates in batches (D-169) | `de69bf6` |
+| 10. A root check of `inspect` over a passed descriptor | `247de9b` |
+| 11. The entry point uses the executor protocol directly | `0be1cb7` |
+| 12. An inventory of what the image ships, without an SBOM tool (D-171) | `9deceff` |
+| 13. The documentation names the image's actual copyleft parts (D-171) | `3ef529f` |
+| 14. Decisions D-166 to D-172, the authoritative inventory, the notices, and the development notes | this commit |
 
 ## Completed
 
@@ -360,7 +374,7 @@ See *Review records* in `DECISIONS.md`.
 | 9c. Fixes from the implementation review: the measurement covers the §11.1 worst cases and fills the source cap | `98f92ce` |
 | 9d. Decisions, status, and development notes after the review (D-160 to D-165 amended) | `1c1516c` |
 | 10. Status, tasks, and README for the gate | `937ce13` |
-| Gate. Phase 5 gate decision: D-160 to D-164 accepted, D-165 with a condition; the open questions decided; Phase 6 authorized | this commit |
+| Gate. Phase 5 gate decision: D-160 to D-164 accepted, D-165 with a condition; the open questions decided; Phase 6 authorized | `31e3868` |
 
 ## Specification deviations
 
@@ -377,7 +391,7 @@ None is awaiting a decision. The Phase 3 and Phase 4 deviations were accepted at
 | The workspace is handed to the worker's group: `frame-gallery/` and `run-*/` 0710, `in/` 2750, `out/` 2770; downloads and local copies 0640 (amends the accepted D-155 and §13.1). | D-164 |
 | The root-only and Linux-only checks and the measurement under the real `RLIMIT_AS` run first in the Phase 6 container; the TASKS measurement item is met only in part. Accepted on the condition that they pass in Phase 6; mandatory before any live test on the Green. | D-165 |
 
-Not accepted as a deviation: `inspect` still runs one worker per file, not batches of up to 50 (§8.3). The Phase 5 gate decided to implement batching in Phase 6, with parent-opened read-only descriptors where possible (D-149, D-164).
+Not accepted as a deviation: `inspect` still runs one worker per file, not batches of up to 50 (§8.3). The Phase 5 gate decided to implement batching in Phase 6, with parent-opened read-only descriptors where possible (D-149, D-164). *Implemented in Phase 6, in batches of up to 16 (D-169, proposed).*
 
 | Accepted item (Phase 4) | Where |
 | --- | --- |
@@ -407,7 +421,8 @@ Implement Phase 6 as authorized, then stop at the Phase 6 gate for the Codex rev
 - No Home Assistant changes; no `configuration.yaml` touched.
 - No television connection attempted.
 - No GitHub repository accessed, created, or modified; no GitHub-hosted page fetched.
-- No container image pulled, built, or published.
+- Phase 5 pulled, built, and published no container image.
+- **Phase 6** used only the network steps the user approved on 2026-10-02: Docker Desktop was started (it may contact Docker's own servers, for example to check for updates); the tags of `ghcr.io/home-assistant/base` were read, and the image was pulled for `aarch64` and `amd64`, pinned by tag and digest; every build installed `python3` from `dl-cdn.alpinelinux.org` and the hash-checked `musllinux` wheels of the runtime and the test tools from PyPI; the two Pillow runtime wheels were downloaded from `files.pythonhosted.org` into this session's scratch directory for the inventory (D-171). The images were built locally (`frame-gallery:dev-*`, `frame-gallery-checks:dev-*`) and never pushed. Every container ran with `--network none` and without a host directory mounted; results went to the git-ignored `build/container-checks/`. The local Docker image store also holds images from other, unrelated work; they were neither inspected nor used.
 - Dependencies were installed only into the git-ignored project environment (`frame_gallery/.venv`) and the git-ignored `.tools/` directory, from PyPI (`pypi.org`, `files.pythonhosted.org`) only. Nothing else was installed or modified on the machine.
 - No provider API or image endpoint called. The Phase 3 re-check read only the two official documentation pages (D-146). Every provider test uses synthesized documents (`tests/support/museums.py`); nothing was recorded from a live API.
 - Phase 3 installed `urllib3` 2.8.0 and `certifi` 2026.7.22 from PyPI into the git-ignored project environment only.
@@ -429,10 +444,11 @@ Implement Phase 6 as authorized, then stop at the Phase 6 gate for the Codex rev
 See `DECISIONS.md` for the full list. The most material:
 
 - **Preview freshness mechanism** (D-140). This is release-blocking and is selected in Phase 8.
-- **Copyleft components in the runtime image** (R-25, D-135). The Pillow wheels bundle GPL-3.0-or-later `libimagequant` and LGPL-2.1-or-later FriBiDi. The qualified licence review is a release gate.
+- **Copyleft components in the runtime image** (R-17, R-25, D-135, D-171). The Phase 6 inspection of the exact runtime wheels found neither `libimagequant` nor FriBiDi in them (proposed: close R-25); the image's copyleft parts are `samsungtvws`, Pillow's fribidi-shim, and GPL and LGPL Alpine packages such as BusyBox, bash, readline, and gdbm. The licences of libbsd, libmd, s6-overlay, tempio, and bashio are still to be read from upstream (R-33). The qualified licence review is a release gate.
 - **Final name** (D-101). The trademark wording is tracked as R-14.
 - **Copyleft source-availability mechanism** (D-135).
-- **Local tests versus the runtime build** (R-26): the full suite runs inside the container in Phase 6.
+- **Local tests versus the runtime build** (R-26): since Phase 6 the full suite runs inside the image on both architectures (D-170); CI follows in Phase 9.
 - **TLS pinning** (R-03): decided after the TV's certificate is observed in the supervised Phase 8 test.
-- **The image worker's memory limit** (R-09): 1 GiB stays; a change is decided only from the measurement under the real `RLIMIT_AS` in Phase 6.
-- **Pre-emption** (R-27): the process executor with its kill timer exists since Phase 5; it is in force once the Phase 6 entry point builds it.
+- **The image worker's memory limit** (R-09): measured under the real 1 GiB `RLIMIT_AS` in Phase 6, the heaviest case peaks at 766 MiB; proposed to keep 1 GiB (D-170). Phase 8 repeats the measurement on the Green.
+- **Pre-emption** (R-27): in force since Phase 6; the entry point builds the process executor (D-166).
+- **A Supervisor build on the Green** (R-32): until images are published, the Supervisor builds the app on the device, which needs the same network sources; Phase 8 settles the install route (Q-21).

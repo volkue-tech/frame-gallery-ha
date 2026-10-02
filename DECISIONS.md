@@ -26,6 +26,8 @@ The **Phase 4 gate on 2026-09-27** accepted D-153 to D-159, after Codex re-ran t
 
 The **Phase 5 gate on 2026-10-02**, after the Codex gate review, accepted D-160 to D-164, and D-165 on the condition that the Linux and root isolation tests and the worst-case preparation measurement under the real `RLIMIT_AS` pass in Phase 6; they are mandatory before any live test on the Home Assistant Green. It also decided the open Phase 5 questions (see *Phase 5 gate decisions*). The user authorized Phase 6 the same day.
 
+**Phase 6** proposes D-166 to D-172 for its gate (see *Phase 6 decisions*), among them the authoritative inventory of the exact Pillow runtime wheels and of the image (D-171).
+
 ## Accepted constraints
 
 ### D-001 — Independent repository
@@ -89,7 +91,7 @@ The Apache License 2.0 applies to independently authored project code.
 - LGPL-3.0 `samsungtvws`;
 - GPL-2.0 OS packages such as BusyBox.
 
-The inventory below lists them all.
+The inventory below lists them all. *Phase 6 finding (D-171, proposed):* the exact runtime wheels contain neither `libimagequant` nor FriBiDi, only Pillow's LGPL-2.1-or-later fribidi-shim; the image's GPL components are Alpine packages (BusyBox, bash, readline, gdbm, and others). The scope of Apache-2.0 is unchanged.
 
 Rationale: permissive reuse with an explicit patent grant. Third-party dependencies keep their own licenses. The `LICENSE` file is added when publication is prepared (Phase 9).
 
@@ -608,6 +610,8 @@ Status: proposed. **The qualified licence review is a release gate (Phase 9).**
   - build Pillow from source without `libimagequant`. This would change D-130's binary-only rule and needs its own decision.
 
   No option is chosen here.
+
+  *Phase 6 (D-171, proposed):* the authoritative inspection finds neither `libimagequant` nor FriBiDi in the runtime wheels. If D-171 is accepted, the attached sources become the `samsungtvws` sdist, the Pillow 12.3.0 sdist (for the fribidi-shim), and the Alpine aports and distfiles of the image's GPL and LGPL packages, and the review's `libimagequant` points fall away.
 - The source stays available while the image is distributed, and for at least 3 years. A written offer is the fallback.
 - The GPLv3 installation-information duty is assessed as not applicable, pending qualified review.
 
@@ -1356,9 +1360,131 @@ The questions that Phase 5 put to its gate were decided as follows. The options 
 - **The progressive-JPEG peak under `RLIMIT_AS` (R-09).** The 1 GiB limit of the image worker stays for now. Any change is decided only from the measurement under the real limit in the Linux container.
 - **Worker containment after a code-execution exploit (R-31).** AppArmor child profiles per worker stay in Phase 9.
 
+## Phase 6 decisions (proposed)
+
+These record how Phase 6 packages the app (§17), wires the entry point (§4, §14), implements the two `inspect` decisions of the Phase 5 gate, verifies the container, and inventories what the image ships, with every place where the implementation deviates from the text of `ARCHITECTURE.md` or an earlier decision. They are proposed for the Phase 6 gate; `ARCHITECTURE.md` is amended after it.
+
+### D-166 — The entry point [§4, §4.3, §14, §15.1, §17.5; D-141, D-163]
+
+Status: proposed.
+
+- `python -m frame_gallery` runs `__main__.main()`: one run per start. Importing the module has no side effects. A `Wiring` record holds every production port; tests replace only the parts that would start a process or reach a network (`tests/unit/app/test_main.py`).
+- **Order** (the TASKS item): a `CancellationController(start_deferred=True)`, and only then the SIGTERM handler (D-141); the Supervisor token read into memory and the environment reduced to the allowlist before anything else runs (§17.5). The token is kept only when a helper option is set (read from the same options file), and it is registered with the redactor either way, as is the legacy `HASSIO_TOKEN`. Then logging through the redactor (§19); the process executor (D-163), whose worker starts are shielded so that a stop request waits until the start is complete (`deferring`); the store, the gateway and the three providers, the helper reader, the television, and the watchdog; then one run.
+- **Refusal** (D-163, "for Phase 6"). On Linux the app refuses to run unless `Launch.enforced`: the parent runs as root, and every worker drops to 65534 with every limit and the parent-death signal. It then ends as `internal_error` with exit code 70 and one summary line, before it contacts anything.
+- **One executor** is shared by the runner, the local inspection, the Samsung adapter (`HostTelevision`), and the watchdog.
+- **The watchdog** (`RunWatchdog`) fires at the run's `T` + 10 s. The runner arms it with its own `RunBudget` (`WatchdogControl.arm(budget)`). When it fires, it kills the active worker group, removes the workspace, emits the only summary line, and ends the process with 71 (D-133). When the runner reports that it did not emit the summary, the entry point waits for the watchdog's exit instead of returning an exit code.
+- **The options file** (`store/options_file.py`): `/data/options.json`, read once per run below the `/data` anchor, without following a link, at most 64 KiB, as strict JSON. Anything else ends the run as `config_invalid`, with a message that says what to do. `config.options` still validates every value.
+- **The container's networks** (`app/networks.py`) come from the kernel's IPv4 route table, `/proc/net/route`: every route except the default one names a network the container reaches. The table is parsed in the host's byte order. On Linux a missing, oversized, or malformed table fails closed as `config_invalid`, because the television-address rule (D-125) and the helper reader's token rule (D-148) depend on it. A development host has no table, and the list is empty there.
+- **Log level.** `log_level: debug` raises the app's own loggers once the options are read (`set_app_level`).
+- **Boundary.** `__main__` is the only module that imports the real network transport and the process executor; the boundary test treats it as the composition root.
+
+### D-167 — The container image, and the D-130 checks [§17.2; D-128, D-130, D-142; amends D-130]
+
+Status: proposed. The user approved the base-image pull and the build's network use on 2026-10-02 (*Review records*).
+
+- **Base.** `ghcr.io/home-assistant/base:3.24-2026.08.0@sha256:93ef607824e3f27e868f11b10938283a98bf880ed57bcf8eaa81c6c2d521f6f5`, a multi-architecture index, with the tag taken from the registry's tag list on 2026-10-02. It holds Alpine 3.24.1, s6-overlay 3.2.3.0, bash, bashio, tempio, curl, jq, and bind-tools (D-171 lists every component).
+- **Interpreter.** Alpine's `python3=3.14.8-r0`, pinned to the exact apk version (D-128). Its runtime closure adds 11 packages to the base: gdbm, libbz2, libexpat, libffi, libpanelw, mpdecimal, sqlite-libs, and the four `python3` and `pyc` packages. readline was already in the base, for bash. **gdbm and readline are `GPL-3.0-or-later`.**
+- **Stages.**
+  - `python`: the base and `python3`.
+  - `builder`: an installer venv with the pip that Python bundles, and the app's venv `/opt/frame-gallery`, created `--without-pip`. The installer runs `pip --isolated --python /opt/frame-gallery/bin/python install --index-url https://pypi.org/simple --require-hashes --no-deps --only-binary=:all: -r requirements/image-runtime.txt` (D-128). The app's sources are copied into the venv's site-packages and compiled.
+  - `runtime`: the base, `python3`, and the venv only; no pip, no compiler, no build tool. This is the app image.
+  - `test`: never published. It adds the test tools from `requirements/image-test.txt` and a copy of the repository, for the container checks only.
+- **`--isolated`.** The base image sets `PIP_EXTRA_INDEX_URL` (and `UV_EXTRA_INDEX_URL`) to Home Assistant's wheel index. `--isolated` makes pip ignore every environment variable and configuration file, so only PyPI is used.
+- **Requirement files** (amends D-142, whose `requirements/runtime.txt` stays the development export). `scripts/image_requirements.py` writes `requirements/image-runtime.txt` and `requirements/image-test.txt` from `uv.lock`: for each package, the one wheel that pip installs for CPython 3.14 on `musllinux_1_2` `aarch64` and `x86_64`, with its hash. A test fails when they differ from the lock.
+- **Arguments and labels** (amends D-130). `BUILD_ARCH` and `BUILD_VERSION` are required, and `BUILD_ARCH` must match the platform BuildKit builds (`TARGETARCH`). There is no fallback to `TARGETARCH`, so a mislabelled image cannot be built. The labels are `io.hass.type=app`, `io.hass.arch`, and `io.hass.version`; there is no OCI `licenses` label (D-130).
+- **Start.** `CMD ["with-contenv", "/opt/frame-gallery/bin/python", "-I", "-B", "-m", "frame_gallery"]`, under the base image's s6-overlay init (`init: false` in `config.yaml`), with `S6_CMD_RECEIVE_SIGNALS=1` and `S6_VERBOSITY=1`.
+- **The D-130 checks**, run by `scripts/container_check.sh` on both architectures (results in D-170):
+  - (a) Alpine 3.24.1 and Python 3.14.8.
+  - (b) The container stops when the command exits, with its exit status.
+  - (c) **Not met without a remedy.** s6-overlay gives the command a grace of 3 s after a stop request and then kills it. With `S6_CMD_RECEIVE_SIGNALS=1`, the stop request (SIGTERM) reaches the app at once, and s6 waits for the app to exit, within the 20 s stop timeout of `config.yaml`. `S6_KILL_GRACETIME=18000` was tried and rejected: every container stop then took 18 s. s6 prints one cosmetic line, "sh: invalid number '--'", on such a stop.
+  - (d) **Not met as worded.** s6 resets the command's environment, so `SUPERVISOR_TOKEN` is not visible without `with-contenv`. With `with-contenv` it is. After the app exits, the container lives about 3.3 s more, for s6's own shutdown.
+  - **Proposal:** keep the Home Assistant base image with these two remedies. D-130's fallback, a plain Alpine base with `init: true`, is not needed.
+- **Build context.** `.dockerignore` is an allowlist; the app image copies only `src/frame_gallery` and the requirement file. The Dockerfile has no `syntax` line, so the build uses BuildKit's own Dockerfile frontend and pulls no frontend image.
+
+### D-168 — App metadata, translations, the AppArmor draft, and the documentation [§15.1, §16, §17.1, §17.4, §17.6; D-123, D-129, D-138, D-140, D-152]
+
+Status: proposed.
+
+- **`config.yaml` and `translations/en.yaml`** are written by `scripts/app_config.py` from the app's own definitions. The department and period choices come from the built-in vocabulary (D-152), and a test checks every offered value and pattern against the app's own parser, and that both files match what the script writes.
+- **`config.yaml`** follows D-129 exactly: `startup: once`, `boot: manual_only`, `init: false`, `arch: [aarch64, amd64]`, `stage: experimental`, `homeassistant: 2026.2.0`, `homeassistant_api: true`, `tmpfs: true`, `timeout: 20`, the media folder read-write (narrowed by AppArmor), and the backup exclusions `cache/**`, `state/quarantine/**`, and `tv/**`. `tv_host` has no default, so the app cannot start without it. No `image`, URL, host network, privilege, device, or Supervisor API role is set, so the Supervisor builds the image locally from the Dockerfile until the release (Phase 9); such a build on the Green needs the same network sources as here, and Phase 8 settles the install route (Q-21).
+- **Translations** say for each filter which sources it applies to (B8).
+- **`apparmor.txt`** is the §17.6 profile as a draft in complain mode for Phases 6 to 8 (D-129, D-139): the capabilities `setuid`, `setgid`, `chown`, and `kill`; TCP and UDP over IPv4 and IPv6; raw and packet sockets denied; the S6-Overlay lines of Home Assistant's example profile; `/media` read-only except the preview; `/data` and `/tmp`. It also allows UNIX stream sockets, which s6-overlay's own s6-rc services presumably use; the Phase 8 complain log shows whether that is needed. A test holds the profile to §17.6. **Not done:** a syntax check with `apparmor_parser`. It needs Alpine's `apparmor` package, whose download is not approved (open item; the Green loads the profile in Phase 8 anyway).
+- **Documentation.** `DOCS.md` covers installation, the first start and pairing, the options and the capability matrix, the user's own images, a draft dashboard as copy-and-paste YAML (the Local File camera `camera.frame_gallery_preview`, the Running sensor `binary_sensor.frame_gallery_running`, the timer `timer.frame_gallery_run`, the script `script.frame_gallery_new_artwork`, the card, and an optional morning automation; the app ID `local_frame_gallery` for a local copy), the outcomes of the log line, the known limitations in plain language (R-29 among them), privacy, and the licences. Every entity ID is marked as expected until Phase 8 confirms it. `README.md` is the store text, and `CHANGELOG.md` starts at 0.1.0.dev0.
+- **Icon and logo** are original geometric drawings, made by `scripts/app_images.py` without fonts or trademarks; a test redraws them and compares the pixels.
+
+### D-169 — `inspect` over parent-opened descriptors, in batches [§8.3, §11.3; D-149, D-163, D-164; Phase 5 gate decisions]
+
+Status: proposed. It implements two decisions of the Phase 5 gate.
+
+- **The parent opens the files.** For each candidate, the parent opens the library file read-only, without following a link, non-blocking, and close-on-exec. It keeps the descriptor only if `fstat` shows the regular file with the identity (device and inode) that the scan saw. A file that cannot be opened is `unreadable`; one that changed since the scan is `changed`, and no worker starts for either.
+- **The worker gets descriptors, never a path.** Up to 16 descriptors go to one `inspect` worker, at the same numbers (`Executor.run(..., files=...)`, which refuses more than 16, duplicates, and the standard three). The worker checks each descriptor's identity again, reads the header as before, and never closes a descriptor it was lent; the parent closes them after the run. So the worker, at 65534, can measure every file the app can open, which resolves the limitation of D-164. A root test shows it: a dropped worker measures a 0600 file in a 0700 folder.
+- **Batches and the time limit.** The task reports one event per file, in order. A file whose event does not arrive within 2 s of the previous one (`LOCAL_INSPECTION_S`; for the first file, from the worker's start) stops the worker. A worker that stops, crashes, or times out fails the file it was on (`inspection_failed`, as before); the files after it go to a new worker. A batch's timeout is 2 s per file, clamped to the discovery deadline, and a timeout at that deadline ends discovery as before. An `IsolationFailure` still ends the run as `internal_error` (D-163).
+- **The batch size, 16** (§8.3 allows up to 50). Every descriptor counts against the worker's `RLIMIT_NOFILE` of 32, next to its own six (D-163).
+- **Selection** charges each candidate to the inspection allowance when it arrives, and lets it wait until 16 are waiting, a candidate with known dimensions arrives, or the provider ends. The batch is then measured in one worker and ranked in the original order, so the shortlist is the one a file-by-file pass would build. Candidates after a full shortlist are reported as `unranked:shortlist_full`. At the discovery deadline the waiting ones are reported as `dims_unavailable:deadline`.
+- **The trade-off.** With a shortlist of 2 (`SHORTLIST_SIZE`), a batch can measure up to 15 files more than a file-by-file pass would, and charge them to the allowance of 300. One worker start costs more than many header reads, and with the default strict 16:9 rule most photos do not qualify, so the selection usually needs many files. Measured in the aarch64 container: 150 inspections in 10 workers took 0.6 s (0.004 s each); one worker per file took 0.057 s each before.
+- **Not changed:** the allowance, the error classes, the 2 s per file, the result format (one `InspectResult` per file).
+
+### D-170 — What the container checks verified [§11.3, §17.2, §20.4; D-130, D-165; R-09, R-26, R-27]
+
+Status: proposed. It records the condition of D-165, which the Phase 5 gate set.
+
+`scripts/container_check.sh` builds the app image and the test image for one architecture, runs the D-130 checks, the inventory (D-171), and a smoke run of the app, and then the two test passes of D-165; with `--measure` it also runs `scripts/measure_prepare.py` as root under the real `RLIMIT_AS`. Every container runs with `--network none`, and no host directory is mounted. On this host (Docker Desktop 4.91.0, Engine 29.8.0, Buildx 0.37.0, BuildKit 0.33.0, Apple silicon), `aarch64` runs natively and `amd64` under Rosetta.
+
+- **D-130 checks**, both architectures: (a) Alpine 3.24.1 and Python 3.14.8; (b) exit status 70 came through as 70; (c) the app received the stop request about 3 s after its start, cleaned up for 8 s, and the stop took 11 s; (d) `SUPERVISOR_TOKEN` visible (with `with-contenv`).
+- **Smoke run**, both architectures: one local-media run with one library file and no network ended `tv_unreachable` with exit code 0 (TV address 10.0.0.5, unreachable without network), after selection, inspection, and preparation in real, dropped workers.
+- **D-165, user pass** (`FRAME_GALLERY_REQUIRE_ISOLATION=user`, uid 1000): the whole suite, including `RLIMIT_AS` 1 GiB and 512 MiB, threads refused under `RLIMIT_NPROC` 0, the parent-death signal, no-new-privileges, dumpability 0, and empty capability sets as read inside the worker. aarch64: 4530 passed and the 5 root-only checks skipped, at commit `247de9b`. The final results at the gate commit are in `STATUS.md`.
+- **D-165, root pass** (`FRAME_GALLERY_REQUIRE_ISOLATION=root`): all 5 root checks passed on both architectures: a production `prepare`, `inspect`, and `deliver` worker each drop to 65534 with no groups and every limit; the dropped worker reads `in/`, writes `out/`, and cannot create a file in `in/`; and it measures a file only root can read, through the descriptor its parent passed.
+- **Worst-case preparation under the real `RLIMIT_AS` 1 GiB** (R-09), as root, aarch64, 2 runs per case: all 13 cases succeeded. Peak address space (`VmPeak`) and resident memory (`VmHWM`), and time:
+
+  | Case | Fit | Peak address space | Peak resident | Time |
+  | --- | --- | --- | --- | --- |
+  | 64 MP JPEG, baseline | contain | 170 MiB | 158 MiB | 0.5 s |
+  | 64 MP JPEG, progressive | contain | 277 MiB | 265 MiB | 1.1 s |
+  | 64 MP JPEG, progressive 4:4:4 | contain | 460 MiB | 448 MiB | 1.1 s |
+  | 64 MP CMYK panorama | cover | 355 MiB | 344 MiB | 0.6 s |
+  | **64 MP progressive CMYK panorama** | **cover** | **766 MiB** | **754 MiB** | **1.4 s** |
+  | 64 MP progressive 4:4:4 panorama | cover | 644 MiB | 631 MiB | 1.2 s |
+  | 64 MP JPEG behind a header flood | contain | 189 MiB | 176 MiB | 0.4 s |
+  | 40 MP PNG, RGB | contain | 286 MiB | 274 MiB | 0.7 s |
+  | 40 MP PNG, RGBA | contain | 439 MiB | 427 MiB | 0.8 s |
+  | 40 MP PNG, palette with transparency | contain | 477 MiB | 465 MiB | 0.6 s |
+  | 40 MP PNG, grey with a transparent key | contain | 478 MiB | 465 MiB | 0.5 s |
+  | 40 MP PNG, 16-bit grey | contain | 453 MiB | 440 MiB | 0.6 s |
+  | 40 MP PNG behind a chunk flood | contain | 303 MiB | 290 MiB | 0.5 s |
+
+  The heaviest case leaves 258 MiB (25 %) of the 1 GiB. **Proposal: keep the 1 GiB limit** (the Phase 5 gate decision allows a change only from this measurement, and none is needed). The Green is several times slower; Phase 8 repeats the measurement there (R-09).
+- **What the earlier figures got wrong.** The Phase 5 figures on macOS came from `ru_maxrss`, which on Linux also counts the parent's memory before `exec`. The worker now reports its own peaks from `/proc/self/status` (`VmHWM`, `VmPeak`).
+- **amd64 under Rosetta.** The same checks passed. Rosetta keeps its own descriptors open in every process, which the descriptor check of the test tasks now leaves out (only when Rosetta is present). Time measured under emulation says nothing about a native amd64 host.
+- **R-26** (local tests versus the runtime build) is met for Phase 6: the whole suite runs in the image, on its Python and Pillow, for both architectures. **R-27** (pre-emption) is in force: the entry point builds the process executor.
+
+### D-171 — The authoritative inventory: the Pillow wheels, the image, and the SBOM approach [inventory; D-130 check a, D-135; H4, R-17, R-25]
+
+Status: proposed. It replaces the provisional inventory of the bundled libraries (Codex, Phase 1) and fills the base-image rows.
+
+- **The SBOM approach.** No SBOM tool is downloaded or installed. `scripts/image_inventory.py` runs inside the app image, with its own interpreter and no network, and records: every Alpine package from apk's database, with its licence; what the base image installs outside apk (the s6-overlay packages, tempio's embedded Go build information, bashio); every Python distribution with its licence metadata; and, for Pillow, each library in `pillow.libs` with its SHA-256 held to the wheel's `RECORD`, the two CycloneDX SBOMs that the wheel embeds, the features Pillow reports, the zlib it loads, and the versions inside its libavif. `scripts/container_check.sh` keeps the result as JSON for each architecture and fails if a library differs from the wheel's `RECORD`. A generated SBOM (for example Syft or `docker buildx --sbom`, which pulls a scanner image) needs its own approval, and the release can add one in Phase 9.
+- **The two runtime wheels**, downloaded from `files.pythonhosted.org` (approved), with hashes matching `uv.lock`: `pillow-12.3.0-cp314-cp314-musllinux_1_2_aarch64.whl` (SHA-256 `fe3cca2e4e8a592be0f269a1ca4835c25199d9f3ce815c8491048f785b0a0198`) and `pillow-12.3.0-cp314-cp314-musllinux_1_2_x86_64.whl` (SHA-256 `23aceaa007d6172b02c277f0cd359c79492bbb14f7072b4ede9fbcaf20648130`). They hold the same 21 libraries in the same versions, the same licence file, and the same Pillow SBOM. Methods: the file list; the dynamic dependencies of every ELF file (`DT_NEEDED`); version strings in the binaries; the auditwheel SBOM (the libraries grafted from Alpine packages); Pillow's own SBOM; the licence file's sections; and, in the image, Pillow's own feature report and the libavif API (`avifVersion`, `avifCodecVersions`, `avifLibYUVVersion`).
+- **Findings that change the inventory:**
+  1. **`libimagequant` is not in the wheels.** Pillow's SBOM lists it (4.4.1, `GPL-3.0-or-later`) with the scope "optional", and that is where the Phase 1 entry came from. The wheels contain no such library, `_imaging` neither links it nor contains its code (only the feature flag's name), and in the image Pillow reports `libimagequant` as unavailable.
+  2. **FriBiDi is not in the wheels.** Pillow's `fribidi-shim` (`LGPL-2.1-or-later` per Pillow's SBOM) is compiled into `_imagingft` and loads `libfribidi` only if the system has it; the image has none, and Pillow reports `fribidi` and `raqm` as unavailable. The shim's code is shipped; FriBiDi's is not.
+  3. **zlib is not bundled.** Pillow was compiled against zlib-ng 2.3.3's compatible headers, but its libraries load `libz.so.1` from the system: in the image, Alpine's zlib 1.3.2-r0 (`Zlib`).
+  4. **Statically linked, not in Pillow's SBOM:** bzip2 1.0.8 inside libfreetype (`bzip2-1.0.6`); inside libavif, dav1d 1.5.3 (`BSD-2-Clause`), aom 3.14.1 (`BSD-2-Clause`; AOMedia's patent licence is not in the wheel), libyuv (version number 1924, `BSD-3-Clause`), and libsharpyuv; code from Tcl/Tk's headers in `_imagingtk` (`TCL`, the licence file's `TCL_TK` section). raqm 0.10.5 (`MIT`) and fribidi-shim are compiled into `_imagingft`, and `pythoncapi_compat` (`0BSD`) into the extensions, as Pillow's SBOM says; pybind11 is used only to build.
+  5. **The nine pending entries** are verified: libXau 1.0.12 and libXdmcp 1.1.5 (`MIT-open-group`, the Open Group notices in the licence file; Alpine packages 1.0.12-r0 and 1.1.5-r1), Brotli 1.2.0 (`MIT`), liblzma 5.8.3 (`0BSD` upstream since 5.6.0; the wheel's licence file still carries the older public-domain notice), libpng 1.6.58 (`libpng-2.0`), libsharpyuv 0.1.2 (part of libwebp 1.6.0, `BSD-3-Clause`), and libzstd 1.5.7 (`BSD-3-Clause`; upstream also offers `GPL-2.0-only`). **libbsd 0.12.2 and libmd 1.1.0** (Alpine packages 0.12.2-r0 and 1.1.0-r0, grafted by auditwheel as libXdmcp's dependencies): their versions are verified, but the wheel carries no licence text for them, so their SPDX expressions are **not yet verified**. Reading them needs the upstream `COPYING` files or Alpine's package metadata, a network read that is not approved (open item).
+- **Consequences, proposed for the gate:**
+  - The image carries no GPL-3.0-or-later code from Pillow, and no FriBiDi. The copyleft obligations (D-135) apply to what the image does carry: `samsungtvws` (`LGPL-3.0`), Pillow's `fribidi-shim` (`LGPL-2.1-or-later`), and the copyleft Alpine packages, among them BusyBox, apk-tools, alpine-baselayout, and scanelf (`GPL-2.0-only`), bash, readline, and gdbm (`GPL-3.0-or-later`), and the GPL and LGPL parts of musl-utils, libgcc, libstdc++, keyutils, libcom_err, libidn2, libunistring, userspace-rcu, xz, and zstd (each with its own licence expression, as `THIRD_PARTY_NOTICES.md` lists them). **The image is still not free of GPL components.** After the gate, the Phase 9 TASKS item that names `libimagequant` and FriBiDi is reworded, and `ARCHITECTURE.md` §17.2, §23, and §24, which still say the wheels bundle both, are amended.
+  - The withdrawn Phase 1 claim ("the PyPI wheels omit `libimagequant`") turns out to be right for these two wheels, but for a different reason than first given: they never contained it. The Phase 1 correction came from the SBOM, which describes Pillow's optional dependencies, not the wheels' contents.
+- **The image** (both architectures, identical versions): 61 Alpine packages (50 from the base, 11 from `python3`), each with apk's licence field; outside apk, s6-overlay 3.2.3.0 with execline 2.9.9.0, s6 2.15.0.0, s6-linux-init 1.2.0.1, s6-linux-utils 2.6.4.1, s6-overlay-helpers 0.1.2.2, s6-portable-utils 2.3.1.2, and s6-rc 0.6.1.0; tempio 2026.07.0 (Go 1.26.5, with 11 Go modules); and bashio. The image carries no licence text for s6-overlay, tempio, its Go modules, or bashio; their licences are read from the upstream projects, which are hosted on GitHub, once that access is approved (open item, before any release). The 11 Python distributions match the inventory below. `THIRD_PARTY_NOTICES.md` lists every component.
+- **Build tooling rows** (not shipped): Docker Desktop 4.91.0 with Engine 29.8.0, containerd 2.3.4, runc 1.4.3, Buildx 0.37.0, and BuildKit 0.33.0, all bundled with Docker Desktop, whose start the user approved. amd64 images run under Rosetta, which Docker Desktop uses on Apple silicon; Docker Desktop's QEMU emulation is not used for the two target platforms.
+
+### D-172 — Proposed answers to Q-06 and Q-10 [§13, §11.3, §17.6]
+
+Status: proposed.
+
+- **Q-06 (a reset of history, or a new pairing).** Not in the beta. Uninstalling the app removes its `/data` folder, with the history, the upload ledger, the quarantine, the cache, and the pairing key, so reinstalling is the reset; the artworks on the TV and the preview in `/media` stay. A new pairing alone already happens on its own: when the TV rejects the stored key, the key is removed, and the next start asks the TV again (D-162). If accepted, `DOCS.md` gets a short "Starting over" section, and Phase 8 confirms that an uninstall removes `/data`.
+- **Q-10 (an unprivileged parent).** Not in the beta. The parent needs root, or at least `CAP_SETUID`, `CAP_SETGID`, and `CAP_CHOWN`, to drop every worker to 65534 and to hand the workspace to the worker's group (D-163, D-164). Without them, the workers would run as the parent's own user and could read the pairing key and the state in `/data`, which removes the separation that §11.3 is built on. The parent's own exposure is small: it parses no image (the workers do), reaches only the selected museum through the gateway's allowlist and, for helpers, the Supervisor, and runs under the AppArmor profile with four capabilities. Revisit in Phase 9, together with the per-worker AppArmor child profiles (R-31): for example a parent with only those capabilities as ambient capabilities of a dedicated user, if s6-overlay and the Supervisor support it.
+
 ## Proposed dependency inventory
 
-Status: **Phase 2 installed** the development tools and Pillow, **Phase 3 installed** `urllib3` 2.8.0 and `certifi` 2026.7.22, and **Phase 5 installed** `samsungtvws` 3.0.6 and its dependencies (each approved by the user on 2026-09-27; the `samsungtvws` row is confirmed at the Phase 5 gate on 2026-10-02), only in the local project environment (`frame_gallery/.venv`, from `uv.lock`). The base-image rows are still proposed.
+Status: **Phase 2 installed** the development tools and Pillow, **Phase 3 installed** `urllib3` 2.8.0 and `certifi` 2026.7.22, and **Phase 5 installed** `samsungtvws` 3.0.6 and its dependencies (each approved by the user on 2026-09-27; the `samsungtvws` row is confirmed at the Phase 5 gate on 2026-10-02), only in the local project environment (`frame_gallery/.venv`, from `uv.lock`). **Phase 6** built the app image from the pinned base image and the hash-pinned `musllinux` wheels (approved on 2026-10-02) and verified the bundled-library and base-image rows in it (D-171, proposed).
 
 - Versions and licenses were read from PyPI metadata (`https://pypi.org/pypi/<name>/json`) on 2026-09-26.
 - In Phase 2 the installed versions and `License-Expression` fields were re-read from each installed distribution's metadata; they match the rows below.
@@ -1382,48 +1508,55 @@ No package is modified or vendored into the source tree.
 | Package | Source and pin | SPDX (as published) | Use | Obligations | Reason | Enters |
 | --- | --- | --- | --- | --- | --- | --- |
 | `samsungtvws` | PyPI, `==3.0.6`; later `>=3.0.6,<4` after contract tests. sdist SHA-256 `166111d8370443cd2021b74cdfac9495896dfc41e3a87ea023289f24f922bb91`; wheel SHA-256 `6e3a1b23f928b3035570cc976b64b8c2a218b06022a333855fd7cd02dc74891d`. | `LGPL-3.0` (deprecated short form; treated as `LGPL-3.0-only` until the shipped `LICENSE` says otherwise) | dyn, redist, pure Python; core install only | See the LGPL obligations below | Television transport (D-104) | Phase 5 (installed 2026-09-27; D-160, accepted at the Phase 5 gate on 2026-10-02) |
-| `Pillow` | PyPI `musllinux_1_2` wheels for `aarch64` and `x86_64`, `==12.3.0` (`<13` until validated); approved for use from Phase 2 (Codex final approval of Phase 1 at `dda877c`) | `MIT-CMU` **for Pillow itself; the wheel is a composite that includes GPL-3.0-or-later and LGPL-2.1-or-later components** (see the bundled-library table) | dyn, redist, native | Pillow `LICENSE`; every bundled component's licence and acknowledgement; copyleft source availability for `libimagequant` and FriBiDi (D-135) | Image pipeline (§11) | Phase 2 |
+| `Pillow` | PyPI `musllinux_1_2` wheels for `aarch64` and `x86_64`, `==12.3.0` (`<13` until validated); approved for use from Phase 2 (Codex final approval of Phase 1 at `dda877c`); the exact cp314 wheels are in `requirements/image-runtime.txt` | `MIT-CMU` **for Pillow itself; the wheel bundles third-party libraries and compiles in the `LGPL-2.1-or-later` fribidi-shim** (see the bundled-library table; D-171) | dyn, redist, native | Pillow `LICENSE`; every bundled component's licence and acknowledgement; corresponding source for the fribidi-shim (the Pillow sdist, D-135) | Image pipeline (§11) | Phase 2 |
 | `urllib3` | PyPI `==2.8.0` (`<3`), `py3-none-any`; wheel SHA-256 `0cf3cae568d36aa9576b28dfb35f11328f1cb974ca7647d9475ebb86c75ac6e3` | `MIT` (`LICENSE.txt`) | dyn, redist | License text | Gateway transport (D-131); imported only by `net/transport.py` | Phase 3 (approved and installed 2026-09-27) |
 | `certifi` | PyPI `==2026.7.22`, `py3-none-any`; wheel SHA-256 `62f22742b58a1a33014a2b6b706588a8d7e2a88ae7bd1a6ebe8c992928483775`; sdist SHA-256 `741e2c3b351ddf169a738da9f2c048608ff7f2c5cc02f1ebc6b118bb090d5d55` | `MPL-2.0` (`LICENSE`) | dyn, redist (CA bundle) | Files kept unmodified under MPL-2.0; identified in the notices; source pointer (D-135) | The gateway's explicit CA bundle (§10); imported only by `net/transport.py` | Phase 3 (approved and installed 2026-09-27) |
 
 ### Runtime: bundled in the Pillow wheels
 
-**Observed** in the Codex final gate review of `9352e77`. Codex inspected the official Pillow 12.3.0 CPython 3.14 `musllinux_1_2` wheels for `aarch64` and `x86_64` from PyPI, and both wheel SBOMs list the same components.
+**Authoritative** since Phase 6 (D-171, proposed): inspected in the exact two runtime wheels, `pillow-12.3.0-cp314-cp314-musllinux_1_2_aarch64.whl` and `…_x86_64.whl` (hashes as in `uv.lock`), and in the built image for both architectures. Both wheels hold the same libraries in the same versions. The provisional Phase 1 table (from the Codex inspection of the wheels' SBOM) is in the git history (`31e3868`); its differences are listed below the table.
 
-This inventory is **provisional**. When the container's exact Python version is chosen (D-130, check a), the inspection is repeated against the exact two runtime wheels, and that result becomes authoritative.
+| Component (where) | Version | SPDX | Evidence | Obligations |
+| --- | --- | --- | --- | --- |
+| libavif (`pillow.libs`) | 1.4.2 | `BSD-2-Clause` | SBOM; `avifVersion()` in the image | Licence text |
+| dav1d, AV1 decoder (inside libavif) | 1.5.3 | `BSD-2-Clause` | `avifCodecVersions()`; licence file | Licence text |
+| aom, AV1 encoder (inside libavif) | 3.14.1 | `BSD-2-Clause` | `avifCodecVersions()`; licence file | Licence text; AOMedia's patent licence is not in the wheel (licence review) |
+| libyuv (inside libavif) | 1924 (`LIBYUV_VERSION`) | `BSD-3-Clause` | `avifLibYUVVersion()`; licence file | Licence text |
+| Brotli: libbrotlicommon, libbrotlidec | 1.2.0 | `MIT` | library version; licence file | Licence text |
+| bzip2 (inside libfreetype) | 1.0.8 | `bzip2-1.0.6` | symbols and build path in the binary; licence file | Licence text |
+| FreeType: libfreetype | 2.14.3 | `FTL` | SBOM; Pillow's feature report | Licence text; the FTL credit in `DOCS.md` and the notices |
+| HarfBuzz: libharfbuzz | 14.2.1 | `MIT` | SBOM; version string | Licence text |
+| libjpeg-turbo: libjpeg | 3.1.4.1 | `IJG AND BSD-3-Clause` | SBOM; version string; Pillow's feature report | Licence texts (the wheel carries only the IJG text; the licence review adds the rest); the IJG acknowledgement in `DOCS.md` and the notices |
+| Little CMS 2: liblcms2 | 2.19.1 | `MIT` | SBOM (Pillow reports 2.19) | Licence text |
+| liblzma (XZ Utils) | 5.8.3 | `0BSD` | version string; upstream licence since 5.6.0 | Licence text (the wheel still carries the older public-domain notice) |
+| OpenJPEG: libopenjp2 | 2.5.4 | `BSD-2-Clause` | SBOM; version string | Licence text |
+| libpng: libpng16 | 1.6.58 | `libpng-2.0` | version string; licence file | Licence text |
+| libsharpyuv (and a copy inside libavif) | 0.1.2, from libwebp 1.6.0 | `BSD-3-Clause` | library version; libwebp's licence | Licence text |
+| libtiff | 4.7.1 | `libtiff` | SBOM; version string | Licence text |
+| libwebp, libwebpdemux, libwebpmux | 1.6.0 | `BSD-3-Clause` | SBOM; Pillow's feature report | Licence text |
+| libxcb | 1.17.0 | `X11` | SBOM | Licence text |
+| libXau | 1.0.12 (Alpine 1.0.12-r0) | `MIT-open-group` | auditwheel SBOM; licence file | Licence text |
+| libXdmcp | 1.1.5 (Alpine 1.1.5-r1) | `MIT-open-group` | auditwheel SBOM; licence file | Licence text |
+| libbsd | 0.12.2 (Alpine 0.12.2-r0) | **to verify** | auditwheel SBOM; no licence text in the wheel | Licence text, once read from upstream or Alpine (open item) |
+| libmd | 1.1.0 (Alpine 1.1.0-r0) | **to verify** | auditwheel SBOM; no licence text in the wheel | As libbsd |
+| libzstd | 1.5.7 | `BSD-3-Clause` (upstream: `BSD-3-Clause OR GPL-2.0-only`) | version string; licence file | Licence text |
+| raqm (inside `_imagingft`) | 0.10.5 | `MIT` | SBOM | Licence text |
+| fribidi-shim (inside `_imagingft`) | 1.x | `LGPL-2.1-or-later` | SBOM | **Copyleft.** LGPL-2.1 text; corresponding source: the Pillow 12.3.0 sdist (D-135) |
+| Tcl/Tk header code (inside `_imagingtk`) | — | `TCL` | licence file (`TCL_TK`); names in the binary | Licence text |
+| pythoncapi_compat (inside the extensions) | per the SBOM | `0BSD` | SBOM | Licence text (courtesy) |
 
-| Component | Version (wheel SBOM) | SPDX (wheel SBOM) | Obligations |
-| --- | --- | --- | --- |
-| libimagequant | 4.4.1 | `GPL-3.0-or-later` | **Copyleft.** GPL-3.0 text; the corresponding source for this exact version attached to each release (D-135); covered by the qualified licence review, which is a release gate (R-25). |
-| FriBiDi | 1.0.16 | `LGPL-2.1-or-later` | **Copyleft.** LGPL-2.1 text; corresponding source (D-135). Shipped unmodified as a separately replaceable shared library. |
-| fribidi-shim | 1.x | `LGPL-2.1-or-later` | Same as FriBiDi. |
-| raqm | 0.10.5 | `MIT` | Licence text. |
-| FreeType | 2.14.3 | `FTL` | Licence text. The documentation carries the FTL credit: "Portions of this software are copyright © The FreeType Project (www.freetype.org). All rights reserved." The exact wording is taken from the shipped licence. |
-| HarfBuzz | 14.2.1 | `MIT` | Licence text. |
-| libavif | 1.4.2 | `BSD-2-Clause` | Licence text. |
-| libjpeg / libjpeg-turbo | 3.1.4.1 | `IJG AND BSD-3-Clause` | Licence texts, plus the IJG acknowledgement in `DOCS.md` and the notices: "This software is based in part on the work of the Independent JPEG Group." |
-| libtiff | 4.7.1 | `libtiff` | Licence text. |
-| libwebp | 1.6.0 | `BSD-3-Clause` | Licence text. |
-| libxcb | 1.17.0 | `X11` | Licence text. |
-| Little CMS 2 | 2.19.1 | `MIT` | Licence text. |
-| OpenJPEG | 2.5.4 | `BSD-2-Clause` | Licence text. |
-| pybind11 | per the SBOM | `BSD-3-Clause` | Licence text. |
-| pythoncapi_compat | per the SBOM | `0BSD` | Licence text (courtesy). |
-| zlib | 2.3.3 | `Zlib` | Licence text. |
+**Not in the wheels**, although the provisional table listed them:
 
-**Other shared objects in `pillow.libs/`, verified in Phase 6.** These are libXau, libXdmcp, Brotli, libbsd, liblzma, libmd, libpng, libsharpyuv, and libzstd.
+- **libimagequant** 4.4.1 (`GPL-3.0-or-later`): Pillow's SBOM lists it with the scope "optional". No file of the wheels contains it, `_imaging` does not link it, and Pillow reports it as unavailable in the image.
+- **FriBiDi** 1.0.16 (`LGPL-2.1-or-later`): also optional in the SBOM. The shim loads it at run time only if the system has it; the image has none, and Pillow reports `fribidi` and `raqm` as unavailable.
+- **zlib** (zlib-ng 2.3.3 in the SBOM): Pillow was built against zlib-ng's compatible headers, but its libraries load `libz.so.1` from the system, in the image Alpine's zlib 1.3.2-r0 (`Zlib`, listed with the OS packages).
+- **pybind11**: used only to build (the SBOM's scope "excluded").
 
-- **Gate adjustment, explicitly approved by Codex** at the final approval of Phase 1 (`dda877c`). Their verification moved from the Phase 2 approval gate to the authoritative Phase 6 runtime-wheel inspection (D-130 check (a)). The exact runtime wheel cannot be selected until the container's Python version is fixed in Phase 6.
-- Their exact versions and SPDX identifiers are then taken from the wheel's licence and SBOM material, and the notices must include them.
-- **Full verification remains mandatory before packaging or publication.** Nothing is packaged or published before it is complete.
-- The provisional notices created in Phase 2 carry the known inventory above, including `libimagequant` and FriBiDi, and list these nine entries as pending verification.
-- The GPL/LGPL qualified licence review and the source-availability obligations (D-135, R-25) remain release blockers. They are not weakened by this adjustment.
+**Consequences** (proposed with D-171; until the gate decides, the accepted text of D-135 and the Phase 1 corrections stays in force):
 
-**Consequences:**
-
-- The runtime image contains **GPL-3.0-or-later** code (`libimagequant`) and **LGPL-2.1-or-later** code (FriBiDi, fribidi-shim), and these come from the PyPI wheel itself. The earlier claim that the PyPI wheels omit `libimagequant` was **wrong** and has been withdrawn.
-- Using the PyPI wheel instead of Alpine's `py3-pillow` does **not** avoid this GPL component.
-- No project document may claim that the runtime is free of GPL components.
+- The image contains no GPL-3.0 code from Pillow and no FriBiDi. Pillow's only copyleft part in the image is the fribidi-shim, compiled into `_imagingft` (`LGPL-2.1-or-later`).
+- The image is still **not** free of GPL components: its Alpine packages include BusyBox, apk-tools, bash, readline, gdbm, and others under the GPL (see *Base image and OS packages*). No project document may claim otherwise.
+- The earlier claim that the PyPI wheels omit `libimagequant` was right for these wheels after all; the Phase 1 correction read the SBOM's optional dependencies as the wheels' contents.
 
 ### Runtime: transitive (required by `samsungtvws`)
 
@@ -1457,23 +1590,30 @@ These come from general knowledge of the license; qualified review is recommende
 
 ### Base image and OS packages
 
-**Expected; must be verified from the image SBOM in Phase 6.**
+**Verified** in Phase 6 from the built image, for both architectures (D-171, proposed; `scripts/image_inventory.py`). The complete list, with apk's licence field for each of the 61 packages, is in `THIRD_PARTY_NOTICES.md`.
 
-| Component | Expected license | Notes |
-| --- | --- | --- |
-| `ghcr.io/home-assistant/base` (pinned tag + digest) | per SBOM | Official Alpine base with s6-overlay v3, bashio, and tzdata. Its Alpine release is not stated on a permitted page. |
-| BusyBox | `GPL-2.0-only` | Copyleft; source via D-135 |
-| bash (present because of bashio) | `GPL-3.0-or-later` | Copyleft; source via D-135. Not used by the app, which is a D-130 selection criterion. |
-| bashio | to verify | Not used by the app |
-| s6-overlay | `ISC` (to verify) | Init system |
-| musl | `MIT` | C library |
-| apk-tools | `GPL-2.0-only` (to verify) | Copyleft; source via D-135 |
-| ca-certificates | `MPL-2.0 AND MIT` (to verify) | CA store |
-| tzdata | public domain (to verify) | — |
-| `python3` (exact apk pin) | `PSF-2.0` | The interpreter |
-| `python3` runtime closure: OpenSSL, libffi, SQLite, expat, ncurses, xz, bzip2, mpdecimal, zlib, and possibly readline or gdbm | per package (for example `Apache-2.0` for OpenSSL, `blessing` for SQLite, `GPL-3.0-or-later` for readline and gdbm if present) | To verify from the SBOM; copyleft members use D-135 |
-
-No OS packages beyond `python3` are planned.
+| Component | Version | SPDX | Notes |
+| --- | --- | --- | --- |
+| `ghcr.io/home-assistant/base` | `3.24-2026.08.0@sha256:93ef607824e3f27e868f11b10938283a98bf880ed57bcf8eaa81c6c2d521f6f5` | per component | Alpine 3.24.1; 50 apk packages; the app adds `python3` and its closure (11 packages) |
+| BusyBox (`busybox`, `busybox-binsh`, `ssl_client`) | 1.37.0-r31 | `GPL-2.0-only` | Copyleft; source via D-135 |
+| bash | 5.3.9-r1 | `GPL-3.0-or-later` | Copyleft; in the base for bashio, not used by the app |
+| readline | 8.3.3-r1 | `GPL-3.0-or-later` | Copyleft; in the base (bash); also linked by Python's `readline` module, which the app does not import |
+| gdbm | 1.26-r0 | `GPL-3.0-or-later` | Copyleft; a dependency of `python3` (the `dbm.gnu` module), not used by the app |
+| apk-tools, libapk | 3.0.6-r0 | `GPL-2.0-only` | Copyleft |
+| alpine-baselayout, -data | 3.7.2-r1 | `GPL-2.0-only` | Copyleft |
+| scanelf (pax-utils) | 1.3.9-r1 | `GPL-2.0-only` | Copyleft |
+| musl; musl-utils | 1.2.6-r2 | `MIT`; `MIT AND BSD-2-Clause AND GPL-2.0-or-later` | C library; utilities |
+| libgcc, libstdc++ | 15.2.0-r5 | `GPL-2.0-or-later AND LGPL-2.1-or-later` (apk field) | GCC's runtime libraries; their runtime-library exception is checked in the licence review |
+| other copyleft or dual-licensed libraries | per package | keyutils-libs, libcom_err, libidn2, libunistring, userspace-rcu, xz and xz-libs, zstd-libs | See `THIRD_PARTY_NOTICES.md` |
+| `python3` and its `pyc` packages | 3.14.8-r0 | `PSF-2.0` | The interpreter |
+| OpenSSL (`libcrypto3`, `libssl3`) | 3.5.7-r0 | `Apache-2.0` | |
+| SQLite (`sqlite-libs`) | 3.53.4-r0 | `blessing` | |
+| zlib | 1.3.2-r0 | `Zlib` | Also the zlib that Pillow loads |
+| ca-certificates, -bundle | 20260611-r0 | `MPL-2.0 AND MIT` | The system CA store; the gateway uses `certifi` |
+| tzdata | 2026c-r0 | `Public-Domain` | |
+| s6-overlay (outside apk) | 3.2.3.0, with execline 2.9.9.0, s6 2.15.0.0, s6-linux-init 1.2.0.1, s6-linux-utils 2.6.4.1, s6-overlay-helpers 0.1.2.2, s6-portable-utils 2.3.1.2, s6-rc 0.6.1.0 | **to verify** (upstream, GitHub-hosted) | The init system; the image holds no licence text |
+| tempio (outside apk) | 2026.07.0 (Go 1.26.5; 11 Go modules) | **to verify** (upstream, GitHub-hosted) | A Home Assistant template tool; not used by the app |
+| bashio (outside apk) | not recorded in the image | **to verify** (upstream, GitHub-hosted) | Not used by the app |
 
 ### Development-only (not shipped)
 
@@ -1499,9 +1639,10 @@ No OS packages beyond `python3` are planned.
 
 | Tool | Version | SPDX | Recorded and approved before |
 | --- | --- | --- | --- |
-| Docker Buildx | tbd | tbd | Phase 6 |
-| QEMU user-mode emulation | tbd | tbd | Phase 6 |
-| SBOM generator (for example Syft) | tbd | tbd | Phase 6 |
+| Docker Desktop (local only) | 4.91.0, with Engine 29.8.0, containerd 2.3.4, runc 1.4.3 | Docker Desktop: proprietary (Docker's subscription terms); Engine, containerd, runc: `Apache-2.0` (not re-read; GitHub-hosted) | Phase 6: its start was approved by the user on 2026-10-02 |
+| Docker Buildx, BuildKit | 0.37.0, 0.33.0 (bundled with Docker Desktop) | `Apache-2.0` (not re-read; GitHub-hosted) | Phase 6 (D-170) |
+| QEMU user-mode emulation | bundled with Docker Desktop; **not used**: `amd64` runs under Apple's Rosetta on this host | — | Phase 6 (D-170) |
+| SBOM generator (for example Syft) | **none**; `scripts/image_inventory.py` records the image instead (D-171). A generator needs its own approval. | — | Phase 6; Phase 9 if a release needs one |
 | Home Assistant builder composite actions (`build-image`, `publish-multi-arch-manifest`) | tbd | tbd | Phase 9 |
 | Cosign | tbd | tbd | Phase 9 |
 
@@ -1513,7 +1654,7 @@ The documentation for these tools is largely GitHub-hosted, so it is read only o
 | --- | --- |
 | `httpx` 0.28.1 (`BSD-3-Clause`) | Would add a second HTTP stack. The stable line is about 21 months old, and the 1.0 pre-releases are an API rewrite without license metadata. |
 | `pip-tools` 7.6.1 | Its PyPI license field is only "BSD", not an SPDX expression. `uv` is preferred. |
-| Alpine `py3-pillow` | Older than the PyPI release and lags on security fixes. It also links GPL-3.0-or-later `libimagequant`, just as the PyPI wheel bundles it, so it gives no licensing advantage. |
+| Alpine `py3-pillow` | Older than the PyPI release and lags on security fixes. It also links GPL-3.0-or-later `libimagequant`, just as the PyPI wheel bundles it, so it gives no licensing advantage. *Phase 6 (D-171): the PyPI `musllinux` wheels do not bundle `libimagequant`; the statement about `py3-pillow` was not re-checked.* |
 | lxml, BeautifulSoup | Not needed (D-127). |
 | `samsungtvws` extras (`async`, `encrypted`, `cli`) | Not needed. |
 
@@ -1531,7 +1672,7 @@ L = likelihood, I = impact; H = high, M = medium, L = low.
 | R-06 | The loading state depends on the Running entity (disabled by default, undocumented polling); short runs may never show it | M / M | 130 s guaranteed exit. The **normative** 150 s timer indicator, started by the card script, does not depend on the sensor. Phase 8 cases: a run under 10 s, a mistyped slug, a non-admin tap. | Phase 8 (Q-09, Q-19) |
 | R-07 | **Preview freshness** (release-blocking). The Local File update mechanism and the camera cache refresh are undocumented, and the existing installation had stale images. | H / H | Phase 8 selects one proven mechanism from D-140 through repeated live tests, and the dashboard is not declared complete until then. The platform basis for `/media` and the allowlist is recorded (D-111). | Phase 8; the result is recorded here |
 | R-08 | Image decoder vulnerabilities | M / H | Header limits; format allowlist; unprivileged, memory-limited worker; allowlisted environment; bytes-only results; prompt updates | Ongoing |
-| R-09 | Memory pressure during decode | M / M | Pixel caps (64 MP JPEG, 40 MP PNG); colour work after resizing; 1 GiB `RLIMIT_AS`; beta renditions ≤ 3400 px. §11.1 and D-121 estimated the worst case at ≈ 450–550 MiB. **Measured in Phase 5** (`scripts/measure_prepare.py`, macOS arm64, the production `prepare` task in a real worker, 2 runs each, every source within 1–4 MiB of the 40 MiB cap, 3840×2160 canvas, **without `RLIMIT_AS`**, which macOS cannot set). Peak resident memory and wall time: 64 MP JPEG baseline 165 MiB and 0.5 s; progressive 318 MiB and 1.1 s; progressive 4:4:4 531 MiB and 1.1 s; CMYK panorama (19 999×3 200) in `cover` 350 MiB and 0.6 s; **progressive CMYK panorama in `cover` 839 MiB and 1.4 s**; progressive 4:4:4 panorama in `cover` 717 MiB and 1.3 s; behind a header flood just under the D-144 caps 190 MiB and 0.4 s; 40 MP PNG RGB 281 MiB, RGBA 434 MiB, palette with transparency 479 MiB, grey with a transparent key 478 MiB, 16-bit grey 451 MiB, behind a chunk flood 297 MiB, each ≤ 0.7 s. The progressive coefficient buffers, which the estimate left out, make the progressive cases the heaviest. A progressive JPEG with very many scans was not generated (Pillow's encoder has a fixed scan script). The address space a worker uses exceeds its resident memory, so the heaviest cases may fail with `memory` under the real 1 GiB limit. *Phase 5 gate (2026-10-02):* the 1 GiB limit stays for now, and any change is decided only from the measurement under the real limit. The same script runs under the real `RLIMIT_AS` in the Linux container, as root (D-165; a condition of the gate, mandatory before any live test on the Home Assistant Green), and on the Green in Phase 8, which is several times slower; if preparation exceeds about 12 s there, the local-media pixel caps are lowered. | Phase 6/8 |
+| R-09 | Memory pressure during decode | M / M | Pixel caps (64 MP JPEG, 40 MP PNG); colour work after resizing; 1 GiB `RLIMIT_AS`; beta renditions ≤ 3400 px. §11.1 and D-121 estimated the worst case at ≈ 450–550 MiB. **Measured in Phase 5** (`scripts/measure_prepare.py`, macOS arm64, the production `prepare` task in a real worker, 2 runs each, every source within 1–4 MiB of the 40 MiB cap, 3840×2160 canvas, **without `RLIMIT_AS`**, which macOS cannot set). Peak resident memory and wall time: 64 MP JPEG baseline 165 MiB and 0.5 s; progressive 318 MiB and 1.1 s; progressive 4:4:4 531 MiB and 1.1 s; CMYK panorama (19 999×3 200) in `cover` 350 MiB and 0.6 s; **progressive CMYK panorama in `cover` 839 MiB and 1.4 s**; progressive 4:4:4 panorama in `cover` 717 MiB and 1.3 s; behind a header flood just under the D-144 caps 190 MiB and 0.4 s; 40 MP PNG RGB 281 MiB, RGBA 434 MiB, palette with transparency 479 MiB, grey with a transparent key 478 MiB, 16-bit grey 451 MiB, behind a chunk flood 297 MiB, each ≤ 0.7 s. The progressive coefficient buffers, which the estimate left out, make the progressive cases the heaviest. A progressive JPEG with very many scans was not generated (Pillow's encoder has a fixed scan script). The address space a worker uses exceeds its resident memory, so the heaviest cases may fail with `memory` under the real 1 GiB limit. *Phase 5 gate (2026-10-02):* the 1 GiB limit stays for now, and any change is decided only from the measurement under the real limit. The same script runs under the real `RLIMIT_AS` in the Linux container, as root (D-165; a condition of the gate, mandatory before any live test on the Home Assistant Green), and on the Green in Phase 8, which is several times slower; if preparation exceeds about 12 s there, the local-media pixel caps are lowered. **Measured in Phase 6 under the real 1 GiB `RLIMIT_AS`** (aarch64 container, as root, workers at 65534; D-170): all 13 cases succeed; the heaviest, the progressive CMYK panorama in `cover`, peaks at 766 MiB of address space (754 MiB resident) in 1.4 s, leaving 258 MiB. The Phase 5 resident figures were inflated by `ru_maxrss`, which on Linux counts the parent's memory before `exec`; the worker now reads `VmHWM` and `VmPeak`. Proposed: keep 1 GiB (D-170). | Phase 8 (the Green) |
 | R-10 | Home Assistant platform churn | M / M | Follow the current docs; re-check them in Phases 6 and 9 | Phase 6/9 |
 | R-11 | Pairing friction: prompts on each connection, and the 20 s pairing wait inside the 40 s TV phase | M / M | Token persistence; self-healing reset; *First Time Only* setting; a clear message to accept the prompt and run again | Documentation; Phase 8 |
 | R-12 | TV off or on another subnet gives `tv_unreachable` | M / L | Actionable messages; documented network requirement | Documentation |
@@ -1539,8 +1680,8 @@ L = likelihood, I = impact; H = high, M = medium, L = low.
 | R-14 | Branding: "Frame" is part of Samsung's product name | M / M | D-101 review; factual compatibility wording only | User (D-101) |
 | R-15 | Watchdog `os._exit` skips normal cleanup | L / M | The worker group is killed first; `PR_SET_PDEATHSIG`; RAM `/tmp`; startup sweep; timing test | Accepted |
 | R-16 | Supervisor handling of exit codes and Watchdog restarts for `once` apps is undocumented | M / M | D-133; the documentation says to keep the Watchdog off | Phase 8 (Q-07) |
-| R-17 | The image redistributes copyleft OS packages, LGPL `samsungtvws`, and the copyleft components bundled in Pillow (R-25) | M / M | SBOM; D-135; minimal OS packages; copyleft surface is a D-130 criterion | Phase 6/7/9 licence audit |
-| R-25 | **The Pillow wheels bundle GPL-3.0-or-later `libimagequant` 4.4.1 and LGPL-2.1-or-later FriBiDi 1.0.16.** The distributed image therefore contains GPL-3.0 code, and the runtime is not GPL-free. | H / M | Correct inventory (observed SBOM); D-135 source availability; qualified licence review as a release gate; authoritative re-inspection of the exact runtime wheels once the Python version is fixed; Apache-2.0 scoped to project code only (D-102) | Licence review (Phase 9) |
+| R-17 | The image redistributes copyleft OS packages, LGPL `samsungtvws`, and the copyleft components bundled in Pillow (R-25) | M / M | SBOM; D-135; minimal OS packages; copyleft surface is a D-130 criterion. *Phase 6 (D-171):* the image's inventory is taken from the image itself; its copyleft parts are `samsungtvws`, Pillow's fribidi-shim, and the GPL and LGPL Alpine packages. Still to verify before a release: the licences of libbsd and libmd (bundled by Pillow) and of s6-overlay, tempio with its Go modules, and bashio (in the base image), whose texts the image does not carry | Phase 7/9 licence audit |
+| R-25 | **The Pillow wheels bundle GPL-3.0-or-later `libimagequant` 4.4.1 and LGPL-2.1-or-later FriBiDi 1.0.16.** The distributed image therefore contains GPL-3.0 code, and the runtime is not GPL-free. | H / M | Correct inventory (observed SBOM); D-135 source availability; qualified licence review as a release gate; authoritative re-inspection of the exact runtime wheels once the Python version is fixed; Apache-2.0 scoped to project code only (D-102) | Licence review (Phase 9). *Phase 6 (D-171, proposed):* the exact runtime wheels contain neither `libimagequant` nor FriBiDi; the SBOM lists both only as optional dependencies. Proposed: close R-25; the image's remaining copyleft is covered by R-17. |
 | R-18 | Provider terms or rate limits violated by accident | L / H | Allowances; 1 s pacing; 403/429 stop; cache; honest headers | Phase 3 review |
 | R-19 | Art Institute renditions (1686 px) look soft after upscaling by up to ≈ 2.28×; images can be unpublished | H / M | Honest documentation; HTTP 404 moves to the next candidate; Cleveland renditions (≈ 1.13×) are an in-beta alternative | Accepted |
 | R-20 | Provider documentation drifts. Examples: Cleveland's banner date is older than its changelog, and the Cleveland image host appears only in example URLs. | M / L | Re-verified on 2026-09-27 (D-146); re-check before the Phase 8 live test and before each release | Phase 8, each release |
@@ -1548,12 +1689,14 @@ L = likelihood, I = impact; H = high, M = medium, L = low.
 | R-22 | **Provider identifier stability.** Neither the Art Institute nor Cleveland documents its record IDs as permanent. | L / M | IDs validated against patterns; Cleveland's accession number kept as metadata; history and ledger keyed by the documented ID; re-checked when documentation drifts | Phase 3 |
 | R-23 | The **Cleveland API terms** reserve future keys, transaction limits, and IP logging | M / M | Room for an optional key (`password` option); 401/403 treated as a stop; conservative pacing; the source stays optional | Monitor |
 | R-24 | The **uncertainty quarantine** holds back works that never actually reached the TV (for example after a power loss before upload) for the 30-day quarantine period | M / L | Intents are removed whenever no `upload_started` was seen; the period is documented (Q-23, accepted); large catalogues are unaffected | Accepted |
-| R-26 | **Local tests run a different Pillow build.** Phase 2 tests use the macOS `arm64` Pillow wheel and CPython 3.12.14; the runtime uses the Linux `musllinux_1_2` wheels, with other bundled library builds, on the container's Python. Rendering bytes and edge-case behaviour may differ. | M / M | The imaging tests assert properties (size, baseline, components, pixels, metadata) rather than byte-exact output; Phase 6 runs the full suite inside the container image for both architectures; CI covers 3.12–3.14 (Phase 9) | Phase 6/9 |
-| R-27 | **No pre-emption before Phase 5.** The Phase 2 in-process executor cannot interrupt a hung decode, so the 15 s preparation limit and the 70 s and 120 s bounds hold only when tasks return. A timeout is detected after the fact. | L / M | Resolved in code in Phase 5: the process executor's kill timer ends a worker at its timeout (D-163); the in-process executor remains for tests only. In force once the Phase 6 entry point builds the process executor. The watchdog (130 s) remains the last resort | Phase 6 (wiring) |
+| R-26 | **Local tests run a different Pillow build.** Phase 2 tests use the macOS `arm64` Pillow wheel and CPython 3.12.14; the runtime uses the Linux `musllinux_1_2` wheels, with other bundled library builds, on the container's Python. Rendering bytes and edge-case behaviour may differ. | M / M | The imaging tests assert properties (size, baseline, components, pixels, metadata) rather than byte-exact output; Phase 6 runs the full suite inside the container image for both architectures; CI covers 3.12–3.14 (Phase 9). *Phase 6:* the whole suite runs in the image on both architectures, on its Python 3.14.8 and the `musllinux` Pillow, as a non-root user and, for the root checks, as root (D-170) | Phase 9 (CI) |
+| R-27 | **No pre-emption before Phase 5.** The Phase 2 in-process executor cannot interrupt a hung decode, so the 15 s preparation limit and the 70 s and 120 s bounds hold only when tasks return. A timeout is detected after the fact. | L / M | Resolved in code in Phase 5: the process executor's kill timer ends a worker at its timeout (D-163); the in-process executor remains for tests only. In force since Phase 6: the entry point builds the process executor (D-166). The watchdog (130 s) remains the last resort | Resolved (Phase 6) |
 | R-28 | **The credential-pattern redaction is heuristic.** It catches common forms of unregistered secrets but not every serialization (D-145). | L / M | Every real secret (the Supervisor token, the TV token) is registered with the redactor and redacted in all its encodings; worker output passes through the parent's formatter; H3 tests cover both layers; new secrets must be registered where they enter | Ongoing (Phases 3, 5) |
 | R-30 | **Another client's upload.** The library takes the first `image_added` event on the art channel as its own (D-161). If another client (for example the SmartThings app) uploads at the same moment, that client's content ID would be selected instead of ours: the TV then shows the other client's image, while the run reports `delivered` and history, `current.json`, and the preview name our work (against E1 and E10). Our upload stays on the TV. | L / L | Rare timing; the ledger still records our upload, so the work is not uploaded again; the content ID is used only for the selection inside the worker and is never stored or logged; no action on the TV deletes by content ID. Recorded as a known limitation. | Phase 8 |
 | R-31 | **A worker taken over by an exploit.** A parser exploit in the image worker would run as uid 65534 under the D-163 limits, but it would still have the container's network (the AppArmor profile allows `inet`) and could write to the RAM-backed `/tmp` and `/dev/shm`, which `RLIMIT_AS` does not count. | L / H | Unprivileged; `RLIMIT_NPROC` 0, so no process survives it; file-size and descriptor limits. No secret it could reach: the pairing token is held by the root parent and in `/data/tv/<address>.token` (mode 0600, owned by root; the television worker gets it only through its request pipe), the image worker never runs at the same time as the television worker (each worker is killed and reaped before the next task starts), and its environment is a fixed allowlist. The television worker uploads only bytes with the parent's hash. Phase 9: AppArmor child profiles per worker (confirmed for Phase 9 at the Phase 5 gate, 2026-10-02) | Phase 9 |
 | R-29 | **Very old works can come back.** History keeps the latest 20 000 delivered works, and the ledger 20 000 entries (D-153, D-154). When a bound is reached, the oldest entry is dropped, and that work is no longer excluded, so it could in theory be shown again. At one artwork a day this first happens after about 55 years; at one an hour, after about 2.3 years; at one every 15 minutes, after about 7 months. | L / L | Accepted for the first beta at the Phase 4 gate; stated in the user documentation's known limitations (Phase 6). Every more recent work stays excluded. | Accepted |
+| R-32 | **A Supervisor build on the Green.** Until images are published (Phase 9), the Supervisor builds the app on the device from the Dockerfile. That build needs the same network sources (the base image, the Alpine package source, PyPI), may take several minutes on the Green (not measured yet), and fails if one of them is unreachable. | M / M | Pinned inputs and hashes make a failed build visible, not silent; Phase 8 settles the install route (Q-21) and measures the build; published images remove the on-device build in Phase 9 | Phase 8 |
+| R-33 | **The base image's tools outside apk.** s6-overlay, tempio, and bashio come with the Home Assistant base image without licence texts or package metadata; their versions are recorded from the image (D-171), their licences not yet. | L / M | Read the licences from the upstream projects once that access is approved; the licence review is a release gate (D-135) | Phase 9 licence review |
 
 ## Open questions
 
@@ -1600,9 +1743,9 @@ L = likelihood, I = impact; H = high, M = medium, L = low.
 | ID | Question | Recommendation | Needed by |
 | --- | --- | --- | --- |
 | Q-05 | JPEG parameters (quality 90, standard subsampling, 15 MiB ceiling) | Start here; tune in Phase 8 | Phase 8 |
-| Q-06 | A user-facing way to reset history or re-pair the TV? | Not in the beta; reinstalling is the reset path | Phase 6 |
+| Q-06 | A user-facing way to reset history or re-pair the TV? | Not in the beta; reinstalling is the reset path. *Phase 6 proposal (D-172):* as recommended; `DOCS.md` gets a "Starting over" note, and Phase 8 confirms that an uninstall removes `/data` | Phase 6 gate |
 | Q-07 | Confirm D-133: how `once`-app exits are shown, and how the app Watchdog reacts | Keep D-133; observe in Phase 8 | Phase 8 |
-| Q-10 | Should the parent process also run unprivileged? | Evaluate in Phase 6. The workers are unprivileged from Phase 5 (§11.3). | Phase 6 |
+| Q-10 | Should the parent process also run unprivileged? | Evaluate in Phase 6. The workers are unprivileged from Phase 5 (§11.3). *Phase 6 proposal (D-172):* not in the beta; the parent needs to drop the workers and hand them the workspace; revisit with the AppArmor child profiles in Phase 9 | Phase 6 gate |
 | Q-13 | The final public repository URL, which determines the slug shown in the dashboard YAML | Decide with D-101 | Phase 9 |
 | Q-19 | `hassio.app_start` is admin-only. Test the non-admin paths: a script, the Running switch, `continue_on_error`, a mistyped slug. | Document the admin requirement; test in Phase 8 | Phase 8 |
 | Q-21 | Install route for Phase 8: (a) copy the folder into `/addons` through a file-share app; (b) a temporary private repository; (c) a development image push | (a) | Phase 8 |
