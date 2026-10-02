@@ -13,9 +13,14 @@ profile frame_gallery flags=(attach_disconnected,mediate_deleted,complain) {
 
   # Process control: the parent drops each worker to user 65534, hands the
   # run's workspace to that group, and ends its workers (§11.3, D-163, D-164).
+  # fsetid keeps the setgid bit when the parent sets the mode of a folder it
+  # has given to the worker's group, of which it is not a member; and
+  # dac_read_search lets it read what a worker wrote (0640, owned by 65534).
   capability setuid,
   capability setgid,
   capability chown,
+  capability fsetid,
+  capability dac_read_search,
   capability kill,
   signal (send) set=(kill,term),
   signal (receive) set=(kill,term),

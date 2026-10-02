@@ -54,8 +54,11 @@ def test_every_rule_is_complete() -> None:
 
 
 def test_only_the_needed_capabilities() -> None:
+    """The drop to 65534 (setuid, setgid), the workspace handed to the
+    worker's group (chown, and fsetid for its setgid folders), reading the
+    worker's output (dac_read_search), and ending workers (kill)."""
     capabilities = {rule.split()[1].rstrip(",") for rule in BODY if rule.startswith("capability")}
-    assert capabilities == {"setuid", "setgid", "chown", "kill"}
+    assert capabilities == {"setuid", "setgid", "chown", "fsetid", "dac_read_search", "kill"}
 
 
 def test_raw_and_packet_sockets_are_denied() -> None:
