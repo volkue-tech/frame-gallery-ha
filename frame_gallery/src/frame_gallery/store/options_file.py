@@ -24,17 +24,25 @@ MAX_OPTIONS_BYTES: Final = 64 * 1024
 
 _ISSUE: Final = "options"
 
+_SAVE_AGAIN: Final = (
+    " Open the app's Configuration tab, save the options again, and start the app again."
+)
+"""What to do about a damaged options file: saving makes the Supervisor
+write it anew."""
+
 _READ_FAILURES: Final = {
     ReadFailure.MISSING: (
         "The app has no saved options. Open the app's Configuration tab, enter the TV's "
         "address, save, and start the app again."
     ),
-    ReadFailure.NOT_REGULAR: "The options file is not a regular file.",
-    ReadFailure.OVERSIZE: "The options file is larger than 64 KiB.",
-    ReadFailure.UNREADABLE: "The options file cannot be read.",
+    ReadFailure.NOT_REGULAR: "The options file is not a regular file." + _SAVE_AGAIN,
+    ReadFailure.OVERSIZE: "The options file is larger than 64 KiB." + _SAVE_AGAIN,
+    ReadFailure.UNREADABLE: "The options file cannot be read." + _SAVE_AGAIN,
 }
-_NOT_JSON: Final = "The options file is not valid JSON."
-_NOT_AN_OBJECT: Final = "The options file does not hold an object of option names and values."
+_NOT_JSON: Final = "The options file is not valid JSON." + _SAVE_AGAIN
+_NOT_AN_OBJECT: Final = (
+    "The options file does not hold an object of option names and values." + _SAVE_AGAIN
+)
 
 
 class OptionsFile:

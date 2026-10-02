@@ -30,6 +30,10 @@ def write(data: Path, content: bytes | str) -> Path:
     return path
 
 
+SAVE_AGAIN = " Open the app's Configuration tab, save the options again, and start the app again."
+"""Every message but the missing file's ends with what to do (D-166)."""
+
+
 def message(error: pytest.ExceptionInfo[ConfigError]) -> str:
     (issue,) = error.value.issues
     assert issue.option == "options"
@@ -70,7 +74,7 @@ def test_a_failure_is_remembered(tmp_path: Path, clock: FakeClock) -> None:
 def test_a_missing_data_directory_is_unreadable(tmp_path: Path, clock: FakeClock) -> None:
     with pytest.raises(ConfigError) as error:
         OptionsFile(tmp_path / "absent").load(deadline(clock))
-    assert message(error) == "The options file cannot be read."
+    assert message(error) == "The options file cannot be read." + SAVE_AGAIN
 
 
 def test_a_symbolic_link_is_not_followed(tmp_path: Path, clock: FakeClock) -> None:
@@ -81,7 +85,7 @@ def test_a_symbolic_link_is_not_followed(tmp_path: Path, clock: FakeClock) -> No
     (data / OPTIONS_NAME).symlink_to(target)
     with pytest.raises(ConfigError) as error:
         OptionsFile(data).load(deadline(clock))
-    assert message(error) == "The options file is not a regular file."
+    assert message(error) == "The options file is not a regular file." + SAVE_AGAIN
 
 
 def test_an_oversize_file_is_refused(tmp_path: Path, clock: FakeClock) -> None:
@@ -89,7 +93,7 @@ def test_an_oversize_file_is_refused(tmp_path: Path, clock: FakeClock) -> None:
     write(tmp_path, '{"tv_host": "10.0.0.5"}' + padding)
     with pytest.raises(ConfigError) as error:
         OptionsFile(tmp_path).load(deadline(clock))
-    assert message(error) == "The options file is larger than 64 KiB."
+    assert message(error) == "The options file is larger than 64 KiB." + SAVE_AGAIN
 
 
 @pytest.mark.skipif(os.geteuid() == 0, reason="root reads files of any mode")
@@ -98,7 +102,7 @@ def test_an_unreadable_file_is_reported(tmp_path: Path, clock: FakeClock) -> Non
     path.chmod(0)
     with pytest.raises(ConfigError) as error:
         OptionsFile(tmp_path).load(deadline(clock))
-    assert message(error) == "The options file cannot be read."
+    assert message(error) == "The options file cannot be read." + SAVE_AGAIN
 
 
 @pytest.mark.parametrize(
@@ -112,7 +116,7 @@ def test_text_that_is_not_strict_json_is_refused(
     write(tmp_path, content)
     with pytest.raises(ConfigError) as error:
         OptionsFile(tmp_path).load(deadline(clock))
-    assert message(error) == "The options file is not valid JSON."
+    assert message(error) == "The options file is not valid JSON." + SAVE_AGAIN
 
 
 @pytest.mark.parametrize("content", ["[]", '"tv_host"', "null", "3"])
@@ -123,6 +127,7 @@ def test_a_document_that_is_not_an_object_is_refused(
     with pytest.raises(ConfigError) as error:
         OptionsFile(tmp_path).load(deadline(clock))
     assert "does not hold an object" in message(error)
+    assert message(error).endswith(SAVE_AGAIN)
 
 
 def test_an_expired_deadline_stops_the_read(tmp_path: Path, clock: FakeClock) -> None:
