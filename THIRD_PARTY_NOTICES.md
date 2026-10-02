@@ -3,7 +3,7 @@
 **Status: provisional, started in Phase 2; the inventory is authoritative since Phase 6.** This file is not a release notice.
 
 - Nothing has been published. Phase 6 built the app image locally, for `aarch64` and `amd64`, from the pinned base image and the hash-pinned wheels; it was not pushed anywhere.
-- The runtime inventory below was taken in Phase 6 from the exact two Pillow runtime wheels and from the built image, for both architectures, which hold the same versions (`DECISIONS.md` D-171, proposed for the Phase 6 gate; `frame_gallery/scripts/image_inventory.py`). Entries marked **to verify** still need their licence read from upstream before any release.
+- The runtime inventory below was taken in Phase 6 from the exact two Pillow runtime wheels and from the built image, for both architectures, which hold the same versions (`DECISIONS.md` D-171, accepted at the Phase 6 gate; `frame_gallery/scripts/image_inventory.py`). Entries marked **to verify** still need their licence read from upstream before any release.
 - The complete licence texts, and the corresponding source for every copyleft component (D-135), are added before the first release. The qualified licence review (D-135) is a release gate.
 - The details and the obligations are recorded in `DECISIONS.md` (*Proposed dependency inventory*).
 

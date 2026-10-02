@@ -134,16 +134,18 @@ Authorized by the user on 2026-10-02, after the Phase 5 gate. Network access for
 - [x] Write complete installation, configuration, capability-matrix, troubleshooting, and draft dashboard documentation, with the known limitations in plain language (among them R-29: very old works can come back once they leave the 20 000-entry history) (`DOCS.md`, D-168).
 - [x] Implement `inspect` batching (§8.3, D-149), with read-only descriptors that the parent opened, where possible (Phase 5 gate decision; D-169).
 - [x] Run the Linux and root isolation tests in the container (the two passes of D-165) and the worst-case preparation measurement under the real `RLIMIT_AS`, as root. Both must pass (the condition of D-165); they are mandatory before any live test on the Green. The 1 GiB limit changes only if the measurement calls for it. *The D-130 checks, the smoke run, and both D-165 passes passed on `aarch64` and `amd64`. The measurement passed natively on `aarch64`, where the heaviest case peaks at 766 MiB of address space, so the limit stays. On `amd64` it runs here only under Rosetta, where every process carries about 278 MiB more address space and the heaviest case fails; that result is informative only (D-170).*
-- [ ] Measure the worst-case preparation natively on `amd64` under the real `RLIMIT_AS`. *Open: no native `amd64` host was available; the measurement under Rosetta is informative only (D-170). The gate decides whether and where it runs.*
+- [ ] Measure the worst-case preparation natively on `amd64` under the real `RLIMIT_AS`. *No native `amd64` host was available; the measurement under Rosetta is informative only (D-170).* **Moved to Phase 9** (Phase 6 gate): mandatory before an `amd64` version is published.
 - [x] Record the Buildx and QEMU rows (bundled with Docker Desktop, whose start the user approved on 2026-10-02 so that they can be used) and the SBOM approach (no SBOM tool is downloaded or installed without a separate approval), and propose answers to Q-06 and Q-10 (D-171, D-172).
 - [x] Run an independent review of the Phase 6 commits; fix or record every confirmed finding (8 agents; 19 of 20 findings confirmed, all fixed or recorded; *Review records* in `DECISIONS.md`).
 - [x] Update status and commit.
 
-Gate: Codex reviews Home Assistant OS/Green compatibility and security.
+Gate: Codex reviews Home Assistant OS/Green compatibility and security. **Passed** (user decision, 2026-10-03, after the Codex review and its follow-up checks): D-166 to D-172 accepted, the 1 GiB limit unchanged; the native `amd64` measurement is mandatory before an `amd64` version is published, at the latest in Phase 9; the qualified licence review and the enforcement of the AppArmor profile stay release prerequisites (`DECISIONS.md`, *Phase 6 gate decision*).
 
 ## Phase 7 — Offline release validation
 
 Owner: Codex and Claude
+
+Authorized by the user on 2026-10-03, after the Phase 6 gate: offline validation with the existing local environments and container images, failure-path tests, and a release-candidate report. No new features, and no additional review loops without a concrete finding. No access to the Green, the television, or a provider API; nothing created, pushed, or published on GitHub.
 
 - [ ] Run full unit, integration, lint, type, timing, and container tests.
 - [ ] Verify no excluded predecessor material is present.
@@ -165,7 +167,7 @@ Owner: Codex with user supervision
 - [ ] Select and document one proven preview refresh mechanism. Verify, in repeated live tests covering card-started, automation-started, app-page-started, and no-match runs, that each newly delivered image is shown without a stale browser cache (release-blocking).
 - [ ] Verify history, the upload ledger, cleanup, finite stop within 120 s (no-match within 70 s), the loading indicator, and no stale temporary files.
 - [ ] Record the entity IDs and the proven refresh mechanism. Complete the dashboard card, script, and timer, except for the public slug.
-- [ ] Remove or retain the development installation only as directed by the user.
+- [ ] Remove or retain the development installation only as directed by the user. If it is removed, confirm that its `/data` folder goes with it, the reset path of D-172 (Q-06).
 
 Gate: user approves release hardening, public publication, and final name.
 
@@ -173,7 +175,8 @@ Gate: user approves release hardening, public publication, and final name.
 
 Owner: Codex and Claude
 
-- [ ] Switch the AppArmor profile to enforce mode and verify the whole isolation design, with an approved supervised live re-check.
+- [ ] Switch the AppArmor profile to enforce mode and verify the whole isolation design, with an approved supervised live re-check; add the per-worker child profiles (R-31), and revisit an unprivileged parent with them (Q-10, D-172). The enforcement is a release prerequisite (Phase 6 gate).
+- [ ] Measure the worst-case preparation natively on `amd64` under the real `RLIMIT_AS` (`scripts/measure_prepare.py`, as root). Mandatory before an `amd64` version is published (Phase 6 gate, D-170).
 - [ ] Create the user-approved public repository under `volkue-tech`.
 - [ ] Complete the qualified licence review (D-135) as a release gate: `samsungtvws` (LGPL-3.0), Pillow's fribidi-shim (LGPL-2.1-or-later; the runtime wheels contain neither `libimagequant` nor FriBiDi, D-171), the Alpine base packages, the tools outside apk (s6-overlay, tempio, bashio; R-33), and the exact form of libmd's "Public Domain" part.
 - [ ] Add the Apache-2.0 licence for project-owned code, and third-party notices with the GPL and LGPL texts and copyleft source availability.

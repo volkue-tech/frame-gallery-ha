@@ -12,9 +12,9 @@ Status: **Revision 2, with final gate corrections.**
 - The Phase 3 gate passed on 2026-09-27 (user decision). D-146 to D-152 are accepted, and Q-25 is resolved with option (a): the first beta ships without a colour filter, and the Art Institute supports only the period filter. §1, §9.2, §9.3, §15.1, §22.1, §23, and Appendix A are amended to match.
 - Phase 4 (bounded state and duplicate prevention) is implemented, and its gate passed on 2026-09-27 (user decision). D-153 to D-159 are accepted, and the 20 000-entry bound is accepted for the first beta (R-29). §4.1, §4.2, §5, §9.1, §12.4, §13.2 to §13.6, §14, §21, §22.1, §23, and Appendix A are amended to match. Phase 5 is authorized (§23).
 - Phase 5 (Samsung adapter contract) is implemented, and its gate passed on 2026-10-02 (user decision, after the Codex gate review). D-160 to D-164 are accepted. D-165 is accepted on the condition that the Linux and root isolation tests and the worst-case preparation measurement under the real `RLIMIT_AS` pass in Phase 6; they are mandatory before any live test on the Home Assistant Green. Art API 0.97 stays unsupported in the beta, TLS pinning is decided after the TV's certificate is observed in Phase 8, `inspect` gets parent-opened read-only descriptors (where possible) and batches in Phase 6, the 1 GiB image-worker limit stays until the Linux measurement, and AppArmor child profiles stay in Phase 9. §4.2, §4.3, §5, §7.2, §11.1, §11.3, §12.1, §12.2, §12.4, §13.1, §13.6, §14, §17.6, §18.1, §20.4, §21, §23, §24, and Appendix A are amended to match. Phase 6 is authorized (§23).
-- Phase 6 (Home Assistant app packaging) is implemented and stopped at its gate; its decisions D-166 to D-172 await the gate. At the user's request (2026-10-03), the Pillow statements in §17.2, §23, and §24 are corrected before the gate to the authoritative inspection of the exact runtime wheels (D-171): neither `libimagequant` nor FriBiDi is in them. The other Phase 6 amendments follow the gate.
+- Phase 6 (Home Assistant app packaging) is implemented, and its gate passed on 2026-10-03 (user decision, after the Codex review and its follow-up checks). D-166 to D-172 are accepted, with the 1 GiB image-worker limit unchanged. The native `amd64` memory measurement is mandatory before an `amd64` version is published, at the latest in Phase 9; the qualified licence review and the enforcement of the AppArmor profile stay release prerequisites. Before the gate, at the user's request (2026-10-03), the Pillow statements in §17.2, §23, and §24 were corrected to the authoritative inspection of the exact runtime wheels (D-171): neither `libimagequant` nor FriBiDi is in them. §4.3, §5, §8.3, §9.3, §11.1, §11.3, §15.1, §15.4, §16.3, §17.1 to §17.6, §21, §22.2, §23, §24, and Appendix A are amended to match. Phase 7 is authorized (§23).
 
-Date: 2026-09-26 (Phase 3 and Phase 4 amendments: 2026-09-27; Phase 5 amendments: 2026-10-02; Phase 6 corrections of the Pillow statements: 2026-10-03)
+Date: 2026-09-26 (Phase 3 and Phase 4 amendments: 2026-09-27; Phase 5 amendments: 2026-10-02; Phase 6 amendments: 2026-10-03)
 Author: Claude (Phase 1 owner)
 
 This document is documentation only. The YAML fragments, signatures, and pseudo-code below illustrate interfaces and configuration *shape*. They are not application code. Everything is authored and tested in the phases that follow approval.
@@ -256,6 +256,8 @@ START ─► CONFIGURE ─► RESOLVE_FILTERS ─► SELECT ─► ┌─ ATTEMP
 
 There is no `asyncio` and no concurrent provider requests (D-106).
 
+*Amended at the Phase 6 gate (D-166).* The entry point builds **one** process executor, which the runner, the local inspection, the Samsung adapter, and the watchdog share. Worker starts are shielded: a stop request waits until a start is complete. The runner arms the watchdog with its own `RunBudget`; when the watchdog fires, it emits the only summary line, and the entry point waits for its exit (71) instead of returning an exit code. On Linux the app refuses to run unless the isolation is enforced (the parent is root, and every worker drops to 65534 with every limit and the parent-death signal); it then ends as `internal_error` with exit code 70, before it contacts anything.
+
 ---
 
 ## 5. Component boundaries
@@ -278,6 +280,8 @@ The package name follows the accepted provisional identifier `frame_gallery` (D-
 | `logs` | Parent and worker logging, redaction, summary line | stdlib | Emit bodies, headers, or query strings |
 
 Third-party imports are confined to the `imaging` and `tv` worker tasks and to `net.transport`. An import-boundary check enforces this (D-107). "stdlib" in the table means "no third-party packages"; the permitted internal dependencies that Phase 2 added (for example `budget.watchdog` using `logs.summary`) are recorded in D-141.
+
+*Amended at the Phase 6 gate (D-166).* `__main__` is the composition root, and the only module that imports the real network transport and the process executor. New modules: `app/networks.py` (the container's networks, from the kernel's IPv4 route table) and `store/options_file.py` (the options file).
 
 *Amended at the Phase 5 gate (D-162, D-163).* New modules: `tv/contract.py`, `tv/samsung.py`, `tv/samsung_task.py`, and `tv/token_store.py`; `isolation/framing.py`, `isolation/launch.py`, `isolation/process.py`, `isolation/bootstrap.py`, and `isolation/worker_main.py`. New internal dependencies: `tv.contract`, `tv.samsung`, and `tv.samsung_task` use `isolation.executor`; `tv.samsung`, `tv.samsung_task`, and `tv.token_store` use `logs.redact`, and `tv.samsung` also `logs.summary`; `tv.token_store` uses `store.atomic`; `tv.samsung_task` uses `imaging.contract`; `isolation.bootstrap` uses `logs.redact`; `isolation.process` uses `budget.clock` and `logs.summary`; `isolation.launch` names the worker task modules only as strings. There is no cycle. Besides `net.transport`, `tv/samsung_task.py` imports `socket`, only for its connect guard (amends D-147). `subprocess` and `select` are allowed only in `isolation/process.py`, and `ctypes` only in the bootstrap.
 
@@ -450,6 +454,8 @@ if strict_tv_format and fallback_permitted: fill the shortlist from fallbacks, b
 - **Probes.** A *probe* is one remote request made only to learn an image's dimensions. Probes are capped at 30 per run (Q-20, resolved). No beta source needs them: the Art Institute documents native image sizes in its Images resource, and Cleveland documents the size of its print JPEG (§9.5, §9.6). The allowance is still enforced and tested with a counting fake gateway (acceptance item `C4`).
 - **Local header inspections** run in the isolated `inspect` worker, in batches of at most 50, against their own allowance of 300.
 
+*Amended at the Phase 6 gate (D-169).* A batch holds at most **16** files, because each descriptor counts against the worker's `RLIMIT_NOFILE` of 32. The parent opens each library file read-only, without following a link, and passes the descriptor only if the file still has the identity the scan saw; the worker never opens a library path. Each file still has 2 s, and a file whose worker stops, crashes, or times out fails alone: the files after it go to a new worker. Selection charges each candidate to the allowance when it arrives, lets it wait until 16 are waiting, a candidate with known dimensions arrives, or the pass ends, and ranks the batch in the original order, so the shortlist is the one a file-by-file pass would build.
+
 ---
 
 ## 9. Provider adapters
@@ -538,6 +544,8 @@ The option descriptions name the sources each filter applies to (acceptance item
   3. the fingerprints of the last 10 previews, kept in `current.json`, are skipped.
 - **Rights basis.** `USER_SUPPLIED`.
 - **Filters.** Only landscape-only, strict 16:9, and fit apply. A valid department or period key is ignored and reported as unsupported (§9.2, B8). A value that matches no key, label, or alias, and is not a no-filter term, is invalid (§15.1, B5).
+
+*Amended at the Phase 6 gate (D-169).* The aggregated WARNING is logged once selection is done, through `ProviderBinding.after_discovery`, so that the files of the last inspection batch count too.
 
 ### 9.4 Provider access findings (Phase 1 research)
 
@@ -700,6 +708,8 @@ Steps 2 to 9 run only in the `prepare` worker.
 
 *Amended at the Phase 5 gate (R-09).* The measurement on the development host, without `RLIMIT_AS`, does not confirm the estimate: progressive JPEGs need the most, up to 839 MiB resident for a 64 MP progressive CMYK panorama in `cover`. The 1 GiB limit stays. Any change is decided only from the measurement under the real limit in the Linux container (Phase 6), which must pass before any live test on the Green (D-165).
 
+*Amended at the Phase 6 gate (D-170).* Measured under the real 1 GiB `RLIMIT_AS` in the `aarch64` container, as root with workers at 65534: all 13 worst cases succeed; the heaviest, the 64 MP progressive CMYK panorama in `cover`, peaks at 766 MiB of address space (754 MiB resident) in 1.4 s. **The 1 GiB limit stays.** Under Rosetta (`amd64` on the development host) every process carries about 278 MiB more address space, and that case fails; Pillow reports the failed allocation as a broken data stream, so it counts as `decode` (a known limitation). The native `amd64` measurement is mandatory before an `amd64` version is published, at the latest in Phase 9; Phase 8 repeats the measurement on the Green.
+
 ### 11.2 Fit geometry (pure, table-tested)
 
 - **`contain`** (default): `s = min(W/w, H/h)`, centred on `background_color` (`#000000`). Every source pixel is present.
@@ -756,6 +766,8 @@ It then computes the SHA-256 itself.
 - **Workspace** (D-164). With a worker group, `frame-gallery/` and `run-*/` are 0710, `in/` 2750, and `out/` 2770, all in that group, and checked after creation. Downloads and local copies are 0640.
 - **`inspect`.** From Phase 6, the parent opens each library file and passes the read-only descriptor to the worker where possible, and `inspect` runs in batches (§8.3).
 - **Verification** (D-165). The root-only and Linux-only checks, and the worst-case measurement under the real `RLIMIT_AS`, run in the Phase 6 container. They must pass there, and they are mandatory before any live test on the Green.
+
+*Amended at the Phase 6 gate (D-169, D-170).* `inspect` gets parent-opened, read-only descriptors (at most 16 per worker), never a path, so the worker at 65534 can measure every file the app can open: the limitation of D-164, that it could read only files readable by others, is resolved, and the `inspect` row of the table above holds at most 16 files. The Linux and root checks passed in the Phase 6 container on both architectures, and the measurement under the real `RLIMIT_AS` on `aarch64`, so the condition of D-165 is met.
 
 **Implementation order (D-139).**
 
@@ -1013,6 +1025,7 @@ Tests cover failure injection at every stage (`F1`, `F2`), byte bounds over repe
 - **Not options:** there is no time-limit option (§7.2) and no library-path option (§9.3).
 - **Descriptions** in `translations/en.yaml` state which sources each filter applies to (§9.2).
 - *Amended at the Phase 3 gate (D-146, D-152; Q-25, option (a)).* Vocabulary version 1 ships no `aic_…`, `style_…`, or `color_…` key. A value that matches no key, label, or alias of the option, and is not a no-filter term (`any`, `all`, `random`, `none`, or an empty value), is rejected as invalid (B5); as a helper value it falls back to the static value. A valid key that the selected source does not support is reported as unsupported (B8). Before the gate, the rows read: department `list(any|aic_…|cma_…)`, style "Style (Art Institute only) or period (both museums)", and colour "Dominant colour (Art Institute only)".
+- *Amended at the Phase 6 gate (D-166, D-168).* The options are read once per run from `/data/options.json`, below the `/data` anchor, without following a link, at most 64 KiB, as strict JSON; anything else ends the run as `config_invalid`, with a message that says what to do. `config.yaml` and `translations/en.yaml` are written by `scripts/app_config.py` from the app's own definitions, and a test checks every offered value and pattern against the app's parser. `log_level: debug` raises the app's own loggers once the options are read.
 
 ### 15.2 Filter vocabularies (D-124, D-146)
 
@@ -1043,6 +1056,8 @@ Helpers are read only when at least one `*_helper` option is set.
 - **Rejected.** `169.254/16` link-local addresses; loopback, unspecified, multicast, and broadcast addresses; the container's own interface networks, determined at run time. These include the Supervisor's internal app network, which keeps the TV client and its token away from internal services.
 - **Use.** No DNS is involved. The validated literal goes to the TV worker.
 - **Failure** gives `config_invalid`.
+
+*Amended at the Phase 6 gate (D-166).* The container's networks come from the kernel's IPv4 route table, `/proc/net/route`: every route except the default one names a network the container reaches. On Linux a table that is missing, oversized, or not in the kernel's form fails closed as `config_invalid`, because this rule and the helper reader's token rule (D-148) depend on it.
 
 ---
 
@@ -1135,6 +1150,8 @@ The evidence and the choice are recorded under R-07 and D-140. §13.5 then follo
 
 **Scheduling.** The documentation includes a UI automation example that runs the same script on a schedule.
 
+*Amended at the Phase 6 gate (D-168).* `DOCS.md` holds the draft as copy-and-paste YAML: the script, the card, and the scheduling example, with the expected entity IDs `camera.frame_gallery_preview`, `binary_sensor.frame_gallery_running`, `timer.frame_gallery_run`, and `script.frame_gallery_new_artwork`, and the app ID `local_frame_gallery` of a local copy. Every entity ID is marked as expected until Phase 8 confirms it, and the freshness mechanism is still open (D-140).
+
 ---
 
 ## 17. Home Assistant packaging
@@ -1177,6 +1194,8 @@ schema:  { … §15.1 … }
 
 With the custom AppArmor profile, the security rating is 6.
 
+*Amended at the Phase 6 gate (D-168).* `config.yaml` is written by `scripts/app_config.py`, with the version `0.1.0.dev0`. No `url` and no `image` are set before the release: until images are published (Phase 9), the Supervisor builds the app on the device from the Dockerfile, which needs the same network sources as the development build (R-32); Phase 8 settles the install route (Q-21).
+
 ### 17.2 Container image (D-130)
 
 - **Base image.** `ghcr.io/home-assistant/base`, pinned by tag and digest, with `init: false`.
@@ -1197,6 +1216,16 @@ With the custom AppArmor profile, the security rating is 6.
   - The OCI licenses label is omitted.
 - **Notices.** All license texts, including the GPL and LGPL texts of the image's copyleft components (the Alpine packages, `samsungtvws`, and Pillow's fribidi-shim; D-171); the IJG and FreeType acknowledgements; the OS-package list from the image's inventory (R-17); and copyleft source availability (D-135). Apache-2.0 covers only the project-owned code, not the whole image (D-102).
 
+*Amended at the Phase 6 gate (D-167, D-170, D-171).*
+
+- **Base and interpreter.** `ghcr.io/home-assistant/base:3.24-2026.08.0`, pinned by digest (Alpine 3.24.1, s6-overlay 3.2.3.0), and Alpine's `python3=3.14.8-r0`.
+- **Stages.** `base`, `python`, `builder`, `app`, `test` (never published), and `runtime`, which is `app` and the last stage, so a build without a target, as the Supervisor makes it, produces the app image. The app image holds no pip, no wheel, and no build tool.
+- **Only PyPI.** The venv is filled with `PIP_CONFIG_FILE=/dev/null pip --isolated … --require-hashes --no-deps --only-binary=:all:` from per-platform requirement files that `scripts/image_requirements.py` writes from the lock (`requirements/image-runtime.txt`, `image-test.txt`; amends D-142).
+- **Labels.** `BUILD_ARCH` and `BUILD_VERSION` are required, with no fallback to `TARGETARCH`; with BuildKit, `BUILD_ARCH` must match the platform being built (amends D-130 and the bullet above). The app sets its own OCI title, description, and version, and clears the base image's OCI source and build time.
+- **The D-130 checks** passed on both architectures: (a) as above; (b) as worded; (c) only with `S6_CMD_RECEIVE_SIGNALS=1`, because s6-overlay otherwise kills the command 3 s after a stop request; (d) only with `with-contenv` in `CMD`, because s6 resets the command's environment. The plain-Alpine fallback is not used.
+- **The exact `python3` pin** stops resolving once Alpine replaces the package, which breaks later builds, a Supervisor build on the Green included; the packages it pulls in are not pinned (R-32).
+- **Inventory.** `scripts/image_inventory.py` records, inside the image and without an SBOM tool, every Alpine package, the components outside apk, every Python distribution, and Pillow's bundled libraries, held to the wheel's `RECORD` (D-171). The licences of s6-overlay, tempio, and bashio are still to be read from upstream (R-33).
+
 ### 17.3 Build, development install, and release gates
 
 - **Builds.** Docker Buildx builds both platforms. Releases use the Home Assistant builder actions and are signed with Cosign (Phase 9).
@@ -1211,12 +1240,16 @@ With the custom AppArmor profile, the security rating is 6.
   - The **qualified licence review** is complete (D-135, R-25), covering the GPL-3.0-or-later and LGPL components in the image.
   - Enforce-mode AppArmor and the verified privilege drop from Phase 9 are in place.
 
+*Amended at the Phase 6 gate (D-170).* `scripts/container_check.sh` builds and checks both platforms locally: the D-130 checks, the inventory, a smoke run, and the two test passes of D-165. The release gates add the native `amd64` memory measurement, mandatory before an `amd64` version is published (at the latest in Phase 9); the licence review and the enforce-mode AppArmor profile stay release prerequisites.
+
 ### 17.4 Presentation and installation
 
 - `README.md`, plus `DOCS.md` with the capability matrix, dashboard YAML, and acknowledgements, plus `CHANGELOG.md`.
 - Original `icon.png` and `logo.png`.
 - `translations/en.yaml`, with each filter description stating which sources it applies to.
 - The one-click repository link is `https://my.home-assistant.io/redirect/supervisor_add_addon_repository/?repository_url=<encoded URL>`.
+
+*Amended at the Phase 6 gate (D-168, D-172).* `DOCS.md` covers installation, the first start and pairing, the options with the capability matrix, the user's own images, the draft dashboard (§16.3), the outcomes of the log line, the known limitations in plain language, starting over (Q-06), privacy, and the licences. The icon and logo are original geometric drawings, made by `scripts/app_images.py` without fonts or trademarks.
 
 ### 17.5 Runtime environment
 
@@ -1227,6 +1260,8 @@ With the custom AppArmor profile, the security rating is 6.
 | Time | UTC. |
 | SIGTERM | See §7.6. |
 | User | The parent runs as root. Workers run as user 65534 (§11.3). An unprivileged parent is evaluated later (Q-10). |
+
+*Amended at the Phase 6 gate (D-166, D-172).* The token is registered with the redactor whether or not it is kept, and so is the legacy `HASSIO_TOKEN`. On Linux the app refuses to run unless the isolation is enforced (§4.3). An unprivileged parent is not in the beta (Q-10): the parent needs the six capabilities of §17.6 to drop the workers and hand them the workspace; the question is revisited in Phase 9 with the per-worker AppArmor child profiles.
 
 ### 17.6 Required AppArmor policy (D-129; enforced in Phase 9)
 
@@ -1241,6 +1276,8 @@ With the custom AppArmor profile, the security rating is 6.
 | Capabilities | Only what the privilege drop and worker management need (expected: `setuid`, `setgid`, `chown`, `kill`), plus what the s6 base needs; recorded from complain mode |
 
 *Amended at the Phase 5 gate (R-31).* Phase 9 adds AppArmor child profiles per worker (the image worker without network; the television worker with TCP only); the inherited (`ix`) spawn rule for the workers is revisited then.
+
+*Amended at the Phase 6 gate (D-168).* The draft `apparmor.txt` (complain mode) names six capabilities: `setuid` and `setgid` (the drop to 65534), `chown` and `fsetid` (the workspace handed to the worker's group, without losing the setgid bit), `dac_read_search` (the parent reads what a worker wrote), and `kill`. It also allows UNIX stream sockets, which s6-overlay presumably uses; the Phase 8 complain log shows whether that is needed. Its syntax is checked (`apparmor_parser -Q -T`, Codex's follow-up check at the Phase 6 gate); its enforcement is not. Phase 8 reads what it would refuse on the Green, and Phase 9 enforces and verifies it, a release prerequisite.
 
 **Sequencing (D-139).**
 
@@ -1365,6 +1402,8 @@ frame_gallery/                      # app directory = Docker build context
 
 *Amended at the Phase 5 gate (D-162, D-163; R-09, D-165).* `tv/` also holds `contract` and `samsung`, and `isolation/` also `framing`, `launch`, and `worker_main`; `scripts/` also holds `measure_prepare.py`, the R-09 measurement.
 
+*Amended at the Phase 6 gate (D-166 to D-171).* `app/` also holds `networks`, and `store/` also `options_file`; `requirements/` also holds `image-runtime.txt` and `image-test.txt`; `scripts/` also holds `image_requirements.py`, `image_inventory.py`, `app_config.py`, `app_images.py`, and `container_check.sh`.
+
 ---
 
 ## 22. First public beta: scope
@@ -1395,10 +1434,10 @@ frame_gallery/                      # app directory = Docker build context
 - Remote-probe machinery.
 - Matte selection.
 - Helper auto-provisioning.
-- An unprivileged parent process (Q-10).
+- An unprivileged parent process (Q-10; not in the beta, D-172).
 - A configurable library folder.
 - Local colour and style filters.
-- History reset (Q-06).
+- History reset (Q-06; reinstalling is the reset, D-172).
 - Additional CPU architectures, only if Home Assistant adds them.
 
 ### 22.3 Excluded or not planned
@@ -1420,10 +1459,10 @@ The vertical slice makes the core behaviour testable before packaging hardening.
 | 3: provider adapters | `net` gateway; `providers.local_media`, `providers.aic`, `providers.cma` with fake and synthesized fixtures, after a live-documentation re-check; **`ha` helper-override client** (≤ 4 reads, static fallback; acceptance items `B3`–`B5`); vocabularies; contract suite; `urllib3` and `certifi` added to the notices | Approved by the user on 2026-09-27: Q-14 and Q-22 resolved, the `urllib3` and `certifi` rows approved, no observation requests. **Gate passed** on 2026-09-27: D-146 to D-152 accepted, Q-25 resolved with option (a) |
 | 4: bounded state and duplicate prevention | `store`: atomic primitive, history, **upload ledger and quarantine**, cache, workspace, preview publisher, run records, cleanup and sweep. PRE-STAGE, RECORD, and PUBLISH completed in the runner. `E7`–`E10` tested against a fake TV port that emits markers | — (Q-23 and D-113 accepted). **Gate passed** on 2026-09-27: D-153 to D-159 accepted; the 20 000-entry bound accepted for the first beta (R-29) |
 | 5: Samsung adapter contract | Adapter surface from the **installed** `samsungtvws` 3.0.6 only; process executor with the complete §11.3 bootstrap (privilege drop, rlimits, bytes channel, markers); TV worker; token store; mocked and double tests; `E7`–`E10` re-run with the process-based TV worker; worst-case prepare memory and time measured on the development host without `RLIMIT_AS` (under the real limit: moved to Phase 6, D-165) | The `samsungtvws` row and its LGPL-3.0 obligations (D-135). **Authorized** by the user on 2026-09-27, after the Phase 4 gate: first check and document the version and the LGPL-3.0 obligations of `samsungtvws` 3.0.6, then build the executor and the adapter against simulations; the pinned version may be installed from PyPI into the git-ignored environment. The dependency row is recorded in Phase 5 and confirmed at the Phase 5 gate. **Gate passed** on 2026-10-02: D-160 to D-164 accepted; D-165 accepted on the condition that the Linux and root checks and the measurement under the real `RLIMIT_AS` pass in Phase 6 |
-| 6: Home Assistant app packaging | `config.yaml`; Dockerfile; translations; `DOCS.md`; draft dashboard YAML; complain-mode `apparmor.txt`; container tests; D-130 checks a–d. *Added at the Phase 5 gate:* `inspect` batches, with parent-opened read-only descriptors where possible (D-149, D-164); the Linux and root checks and the worst-case measurement under the real `RLIMIT_AS` (the condition of D-165) | Pulling the base image; Q-06, Q-10; the Buildx, QEMU, and SBOM-tool rows; the authoritative Pillow runtime-wheel inspection, including verification of the remaining `pillow.libs` entries (mandatory before packaging or publication). **Authorized** by the user on 2026-10-02, after the Phase 5 gate, with separate approvals for starting Docker Desktop, pulling `ghcr.io/home-assistant/base` (pinned by tag and digest), the Alpine package source for `python3`, and PyPI for the hash-checked runtime wheels and test tools. |
-| 7: offline release-candidate validation | Full gate run; provenance and license audit; failure-path exercises; release-candidate report | — (gate: the user approves the live test) |
+| 6: Home Assistant app packaging | `config.yaml`; Dockerfile; translations; `DOCS.md`; draft dashboard YAML; complain-mode `apparmor.txt`; container tests; D-130 checks a–d. *Added at the Phase 5 gate:* `inspect` batches, with parent-opened read-only descriptors where possible (D-149, D-164); the Linux and root checks and the worst-case measurement under the real `RLIMIT_AS` (the condition of D-165) | Pulling the base image; Q-06, Q-10; the Buildx, QEMU, and SBOM-tool rows; the authoritative Pillow runtime-wheel inspection, including verification of the remaining `pillow.libs` entries (mandatory before packaging or publication). **Authorized** by the user on 2026-10-02, after the Phase 5 gate, with separate approvals for starting Docker Desktop, pulling `ghcr.io/home-assistant/base` (pinned by tag and digest), the Alpine package source for `python3`, and PyPI for the hash-checked runtime wheels and test tools. **Gate passed** on 2026-10-03: D-166 to D-172 accepted, the 1 GiB limit unchanged; the native `amd64` measurement is mandatory before an `amd64` version is published, at the latest in Phase 9 |
+| 7: offline release-candidate validation | Full gate run; provenance and license audit; failure-path exercises; release-candidate report | **Authorized** by the user on 2026-10-03, after the Phase 6 gate: offline only, with the existing local environments and container images; no new features; no access to the Green, the TV, a provider API, or GitHub; nothing published (gate: the user approves the live test) |
 | 8: supervised Home Assistant Green and TV validation | Checklist: install via Q-21; the TV at the user's test value `192.168.178.30`, entered in the options and never hard-coded; **Q-16** (connectivity without `host_network`); **preview freshness, with one mechanism proven over repeated tests (card-started, automation-started, app-page-started, and `no_match` runs) and documented (D-140)**; entity IDs for the card (everything except the public slug); Q-05, Q-07, Q-09, Q-19 (including a mistyped slug); R-09, R-21; a backup without `tv/`; *added at the Phase 5 gate:* the TV's certificate, observed for the TLS-pinning decision (R-03), and its art API version (D-162) | **Explicit user approval**; Q-21 (install route); the Linux and root checks and the worst-case measurement under the real `RLIMIT_AS` have passed in Phase 6 (the condition of D-165) |
-| 9: AppArmor, release hardening, public beta | Enforce-mode AppArmor and verification of the isolation design (with an approved live re-check); AppArmor child profiles per worker (R-31; confirmed for Phase 9 at the Phase 5 gate); notices and SBOM; CI; signed multi-architecture images; one-click link; the dashboard card finalized with the public slug (Q-13); release notes; release gates (§17.3) | D-101 (name), Q-13; the builder-action and Cosign rows; publication approval |
+| 9: AppArmor, release hardening, public beta | Enforce-mode AppArmor and verification of the isolation design (with an approved live re-check); AppArmor child profiles per worker (R-31; confirmed for Phase 9 at the Phase 5 gate), with an unprivileged parent revisited (Q-10, D-172); the native `amd64` worst-case measurement under the real `RLIMIT_AS`, mandatory before an `amd64` version is published (Phase 6 gate); notices and SBOM; CI; signed multi-architecture images; one-click link; the dashboard card finalized with the public slug (Q-13); release notes; release gates (§17.3) | D-101 (name), Q-13; the builder-action and Cosign rows; publication approval |
 
 ---
 
@@ -1435,7 +1474,7 @@ The vertical slice makes the core behaviour testable before packaging hardening.
 - **R-07 / D-140.** Preview freshness is release-blocking, and its mechanism is unproven until Phase 8.
 - **R-06 / Q-09.** The Running sensor's latency is undocumented. The normative 150 s timer indicator does not depend on it.
 - **R-22.** Neither museum documents that its provider identifiers are stable.
-- **R-25 / D-135.** *Corrected in Phase 6 (D-171):* the exact runtime wheels contain neither `libimagequant` nor FriBiDi (proposed: close R-25). The runtime is still not GPL-free: its Alpine packages include GPL components, and Pillow's fribidi-shim is LGPL-2.1-or-later. The qualified licence review is a release gate.
+- **R-25 / D-135.** *Corrected in Phase 6 (D-171):* the exact runtime wheels contain neither `libimagequant` nor FriBiDi (R-25 is closed with D-171 at the Phase 6 gate). The runtime is still not GPL-free: its Alpine packages include GPL components, and Pillow's fribidi-shim is LGPL-2.1-or-later. The qualified licence review is a release gate.
 
 ---
 
@@ -1490,10 +1529,10 @@ All research was read-only. It used public documentation pages, package-index me
 | A1 | Repository addable via the UI or a one-click link | §17.4 | Phase 9 live |
 | A2 | Green discovers the app without SSH | §17 | Phase 8/9 live |
 | A3 | Green installs the pre-built `aarch64` image | §17.2, §17.3 | Phase 9 live |
-| A4 | `amd64` image built from the same source | §17.2, §17.3 | Phase 6 build and label test; Phase 9 CI |
+| A4 | `amd64` image built from the same source | §17.2, §17.3 | Phase 6 build and label test (passed on both architectures, D-170); Phase 9 CI |
 | A5 | No `configuration.yaml` change | §15, §16.3, §17 | Documentation review; Phase 8 |
 | A6 | Understandable option names | §15.1, §17.4 | Translation review; Phase 8 |
-| B1 | A missing TV IP prevents start | §15.1, §15.4 | Unit; Phase 8 |
+| B1 | A missing TV IP prevents start | §15.1, §15.4 | Unit; `tv_host` has no default in `config.yaml` (D-168); Phase 8 |
 | B2 | Static filters work without helpers, for the filters the selected source supports (capability matrix) | §9.2, §15 | Unit + integration |
 | B3 | A valid helper overrides the static value | §15.3 | Component |
 | B4 | A missing or unavailable helper falls back | §15.3 | Component |
@@ -1546,7 +1585,7 @@ All research was read-only. It used public documentation pages, package-index me
 | H1 | Every bounded loop and fallback is unit-tested | §20.4 | Branch gate |
 | H2 | No live services in integration tests | §20.1 | Socket guard |
 | H3 | No secrets in logs | §18, §19 | Redaction tests (parent and workers) |
-| H4 | Licenses and notices are complete | Inventory; §17.3 | Inventory check as a publish gate |
+| H4 | Licenses and notices are complete | Inventory; §17.3 | The image's own inventory (D-171); inventory check as a publish gate |
 | H5 | No predecessor material | §2.1, §20.3 | Phase 7 provenance review |
 | H6 | License approved before publication | D-102 (accepted) | Gate |
 | H7 | Live run only after approval | §23 | Gate |
