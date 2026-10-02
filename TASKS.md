@@ -135,8 +135,8 @@ Authorized by the user on 2026-10-02, after the Phase 5 gate. Network access for
 - [x] Implement `inspect` batching (§8.3, D-149), with read-only descriptors that the parent opened, where possible (Phase 5 gate decision; D-169).
 - [x] Run the Linux and root isolation tests in the container (the two passes of D-165) and the worst-case preparation measurement under the real `RLIMIT_AS`, as root. Both must pass (the condition of D-165); they are mandatory before any live test on the Green. The 1 GiB limit changes only if the measurement calls for it. *The D-130 checks, the smoke run, and both D-165 passes passed on `aarch64` and `amd64`. The measurement passed natively on `aarch64`, where the heaviest case peaks at 766 MiB of address space, so the limit stays. On `amd64` it runs here only under Rosetta, where every process carries about 278 MiB more address space and the heaviest case fails; that result is informative only (D-170).*
 - [x] Record the Buildx and QEMU rows (bundled with Docker Desktop, whose start the user approved on 2026-10-02 so that they can be used) and the SBOM approach (no SBOM tool is downloaded or installed without a separate approval), and propose answers to Q-06 and Q-10 (D-171, D-172).
-- [ ] Run an independent review of the Phase 6 commits; fix or record every confirmed finding.
-- [ ] Update status and commit.
+- [x] Run an independent review of the Phase 6 commits; fix or record every confirmed finding (8 agents; 19 of 20 findings confirmed, all fixed or recorded; *Review records* in `DECISIONS.md`).
+- [x] Update status and commit.
 
 Gate: Codex reviews Home Assistant OS/Green compatibility and security.
 

@@ -1,10 +1,10 @@
 # Project status
 
-Last updated: 2026-10-02 (Phase 6 in progress)
+Last updated: 2026-10-02 (Phase 6 implemented; stopped at the Phase 6 gate)
 
 ## Current phase
 
-**Phase 6 (Home Assistant app packaging): in progress. The user authorized it on 2026-10-02, after the Phase 5 gate passed.**
+**Phase 6 (Home Assistant app packaging): implemented. Work has stopped at the Phase 6 gate for the Codex review (Home Assistant OS/Green compatibility and security). The user authorized Phase 6 on 2026-10-02, after the Phase 5 gate passed. Phase 7 does not start before it is explicitly authorized.**
 
 - **Phase 5 gate (user decision, 2026-10-02, after the Codex gate review):** passed. D-160 to D-164 are accepted. D-165 is accepted on the condition that the Linux and root isolation tests and the worst-case preparation measurement under the real `RLIMIT_AS` run successfully in Phase 6; they are mandatory before any live test on the Green. Art API 0.97 stays unsupported in the beta; TLS pinning is decided after the TV's certificate is observed in the supervised Phase 8 test; `inspect` gets parent-opened read-only descriptors, where possible, and batching in Phase 6; the 1 GiB limit stays until the Linux measurement; AppArmor child profiles stay in Phase 9.
 - **Phase 6 conditions:** only Phase 6 of `TASKS.md`: the app packaging for Home Assistant OS and the Green, the entry point, the options, the multi-architecture container, tests, the authoritative inventory of the exact Pillow runtime wheels, and plain-language installation and dashboard documentation. The complete quality gates and the Linux, root, and memory checks run. Findings and open risks are documented, the commits are small, and the work stops at the Phase 6 gate for the Codex review.
@@ -38,7 +38,44 @@ Last updated: 2026-10-02 (Phase 6 in progress)
 | 19. Review fix: every options-file message says what to do | `1af2b26` |
 | 20. Review fix: the app image is the last stage and holds no pip (two high) | `9f8984c` |
 | 21. Review fix: the AppArmor draft names the parent's six capabilities | `26d2284` |
-| 22. Decisions, notices, tasks, and documentation after the review | this commit |
+| 22. Decisions, notices, tasks, and documentation after the review | `79dc8f7` |
+| 23. Status and the final results for the gate | this commit |
+
+### Phase 6 results (for the gate)
+
+**Implemented** (D-166 to D-171, proposed):
+
+- *Entry point* (D-166): `python -m frame_gallery` builds the production ports and runs once: the deferred cancellation before the SIGTERM handler, the environment reduced before anything runs, the token kept only with helpers, logging through the redactor, one process executor with a start shield, the refusal to run unless the isolation is enforced (exit 70), the watchdog at `T` + 10 s (exit 71), the options file (64 KiB, strict JSON, every failure with a remedy), the container's networks from `/proc/net/route` (fail closed on Linux), and the preview fingerprints read without changing state.
+- *Container image* (D-167): the pinned Home Assistant base (Alpine 3.24.1, s6-overlay 3.2.3.0); Alpine's `python3=3.14.8-r0`; a venv with the hash-pinned `musllinux` wheels from PyPI only; the app image as the last stage, so a build without a target gives it, and without pip or any wheel; `with-contenv` and `S6_CMD_RECEIVE_SIGNALS=1` meet the D-130 checks (c) and (d), so the plain-Alpine fallback is not needed.
+- *App files* (D-168): `config.yaml` and the translations, generated from the app's own definitions; the AppArmor draft in complain mode with the six capabilities the parent needs; `DOCS.md` (installation, pairing, options, capability matrix, own images, the draft dashboard, the log, limitations, privacy, licences), the store text, the changelog, an icon, and a logo.
+- *`inspect`* (D-169): the parent opens each library file read-only and passes up to 16 descriptors to one worker, which never opens a library path; every end of the selection pass measures the waiting batch first; the library's warning comes after the last batch.
+- *Inventory* (D-171): from the exact two Pillow runtime wheels and from the image, without an SBOM tool (`scripts/image_inventory.py`). Neither `libimagequant` nor FriBiDi is in the wheels; zlib is Alpine's; libbsd's and libmd's licences are still open.
+
+**Quality gates** (`frame_gallery/scripts/check.sh`, run for the closing commit):
+
+- Ruff check and format: clean.
+- `mypy --strict` over `src`, `tests`, and `scripts`, for this host and as on Linux: clean.
+- pytest: **4 559 passed** and 8 skipped (the Linux-only and root-only checks, which run in the container), with **100 % line and branch coverage overall** (8 940 statements, 1 894 branches); the architecture's 100 % gate also passes (7 323 statements, 1 584 branches).
+
+**Container checks** (`scripts/container_check.sh`, at `79dc8f7`; every container with `--network none`, no host directory mounted):
+
+| Check | `aarch64` (native) | `amd64` (Rosetta) |
+| --- | --- | --- |
+| A build without a target gives the app image | passed | passed |
+| D-130 (a) versions | Alpine 3.24.1, Python 3.14.8 | Alpine 3.24.1, Python 3.14.8 |
+| Inventory | 61 Alpine packages, 11 Python distributions, 21 Pillow libraries as in `RECORD`, no wheel | the same versions; 21 Pillow libraries as in `RECORD`, no wheel |
+| D-130 (b) exit status | 70 came through as 70 | 70 came through as 70 |
+| D-130 (c) stop request | at 3.0 s, cleaned up at 11.0 s, stop took 11 s | at 2.6 s, cleaned up at 10.6 s, stop took 11 s |
+| D-130 (d) `SUPERVISOR_TOKEN` | visible | visible |
+| Smoke run (one library file, no network) | `tv_unreachable`, exit 0 | `tv_unreachable`, exit 0 |
+| D-165 user pass (uid 1000, `FRAME_GALLERY_REQUIRE_ISOLATION=user`) | 4 562 passed, 5 root-only skipped | 4 562 passed, 5 root-only skipped |
+| D-165 root pass (`FRAME_GALLERY_REQUIRE_ISOLATION=root`) | 5 of 5 passed | 5 of 5 passed |
+| Worst case under the real `RLIMIT_AS` 1 GiB, as root (R-09) | 13 of 13 cases succeed; peak 766 MiB of address space (754 MiB resident, 1.4 s), the progressive CMYK panorama in `cover` | not run: under Rosetta every process carries about 278 MiB more address space, and the heaviest case fails (an earlier run; D-170) |
+| 150 inspections | 10 workers, 0.61 s | — |
+
+The condition of D-165 is met: the Linux and root isolation tests pass on both architectures, and the measurement passes under the real limit on `aarch64`, the Green's architecture. A native `amd64` host was not available for a measurement.
+
+**Independent review** (8 agents, before the gate): 20 findings, 19 confirmed (3 high, 7 medium, 9 low) and 1 refuted; all are fixed or recorded in `4b6a0fd` to `79dc8f7`. The high ones: the last batch was lost when the candidate allowance ended the selection pass; a build without a target produced the test stage; the app image held the pip wheel that Python bundles. See *Review records* in `DECISIONS.md`.
 
 ## Completed
 
@@ -386,7 +423,7 @@ See *Review records* in `DECISIONS.md`.
 
 ## Specification deviations
 
-None is awaiting a decision. The Phase 3 and Phase 4 deviations were accepted at their gates (2026-09-27), and the Phase 5 deviations below at the Phase 5 gate (2026-10-02; D-165 with a condition); `ARCHITECTURE.md` is amended to match.
+The Phase 6 items below await the Phase 6 gate. The Phase 3 and Phase 4 deviations were accepted at their gates (2026-09-27), and the Phase 5 deviations below at the Phase 5 gate (2026-10-02; D-165 with a condition, now met); `ARCHITECTURE.md` is amended to match.
 
 | Accepted item (Phase 5) | Where |
 | --- | --- |
@@ -401,6 +438,18 @@ None is awaiting a decision. The Phase 3 and Phase 4 deviations were accepted at
 
 Not accepted as a deviation: `inspect` still runs one worker per file, not batches of up to 50 (§8.3). The Phase 5 gate decided to implement batching in Phase 6, with parent-opened read-only descriptors where possible (D-149, D-164). *Implemented in Phase 6, in batches of up to 16 (D-169, proposed).*
 
+**Awaiting the Phase 6 gate** (proposed; `ARCHITECTURE.md` is amended once they are accepted):
+
+| Proposed item (Phase 6) | Where |
+| --- | --- |
+| D-130's checks (c) and (d) are met only with two s6-overlay settings (`S6_CMD_RECEIVE_SIGNALS=1`, `with-contenv`); the plain-Alpine fallback is not used. | D-167 |
+| `BUILD_ARCH` and `BUILD_VERSION` are required, with no fallback to `TARGETARCH`; the app image sets its own OCI labels (amends D-130). The app image is the last stage, installs `python3` again, and removes the pip wheel that Python bundles. | D-167 |
+| The image installs per-platform requirement files generated from the lock (amends D-142). | D-167 |
+| The parent needs six capabilities, among them `fsetid` and `dac_read_search`, not only the four the draft first named (§17.6 "minimal capabilities"). | D-168, D-172 |
+| `inspect` runs in batches of up to 16 files (§8.3 allows 50), because each descriptor counts against the worker's `RLIMIT_NOFILE` of 32. The library's aggregated warning comes after selection, through the new `ProviderBinding.after_discovery`. | D-169 |
+| New modules beyond §21: `app/networks.py`, `store/options_file.py`; scripts `image_requirements.py`, `image_inventory.py`, `app_config.py`, `app_images.py`, `container_check.sh`. | D-166 to D-171 |
+| The bundled-library inventory changes: `libimagequant` and FriBiDi are not in the runtime wheels (§17.2, §23, and §24 still say they are). The licences of libbsd and libmd are open, and the condition of `dda877c` is proposed to hold before publication rather than before packaging. | D-171 |
+
 | Accepted item (Phase 4) | Where |
 | --- | --- |
 | The ledger prunes only when an intent is committed, and only works that both copies of history hold (§13.6 step 5 says: on the next ledger write, once the work is in history). This is stricter: a damaged history primary can never lose the newest delivery's exclusion. | D-154 |
@@ -414,13 +463,13 @@ Not accepted as a deviation: `inspect` still runs one worker per file, not batch
 
 ## Next action
 
-Implement Phase 6 as authorized, then stop at the Phase 6 gate for the Codex review. Phase 7 does not start before it is explicitly authorized.
+**Phase 6 gate:** the Codex review of Home Assistant OS/Green compatibility and security, then the user's decision. Phase 7 does not start before it is explicitly authorized.
 
 **Decisions needed, by phase:**
 
 | Before | Decisions |
 | --- | --- |
-| Phase 6 gate | The Phase 6 decisions; Q-06 and Q-10; the Buildx and QEMU rows (bundled with Docker Desktop, whose start the user approved on 2026-10-02 so that they can be used) and the SBOM approach (any SBOM-tool download needs its own approval naming the registry, the image, and the purpose); the base image and its pins (D-130), approved for pulling on 2026-10-02; the authoritative Pillow runtime-wheel inventory, including the remaining `pillow.libs` entries (mandatory before packaging or publication); the results of the Linux and root checks and of the measurement under the real `RLIMIT_AS` (the condition of D-165). |
+| Phase 6 gate | D-166 to D-172, among them: keep the 1 GiB limit (D-170); the s6 settings instead of the fallback base (D-167); the authoritative inventory and the SBOM approach without a tool (D-171); Q-06 and Q-10 (D-172). The libbsd and libmd licences: accept them as a condition before publication, and, if wanted, approve the network read that settles them (for example Alpine's package index on `dl-cdn.alpinelinux.org`). Optionally, approve Alpine's `apparmor` package for a syntax check of the profile (otherwise the Green loads it in Phase 8). The `amd64` measurement exists only under emulation. The exact `python3` pin breaks later builds once Alpine replaces the package (R-32; with Q-21 in Phase 8). |
 | Phase 8 | Explicit approval for the live run, which is also the first live request to the museums and the first time the project contact is transmitted (Q-22); Q-21 (install route). The Linux and root checks and the measurement must have passed first (D-165). The live check of the Art Institute `params` form (D-150). The preview refresh mechanism and file names (D-140). TLS pinning, once the TV's certificate is observed (R-03). |
 | Phase 9 | D-101 (final name), Q-13 (repository URL, which also replaces the contact in the User-Agent, D-119); the builder-action and Cosign rows; the qualified licence review (D-135, release gate); approval to publish. |
 
@@ -431,6 +480,7 @@ Implement Phase 6 as authorized, then stop at the Phase 6 gate for the Codex rev
 - No GitHub repository accessed, created, or modified; no GitHub-hosted page fetched.
 - Phase 5 pulled, built, and published no container image.
 - **Phase 6** used only the network steps the user approved on 2026-10-02: Docker Desktop was started (it may contact Docker's own servers, for example to check for updates); the tags of `ghcr.io/home-assistant/base` were read, and the image was pulled for `aarch64` and `amd64`, pinned by tag and digest; every build installed `python3` from `dl-cdn.alpinelinux.org` and the hash-checked `musllinux` wheels of the runtime and the test tools from PyPI; the two Pillow runtime wheels were downloaded from `files.pythonhosted.org` into this session's scratch directory for the inventory (D-171). The images were built locally (`frame-gallery:dev-*`, `frame-gallery-checks:dev-*`) and never pushed. Every container ran with `--network none` and without a host directory mounted; results went to the git-ignored `build/container-checks/`. The local Docker image store also holds images from other, unrelated work; they were neither inspected nor used.
+- The Phase 6 review (8 agents) worked only in the repository, on the container-check outputs, and on the Pillow wheels in this session's scratch directory, without network access or Docker, and changed nothing in the repository.
 - Dependencies were installed only into the git-ignored project environment (`frame_gallery/.venv`) and the git-ignored `.tools/` directory, from PyPI (`pypi.org`, `files.pythonhosted.org`) only. Nothing else was installed or modified on the machine.
 - No provider API or image endpoint called. The Phase 3 re-check read only the two official documentation pages (D-146). Every provider test uses synthesized documents (`tests/support/museums.py`); nothing was recorded from a live API.
 - Phase 3 installed `urllib3` 2.8.0 and `certifi` 2026.7.22 from PyPI into the git-ignored project environment only.
@@ -457,6 +507,8 @@ See `DECISIONS.md` for the full list. The most material:
 - **Copyleft source-availability mechanism** (D-135).
 - **Local tests versus the runtime build** (R-26): since Phase 6 the full suite runs inside the image on both architectures (D-170); CI follows in Phase 9.
 - **TLS pinning** (R-03): decided after the TV's certificate is observed in the supervised Phase 8 test.
-- **The image worker's memory limit** (R-09): measured under the real 1 GiB `RLIMIT_AS` in Phase 6, the heaviest case peaks at 766 MiB; proposed to keep 1 GiB (D-170). Phase 8 repeats the measurement on the Green.
+- **The image worker's memory limit** (R-09): measured under the real 1 GiB `RLIMIT_AS` in Phase 6, the heaviest case peaks at 766 MiB on `aarch64`; proposed to keep 1 GiB (D-170). On `amd64` it was measured only under Rosetta, where every process carries about 278 MiB more address space and the heaviest case fails, reported as `decode`. Phase 8 repeats the measurement on the Green.
+- **Licences still to read** (D-171, R-33): libbsd and libmd (bundled in the Pillow wheels), and s6-overlay, tempio with its Go modules, and bashio (in the base image); their texts are not in the image, and reading them needs an approved network read.
+- **The AppArmor draft** (D-168): complain mode until Phase 9; its syntax is checked when the Green loads it in Phase 8, unless the `apparmor` package is approved for a check before.
 - **Pre-emption** (R-27): in force since Phase 6; the entry point builds the process executor (D-166).
 - **A Supervisor build on the Green** (R-32): until images are published, the Supervisor builds the app on the device, which needs the same network sources; Phase 8 settles the install route (Q-21).

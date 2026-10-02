@@ -1437,7 +1437,7 @@ Status: proposed. It records the condition of D-165, which the Phase 5 gate set.
 
 - **D-130 checks**, both architectures: (a) Alpine 3.24.1 and Python 3.14.8; (b) exit status 70 came through as 70; (c) the app received the stop request about 3 s after its start, cleaned up for 8 s, and the stop took 11 s; (d) `SUPERVISOR_TOKEN` visible (with `with-contenv`).
 - **Smoke run**, both architectures: one local-media run with one library file and no network ended `tv_unreachable` with exit code 0 (TV address 10.0.0.5, unreachable without network), after selection, inspection, and preparation in real, dropped workers.
-- **D-165, user pass** (`FRAME_GALLERY_REQUIRE_ISOLATION=user`, uid 1000): the whole suite, including `RLIMIT_AS` 1 GiB and 512 MiB, threads refused under `RLIMIT_NPROC` 0, the parent-death signal, no-new-privileges, dumpability 0, and empty capability sets as read inside the worker. aarch64: 4530 passed and the 5 root-only checks skipped, at commit `247de9b`. The final results at the gate commit are in `STATUS.md`.
+- **D-165, user pass** (`FRAME_GALLERY_REQUIRE_ISOLATION=user`, uid 1000): the whole suite, including `RLIMIT_AS` 1 GiB and 512 MiB, threads refused under `RLIMIT_NPROC` 0, the parent-death signal, no-new-privileges, dumpability 0, and empty capability sets as read inside the worker. At the closing commit `79dc8f7`: 4 562 passed and the 5 root-only checks skipped, on both architectures (`STATUS.md` has every result).
 - **D-165, root pass** (`FRAME_GALLERY_REQUIRE_ISOLATION=root`): all 5 root checks passed on both architectures: a production `prepare`, `inspect`, and `deliver` worker each drop to 65534 with no groups and every limit; the dropped worker reads `in/`, writes `out/`, and cannot create a file in `in/`; and it measures a file only root can read, through the descriptor its parent passed.
 - **Worst-case preparation under the real `RLIMIT_AS` 1 GiB** (R-09), as root, aarch64, 2 runs per case: all 13 cases succeeded. Peak address space (`VmPeak`) and resident memory (`VmHWM`), and time:
 
@@ -1611,7 +1611,7 @@ These come from general knowledge of the license; qualified review is recommende
 | musl; musl-utils | 1.2.6-r2 | `MIT`; `MIT AND BSD-2-Clause AND GPL-2.0-or-later` | C library; utilities |
 | libgcc, libstdc++ | 15.2.0-r5 | `GPL-2.0-or-later AND LGPL-2.1-or-later` (apk field) | GCC's runtime libraries; their runtime-library exception is checked in the licence review |
 | other copyleft or dual-licensed libraries | per package | keyutils-libs, libcom_err, libidn2, libunistring, userspace-rcu, xz and xz-libs, zstd-libs | See `THIRD_PARTY_NOTICES.md` |
-| `python3` and its `pyc` packages | 3.14.8-r0 | `PSF-2.0` | The interpreter |
+| `python3` and its `pyc` packages | 3.14.8-r0 | `PSF-2.0` | The interpreter; the app image removes the pip wheel that it bundles for `ensurepip` (D-167) |
 | OpenSSL (`libcrypto3`, `libssl3`) | 3.5.7-r0 | `Apache-2.0` | |
 | SQLite (`sqlite-libs`) | 3.53.4-r0 | `blessing` | |
 | zlib | 1.3.2-r0 | `Zlib` | Also the zlib that Pillow loads |
