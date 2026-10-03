@@ -8,7 +8,7 @@ production ports and runs exactly one run:
    the runner honours it inside its classified region.
 2. The Supervisor token is read into memory, and the process environment is
    reduced to the allowlist before anything else runs, so no worker can see
-   the token (§17.5). The token is kept only when a helper option is set,
+   the token (§17.5). The token is kept only with helpers or a loading timer,
    and it is registered with the redactor either way.
 3. Logging through the redactor (§19).
 4. The process executor (D-163). On Linux every isolation step must be in
@@ -132,7 +132,10 @@ def run_app(environ: MutableMapping[str, str], stream: TextIO, wiring: Wiring) -
     layout = wiring.layout
     options = OptionsFile(layout.data)
     secrets = [environ.get(name) for name in (SUPERVISOR_TOKEN_VARIABLE, LEGACY_TOKEN_VARIABLE)]
-    reduced = reduce_environment(environ, keep_supervisor_token=options.helpers_configured())
+    timer = options.loading_timer()
+    reduced = reduce_environment(
+        environ, keep_supervisor_token=options.helpers_configured() or timer is not None
+    )
     apply_environment(environ, reduced)
     redactor = Redactor(secret for secret in secrets if secret)
     configure_logging(level=LogLevel.INFO, stream=stream, redactor=redactor)
@@ -188,16 +191,17 @@ def run_app(environ: MutableMapping[str, str], stream: TextIO, wiring: Wiring) -
         exit_process=wiring.watchdog_exit,
         wait=wiring.watchdog_wait,
     )
+    reader = SupervisorHelperReader(
+        token=reduced.supervisor_token,
+        resolver=resolver,
+        transport=transport,
+        networks=reader_networks,
+    )
     ports = RunnerPorts(
         options_source=options,
         network_info=wiring.networks,
         state=layout.state_store(clock),
-        helper_reader=SupervisorHelperReader(
-            token=reduced.supervisor_token,
-            resolver=resolver,
-            transport=transport,
-            networks=reader_networks,
-        ),
+        helper_reader=reader,
         providers={
             SourceKey.ART_INSTITUTE_CHICAGO: ProviderBinding(
                 AicProvider(aic_channel, aic_cache), cache=aic_cache
@@ -219,6 +223,7 @@ def run_app(environ: MutableMapping[str, str], stream: TextIO, wiring: Wiring) -
         records=records,
         watchdog=watchdog,
         storage_report=functools.partial(log_storage, layout, clock),
+        finish_loading=functools.partial(reader.finish_loading, timer),
     )
     runner = Runner(
         ports, clock=clock, random=random, cancellation=controller, set_log_level=set_app_level

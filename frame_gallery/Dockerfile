@@ -60,6 +60,11 @@ RUN test -n "${BUILD_VERSION}" || { echo "BUILD_VERSION is required" >&2; exit 1
     && apk add --no-cache python3=3.14.8-r0 \
     && rm -rf /usr/lib/python3.14/ensurepip/_bundled
 COPY --from=builder /opt/frame-gallery /opt/frame-gallery
+# D-177: the pinned s6 CMDSIG uses kill --, unsupported by BusyBox's sh
+# builtin. Bash is already in the base. Keep the body/arguments unchanged;
+# fail closed if the exact upstream script differs on a future base.
+RUN echo '7debfda814cfe11f6b87492cce523eb6e1a2abdf622d0465b73c6d3ccd4bef72  /package/admin/s6-overlay-3.2.3.0/etc/s6-linux-init/skel/CMDSIG' | sha256sum -c - \
+    && sed -i '1s|^#!/bin/sh$|#!/bin/bash|' /package/admin/s6-overlay-3.2.3.0/etc/s6-linux-init/skel/CMDSIG
 # The base image's own labels describe the base (io.hass.base.*); the OCI
 # ones are set for the app, and the base's source and build time cleared.
 LABEL \

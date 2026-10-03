@@ -45,3 +45,4 @@ schema:
   style_helper: 'match(^(?:input_select|select|input_text)\.[a-z0-9_]{1,64}$)?'
   color_helper: 'match(^(?:input_select|select|input_text)\.[a-z0-9_]{1,64}$)?'
   log_level: 'list(info|debug)?'
+  loading_timer: 'match(^timer\.[a-z0-9_]{1,64}$)?'

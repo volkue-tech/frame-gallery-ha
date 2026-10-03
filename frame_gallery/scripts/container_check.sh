@@ -207,6 +207,9 @@ docker rm "$cid" > /dev/null
 echo "docker stop took $((stopped - started)) s"
 grep -E "stop request|cleaned up" "$OUT/c-stop.txt" || true
 grep -q "cleaned up" "$OUT/c-stop.txt" || fail "(c) the app was killed before it cleaned up"
+if grep -q "invalid number" "$OUT/c-stop.txt"; then
+    fail "(c) signal forwarding emitted a shell warning"
+fi
 
 note "(d) SUPERVISOR_TOKEN reaches the app"
 run -e SUPERVISOR_TOKEN=check-token-value "$APP" with-contenv /opt/frame-gallery/bin/python -I -c \

@@ -9,6 +9,7 @@ import ssl
 import threading
 import time
 from collections.abc import Callable, Sequence
+from dataclasses import replace
 from ipaddress import IPv4Address, ip_address
 from typing import Any, cast
 
@@ -163,6 +164,7 @@ class _Connection:
         self.response = response if response is not None else _Response()
         self.close_error = close_error
         self.requests: list[tuple[str, str, dict[str, str], bool, bool]] = []
+        self.bodies: list[bytes | None] = []
         self.closed = 0
 
     def connect(self) -> None:
@@ -176,10 +178,12 @@ class _Connection:
         url: str,
         *,
         headers: dict[str, str],
+        body: bytes | None,
         preload_content: bool,
         decode_content: bool,
     ) -> None:
         self.requests.append((method, url, headers, preload_content, decode_content))
+        self.bodies.append(body)
         if self.request_error is not None:
             raise self.request_error
 
@@ -237,6 +241,16 @@ class TestOpen:
         wire = transport.open(_request(), connect_timeout=2.0, exchange_timeout=9.0)
         assert wire.status == 200
         wire.close()
+
+    def test_a_post_body_reaches_the_connection_unchanged(self) -> None:
+        connection = _Connection()
+        transport, _made = _transport(connection)
+        payload = b'{"entity_id":"timer.synthetic"}'
+        request = replace(_request(tls=False), method="POST", body=payload)
+        response = transport.open(request, connect_timeout=1.0, exchange_timeout=2.0)
+        assert connection.requests[0][0] == "POST"
+        assert connection.bodies == [payload]
+        response.close()
 
     @pytest.mark.parametrize(
         "sock",

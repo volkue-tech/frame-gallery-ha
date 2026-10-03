@@ -146,6 +146,7 @@ class RunnerPorts:
     records: RunRecords
     watchdog: WatchdogControl
     storage_report: Callable[[], None] = lambda: None
+    finish_loading: Callable[[Deadline], None] = lambda _deadline: None
 
 
 @dataclass(frozen=True, slots=True)
@@ -264,6 +265,20 @@ class Runner:
                 result = self._fallback_result(run)
         finally:
             self._cleanup()
+            if run.outcome is not Outcome.ALREADY_RUNNING:
+                try:
+                    deadline = self._finish_deadline(run)
+                    if run.outcome in (
+                        Outcome.NO_MATCH,
+                        Outcome.SOURCE_FAILED,
+                        Outcome.IMAGE_FAILED,
+                    ):
+                        deadline = deadline.cap_at(
+                            self._run_budget().no_delivery_end, "no delivery"
+                        )
+                    self._ports.finish_loading(deadline)
+                except Exception:  # noqa: BLE001 - feedback must never change delivery
+                    self._log.warning("loading timer notification failed", exc_info=True)
             watchdog_stopped = self._disarm_watchdog()
         if not watchdog_stopped:
             # The watchdog fired first: it emits the only summary line and ends

@@ -245,7 +245,7 @@ Status: **accepted** (user approval of Phase 3, 2026-09-27).
   - `Authorization` sent only to `http://supervisor`;
   - a 64 KiB cap, and only the `state` field is used.
 - Any failure falls back to the static value, with one warning.
-- The app writes nothing to Home Assistant.
+- Originally the app wrote nothing to Home Assistant; D-176 adds only an optional, fixed timer.cancel after cleanup.
 
 ### D-113 — Record history before publishing the preview [§4.1]
 
@@ -1536,6 +1536,24 @@ Status: authorized by the user on 2026-10-03, for the separate test app update.
 - Logs include regular-file counts and apparent byte sizes, own temporary-file and run-directory counts, other/unreadable entry counts, truncation and availability. An unavailable directory is not declared empty, and the report is a metadata snapshot rather than a file-integrity/history validation. It is not guaranteed to run after a hard kill.
 - Prior read-only Green inspection found about 15.8 GB free and exactly two shared-media files: a 263 066-byte synthetic library fixture and a 584 565-byte latest preview. Private storage and container scratch were not exposed to the protected SSH app; diagnostics must be observed from within the test app instead of weakening that protection.
 
+### D-176 — Explicit, bounded loading-timer completion [§16.3; G4, R-06]
+
+Status: authorized by the user on 2026-10-03, only for the separate test app/script correction. Live verification pending.
+
+- Running updates lagged by about 15 minutes and caused both premature and prolonged loading feedback. The script no longer uses Running or camera refresh as a completion signal.
+- A new optional `loading_timer` accepts only a single `timer.<lowercase identifier>` (64-character object ID maximum), validated independently from other options. Unset means no extra Core request. The app retains the Supervisor token in parent memory only for configured helpers or this timer; it still removes it from the environment and never gives it to a worker.
+- After normal cleanup, before disarming the watchdog, the app sends at most one POST to the fixed `/core/api/services/timer/cancel` path, with only this entity ID. It reuses the helper reader's private/container-network address guard, has no redirects or retries, reads no response body, and uses at most 2 seconds clamped to FINISH and the 70-second no-delivery bound. HTTP errors are logged by status only and never retried or change a confirmed outcome. `already_running` never cancels the timer of the running instance.
+- The UI-created script starts its own 150-second timer before the app, waits for timer idle, and holds single mode for four more seconds while s6 shuts down. The timer itself bounds feedback on failed start, missing credentials, HTTP failure, watchdog or hard kill. A timer configured for another app must not be shared; it means finished, not success.
+- This narrowly amends D-112/D-166/§5/§15/§17.5/§18: no arbitrary service, HA configuration write, new role, mapping, helper entity, dependency, or persistent daemon. Tests must cover successful delivery, no-match, graceful cancellation and feedback failure. Isolation refusal or unreadable options falls back to expiry.
+
+### D-177 — Hash-guarded s6 signal interpreter correction [D-167; §17.2]
+
+Status: authorized by the user on 2026-10-03, for the separate test app's stop warning. Live verification pending.
+
+- The pinned base contains `/package/admin/s6-overlay-3.2.3.0/etc/s6-linux-init/skel/CMDSIG`, SHA256 `7debfda814cfe11f6b87492cce523eb6e1a2abdf622d0465b73c6d3ccd4bef72`. Its `kill -s ... -- "$pid"` makes BusyBox sh report `invalid number '--'`, although it then signals the real PID; observed graceful cancellations succeeded.
+- The app image changes only that script's interpreter from `/bin/sh` to already-installed `/bin/bash`. Its signal arguments, body and permissions stay unchanged. The Docker build fails on any upstream hash mismatch. No package or security permission is added. Container stop checks must assert both real cleanup and absence of this warning.
+- This is a modification to the third-party s6-overlay component, explicitly recorded in notices. Its upstream licensing, original source and this Dockerfile transformation remain part of the mandatory Phase 9 source/licence review; the project does not claim this upstream script as Apache-2.0 code.
+
 ## Proposed dependency inventory
 
 Status: **Phase 2 installed** the development tools and Pillow, **Phase 3 installed** `urllib3` 2.8.0 and `certifi` 2026.7.22, and **Phase 5 installed** `samsungtvws` 3.0.6 and its dependencies (each approved by the user on 2026-09-27; the `samsungtvws` row is confirmed at the Phase 5 gate on 2026-10-02), only in the local project environment (`frame_gallery/.venv`, from `uv.lock`). **Phase 6** built the app image from the pinned base image and the hash-pinned `musllinux` wheels (approved on 2026-10-02) and verified the bundled-library and base-image rows in it (D-171, accepted at the Phase 6 gate).
@@ -1555,7 +1573,7 @@ This is an engineering inventory, not legal advice.
 - **redist**: included in the published image.
 - **native**: contains compiled code.
 
-No package is modified or vendored into the source tree.
+Python dependencies are not modified or vendored. D-177 records the sole s6-overlay script interpreter change made in the image build.
 
 ### Runtime: direct
 

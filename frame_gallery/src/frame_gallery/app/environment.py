@@ -1,7 +1,7 @@
 """The runtime environment, reduced to an allowlist (§17.5).
 
-``SUPERVISOR_TOKEN`` is read into memory, and kept only when helpers are
-configured; the process environment then holds only :data:`ALLOWED_VARIABLES`.
+``SUPERVISOR_TOKEN`` is kept in parent memory only for configured helpers or
+an explicit loading timer (D-176); the environment holds only :data:`ALLOWED_VARIABLES`.
 Everything else is removed because it is not on the allowlist: the token
 itself, the legacy ``HASSIO_TOKEN``, proxy variables, ``NETRC``, and CA
 overrides such as ``REQUESTS_CA_BUNDLE`` and ``SSL_CERT_FILE``. Workers
@@ -41,8 +41,8 @@ def reduce_environment(
 ) -> ReducedEnvironment:
     """Split ``environ`` into the allowlisted variables and the token.
 
-    The token is kept only if ``keep_supervisor_token`` is set (helpers are
-    configured) and it is non-empty.
+    The token is kept only if ``keep_supervisor_token`` is set (helpers or a
+    loading timer are configured) and it is non-empty.
     """
     variables = {name: environ[name] for name in ALLOWED_VARIABLES if name in environ}
     token = environ.get(SUPERVISOR_TOKEN_VARIABLE) if keep_supervisor_token else None

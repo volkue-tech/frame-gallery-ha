@@ -15,7 +15,12 @@ from pathlib import Path
 from typing import Final
 
 from frame_gallery.budget.deadline import Deadline
-from frame_gallery.config.options import HELPER_OPTION_NAMES, ConfigError, ConfigIssue
+from frame_gallery.config.options import (
+    HELPER_OPTION_NAMES,
+    ConfigError,
+    ConfigIssue,
+    loading_timer,
+)
 from frame_gallery.errors import StateError
 from frame_gallery.store.atomic import ReadFailure, decode_json, open_directory
 
@@ -84,6 +89,13 @@ class OptionsFile:
                 self._error = error
                 raise
         return self._raw
+
+    def loading_timer(self) -> str | None:
+        """Independently validate the optional timer, even on a failed run."""
+        try:
+            return loading_timer(self._read().get("loading_timer"))
+        except ConfigError:
+            return None
 
     def _parse(self) -> Mapping[str, object]:
         try:

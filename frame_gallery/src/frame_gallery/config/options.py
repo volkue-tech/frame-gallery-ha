@@ -56,6 +56,7 @@ class Options:
     """Configured helper entity IDs, in ``FilterField`` order, unset ones omitted."""
 
     log_level: LogLevel = LogLevel.INFO
+    loading_timer: str | None = None
 
     def helper_for(self, field: FilterField) -> str | None:
         for helper_field, entity_id in self.helpers:
@@ -75,6 +76,16 @@ _HELPER_OPTIONS: Final = tuple((field, f"{field.value}_helper") for field in Fil
 
 HELPER_OPTION_NAMES: Final = tuple(option for _, option in _HELPER_OPTIONS)
 """The names of the four helper options, ``source_helper`` first."""
+
+TIMER_ENTITY_ID: Final = re.compile(r"timer\.[a-z0-9_]{1,64}", re.ASCII)
+
+
+def loading_timer(value: object) -> str | None:
+    """Only one explicit timer entity; empty means no completion notification."""
+    if isinstance(value, str) and TIMER_ENTITY_ID.fullmatch(value):
+        return value
+    return None
+
 
 _FILTER_NOUNS: Final = {
     FilterField.DEPARTMENT: "department or collection",
@@ -245,6 +256,11 @@ def parse_options(
     background = _background(raw.get("background_color"), issues)
     helpers = _helpers(raw, issues)
     log_level = _log_level(raw.get("log_level"), issues)
+    timer = loading_timer(raw.get("loading_timer"))
+    if raw.get("loading_timer") not in (None, "") and timer is None:
+        issues.append(
+            ConfigIssue("loading_timer", "Use a timer entity ID, such as timer.frame_gallery_run.")
+        )
     if tv_host is None or issues:
         raise ConfigError(issues)
     return Options(
@@ -256,4 +272,5 @@ def parse_options(
         background=background,
         helpers=helpers,
         log_level=log_level,
+        loading_timer=timer,
     )

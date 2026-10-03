@@ -54,6 +54,24 @@ def test_the_file_is_read_once(tmp_path: Path, clock: FakeClock) -> None:
     assert source.load(deadline(clock)) is first
 
 
+@pytest.mark.parametrize("value", [None, "", "light.other", True, "timer.x,timer.y", "timer.X"])
+def test_loading_timer_never_returns_an_invalid_target(tmp_path: Path, value: object) -> None:
+    write(tmp_path, json.dumps({"loading_timer": value}))
+    assert OptionsFile(tmp_path).loading_timer() is None
+
+
+def test_loading_timer_reads_once_and_validates_without_tv_options(tmp_path: Path) -> None:
+    path = write(tmp_path, '{"loading_timer":"timer.frame_gallery_test_run"}')
+    source = OptionsFile(tmp_path)
+    assert source.loading_timer() == "timer.frame_gallery_test_run"
+    path.write_text("{}")
+    assert source.loading_timer() == "timer.frame_gallery_test_run"
+
+
+def test_loading_timer_missing_options_is_disabled(tmp_path: Path) -> None:
+    assert OptionsFile(tmp_path).loading_timer() is None
+
+
 def test_a_missing_file_tells_the_user_to_save_the_options(
     tmp_path: Path, clock: FakeClock
 ) -> None:

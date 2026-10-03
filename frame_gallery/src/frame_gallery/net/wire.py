@@ -46,7 +46,7 @@ class TransportFailure(FrameGalleryError):
 
 @dataclass(frozen=True, slots=True)
 class WireRequest:
-    """One GET to one already validated address."""
+    """One request to one already validated address; providers use GET only."""
 
     address: IPAddress
     host: str
@@ -58,6 +58,8 @@ class WireRequest:
     """The request target: path and query, starting with ``/``."""
 
     headers: Mapping[str, str] = field(default_factory=dict)
+    method: str = "GET"
+    body: bytes | None = None
 
     def __post_init__(self) -> None:
         object.__setattr__(self, "headers", MappingProxyType(dict(self.headers)))

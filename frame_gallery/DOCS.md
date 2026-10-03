@@ -76,8 +76,9 @@ Put JPEG and PNG files into the folder `frame_gallery/library` of Home Assistant
 The dashboard shows the artwork on the TV and starts the app with a tap. It consists of a camera for the preview, a timer for the "Updating artwork…" note, a script, and a card, all created in the user interface. The entity IDs below are the expected ones; check them in **Settings → Devices & services → Entities** and adjust the YAML if yours differ. The app's ID is `local_frame_gallery` for a local development copy; the release notes name it for the public repository.
 
 1. **Preview camera.** **Settings → Devices & services → Add integration → Local File**. Name: `Frame Gallery Preview`. File path: `/media/frame_gallery/preview/latest.jpg`. Expected entity: `camera.frame_gallery_preview`.
-2. **Running sensor.** In **Settings → Devices & services → Home Assistant Supervisor**, open the Frame Gallery device and enable its **Running** sensor, which is disabled by default. Expected entity: `binary_sensor.frame_gallery_running`.
+2. **Loading completion.** Running is optional diagnostics only; it is not needed by the card.
 3. **Timer.** **Settings → Devices & services → Helpers → Create helper → Timer**. Name: `Frame Gallery run`. Duration: `0:02:30`. Expected entity: `timer.frame_gallery_run`.
+   In the app's Configuration tab, set **Dashboard loading timer** (`loading_timer`) to this exact entity ID. Use a separate timer for each app. The app cancels it after cleanup; expiry remains the fail-safe if completion cannot be reported.
 4. **Script.** **Settings → Automations & scenes → Scripts → Create script → ⋮ → Edit in YAML**, paste the following, and save. Expected entity: `script.frame_gallery_new_artwork`.
 
 ```yaml
@@ -85,6 +86,9 @@ alias: Frame Gallery new artwork
 description: Starts the Frame Gallery app and shows a note on the dashboard while it runs.
 mode: single
 sequence:
+  - condition: state
+    entity_id: timer.frame_gallery_run
+    state: idle
   - action: timer.start
     target:
       entity_id: timer.frame_gallery_run
@@ -94,40 +98,10 @@ sequence:
     data:
       app: local_frame_gallery
     continue_on_error: true
-  - repeat:
-      sequence:
-        - delay: "00:00:05"
-        - action: homeassistant.update_entity
-          target:
-            entity_id: binary_sensor.frame_gallery_running
-          continue_on_error: true
-      until:
-        - condition: template
-          value_template: >-
-            {{ is_state('binary_sensor.frame_gallery_running', 'on')
-               or repeat.index >= 3
-               or not is_state('timer.frame_gallery_run', 'active') }}
-  - if:
-      - condition: state
-        entity_id: binary_sensor.frame_gallery_running
-        state: "on"
-    then:
-      - repeat:
-          sequence:
-            - delay: "00:00:05"
-            - action: homeassistant.update_entity
-              target:
-                entity_id: binary_sensor.frame_gallery_running
-              continue_on_error: true
-          until:
-            - condition: template
-              value_template: >-
-                {{ is_state('binary_sensor.frame_gallery_running', 'off')
-                   or repeat.index >= 27
-                   or not is_state('timer.frame_gallery_run', 'active') }}
-  - action: timer.cancel
-    target:
-      entity_id: timer.frame_gallery_run
+  - wait_template: "{{ not is_state('timer.frame_gallery_run', 'active') }}"
+    timeout: "00:02:30"
+    continue_on_timeout: true
+  - delay: "00:00:04"
 ```
 
 5. **Card.** Edit a dashboard, add a card, choose **Manual**, and paste:
@@ -159,7 +133,7 @@ cards:
       content: Updating artwork…
 ```
 
-**Draft loading limitation:** the Running sensor was observed to lag by about 15 minutes on HA 2026.9.4. This script can remove the note before a delivery finishes if it misses the start, or leave it visible after delivery until its 150-second timer expires. It does not reliably report completion and must be corrected before the dashboard is release-ready. Preview refresh itself does not depend on this sensor. Starting the app needs an administrator account.
+**Loading behavior (D-176):** the app ends the explicitly configured timer after cleanup on delivery, no-match or graceful cancellation. Idle means finished, not necessarily successful; check the app log for its outcome. Failed start, hard kill or a failed notification leaves loading bounded by the timer's 150-second expiry. Preview refresh is independent. Starting the app needs an administrator account. Live verification of this corrected setup is recorded in `PHASE8_REPORT.md`; the public slug is still provisional.
 
 **A new artwork every morning (optional).** **Settings → Automations & scenes → Create automation → ⋮ → Edit in YAML**:
 

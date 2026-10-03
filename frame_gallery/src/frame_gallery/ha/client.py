@@ -35,7 +35,7 @@ from frame_gallery import __version__
 from frame_gallery.budget.deadline import Deadline, DeadlineExceeded
 from frame_gallery.budget.limits import CONNECT_S, DNS_S, HELPER_REQUEST_S, READ_S
 from frame_gallery.config.filters import FilterField
-from frame_gallery.config.options import HELPER_ENTITY_ID
+from frame_gallery.config.options import HELPER_ENTITY_ID, TIMER_ENTITY_ID
 from frame_gallery.errors import FrameGalleryError
 from frame_gallery.net.policy import content_length, is_private_address, media_type, path_segment
 from frame_gallery.net.wire import (
@@ -88,6 +88,57 @@ class SupervisorHelperReader:
 
     def __repr__(self) -> str:
         return "SupervisorHelperReader(token=<hidden>)"
+
+    def finish_loading(self, timer: str | None, deadline: Deadline) -> None:
+        """D-176: one bounded cancel of the explicitly configured timer.
+
+        No retry, redirect, arbitrary service, response body, or outcome change.
+        The timer's own 150-second expiry remains the fail-safe.
+        """
+        if timer is None:
+            return
+        token = self._token
+        if (
+            TIMER_ENTITY_ID.fullmatch(timer) is None
+            or token is None
+            or _TOKEN.fullmatch(token) is None
+        ):
+            _log.warning("loading timer cannot be notified: invalid timer or missing token")
+            return
+        attempt = deadline.child(2.0, "loading timer")
+        try:
+            addresses = self._resolve(attempt)
+            body = json.dumps({"entity_id": timer}, separators=(",", ":")).encode("ascii")
+            request = WireRequest(
+                address=addresses[0],
+                host=SUPERVISOR_HOST,
+                port=SUPERVISOR_PORT,
+                tls=False,
+                target="/core/api/services/timer/cancel",
+                method="POST",
+                body=body,
+                headers={
+                    "Host": SUPERVISOR_HOST,
+                    "Authorization": f"Bearer {token}",
+                    "Content-Type": "application/json",
+                    "Content-Length": str(len(body)),
+                    "Connection": "close",
+                },
+            )
+            response = self._transport.open(
+                request,
+                connect_timeout=attempt.clamp(CONNECT_S),
+                exchange_timeout=attempt.clamp(2.0),
+            )
+            try:
+                if response.status != 200:
+                    _log.warning("loading timer notification failed: HTTP %s", response.status)
+                else:
+                    _log.info("loading timer completion acknowledged")
+            finally:
+                response.close()
+        except (_ReadFailed, TransportFailure, DeadlineExceeded):
+            _log.warning("loading timer notification unavailable; timer will expire normally")
 
     def read(
         self, helpers: Mapping[FilterField, str], deadline: Deadline

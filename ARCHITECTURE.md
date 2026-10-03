@@ -166,7 +166,7 @@ Traffic crosses only three boundaries:
 
 - the local television, reached through its configured IPv4 address;
 - the one provider selected for this run, plus its documented image host;
-- the Supervisor's Core API proxy, only when helpers are configured.
+- the Supervisor's Core API proxy, only for configured helpers or an explicit loading timer (D-176).
 
 There is no telemetry.
 
@@ -269,7 +269,7 @@ The package name follows the accepted provisional identifier `frame_gallery` (D-
 | --- | --- | --- | --- |
 | `app` | Run orchestration; outcomes; workspace; lock; SIGTERM handling | ports | Import third-party libraries |
 | `config` | Options; IPv4 validation; filter vocabularies and the capability matrix | stdlib | Perform network I/O |
-| `ha` | Helper states through the Supervisor proxy | `net.transport`, `budget` | Write Home Assistant state; run without helpers |
+| `ha` | Helper reads and optional fixed timer completion (D-176) | `net.transport`, `budget` | Arbitrary state/configuration/service writes; token sent outside container networks |
 | `budget` | Clock, deadlines, allowances, phase calculator, watchdog | stdlib | Contain domain logic |
 | `net` | Guarded gateway | `urllib3`, `certifi` | Serve the television or any non-policy host |
 | `providers` | Contract; `local_media`, `aic`, `cma` adapters | `net`, `store.cache`, `isolation` | Decide eligibility |
@@ -1073,7 +1073,7 @@ Helpers are read only when at least one `*_helper` option is set.
 | Fits the one-shot lifecycle | Yes | **No**: needs a running server | Yes |
 | Dynamic option lists | No | Yes | Yes |
 | Automations | Excellent | Poor | Excellent |
-| Security surface | ≤ 4 read-only GETs | Web server, request handling, CSRF | Runs inside Home Assistant Core |
+| Security surface | ≤ 4 helper GETs; optional fixed timer.cancel (D-176) | Web server, request handling, CSRF | Runs inside Home Assistant Core |
 | Cost and maintenance | Small and low | High and medium–high | High and high |
 
 ### 16.2 Recommendation (D-126)
@@ -1096,8 +1096,8 @@ Helpers are read only when at least one `*_helper` option is set.
 1. Install through the one-click link and set `tv_host`.
 2. Start the app. When the TV prompt appears (once the run reaches the TV step), accept it within 20 s. Repeat until the log shows `outcome=delivered`.
 3. Add a **Local File** camera for the preview file, named "Frame Gallery Preview". The expected entity ID is `camera.frame_gallery_preview`; Phase 8 records the actual one.
-4. Enable the app's **Running** binary sensor, plus the Running switch for non-admin users. Both are disabled by default, and their entity IDs are recorded in Phase 8.
-5. Create the timer helper (UI) and paste the documented script (UI script editor, YAML mode). If the chosen freshness mechanism needs it, also paste the post-run automation. All of this is UI-created, with no `configuration.yaml` edit.
+4. Running is optional diagnostics only: Phase 8 observed about 15-minute lag, so it must not decide loading completion (D-176). Non-admin access still needs separate verification.
+5. Create the timer helper (UI), put its exact entity ID in the app's optional `loading_timer` field, and paste the documented script (UI script editor, YAML mode). All of this is UI-created, with no `configuration.yaml` edit.
 6. Paste the card.
 
 The acceptance-item `G1` deliverable is therefore **card + script + timer helper**, plus the post-run automation if the chosen freshness mechanism needs one. Each comes with copy-and-paste YAML (Q-09). It is completed after Phase 8 (entity IDs) and finalized with the public slug in Phase 9 (Q-13).
@@ -1106,19 +1106,14 @@ The acceptance-item `G1` deliverable is therefore **card + script + timer helper
 
 1. Start a UI timer helper with a duration of **150 s** (`T` + 30 s).
 2. Call `hassio.app_start` with `data: {app: <slug>}` and `continue_on_error: true`.
-3. Poll for completion in a bounded loop: at most 30 iterations of 5 s. Each iteration calls `homeassistant.update_entity` on the app's Running binary sensor. The loop ends when:
-   - the sensor reports `off` after it has been seen `on`;
-   - the sensor was never seen `on` within the first 15 s (a very short run); or
-   - the timer ends.
-
-   Phase 8 validates this against the sensor's real latency (R-06).
-4. Cancel the timer.
+3. Wait until the timer is no longer active, with a 150-second wait timeout. After its cleanup, the app cancels only its explicitly configured timer via one fixed, guarded service POST (at most 2 seconds within FINISH; D-176). Success, no-match and graceful cancellation all end loading; this is not a success indicator.
+4. Delay four seconds in single mode for the base image's shutdown. A failed start, unreadable options, missed completion or hard kill leaves the timer to expire naturally; no sensor cache can end it early.
 
 The freshness step, if any, is **not** part of this script (see below).
 
 The conditional card shows *"Updating artwork…"* while the **timer is `active`**. It may additionally require the Running sensor to be `on` (AND, never OR). The timer expires on its own, so the card returns to idle in every case (acceptance item `G4`), and **the dashboard never shows a loading state for more than 150 s**.
 
-A card driven by the Running sensor alone is allowed only if Phase 8 measures its on-to-off latency at under 150 s (R-06). The card, script, timer helper, enabled Running sensor, and optional post-run automation are accepted (Q-09).
+Running is no longer a completion dependency. The timer remains bounded to 150 seconds even when the app cannot notify it. D-176 authorizes the scoped test correction; live results are recorded separately.
 
 Three further constraints:
 
@@ -1174,7 +1169,7 @@ boot: manual_only
 init: false                      # s6-overlay v3 base (D-130)
 stage: experimental              # until Phase 8 validation passes
 homeassistant: "2026.2.0"        # hassio.app_* actions; NOT raised for Collection Image
-homeassistant_api: true          # grants Core REST + WebSocket via the proxy; app limits use to ≤ 4 state GETs
+homeassistant_api: true          # ≤ 4 helper GETs, plus optional fixed timer.cancel (D-176)
 tmpfs: true
 timeout: 20
 map:
@@ -1256,7 +1251,7 @@ With the custom AppArmor profile, the security rating is 6.
 
 | Item | Handling |
 | --- | --- |
-| Environment | `SUPERVISOR_TOKEN` is read into memory, and kept only when helpers are configured. `os.environ` is then reduced to an **allowlist**: `PATH`, `LANG`, `LC_ALL`, `TZ`. `SUPERVISOR_TOKEN`, the legacy `HASSIO_TOKEN`, proxy variables, `NETRC`, and CA overrides are removed. |
+| Environment | `SUPERVISOR_TOKEN` is kept in parent memory only for configured helpers or an explicit loading timer (D-176). `os.environ` is reduced to an **allowlist**: `PATH`, `LANG`, `LC_ALL`, `TZ`. Tokens, proxy variables, `NETRC`, and CA overrides are removed. |
 | Options | Read directly from `/data/options.json` (mode `0600`) and re-validated. |
 | Time | UTC. |
 | SIGTERM | See §7.6. |
@@ -1295,7 +1290,7 @@ With the custom AppArmor profile, the security rating is 6.
 | --- | --- |
 | SSRF, DNS rebinding | Exact host rules; one resolution with every address checked as global; connect to the validated IP; peer check; identifier `fullmatch`; redirects re-validated |
 | Decompression bombs, parser exploits | Byte caps; header limits; unprivileged, memory-limited worker; bytes-only results; parent validation of the output |
-| Home Assistant API misuse | Token removed from the environment and held in memory only when helpers are configured; never given to workers; ≤ 4 GETs on a fixed template |
+| Home Assistant API misuse | Token removed from the environment, never given to workers; ≤ 4 helper GETs and one optional fixed timer.cancel for a validated explicit timer. No arbitrary service/configuration write (D-176). |
 | Secret leakage | Formatter-level redaction, including exception text; worker output piped through the parent; third-party loggers capped at WARNING; tokens excluded from backups (expected; Phase 8) |
 | Path traversal, symlinks | Fixed paths; `dir_fd` with `O_NOFOLLOW`; `O_EXCL` random temp names; refusal on symlinks |
 | TV misuse, internal services | IPv4 literal in LAN ranges only; container networks rejected |

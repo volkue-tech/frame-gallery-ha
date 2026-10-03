@@ -1,7 +1,10 @@
 alias: Frame Gallery Test New Artwork
-description: Separate Green test; starts only the Frame Gallery test app with a bounded loading indicator.
+description: Separate Green test. The app ends its own loading timer after cleanup; expiry is the fail-safe.
 mode: single
 sequence:
+  - condition: state
+    entity_id: timer.frame_gallery_test_run
+    state: idle
   - action: timer.start
     target:
       entity_id: timer.frame_gallery_test_run
@@ -11,37 +14,7 @@ sequence:
     data:
       app: local_frame_gallery_dev
     continue_on_error: true
-  - repeat:
-      sequence:
-        - delay: "00:00:05"
-        - action: homeassistant.update_entity
-          target:
-            entity_id: binary_sensor.frame_gallery_test_aktiv
-          continue_on_error: true
-      until:
-        - condition: template
-          value_template: >-
-            {{ is_state('binary_sensor.frame_gallery_test_aktiv', 'on')
-               or repeat.index >= 3
-               or not is_state('timer.frame_gallery_test_run', 'active') }}
-  - if:
-      - condition: state
-        entity_id: binary_sensor.frame_gallery_test_aktiv
-        state: "on"
-    then:
-      - repeat:
-          sequence:
-            - delay: "00:00:05"
-            - action: homeassistant.update_entity
-              target:
-                entity_id: binary_sensor.frame_gallery_test_aktiv
-              continue_on_error: true
-          until:
-            - condition: template
-              value_template: >-
-                {{ is_state('binary_sensor.frame_gallery_test_aktiv', 'off')
-                   or repeat.index >= 27
-                   or not is_state('timer.frame_gallery_test_run', 'active') }}
-  - action: timer.cancel
-    target:
-      entity_id: timer.frame_gallery_test_run
+  - wait_template: "{{ not is_state('timer.frame_gallery_test_run', 'active') }}"
+    timeout: "00:02:30"
+    continue_on_timeout: true
+  - delay: "00:00:04"

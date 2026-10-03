@@ -250,8 +250,9 @@ class Urllib3Transport:
             connection.timeout = exchange_timeout
             sock.settimeout(exchange_timeout)
             connection.request(
-                "GET",
+                request.method,
                 request.target,
+                body=request.body,
                 headers=dict(request.headers),
                 preload_content=False,
                 decode_content=False,

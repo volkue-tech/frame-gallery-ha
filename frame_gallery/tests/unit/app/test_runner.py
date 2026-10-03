@@ -13,6 +13,7 @@ import pytest
 from frame_gallery.app.outcomes import Hint, Outcome
 from frame_gallery.app.ports import ProviderBinding
 from frame_gallery.app.runner import Stage
+from frame_gallery.app.signals import CancellationController
 from frame_gallery.budget.deadline import Deadline, DeadlineExceeded
 from frame_gallery.budget.phases import LAST_RUN_RESERVE_S, PREPARE_S
 from frame_gallery.config.filters import FilterField
@@ -125,6 +126,52 @@ def test_delivered_runs_every_stage_in_order(h: Harness) -> None:
     assert h.state.history == ["aic:1001"]
     assert h.state.ledger == {"aic:1001": "uploaded"}
     assert_cleaned_up(h)
+
+
+@pytest.mark.parametrize("no_match", [False, True])
+def test_loading_completion_is_after_cleanup_and_bounded(h: Harness, no_match: bool) -> None:
+    if no_match:
+        h.provider.candidates = []
+    calls: list[Deadline] = []
+
+    def finish(deadline: Deadline) -> None:
+        assert h.state.closed
+        assert not h.workspace.root.exists()
+        assert not h.watchdog.disarmed
+        calls.append(deadline)
+
+    h.finish_loading = finish
+    started = h.clock.monotonic()
+    h.run()
+    assert len(calls) == 1
+    assert calls[0].expires_at <= started + (70.0 if no_match else 120.0)
+
+
+def test_loading_completion_failure_cannot_change_a_delivery(h: Harness) -> None:
+    def finish(_deadline: Deadline) -> None:
+        raise OSError("synthetic feedback failure")
+
+    h.finish_loading = finish
+    assert h.run().outcome is Outcome.DELIVERED
+    assert_cleaned_up(h)
+
+
+def test_already_running_does_not_cancel_another_runs_loading_timer(h: Harness) -> None:
+    h.state.fail["open"] = AlreadyRunning()
+    calls: list[Deadline] = []
+    h.finish_loading = calls.append
+    assert h.run().outcome is Outcome.ALREADY_RUNNING
+    assert calls == []
+
+
+def test_graceful_cancellation_still_finishes_loading(h: Harness) -> None:
+    h.cancellation = CancellationController(start_deferred=True)
+    h.cancellation.request_stop()
+    calls: list[Deadline] = []
+    h.finish_loading = calls.append
+    assert h.run().outcome is Outcome.CANCELLED
+    assert len(calls) == 1
+    assert not h.workspace.root.exists()
 
 
 def test_delivered_event_order_follows_the_lifecycle(h: Harness) -> None:

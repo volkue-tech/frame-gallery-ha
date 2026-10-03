@@ -291,6 +291,24 @@ def test_without_helpers_no_supervisor_request_is_made(rig: Rig) -> None:
     assert not rig.resolver.calls
 
 
+@pytest.mark.parametrize("deliver", [False, True])
+def test_explicit_loading_timer_uses_only_the_guarded_completion_service(
+    rig: Rig, deliver: bool
+) -> None:
+    rig.options(source="local_media", loading_timer="timer.frame_gallery_test_run")
+    if deliver:
+        rig.library_image("synthetic.jpg", (3840, 2160))
+    assert rig.run() == 0
+    (call,) = rig.transport.calls
+    assert call.request.target == "/core/api/services/timer/cancel"
+    assert call.request.method == "POST"
+    assert json.loads(call.request.body or b"") == {"entity_id": "timer.frame_gallery_test_run"}
+    assert call.request.headers["Authorization"] == f"Bearer {TOKEN}"
+    assert rig.environ == {"PATH": "/usr/bin:/bin", "LANG": "C.UTF-8"}
+    assert TOKEN not in rig.output
+    assert "loading timer completion acknowledged" in rig.output
+
+
 def test_the_museum_wiring_uses_the_identity_and_the_file_cache(rig: Rig) -> None:
     museum = AicMuseum()
     museum.records = [aic_record(n, date_start=1500 + n) for n in range(1, 4)]

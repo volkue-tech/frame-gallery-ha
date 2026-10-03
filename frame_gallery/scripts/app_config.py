@@ -78,6 +78,7 @@ def schema() -> dict[str, Value]:
         "style_helper": HELPER_SCHEMA,
         "color_helper": HELPER_SCHEMA,
         "log_level": "list(info|debug)?",
+        "loading_timer": r"match(^timer\.[a-z0-9_]{1,64}$)?",
     }
 
 
@@ -200,6 +201,14 @@ def translations() -> dict[str, Value]:
             (
                 "Advanced: info (the default) or debug, which also logs each candidate the app "
                 "considered."
+            ),
+        ),
+        "loading_timer": (
+            "Dashboard loading timer",
+            (
+                "Optional. This app's dashboard timer, for example timer.frame_gallery_run. "
+                "Only this timer is cancelled after cleanup, also on no-match and cancellation. "
+                "Leave empty to disable feedback. Its duration remains the crash fail-safe."
             ),
         ),
     }

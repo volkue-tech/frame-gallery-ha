@@ -9,6 +9,8 @@
 
 This is an engineering inventory, not legal advice.
 
+**Local image modification (D-177, 2026-10-03).** The Dockerfile hash-checks the pinned s6-overlay 3.2.3.0 `CMDSIG` script and changes only its interpreter from `/bin/sh` to the base image's `/bin/bash`, to avoid BusyBox's `kill --` warning. The upstream body and signal arguments remain unchanged. This is third-party code, not project-owned Apache-2.0 code. Upstream licence/source verification and preservation of this modification with corresponding source remain mandatory before release.
+
 ## Project code
 
 The project-owned source code is licensed under the Apache License 2.0 (D-102, accepted). The `LICENSE` file is added when publication is prepared (Phase 9).

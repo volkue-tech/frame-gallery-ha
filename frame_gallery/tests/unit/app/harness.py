@@ -18,6 +18,7 @@ from frame_gallery.app.ports import (
 )
 from frame_gallery.app.runner import Runner, RunnerPorts, RunResult
 from frame_gallery.app.signals import CancellationController
+from frame_gallery.budget.deadline import Deadline
 from frame_gallery.config.filters import FilterDimension
 from frame_gallery.config.options import LogLevel
 from frame_gallery.config.vocabulary import BUILTIN_VOCABULARY, Vocabulary, VocabularyEntry
@@ -101,6 +102,7 @@ class Harness:
     preview_port: PreviewPublisher | None = None
     records_port: RunRecords | None = None
     storage_report: Callable[[], None] = lambda: None
+    finish_loading: Callable[[Deadline], None] = lambda _deadline: None
 
     def __post_init__(self) -> None:
         clock, events = self.clock, self.events
@@ -148,6 +150,7 @@ class Harness:
             records=self.records_port or self.records,
             watchdog=self.watchdog,
             storage_report=self.storage_report,
+            finish_loading=self.finish_loading,
         )
         return Runner(
             ports,

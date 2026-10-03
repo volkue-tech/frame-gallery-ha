@@ -69,10 +69,12 @@ def test_the_dashboard_yaml_is_complete_and_consistent() -> None:
     and all of them use the same entity IDs and app ID."""
     script, card, automation = _yaml_blocks()
     assert "app: local_frame_gallery" in script
-    assert script.count("timer.frame_gallery_run") >= 4
-    assert "binary_sensor.frame_gallery_running" in script
-    assert "repeat.index >= 3" in script  # 15 s to see the app running
-    assert "repeat.index >= 27" in script  # 30 polls at most
+    assert script.count("timer.frame_gallery_run") == 3
+    assert "binary_sensor.frame_gallery_running" not in script
+    assert "repeat:" not in script
+    assert "wait_template:" in script
+    assert 'timeout: "00:02:30"' in script
+    assert 'delay: "00:00:04"' in script
     assert 'duration: "00:02:30"' in script  # the 150 s indicator (§16.3)
     assert "continue_on_error: true" in script
     assert "camera.frame_gallery_preview" in card
