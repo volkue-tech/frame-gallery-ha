@@ -266,6 +266,63 @@ pending; the subsequent Chicago delivery is visually confirmed as recorded above
 
 ## Still pending
 
+### Follow-up approval and diagnostic results
+
+The user approved continuing Phase 8 with automatic-start, cancellation and
+cleanup checks. No release or Phase 9 was authorized. The following checks
+were completed on 2026-10-03 before the next live run:
+
+- Public Core connectivity: unauthenticated `/manifest.json` returned HTTP 200
+  outside the sandbox before credentials were loaded. Core login and the four
+  fixed test-entity REST reads succeeded. Credentials were read only from the
+  two approved 1Password fields and kept in process memory.
+- An authenticated HTTP `/api/hassio/addons/local_frame_gallery_dev/info`
+  request returned 401 and was not retried. Inspection of HA 2026.9.4's official
+  `hassio/http.py` showed that this HTTP route is not exposed, even to an admin;
+  it is not evidence of invalid Core credentials. App Info in the existing
+  Firefox session showed **Gestoppt**. A separate native WebSocket metadata
+  attempt failed at transport (`OSError`), without an observed auth reply; it
+  was not retried or used to change permissions.
+- Core service metadata was read successfully. A subsequent authenticated,
+  read-only GET of the proposed new own automation configuration returned 401.
+  This is an admin-only configuration endpoint (`config/view.py`). The session
+  stopped, without a POST, retry or rights change. No test automation was saved,
+  armed or fired, and no new TV run was started by these checks.
+- A new blank automation editor was opened in an agent-created Firefox tab,
+  but not saved. Browser control then detected parallel user navigation to a
+  different app page. Input stopped; a non-blocking request asked the user to
+  leave Firefox free for the bounded live test. No input was sent to that page.
+- The Running sensor was still `on` with last change 09:17:39.917937 UTC while
+  the app was stopped. A later Core snapshot observed `off`, last change
+  09:32:39.690473 UTC: about **15 minutes**, not prompt completion feedback.
+  HA 2026.9.4's official `hassio/const.py` sets the addon update interval to
+  15 minutes, and `hassio/binary_sensor.py` derives Running from that coordinator.
+  This supports treating the sensor as coarse status only; the existing test
+  script's loading indicator is bounded, but precise start/end tracking is not
+  proven and it may cancel early when a short run is missed.
+- The already-built `aarch64` Linux test image was run with `--pull never`,
+  `--network none`, no host mounts and no HA/TV contact:
+  `pytest --no-cov -q tests/integration/test_sigkill.py
+  tests/unit/infra/test_signals.py tests/unit/store/test_workspace_and_sweep.py`.
+  **44 passed in 0.97 seconds**, exit 0. These include real child SIGKILL,
+  exclusion of uncertain uploads and removal of leftovers on the next run,
+  using synthetic persistent rigs. They are not a Green crash test or a fresh
+  whole-package coverage gate.
+
+Official implementation references:
+[HTTP Supervisor routes](https://github.com/home-assistant/core/blob/2026.9.4/homeassistant/components/hassio/http.py),
+[configuration API admin requirement](https://github.com/home-assistant/core/blob/2026.9.4/homeassistant/components/config/view.py),
+[addon polling interval](https://github.com/home-assistant/core/blob/2026.9.4/homeassistant/components/hassio/const.py),
+[Running sensor](https://github.com/home-assistant/core/blob/2026.9.4/homeassistant/components/hassio/binary_sensor.py).
+
+The Core API sessions exited; no persistent relay, automation, polling job or
+credential file remains. The next live checks need the existing authenticated
+Firefox session to be free, or separately authorized admin access. The planned
+automation is a new own unique-event test, initially disabled and self-disabling
+before starting the test script; no regular schedule and no existing automation
+change. The stopped test app, its options, dashboard and private history were
+not changed during this diagnostic round.
+
 Local quality gates were rerun after the documentation changes: Ruff and both
 strict mypy passes clean, 4,600 tests passed, 8 Linux/root-only checks skipped,
 100 % line and branch coverage, exit 0. The initial sandboxed run passed 4,598
