@@ -2,7 +2,7 @@
 
 Frame Gallery sends one fresh artwork to a Samsung Frame TV each time you start it, then stops. It picks a public-domain work from the Art Institute of Chicago, an open-access work from the Cleveland Museum of Art, or one of your own images; prepares it for the TV's 16:9 screen without cropping (unless you ask for it); uploads it; shows it; and keeps a preview for your dashboard. It never shows the same work twice while unsent works remain.
 
-> **Status: development build (0.1.0.dev0).** This is the first beta in preparation. It has not yet been tested against a real TV or on a Home Assistant Green; that happens in a supervised test before any release. The dashboard below is a draft until then.
+> **Status: development build (0.1.0.dev0).** This is the first beta in preparation. Supervised tests on Home Assistant Green confirmed local-media and Cleveland deliveries to a real Frame TV, including a restrictive-filter fallback. Chicago returned HTTP 403 and remains under investigation. Dashboard freshness and the remaining validation checks are not yet complete; the dashboard below is still a draft. See `PHASE8_REPORT.md` at the repository root.
 
 Frame Gallery is an independent project. It is not made, endorsed, or supported by Samsung, by the museums, or by Home Assistant.
 

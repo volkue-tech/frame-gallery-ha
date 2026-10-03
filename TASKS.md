@@ -161,9 +161,9 @@ Owner: Codex with user supervision
 
 - [x] Install under a unique development slug without replacing another app (install route per Q-21). *`local_frame_gallery_dev`, Frame Gallery (Test), 0.1.0.dev0; built by Supervisor on Green via `/local_apps` in the existing Terminal & SSH app. Protection enabled, own AppArmor profile loaded, watchdog disabled. See `PHASE8_REPORT.md`.*
 - [ ] Preserve all existing Home Assistant configuration.
-- [ ] Run a local-media test.
+- [x] Run a local-media test. *TV confirmed selection in 7.2 s; a second run excluded the same file and stopped as `no_match`, preserving the preview. User visual edge confirmation remains pending (`PHASE8_REPORT.md`).*
 - [ ] Run Art Institute of Chicago and Cleveland Museum of Art tests, including a restrictive-filter fallback test, against `192.168.178.30`, entered in the options and never hard-coded.
-- [ ] Verify Home Assistant Green-to-television connectivity without `host_network` before considering any change.
+- [x] Verify Home Assistant Green-to-television connectivity without `host_network` before considering any change. *Local and two Cleveland deliveries confirmed by the TV API, without a networking/protection change. Chicago's HTTP 403 remains open; the combined museum-test task is not complete.*
 - [ ] Select and document one proven preview refresh mechanism. Verify, in repeated live tests covering card-started, automation-started, app-page-started, and no-match runs, that each newly delivered image is shown without a stale browser cache (release-blocking).
 - [ ] Verify history, the upload ledger, cleanup, finite stop within 120 s (no-match within 70 s), the loading indicator, and no stale temporary files.
 - [ ] Record the entity IDs and the proven refresh mechanism. Complete the dashboard card, script, and timer, except for the public slug.

@@ -1,7 +1,8 @@
 # Supervised Green validation — in progress
 
-Date: 2026-10-03. Codex performed the checks below; none is a completed TV
-delivery or museum test. Phase 8 is not complete.
+Date: 2026-10-03. Codex performed the checks below, including successful local
+and Cleveland TV deliveries. Chicago and dashboard freshness remain open;
+Phase 8 is not complete.
 
 ## Approval and scope
 
@@ -47,10 +48,64 @@ Nothing is published. No predecessor source or implementation was inspected.
 - Only the new app's options were saved: TV address `192.168.178.30`,
   source local_media, department/style/colour any, landscape and strict
   format true, contain, black margins, debug logging. Supervisor returned OK.
-- The TV start command was **not executed**: parallel Firefox navigation
-  displaced the terminal before submission. A dedicated Chrome test tab
-  was opened instead and is waiting for the user's HA sign-in. No existing
-  dashboard action was intentionally invoked.
+- Initially the TV start command was not executed because parallel Firefox
+  navigation displaced the terminal. The user subsequently requested Firefox;
+  its existing authenticated session was used in a new terminal tab. The
+  terminal URL/input was checked before commands. No existing dashboard action
+  was intentionally invoked, and Chrome sign-in is no longer required.
+
+## Live runs observed in Firefox
+
+All runs used only `local_frame_gallery_dev`, with protection on and without
+host networking. Logs and subsequent Supervisor status were observed.
+
+| Run | Observed result | Elapsed |
+| --- | --- | --- |
+| Local synthetic 3840 × 2160 edge test | `delivered`, exit 0; connected, upload_started, uploaded, selected; stopped | 7.2 s |
+| Same local file again | Candidate excluded; `no_match`, exit 0; no TV delivery stage; stopped | 0.0 s (rounded log) |
+| Chicago, all filters `any` | Count request HTTP 200, following search HTTP 403; `source_failed`, exit 0; no TV connection; stopped | 1.3 s |
+| Cleveland, all filters `any` | `cma:113878`, Textile Fragment, 1760–1780; strict candidate; all four TV markers; `delivered`, exit 0; stopped | 19.2 s |
+| Cleveland, Chinese Art, before 1400 | `cma:136661`, Reclining Dog and Puppy, 1271–1368; fallback candidate 3400 × 1934; all four TV markers; `delivered`, exit 0; stopped | 18.5 s |
+
+The restrictive run reached the 150-candidate evaluation allowance and chose a
+landscape fallback with `contain`; it did not loosen the museum/period filter.
+The prepared local JPEG and two museum JPEGs were confirmed selected by the
+TV API, not by a camera or direct visual observation. The user was asked to
+confirm the coloured edges; that visual confirmation is still pending.
+
+Chicago stopped at its first HTTP 403, with no automatic retry or follow-up
+request to that provider. The rejection's cause is not established. No DNS,
+Tailscale, credentials, security settings, or request identity was changed to
+work around it.
+
+### Preview files and bounded media observations
+
+The first preview was 195,535 bytes, SHA256
+`6c2c4ac990a94ac473fce59d811aa10a045715d2b5074d0e032c2b412cea1d0`.
+After the duplicate/no-match run, its hash was unchanged. After Cleveland's
+strict delivery it was 2,843,370 bytes, SHA256
+`c5572a2f97a8022f0ee6f8b29e7bb07ffb86ede6190805f7720453cdb0c6692`.
+The restrictive fallback replaced it with SHA256
+`ecde80c9f51f83534e03d1aa43c3a20173a3aa857f98ce28396d68315204430f`.
+These match the prepared delivery hashes logged by the app.
+
+The media listing after the first Cleveland run contained only the retained
+263,066-byte synthetic library fixture and `preview/latest.jpg`, not a series
+of downloaded museum images. This demonstrates preview replacement in the
+shared media directory; it does **not** independently verify private `/data`
+limits or the container's `/tmp` cleanup. No cleanup warning was present in
+the observed run tails. The repeated-local-file exclusion demonstrates
+persistent exclusion behaviour but does not inspect the full history/ledger.
+
+The TV runs logged no stored pairing token on each delivery. They nevertheless
+connected and selected successfully. Whether this TV issues a reusable token
+and whether pairing persistence needs adjustment remain unverified. The
+successful upload implies its API was not rejected as 0.97; the exact API
+version was not logged and must not be inferred.
+
+The test app is retained, stopped, with the last restrictive Cleveland options
+and debug logging. The existing Art Changer, dashboards, scripts, integrations,
+and `configuration.yaml` were not changed.
 
 ## Still pending
 
@@ -61,10 +116,12 @@ tests but failed the two real supplementary-group/setgid checks; both passed
 in a targeted unsandboxed rerun, followed by the complete passing unsandboxed
 gate. No runtime code or test was changed to bypass those checks.
 
-First local run; pairing and Art API version; upload/selection; live museum
-requests and restrictive-filter fallback; actual preview freshness; history
-and upload ledger; stop timing and cleanup; Green memory/time measurements;
-AppArmor attachment/audit; dashboard entities and exact user-approved setup.
+User visual confirmation; pairing-token behaviour and exact Art API version;
+Chicago rejection diagnosis and successful Chicago delivery; actual browser
+preview freshness; detailed history and upload-ledger inspection; container
+temporary cleanup and Green memory measurements; AppArmor attachment/audit;
+dashboard entities and exact user-approved setup. Observed normal-run timings,
+local duplicate/no-match, and Cleveland fallback passed as recorded above.
 
 Keep the development app and its data. Removal, publication, and changes to
 existing HA configuration require separate direction. Small transfer archives

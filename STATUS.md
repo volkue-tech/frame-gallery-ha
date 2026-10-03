@@ -1,10 +1,10 @@
 # Project status
 
-Last updated: 2026-10-03 (Phase 8 started; separate test app installed)
+Last updated: 2026-10-03 (Phase 8: local and Cleveland deliveries observed)
 
 ## Current phase
 
-**Phase 8 (supervised Green validation): in progress. After Codex inspected the Phase 7 report, the user explicitly approved installation of a separate development app and Chicago/Cleveland image-delivery tests. `local_frame_gallery_dev` is installed, configured for the local-media test, and stopped. No image has been delivered. Next: sign in to the dedicated Chrome HA test tab, then run the first TV test. See `PHASE8_REPORT.md`. Phase 9 and publication remain unapproved.**
+**Phase 8 (supervised Green validation): in progress. The separate `local_frame_gallery_dev` app delivered the local test (7.2 s), Cleveland's strict candidate (19.2 s), and a restrictive Chinese-Art/before-1400 fallback (18.5 s), as confirmed by the TV API. The local duplicate finished as `no_match`, without changing the preview. Chicago's second API request returned HTTP 403; the app stopped cleanly without contacting the TV. Firefox's existing authenticated session worked; Chrome sign-in is not needed. The test app is stopped and retained with its last restrictive Cleveland options. Next: diagnose Chicago, obtain visual confirmation, and approve/validate a separate dashboard preview setup. Private storage, pairing, AppArmor and other Phase 8 checks remain open. See `PHASE8_REPORT.md`. Phase 9 and publication remain unapproved.**
 
 - **Phase 6 gate (user decision, 2026-10-03, after the Codex review and its follow-up checks):** passed. D-166 to D-172 are accepted, including the unchanged 1 GiB limit of the image worker (D-170). The native `amd64` memory measurement is mandatory before an `amd64` version is published, at the latest in Phase 9. The qualified licence review and the enforcement of the AppArmor profile stay release prerequisites.
 - **Phase 7 conditions:** only Phase 7 of `TASKS.md`: offline validation with the existing local environments and container images, failure-path tests, and a release-candidate report. No new features, and no additional review loops without a concrete finding. The work stops at the Phase 7 gate.
