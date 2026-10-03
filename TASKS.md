@@ -200,6 +200,10 @@ approval. Existing release prerequisites remain mandatory.
   172-archive corresponding-source candidate plus the own clean source snapshot
   is assembled/read-back hash-verified (512 MB), not publicly released. Remaining
   applicability, replacement/rebuild and final source/publication gates stay open.*
+  *D-192 supplies SOURCE_AND_REBUILD and a tracked, tested offline source-package
+  assembler, plus 111 original Alpine subsidiary/primary/recipe documents.
+  Full host gates passed (4,749 tests, 100% line/branch). Final release applicability,
+  exact-commit assembly/validation and public availability remain separate checks.*
 - [ ] Add the Apache-2.0 licence for project-owned code, and third-party notices with the GPL and LGPL texts and copyleft source availability.
   *Project LICENSE/NOTICE and the current original third-party/GPL/LGPL texts are
   committed and shipped in the Supervisor-compatible image context (D-190).

@@ -9,6 +9,28 @@
 
 This is an engineering inventory, not legal advice.
 
+**Source/rebuild instructions:** `SOURCE_AND_REBUILD.md` describes the matching
+source package, replacement of separately installed libraries and the supplied
+upstream build inputs. `scripts/source_bundle.py` assembles it offline from fixed
+hash manifests; a successful local assembly is not a published source offer.
+
+**Alpine original texts (D-192).** In addition to the package licence fields,
+111 original notice/licence/patent/selected source or recipe documents are retained
+under `LICENSES/alpine-originals/`, with archive-member hashes in
+`alpine-original-notices-manifest.json`. These include e2fsprogs/Kerberos NOTICE,
+libuv subsidiary terms, Unicode terms, GCC's runtime exception, Mozilla's source
+trust data, and the original SQLite/tzdata dedications. The retained source
+archives also contain their file-level headers. This is deliberate conservative
+retention, **not** an assertion that every build/test/manual licence applies to
+every installed binary. Recipe-only packages retain their exact APKBUILD rather
+than a fabricated upstream licence/copyright notice.
+
+`posixtz` is LGPL-covered source in the tzdata build inputs, not part of the
+audited installed `tzdata` data package: neither `/usr/bin/posixtz` nor
+`/usr/sbin/posixtz` is present in the checked native ARM runtime image. Its source
+and licence header are nevertheless retained with the broader source package.
+Alpine's "Public-Domain" shorthand is not extended to that auxiliary program.
+
 **Notice distribution (D-190).** The currently retained original `LICENSES/`
 documents and the project LICENSE/NOTICE/this inventory are mechanically staged
 in the committed Supervisor build context. The image copies them to

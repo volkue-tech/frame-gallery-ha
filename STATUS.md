@@ -12,7 +12,17 @@ No business account or predecessor material may be used. Codex performs the
 evidence-based engineering licence audit, without claiming legal counsel's
 approval. No existing technical/compliance release gate is waived.
 
-**Current work:** enforced parent/image/TV profiles, fail-closed transitions and
+**Latest local release preparation (D-192):** 111 additional Alpine original
+documents and their archive-member manifest are retained; the committed image
+payload now holds 201 public evidence files. SOURCE_AND_REBUILD documents source
+layout and replaceability; the tracked offline source assembler has 19 passing
+integrity/safety tests. Full native Mac gates passed: 4,749 tests / eleven expected
+skips, strict mypy over 232 files, unchanged 100% line/branch coverage. No runtime
+code/dependency or live HA change. Actual assembly at the clean new commit,
+image revalidation, engineering applicability and gated publication remain in
+progress, not silently marked complete.
+
+**Earlier Phase 9 work:** enforced parent/image/TV profiles, fail-closed transitions and
 worker-only seccomp network restrictions (D-178/D-180). The combined no-TV probes
 passed on the Green in `0.1.0.dev6`: both workers UID/GID 65534, enforced child
 labels, no-new-privileges, no HA token, exact 1 GiB/512 MiB address-space limits;

@@ -27,6 +27,566 @@
       "sha256": "e3a994d82e644b03a792a930f574002658412f62407f5fee083f2555c5f23118"
     },
     {
+      "path": "LICENSES/alpine-original-notices-manifest.json",
+      "bytes": 43731,
+      "sha256": "32c31c4c18ed20a7f269f4dd3396162085f6e0039d2c61810124591f055e4876"
+    },
+    {
+      "path": "LICENSES/alpine-originals/Python-3.14.8.tar.xz/Python-3.14.8/Doc/copyright.rst",
+      "bytes": 446,
+      "sha256": "f2c1d094466270ed41fc4dd2904d91b34d58cbb5033403b2de5cc153aba8e608"
+    },
+    {
+      "path": "LICENSES/alpine-originals/Python-3.14.8.tar.xz/Python-3.14.8/Doc/license.rst",
+      "bytes": 60039,
+      "sha256": "cd6f471c0bfdb099efefc25ddff9b3df8bf62e10428987f1f05e6f2f9e35d563"
+    },
+    {
+      "path": "LICENSES/alpine-originals/Python-3.14.8.tar.xz/Python-3.14.8/LICENSE",
+      "bytes": 13804,
+      "sha256": "b0e25a78cffb43f4d92de8b61ccfa1f1f98ecbc22330b54b5251e7b6ba010231"
+    },
+    {
+      "path": "LICENSES/alpine-originals/alpine-base-0934530484bbcde7498e2c694c710a49616a450e.tar.gz/aports-0934530484bbcde7498e2c694c710a49616a450e-0934530484bbcde7498e2c694c710a49616a450e-main-alpine-base/main/alpine-base/APKBUILD",
+      "bytes": 1507,
+      "sha256": "815b70b84ada04848694df0f5661b5f096cf14d8b88cd9fc877de2afe672078c"
+    },
+    {
+      "path": "LICENSES/alpine-originals/alpine-baselayout-60a7585bbab2fa0f762504eb617dbca90216e31f.tar.gz/aports-60a7585bbab2fa0f762504eb617dbca90216e31f-60a7585bbab2fa0f762504eb617dbca90216e31f-main-alpine-baselayout/main/alpine-baselayout/APKBUILD",
+      "bytes": 8670,
+      "sha256": "aef255516b71e39109860b92eb027a0986d90197427fb93ec91ebcd04bf59763"
+    },
+    {
+      "path": "LICENSES/alpine-originals/alpine-keys-b9f23becced4d7b3ccc0fa0f28530243ccd314a0.tar.gz/aports-b9f23becced4d7b3ccc0fa0f28530243ccd314a0-b9f23becced4d7b3ccc0fa0f28530243ccd314a0-main-alpine-keys/main/alpine-keys/APKBUILD",
+      "bytes": 5259,
+      "sha256": "cb352e13b9e481b424763bd36d3afdb81ac308e508abed15eb7175530050bd3f"
+    },
+    {
+      "path": "LICENSES/alpine-originals/apk-tools-v3.0.6.tar.gz/apk-tools-v3.0.6/LICENSE",
+      "bytes": 17622,
+      "sha256": "b3c87315aae4c9f276c37168f2655dd8bd990544d7a0bbfb929664155c7ab257"
+    },
+    {
+      "path": "LICENSES/alpine-originals/bash-5.3-1.tar.gz/bash-5.3/COPYING",
+      "bytes": 35147,
+      "sha256": "8ceb4b9ee5adedde47b31e975c1d90c73ad27b6b165a1dcd80c7c545eb65b903"
+    },
+    {
+      "path": "LICENSES/alpine-originals/bind-9.20.26.tar.xz/bind-9.20.26/COPYING",
+      "bytes": 15922,
+      "sha256": "d3d6ed2a709a8b82c04a556fc93654a7d4f40d53724d8fdac0ea69aff7087c1e"
+    },
+    {
+      "path": "LICENSES/alpine-originals/bind-9.20.26.tar.xz/bind-9.20.26/COPYRIGHT",
+      "bytes": 19672,
+      "sha256": "9734825d67a3ac967b2c2f7c9a83c9e5db1c2474dbe9599157c3a4188749ebd4"
+    },
+    {
+      "path": "LICENSES/alpine-originals/bind-9.20.26.tar.xz/bind-9.20.26/LICENSE",
+      "bytes": 15922,
+      "sha256": "d3d6ed2a709a8b82c04a556fc93654a7d4f40d53724d8fdac0ea69aff7087c1e"
+    },
+    {
+      "path": "LICENSES/alpine-originals/brotli-1.2.0.tar.gz/brotli-1.2.0/LICENSE",
+      "bytes": 1084,
+      "sha256": "3d180008e36922a4e8daec11c34c7af264fed5962d07924aea928c38e8663c94"
+    },
+    {
+      "path": "LICENSES/alpine-originals/busybox-1.37.0.tar.bz2/busybox-1.37.0/LICENSE",
+      "bytes": 18348,
+      "sha256": "bbfc9843646d483c334664f651c208b9839626891d8f17604db2146962f43548"
+    },
+    {
+      "path": "LICENSES/alpine-originals/bzip2-1.0.8.tar.gz/bzip2-1.0.8/LICENSE",
+      "bytes": 1896,
+      "sha256": "c6dbbf828498be844a89eaa3b84adbab3199e342eb5cb2ed2f0d4ba7ec0f38a3"
+    },
+    {
+      "path": "LICENSES/alpine-originals/c-ares-1.34.8.tar.gz/c-ares-1.34.8/LICENSE.md",
+      "bytes": 1211,
+      "sha256": "460f5e768fda3752ca2169a95df062578a10fb126bfd65f3b9b1a1bed2f84807"
+    },
+    {
+      "path": "LICENSES/alpine-originals/ca-certificates-20260611.tar.bz2/ca-certificates-20260611/Makefile",
+      "bytes": 1583,
+      "sha256": "27487e5f9cc4a76831514cc279f1c46e7925041595c1a3e0ef91e526eb17f93f"
+    },
+    {
+      "path": "LICENSES/alpine-originals/ca-certificates-20260611.tar.bz2/ca-certificates-20260611/c_rehash.c",
+      "bytes": 9533,
+      "sha256": "a68fedc0edd976b9f35ecfdcb252d80dc12084b1bc4e945be7dc42c437d8b540"
+    },
+    {
+      "path": "LICENSES/alpine-originals/ca-certificates-20260611.tar.bz2/ca-certificates-20260611/certdata.txt",
+      "bytes": 1330761,
+      "sha256": "e57912808daef7b2b0fa4df2ccf17e47aeaf26c839a38f85c76003ebafd866bd"
+    },
+    {
+      "path": "LICENSES/alpine-originals/ca-certificates-20260611.tar.bz2/ca-certificates-20260611/update-ca.c",
+      "bytes": 7736,
+      "sha256": "fff6ee69a2f5705e0ae5a0214f0e1fff029b14adef49359160cf9a5c867d5df4"
+    },
+    {
+      "path": "LICENSES/alpine-originals/curl-8.21.0.tar.xz/curl-8.21.0/COPYING",
+      "bytes": 1088,
+      "sha256": "82f2f4427d6545ee5aaac4f0b80428da6cc8ba41c2cf5da3a03680ec327b9681"
+    },
+    {
+      "path": "LICENSES/alpine-originals/e2fsprogs-1.47.4.tar.gz/e2fsprogs-1.47.4/NOTICE",
+      "bytes": 44585,
+      "sha256": "5da5ef153e559c1d990d4c3eedbedd4442db892d37eae1f35fff069de8ec9020"
+    },
+    {
+      "path": "LICENSES/alpine-originals/e2fsprogs-1.47.4.tar.gz/e2fsprogs-1.47.4/debian/copyright",
+      "bytes": 20459,
+      "sha256": "2041b5febdc110151ca3372d01b16b85dda1888e33f3f60fce0f59940eed7d19"
+    },
+    {
+      "path": "LICENSES/alpine-originals/expat-2.8.5.tar.xz/expat-2.8.5/COPYING",
+      "bytes": 1144,
+      "sha256": "31b15de82aa19a845156169a17a5488bf597e561b2c318d159ed583139b25e87"
+    },
+    {
+      "path": "LICENSES/alpine-originals/fstrm-0.6.1.tar.gz/fstrm-0.6.1/COPYRIGHT",
+      "bytes": 1070,
+      "sha256": "fb7b6df23d37e4d9f60ea5e7b8a1ac793f1db07915539d2d201949f30f3aff23"
+    },
+    {
+      "path": "LICENSES/alpine-originals/fstrm-0.6.1.tar.gz/fstrm-0.6.1/LICENSE",
+      "bytes": 1070,
+      "sha256": "fb7b6df23d37e4d9f60ea5e7b8a1ac793f1db07915539d2d201949f30f3aff23"
+    },
+    {
+      "path": "LICENSES/alpine-originals/gcc-15.2.0.tar.xz/gcc-15.2.0/COPYING",
+      "bytes": 18002,
+      "sha256": "231f7edcc7352d7734a96eef0b8030f77982678c516876fcb81e25b32d68564c"
+    },
+    {
+      "path": "LICENSES/alpine-originals/gcc-15.2.0.tar.xz/gcc-15.2.0/COPYING.LIB",
+      "bytes": 26527,
+      "sha256": "a9bdde5616ecdd1e980b44f360600ee8783b1f99b8cc83a2beb163a0a390e861"
+    },
+    {
+      "path": "LICENSES/alpine-originals/gcc-15.2.0.tar.xz/gcc-15.2.0/COPYING.RUNTIME",
+      "bytes": 3324,
+      "sha256": "9d6b43ce4d8de0c878bf16b54d8e7a10d9bd42b75178153e3af6a815bdc90f74"
+    },
+    {
+      "path": "LICENSES/alpine-originals/gcc-15.2.0.tar.xz/gcc-15.2.0/COPYING3",
+      "bytes": 35147,
+      "sha256": "8ceb4b9ee5adedde47b31e975c1d90c73ad27b6b165a1dcd80c7c545eb65b903"
+    },
+    {
+      "path": "LICENSES/alpine-originals/gcc-15.2.0.tar.xz/gcc-15.2.0/COPYING3.LIB",
+      "bytes": 7639,
+      "sha256": "a853c2ffec17057872340eee242ae4d96cbf2b520ae27d903e1b2fef1a5f9d1c"
+    },
+    {
+      "path": "LICENSES/alpine-originals/gcc-15.2.0.tar.xz/gcc-15.2.0/gcc/COPYING",
+      "bytes": 18002,
+      "sha256": "231f7edcc7352d7734a96eef0b8030f77982678c516876fcb81e25b32d68564c"
+    },
+    {
+      "path": "LICENSES/alpine-originals/gcc-15.2.0.tar.xz/gcc-15.2.0/gcc/COPYING.LIB",
+      "bytes": 26440,
+      "sha256": "32434afcc8666ba060e111d715bfdb6c2d5dd8a35fa4d3ab8ad67d8f850d2f2b"
+    },
+    {
+      "path": "LICENSES/alpine-originals/gcc-15.2.0.tar.xz/gcc-15.2.0/gcc/COPYING3",
+      "bytes": 35147,
+      "sha256": "8ceb4b9ee5adedde47b31e975c1d90c73ad27b6b165a1dcd80c7c545eb65b903"
+    },
+    {
+      "path": "LICENSES/alpine-originals/gcc-15.2.0.tar.xz/gcc-15.2.0/gcc/COPYING3.LIB",
+      "bytes": 7639,
+      "sha256": "a853c2ffec17057872340eee242ae4d96cbf2b520ae27d903e1b2fef1a5f9d1c"
+    },
+    {
+      "path": "LICENSES/alpine-originals/gcc-15.2.0.tar.xz/gcc-15.2.0/include/COPYING",
+      "bytes": 18002,
+      "sha256": "231f7edcc7352d7734a96eef0b8030f77982678c516876fcb81e25b32d68564c"
+    },
+    {
+      "path": "LICENSES/alpine-originals/gcc-15.2.0.tar.xz/gcc-15.2.0/include/COPYING3",
+      "bytes": 35147,
+      "sha256": "8ceb4b9ee5adedde47b31e975c1d90c73ad27b6b165a1dcd80c7c545eb65b903"
+    },
+    {
+      "path": "LICENSES/alpine-originals/gcc-15.2.0.tar.xz/gcc-15.2.0/libcody/LICENSE",
+      "bytes": 11357,
+      "sha256": "c71d239df91726fc519c6eb72d318ec65820627232b2f796219e87dcf35d0ab4"
+    },
+    {
+      "path": "LICENSES/alpine-originals/gcc-15.2.0.tar.xz/gcc-15.2.0/libffi/LICENSE",
+      "bytes": 1132,
+      "sha256": "a61d06e8f7be57928e71e800eb9273b05cb8868c484108afe41e4305bb320dde"
+    },
+    {
+      "path": "LICENSES/alpine-originals/gcc-15.2.0.tar.xz/gcc-15.2.0/libffi/LICENSE-BUILDTOOLS",
+      "bytes": 18698,
+      "sha256": "e67978cd18816c0cb7d29aaaacde7b7447402c2fb321a051698890a8eaedda94"
+    },
+    {
+      "path": "LICENSES/alpine-originals/gcc-15.2.0.tar.xz/gcc-15.2.0/libgcobol/LICENSE",
+      "bytes": 1478,
+      "sha256": "e928a2c9b73e5548dddb9e74f83dc5bb58e8856fc6e8c21b7107f9b5098bcff7"
+    },
+    {
+      "path": "LICENSES/alpine-originals/gcc-15.2.0.tar.xz/gcc-15.2.0/libgo/LICENSE",
+      "bytes": 1479,
+      "sha256": "2d36597f7117c38b006835ae7f537487207d8ec407aa9d9980794b2030cbc067"
+    },
+    {
+      "path": "LICENSES/alpine-originals/gcc-15.2.0.tar.xz/gcc-15.2.0/libgo/PATENTS",
+      "bytes": 1303,
+      "sha256": "96f408bfae65bf137fc2525d3ecb030271c50c1e90799f87abf8846d8dd505cc"
+    },
+    {
+      "path": "LICENSES/alpine-originals/gcc-15.2.0.tar.xz/gcc-15.2.0/libiberty/COPYING.LIB",
+      "bytes": 26440,
+      "sha256": "32434afcc8666ba060e111d715bfdb6c2d5dd8a35fa4d3ab8ad67d8f850d2f2b"
+    },
+    {
+      "path": "LICENSES/alpine-originals/gcc-15.2.0.tar.xz/gcc-15.2.0/libiberty/copying-lib.texi",
+      "bytes": 26755,
+      "sha256": "6b1a482626fb7e7a839732f48d9e5f4a38a67bb579dbeb06d783528ec553c8b9"
+    },
+    {
+      "path": "LICENSES/alpine-originals/gcc-15.2.0.tar.xz/gcc-15.2.0/libquadmath/COPYING.LIB",
+      "bytes": 26440,
+      "sha256": "32434afcc8666ba060e111d715bfdb6c2d5dd8a35fa4d3ab8ad67d8f850d2f2b"
+    },
+    {
+      "path": "LICENSES/alpine-originals/gcc-15.2.0.tar.xz/gcc-15.2.0/libsanitizer/LICENSE.TXT",
+      "bytes": 4506,
+      "sha256": "74c2b24539a53c34abddb559266d89cb653b0198cd2faf9c04763d3223db7f6d"
+    },
+    {
+      "path": "LICENSES/alpine-originals/gdbm-1.26.tar.gz/gdbm-1.26/COPYING",
+      "bytes": 35072,
+      "sha256": "690d762f2e8e149ab1e2d6a409a3853b6151a2533b2382fae549a176d6bedecf"
+    },
+    {
+      "path": "LICENSES/alpine-originals/jq-1.8.1.tar.gz/jq-1.8.1/COPYING",
+      "bytes": 7887,
+      "sha256": "ad2b4a266b2268939c1446979759706077421cf906a203aa188c6f396e8cfd74"
+    },
+    {
+      "path": "LICENSES/alpine-originals/json-c-0.18.tar.gz/json-c-0.18/COPYING",
+      "bytes": 2205,
+      "sha256": "74c1e6ca5eba76b54d0ad00d4815c8315c1b3bc45ff99de61d103dc92486284c"
+    },
+    {
+      "path": "LICENSES/alpine-originals/keyutils-1.6.3.tar.gz/keyutils-1.6.3/LICENCE.GPL",
+      "bytes": 17997,
+      "sha256": "f46409d4822b2457b39bbd0e7881eecb396130eb8320b7748fa7e9488970aa6d"
+    },
+    {
+      "path": "LICENSES/alpine-originals/keyutils-1.6.3.tar.gz/keyutils-1.6.3/LICENCE.LGPL",
+      "bytes": 26450,
+      "sha256": "0d15593e3a8ad90917f8509b5ac1e4b5e5d196434a68029aa9dc0858a4a4c521"
+    },
+    {
+      "path": "LICENSES/alpine-originals/krb5-1.22.2.tar.gz/krb5-1.22.2/NOTICE",
+      "bytes": 63690,
+      "sha256": "d37fcb886de2ad1c602f61c99c6893bcbd9a1949f54d9a6bb40d191204eb605e"
+    },
+    {
+      "path": "LICENSES/alpine-originals/krb5-1.22.2.tar.gz/krb5-1.22.2/doc/copyright.rst",
+      "bytes": 212,
+      "sha256": "5f0bdbe8d98be3b73752e48b0f1deb57e0573926c6d7d55a44de2b4ac2c181c8"
+    },
+    {
+      "path": "LICENSES/alpine-originals/krb5-1.22.2.tar.gz/krb5-1.22.2/doc/notice.rst",
+      "bytes": 62479,
+      "sha256": "35a540e57bd0c22f1a5c8262dac9f80b1b440ce249db8d2d02604c800149b52e"
+    },
+    {
+      "path": "LICENSES/alpine-originals/krb5-conf-4a46b2cb955e25fd6d6f913794d35bc6d876aea9.tar.gz/aports-4a46b2cb955e25fd6d6f913794d35bc6d876aea9-4a46b2cb955e25fd6d6f913794d35bc6d876aea9-main-krb5-conf/main/krb5-conf/APKBUILD",
+      "bytes": 988,
+      "sha256": "7962206597c478b726f46b0392a73bec21bfa70afa56c62ccb043d1ade3d6286"
+    },
+    {
+      "path": "LICENSES/alpine-originals/libffi-3.5.2.tar.gz/libffi-3.5.2/LICENSE",
+      "bytes": 1132,
+      "sha256": "d5699fa516968e3a1550e6c902b7441c78856f2603d61bedd0b0662a26655366"
+    },
+    {
+      "path": "LICENSES/alpine-originals/libffi-3.5.2.tar.gz/libffi-3.5.2/LICENSE-BUILDTOOLS",
+      "bytes": 18698,
+      "sha256": "e67978cd18816c0cb7d29aaaacde7b7447402c2fb321a051698890a8eaedda94"
+    },
+    {
+      "path": "LICENSES/alpine-originals/libidn2-2.3.8.tar.gz/libidn2-2.3.8/COPYING",
+      "bytes": 35149,
+      "sha256": "3972dc9744f6499f0f9b2dbf76696f2ae7ad8af9b23dde66d6af86c9dfb36986"
+    },
+    {
+      "path": "LICENSES/alpine-originals/libidn2-2.3.8.tar.gz/libidn2-2.3.8/COPYING.LESSERv3",
+      "bytes": 7652,
+      "sha256": "e3a994d82e644b03a792a930f574002658412f62407f5fee083f2555c5f23118"
+    },
+    {
+      "path": "LICENSES/alpine-originals/libidn2-2.3.8.tar.gz/libidn2-2.3.8/COPYING.unicode",
+      "bytes": 8782,
+      "sha256": "01d621eef165cf4d3d3dbb737aa0699178d94c6f18cf87e9dde6db3ca7790f46"
+    },
+    {
+      "path": "LICENSES/alpine-originals/libidn2-2.3.8.tar.gz/libidn2-2.3.8/COPYINGv2",
+      "bytes": 17984,
+      "sha256": "edaef632cbb643e4e7a221717a6c441a4c1a7c918e6e4d56debc3d8739b233f6"
+    },
+    {
+      "path": "LICENSES/alpine-originals/libpsl-0.21.5.tar.gz/libpsl-0.21.5/COPYING",
+      "bytes": 1060,
+      "sha256": "322392e6001b2b3b0fca705dc9f11f26e12441188ecde50eb1d22909980b2925"
+    },
+    {
+      "path": "LICENSES/alpine-originals/libpsl-0.21.5.tar.gz/libpsl-0.21.5/LICENSE",
+      "bytes": 1060,
+      "sha256": "322392e6001b2b3b0fca705dc9f11f26e12441188ecde50eb1d22909980b2925"
+    },
+    {
+      "path": "LICENSES/alpine-originals/libpsl-0.21.5.tar.gz/libpsl-0.21.5/src/LICENSE.chromium",
+      "bytes": 1664,
+      "sha256": "1d7f52747a9169751cdf2641a8299c0098e9ecdf9429296ffd55bdb14c9ed5b3"
+    },
+    {
+      "path": "LICENSES/alpine-originals/libunistring-1.4.2.tar.xz/libunistring-1.4.2/COPYING",
+      "bytes": 35149,
+      "sha256": "3972dc9744f6499f0f9b2dbf76696f2ae7ad8af9b23dde66d6af86c9dfb36986"
+    },
+    {
+      "path": "LICENSES/alpine-originals/libunistring-1.4.2.tar.xz/libunistring-1.4.2/COPYING.LIB",
+      "bytes": 7639,
+      "sha256": "a853c2ffec17057872340eee242ae4d96cbf2b520ae27d903e1b2fef1a5f9d1c"
+    },
+    {
+      "path": "LICENSES/alpine-originals/libuv-v1.52.1.tar.gz/libuv-v1.52.1/LICENSE",
+      "bytes": 1079,
+      "sha256": "16de0c32b265cb7d46a6d3bd614f259dd4d693a5e26b3407b04aae8d73041f0c"
+    },
+    {
+      "path": "LICENSES/alpine-originals/libuv-v1.52.1.tar.gz/libuv-v1.52.1/LICENSE-docs",
+      "bytes": 18652,
+      "sha256": "cce5d01fa4a83b794271bd2c28cffdf99afd43c803e6ddefddae39b591ea7448"
+    },
+    {
+      "path": "LICENSES/alpine-originals/libuv-v1.52.1.tar.gz/libuv-v1.52.1/LICENSE-extra",
+      "bytes": 1603,
+      "sha256": "262c44bd2cdba037e6d2a82fba15f5800d292bc993a6f5d6b6ea487744d02836"
+    },
+    {
+      "path": "LICENSES/alpine-originals/libverto-0.3.2.tar.gz/libverto-0.3.2/COPYING",
+      "bytes": 1054,
+      "sha256": "ee2f49235ed5947ace182dcb3aba92655aeafab4f3a33c98a9c6d75a6a238480"
+    },
+    {
+      "path": "LICENSES/alpine-originals/libxml2-2.13.9.tar.xz/libxml2-2.13.9/Copyright",
+      "bytes": 1273,
+      "sha256": "c99aae1afe013e50b8b3701e089222b351258043c3025b64053a233fd25b4be7"
+    },
+    {
+      "path": "LICENSES/alpine-originals/mpdecimal-4.0.1.tar.gz/mpdecimal-4.0.1/COPYRIGHT.txt",
+      "bytes": 1285,
+      "sha256": "dba079e24a0286052f9f36a5e0b4f6cc95bc83ada657eb26bef8c0b6473f6512"
+    },
+    {
+      "path": "LICENSES/alpine-originals/mpdecimal-4.0.1.tar.gz/mpdecimal-4.0.1/doc/COPYRIGHT.txt",
+      "bytes": 2943,
+      "sha256": "8d99282e76b6de2247323d6fe7cc45700872b9b761f9a644ba8db7c15a984c49"
+    },
+    {
+      "path": "LICENSES/alpine-originals/musl-1.2.6.tar.gz/musl-1.2.6/COPYRIGHT",
+      "bytes": 6196,
+      "sha256": "b870108ec5e7790e9f9919064f1b9421d62d5f9b0e6c230c6adf7ea2da62e97b"
+    },
+    {
+      "path": "LICENSES/alpine-originals/ncurses-6.6-20260516.tgz/ncurses-6.6-20260516/COPYING",
+      "bytes": 1447,
+      "sha256": "a85ca5bef8ce71f013bc5f4306c681881b248450f3b63722589891f0b69ea52d"
+    },
+    {
+      "path": "LICENSES/alpine-originals/nghttp2-1.69.0.tar.xz/nghttp2-1.69.0/COPYING",
+      "bytes": 1156,
+      "sha256": "6b94f3abc1aabd0c72a7c7d92a77f79dda7c8a0cb3df839a97890b4116a2de2a"
+    },
+    {
+      "path": "LICENSES/alpine-originals/oniguruma-6.9.10.tar.gz/oniguruma-6.9.10/COPYING",
+      "bytes": 1340,
+      "sha256": "70ba5469ea0bab6e18a32d7009068f996503168d27be57747e08da34337ff26f"
+    },
+    {
+      "path": "LICENSES/alpine-originals/openssl-3.5.7.tar.gz/openssl-3.5.7/LICENSE.txt",
+      "bytes": 10175,
+      "sha256": "7d5450cb2d142651b8afa315b5f238efc805dad827d91ba367d8516bc9d49e7a"
+    },
+    {
+      "path": "LICENSES/alpine-originals/pax-utils-1.3.9.tar.xz/pax-utils-1.3.9/COPYING",
+      "bytes": 18011,
+      "sha256": "e6d6a009505e345fe949e1310334fcb0747f28dae2856759de102ab66b722cb4"
+    },
+    {
+      "path": "LICENSES/alpine-originals/posixtz-0.5.tar.xz/posixtz-0.5/main.c",
+      "bytes": 355,
+      "sha256": "12335ad6da156f3615038d6570f4222bb182c47899260cf10eaa2db9dfb89cdf"
+    },
+    {
+      "path": "LICENSES/alpine-originals/posixtz-0.5.tar.xz/posixtz-0.5/posixtz.c",
+      "bytes": 1575,
+      "sha256": "2a626c3648255bfce2a971f814d87b43e9ce15039c3b1b2964cffd29d62685ee"
+    },
+    {
+      "path": "LICENSES/alpine-originals/posixtz-0.5.tar.xz/posixtz-0.5/posixtz.h",
+      "bytes": 83,
+      "sha256": "32ff4de8a5c57234a6cd779f5cf5df3b7737ef0ea00e9066f551212e120a22e4"
+    },
+    {
+      "path": "LICENSES/alpine-originals/protobuf-c-1.5.2.tar.gz/protobuf-c-1.5.2/LICENSE",
+      "bytes": 1613,
+      "sha256": "2d1d028bd27f8c85bc970d720519d2069ca6213fcb26b9dea444a7c39d24bbb3"
+    },
+    {
+      "path": "LICENSES/alpine-originals/readline-8.3.tar.gz/readline-8.3/COPYING",
+      "bytes": 35147,
+      "sha256": "8ceb4b9ee5adedde47b31e975c1d90c73ad27b6b165a1dcd80c7c545eb65b903"
+    },
+    {
+      "path": "LICENSES/alpine-originals/sqlite-autoconf-3530400.tar.gz/sqlite-autoconf-3530400/autosetup/LICENSE",
+      "bytes": 1737,
+      "sha256": "679b9208e67df09977456d1d2ae4d885b9badf02c47b45a28cf95ee27c14cb18"
+    },
+    {
+      "path": "LICENSES/alpine-originals/sqlite-autoconf-3530400.tar.gz/sqlite-autoconf-3530400/tea/license.terms",
+      "bytes": 257,
+      "sha256": "66e056b6e8687f32af30d5187611b98b12a8f46f07aaf62f43585f276e8f0ac9"
+    },
+    {
+      "path": "LICENSES/alpine-originals/sqlite-src-3530400.zip/sqlite-src-3530400/LICENSE.md",
+      "bytes": 3850,
+      "sha256": "ee6af51062b30d532991face5164136ae6f84e265ecf8abe89dc69dac45ca1e7"
+    },
+    {
+      "path": "LICENSES/alpine-originals/tzcode2026c.tar.gz/LICENSE",
+      "bytes": 252,
+      "sha256": "0613408568889f5739e5ae252b722a2659c02002839ad970a63dc5e9174b27cf"
+    },
+    {
+      "path": "LICENSES/alpine-originals/tzdata2026c.tar.gz/LICENSE",
+      "bytes": 252,
+      "sha256": "0613408568889f5739e5ae252b722a2659c02002839ad970a63dc5e9174b27cf"
+    },
+    {
+      "path": "LICENSES/alpine-originals/userspace-rcu-0.15.3.tar.bz2/userspace-rcu-0.15.3/LICENSE.md",
+      "bytes": 1841,
+      "sha256": "5f968522edc611ac568371336609170b00dca5159211a87d2e136b837222826b"
+    },
+    {
+      "path": "LICENSES/alpine-originals/userspace-rcu-0.15.3.tar.bz2/userspace-rcu-0.15.3/LICENSES/Autoconf-exception-2.0.txt",
+      "bytes": 1573,
+      "sha256": "311609164358261bc6d307fe3204b7592a23e80a75a5c90d9d3422ee218d1033"
+    },
+    {
+      "path": "LICENSES/alpine-originals/userspace-rcu-0.15.3.tar.bz2/userspace-rcu-0.15.3/LICENSES/BSD-2-Clause.txt",
+      "bytes": 1267,
+      "sha256": "f32fb3b417a194167cfad068223fc975ba96c5960513a10f66a3c28720aec1df"
+    },
+    {
+      "path": "LICENSES/alpine-originals/userspace-rcu-0.15.3.tar.bz2/userspace-rcu-0.15.3/LICENSES/CC-BY-4.0.txt",
+      "bytes": 17023,
+      "sha256": "d557539df68e771cc1eedcc91d13f70fca930e508d11eedcafa4b15db49e3744"
+    },
+    {
+      "path": "LICENSES/alpine-originals/userspace-rcu-0.15.3.tar.bz2/userspace-rcu-0.15.3/LICENSES/CC0-1.0.txt",
+      "bytes": 7048,
+      "sha256": "a2010f343487d3f7618affe54f789f5487602331c0a8d03f49e9a7c547cf0499"
+    },
+    {
+      "path": "LICENSES/alpine-originals/userspace-rcu-0.15.3.tar.bz2/userspace-rcu-0.15.3/LICENSES/FSFAP.txt",
+      "bytes": 225,
+      "sha256": "99cb91dacd5714a701749ec47239015726beec5fc86a5c94a4873778824b16d7"
+    },
+    {
+      "path": "LICENSES/alpine-originals/userspace-rcu-0.15.3.tar.bz2/userspace-rcu-0.15.3/LICENSES/GPL-2.0-only.txt",
+      "bytes": 17337,
+      "sha256": "aaf135472f81c5b4a0dca9367e5bb5e9750032b5bebe5442b36e4c0a47430df3"
+    },
+    {
+      "path": "LICENSES/alpine-originals/userspace-rcu-0.15.3.tar.bz2/userspace-rcu-0.15.3/LICENSES/GPL-2.0-or-later.txt",
+      "bytes": 17337,
+      "sha256": "aaf135472f81c5b4a0dca9367e5bb5e9750032b5bebe5442b36e4c0a47430df3"
+    },
+    {
+      "path": "LICENSES/alpine-originals/userspace-rcu-0.15.3.tar.bz2/userspace-rcu-0.15.3/LICENSES/LGPL-2.1-only.txt",
+      "bytes": 25967,
+      "sha256": "fa6f36630bb1e0c571d34b2bbdf188d08495c9dbf58f28cac112f303fc1f58fb"
+    },
+    {
+      "path": "LICENSES/alpine-originals/userspace-rcu-0.15.3.tar.bz2/userspace-rcu-0.15.3/LICENSES/LGPL-2.1-or-later.txt",
+      "bytes": 25967,
+      "sha256": "fa6f36630bb1e0c571d34b2bbdf188d08495c9dbf58f28cac112f303fc1f58fb"
+    },
+    {
+      "path": "LICENSES/alpine-originals/userspace-rcu-0.15.3.tar.bz2/userspace-rcu-0.15.3/LICENSES/LicenseRef-Autoconf-exception-macro.txt",
+      "bytes": 768,
+      "sha256": "f4d2da1bbeb699a80a1f6d06161ba6625aa766c538dddeaa5a6bb9087462841c"
+    },
+    {
+      "path": "LICENSES/alpine-originals/userspace-rcu-0.15.3.tar.bz2/userspace-rcu-0.15.3/LICENSES/LicenseRef-Boehm-GC.txt",
+      "bytes": 506,
+      "sha256": "9d79ea74534f11db4c04bc9c0175878c0f79641d335ff23d5b5b4d7671924509"
+    },
+    {
+      "path": "LICENSES/alpine-originals/userspace-rcu-0.15.3.tar.bz2/userspace-rcu-0.15.3/LICENSES/MIT.txt",
+      "bytes": 1078,
+      "sha256": "b85dcd3e453d05982552c52b5fc9e0bdd6d23c6f8e844b984a88af32570b0cc0"
+    },
+    {
+      "path": "LICENSES/alpine-originals/xz-5.8.3.tar.gz/xz-5.8.3/COPYING",
+      "bytes": 3119,
+      "sha256": "616a3ad264ce29b8f1cb97e53037b139d406899ca8d1f799651e17bfa09830b8"
+    },
+    {
+      "path": "LICENSES/alpine-originals/xz-5.8.3.tar.gz/xz-5.8.3/COPYING.0BSD",
+      "bytes": 607,
+      "sha256": "0b01625d853911cd0e2e088dcfb743261034a091bb379246cb25a14cc4c74bf1"
+    },
+    {
+      "path": "LICENSES/alpine-originals/xz-5.8.3.tar.gz/xz-5.8.3/COPYING.GPLv2",
+      "bytes": 17984,
+      "sha256": "edaef632cbb643e4e7a221717a6c441a4c1a7c918e6e4d56debc3d8739b233f6"
+    },
+    {
+      "path": "LICENSES/alpine-originals/xz-5.8.3.tar.gz/xz-5.8.3/COPYING.GPLv3",
+      "bytes": 35149,
+      "sha256": "3972dc9744f6499f0f9b2dbf76696f2ae7ad8af9b23dde66d6af86c9dfb36986"
+    },
+    {
+      "path": "LICENSES/alpine-originals/xz-5.8.3.tar.gz/xz-5.8.3/COPYING.LGPLv2.1",
+      "bytes": 26419,
+      "sha256": "20e50fe7aae3e56378ebf0417d9de904f55a0e61e4df315333e632a4d3555d95"
+    },
+    {
+      "path": "LICENSES/alpine-originals/zlib-1.3.2.tar.gz/zlib-1.3.2/LICENSE",
+      "bytes": 1002,
+      "sha256": "e32ff4e00d9d94930537635291da39e7e612703334bf6fde8c7f1686fe8a45a2"
+    },
+    {
+      "path": "LICENSES/alpine-originals/zstd-1.5.7.tar.gz/zstd-1.5.7/COPYING",
+      "bytes": 18091,
+      "sha256": "f9c375a1be4a41f7b70301dd83c91cb89e41567478859b77eef375a52d782505"
+    },
+    {
+      "path": "LICENSES/alpine-originals/zstd-1.5.7.tar.gz/zstd-1.5.7/LICENSE",
+      "bytes": 1549,
+      "sha256": "7055266497633c9025b777c78eb7235af13922117480ed5c674677adc381c9d8"
+    },
+    {
+      "path": "LICENSES/alpine-originals/zstd-1.5.7.tar.gz/zstd-1.5.7/build/LICENSE",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
       "path": "LICENSES/alpine-source-manifest.json",
       "bytes": 68042,
       "sha256": "de25882f83a432fe5026c901a260d6c745268855c85583f873909a02656d4170"
@@ -443,8 +1003,8 @@
     },
     {
       "path": "THIRD_PARTY_NOTICES.md",
-      "bytes": 28512,
-      "sha256": "f142ad6d40e30dc9cef798c61c8ee2a820932653d250f575d209fc1272d7ad78"
+      "bytes": 29981,
+      "sha256": "66d995333e4427cbef2b7a06356df83ad1f080291e0f3c8b4174e71b9fd2b27b"
     }
   ]
 }

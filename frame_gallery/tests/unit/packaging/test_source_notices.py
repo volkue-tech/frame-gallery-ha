@@ -83,3 +83,43 @@ def test_the_tiff_security_patch_and_berkeley_acknowledgement_are_retained() -> 
     )
     assert "AOM Patent License 1.0" in notices
     assert "782a11d6b5b61c6dc21e714950a4af5bf89f023c" in notices
+
+
+def test_alpine_original_notices_match_source_manifest_and_retained_bytes() -> None:
+    manifest = json.loads((LICENSES / "alpine-original-notices-manifest.json").read_text())
+    sources = json.loads((LICENSES / "alpine-source-manifest.json").read_text())
+    archives = {row["filename"]: row for row in sources["sources"] + sources["recipes"]}
+    assert manifest["schema"] == 1
+    texts = manifest["texts"]
+    assert len(texts) == 111
+    assert len({row["path"] for row in texts}) == len(texts)
+    for row in texts:
+        path = LICENSES / row["path"]
+        assert ".." not in path.parts
+        assert path.is_relative_to(LICENSES)
+        assert not path.is_symlink()
+        data = path.read_bytes()
+        assert len(data) == row["bytes"]
+        assert hashlib.sha256(data).hexdigest() == row["sha256"]
+        assert row["archive_sha256"] == archives[row["archive"]]["sha256"]
+
+
+def test_alpine_subsidiary_notice_and_recipe_evidence_is_not_missing() -> None:
+    manifest = json.loads((LICENSES / "alpine-original-notices-manifest.json").read_text())
+    members = {row["member"] for row in manifest["texts"]}
+    assert {
+        "e2fsprogs-1.47.4/NOTICE",
+        "krb5-1.22.2/NOTICE",
+        "libuv-v1.52.1/LICENSE-extra",
+        "libidn2-2.3.8/COPYING.unicode",
+        "gcc-15.2.0/COPYING.RUNTIME",
+        "sqlite-src-3530400/LICENSE.md",
+        "ca-certificates-20260611/certdata.txt",
+        "posixtz-0.5/posixtz.c",
+        "userspace-rcu-0.15.3/LICENSES/LicenseRef-Boehm-GC.txt",
+    } <= members
+    recipes = [row for row in manifest["texts"] if row["member"].endswith("/APKBUILD")]
+    assert len(recipes) == 4
+    dedication = (LICENSES / "alpine-originals/tzdata2026c.tar.gz/LICENSE").read_text()
+    assert "public domain" in dedication
+    assert "BSD 3-clause" in dedication

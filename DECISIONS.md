@@ -2,6 +2,40 @@
 
 ## Phase 9 implementation decisions (2026-10-03)
 
+### D-192 — original Alpine subsidiary texts and repeatable source assembly
+
+Status: implementation within the authorized Phase 9 engineering audit;
+verification results recorded in PHASE9_REPORT. No new runtime dependency,
+privilege, licence relabeling or live Green mutation.
+
+The exact already retained Alpine source/recipe archives supply 111 additional
+original documents, 2,672,323 bytes. All are read as inert regular members, never
+extracted as a tree or executed; source hashes match D-186's fixed manifest.
+`alpine-original-notices-manifest.json` records original member names, hashes and
+lengths. This retains primary/subsidiary licences and notices, not a blanket claim
+that build/test/manual licences all govern the installed binary. The original
+empty Zstd build/LICENSE is retained faithfully, not used as a licence grant.
+SQLite and tzdata dedications retain their original scope/exception wording;
+recipe-only packages retain the exact recipe without fabricated MIT copyrights.
+Auxiliary posixtz source says LGPL, despite tzdata's apk Public-Domain shorthand.
+An offline existing native ARM image check found neither possible installed
+posixtz executable path; its broader build source is retained regardless.
+
+`source_bundle.py` replaces the ignored one-off D-191 assembler with a tested
+development tool. Only nine fixed manifest sections and a clean Git HEAD are
+accepted. It bounds 200 archives / 1 GiB total input, rejects symlinks, traversal,
+tampered/missing sources and dirty/changing Git state; output is an exclusively
+created own-build tar with deterministic metadata and read-back member hashes.
+It never downloads, extracts or executes upstream sources. An existing output
+is preserved; failed partial output remains unpublished for inspection.
+
+SOURCE_AND_REBUILD documents corresponding source layout, separate-library
+replacement, upstream build inputs and local developer installation. Ordinary
+users still require no SSH/Docker/configuration edits. No byte-reproducible
+Pillow/OS rebuild or independent legal opinion is claimed. Original code, locks
+and decoder behavior are unchanged; full engineering applicability, final source
+publication and public-install gates are not waived by this implementation.
+
 ### D-178 — enforced, one-way image and television child profiles
 
 Status: accepted within the user-approved Phase 9 hardening scope (R-31).

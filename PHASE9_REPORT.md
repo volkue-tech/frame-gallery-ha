@@ -337,3 +337,30 @@ no token was saved or logged and the backup branch was not pushed.
    public Green install, final public slug/card and release limitations/notes.
 
 Phase 9 remains active; no beta release is approved by this report.
+
+## Repeatable source packaging and Alpine original documents (D-192)
+
+The fixed retained Alpine archives supply 111 original licence/notice/patent,
+selected source and recipe documents (2,672,323 bytes), read passively and
+byte-retained with member/archive hashes. The manifest and two data regressions
+cover e2fsprogs/Kerberos NOTICE, libuv subsidiary terms, Unicode, GCC exception,
+Mozilla trust-data source, SQLite/tzdata dedications and recipe-only origins.
+An original empty Zstd build/LICENSE remains empty and is not a licence grant.
+Auxiliary posixtz says LGPL in its source, but an offline check of the existing
+native ARM runtime found neither possible executable path; it is not mislabeled
+as public-domain installed code. Broader source/build/test terms remain with
+their actual scope, not indiscriminately assigned to all binaries.
+
+The source-package assembler is now tracked and typed, with nineteen passing
+offline regressions for deterministic read-back integrity, non-overwrite,
+dirty/changing checkout, missing/mismatched files, traversal/symlinks, bounds and
+unsafe/incomplete/duplicate members. SOURCE_AND_REBUILD describes sources and
+library replacement. No upstream build or application behavior was changed.
+The committed licence payload contains 201 evidence files; it is regenerated and
+checked. Revalidation of this larger payload in the runtime image is pending.
+
+Full native Mac command `bash scripts/check.sh` exited 0: Ruff clean, strict mypy
+both host/Linux over 232 files, 4,749 passed / eleven expected platform skips,
+unchanged full and mandated 100% line/branch coverage. Log:
+`build/phase9/check-source-tool-alpine-notices-20261003.log`. This is local evidence,
+not a hosted run, public source upload or legal counsel's clearance.
