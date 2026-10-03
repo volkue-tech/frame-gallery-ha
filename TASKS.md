@@ -217,6 +217,10 @@ approval. Existing release prerequisites remain mandatory.
   It remains disabled for dev0/unset approval variables; no registry run is
   claimed. Latest local host/ARM-container suites pass; matching source assets,
   hosted validation, anonymous image availability and public install remain open.*
+  *D-194 prepares numbered candidate `0.1.0b1`, with full host/native ARM suites
+  passed and an unchanged-dependency offline lock check. Stage remains
+  experimental; matching source publication and signed public image validation
+  are not skipped by giving the candidate a version number.*
 - [ ] Publish immutable versioned images for `aarch64` and `amd64`.
 - [ ] Add the one-click Home Assistant repository link.
 - [ ] Finalize the dashboard card with the slug observed after installing from the public repository.

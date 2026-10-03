@@ -403,3 +403,32 @@ unproven historical relicensing, without counsel/ownership/patent guarantees.
 SOURCE_AND_REBUILD and RELEASE_PROCESS distinguish source-only distribution from
 the final beta/clean-install announcement. Approval variables remain unset;
 source/image public availability and clean public installation are not complete.
+
+## Numbered candidate and actual source-assembler proof (D-194)
+
+The clean `a7a99f8` package assembled successfully and the independent release
+preflight accepted its entire payload and exact own Git snapshot: 172 original
+archives, 518,092,800 bytes, SHA256
+`75502e27d7a216e8b8f73f301f713d242f8813e5c105f06dc9fe6058659609e6`.
+The own snapshot has 1,079 entries, without Git history or ignored build state.
+Result: `build/phase9/source-release-prep-a7a99f8-result.json`.
+An actual LABEL-only Docker build succeeded; its six RootFS layers equal the
+validated `frame-gallery:dev-aarch64` image exactly. No registry push occurred.
+
+The personal main push is verified at `a7a99f8`; hosted native validation run
+`37155043758` was observed in progress. Runtime/project metadata now prepares
+`0.1.0b1`, with unchanged dependencies/behavior and experimental installation
+metadata. Its matching sources must be newly assembled from the clean numbered
+commit. Neither the earlier candidate nor an in-progress CI run clears the
+remaining public-source/image/signature/Green-install gates.
+
+Numbered-candidate commands actually exited 0: full `scripts/check.sh` has
+4,779 passes / eleven expected platform skips, strict host/Linux mypy 234 files,
+100% full/mandated line+branch coverage. Native ARM `container_check.sh aarch64`
+has 4,785 non-root passes / five root-only skips and all five root checks;
+notice/inventory/init/stop/smoke checks pass. Logs:
+`build/phase9/check-beta-b1-20261003.log` and
+`build/phase9/container-beta-b1-aarch64-20261003.log`.
+The lock's sole change is the virtual own-package version; pinned uv 0.12.19
+`lock --offline --check` resolved the unchanged 26 packages successfully.
+No new dependency, safety-limit relaxation or live HA/TV mutation occurred.

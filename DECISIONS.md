@@ -2,6 +2,31 @@
 
 ## Phase 9 implementation decisions (2026-10-03)
 
+### D-194 — numbered candidate before activation and exact source publication
+
+Status: candidate preparation within the already authorized Phase 9 scope.
+
+Use `0.1.0b1` for the first reviewed runtime/project/Supervisor version, keeping
+the app's experimental stage and no pre-built image mapping until both signed
+architecture images are anonymously available. This is not a final beta
+announcement or a claim of completed clean public installation. Dependencies,
+runtime behavior, existing Green configuration and user state are unchanged.
+Refresh the lock offline and require the unchanged complete quality gates.
+
+The real D-193 source package for clean `a7a99f8` passed assembly and independent
+release-preflight verification: 172 source archives, 518,092,800 bytes, SHA256
+`75502e27d7a216e8b8f73f301f713d242f8813e5c105f06dc9fe6058659609e6`.
+Its 1,079-entry own snapshot contains no Git history or ignored build state.
+The local LABEL-only publication build has exactly the tested runtime's RootFS
+layers. That package is evidence for `a7a99f8`, not a matching `0.1.0b1` release
+asset: assemble a fresh candidate from the final clean numbered-version commit.
+Only that matching package may be published in the source-only release.
+
+The personal main push to `a7a99f8` is verified. Native hosted validation run
+`37155043758` was observed in progress, not reported passed in this entry.
+Credentials remain transient/private; no business identity or backup branch
+is transferred. Source/public-image/signature/install gates remain mandatory.
+
 ### D-193 — gated native image publication and separately published sources
 
 Status: prepared within the authorized Phase 9 scope, **not dispatched or proved

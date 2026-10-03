@@ -6,6 +6,7 @@ from __future__ import annotations
 import importlib.util
 import re
 import sys
+import tomllib
 from pathlib import Path
 from types import ModuleType
 from typing import Final
@@ -14,6 +15,18 @@ import pytest
 from PIL import Image, ImageChops
 
 from frame_gallery import __version__
+
+
+def test_numbered_project_and_lock_versions_match_the_runtime() -> None:
+    project = Path(__file__).resolve().parents[3]
+    metadata = tomllib.loads((project / "pyproject.toml").read_text())
+    lock = tomllib.loads((project / "uv.lock").read_text())
+    assert metadata["project"]["version"] == __version__
+    own = [row for row in lock["package"] if row["name"] == "frame-gallery"]
+    assert len(own) == 1
+    assert own[0]["version"] == __version__
+    assert own[0]["source"] == {"virtual": "."}
+
 
 PROJECT: Final = Path(__file__).resolve().parents[3]
 DOCS: Final = (PROJECT / "DOCS.md").read_text()

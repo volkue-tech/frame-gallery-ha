@@ -12,6 +12,21 @@ No business account or predecessor material may be used. Codex performs the
 evidence-based engineering licence audit, without claiming legal counsel's
 approval. No existing technical/compliance release gate is waived.
 
+**Numbered candidate (D-194):** runtime/project/generated app metadata are
+aligned to `0.1.0b1`, not announced as a finished installable beta. Experimental
+stage/no image mapping remain until actual signed public images are verified.
+The prior clean `a7a99f8` source package passed assembly and independent full
+preflight (172 archives, 518,092,800 bytes); its LABEL-only local image retains
+exactly the validated filesystem layers. That personal main push is verified;
+native hosted run `37155043758` was observed in progress. A new exact-commit
+source asset is required for the numbered candidate, not reuse of the prior one.
+The candidate passed full native Mac gates (4,779 tests / eleven expected skips,
+strict mypy 234 files, unchanged 100% line/branch) and native ARM image checks
+(4,785 passes / five root-only skips, five root passes). Only the own virtual
+project version changes in the lock; the pinned uv 0.12.19 offline lock check
+passes for all 26 packages. The dependencies and generated notice payload are
+unchanged. No public candidate image or clean public installation is claimed.
+
 **Latest local release preparation (D-193):** the manual-only native publication
 workflow is prepared, not dispatched. Exact reviewed source-commit/package-hash
 approval and numbered matching runtime/app beta metadata are mandatory; current
