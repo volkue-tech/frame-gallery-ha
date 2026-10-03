@@ -3,7 +3,7 @@
 from __future__ import annotations
 
 import logging
-from collections.abc import Mapping, Sequence
+from collections.abc import Callable, Mapping, Sequence
 from dataclasses import dataclass, field
 from pathlib import Path
 
@@ -100,6 +100,7 @@ class Harness:
     workspace_port: Workspace | None = None
     preview_port: PreviewPublisher | None = None
     records_port: RunRecords | None = None
+    storage_report: Callable[[], None] = lambda: None
 
     def __post_init__(self) -> None:
         clock, events = self.clock, self.events
@@ -146,6 +147,7 @@ class Harness:
             preview=self.preview_port or self.preview,
             records=self.records_port or self.records,
             watchdog=self.watchdog,
+            storage_report=self.storage_report,
         )
         return Runner(
             ports,

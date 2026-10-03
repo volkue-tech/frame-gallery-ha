@@ -1503,6 +1503,27 @@ Status: proposed.
 - **The report.** `RELEASE_CANDIDATE.md`, at the repository root; a later release candidate replaces it.
 - **Proposed: a clarification of D-162 point 4.** "Any other failure before `connected` is retried once" means a failure while opening the art channel. A failure of the REST check that comes first (`supported()`) ends the delivery as `unreachable` (or `protocol`) without a retry, which is within D-115's "at most one reconnect". The code and the task's own documentation already say so; the Phase 7 scenario `silent-tv` shows it (one connection, `tv_unreachable` after 5.3 s). Only D-162's text would change.
 
+## Phase 8 corrections (authorized)
+
+### D-174 — Shallow, per-run randomized Chicago discovery [§9.5; C3, C8, C9]
+
+Status: authorized by the user on 2026-10-03, for the separate test app only.
+
+- The original live run stopped after its search returned HTTP 403. Read-only Green probes subsequently found that page 1 succeeds, but pages 199 and 200, each with limit 50, return HTTP 403 with "Invalid number of results" / "You have requested too many results. Please refine your parameters." The failed page of the original run is unknown; no exact actual API boundary is inferred, and no DNS, Tailscale or security settings were changed.
+- The official [AIC documentation](https://api.artic.edu/docs/) permits Elasticsearch Query DSL. Elastic's [function-score documentation](https://www.elastic.co/docs/reference/query-languages/query-dsl/query-dsl-function-score-query) describes `random_score` with an integer seed and `_seq_no`, without a script or fielddata on `_id`. One approved, read-only production-gateway request from the Mac validated a seed-41 shallow search: 50 public-domain records, total 59 063. This is black-box API observation, not API server source inspection.
+- Each run draws one seed in `[0, 2**31)` through the injected random source, preserves the rights and period filter inside `function_score`, and reads sequentially at most the first seven pages of 50 records with that same seed. Count caching, gateway pacing, the 15-request allowance, candidate/time limits and all per-record checks stay unchanged. A 403 still stops immediately; there is no retry, reseed or bypass after it.
+- Old AIC page-exhaustion hints are ignored and no new ones are written: page membership is no longer stable between runs. Existing files, sent history and upload ledger are not reset or deleted; the bounded cache expires old entries normally. Cleveland's hint behavior is unchanged.
+- This supersedes the default-order random-page sampling and AIC hints of D-150/D-157, not the museum filters, rendition or rights model. Live Green validation of the new code remains required.
+
+### D-175 — Count-only storage diagnostics after cleanup [§14; F1–F3, H3]
+
+Status: authorized by the user on 2026-10-03, for the separate test app update.
+
+- The normal parent cleanup calls a diagnostic hook before the final outcome line and before disarming the watchdog. A diagnostic exception is best-effort only and does not change a confirmed delivery or skip other cleanup.
+- It performs six fixed, shallow scans: state, state/quarantine, cache, pairing-key directory, preview and scratch. At most 128 entries per directory, with one shared 0.5-second budget. It uses existing no-follow directory descriptors and `stat(..., follow_symlinks=False)` only: no file contents, no recursion, no writes, no directory creation, no keys, identifiers, filenames or full paths in its logs. No new permission, mapping or dependency is needed.
+- Logs include regular-file counts and apparent byte sizes, own temporary-file and run-directory counts, other/unreadable entry counts, truncation and availability. An unavailable directory is not declared empty, and the report is a metadata snapshot rather than a file-integrity/history validation. It is not guaranteed to run after a hard kill.
+- Prior read-only Green inspection found about 15.8 GB free and exactly two shared-media files: a 263 066-byte synthetic library fixture and a 584 565-byte latest preview. Private storage and container scratch were not exposed to the protected SSH app; diagnostics must be observed from within the test app instead of weakening that protection.
+
 ## Proposed dependency inventory
 
 Status: **Phase 2 installed** the development tools and Pillow, **Phase 3 installed** `urllib3` 2.8.0 and `certifi` 2026.7.22, and **Phase 5 installed** `samsungtvws` 3.0.6 and its dependencies (each approved by the user on 2026-09-27; the `samsungtvws` row is confirmed at the Phase 5 gate on 2026-10-02), only in the local project environment (`frame_gallery/.venv`, from `uv.lock`). **Phase 6** built the app image from the pinned base image and the hash-pinned `musllinux` wheels (approved on 2026-10-02) and verified the bundled-library and base-image rows in it (D-171, accepted at the Phase 6 gate).

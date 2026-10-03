@@ -77,9 +77,46 @@ That is not a visual confirmation of the synthetic coloured edge marks;
 the edge/no-crop check remains pending.
 
 Chicago stopped at its first HTTP 403, with no automatic retry or follow-up
-request to that provider. The rejection's cause is not established. No DNS,
+request to that provider during that run. Subsequent approved diagnostics are
+recorded below. No DNS,
 Tailscale, credentials, security settings, or request identity was changed to
 work around it.
+
+### Chicago pagination diagnosis and authorized correction
+
+Read-only diagnostics on 2026-10-03 used the honest Frame Gallery headers,
+TLS checks and only public museum metadata; no TV operation or image download.
+The Green's page-1 search returned 50 records and total 59 063. Identical
+filtered searches at pages 199 and 200 (limit 50) returned HTTP 403,
+`Invalid number of results`, with the detail `You have requested too many
+results. Please refine your parameters.` The precise live pagination boundary
+and the failed page of the original app run are unknown. This reproduces an
+API-level query rejection rather than evidence of a general DNS/Tailscale
+block; no network setting was changed.
+
+The user authorized a targeted selection fix, own-storage diagnostics and
+updating/testing only Frame Gallery (Test), preserving history and protection.
+D-174 uses a documented Elasticsearch random ordering and shallow pages 1–7;
+D-175 reports only bounded directory metadata after cleanup. One production
+gateway request from the Mac validated the new random-score query (seed 41):
+50 records, all public domain, total 59 063. That does not yet establish a
+successful Green delivery of the changed build.
+
+Local validation of the changed runtime: Ruff clean; strict mypy on both
+host and Linux clean (221 files); complete host gate 4 614 passed, 8 skipped,
+100 % line/branch coverage (8 995 statements, 1 904 branches). The rebuilt
+`aarch64` container passed packaging/inventory, stop handling and smoke checks,
+then 4 616 tests as non-root (6 expected skips) and all 5 root-isolation checks.
+The no-network smoke run logged an empty scratch directory after its TV failure,
+with no temporary files, and the final outcome remained the last log line.
+Dependencies and the AppArmor profile did not change. No new amd64 measurement
+or full Green cleanup claim is made from those local results.
+
+The shared-media listing contained exactly the retained 263 066-byte fixture
+and one 584 565-byte preview. `du` reported 844 KiB including directory
+allocation; `df` reported about 15.8 GB free. Private app `/data` and container
+scratch were unavailable from protected Terminal & SSH. Their live verification
+is pending the authorized in-app count-only report; no protection bypass.
 
 ### Preview files and bounded media observations
 

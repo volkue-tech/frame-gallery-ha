@@ -145,6 +145,7 @@ class RunnerPorts:
     preview: PreviewPublisher
     records: RunRecords
     watchdog: WatchdogControl
+    storage_report: Callable[[], None] = lambda: None
 
 
 @dataclass(frozen=True, slots=True)
@@ -1118,6 +1119,7 @@ class Runner:
             self._ports.executor.terminate_all,
             self._ports.workspace.remove,
             self._ports.state.close,
+            self._ports.storage_report,
         ):
             try:
                 action()

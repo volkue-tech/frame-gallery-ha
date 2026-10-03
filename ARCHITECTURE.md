@@ -573,7 +573,7 @@ Re-verified against the live documentation on 2026-09-27 (D-146). No endpoint wa
   - `fields` is limited to `id`, `is_public_domain`, `title`, `artist_display`, `date_display`, `date_start`, `image_id`, and `credit_line`.
   - Every record must also have `is_public_domain == true` and an `image_id` that matches its pattern; otherwise it is skipped.
   - **Count.** One request with `limit = 0` reads `pagination.total`, following a documented example.
-  - **Pages.** `limit = 50`. Pages are sampled without replacement from the first `min(total, 10 000)` results; the documentation caps every search query at 10 000 records, whatever the `limit` and `page`.
+  - **Pages (Phase 8 correction, D-174).** `limit = 50`. Each run wraps the filter query in the documented Elasticsearch `function_score` / `random_score`, with a fresh injected integer seed, `field = _seq_no`, and `boost_mode = replace`. Read sequentially at most pages 1–7 of that ordering, never deep pages of the default catalogue. Green probes of pages 199 and 200 returned HTTP 403, "Invalid number of results", despite the documented 10 000-result window; its actual boundary was not established. A fresh shallow random ordering avoids that boundary without permanently restricting discovery to a fixed catalogue prefix.
 - **Dimensions.** After each page, one batched request to the documented Images resource, `GET /api/v1/images?ids=<the page's image ids>&fields=id,width,height`, reads the native sizes ("Native width/height of the image"). It counts as a metadata request.
   - The artwork's `image_id` is taken as the image record's `id`, since the documentation uses that identifier for the image in both places. The worker's check of the real dimensions (§8.2) remains the safety net.
   - The artwork's `thumbnail` object is not used, because its members are undocumented.
@@ -589,7 +589,7 @@ Re-verified against the live documentation on 2026-09-27 (D-146). No endpoint wa
   - `AIC-User-Agent: FrameGallery/<version> (<project contact>)`, as amended in D-119; never user data.
   - Requests are spaced 1 s apart, the documented scraping rate, well within the documented 60 requests per minute.
   - At most 15 metadata requests per run.
-- **Cache.** Counts per filter signature for 1 day; exhausted-page hints for 7 days. The persistent cache arrives in Phase 4 (§13.4). Phase 3 defines the adapter's cache port and an in-memory implementation.
+- **Cache.** Counts per filter signature for 1 day. *Amended in Phase 8 (D-174):* AIC no longer reads or writes exhausted-page hints, because page membership changes with the seed. Existing hint entries are left intact and expire normally; sent history and the upload ledger are unchanged. Cleveland's hints remain in use. The persistent cache arrived in Phase 4 (§13.4).
 - **Attribution.** "Artist. Title, Date. The Art Institute of Chicago."
 - **Hosts.** Exactly `api.artic.edu` and `www.artic.edu`.
 

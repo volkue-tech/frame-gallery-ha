@@ -84,6 +84,37 @@ def assert_tv_untouched(h: Harness) -> None:
 # ---------------------------------------------------------------- success
 
 
+@pytest.mark.parametrize("no_match", [False, True])
+def test_storage_report_runs_after_cleanup_before_the_summary(
+    h: Harness, caplog: pytest.LogCaptureFixture, no_match: bool
+) -> None:
+    if no_match:
+        h.provider.candidates = []
+
+    def report() -> None:
+        assert h.state.closed
+        assert not h.workspace.root.exists()
+        h.logger.info("count-only-storage-report")
+
+    h.storage_report = report
+    with caplog.at_level(logging.INFO, logger=h.logger.name):
+        result = h.run()
+    assert caplog.messages[-2:] == ["count-only-storage-report", result.summary_line]
+
+
+def test_a_failed_storage_report_does_not_change_delivery_or_skip_cleanup(
+    h: Harness, caplog: pytest.LogCaptureFixture
+) -> None:
+    def failed() -> None:
+        raise OSError("synthetic diagnostic failure")
+
+    h.storage_report = failed
+    result = h.run()
+    assert result.outcome.value == "delivered"
+    assert_cleaned_up(h)
+    assert "cleanup step failed" in caplog.text
+
+
 def test_delivered_runs_every_stage_in_order(h: Harness) -> None:
     result = h.run()
 

@@ -3,9 +3,8 @@ synthesized API behind the real gateway and a scripted transport."""
 
 from __future__ import annotations
 
-from collections.abc import MutableSequence
 from datetime import timedelta
-from typing import Any, cast
+from typing import cast
 
 import pytest
 
@@ -19,7 +18,9 @@ from frame_gallery.providers.aic import (
     API_HOST,
     ARTWORK_FIELDS,
     IIIF_HOST,
+    MAX_DISCOVERY_PAGES,
     PAGE_SIZE,
+    SEED_RANGE,
     AicProvider,
     aic_policy,
     rendition_size,
@@ -151,7 +152,11 @@ class TestRequests:
         assert page.params["fields"] == list(ARTWORK_FIELDS)
         assert page.params["limit"] == PAGE_SIZE == 50
         assert page.params["page"] == 1
-        assert page.params["query"] == count.params["query"]
+        score = page.params["query"]["function_score"]  # type: ignore[index]
+        assert score["query"] == count.params["query"]
+        assert score["boost_mode"] == "replace"
+        assert score["random_score"]["field"] == "_seq_no"
+        assert 0 <= score["random_score"]["seed"] < SEED_RANGE
         assert set(images.query) == {"ids", "fields", "limit"}
         assert images.query["fields"] == "id,width,height"
         assert len(images.query["ids"].split(",")) == 30 == int(images.query["limit"])
@@ -172,27 +177,31 @@ class TestRequests:
         rig.take(1)
         assert rig.clock.sleeps == [pytest.approx(1.0), pytest.approx(1.0)]
 
-    def test_pages_are_sampled_without_replacement(self) -> None:
+    def test_shallow_pages_are_read_once_in_one_random_ordering(self) -> None:
         rig = Rig()
         rig.museum.add(160, first=1000)
         found = rig.take(160)
         pages = [cast("int", request.params["page"]) for request in rig.searches()[1:]]
-        assert sorted(pages) == [1, 2, 3, 4]
+        assert pages == [1, 2, 3, 4]
+        queries = [request.params["query"] for request in rig.searches()[1:]]
+        assert all(query == queries[0] for query in queries)
         assert len({candidate.native_id for candidate in found}) == 160
 
-    def test_the_result_window_caps_the_pages(self, monkeypatch: pytest.MonkeyPatch) -> None:
+    def test_large_catalogues_never_request_a_deep_page(self) -> None:
         rig = Rig(AicMuseum(total=250_000))
-        shuffled: list[list[int]] = []
+        assert list(rig.provider.iter_candidates(filters(), rig.context())) == []
+        pages = [request.params["page"] for request in rig.searches()[1:]]
+        assert pages == list(range(1, MAX_DISCOVERY_PAGES + 1))
+        assert rig.channel.metadata_requests == 8  # count + seven unusable pages
 
-        class Spy(SeededRandomSource):
-            def shuffle(self, items: MutableSequence[Any]) -> None:
-                shuffled.append(list(items))
-                super().shuffle(items)
-
-        context = DiscoveryContext(Deadline.after(rig.clock, 60, "d"), Spy(1))
-        with pytest.raises(AllowanceExhausted):  # 200 empty pages, 15 requests
-            list(rig.provider.iter_candidates(filters(), context))
-        assert shuffled == [list(range(1, 201))]  # 10 000 / 50
+    def test_each_run_gets_a_new_seed_not_a_fixed_catalogue_prefix(self) -> None:
+        rig = Rig()
+        rig.museum.add(1)
+        rig.take(1, seed=11)
+        rig.take(1, seed=12)
+        queries = [r.params["query"] for r in rig.searches() if r.params["limit"] != 0]
+        seeds = [q["function_score"]["random_score"]["seed"] for q in queries]  # type: ignore[index]
+        assert seeds[0] != seeds[1]
 
     def test_an_empty_catalogue_ends_after_the_count(self) -> None:
         rig = Rig()
@@ -399,6 +408,24 @@ class TestPeriods:
 
 
 class TestFailures:
+    def test_a_random_page_403_stops_without_reseed_or_retry(self) -> None:
+        museum = AicMuseum(total=59_063)
+
+        def search(request: ParsedRequest) -> FakeResponse:
+            if request.params["limit"] == 0:
+                return json_response(aic_search([], 59_063))
+            assert request.params["page"] == 1
+            assert "function_score" in request.params["query"]  # type: ignore[operator]
+            return status_response(403)
+
+        museum.overrides["/api/v1/artworks/search"] = search
+        rig = Rig(museum)
+        with pytest.raises(SourceError) as excinfo:
+            rig.take(1)
+        assert excinfo.value.kind is SourceErrorKind.STOPPED
+        assert rig.channel.stopped
+        assert len(rig.transport.calls) == 2
+
     @pytest.mark.parametrize(
         ("status", "kind"),
         [
@@ -415,16 +442,15 @@ class TestFailures:
         assert excinfo.value.kind is kind
 
     def test_the_metadata_allowance_ends_discovery(self) -> None:
-        rig = Rig()
+        rig = Rig(allowance=14)
         rig.museum.add(500)
         rig.museum.sizes = {}  # no sizes: nothing is ever shortlisted
         iterator = rig.provider.iter_candidates(filters(), rig.context())
         with pytest.raises(AllowanceExhausted):
             for _candidate in iterator:
                 pass
-        # 1 count + 7 pages x (search + images) = 15 requests.
-        assert rig.channel.metadata_requests == 15
-        assert len(rig.transport.calls) == 15
+        assert rig.channel.metadata_requests == 14
+        assert len(rig.transport.calls) == 14
 
 
 class TestRefs:
@@ -458,7 +484,7 @@ class TestRefs:
 
 
 class TestExhaustedPages:
-    """Pages that offer nothing new are remembered for 7 days (§9.5, D-156)."""
+    """AIC page hints cannot apply to an ordering with a new seed (D-174)."""
 
     def museum(self) -> AicMuseum:
         museum = AicMuseum()
@@ -478,17 +504,17 @@ class TestExhaustedPages:
         pages = [r.params.get("page") for r in rig.searches() if r.params["limit"] != 0]
         return sorted(page for page in pages if isinstance(page, int))
 
-    def test_a_fully_excluded_page_is_remembered_and_then_skipped(self) -> None:
+    def test_a_fully_excluded_page_is_not_persistently_skipped(self) -> None:
         rig = Rig(self.museum())
         first_page = {f"aic:{n}" for n in range(1, PAGE_SIZE + 1)}
         context = self.discover(rig, first_page)
         assert context.notes.pages_skipped == 0
         hints = rig.cache.get_exhausted("aic:exhausted:any")
-        assert hints == ExhaustedPages(3 * PAGE_SIZE, frozenset({1}))
+        assert hints is None
         rig.museum.seen.clear()
         context = self.discover(rig, first_page, seed=12)
-        assert context.notes.pages_skipped == 1
-        assert self.pages_searched(rig) == [2, 3]
+        assert context.notes.pages_skipped == 0
+        assert self.pages_searched(rig) == [1, 2, 3]
 
     def test_a_page_with_one_new_work_is_not_remembered(self) -> None:
         rig = Rig(self.museum())
@@ -517,14 +543,14 @@ class TestExhaustedPages:
         self.discover(rig, set())
         assert rig.cache.get_exhausted("aic:exhausted:any") is None
 
-    def test_a_page_of_sent_and_unusable_works_is_remembered(self) -> None:
+    def test_a_page_of_sent_and_unusable_works_is_not_remembered(self) -> None:
         museum = AicMuseum()
         museum.add(PAGE_SIZE - 1, width=1000, height=800)
         museum.add(1, first=PAGE_SIZE)
         rig = Rig(museum)
         self.discover(rig, {f"aic:{PAGE_SIZE}"})
         hints = rig.cache.get_exhausted("aic:exhausted:any")
-        assert hints == ExhaustedPages(PAGE_SIZE, frozenset({1}))
+        assert hints is None
 
     def test_hints_for_another_total_are_ignored(self) -> None:
         rig = Rig(self.museum())
@@ -542,6 +568,15 @@ class TestExhaustedPages:
         found = list(rig.provider.iter_candidates(filters("period_1800_1899"), context))
         assert context.notes.pages_skipped == 0
         assert len(found) == 3 * PAGE_SIZE
+
+    def test_legacy_hints_for_the_same_filter_are_ignored_and_preserved(self) -> None:
+        rig = Rig(self.museum())
+        old = ExhaustedPages(3 * PAGE_SIZE, frozenset({1, 2, 3}))
+        rig.cache.add_exhausted("aic:exhausted:any", old.total, old.pages, timedelta(days=7))
+        context = self.discover(rig, set())
+        assert context.notes.pages_skipped == 0
+        assert self.pages_searched(rig) == [1, 2, 3]
+        assert rig.cache.get_exhausted("aic:exhausted:any") == old
 
 
 def test_rendition_size() -> None:

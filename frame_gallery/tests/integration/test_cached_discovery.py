@@ -86,7 +86,9 @@ class CachedRuns:
         return selection["selection"]["pages_skipped"]
 
 
-def test_counts_and_exhausted_pages_carry_over_between_runs(tmp_path: Path) -> None:
+def test_counts_and_duplicate_exclusion_carry_over_without_random_page_hints(
+    tmp_path: Path,
+) -> None:
     runs = CachedRuns(tmp_path / "rig")
 
     first, searches = runs.run(0)
@@ -101,13 +103,13 @@ def test_counts_and_exhausted_pages_carry_over_between_runs(tmp_path: Path) -> N
     assert third.outcome is Outcome.NO_MATCH
     assert third.hint == Hint.NOTHING_NEW
     assert len(searches) == 2  # the count expired after a day; the page offered nothing new
-    assert "aic:exhausted:any" in runs.cache_keys()
+    assert runs.cache_keys() == ["aic:count:any"]
 
     fourth, searches = runs.run(1.6)
     assert fourth.outcome is Outcome.NO_MATCH
     assert fourth.hint == Hint.NOTHING_NEW
-    assert searches == []  # the page is known to be exhausted: nothing is fetched
-    assert runs.pages_skipped() == 1
+    assert [s.params["limit"] for s in searches] == [50]
+    assert runs.pages_skipped() == 0  # a new random ordering must not reuse page hints
 
 
 def test_a_hint_never_outlasts_the_upload_quarantine(tmp_path: Path) -> None:

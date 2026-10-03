@@ -68,6 +68,7 @@ from frame_gallery.providers.aic import AicProvider, aic_policy
 from frame_gallery.providers.cma import CmaProvider, cma_policy
 from frame_gallery.providers.local_media import LocalInspectionProbe, LocalMediaProvider
 from frame_gallery.randomness import RandomSource, SystemRandomSource
+from frame_gallery.store.diagnostics import log_storage
 from frame_gallery.store.layout import StoreLayout
 from frame_gallery.store.options_file import OptionsFile
 from frame_gallery.store.preview import PREVIEW_PARTS
@@ -217,6 +218,7 @@ def run_app(environ: MutableMapping[str, str], stream: TextIO, wiring: Wiring) -
         preview=layout.preview(),
         records=records,
         watchdog=watchdog,
+        storage_report=functools.partial(log_storage, layout, clock),
     )
     runner = Runner(
         ports, clock=clock, random=random, cancellation=controller, set_log_level=set_app_level

@@ -1,6 +1,6 @@
 # Project status
 
-Last updated: 2026-10-03 (Phase 8: separate preview dashboard tested)
+Last updated: 2026-10-03 (Phase 8: Chicago correction and storage diagnostics authorized)
 
 ## Current phase
 
@@ -9,6 +9,7 @@ Last updated: 2026-10-03 (Phase 8: separate preview dashboard tested)
 - **Phase 6 gate (user decision, 2026-10-03, after the Codex review and its follow-up checks):** passed. D-166 to D-172 are accepted, including the unchanged 1 GiB limit of the image worker (D-170). The native `amd64` memory measurement is mandatory before an `amd64` version is published, at the latest in Phase 9. The qualified licence review and the enforcement of the AppArmor profile stay release prerequisites.
 - **Phase 7 conditions:** only Phase 7 of `TASKS.md`: offline validation with the existing local environments and container images, failure-path tests, and a release-candidate report. No new features, and no additional review loops without a concrete finding. The work stops at the Phase 7 gate.
 - **Current live scope:** the separate development installation, supervised TV/museum tests, and the explicitly approved separate test camera, timer, script and dashboard. No existing app, dashboard, script, integration, or `configuration.yaml` may be changed. No GitHub publication. No scheduled automation has been installed.
+- **Authorized Phase 8 correction:** the user approved fixing Chicago selection, adding count-only storage diagnostics, updating only Frame Gallery (Test), and a TV test, preserving history and protection. D-174 replaces deep-page sampling with a fresh documented random ordering and shallow pages; D-175 adds bounded read-only statistics after cleanup. Green page-1 metadata works; pages 199/200 returned an explicit excessive-results error. One new-query Mac probe succeeded. The changed build's Green delivery and private-storage verification are still pending; see `PHASE8_REPORT.md`.
 - Every commit uses the personal identity `Alexander Wilke <volkue@gmail.com>`.
 - **Coordination note (2026-10-03):** a message in the user's chat, signed as Codex acting for the user, confirmed that Phase 7 continues unchanged and that Codex reviews the report and the local results at the gate; the locks and the identity stay as they are (*Review records* in `DECISIONS.md`).
 

@@ -4,10 +4,11 @@ Only the documented API is used, through the guarded gateway:
 
 1. **Count.** ``GET /api/v1/artworks/search`` with ``limit`` 0 reads the
    documented ``pagination.total`` for the filter (cached for a day).
-2. **Pages.** Pages of 50 works are sampled without replacement from the
-   first ``min(total, 10 000)`` results; the documentation caps every search
-   query at 10 000 records. A page whose works were all sent already is
-   remembered for 7 days as exhausted (for the same total) and skipped.
+2. **Pages.** A documented Elasticsearch ``random_score`` selects a fresh
+   random ordering per run. Read at most the first seven pages of 50 works
+   in that ordering: never deep-page through the default catalogue order.
+   Page-exhaustion hints from older versions are ignored: a page number is
+   not a stable set of works when the seed changes.
    The Elasticsearch query travels as minified JSON in the documented
    ``params`` parameter. Every query requires
    ``is_public_domain`` and an ``image_id``; the period filter adds a range
@@ -42,10 +43,7 @@ from frame_gallery.net.identity import ClientIdentity
 from frame_gallery.net.policy import HostPolicy, https_url, path_segment
 from frame_gallery.providers.cache import (
     COUNT_TTL,
-    HINT_TTL,
     MetadataCache,
-    known_exhausted,
-    offers_nothing_new,
 )
 from frame_gallery.providers.contract import (
     Attribution,
@@ -65,7 +63,8 @@ IIIF_HOST: Final = "www.artic.edu"
 SEARCH_PATH: Final = "/api/v1/artworks/search"
 IMAGES_PATH: Final = "/api/v1/images"
 PAGE_SIZE: Final = 50
-RESULT_WINDOW: Final = 10_000
+MAX_DISCOVERY_PAGES: Final = 7
+SEED_RANGE: Final = 2**31
 RENDITION_WIDTH: Final = 1686
 MAX_ARTWORK_ID: Final = 10**10
 MAX_IMAGE_SIDE: Final = 100_000
@@ -137,18 +136,17 @@ class AicProvider:
         query = _query(period)
         signature = filters.period or "any"
         total = self._count(query, signature, ctx.deadline)
-        page_count = math.ceil(min(total, RESULT_WINDOW) / PAGE_SIZE)
-        hint_key = f"{PROVIDER_KEY}:exhausted:{signature}"
-        known = known_exhausted(self._cache.get_exhausted(hint_key), total)
-        pages = [page for page in range(1, page_count + 1) if page not in known]
-        ctx.notes.pages_skipped += page_count - len(pages)
-        ctx.random.shuffle(pages)
-        for page in pages:
-            records = self._search(query, page, ctx.deadline)
-            offered = list(self._offer(records, period, page, ctx.deadline))
-            if offers_nothing_new(offered, ctx.is_excluded_for_good):
-                self._cache.add_exhausted(hint_key, total, (page,), HINT_TTL)
-            yield from offered
+        page_count = min(math.ceil(total / PAGE_SIZE), MAX_DISCOVERY_PAGES)
+        random_query = {
+            "function_score": {
+                "query": query,
+                "random_score": {"seed": ctx.random.randrange(SEED_RANGE), "field": "_seq_no"},
+                "boost_mode": "replace",
+            }
+        }
+        for page in range(1, page_count + 1):
+            records = self._search(random_query, page, ctx.deadline)
+            yield from self._offer(records, period, page, ctx.deadline)
 
     def full_ref(self, candidate: Candidate) -> ImageRef:
         image_id = self._images.get(candidate.native_id)

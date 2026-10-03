@@ -230,6 +230,9 @@ def test_a_local_media_run_delivers_through_the_production_wiring(rig: Rig) -> N
     assert recorded["id"].startswith("local:fp:")
     assert rig.executors[0].tasks == ["inspect", "prepare"]
     assert not list((rig.layout.tmp / "frame-gallery").iterdir())  # workspace removed
+    assert "storage: bucket=scratch status=ok files=0 bytes=0" in rig.output
+    assert "run_directories=0" in rig.output
+    assert rig.output.splitlines()[-1].split(": ", 1)[1].startswith("outcome=delivered")
 
 
 def test_the_library_warning_counts_the_last_inspection_batch(rig: Rig) -> None:
