@@ -71,7 +71,9 @@ def collect(root: Path, retained: Path) -> list[dict[str, Any]]:
             size = item.get("bytes", item.get("size"))
             if (
                 not isinstance(filename, str)
-                or not re.fullmatch(r"[A-Za-z0-9][A-Za-z0-9._+-]*", filename)
+                # Go's official module proxy escapes uppercase names with '!'.
+                # This is a literal basename, never shell input or a URL to fetch.
+                or not re.fullmatch(r"[A-Za-z0-9][A-Za-z0-9._+!\-]*", filename)
                 or not isinstance(digest, str)
                 or not re.fullmatch(r"[0-9a-f]{64}", digest)
                 or type(size) is not int

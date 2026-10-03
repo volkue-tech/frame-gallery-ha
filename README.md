@@ -58,6 +58,9 @@ The two museum sources use only their documented open-access APIs and CC0 images
 - `RELEASE_CANDIDATE.md` (the report of the offline release validation)
 - `PHASE8_REPORT.md` (supervised Green/TV development tests)
 - `PHASE9_REPORT.md` (release hardening and remaining gates)
+- `ENGINEERING_LICENSE_REVIEW.md` (bounded engineering assessment, not legal counsel)
+- `SOURCE_AND_REBUILD.md` (sources and library replacement for developers)
+- `RELEASE_PROCESS.md` (gated maintainer publication procedure)
 
 ## Attribution
 

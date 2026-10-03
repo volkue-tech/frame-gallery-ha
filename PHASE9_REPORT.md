@@ -364,3 +364,42 @@ both host/Linux over 232 files, 4,749 passed / eleven expected platform skips,
 unchanged full and mandated 100% line/branch coverage. Log:
 `build/phase9/check-source-tool-alpine-notices-20261003.log`. This is local evidence,
 not a hosted run, public source upload or legal counsel's clearance.
+
+## Gated publisher preparation and corrected real Linux error path (D-193)
+
+The manual-only publication workflow and release-preflight tool are prepared.
+Exact approval commit/source SHA, a matching numbered beta, the public source
+asset and fresh native validation of the actual runtime are required. Only the
+publishing jobs have registry/OIDC write permissions; fixed own package targets,
+non-overwrite/authentication rules, hash-pinned Cosign and exact signature identity
+verification are configured. YAML and every embedded shell block parse successfully
+with the Mac's existing Psych/bash; no new parser package was installed.
+The actual dev0 checkout rejects a nominal beta publication before any network.
+No registry request, Cosign execution, image push or hosted publisher run occurred.
+
+First real assembly rejected legitimate Go proxy `!masterminds` escaped names
+before creating an archive. The narrow literal basename correction has its own
+regression and all 172 retained archives/507,415,363 input bytes hash-check.
+The first updated Linux suite had five failing mocked HTTP-error cases: Python
+3.14.8 reported implicit response-body cleanup as ResourceWarnings. Authorization
+and HEAD error bodies are now explicitly closed; warnings-as-errors and no-retry
+remain unchanged, with an additional closure/no-output regression.
+
+Final local commands actually exited 0:
+
+- `bash scripts/check.sh`: Ruff clean, strict host/Linux mypy over 234 files,
+  4,778 passed / eleven expected platform skips; full/mandated 100% line+branch.
+  Log `build/phase9/check-release-error-close-20261003.log`.
+- `bash scripts/container_check.sh aarch64`: 4,784 non-root passes / five
+  root-only skips, five root passes; all 201 original notice documents byte-
+  verified and readable as UID 65534; init/stop/token/inventory/smoke checks pass.
+  Log `build/phase9/container-release-error-close-aarch64-20261003.log`.
+
+The final pass did not repeat decoder memory measurements: decoder/dependencies
+are unchanged; D-190's memory evidence remains applicable within its recorded
+scope. The actual publisher will require fresh native memory gates before upload.
+ENGINEERING_LICENSE_REVIEW records the bounded assessment, including R-04's
+unproven historical relicensing, without counsel/ownership/patent guarantees.
+SOURCE_AND_REBUILD and RELEASE_PROCESS distinguish source-only distribution from
+the final beta/clean-install announcement. Approval variables remain unset;
+source/image public availability and clean public installation are not complete.

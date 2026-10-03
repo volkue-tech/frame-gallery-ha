@@ -212,6 +212,11 @@ approval. Existing release prerequisites remain mandatory.
   Complete source distribution and engineering applicability remain open.*
 - [ ] Configure GitHub Actions for tests and multi-architecture GHCR publication.
   *Native read-only validation workflow succeeded on ARM and Intel (D-181, run `37141542920`, source `39d25da`). A separate gated publication workflow and validation of later changes remain pending.*
+  *D-193 prepares the manual-only, exact-commit/source-hash-gated native publisher
+  with fresh actual-image checks, non-overwrite and signature verification.
+  It remains disabled for dev0/unset approval variables; no registry run is
+  claimed. Latest local host/ARM-container suites pass; matching source assets,
+  hosted validation, anonymous image availability and public install remain open.*
 - [ ] Publish immutable versioned images for `aarch64` and `amd64`.
 - [ ] Add the one-click Home Assistant repository link.
 - [ ] Finalize the dashboard card with the slug observed after installing from the public repository.

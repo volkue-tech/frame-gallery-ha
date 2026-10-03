@@ -165,6 +165,21 @@ def test_dirty_git_and_changed_head_are_rejected(
         BUNDLE.snapshot(root)
 
 
+def test_official_go_escaped_module_basename_is_supported_without_execution(
+    tmp_path: Path, monkeypatch: pytest.MonkeyPatch
+) -> None:
+    root, retained = _fixture(tmp_path, monkeypatch)
+    manifest = root / "LICENSES/source.json"
+    rows = json.loads(manifest.read_text())
+    filename = "github.com__!masterminds__sprig__v3-v3.3.0.zip"
+    (retained / "fixture.tar.gz").rename(retained / filename)
+    rows[0]["filename"] = filename
+    manifest.write_text(json.dumps(rows))
+    records = BUNDLE.collect(root, retained)
+    assert records[0]["name"] == "fixture/" + filename
+    assert records[0]["path"] == retained / filename
+
+
 def test_output_is_owned_and_not_a_link(tmp_path: Path, monkeypatch: pytest.MonkeyPatch) -> None:
     root, retained = _fixture(tmp_path, monkeypatch)
     with pytest.raises(ValueError, match="own build"):

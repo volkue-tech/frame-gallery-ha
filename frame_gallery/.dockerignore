@@ -3,6 +3,7 @@
 # so that the tests find the files they check.
 *
 !Dockerfile
+!Dockerfile.release
 !.dockerignore
 !pyproject.toml
 !uv.lock

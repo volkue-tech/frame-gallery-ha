@@ -12,7 +12,21 @@ No business account or predecessor material may be used. Codex performs the
 evidence-based engineering licence audit, without claiming legal counsel's
 approval. No existing technical/compliance release gate is waived.
 
-**Latest local release preparation (D-192):** 111 additional Alpine original
+**Latest local release preparation (D-193):** the manual-only native publication
+workflow is prepared, not dispatched. Exact reviewed source-commit/package-hash
+approval and numbered matching runtime/app beta metadata are mandatory; current
+dev0 is observed to fail before publication. Matching public sources, fresh actual
+image checks, authenticated non-overwrite check and pinned keyless signing are
+wired. Twenty source-package and 27 release-preflight regressions pass. Latest
+full Mac gates: 4,778 passed / eleven expected skips, strict mypy 234 files,
+100% line/branch. Native ARM image suite: 4,784 passes / five root-only skips and
+five separate root passes, all 201 notice documents byte/readability verified.
+HTTPError bodies are explicitly closed after the first Linux run exposed resource
+warnings; no warning gate was relaxed. Source/rebuild and bounded engineering
+assessment/maintainer-release documents are prepared. No app-code/dependency or
+live HA change; final public source/images/install evidence remains open.
+
+**Previous local release preparation (D-192):** 111 additional Alpine original
 documents and their archive-member manifest are retained; the committed image
 payload now holds 201 public evidence files. SOURCE_AND_REBUILD documents source
 layout and replaceability; the tracked offline source assembler has 19 passing

@@ -128,6 +128,19 @@ def test_the_app_image_is_the_last_stage() -> None:
     assert text.rstrip().endswith("FROM app AS runtime")
 
 
+def test_release_annotation_changes_only_labels_of_the_validated_local_image() -> None:
+    text = (PROJECT / "Dockerfile.release").read_text()
+    commands = [line for line in text.splitlines() if line and not line.startswith("#")]
+    assert commands[:3] == ["ARG VALIDATED_IMAGE", "FROM ${VALIDATED_IMAGE}", "ARG BUILD_REVISION"]
+    assert (
+        'LABEL org.opencontainers.image.source="https://github.com/volkue-tech/frame-gallery-ha"'
+        in text
+    )
+    assert 'org.opencontainers.image.revision="${BUILD_REVISION}"' in text
+    assert not re.search(r"^(RUN|COPY|ADD|ENV|CMD|ENTRYPOINT|USER|WORKDIR)\b", text, re.MULTILINE)
+    assert "org.opencontainers.image.licenses=" not in text
+
+
 def test_the_build_context_is_an_allowlist() -> None:
     lines = [
         line

@@ -2,6 +2,66 @@
 
 ## Phase 9 implementation decisions (2026-10-03)
 
+### D-193 — gated native image publication and separately published sources
+
+Status: prepared within the authorized Phase 9 scope, **not dispatched or proved
+on a registry**. This does not activate publication or complete release gates.
+
+Publication is manual-only on the own main repository. Two deliberately unset
+repository approval variables bind the reviewed Git commit and the complete
+source-package SHA256. Preflight also requires an explicit numbered beta whose
+Supervisor metadata and runtime version agree; the current dev0 fails this gate.
+Sources must already be anonymously available in the own source-only
+`sources-v<VERSION>` release. Every archive member and the clean project snapshot
+are compared against the actual publishing checkout before registry work.
+
+Read-only native ARM/Intel validation is reusable from the same commit. Each
+publishing job then validates its **actual** local image again, including all
+container/root/notices/native memory checks. A LABEL-only developer Dockerfile
+adds own provenance without a package rebuild; RootFS layers must still match.
+No test image is published. Existing version tags are refused by authenticated
+HEAD: only 404 permits creation; 200, redirects, 401/403 and other failures stop,
+without blind retries. Workflow-wide serialization covers its own tag writers.
+Digests are immutable; repository administrators could still move registry tags,
+so retain the signed digest, not an absolute server-enforced tag-immutability claim.
+
+Only publishing jobs get packages:write/id-token:write. Registry login uses the
+ephemeral own-repository GITHUB_TOKEN, not the user's personal token, a classic
+token, a business login or a secret committed to this repository. No credential
+is attached to artifacts. Keyless signing publishes the workflow certificate,
+identity/digest to Sigstore's public transparency service; it sends no HA/TV data.
+The workflow verifies the signature against its exact own main workflow identity.
+Package visibility/anonymous pull and clean public Green installation remain
+subsequent observed gates. Do not silently delete/reuse a partly published version
+after failure; preserve it and use an explicitly reviewed corrective procedure.
+
+Signing tool recorded before execution: Cosign **3.1.3**, Apache-2.0, release-only,
+not shipped in the app. Official GitHub release metadata reports amd64 SHA256
+`4629c757b7618056f8ddd7e2625ae9fdd94c0372a65049520bc7d9df9efc7f71`
+and arm64 `c5d324e091826b0d7a78eb16fef316450b4eb9aaec045611c08ba06f5e73220a`.
+The workflow checks those exact bytes before running the tool. The versioned
+official LICENSE is Apache-2.0. No binary is downloaded/run on this Mac as part
+of this preparation. Home Assistant composite builder actions are not needed:
+the existing approved native Docker workflow publishes its actually checked
+local runtime rather than delegating a new rebuild to an additional action.
+
+Primary references read:
+- https://docs.github.com/en/actions/how-tos/reuse-automations/reuse-workflows
+- https://docs.github.com/en/packages/working-with-a-github-packages-registry/working-with-the-container-registry
+- https://api.github.com/repos/sigstore/cosign/releases/latest (returned v3.1.3)
+- https://raw.githubusercontent.com/sigstore/cosign/v3.1.3/LICENSE
+- https://developers.home-assistant.io/docs/apps/configuration/
+
+The D-192 assembler's first real attempt rejected Go's legitimate escaped
+`!masterminds` basename **before creating a package**. Only that literal basename
+character is now supported; traversal/symlink/hash bounds remain unchanged.
+A dedicated regression covers the official naming convention. Twenty source-
+assembler and 27 release-preflight/registry regressions pass locally. The first
+Linux run exposed HTTPError response-body ResourceWarnings; errors are now
+explicitly closed on both authorization and HEAD failure paths, without changing
+the warnings-as-errors gate. The new closure/no-retry regression and full native
+Mac/ARM-container suites pass; see the exact results in PHASE9_REPORT.
+
 ### D-192 — original Alpine subsidiary texts and repeatable source assembly
 
 Status: implementation within the authorized Phase 9 engineering audit;
@@ -2203,8 +2263,8 @@ These come from general knowledge of the license; qualified review is recommende
 | Docker Buildx, BuildKit | 0.37.0, 0.33.0 (bundled with Docker Desktop) | `Apache-2.0` (not re-read; GitHub-hosted) | Phase 6 (D-170) |
 | QEMU user-mode emulation | bundled with Docker Desktop; **not used**: `amd64` runs under Apple's Rosetta on this host | — | Phase 6 (D-170) |
 | SBOM generator (for example Syft) | **none**; `scripts/image_inventory.py` records the image instead (D-171). A generator needs its own approval. | — | Phase 6; Phase 9 if a release needs one |
-| Home Assistant builder composite actions (`build-image`, `publish-multi-arch-manifest`) | tbd | tbd | Phase 9 |
-| Cosign | tbd | tbd | Phase 9 |
+| Home Assistant builder composite actions (`build-image`, `publish-multi-arch-manifest`) | not used; native validation plus LABEL-only annotation of its actual checked image (D-193) | — | Phase 9 design refinement; none executed |
+| Cosign (release only; not shipped) | 3.1.3, exact ARM/Intel binary SHA256s in D-193 | `Apache-2.0` | D-193, prepared within authorized Phase 9; not executed yet |
 
 The documentation for these tools is largely GitHub-hosted, so it is read only once GitHub access is approved.
 

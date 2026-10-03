@@ -1,0 +1,157 @@
+name: Publish reviewed beta images
+
+'on':
+  workflow_dispatch:
+    inputs:
+      version:
+        description: 'Reviewed beta version, for example 0.1.0b1'
+        required: true
+        type: string
+
+# Never runs on a push/PR. Only the publisher receives registry/OIDC permissions.
+permissions:
+  contents: read
+
+concurrency:
+  group: frame-gallery-release
+  cancel-in-progress: false
+
+jobs:
+  approved:
+    if: github.repository == 'volkue-tech/frame-gallery-ha' && github.ref == 'refs/heads/main'
+    runs-on: ubuntu-24.04
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065
+        with:
+          python-version: '3.14'
+      - name: Require explicit exact-commit and source approval
+        working-directory: frame_gallery
+        env:
+          VERSION: ${{ inputs.version }}
+          APPROVED_COMMIT: ${{ vars.FRAME_GALLERY_RELEASE_APPROVED_SHA }}
+          SOURCE_SHA256: ${{ vars.FRAME_GALLERY_RELEASE_SOURCE_SHA256 }}
+        run: |
+          python -m scripts.release_preflight --version "$VERSION" \
+            --commit "$GITHUB_SHA" --approved-commit "$APPROVED_COMMIT"
+          python -c 'import os,re; assert re.fullmatch("[0-9a-f]{64}", os.environ["SOURCE_SHA256"])'
+
+  validate:
+    needs: approved
+    uses: ./.github/workflows/validate.yml
+    permissions:
+      contents: read
+
+  publish:
+    needs: [approved, validate]
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - arch: aarch64
+            runner: ubuntu-24.04-arm
+            machine: aarch64
+            cosign_arch: arm64
+            cosign_sha256: c5d324e091826b0d7a78eb16fef316450b4eb9aaec045611c08ba06f5e73220a
+          - arch: amd64
+            runner: ubuntu-24.04
+            machine: x86_64
+            cosign_arch: amd64
+            cosign_sha256: 4629c757b7618056f8ddd7e2625ae9fdd94c0372a65049520bc7d9df9efc7f71
+    runs-on: ${{ matrix.runner }}
+    timeout-minutes: 45
+    permissions:
+      contents: read
+      packages: write
+      id-token: write
+    env:
+      VERSION: ${{ inputs.version }}
+      BUILD_ARCH: ${{ matrix.arch }}
+      APPROVED_COMMIT: ${{ vars.FRAME_GALLERY_RELEASE_APPROVED_SHA }}
+      SOURCE_SHA256: ${{ vars.FRAME_GALLERY_RELEASE_SOURCE_SHA256 }}
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065
+        with:
+          python-version: '3.14'
+      - name: Verify native runner and fixed release inputs again
+        working-directory: frame_gallery
+        env:
+          EXPECTED_MACHINE: ${{ matrix.machine }}
+        run: |
+          test "$(uname -m)" = "$EXPECTED_MACHINE"
+          test "$(docker info --format '{{.Architecture}}')" = "$EXPECTED_MACHINE"
+          python -m scripts.release_preflight --version "$VERSION" \
+            --commit "$GITHUB_SHA" --approved-commit "$APPROVED_COMMIT"
+      - name: Obtain already public matching source package and verify every member
+        working-directory: frame_gallery
+        run: |
+          mkdir -p ../build/source-packages
+          curl --proto '=https' --proto-redir '=https' --location --fail \
+            --silent --show-error --max-time 600 --max-filesize 1073741824 \
+            "https://github.com/volkue-tech/frame-gallery-ha/releases/download/sources-v${VERSION}/frame-gallery-sources-${VERSION}.tar" \
+            --output ../build/source-packages/release.tar
+          python -m scripts.release_preflight --version "$VERSION" \
+            --commit "$GITHUB_SHA" --approved-commit "$APPROVED_COMMIT" \
+            --source-package "$GITHUB_WORKSPACE/build/source-packages/release.tar" --source-sha256 "$SOURCE_SHA256"
+      - name: Install only locked development tools
+        run: |
+          python -m pip --isolated install --disable-pip-version-check \
+            --index-url https://pypi.org/simple --require-hashes \
+            --only-binary=:all: --no-deps -r .github/requirements-ci.txt
+          cd frame_gallery
+          uv sync --locked
+      - name: Validate the actual native runtime image that will be pushed
+        working-directory: frame_gallery
+        run: bash scripts/container_check.sh "$BUILD_ARCH" --measure
+      - name: Install hash-pinned signing tool (not in the app image)
+        env:
+          COSIGN_ARCH: ${{ matrix.cosign_arch }}
+          COSIGN_SHA256: ${{ matrix.cosign_sha256 }}
+        run: |
+          curl --proto '=https' --proto-redir '=https' --location --fail \
+            --silent --show-error --max-time 120 --max-filesize 268435456 \
+            "https://github.com/sigstore/cosign/releases/download/v3.1.3/cosign-linux-${COSIGN_ARCH}" \
+            --output "$RUNNER_TEMP/frame-gallery-cosign"
+          printf '%s  %s\n' "$COSIGN_SHA256" "$RUNNER_TEMP/frame-gallery-cosign" | sha256sum -c -
+          chmod 700 "$RUNNER_TEMP/frame-gallery-cosign"
+      - name: Refuse existing version, push validated layers, sign and verify digest
+        working-directory: frame_gallery
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          python -c 'import os; from scripts.release_preflight import unused_tag; unused_tag(os.environ["BUILD_ARCH"],os.environ["VERSION"],os.environ["GITHUB_TOKEN"])'
+          export DOCKER_CONFIG
+          DOCKER_CONFIG=$(mktemp -d "$RUNNER_TEMP/frame-gallery-auth.XXXXXX")
+          trap 'rm -f "$DOCKER_CONFIG/config.json"; rmdir "$DOCKER_CONFIG" 2>/dev/null || true' EXIT
+          printf '%s' "$GITHUB_TOKEN" | docker login ghcr.io --username volkue-tech --password-stdin
+          IMAGE="ghcr.io/volkue-tech/frame-gallery-ha-${BUILD_ARCH}"
+          BASE="frame-gallery:dev-${BUILD_ARCH}"
+          docker image inspect "$BASE" >/dev/null
+          docker build --pull=false -f Dockerfile.release \
+            --build-arg VALIDATED_IMAGE="$BASE" --build-arg BUILD_REVISION="$GITHUB_SHA" \
+            -t "${IMAGE}:${VERSION}" .
+          test "$(docker image inspect "$BASE" --format '{{json .RootFS.Layers}}')" = \
+            "$(docker image inspect "${IMAGE}:${VERSION}" --format '{{json .RootFS.Layers}}')"
+          docker push "${IMAGE}:${VERSION}"
+          DIGEST=$(docker image inspect "${IMAGE}:${VERSION}" --format '{{index .RepoDigests 0}}' | cut -d@ -f2)
+          python -c 'import re,sys; assert re.fullmatch("sha256:[0-9a-f]{64}",sys.argv[1])' "$DIGEST"
+          "$RUNNER_TEMP/frame-gallery-cosign" sign --yes "${IMAGE}@${DIGEST}"
+          "$RUNNER_TEMP/frame-gallery-cosign" verify \
+            --certificate-identity "https://github.com/volkue-tech/frame-gallery-ha/.github/workflows/publish.yml@refs/heads/main" \
+            --certificate-oidc-issuer https://token.actions.githubusercontent.com \
+            "${IMAGE}@${DIGEST}"
+          printf '%s@%s\n' "$IMAGE" "$DIGEST" > "../build/container-checks/${BUILD_ARCH}/published-digest.txt"
+      - name: Retain actual image checks and signed digest (never Docker credentials)
+        if: always()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: beta-${{ matrix.arch }}-evidence
+          path: build/container-checks/${{ matrix.arch }}
+          if-no-files-found: warn
+          retention-days: 14

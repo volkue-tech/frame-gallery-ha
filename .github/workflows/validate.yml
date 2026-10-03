@@ -5,6 +5,7 @@ name: Native validation
     branches: [main]
   pull_request:
   workflow_dispatch:
+  workflow_call:
 
 # No registry writes, deployments or repository changes from validation.
 permissions:

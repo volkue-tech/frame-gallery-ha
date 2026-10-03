@@ -1,0 +1,7 @@
+# Publication only: attach own provenance to the already validated local image.
+# No install, RUN, COPY, credential, build frontend or application-layer change.
+ARG VALIDATED_IMAGE
+FROM ${VALIDATED_IMAGE}
+ARG BUILD_REVISION
+LABEL org.opencontainers.image.source="https://github.com/volkue-tech/frame-gallery-ha" \
+    org.opencontainers.image.revision="${BUILD_REVISION}"
