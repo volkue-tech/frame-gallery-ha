@@ -572,8 +572,11 @@ a camera-update action. The final observed card showed the edges and side
 margins, with no loading note. This proves eventual refresh on this run, not
 an instantaneous refresh or a universal timing bound. The card's title bar
 overlays the lower labels; physical-TV rendering remains a separate check.
-The user has been asked to confirm complete edges/corner labels on the TV;
-no visual confirmation has been received yet.
+The user subsequently answered **yes** to the explicit question whether all
+four coloured edges and four corner labels were completely visible on the
+physical TV, with black margins on the left and right. The physical-TV
+edge/no-crop check therefore passed for this 3:2 contain fixture. This does not
+complete the other open Phase 8 checks.
 
 Post-cleanup statistics: state 7 files / 4151 bytes; cache 2 / 513; preview
 1 / 328328; scratch 0 files/bytes, temporary files and run directories.
@@ -596,3 +599,8 @@ Local quality gates after these report changes passed: Ruff, both strict mypy
 passes over 222 files, **4657 passed / 8 expected skips in 34.10 s**, 100 %
 line/branch coverage and the architecture gate; exit 0. The final edit only
 records that observed result.
+
+After recording the user's physical-TV confirmation, the local gates passed
+again: Ruff, both strict mypy passes, **4657 passed / 8 expected skips in
+32.69 s**, 100 % line/branch coverage and the architecture gate; exit 0.
+This confirmation update changed documentation only and made no live access.
