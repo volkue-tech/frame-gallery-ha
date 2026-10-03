@@ -79,6 +79,7 @@ def test_the_app_is_a_one_shot_without_extra_privileges() -> None:
     assert CONFIG["slug"] == "frame_gallery"
     assert CONFIG["version"] == __version__
     assert CONFIG["arch"] == ["aarch64", "amd64"]
+    assert CONFIG["url"] == "https://github.com/volkue-tech/frame-gallery-ha"
     assert (CONFIG["startup"], CONFIG["boot"], CONFIG["init"]) == ("once", "manual_only", False)
     assert CONFIG["stage"] == "experimental"
     assert CONFIG["homeassistant"] == "2026.2.0"
@@ -88,8 +89,6 @@ def test_the_app_is_a_one_shot_without_extra_privileges() -> None:
     assert CONFIG["map"] == [{"type": "media", "read_only": False}]
     assert CONFIG["backup_exclude"] == ["cache/**", "state/quarantine/**", "tv/**"]
     for absent in (
-        "image",
-        "url",
         "host_network",
         "privileged",
         "full_access",
@@ -104,6 +103,15 @@ def test_the_app_is_a_one_shot_without_extra_privileges() -> None:
         "apparmor",
     ):
         assert absent not in CONFIG
+
+
+def test_the_public_image_mapping_selects_only_the_verified_own_architectures() -> None:
+    assert CONFIG["version"] == "0.1.0b1"
+    assert CONFIG["image"] == "ghcr.io/volkue-tech/frame-gallery-ha-{arch}"
+    assert [CONFIG["image"].format(arch=arch) for arch in CONFIG["arch"]] == [
+        "ghcr.io/volkue-tech/frame-gallery-ha-aarch64",
+        "ghcr.io/volkue-tech/frame-gallery-ha-amd64",
+    ]
 
 
 def test_every_option_has_a_schema_and_a_text() -> None:

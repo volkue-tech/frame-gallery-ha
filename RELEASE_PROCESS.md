@@ -51,11 +51,14 @@ Version tags are kept non-overwriting by this workflow; a registry administrator
 can still move them. The signed **digest** is the immutable image identity.
 If one architecture/signature step fails after the other image was pushed,
 preserve the partial result and investigate. Do not blindly delete or overwrite
-the tag to make a rerun green. This workflow is prepared, not yet registry-tested.
+the tag to make a rerun green. Its first registry-tested run `37159551965`
+completed successfully for both architectures at runtime commit `d736c7a`.
 
-GitHub initially makes a new container package private. Explicitly make only the
-two own Frame Gallery packages public and verify anonymous pulls/signatures of
-their exact digests before attempting a public HA installation. See the official
+Check package visibility rather than assuming its initial state. In the first
+release, the repository-linked packages were already public; no visibility
+change was needed. If necessary, explicitly make only the two own Frame Gallery
+packages public. Verify anonymous pulls/signatures of their exact digests before
+attempting a public HA installation. See the official
 [GitHub registry authentication/visibility instructions](https://docs.github.com/en/packages/working-with-a-github-packages-registry/working-with-the-container-registry).
 
 ## Public installation and announcement
@@ -69,7 +72,9 @@ no-match/fallback/cleanup and enforced isolation without resetting other state.
 Publish complete dashboard YAML using that observed slug, not a guessed prefix.
 
 Only then finalize the one-click link, beginner documentation, beta stage,
-known limitations and beta announcement/release notes. Link or attach the exact
+known limitations and beta announcement/release notes. Supervisor supports
+`experimental`, `stable` and `deprecated`, not a `beta` stage: keep `experimental`
+for this numbered beta. Link or attach the exact
 source package and keep it available with the matching images. Retain source
 for at least three years after the last matching distribution (longer if the
 method requires it). Clear the approval variables afterward so later main

@@ -84,8 +84,12 @@ different facts. Patent/ownership guarantees are not inferred from any of them.
 The exact pinned licences permit an engineering route to distribution with the
 controls above. **The image-release gate is still conditional** on matching
 public source/notices availability, verified final image bytes/signatures and the
-other technical gates. The prepared workflow deliberately requires an explicit
-reviewed commit/source hash and currently rejects the development version.
+other technical gates. The workflow requires an explicit reviewed commit/source
+hash and rejects development versions. Its first numbered image publication
+passed source preflight and native tests; public sources and both signed image
+digests were subsequently checked independently without authentication (D-196).
+That observed distribution evidence is not an independent legal opinion or a
+completed clean public Green installation.
 
 This document records the applicability/risk assessment and a practical compliance
 plan. It does not declare an unpublished source bundle publicly available, mark

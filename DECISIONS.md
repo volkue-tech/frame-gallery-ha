@@ -1,5 +1,49 @@
 # Decision log
 
+## Public-image verification (2026-10-04)
+
+### D-196 — verified pre-built images and separate install metadata
+
+Status: within the user-authorized Phase 9 publication scope; clean public Green
+installation and final dashboard/announcement remain pending.
+
+Publisher `37159551965` completed successfully: both native validations and
+both actual-image publishers, with source preflight, non-overwrite check,
+unchanged RootFS layers and keyless signing. Runtime/source commit remains
+`d736c7a9cd45f709de17572e68a5ebf8c5344933`. The exact images are:
+
+- `ghcr.io/volkue-tech/frame-gallery-ha-aarch64@sha256:f170fb081171da23e25c8a46ad836625b4c174c5fd7d1a3b07d305344dc6e313`
+- `ghcr.io/volkue-tech/frame-gallery-ha-amd64@sha256:89cf1ac74d80c5ad696aa1c7ffb67e8c5f62518f323e8b51a42716fc8eb9ff70`
+
+Own publisher evidence archives were saved and SHA256-compared with GitHub's
+artifact digests; both `published-digest.txt` entries match the above. All 13
+preparation cases, twice each under 1 GiB, and 150 inspections passed per arch.
+Maximum measured VM/time: ARM 766.5 MiB / 2.15 s; Intel 762.8 MiB / 1.92 s.
+These are hosted Linux measurements, not promises of TV delivery or Green timing.
+
+Both tag and digest manifest bytes/headers were independently checked without
+saved credentials; complete anonymous Docker pulls succeeded and expose the
+expected architecture and revision label. Hash-pinned official Cosign 3.1.3
+independently verified both certificates/claims/transparency evidence against
+`publish.yml@refs/heads/main`, issuer `https://token.actions.githubusercontent.com`
+and the exact approved commit. No ignored-TLS/ignored-log verification option,
+registry login, business account or secret mount was used.
+
+Repository-linked packages were already public; no visibility mutation was
+needed. Their UI's Latest badge is not a Docker `latest` tag: Cosign also creates
+its digest-derived signature artifact tag. The numbered app tag is `0.1.0b1`.
+
+Only after this evidence, generated Supervisor metadata gains the fixed own
+`image: ghcr.io/volkue-tech/frame-gallery-ha-{arch}` and repository URL. Version
+stays `0.1.0b1`, runtime bytes/digests/source package stay unchanged. Supervisor
+supports the placeholder as a per-architecture compatibility path and uses
+`version` as the image tag. Keep its supported `experimental` lifecycle flag:
+the official schema has no `beta` stage. Sources:
+https://developers.home-assistant.io/docs/apps/configuration/ and
+https://raw.githubusercontent.com/home-assistant/my.home-assistant.io/main/redirect.json .
+Later app-store/documentation metadata is not a new runtime-image build and
+must not be substituted for the source package's recorded runtime commit.
+
 ## Phase 9 hosted correction (2026-10-04)
 
 ### D-195 — explicit JSON depth bound independent of the interpreter
@@ -36,7 +80,21 @@ Native ARM container validation: 4,822 passes / five root-only skips, all five
 separate root checks and all 201 shipped notice documents verified. Logs:
 `build/phase9/check-json-nesting-complete-20261004.log` and
 `build/phase9/container-json-nesting-complete-aarch64-20261004.log`.
-Fresh exact-commit hosted Intel and ARM results remain required.
+Subsequent exact-commit hosted run `37157727919` completed with success for
+`d736c7a9cd45f709de17572e68a5ebf8c5344933`: native ARM `111304589397` and native
+Intel `111304589480`, both including container/root/real-limit memory checks.
+The matching clean-commit source package passed assembly and independent
+preflight: 172 source archives, 518,133,760 bytes, SHA256
+`8034a982322532b34b0c9893cda5135cb16448dc694e2c59f68ae42fedeb64b5`.
+After exclusive Firefox access was confirmed, the source-only prerelease was
+published at `sources-v0.1.0b1` (release ID `402713178`). Public metadata and tag
+resolve to the exact approved commit; an actual unauthenticated download has the
+same 518,133,760 bytes and SHA256. Both own repository approval variables were
+saved and read back. Manual publisher run `37159551965` started on the exact
+commit, with its approval and both native validations passed. Both publisher
+jobs passed the public-source preflight and started actual-image validation.
+No image/signature/clean-public-install success is claimed. These uncommitted
+progress-document edits do not change the approved runtime commit/package.
 
 ## Phase 9 implementation decisions (2026-10-03)
 

@@ -1,5 +1,43 @@
 # Phase 9 progress report
 
+## Public image milestone (2026-10-04, D-196)
+
+Publisher run `37159551965` completed successfully in 34m30s for runtime commit
+`d736c7a9cd45f709de17572e68a5ebf8c5344933`. Approval, both reusable native
+validations and both actual-image publishers passed. The latter independently
+verified the public source package, validated their own upload images, refused
+existing numbered tags, kept tested RootFS layers unchanged, and signed/verified
+the exact digests. Both hash-checked 16-member evidence ZIPs are retained locally.
+
+| Architecture | Immutable image digest | Hosted peak VM / slowest prepare |
+| --- | --- | --- |
+| aarch64 | `sha256:f170fb081171da23e25c8a46ad836625b4c174c5fd7d1a3b07d305344dc6e313` | 766.5 MiB / 2.15 s |
+| amd64 | `sha256:89cf1ac74d80c5ad696aa1c7ffb67e8c5f62518f323e8b51a42716fc8eb9ff70` | 762.8 MiB / 1.92 s |
+
+Each architecture passed 13 preparation cases twice under real 1 GiB limits
+and 150 inspections. These hosted measurements do not imply equivalent TV/Green
+timing. Package repositories are `ghcr.io/volkue-tech/frame-gallery-ha-<arch>`;
+both tag `0.1.0b1` and digest resolve anonymously to the expected manifest bytes.
+Full anonymous Docker pulls with fresh empty credential configurations passed,
+including observed linux/arm64 or linux/amd64 and revision label `d736c7a`.
+Independent official hash-pinned Cosign 3.1.3 verification passed for both, using
+the exact own workflow identity, GitHub issuer and approved commit SHA. No
+verification bypass or stored registry credential was used. Packages were
+already public; no visibility setting was changed.
+
+Generated app-store metadata now selects those verified images and the own URL;
+the supported lifecycle flag stays experimental. README/app guide add the
+official repository redirect, but still say clean public installation is pending.
+No new image build, retagging or source-package substitution accompanies this
+metadata change. No live HA change occurred at this milestone.
+
+Before the install-metadata commit, full unsandboxed Mac gates exited 0:
+4,817 passed / eleven unchanged platform skips, strict mypy on 238 files for
+both host/Linux, 100% full coverage (9,201 statements / 1,972 branches) and
+100% mandated coverage (7,543 / 1,640). The added regression selects only the
+verified own ARM/Intel image names; privileges/runtime code/dependencies stay
+unchanged. The external app config gains only image and URL fields.
+
 Updated: 2026-10-04. **In progress, not a release approval.**
 
 Authorized scope: Frame Gallery hardening, engineering licence audit, publication
@@ -514,3 +552,25 @@ documents byte/readability verified, init/stop/token/smoke checks passed. Logs:
 `build/phase9/check-json-nesting-complete-20261004.log` and
 `build/phase9/container-json-nesting-complete-aarch64-20261004.log`.
 Fresh hosted native results and source/image/install release gates remain open.
+
+Follow-up evidence: the personal main push of `d736c7a` is verified, and hosted
+run `37157727919` completed with success for that exact commit. Native ARM job
+`111304589397` and native Intel job `111304589480` both passed, including actual
+container/root/real-limit memory checks. The matching 172-archive source package
+passed assembly and independent preflight: 518,133,760 bytes, SHA256
+`8034a982322532b34b0c9893cda5135cb16448dc694e2c59f68ae42fedeb64b5`.
+It is uploaded into a saved private source-only draft, not published. Browser
+publication/variable activation is held pending exclusive Firefox access;
+parallel activity changed pages and element mappings during the steps. No HA
+configuration or app was changed. Public-source/hash/image/signature/clean-install
+gates remain open. Progress-document edits are not a new runtime approval.
+
+Subsequent authorized publication: source-only prerelease `sources-v0.1.0b1`
+is public (release ID `402713178`). The public tag points exactly to `d736c7a`;
+the actual unauthenticated download matches the approved 518,133,760 bytes and
+SHA256 above. Both exact approval variables were saved and read back in the
+personal repository. Publisher run `37159551965` was dispatched on that commit;
+approval and both native validations passed. The ARM publisher `111313136144`
+and Intel publisher `111313136168` passed public-source preflight and started
+actual-upload-image validation. Image/signature/public
+visibility and clean-install gates are not yet cleared. No HA changes occurred.

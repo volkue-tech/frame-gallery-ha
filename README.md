@@ -1,8 +1,22 @@
 # Frame Gallery for Home Assistant
 
-Frame Gallery is an independently implemented Home Assistant app for displaying curated artwork on compatible Samsung Frame televisions. It is currently **pre-release**, not yet a one-click installable public beta.
+Frame Gallery is an independently implemented Home Assistant app for displaying curated artwork on compatible Samsung Frame televisions. **0.1.0b1 is a public install candidate; the clean public-repository Green test is still pending.** It is not yet the final beta announcement.
 
-This repository contains the product specification, the architecture, and the implementation in progress (`frame_gallery/`). It intentionally contains no application code copied or adapted from predecessor projects.
+This repository contains the product specification, architecture and independently implemented app (`frame_gallery/`). It intentionally contains no application code copied or adapted from predecessor projects.
+
+## Installation candidate
+
+[Add the Frame Gallery repository to Home Assistant](https://my.home-assistant.io/redirect/supervisor_add_addon_repository/?repository_url=https%3A%2F%2Fgithub.com%2Fvolkue-tech%2Fframe-gallery-ha)
+
+Then open **Settings → Apps → App store → Frame Gallery → Install**. The app
+downloads the pre-built image for Home Assistant Green (`aarch64`) or an Intel/AMD
+installation (`amd64`); no SSH, Docker setup or `configuration.yaml` edit is needed.
+Enter the TV's fixed private IPv4 address, keep Watchdog off, and read
+[the app guide](frame_gallery/DOCS.md). This beta uses Supervisor's supported
+`experimental` lifecycle flag, not an unsupported `beta` flag.
+
+The one-click link uses Home Assistant's
+[official repository redirect](https://raw.githubusercontent.com/home-assistant/my.home-assistant.io/main/redirect.json).
 
 ## Intended user experience
 
@@ -24,12 +38,16 @@ Enforced AppArmor child profiles and worker network restrictions were also teste
 on the Green, followed by successful regular deliveries. See `PHASE8_REPORT.md`
 and `PHASE9_REPORT.md` for the exact scope and limitations.
 
-Phase 9 release preparation is in progress. Source is public, but no container
-images or public beta release are published yet. The first native ARM/Intel CI
-run passed, including the real memory limits. Validation of later changes,
-complete dependency licence/corresponding-source compliance and a clean public-repository
-Green installation remain release gates. Do not treat this source checkout as
-the final simple-install distribution. Current state: `STATUS.md` and `TASKS.md`.
+Phase 9 is in progress. Both numbered architecture images were published by
+[run 37159551965](https://github.com/volkue-tech/frame-gallery-ha/actions/runs/37159551965)
+from runtime commit `d736c7a`. Native host/container/root/memory gates passed;
+both images were independently downloaded anonymously and their keyless Cosign
+signatures verified against the own workflow, issuer and exact commit.
+[Matching sources](https://github.com/volkue-tech/frame-gallery-ha/releases/tag/sources-v0.1.0b1)
+are public and anonymously hash-verified. App-store metadata added afterward
+selects those already verified images; it does not rebuild or retag them.
+The separate clean public-repository Green installation, observed public app ID
+and final beta announcement remain pending. Current state: `STATUS.md` and `TASKS.md`.
 
 In the first beta, the Art Institute offers the period filter, and Cleveland
 offers department and period; no source offers a colour filter (see
@@ -38,7 +56,7 @@ offers department and period; no source offers a colour filter (see
 
 One known limitation of the design: the app remembers the latest 20 000 artworks it has shown. Older ones are forgotten, so a very old artwork could in theory be shown again. At one artwork a day that takes about 55 years (R-29 in `DECISIONS.md`).
 
-Planned first-beta sources:
+First-beta sources:
 
 - local media;
 - the Art Institute of Chicago;

@@ -83,15 +83,17 @@ def schema() -> dict[str, Value]:
 
 
 def config() -> dict[str, Value]:
-    """``config.yaml`` (§17.1, D-129). There is no ``image`` and no ``url``
-    yet: the Supervisor builds the app from the Dockerfile until images are
-    published (Phase 9), and no public project URL exists (Q-13)."""
+    """``config.yaml`` (§17.1, D-129). Supervisor pulls the independently
+    verified per-architecture release images; its tag is ``version``.
+    Experimental is the supported Supervisor lifecycle flag for this beta."""
     return {
         "name": "Frame Gallery",
         "version": __version__,
         "slug": "frame_gallery",
         "description": "Sends one fresh artwork to a Samsung Frame TV each time it is started.",
         "arch": ["aarch64", "amd64"],
+        "image": "ghcr.io/volkue-tech/frame-gallery-ha-{arch}",
+        "url": "https://github.com/volkue-tech/frame-gallery-ha",
         "startup": "once",
         "boot": "manual_only",
         "init": False,

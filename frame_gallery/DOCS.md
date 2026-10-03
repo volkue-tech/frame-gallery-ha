@@ -2,7 +2,7 @@
 
 Frame Gallery sends one fresh artwork to a Samsung Frame TV each time you start it, then stops. It picks a public-domain work from the Art Institute of Chicago, an open-access work from the Cleveland Museum of Art, or one of your own images; prepares it for the TV's 16:9 screen without cropping (unless you ask for it); uploads it; shows it; and keeps a preview for your dashboard. It never shows the same work twice while unsent works remain.
 
-> **Status: development build (0.1.0.dev0).** Supervised Green tests confirmed local, Cleveland and corrected Chicago TV deliveries, and native Local File preview refresh without reload. The corrected loading setup passed delivery, no-match, graceful-cancellation and missing-notification expiry tests: the app ends its own timer after cleanup instead of relying on the delayed Running sensor, with a 150-second expiry if feedback is missing. The stop-time `invalid number '--'` shell warning is corrected. Remaining Phase 8 checks and release hardening are still pending; the public dashboard setup and slug remain a draft. See `PHASE8_REPORT.md` at the repository root.
+> **Status: 0.1.0b1 install candidate.** Signed pre-built ARM/Intel images and matching sources are publicly available and independently verified. Development-app Green/TV tests passed delivery, preview refresh, bounded loading, cleanup and enforced isolation. The separate clean public-repository installation and its public app ID remain under verification; the dashboard script below is still a development example. This is not yet the final beta announcement. See `PHASE9_REPORT.md` at the repository root.
 
 Frame Gallery is an independent project. It is not made, endorsed, or supported by Samsung, by the museums, or by Home Assistant.
 
@@ -17,7 +17,7 @@ No SSH, no command line, and no change to `configuration.yaml` is needed at any 
 
 ## Installation
 
-The public repository and its one-click link are published with the first release. Until then, the app can be installed only as a local development copy, as described in the project's development notes (`DEVELOPMENT.md`, *Installing a local development copy*). Until images are published, Home Assistant builds the app on your device when you install it, which needs an internet connection and may take several minutes.
+[Add the repository to Home Assistant](https://my.home-assistant.io/redirect/supervisor_add_addon_repository/?repository_url=https%3A%2F%2Fgithub.com%2Fvolkue-tech%2Fframe-gallery-ha), or use `https://github.com/volkue-tech/frame-gallery-ha` in the repository dialog. Installation downloads the already built image; your Green does not compile the app or need SSH. The clean-install candidate is still being checked, as stated above.
 
 1. Add the repository in **Settings → Apps → App store → ⋮ → Repositories**, or use the one-click link from the release notes.
 2. Open **Frame Gallery** in the app store and select **Install**. Home Assistant downloads the image for your device (`aarch64` for the Green, `amd64` for a PC).
@@ -31,7 +31,7 @@ The public repository and its one-click link are published with the first releas
 3. When the app reaches the TV for the first time, the TV shows a prompt asking whether to allow the connection. **Accept it within 20 seconds.**
 4. If the log ends with `outcome=tv_not_authorized`, the prompt was not accepted in time: start the app again and accept it. Once the log shows `outcome=delivered`, the TV is paired, and later starts need no prompt.
 
-The pairing key the TV issues is stored in the app's private data and is excluded from Home Assistant backups (to be confirmed in the supervised test).
+The pairing key the TV issues is stored in the app's private data and is excluded from Home Assistant backups; the app-only development backup check confirmed the configured exclusions. Fresh TV authorization was not reset during the development tests, so first-time pairing on every TV model is not claimed as verified.
 
 ## Options
 
@@ -150,7 +150,7 @@ actions:
 mode: single
 ```
 
-**Supervised test setup.** The separate Green test uses `camera.frame_gallery_test_preview`, `timer.frame_gallery_test_run`, `binary_sensor.frame_gallery_test_aktiv`, `script.frame_gallery_test_new_artwork`, and app ID `local_frame_gallery_dev`. Complete installed configurations are in [the test card](examples/phase8-test-card.yaml) and [the test script](examples/phase8-test-script.yaml). Local File accepted the media path without a configuration-file edit. The selected mechanism is native refresh of `/media/frame_gallery/preview/latest.jpg`, which the app replaces atomically. It passed repeated card, actual event-automation and app-page starts without reload or a camera-update action, and preserved the preview on no-match and cancellation. One recovery run's screenshot bounds refresh to at most 14 seconds after publication, not a timing guarantee for every installation. The separate one-shot test automation has no schedule and remains disabled. Loading feedback remains unresolved as explained above; no manual reload is required for the tested preview mechanism.
+**Supervised development setup.** The separate Green test uses `camera.frame_gallery_test_preview`, `timer.frame_gallery_test_run`, `binary_sensor.frame_gallery_test_aktiv`, `script.frame_gallery_test_new_artwork`, and app ID `local_frame_gallery_dev`. Complete installed configurations are in [the test card](examples/phase8-test-card.yaml) and [the test script](examples/phase8-test-script.yaml). Local File accepted the media path without a configuration-file edit. Native preview refresh passed repeated card, actual event-automation and app-page starts without reload or a camera-update action, and preserved the preview on no-match and cancellation. One recovery run's screenshot bounds refresh to at most 14 seconds after publication, not a timing guarantee for every installation. The one-shot test automation remains disabled. App-owned timer completion and its 150-second fail-safe passed the documented delivery/no-match/cancellation/notification-failure tests. Public app-ID confirmation remains pending.
 
 ## Reading the log
 
@@ -186,7 +186,7 @@ Every run ends with one line such as `outcome=delivered exit=0 elapsed=23.4`. Wh
 - **The connection to the TV is not certificate-checked.** The TV's local interface uses a certificate that cannot be verified; whether to pin it is decided after the supervised test. Keep the TV's address reserved in your router.
 - **Another app uploading at the same moment** could, in rare cases, make the TV show that app's image instead; your artwork is still stored on the TV and is not sent again.
 - **Old artworks stay on the TV.** The app does not delete earlier uploads from the TV's memory.
-- **The security profile is a draft.** The app runs with a restrictive AppArmor profile in a logging-only mode until it is verified before the release.
+- **Isolation is enforced.** The parent and workers use enforced AppArmor profiles. Image workers additionally cannot create network sockets; the TV worker can use IPv4 TCP, not UDP. These restrictions were tested in the separate development app on the Green. The clean public installation still needs its own re-check.
 
 ## Starting over
 

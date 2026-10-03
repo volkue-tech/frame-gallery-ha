@@ -4,6 +4,21 @@ Last updated: 2026-10-04 (Phase 9: hosted Intel JSON-bound correction)
 
 ## Current phase
 
+**Latest publication (D-196):** publisher `37159551965` completed successfully
+on runtime commit `d736c7a`: both native validations and both actual-image
+publishers, including exact source checks/non-overwrite/signing. The own numbered
+ARM/Intel images are public. Independent anonymous tag/digest manifest checks,
+full anonymous Docker pulls and pinned Cosign verification of the exact own
+workflow/issuer/commit passed for both. Hash-checked evidence ZIPs and their
+actual measurements are retained (PHASE9_REPORT). App-store metadata now selects
+these existing images; no runtime rebuild/retagging. One-click installation and
+guide updates are prepared locally. Clean public Green installation, observed
+public app ID/final card and beta announcement remain pending; no live HA changes
+at this milestone. Earlier entries below describe prior states.
+Full install-metadata gates passed: 4,817 tests / eleven unchanged platform
+skips, strict mypy 238 files (host and Linux), unchanged 100% full/mandated
+line+branch coverage. Public main synchronization still remains pending.
+
 **Latest correction (D-195):** personal main `3550186` is pushed, but Intel job
 `111301941395` in run `37156871737` failed three JSON-depth tests. Its Python
 build accepted extreme nesting that other builds reject. All three JSON input
@@ -11,8 +26,24 @@ paths now enforce a 32-container bound before parsing; this fixes the network
 and stored-JSON defect and preserves IPC refusal independently of the parser.
 Full local gates exited 0: Mac 4,816 / eleven platform skips, strict mypy 238
 files, 100% full/mandated line+branch; native ARM 4,822 / five root-only skips
-plus all five root checks. Fresh native hosted gates remain required. No source
-release or container image has been published; previous packages are superseded.
+plus all five root checks. Exact-commit hosted run `37157727919` is now completed
+successfully for `d736c7a`: native ARM job `111304589397` and native Intel job
+`111304589480`, including the container/root/real-limit memory checks.
+
+The matching source package passed assembly and independent preflight:
+172 archives, 518,133,760 bytes, SHA256
+`8034a982322532b34b0c9893cda5135cb16448dc694e2c59f68ae42fedeb64b5`.
+Its source-only prerelease is now public at
+https://github.com/volkue-tech/frame-gallery-ha/releases/tag/sources-v0.1.0b1 .
+Public metadata, the exact tag commit and an actual unauthenticated download
+match the approved bytes and SHA256. This is not the installable-beta announcement.
+Both release variables were saved/read back in the personal repository UI.
+Publisher run `37159551965` started on `d736c7a`; approval and both native
+validations succeeded. Publishers `111313136144` (ARM) and `111313136168`
+(Intel) passed the public-source preflight and are checking their actual upload
+images. No image/signature/clean-public-install success
+is claimed yet. Previous source candidates stay superseded. Publication remains
+bound to `d736c7a`, not to these later uncommitted progress-document edits.
 
 **Prior fixture-correction evidence:** the personal main push to `7f20c14` is
 verified. Run `37156461763` failed two old local-media fixtures whose

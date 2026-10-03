@@ -210,7 +210,7 @@ approval. Existing release prerequisites remain mandatory.
   All 89 evidence files are byte-checked and readable as uid 65534 in the native
   ARM image; notice/source-data tests now run there without evidence skips.
   Complete source distribution and engineering applicability remain open.*
-- [ ] Configure GitHub Actions for tests and multi-architecture GHCR publication.
+- [x] Configure GitHub Actions for tests and multi-architecture GHCR publication.
   *Native read-only validation workflow succeeded on ARM and Intel (D-181, run `37141542920`, source `39d25da`). A separate gated publication workflow and validation of later changes remain pending.*
   *D-193 prepares the manual-only, exact-commit/source-hash-gated native publisher
   with fresh actual-image checks, non-overwrite and signature verification.
@@ -221,8 +221,27 @@ approval. Existing release prerequisites remain mandatory.
   passed and an unchanged-dependency offline lock check. Stage remains
   experimental; matching source publication and signed public image validation
   are not skipped by giving the candidate a version number.*
-- [ ] Publish immutable versioned images for `aarch64` and `amd64`.
-- [ ] Add the one-click Home Assistant repository link.
+  *Latest D-195 progress (2026-10-04): both native jobs passed for exact runtime
+  commit `d736c7a`. Its 172-archive source-only prerelease `sources-v0.1.0b1`
+  is public; the anonymous download matches 518,133,760 bytes and SHA256
+  `8034a982322532b34b0c9893cda5135cb16448dc694e2c59f68ae42fedeb64b5`.
+  The exact-commit/source approval variables were saved and read back, and
+  publisher run `37159551965` started. Its approval and both native validations
+  passed; the two publishers passed the public-source preflight and started
+  checking their actual upload images. Actual image
+  publication/signatures, anonymous pulls and clean public installation are
+  still unproved. Earlier draft-package/workflow statements above describe
+  historical milestones, not the latest publication state.*
+- [x] Publish immutable versioned images for `aarch64` and `amd64`.
+  *D-196: publisher `37159551965` passed both actual-image validations,
+  non-overwrite/signing and source preflight. Both exact digests were independently
+  anonymously pulled and Cosign-verified against the own workflow/issuer/commit.
+  Registry version tags are not administrator-immutable; the recorded signed
+  digests are. No `latest` app tag was published. Evidence ZIP hashes match.*
+- [x] Add the one-click Home Assistant repository link.
+  *Prepared in README/app guide using the official repository redirect and exact
+  personal URL; still marked installation candidate. Live redirect/install
+  verification and public metadata push remain pending.*
 - [ ] Finalize the dashboard card with the slug observed after installing from the public repository.
 - [ ] Verify clean installation on Home Assistant Green from the public repository.
 - [ ] Publish release notes and known limitations.
