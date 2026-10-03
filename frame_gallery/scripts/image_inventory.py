@@ -14,7 +14,7 @@ It prints one JSON document:
 * ``base``: what the Home Assistant base image installs outside apk: the
   skarnet.org packages of s6-overlay (from their versioned folders), the Go
   programs with their embedded build information (``tempio``), and whether
-  the ``bashio`` shell library is present;
+  the ``bashio`` shell library and the untracked jemalloc library are present;
 * ``python``: every distribution in the app's environment (name, version,
   licence expression or field, and licence files);
 * ``wheels``: every wheel file under ``/usr`` and ``/opt``; the app ships
@@ -61,6 +61,7 @@ APK_FIELDS: Final = {
 S6_PACKAGES: Final = Path("/package/admin")
 GO_PROGRAMS: Final = (Path("/usr/bin/tempio"),)
 BASHIO: Final = Path("/usr/lib/bashio")
+JEMALLOC: Final = Path("/usr/local/lib/libjemalloc.so.2")
 WHEEL_ROOTS: Final = (Path("/usr"), Path("/opt"))
 
 type Record = dict[str, object]
@@ -136,6 +137,7 @@ def base_components() -> Record:
         "s6": s6_packages(S6_PACKAGES),
         "go_programs": [program for path in GO_PROGRAMS if (program := go_program(path))],
         "bashio_present": BASHIO.is_dir(),
+        "jemalloc_present": JEMALLOC.is_file(),
     }
 
 
@@ -283,6 +285,7 @@ def summary(inventory: dict[str, Any]) -> tuple[list[str], bool]:
         (
             f"outside apk: {s6 or 'no s6'}; {programs or 'no Go program'}; "
             f"bashio {'present' if base['bashio_present'] else 'absent'}"
+            + ("; jemalloc present" if base.get("jemalloc_present") else "")
         ),
         f"{len(inventory['python'])} Python distributions",
         (
@@ -333,6 +336,8 @@ def notices_problems(inventory: dict[str, Any], notices: str) -> list[str]:
             problems.append(f"{name} {program['version']} (Go {go}, {modules} Go modules)")
     if base["bashio_present"] and "| bashio |" not in notices:
         problems.append("bashio (outside apk)")
+    if base.get("jemalloc_present") and "| jemalloc |" not in notices:
+        problems.append("jemalloc (outside apk)")
     return problems
 
 

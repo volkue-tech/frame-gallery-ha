@@ -13,7 +13,7 @@ This is an engineering inventory, not legal advice.
 
 ## Project code
 
-The project-owned source code is licensed under the Apache License 2.0 (D-102, accepted). The `LICENSE` file is added when publication is prepared (Phase 9).
+The project-owned source code is licensed under the Apache License 2.0 (D-102, accepted). The root `LICENSE` now contains its full text. Third-party texts are being collected under `LICENSES/`; this is not yet a completed distribution-compliance package.
 
 **Apache-2.0 covers the project-owned code only.** It does not cover the container image as a whole. The image contains third-party components under their own licences, including **GPL-2.0**, **GPL-3.0-or-later**, and **LGPL** components (see *Base image and OS packages*). The runtime is **not** free of GPL components.
 
@@ -175,9 +175,28 @@ The licence column is apk's own field. It is not always an SPDX expression: "Pub
 
 | Component | Version | Licence | Notes |
 | --- | --- | --- | --- |
-| s6-overlay | 3.2.3.0 | **to verify** | The init system, with execline 2.9.9.0, s6 2.15.0.0, s6-linux-init 1.2.0.1, s6-linux-utils 2.6.4.1, s6-overlay-helpers 0.1.2.2, s6-portable-utils 2.3.1.2, and s6-rc 0.6.1.0 |
-| tempio | 2026.07.0 | **to verify** | A Home Assistant template tool, built with Go 1.26.5 and 11 Go modules (recorded in the image's inventory); not used by the app |
-| bashio | not recorded in the image | **to verify** | A Home Assistant shell library; not used by the app |
+| s6-overlay | 3.2.3.0 | `ISC` | [Exact release COPYING](https://github.com/just-containers/s6-overlay/blob/v3.2.3.0/COPYING), copied to `LICENSES/`. Its component licences remain to verify: execline 2.9.9.0, s6 2.15.0.0, s6-linux-init 1.2.0.1, s6-linux-utils 2.6.4.1, s6-overlay-helpers 0.1.2.2, s6-portable-utils 2.3.1.2, and s6-rc 0.6.1.0 |
+| tempio | 2026.07.0 | `Apache-2.0` | [Exact release LICENSE](https://github.com/home-assistant/tempio/blob/2026.07.0/LICENSE); its Go 1.26.5 and 11 Go modules still require separate verification and notices; not used by the app |
+| bashio | 0.17.5 | `MIT` | [Exact release LICENSE.md](https://github.com/hassio-addons/bashio/blob/v0.17.5/LICENSE.md), copied to `LICENSES/`; version from the pinned base recipe, not an embedded version marker; not used by the app |
+| jemalloc | 5.3.1 | `BSD-2-Clause` | [Exact release COPYING](https://github.com/jemalloc/jemalloc/blob/5.3.1/COPYING), copied to `LICENSES/`. Previously omitted from the inventory; the aarch64 app image contains `/usr/local/lib/libjemalloc.so.2` and its two helper scripts. Exact binary/rebuild and amd64 verification remain pending. |
+
+Phase 9 rechecked the official base recipe at [commit 6a3ff4c](https://github.com/home-assistant/docker-base/blob/6a3ff4c10f6ed8564a092c33051024a1b1042ee2/alpine/Dockerfile), the `2026.08.0` tag. It sets bashio 0.17.5 and builds jemalloc 5.3.1. The immutable image digest remains the binary authority; source-version matches and all accompanying texts/sources must be verified before release. The jemalloc helper reports `0.0.0-0-g000000missing_version_try_git_fetch_tags`, not a verified binary version. The automatic inventory now detects the jemalloc library and rejects missing notices; this presence check is not proof of its version or corresponding-source completeness.
+
+On 2026-10-03 the exact upstream sources of execline, s6, s6-linux-init,
+s6-linux-utils, s6-portable-utils and s6-rc (versions above) were retained.
+Their original COPYING files are all ISC and are copied under `LICENSES/`,
+with copyright Laurent Bercot (2011–2026, or 2015–2026 for linux-init/rc).
+`LICENSES/skarnet-source-manifest.json` records HTTPS URLs and calculated hashes;
+these hashes are not publisher signatures or binary-source equivalence proof.
+s6-overlay-helpers and build dependencies such as linked skarnet libraries still
+require verification. This supersedes only the six corresponding pending licence
+texts in the table, not the complete source/rebuild requirement.
+
+All eleven installed Python packages' original primary licence files and the
+requests/propcache/yarl NOTICE files are now retained under `LICENSES/` from exact
+PyPI sdists. `LICENSES/python-source-manifest.json` records their source URLs and
+PyPI-verified hashes; archives remain local pending a complete release bundle.
+This does not cover the separate native libraries bundled in Pillow's wheels.
 
 ## Development tools (not distributed)
 
@@ -200,6 +219,13 @@ These tools are used only to develop and test the project. They are not part of 
 | `pathspec` | 1.1.1 | `MPL-2.0` (licence classifier; no `License-Expression` field) |
 | `librt` | 0.15.0 | `MIT` |
 | `ast-serialize` | 0.11.2 | `MIT` |
+
+Development-only CI actions are pinned by full commit, not shipped in the app:
+`actions/checkout` v4 (`11d5960a326750d5838078e36cf38b85af677262`),
+`actions/setup-python` v5 (`a26af69be951a213d495a4c3e4e4022e16d87065`), and
+`actions/upload-artifact` v4 (`ea165f8d65b6e75b540449e92b4886f43607fa02`).
+Their exact upstream LICENSE files are MIT, copyright GitHub, Inc. and
+contributors; source links and verification are recorded in D-181.
 
 The container is built on the development host with Docker Desktop 4.91.0 (Buildx 0.37.0, BuildKit 0.33.0); none of these tools is part of the image.
 

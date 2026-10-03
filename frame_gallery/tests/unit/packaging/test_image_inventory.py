@@ -203,13 +203,18 @@ def test_the_base_components_outside_apk(tmp_path: Path, monkeypatch: pytest.Mon
     (tmp_path / "admin" / "s6-overlay-3.2.3.0").mkdir(parents=True)
     (tmp_path / "bashio").mkdir()
     (tmp_path / "tool").write_bytes(GO_BUILD_INFO)
+    (tmp_path / "jemalloc").write_bytes(b"synthetic library")
     monkeypatch.setattr(INVENTORY, "S6_PACKAGES", tmp_path / "admin")
     monkeypatch.setattr(INVENTORY, "GO_PROGRAMS", (tmp_path / "tool", tmp_path / "missing"))
     monkeypatch.setattr(INVENTORY, "BASHIO", tmp_path / "bashio")
+    monkeypatch.setattr(INVENTORY, "JEMALLOC", tmp_path / "jemalloc")
     base = INVENTORY.base_components()
     assert base["s6"] == [{"name": "s6-overlay", "version": "3.2.3.0"}]
     assert [program["module"] for program in base["go_programs"]] == ["example.org/tool"]
     assert base["bashio_present"] is True
+    assert base["jemalloc_present"] is True
+    monkeypatch.setattr(INVENTORY, "JEMALLOC", tmp_path / "missing")
+    assert INVENTORY.base_components()["jemalloc_present"] is False
 
 
 def test_the_installed_pillow_is_described() -> None:
@@ -311,12 +316,18 @@ def test_the_inventory_is_one_json_document(
     monkeypatch.setattr(INVENTORY, "S6_PACKAGES", tmp_path / "admin")
     monkeypatch.setattr(INVENTORY, "GO_PROGRAMS", ())
     monkeypatch.setattr(INVENTORY, "BASHIO", tmp_path / "bashio")
+    monkeypatch.setattr(INVENTORY, "JEMALLOC", tmp_path / "jemalloc")
     monkeypatch.setattr(INVENTORY, "WHEEL_ROOTS", (tmp_path,))
     assert INVENTORY.main([]) == 0
     document = json.loads(capsys.readouterr().out)
     assert set(document) == {"alpine", "base", "python", "pillow", "wheels"}
     assert document["wheels"] == []
-    assert document["base"] == {"s6": [], "go_programs": [], "bashio_present": False}
+    assert document["base"] == {
+        "s6": [],
+        "go_programs": [],
+        "bashio_present": False,
+        "jemalloc_present": False,
+    }
     assert [package["name"] for package in document["alpine"]] == ["busybox", "zlib"]
     assert "pillow" in {distribution["name"].lower() for distribution in document["python"]}
 
@@ -404,6 +415,19 @@ def test_a_component_the_notices_do_not_list_is_named() -> None:
     ]
     shipped["base"]["bashio_present"] = False
     assert "bashio (outside apk)" not in INVENTORY.notices_problems(shipped, NOTICES)
+
+
+def test_jemalloc_cannot_be_silently_omitted_from_notices() -> None:
+    shipped = _shipped()
+    shipped["base"]["jemalloc_present"] = True
+    assert INVENTORY.notices_problems(shipped, NOTICES) == ["jemalloc (outside apk)"]
+    assert INVENTORY.notices_problems(shipped, NOTICES + "\n| jemalloc | 5.3.1 |") == []
+    shipped["base"]["jemalloc_present"] = False
+    assert INVENTORY.notices_problems(shipped, NOTICES) == []
+    summary_fixture = _inventory()
+    summary_fixture["base"]["jemalloc_present"] = True
+    lines, _ = INVENTORY.summary(summary_fixture)
+    assert lines[1].endswith("; jemalloc present")
 
 
 def test_the_notices_mode_reports_and_fails(
