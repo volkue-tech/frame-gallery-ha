@@ -4,7 +4,9 @@ Date: 2026-10-03. Codex performed the checks below, including successful local
 and Cleveland TV deliveries, followed by a successful Chicago delivery of the
 corrected runtime. The native preview refresh has now also passed an
 event-triggered automation and a delivery after controlled cancellation;
-loading feedback and the remaining checks keep Phase 8 open.
+loading feedback has since been corrected and verified. The latest sections
+record Green memory, hard-kill recovery and AppArmor attachment checks.
+First-pairing/rejection behaviour and release hardening remain separate.
 
 ## Approval and scope
 
@@ -696,3 +698,151 @@ Local quality gates after this documentation update passed: Ruff, both strict
 mypy passes over 222 files, **4657 passed / 8 expected skips in 34.76 s**,
 100 % line/branch coverage and the architecture gate; exit 0. The final edit
 only records these observed results; application code is unchanged.
+
+## Approved temporary Green diagnostics: memory and hard-kill recovery (2026-10-03)
+
+The user explicitly approved a temporary diagnostic mode in **our test app
+only**, ending before every TV access, followed by restoring the normal app.
+They requested autonomous execution within that scope. Protection, networking,
+dependencies, the normal app's limits and saved options were not changed.
+No provider, TV, GitHub or publication operation was part of this diagnostic.
+
+### Preparation and isolation
+
+- The ignored `build/live/phase8-diag/` contains the temporary launcher and
+  worker probes; no diagnostic option or module was added to the product tree.
+  The launcher discarded all Supervisor/legacy tokens before importing its
+  diagnostic ports. The recovery runner used in-memory local-media options,
+  no helpers or loading service, and network/TV tripwires. `options.json`
+  itself was never edited.
+- The 13 synthetic inputs were generated on the Mac using the existing
+  `scripts/measure_prepare.py` cases, not on the Green. They total
+  **530726460 bytes**; the one-file archive was **495995268 bytes**, SHA256
+  `da296ac1c6136e475d7fc2aaebb6dd7afc0982a5f9eaaf8170d9d14eec3684a0`.
+  Each input's size and SHA256 were verified again inside the test app.
+- The exact own source was copied to
+  `/share/frame-gallery-dev-before-phase8-diagnostic-v1` before installation.
+  The diagnostic source archive SHA256 was
+  `5547cf5fc2c71cfe29ef4ca724046a949ebd92f9ad4f034bb29454d8ef9e85e0`.
+  Only the test app's source and command were temporarily replaced;
+  the local version stayed `0.1.0.dev1`, and Supervisor rebuilt it successfully.
+- Offline validation used the **existing own** `frame-gallery:dev-aarch64`
+  runtime as the base, with no network. All 13 cases, 150 inspections, the
+  SIGKILL and recovery paths passed against disposable container state.
+  An initial harness ran the Python parent as namespace PID 1, which ignores
+  a self-directed SIGKILL; that harness was corrected to use `--init`.
+  The corrected run exited **137**, then recovered successfully with exit 0.
+  A full Dockerfile attempt with `--network none` had stopped at an uncached
+  Alpine installation; it was not counted as a passing build.
+
+### Native Green measurements
+
+The normal production `ProcessExecutor`, bootstrap, image tasks, handed-over
+workspace and unchanged **1 GiB soft/hard RLIMIT_AS** were used. Each prepare
+retained the normal **15 s** worker deadline. One repeat of every case passed:
+
+| Synthetic case | Wall seconds | Peak address space MiB |
+| --- | ---: | ---: |
+| 64 MP baseline JPEG | 4.37 | 169.1 |
+| 64 MP progressive JPEG | 6.90 | 276.8 |
+| 64 MP progressive 4:4:4 JPEG | 8.10 | 459.9 |
+| 64 MP CMYK panorama, cover | 6.17 | 355.1 |
+| 64 MP progressive CMYK panorama, cover | 11.10 | 765.5 |
+| 64 MP progressive 4:4:4 panorama, cover | 8.93 | 643.3 |
+| 64 MP JPEG header flood | 4.02 | 188.5 |
+| 40 MP RGB PNG | 6.35 | 286.2 |
+| 40 MP RGBA PNG | 7.67 | 438.9 |
+| 40 MP palette/transparency PNG | 6.26 | 477.0 |
+| 40 MP grey/colour-key PNG | 5.72 | 477.0 |
+| 40 MP 16-bit grey PNG | 5.59 | 451.9 |
+| 40 MP PNG chunk flood | 6.09 | 303.2 |
+
+All results were `ok:None`; highest resident peak **753.6 MiB**, address-space
+peak **765.5 MiB**, longest prepare **11.10 s**. The separate 150-inspection
+check used 10 descriptor-batched workers, **8.41 s** total, **0 failures**
+(rounded **0.056 s** each). These are measurements on this Green with these
+inputs, not a guarantee for every image or concurrent host workload. This is
+native `aarch64`, not the still-required native `amd64` release measurement.
+The diagnostic's aggregate benchmark has a separate 300 s alarm; it is not a
+normal one-artwork run or a new 300 s product budget.
+
+Reading `/proc/self/attr/current` on Green confirmed
+**`local_frame_gallery_dev (complain)`** in both parent and probe worker.
+The worker independently reported UID/GID **65534**, `NoNewPrivs=1`,
+`RLIMIT_AS=[1073741824,1073741824]` and exactly the environment names
+`LC_ALL`, `PATH`, `TZ`, with no token. This proves live attachment to the own
+profile in complain mode, **not enforcement** or the Phase 9 child profiles.
+
+### Hard kill and recovery
+
+After measurements, under the real state lock, the production store loaded
+the 12 exclusions and fsynced a pre-staged history generation. It did not
+commit history or any upload intent. A separate diagnostic marker recorded
+the confirmed-file hashes, and a small owned scratch file was created.
+Only after the isolated sleeping worker sent its ready event did the
+diagnostic parent send itself **SIGKILL**. No TV adapter was constructed.
+The log recorded unchanged confirmed files; Supervisor reported **error**
+after the intentional crash, as expected, with protection still enabled.
+
+On the next explicitly controlled start, at **14:18:46 UTC**:
+
+- The pre-staged history file was present before the production startup sweep
+  and removed afterward. The state lock could be acquired; the 12 exclusions
+  were intact. Hashes of options, both history copies, both ledger copies,
+  current artwork and preview were unchanged before and after recovery.
+- The old RAM-backed scratch mount contained zero run directories after the
+  container restart; their absence alone is not attributed to the sweep.
+  A newly created, known leftover run was separately removed by the real
+  startup sweep, proving that path on Green too.
+- The actual runner then excluded both previously sent synthetic fixtures:
+  **seen 2, excluded 2, shortlisted 0, inspections 0, probes 0**. It ended
+  **`no_match`, exit 0, elapsed 0.0 s rounded**. Neither network nor TV
+  tripwire was reached. Only `last_run.json` was updated, as expected.
+- Scratch contained zero files, bytes, run directories or temporary files;
+  state contained seven files / **3783 bytes**, cache two / **513 bytes**,
+  preview one / **328328 bytes**. The diagnostic control marker was removed.
+  Quarantine and token buckets remained unavailable, not proven empty.
+- Supervisor returned to **stopped**, protection true and host networking
+  false. Preview SHA256 remained
+  `326b6795385baf82b96c19b667d3e418a69a8ca2bbef08fad5ed170e2578271a`.
+
+This proves Green recovery from a hard kill **before TV contact** with a live
+worker and a durable pre-staged file. It does not claim a live kill during
+upload/selection, power-loss durability, or independently distinguish worker
+parent-death handling from container teardown. The after-upload uncertainty
+cases remain covered by the existing offline failure-path tests.
+
+### Restoration and release boundaries
+
+The diagnostic source was moved aside, the saved normal source copied back,
+and `diff -qr` confirmed **no differences**. Supervisor rebuilt the normal
+test app successfully. The final Dockerfile again ends at the ordinary
+`FROM app AS runtime`, with no diagnostic command/modules in that source.
+CLI reconfirmed stopped, version `0.1.0.dev1`, protection true, host networking
+false and the unchanged Cleveland/Chinese-Art/before-1400 filters and explicit
+test timer. The user’s preview and confirmed records were not replaced.
+
+After verifying the exact diagnostic manifest hash, the 13 explicitly named
+owned inputs, their manifest, empty diagnostic media directory and two transfer
+archives were removed on Green. This reclaimed about **1.0 GB** of temporary
+test data. The ordinary library fixtures, preview, confirmed state, 47 MB
+app-only backup and small source rollback copies were retained. `df -h` again
+showed **15.5 GB free**. The bounded final kernel query (10000 lines, filtered
+to the exact own profile) returned no matching entries; it is not treated as
+proof of enforcement. The existing s6 essential-oneshot warning remains.
+The generated large input files and their archive were also removed on the
+Mac, reclaiming about 1.0 GB there. Small diagnostic sources and the manifest
+are retained locally; equivalent synthetic inputs can be generated again.
+
+First-pairing/token rejection on a fresh TV authorization remains unverified:
+repeated earlier deliveries succeeded without a stored token, and an offline
+inspection of the approved installed library shows it only sets a token when
+the connection response includes one. That does not establish what this TV
+sent or validate a fresh pairing lifecycle. No TV authorization was reset.
+AppArmor enforcement/child profiles, qualified licence review, native `amd64`
+measurement, public images/repository and clean public installation remain
+Phase 9 prerequisites; Phase 9 and publication were not started.
+
+The local quality command `bash frame_gallery/scripts/check.sh` completed
+successfully: Ruff, both strict mypy passes over 222 files, pytest and 100%
+line/branch gates passed. Application source and dependencies are unchanged.
