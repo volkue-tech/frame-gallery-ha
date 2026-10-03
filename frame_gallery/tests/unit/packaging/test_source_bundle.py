@@ -33,6 +33,13 @@ BUNDLE: Final = _script()
 COMMIT: Final = "a" * 40
 
 
+def _snapshot_bytes() -> bytes:
+    output = io.BytesIO()
+    with tarfile.open(fileobj=output, mode="w") as archive:
+        BUNDLE.add(archive, "README.md", b"synthetic clean own source")
+    return output.getvalue()
+
+
 def _fixture(tmp_path: Path, monkeypatch: pytest.MonkeyPatch) -> tuple[Path, Path]:
     root = tmp_path / "repository"
     retained = root / "build/phase9"
@@ -54,7 +61,7 @@ def _fixture(tmp_path: Path, monkeypatch: pytest.MonkeyPatch) -> tuple[Path, Pat
         if args[0] == "rev-parse":
             return COMMIT.encode() + b"\n"
         assert args == ("archive", "--format=tar", COMMIT)
-        return b"clean project snapshot, not Git objects or ignored user state"
+        return _snapshot_bytes()
 
     monkeypatch.setattr(BUNDLE, "git", fake_git)
     return root, retained
@@ -158,11 +165,45 @@ def test_dirty_git_and_changed_head_are_rejected(
         if args[0] == "rev-parse":
             calls += 1
             return (COMMIT if calls == 1 else "b" * 40).encode()
-        return b"snapshot"
+        return _snapshot_bytes()
 
     monkeypatch.setattr(BUNDLE, "git", changed_git)
     with pytest.raises(ValueError, match="HEAD changed"):
         BUNDLE.snapshot(root)
+
+
+@pytest.mark.parametrize(
+    "change",
+    ["valid-empty", "missing-original", "missing-copy", "altered-copy", "linked-copy", "bad-hash"],
+)
+def test_git_snapshot_contains_exact_original_and_shipped_notices(change: str) -> None:
+    output = io.BytesIO()
+    prefix = "frame_gallery/license_bundle/"
+    data = b"notice" if change == "bad-hash" else b""
+    # Empty upstream originals still have to be tracked and distributed.
+    index = {
+        "files": [
+            {"path": "LICENSE", "bytes": len(data), "sha256": hashlib.sha256(data).hexdigest()}
+        ]
+    }
+    with tarfile.open(fileobj=output, mode="w") as archive:
+        BUNDLE.add(archive, prefix + "bundle-manifest.json", json.dumps(index).encode())
+        if change != "missing-original":
+            BUNDLE.add(archive, "LICENSE", data)
+        if change == "linked-copy":
+            member = tarfile.TarInfo(prefix + "LICENSE")
+            member.type, member.linkname = tarfile.SYMTYPE, "LICENSE"
+            archive.addfile(member)
+        elif change != "missing-copy":
+            copy = b"changed" if change == "altered-copy" else data
+            if change == "bad-hash":
+                copy = b"change"
+            BUNDLE.add(archive, prefix + "LICENSE", copy)
+    if change == "valid-empty":
+        BUNDLE.verify_notice_snapshot(output.getvalue())
+    else:
+        with pytest.raises(ValueError, match="notice"):
+            BUNDLE.verify_notice_snapshot(output.getvalue())
 
 
 def test_official_go_escaped_module_basename_is_supported_without_execution(

@@ -113,6 +113,40 @@ def git(root: Path, *args: str) -> bytes:
     )
 
 
+def verify_notice_snapshot(source: bytes) -> None:
+    """A local notice file is not shipped unless both originals are in Git's snapshot."""
+    prefix = "frame_gallery/license_bundle/"
+    with tarfile.open(fileobj=io.BytesIO(source)) as archive:
+        try:
+            member = archive.getmember(prefix + "bundle-manifest.json")
+        except KeyError:
+            # Minimal synthetic Git fixtures have no application notice payload.
+            return
+        if not member.isfile() or member.size > 2 * 1024 * 1024:
+            raise ValueError("unsafe notice snapshot manifest")
+        handle = archive.extractfile(member)
+        if handle is None:
+            raise ValueError("notice snapshot manifest unavailable")
+        with handle:
+            rows = json.load(handle)["files"]
+        if not isinstance(rows, list) or not 0 < len(rows) <= 256:
+            raise ValueError("invalid notice snapshot index")
+        for row in rows:
+            for name in (row["path"], prefix + row["path"]):
+                try:
+                    item = archive.getmember(name)
+                except KeyError:
+                    raise ValueError("notice absent from Git snapshot") from None
+                if not item.isfile() or item.size != row["bytes"]:
+                    raise ValueError("invalid notice in Git snapshot")
+                body = archive.extractfile(item)
+                if body is None:
+                    raise ValueError("notice snapshot member unavailable")
+                with body:
+                    if hashlib.sha256(body.read()).hexdigest() != row["sha256"]:
+                        raise ValueError("notice snapshot hash mismatch")
+
+
 def snapshot(root: Path) -> tuple[str, bytes]:
     if git(root, "status", "--porcelain", "--untracked-files=normal").strip():
         raise ValueError("source checkout must be clean")
@@ -122,6 +156,7 @@ def snapshot(root: Path) -> tuple[str, bytes]:
     source = git(root, "archive", "--format=tar", commit)
     if not 0 < len(source) <= MAX_PROJECT_BYTES:
         raise ValueError("project snapshot exceeds bound")
+    verify_notice_snapshot(source)
     if git(root, "status", "--porcelain", "--untracked-files=normal").strip():
         raise ValueError("checkout changed while taking snapshot")
     if git(root, "rev-parse", "HEAD").decode().strip() != commit:

@@ -15,3 +15,9 @@ coverage.xml
 htmlcov/
 .coverage.*
 *.egg-info/
+
+# Exact inert upstream notice evidence; not local build products.
+!LICENSES/alpine-originals/zstd-1.5.7.tar.gz/zstd-1.5.7/build/
+!LICENSES/alpine-originals/zstd-1.5.7.tar.gz/zstd-1.5.7/build/LICENSE
+!frame_gallery/license_bundle/LICENSES/alpine-originals/zstd-1.5.7.tar.gz/zstd-1.5.7/build/
+!frame_gallery/license_bundle/LICENSES/alpine-originals/zstd-1.5.7.tar.gz/zstd-1.5.7/build/LICENSE

@@ -432,3 +432,37 @@ notice/inventory/init/stop/smoke checks pass. Logs:
 The lock's sole change is the virtual own-package version; pinned uv 0.12.19
 `lock --offline --check` resolved the unchanged 26 packages successfully.
 No new dependency, safety-limit relaxation or live HA/TV mutation occurred.
+
+A final CI review found missing explicit `shell: bash` defaults. GitHub documents
+that its unspecified Linux shell lacks pipefail, so `check.sh | tee` could mask a
+failed host gate. Both workflows now require Bash's fail-closed invocation. Nine
+host/fixture/shell regressions cover it, including an old-shell negative control reproducing
+the hidden exit 7. No existing gate is weakened. Prior hosted step status alone
+is not evidence of a passed piped host suite; a fresh corrected run is required.
+The `5161dff` source upload completed into a private untagged draft only. It has
+not been published, tagged or used for any binary distribution.
+
+The ARM job `111296598855` in that hosted run failed the notice shipping check
+and two notice tests (4,782 other passes, five root-only skips; five separate root
+checks passed). The cause was the unanchored ignored `build/` path: the empty
+original Zstd `build/LICENSE` and its payload copy existed locally but were not
+tracked. Two exact ignore exceptions retain them unchanged. Source assembly now
+checks original and shipped notice bytes/hashes in the Git archive itself, with
+six regressions. All earlier source candidates are superseded; none is public.
+An initial workflow test incorrectly assumed an outer repository exists inside
+the app's container build context; it failed two tests and was corrected to a
+host-only real-workflow gate plus fixtures/shell checks in containers, without
+adding skips or weakening any gate.
+
+The final corrected native Mac run exited 0: 4,794 passed / eleven expected
+platform skips, strict host/Linux mypy 236 files, 100% full and mandated
+line/branch coverage. It ran with normal host permissions after the sandbox
+blocked two pre-existing group/setgid tests; the failed log is retained, and no
+tests/skips were changed to bypass it. Native ARM container checks exited 0:
+4,800 passed / five root-only skips plus all five separate root tests; all 201
+notice documents byte/readability verified. Both workflow YAML and run scripts
+pass syntax checks. Final logs:
+`build/phase9/check-beta-b1-tracked-notices-unsandboxed-20261003.log` and
+`build/phase9/container-beta-b1-tracked-notices-final-aarch64-20261003.log`.
+The public jobs API confirms both prior hosted jobs ended in failure, not success.
+New exact-commit sources and fail-closed hosted native checks remain mandatory.

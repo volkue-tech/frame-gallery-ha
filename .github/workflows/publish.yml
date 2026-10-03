@@ -12,6 +12,10 @@ name: Publish reviewed beta images
 permissions:
   contents: read
 
+defaults:
+  run:
+    shell: bash
+
 concurrency:
   group: frame-gallery-release
   cancel-in-progress: false

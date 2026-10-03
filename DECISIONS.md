@@ -27,6 +27,38 @@ The personal main push to `a7a99f8` is verified. Native hosted validation run
 Credentials remain transient/private; no business identity or backup branch
 is transferred. Source/public-image/signature/install gates remain mandatory.
 
+Before publication, a further workflow check found that GitHub's unspecified
+Linux shell is `bash -e {0}`, without pipefail. The validation log's `check.sh |
+tee` could therefore hide a failed quality gate. Both own workflows now explicitly
+declare `defaults.run.shell: bash`, whose documented invocation includes
+`-eo pipefail`. Nine offline regressions cover the host-only check of the actual
+workflow declarations, synthetic declaration failures, actual passing
+and failing pipelines, and the old shell as a negative control. No tests, warning
+or coverage requirements are weakened. Previous hosted step status alone is not
+proof that the piped host gate passed; require a new fail-closed native run.
+Official reference: https://docs.github.com/en/actions/reference/workflows-and-actions/workflow-syntax#defaultsrunshell
+The superseded `5161dff` source upload remains a private, untagged draft only;
+no source release, registry tag or binary was distributed for that candidate.
+
+The ARM job in run `37155043758` actually failed the notice shipping check and
+two notice tests: `.gitignore`'s unanchored `build/` rule excluded the exact empty
+Zstd upstream `build/LICENSE` and its image payload copy. Local tests saw these
+files, but a fresh Git checkout did not. Narrow exceptions now retain only those
+two original files; no generated build directory is broadly admitted. Source
+assembly now checks all notice originals and copies in the actual Git archive,
+including byte counts and hashes. Six regressions cover empty originals, missing
+copies/originals, altered bytes, symlinks and same-size hash mismatches. The old
+source packages are superseded and must not be published. No notice requirement,
+test or safety limit was relaxed.
+
+Final correction gates actually exited 0: native Mac (outside the sandbox's
+group/setgid restriction) 4,794 passes / eleven platform skips, strict mypy 236
+files, 100% full/mandated line and branch coverage; native ARM container 4,800
+passes / five root-only skips and all five separate root checks. All 201 shipped
+notice documents are byte/readability verified. Both actual workflow YAML/run
+scripts pass syntax checks. The prior hosted ARM and Intel jobs both ended in
+failure; neither is presented as a release success. Fresh hosted checks must pass.
+
 ### D-193 — gated native image publication and separately published sources
 
 Status: prepared within the authorized Phase 9 scope, **not dispatched or proved

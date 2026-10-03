@@ -28,6 +28,27 @@ passes for all 26 packages. The dependencies and generated notice payload are
 unchanged. No public candidate image or clean public installation is claimed.
 
 **Latest local release preparation (D-193):** the manual-only native publication
+workflow is prepared, not dispatched. D-194's final workflow review found and
+corrected missing explicit Bash/pipefail defaults: a piped host gate must not be
+reported successful merely because tee succeeded. Both workflows select the
+documented fail-closed Bash invocation, with nine host/fixture/shell regressions
+regressions. The earlier numbered source upload is only a private untagged draft;
+it is not distributed. Fresh native fail-closed hosted validation and a matching
+source package are required before activating image publication.
+
+The hosted ARM job did fail: an empty Zstd upstream notice and its shipped copy
+were ignored by Git's `build/` rule. Narrow exceptions now retain both exact
+files. The source assembler verifies originals and shipped copies in the actual
+Git archive, not merely the local filesystem (six regressions). Earlier local
+source packages are superseded and must not be published. Final full gates for
+this correction passed: Mac 4,794 tests / eleven platform skips, strict mypy 236
+files and 100% full/mandated line+branch; native ARM 4,800 passes / five root-only
+skips and five separate root passes. The Mac run used normal host permissions
+after the sandbox blocked two existing group/setgid tests; no skips were added.
+Both previous hosted jobs ended in failure. Fresh hosted native validation and
+the newly assembled exact-commit source package remain required.
+
+**Prior local release preparation (D-193):** the manual-only native publication
 workflow is prepared, not dispatched. Exact reviewed source-commit/package-hash
 approval and numbered matching runtime/app beta metadata are mandatory; current
 dev0 is observed to fail before publication. Matching public sources, fresh actual

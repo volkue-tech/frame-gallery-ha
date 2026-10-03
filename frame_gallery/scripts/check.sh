@@ -5,6 +5,9 @@ cd "$(dirname "$0")/.."
 
 BIN=.venv/bin
 
+echo "== actual CI workflow shell defaults (host checkout only)"
+"$BIN/python" scripts/ci_defaults.py
+
 echo "== committed licence bundle"
 "$BIN/python" scripts/license_bundle.py --check
 
