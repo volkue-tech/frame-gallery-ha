@@ -1,6 +1,6 @@
 # Project status
 
-Last updated: 2026-10-03 (Phase 8: corrected Chicago runtime delivered on Green)
+Last updated: 2026-10-03 (Phase 8: Chicago delivery visually confirmed by user)
 
 ## Current phase
 
@@ -10,6 +10,7 @@ Last updated: 2026-10-03 (Phase 8: corrected Chicago runtime delivered on Green)
 - **Phase 7 conditions:** only Phase 7 of `TASKS.md`: offline validation with the existing local environments and container images, failure-path tests, and a release-candidate report. No new features, and no additional review loops without a concrete finding. The work stops at the Phase 7 gate.
 - **Current live scope:** the separate development installation, supervised TV/museum tests, and the explicitly approved separate test camera, timer, script and dashboard. No existing app, dashboard, script, integration, or `configuration.yaml` may be changed. No GitHub publication. No scheduled automation has been installed.
 - **Authorized Phase 8 correction completed:** the user approved fixing Chicago selection, count-only storage diagnostics, and updating/testing only Frame Gallery (Test), preserving history and protection. D-174 replaces rejected deep-page queries with documented random ordering and shallow pages; D-175 adds bounded read-only statistics after cleanup. Runtime `5d662e1` was rebuilt without uninstall/reset, with the previous source kept for rollback. Chicago delivery and normal-run storage statistics succeeded on Green; statistics are not a contents/integrity inspection or a crash-cleanup test. See `PHASE8_REPORT.md`.
+- **User visual confirmation:** the user confirmed the Chicago retable on the physical TV after the corrected 15.5 s delivery. This is separate from the still-pending synthetic edge/no-crop check.
 - Every commit uses the personal identity `Alexander Wilke <volkue@gmail.com>`.
 - **Coordination note (2026-10-03):** a message in the user's chat, signed as Codex acting for the user, confirmed that Phase 7 continues unchanged and that Codex reviews the report and the local results at the gate; the locks and the identity stay as they are (*Review records* in `DECISIONS.md`).
 

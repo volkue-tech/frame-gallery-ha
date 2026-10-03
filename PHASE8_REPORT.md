@@ -177,8 +177,9 @@ The shared gallery still contained exactly two files: the retained synthetic
 fixture (263 066 bytes) and the one current preview (1 465 960 bytes). `df`
 reported about 15.7 GB available. The source backup and 632 KiB transfer archive
 are intentional rollback artifacts, not retained artwork downloads. No existing
-user media, configuration or history was deleted or reset. User visual
-confirmation of this Chicago image on the physical TV is still pending.
+user media, configuration or history was deleted or reset. The user subsequently
+confirmed seeing this Chicago artwork on the physical TV. This confirms the
+delivery visually, not the separate synthetic edge/no-crop acceptance check.
 
 ### Preview files and bounded media observations
 
@@ -260,7 +261,8 @@ sensor, not the camera; its loading indicator is bounded by the timer.
 Native Local File refresh is a promising candidate, not a completed G5/D-140
 gate: automation-started delivery and further repeated final-script delivery
 tests remain open. No exact browser refresh latency is
-claimed. User visual confirmation of these later TV artworks is also pending.
+claimed. User visual confirmation of these later Cleveland TV artworks is still
+pending; the subsequent Chicago delivery is visually confirmed as recorded above.
 
 ## Still pending
 
