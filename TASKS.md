@@ -196,6 +196,10 @@ approval. Existing release prerequisites remain mandatory.
 - [x] Create the user-approved public repository under `volkue-tech`.
   *https://github.com/volkue-tech/frame-gallery-ha created in the personal Firefox session. The audited `main` at `39d25da` is pushed and its remote SHA verified; only the personal identity and main history were transferred. Native hosted run `37141542920` started; no binary release.*
 - [ ] Complete the qualified licence review (D-135) as a release gate: `samsungtvws` (LGPL-3.0), Pillow's fribidi-shim (LGPL-2.1-or-later; the runtime wheels contain neither `libimagequant` nor FriBiDi, D-171), the Alpine base packages, the tools outside apk (s6-overlay, tempio, bashio; R-33), and the exact form of libmd's "Public Domain" part.
+  *D-186 to D-191 retain the exact source evidence and original texts. A local
+  172-archive corresponding-source candidate plus the own clean source snapshot
+  is assembled/read-back hash-verified (512 MB), not publicly released. Remaining
+  applicability, replacement/rebuild and final source/publication gates stay open.*
 - [ ] Add the Apache-2.0 licence for project-owned code, and third-party notices with the GPL and LGPL texts and copyleft source availability.
   *Project LICENSE/NOTICE and the current original third-party/GPL/LGPL texts are
   committed and shipped in the Supervisor-compatible image context (D-190).

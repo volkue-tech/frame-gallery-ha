@@ -245,9 +245,30 @@ Latest full unsandboxed host gates also pass: 4,728 tests / eleven expected
 platform skips, Ruff/strict mypy on 230 files, unchanged 100% package and mandated
 line/branch coverage. Log: `build/phase9/check-license-bundle-final-20261003.log`.
 The longer real-limit ARM measurement against the initial notice-layer rebuild
-is still underway. Runtime code and all dependencies are unchanged; the latest
-image only adds documentation data. No Green/TV changes or container publication.
+also passed (exit 0): all 26 prepares, peak VM 765.5 MiB, slowest 1.59 s under
+the unchanged 1 GiB limit, 150 inspections without failure (0.62 s total).
+Runtime code and all dependencies are unchanged across the later documentation/
+test refresh; the latest image only adds documentation data. No Green/TV changes
+or container publication.
 This distribution step does not close the source/rebuild/applicability gates.
+
+### Local corresponding-source candidate (D-191)
+
+An offline candidate was assembled from all retained source manifests and clean
+own project commit `40f3e65aad47464ea64590955446446d84a611a7`. All 172 input archive
+SHA256s/byte lengths were checked before assembly and each packed archive was
+read back and hash-verified. The project snapshot is `git archive`, with no Git
+history or backup branch. The output contains regular inert source archives
+and its index; no archive was extracted or executed and no binary toolchain is
+redistributed. It contains no HA state, tokens, TV data or user artwork.
+
+Candidate: `build/phase9/source-candidate-40f3e65.tar`, 512,204,800 bytes,
+SHA256 `bbe95367e669da9cbd4bb647d0bd28459d93b49fcf166bd1a6aaa52aef061992`.
+172 original sources total 507,415,363 bytes, plus the own 4,608,000-byte source
+snapshot/index. Result: `build/phase9/source-candidate-result.json`. Mac-only;
+approximately 20 GiB free remains. Mechanical first-candidate assembly is now
+done; engineering applicability, replacement/rebuild documentation, final release
+synchronization and public source availability/retention remain gates.
 
 The user-approved public repository was created in the personal Firefox session:
 https://github.com/volkue-tech/frame-gallery-ha . Owner/visibility are exactly

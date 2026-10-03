@@ -57,8 +57,16 @@ Missing or altered payloads fail the quality gate; new data tests no longer skip
 the shipped evidence. Latest full host gates pass (4,728 tests, eleven expected
 skips, strict mypy 230 files, 100% line/branch); latest ARM container suite passes
 (4,734 non-root tests / five root-only skips; five separate root passes).
-The longer ARM measurement is underway; app code/dependencies are unchanged. This
+The longer ARM measurement also passed: 26 prepare results, peak VM 765.5 MiB,
+slowest 1.59 s under the unchanged 1 GiB limit; 150 inspections, no failures.
+App code/dependencies are unchanged across the documentation/test refresh. This
 does not clear source/rebuild/applicability or public-install release gates.
+An offline source candidate for clean own commit `40f3e65` is assembled and
+read-back hash-verified: 172 original archives plus the own project snapshot,
+512,204,800 bytes, Mac-only. It contains no Git backup history, HA state, tokens
+or TV data and redistributes no binary toolchains (D-191). Replacement/rebuild,
+subsidiary applicability, final release synchronization and public source/image
+availability are still open, not claimed cleared by this candidate.
 
 **Live checkpoint:** the normal entry point is restored and both temporary
 diagnostic modules are moved outside the own app source. Two card-started real

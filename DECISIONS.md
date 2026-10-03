@@ -393,10 +393,35 @@ non-root tests / five root-only skips and all five separate root checks. All sev
 previously unavailable repository-notice/source-data cases now pass in the image.
 Full host gates passed: 4,728 tests / eleven expected skips, strict mypy over 230
 files, unchanged 100% package/mandated line and branch coverage. The longer ARM
-measurement is running against the initial notice-layer rebuild; decoder/runtime
-code and dependencies are unchanged. App runtime/dependencies, options,
+measurement also passed on the initial notice-layer rebuild: all 26 prepare
+cases, 765.5 MiB peak VM, slowest 1.59 s under the real unchanged 1 GiB limit;
+150 inspections, no failures (0.62 s total). Decoder/runtime code and dependencies
+are unchanged across the later documentation/test refresh. App options,
 Green installation and TV state are unchanged. Complete source/rebuild
 distribution and engineering applicability findings remain release gates.
+
+### D-191 — offline corresponding-source candidate assembly
+
+Status: candidate assembled and hash-verified locally; no publication or D-135
+legal/compliance clearance. The assembly reads only the exact public-source
+manifests already retained under LICENSES and the clean own project commit
+`40f3e65aad47464ea64590955446446d84a611a7`. Every input archive must have a
+matching retained SHA256 and byte length; no missing input is silently skipped.
+It packages 172 original archives (507,415,363 bytes), including all 45 exact
+Alpine recipes with their patches, upstream distfiles, Python/S6/Go/native-Pillow
+sources and identified static-library sources. The own source is `git archive`
+of that commit (4,608,000 bytes), not Git history or the old backup branch.
+Binary toolchain archives are deliberately not redistributed by this candidate.
+
+The candidate tar contains only regular inert archive/index members; no source
+was extracted or executed. Every packed archive and the project snapshot were
+read back and SHA256-verified against its index. Result:
+`build/phase9/source-candidate-40f3e65.tar`, 512,204,800 bytes,
+SHA256 `bbe95367e669da9cbd4bb647d0bd28459d93b49fcf166bd1a6aaa52aef061992`.
+It is retained on the Mac only, with about 20 GiB free; no HA backup, token,
+TV pairing data or user artwork is included. This removes the mechanical
+first-candidate assembly gap, not subsidiary-applicability, replacement/rebuild,
+final release-source synchronization or public availability/retention gates.
 
 ### Phase 9 licence inventory corrections (engineering audit in progress)
 
