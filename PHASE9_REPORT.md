@@ -466,3 +466,25 @@ pass syntax checks. Final logs:
 `build/phase9/container-beta-b1-tracked-notices-final-aarch64-20261003.log`.
 The public jobs API confirms both prior hosted jobs ended in failure, not success.
 New exact-commit sources and fail-closed hosted native checks remain mandatory.
+
+The `7f20c14` source package passed actual assembly and independent preflight:
+172 archives, 518,113,280 bytes, SHA256
+`f3b63d079edde60c0dea3dbc6e0f0bd1d614f76d0d2baac7cd2c628839cf89a5`.
+The main push is verified, but hosted run `37156461763` failed two old
+local-media tests (ARM: 4,798 other passes / five root-only skips). Their fixture
+unlinked/recreated a file and incorrectly assumed the inode could not be reused.
+Allocating the replacement while the original still exists and asserting
+distinct inodes makes the intended identity-change test deterministic; the
+actual runtime refusal/no-worker assertions are unchanged. The log also showed
+an uncovered signal-refusal path: two new deterministic tests check both signal
+targets for missing processes and denied permissions. No runtime changes, new
+skips or relaxed coverage requirements. The upload remains a private superseded
+draft and must not be published. Fresh exact-commit evidence remains required.
+
+Final fixture-correction commands exited 0: Mac 4,796 tests / eleven platform
+skips, strict host/Linux mypy 236 files, 100% full/mandated line+branch; native ARM
+4,802 passes / five root-only skips plus all five separate root checks, with all
+201 documents byte/readability verified. Logs:
+`build/phase9/check-beta-b1-ci-fixtures-final-20261003.log` and
+`build/phase9/container-beta-b1-ci-fixtures-final-aarch64-20261003.log`.
+Targeted local-media run: 73 passed; direct signal-refusal run: two passed.

@@ -803,6 +803,36 @@ class _ChildRig:
 class TestInternals(_ChildRig):
     """Paths that depend on timing, driven directly and deterministically."""
 
+    @pytest.mark.parametrize("error", [ProcessLookupError, PermissionError])
+    def test_signal_attempts_both_targets_when_the_os_refuses_one(
+        self,
+        child: subprocess.Popen[bytes],
+        monkeypatch: pytest.MonkeyPatch,
+        error: type[OSError],
+    ) -> None:
+        worker = self.worker(child)
+        sent: list[str] = []
+
+        def refuse_group(pid: int, sig: int) -> None:
+            assert (pid, sig) == (child.pid, signal.SIGKILL)
+            sent.append("group")
+            raise error()
+
+        def refuse_process(pid: int, sig: int) -> None:
+            assert (pid, sig) == (child.pid, signal.SIGKILL)
+            sent.append("process")
+            raise error()
+
+        try:
+            with monkeypatch.context() as patch:
+                patch.setattr(os, "killpg", refuse_group)
+                patch.setattr(os, "kill", refuse_process)
+                process._signal(worker)
+            assert sent == ["group", "process"]
+        finally:
+            worker_executor()._end(worker)
+            self.close()
+
     def test_a_full_request_pipe_waits(self, child: subprocess.Popen[bytes]) -> None:
         worker = self.worker(child)
         assert worker.request is not None

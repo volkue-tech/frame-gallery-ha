@@ -713,9 +713,11 @@ class TestFetch:
         self, library: Library, tmp_path: Path
     ) -> None:
         provider, candidate, path = self._offered(library)
-        data = path.read_bytes()
-        path.unlink()
-        path.write_bytes(data)  # a new inode with identical bytes
+        replacement = path.with_name("replacement.jpg")
+        replacement.write_bytes(path.read_bytes())
+        # Allocate while the original still exists: unlink/write may reuse its inode.
+        assert replacement.stat().st_ino != path.stat().st_ino
+        replacement.replace(path)
         with pytest.raises(SourceError, match="changed"):
             provider.fetch(provider.full_ref(candidate), tmp_path / "x", library.context().deadline)
 
@@ -982,9 +984,11 @@ class TestInspection:
         path = library.jpeg("a.jpg")
         provider = library.provider()
         (candidate,) = library.candidates(provider)
-        data = path.read_bytes()
-        path.unlink()
-        path.write_bytes(data)  # same bytes, another inode
+        replacement = path.with_name("replacement.jpg")
+        replacement.write_bytes(path.read_bytes())
+        # Preserve both files until replacement, so inode reuse cannot mask the change.
+        assert replacement.stat().st_ino != path.stat().st_ino
+        replacement.replace(path)
         inspector = ScriptedInspector()
         probe = LocalInspectionProbe(provider, inspector)
         assert probe.measure(candidate, library.context().deadline) is None

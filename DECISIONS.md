@@ -59,6 +59,25 @@ notice documents are byte/readability verified. Both actual workflow YAML/run
 scripts pass syntax checks. The prior hosted ARM and Intel jobs both ended in
 failure; neither is presented as a release success. Fresh hosted checks must pass.
 
+The corrected `7f20c14` main push is verified, but hosted run `37156461763`
+failed two old local-media test fixtures. They assumed unlink/recreate always
+allocates a new inode; native Ubuntu can reuse it immediately. Both now allocate
+the byte-identical replacement while the old file still exists, assert distinct
+inodes and atomically rename it into place. The original refusal/no-worker
+assertions remain. Runtime code is unchanged. That host run also exposed an
+uncovered OS signal-refusal path previously covered only incidentally by timing;
+two deterministic tests now verify both group/process kill attempts under
+ProcessLookupError and PermissionError. No existing tests or coverage gate are
+removed. The matching `7f20c14` source upload stays a superseded private draft,
+not a public source release. Require full gates and fresh native hosted checks
+of the final fixture correction.
+
+Final fixture-correction gates exited 0: Mac 4,796 passed / eleven platform skips,
+strict mypy 236 files, 100% full and mandated line/branch coverage; native ARM
+container 4,802 passed / five root-only skips and all five separate root checks.
+The 73 local-media tests and both direct signal-refusal tests also passed in
+targeted runs. All 201 original shipped documents remain byte-verified.
+
 ### D-193 — gated native image publication and separately published sources
 
 Status: prepared within the authorized Phase 9 scope, **not dispatched or proved

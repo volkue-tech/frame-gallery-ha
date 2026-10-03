@@ -4,6 +4,17 @@ Last updated: 2026-10-03 (Phase 9: enforced worker probes and regular Green deli
 
 ## Current phase
 
+**Latest hosted follow-up:** the corrected personal main push to `7f20c14` is
+verified. Run `37156461763` failed two old local-media fixtures whose
+unlink/recreate assumption permits immediate inode reuse on Ubuntu. Their
+replacement is now allocated before the old inode is released; all refusal and
+no-worker assertions remain. Two deterministic OS-signal-refusal tests address
+a timing-dependent coverage hole from the same log. Runtime code is unchanged;
+final local gates passed (Mac 4,796 / eleven platform skips, strict mypy 236 files,
+100% full/mandated line+branch; native ARM 4,802 / five root-only skips and five
+separate root passes). Fresh hosted checks remain pending. Both source uploads
+are private superseded drafts, with no published source release or images.
+
 **Phase 9 authorized and in progress (2026-10-03).** The user requested completion
 of the next phase and confirmed **Frame Gallery** and the personal repository
 **volkue-tech/frame-gallery-ha**. Release hardening, engineering licence review,
