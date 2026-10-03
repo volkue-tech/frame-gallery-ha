@@ -184,12 +184,19 @@ Gate: user approves release hardening, public publication, and final name.
 
 Owner: Codex and Claude
 
+Authorized by the user on 2026-10-03: complete the next phase; name Frame Gallery
+and personal public repository volkue-tech/frame-gallery-ha explicitly confirmed.
+Codex performs the engineering licence audit, without claiming legal counsel's
+approval. Existing release prerequisites remain mandatory.
+
 - [ ] Switch the AppArmor profile to enforce mode and verify the whole isolation design, with an approved supervised live re-check; add the per-worker child profiles (R-31), and revisit an unprivileged parent with them (Q-10, D-172). The enforcement is a release prerequisite (Phase 6 gate).
+  *D-178/D-180 implemented; actual enforced child plus seccomp negative/positive probes passed on Green with records preserved and scratch empty. Parent remains root; no new container privilege. Parent-output-read and normal app restoration/delivery regression still pending, so the whole-isolation gate is not closed. See `PHASE9_REPORT.md`.*
 - [ ] Measure the worst-case preparation natively on `amd64` under the real `RLIMIT_AS` (`scripts/measure_prepare.py`, as root). Mandatory before an `amd64` version is published (Phase 6 gate, D-170).
 - [ ] Create the user-approved public repository under `volkue-tech`.
 - [ ] Complete the qualified licence review (D-135) as a release gate: `samsungtvws` (LGPL-3.0), Pillow's fribidi-shim (LGPL-2.1-or-later; the runtime wheels contain neither `libimagequant` nor FriBiDi, D-171), the Alpine base packages, the tools outside apk (s6-overlay, tempio, bashio; R-33), and the exact form of libmd's "Public Domain" part.
 - [ ] Add the Apache-2.0 licence for project-owned code, and third-party notices with the GPL and LGPL texts and copyleft source availability.
 - [ ] Configure GitHub Actions for tests and multi-architecture GHCR publication.
+  *Native read-only validation workflow prepared (D-181); actual ARM/Intel runs and a separate gated publication workflow still pending.*
 - [ ] Publish immutable versioned images for `aarch64` and `amd64`.
 - [ ] Add the one-click Home Assistant repository link.
 - [ ] Finalize the dashboard card with the slug observed after installing from the public repository.

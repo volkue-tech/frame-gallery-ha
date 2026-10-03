@@ -45,6 +45,7 @@ TV_WORKER = PACKAGE_ROOT / "tv" / "samsung_task.py"
 TV_WORKER_MODULE = "frame_gallery.tv.samsung_task"
 ISOLATION_PROCESS = ISOLATION_ROOT / "process.py"
 ISOLATION_BOOTSTRAP = ISOLATION_ROOT / "bootstrap.py"
+ISOLATION_NETWORK_FILTER = ISOLATION_ROOT / "network_filter.py"
 PROCESS_MODULE = "frame_gallery.isolation.process"
 BOOTSTRAP_MODULE = "frame_gallery.isolation.bootstrap"
 WORKER_MAIN_MODULE = "frame_gallery.isolation.worker_main"
@@ -413,8 +414,8 @@ def _banned_allowed(module: SourceModule, ref: ImportRef) -> bool:
         return True  # the television worker's connect guard (Phase 5)
     if module.path == ISOLATION_PROCESS and ref.module in ("subprocess", "select"):
         return True  # the process executor (Phase 5, D-163)
-    if module.path == ISOLATION_BOOTSTRAP and ref.module == "ctypes":
-        return True  # prctl in the worker bootstrap (Phase 5, D-163)
+    if module.path in (ISOLATION_BOOTSTRAP, ISOLATION_NETWORK_FILTER) and ref.module == "ctypes":
+        return True  # lazy worker-only prctl/seccomp bindings (D-163, D-180)
     return module.is_net and (
         ref.module in NET_ONLY_MODULES
         or any(ref.module.startswith(f"{name}.") for name in NET_ONLY_MODULES)
@@ -603,7 +604,7 @@ def test_process_management_is_confined_to_the_executor() -> None:
         tops = {ref.top for ref in _imports(module)}
         if path != ISOLATION_PROCESS:
             assert not tops & {"subprocess", "select"}, module.relative
-        if path != ISOLATION_BOOTSTRAP:
+        if path not in (ISOLATION_BOOTSTRAP, ISOLATION_NETWORK_FILTER):
             assert "ctypes" not in tops, module.relative
 
 
@@ -614,6 +615,7 @@ def test_the_isolation_code_is_covered_without_exemptions() -> None:
         ISOLATION_ROOT / "bootstrap.py",
         ISOLATION_ROOT / "worker_main.py",
         ISOLATION_PROCESS,
+        ISOLATION_NETWORK_FILTER,
         TV_WORKER,
     ):
         assert "pragma: no cover" not in path.read_text(encoding="utf-8"), path.name

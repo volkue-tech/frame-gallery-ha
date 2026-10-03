@@ -54,6 +54,7 @@ from frame_gallery.budget.watchdog import RunWatchdog
 from frame_gallery.config.options import ConfigError, LogLevel
 from frame_gallery.domain import SourceKey
 from frame_gallery.ha.client import SupervisorHelperReader
+from frame_gallery.isolation.apparmor import ProfileError
 from frame_gallery.isolation.executor import Executor
 from frame_gallery.isolation.process import Launch, ProcessExecutor
 from frame_gallery.logs.redact import Redactor
@@ -112,6 +113,9 @@ class Wiring:
     require_isolation: bool = field(default_factory=lambda: sys.platform.startswith("linux"))
     """Refuse to run unless :attr:`Launch.enforced` (on Linux: the container)."""
 
+    require_apparmor: bool = False
+    """Set only by main: own enforced profile is mandatory in the shipped app."""
+
     watchdog_exit: Callable[[int], object] = os._exit
     watchdog_wait: Callable[[float], bool] | None = None
     """How the watchdog ends the process and waits; replaced only by tests."""
@@ -119,7 +123,7 @@ class Wiring:
 
 def main() -> int:
     """One production run; returns its exit code (§4.2)."""
-    return run_app(os.environ, sys.stderr, Wiring())
+    return run_app(os.environ, sys.stderr, Wiring(require_apparmor=True))
 
 
 def run_app(environ: MutableMapping[str, str], stream: TextIO, wiring: Wiring) -> int:
@@ -140,11 +144,19 @@ def run_app(environ: MutableMapping[str, str], stream: TextIO, wiring: Wiring) -
     redactor = Redactor(secret for secret in secrets if secret)
     configure_logging(level=LogLevel.INFO, stream=stream, redactor=redactor)
 
-    launch = wiring.launch()
-    if wiring.require_isolation and not launch.enforced:
+    try:
+        launch = wiring.launch()
+    except ProfileError:
+        launch = None
+    if (
+        launch is None
+        or (wiring.require_isolation and not launch.enforced)
+        or (wiring.require_apparmor and launch.apparmor_profile is None)
+    ):
         _log.error(
             "the workers cannot be isolated here: the app must run as root on Linux, "
-            "where every worker drops to an unprivileged user (no artwork was sent)"
+            "where every worker drops to an unprivileged user, with the own enforced "
+            "AppArmor profile (no artwork was sent)"
         )
         _log.error(
             "%s",

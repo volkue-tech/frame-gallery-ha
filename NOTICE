@@ -1,0 +1,13 @@
+Frame Gallery
+Copyright 2026 Alexander Wilke
+
+Project-owned source, tests, documentation and original geometric assets are
+licensed under the Apache License, Version 2.0. Third-party components retain
+their original licences. See THIRD_PARTY_NOTICES.md and LICENSES/.
+
+Frame Gallery is an independent implementation. It is not affiliated with or
+endorsed by Samsung, Home Assistant, the Art Institute of Chicago or the
+Cleveland Museum of Art. No museum artwork is included in the source or images.
+
+This software is based in part on the work of the Independent JPEG Group.
+Portions of this software are copyright The FreeType Project (www.freetype.org).

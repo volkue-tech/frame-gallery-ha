@@ -143,6 +143,7 @@ _FIELDS: Final = frozenset(
         "extra_paths",
         "fds",
         "log_level",
+        "apparmor_profile",
     }
 )
 
@@ -181,6 +182,8 @@ class WorkerConfig:
     """Absolute directories put on ``sys.path`` after the source root; only
     tests set them, and a worker that drops privileges refuses them."""
 
+    apparmor_profile: str | None = None
+
     def to_json(self) -> str:
         return json.dumps(
             {
@@ -198,6 +201,7 @@ class WorkerConfig:
                 "extra_paths": list(self.extra_paths),
                 "fds": [self.fds.request, self.fds.result, self.fds.lifeline],
                 "log_level": self.log_level,
+                "apparmor_profile": self.apparmor_profile,
             },
             sort_keys=True,
             separators=(",", ":"),
@@ -226,7 +230,18 @@ class WorkerConfig:
             extra_paths=_paths(data["extra_paths"]),
             fds=_channels(data["fds"]),
             log_level=_count(data["log_level"], maximum=50),
+            apparmor_profile=_profile(data["apparmor_profile"]),
         )
+
+
+def _profile(value: object) -> str | None:
+    from frame_gallery.isolation.apparmor import valid_parent  # noqa: PLC0415
+
+    if value is None:
+        return None
+    if not isinstance(value, str) or not valid_parent(value):
+        raise _invalid("profile")
+    return value
 
 
 def _invalid(what: str) -> ValueError:

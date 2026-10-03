@@ -29,6 +29,7 @@ from frame_gallery import __main__ as entry
 from frame_gallery.app.networks import ContainerNetworks
 from frame_gallery.app.signals import CancellationController
 from frame_gallery.budget.clock import Clock
+from frame_gallery.isolation.apparmor import ProfileError
 from frame_gallery.isolation.executor import EventSink, JsonObject, StopCheck
 from frame_gallery.isolation.in_process import (
     InProcessExecutor,
@@ -441,8 +442,31 @@ def test_main_runs_the_production_wiring(monkeypatch: pytest.MonkeyPatch) -> Non
     assert environ is os.environ
     assert stream is sys.stderr
     assert wiring == entry.Wiring(
-        clock=wiring.clock, networks=wiring.networks, require_isolation=wiring.require_isolation
+        clock=wiring.clock,
+        networks=wiring.networks,
+        require_isolation=wiring.require_isolation,
+        require_apparmor=True,
     )
+
+
+def test_missing_app_profile_refuses_before_network(rig: Rig) -> None:
+    rig.wiring = replace(
+        rig.wiring,
+        require_apparmor=True,
+        launch=lambda: replace(Launch.production(), apparmor_profile=None),
+    )
+    assert rig.run() == 70
+    assert rig.executors == []
+    assert "no artwork was sent" in rig.stream.getvalue()
+
+
+def test_complain_profile_refuses_before_network(rig: Rig) -> None:
+    def complain() -> Launch:
+        raise ProfileError("parent_not_enforced")
+
+    rig.wiring = replace(rig.wiring, launch=complain)
+    assert rig.run() == 70
+    assert rig.executors == []
 
 
 def test_importing_the_entry_point_has_no_side_effects() -> None:

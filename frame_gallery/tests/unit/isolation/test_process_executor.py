@@ -12,6 +12,7 @@ tests/support/processes.py for ``FRAME_GALLERY_REQUIRE_ISOLATION`` (D-165).
 from __future__ import annotations
 
 import contextlib
+import dataclasses
 import hashlib
 import json
 import logging
@@ -1274,6 +1275,34 @@ def test_each_identity_field_of_the_ready_report_is_checked(change: dict[str, ob
 
 
 # ------------------------------------------------------------ the stderr tail
+
+
+@pytest.mark.parametrize("label", [None, "frame_gallery//tv_worker", "frame_gallery//image_worker"])
+def test_parent_checks_worker_profile_before_sending_request(label: str | None) -> None:
+    launch = dataclasses.replace(worker_launch(), apparmor_profile="frame_gallery")
+    report = {**expected_report("prepare"), "apparmor_profile": label, "network_filter": "prepare"}
+    messages = [{"type": "ready", "report": report}, {"type": "result", "result": {}, "usage": {}}]
+    executor = ProcessExecutor(launch, SystemClock(), popen=scripted_boot(messages, 1))
+    if label == "frame_gallery//image_worker":
+        assert executor.run("prepare", {}, timeout=10) == {}
+    else:
+        with pytest.raises(IsolationFailure, match="does not match"):
+            executor.run("prepare", {}, timeout=10)
+
+
+@pytest.mark.parametrize("guard", [None, "deliver"])
+def test_parent_refuses_missing_or_wrong_network_filter(guard: str | None) -> None:
+    launch = dataclasses.replace(worker_launch(), apparmor_profile="frame_gallery")
+    report = {
+        **expected_report("prepare"),
+        "apparmor_profile": "frame_gallery//image_worker",
+        "network_filter": guard,
+    }
+    executor = ProcessExecutor(
+        launch, SystemClock(), popen=scripted_boot([{"type": "ready", "report": report}])
+    )
+    with pytest.raises(IsolationFailure, match="does not match"):
+        executor.run("prepare", {}, timeout=10)
 
 
 def test_a_cut_stderr_tail_without_a_newline_is_still_logged(

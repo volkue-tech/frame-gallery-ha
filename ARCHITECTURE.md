@@ -1280,6 +1280,30 @@ With the custom AppArmor profile, the security rating is 6.
 - Phases 6–8 run the profile in complain mode.
 - Phase 9 switches to enforce mode. An approved live check then confirms two things: a fresh install works, and a write outside `preview/` is denied.
 
+**Phase 9 amendment (D-178, D-180).** The table above describes the parent,
+not the worker's effective policy. The production entry point requires its own
+enforced Supervisor profile. A fresh worker switches one-way into image_worker
+or tv_worker before dropping privileges/setting NNP and before any task input.
+Neither child may execute, regain the parent profile, access state or write
+arbitrary scratch/shared-memory files. The image child reads only code, library
+and staged input and writes delivery JPEGs to the output directory; the TV child
+reads prepared JPEGs and has IPv4 TCP permission only. The parent retains root
+for existing workspace/worker management, with no new container capability or
+mount. Interpreter-readable `rix` is required for the existing S6 script paths;
+`ix` alone was refused on Green.
+
+Actual Green checks exposed a gap in AppArmor network mediation despite the
+enforced image label. A complementary worker-only seccomp filter (D-180) is
+therefore mandatory in production: image tasks cannot create sockets; TV tasks
+may create IPv4 TCP sockets only. Alternate ABIs/socket creation routes are
+refused. It is installed after verified NNP and before the lifeline thread or
+untrusted input; the parent checks both guards before sending the request.
+Missing profiles or failed transitions/filter installation fail closed.
+There is no user-facing bypass. Internal Docker-development wiring is not the
+shipped entry point. Combined live negative tests, normal delivery and clean
+public installation are still required; syntax/unit/kernel probes alone do not
+complete this gate.
+
 ---
 
 ## 18. Security and privacy

@@ -1,8 +1,48 @@
 # Project status
 
-Last updated: 2026-10-03 (Phase 8: Green memory, hard-kill recovery and profile attachment verified)
+Last updated: 2026-10-03 (Phase 9: combined worker isolation proven on Green; regular delivery still pending)
 
 ## Current phase
+
+**Phase 9 authorized and in progress (2026-10-03).** The user requested completion
+of the next phase and confirmed **Frame Gallery** and the personal repository
+**volkue-tech/frame-gallery-ha**. Release hardening, engineering licence review,
+release preparation and testing of the separate development app are in scope.
+No business account or predecessor material may be used. Codex performs the
+evidence-based engineering licence audit, without claiming legal counsel's
+approval. No existing technical/compliance release gate is waived.
+
+**Current work:** enforced parent/image/TV profiles, fail-closed transitions and
+worker-only seccomp network restrictions (D-178/D-180). The combined no-TV probes
+passed on the Green in `0.1.0.dev5`: both workers UID/GID 65534, enforced child
+labels, no-new-privileges, no HA token, exact 1 GiB/512 MiB address-space limits;
+image sockets denied, TV IPv4-TCP allowed and UDP denied; options, unrelated tmp,
+shared memory, executable and return-transition access denied. Only the image
+worker may write the prepared output. The eight confirmed record/preview/options
+hashes were unchanged and scratch was empty. AppArmor network rules alone did not
+deny these observed sockets; the cause is not established. Seccomp supplies the
+verified additional restriction without new packages or privileges. `/init` and
+S6 interpreter scripts also required read permission under actual enforcement.
+Latest local `check.sh` passed. Apache-2.0 and initial official dependency licence
+texts are added, but the licence/source bundle is not complete.
+
+**Live handoff:** the own test source still uses a temporary no-TV diagnostic.
+Its parent-output-read check and normal entry-point restoration/delivery remain
+pending. The follow-up transfer was interrupted by a newly locked Mac; do not
+claim that transfer or restoration complete. Preserve options, history, ledger
+and preview. The saved pre-Phase-9 source is
+`/share/frame-gallery-dev-before-phase9-v1`; the app-only backup is retained.
+Native amd64 measurement, complete source compliance, public images and a clean
+public installation remain release gates. No Phase 9 publication or existing-app
+change; no `configuration.yaml` edit. See `PHASE9_REPORT.md` for actual evidence,
+temporary test-app state and remaining gates. The native CI workflow is prepared
+but unrun; exact Python sdists and initial upstream licences/NOTICE files are
+retained, not yet a complete corresponding-source distribution. Full native
+aarch64 container checks passed (13 worst cases twice, real 1 GiB limit,
+765.5 MiB peak; 150 inspections). These Docker checks have no own AppArmor
+attachment and do not substitute for the remaining ordinary enforced Green run.
+
+### Archived Phase 8 completion notes
 
 **Latest Phase 8 checks completed:** the user-approved temporary, no-TV diagnostic passed all 13 native Green memory cases under the unchanged 1 GiB/15 s worker limits (765.5 MiB peak address space, 11.1 s slowest prepare), plus 150 inspections without failure. SIGKILL with a live isolated worker and a fsynced pre-staged history file was followed by successful real startup sweep and local no-match: 12 exclusions intact, both sent fixtures excluded, confirmed files/options/preview unchanged and scratch empty. AppArmor attachment is proven in parent/worker as `local_frame_gallery_dev (complain)`; enforcement is not. The normal `d1bb654` test source was restored byte-for-byte and rebuilt as `0.1.0.dev1`; original options retained, app stopped/protected, no host networking. About 1 GB of owned diagnostic inputs/archives was removed; 15.5 GB remains free and the app-only backup is retained. Phase 8 checklist is complete within the documented test scope. Fresh pairing/rejection remains a live limitation; Phase 9 hardening and publication still require explicit approval. See the final section of `PHASE8_REPORT.md`.**
 

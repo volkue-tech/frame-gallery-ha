@@ -6,6 +6,7 @@ structure that the parser needs."""
 
 from __future__ import annotations
 
+# ruff: noqa: S108 - these are policy patterns, not temporary-file creation
 import re
 from pathlib import Path
 from typing import Final
@@ -17,39 +18,51 @@ RULES: Final = [
     for line in PROFILE.splitlines()
     if line.strip() and not line.strip().startswith("#")
 ]
-BODY: Final = RULES[RULES.index(next(r for r in RULES if r.startswith("profile "))) + 1 : -1]
+BODY: Final = RULES[
+    RULES.index(next(r for r in RULES if r.startswith("profile "))) + 1 : RULES.index(
+        next(r for r in RULES if r.startswith("profile image_worker"))
+    )
+]
+
+
+def child(name: str) -> list[str]:
+    start = RULES.index(next(r for r in RULES if r.startswith(f"profile {name} ")))
+    end = RULES.index("}", start)
+    return RULES[start + 1 : end]
+
 
 S6_EXAMPLE: Final = (
-    "/init ix,",
-    "/bin/** ix,",
-    "/usr/bin/** ix,",
-    "/run/{s6,s6-rc*,service}/** ix,",
-    "/package/** ix,",
-    "/command/** ix,",
+    "/init rix,",
+    "/bin/** rix,",
+    "/usr/bin/** rix,",
+    "/run/{s6,s6-rc*,service}/** rix,",
+    "/package/** rix,",
+    "/command/** rix,",
     "/etc/services.d/** rwix,",
     "/etc/cont-init.d/** rwix,",
     "/etc/cont-finish.d/** rwix,",
     "/run/{,**} rwk,",
     "/dev/tty rw,",
 )
-"""The S6-Overlay lines of the official example profile, unchanged."""
+"""S6 rules derived from the official example, with script read permission."""
 
 
-def test_the_profile_is_named_after_the_slug_and_complains_only() -> None:
-    """Complain mode in Phases 6 to 8; enforced in Phase 9 (D-129, D-139)."""
+def test_the_parent_and_children_are_enforced() -> None:
     assert RULES[0] == "#include <tunables/global>" or PROFILE.startswith(
         "#include <tunables/global>"
     )
-    (header,) = [rule for rule in RULES if rule.startswith("profile ")]
-    assert header == (
-        "profile frame_gallery flags=(attach_disconnected,mediate_deleted,complain) {"
-    )
+    headers = [rule for rule in RULES if rule.startswith("profile ")]
+    assert headers == [
+        f"profile {name} flags=(attach_disconnected,mediate_deleted) {{"
+        for name in ("frame_gallery", "image_worker", "tv_worker")
+    ]
+    assert "complain" not in PROFILE
     assert RULES[-1] == "}"
     assert PROFILE.count("{") - PROFILE.count("${") == PROFILE.count("}")
 
 
 def test_every_rule_is_complete() -> None:
-    for rule in BODY:
+    for rule in [*BODY, *child("image_worker"), *child("tv_worker")]:
         assert rule.startswith("#include") or rule.endswith(","), rule
 
 
@@ -94,10 +107,46 @@ def test_media_is_read_only_except_the_preview() -> None:
 
 def test_state_and_scratch_space_are_writable() -> None:
     assert "/data/{,**} rwk," in BODY
-    assert "/tmp/{,**} rwk," in BODY  # noqa: S108 - a profile rule, not a path in use
+    assert "/tmp/{,**} rwk," in BODY
 
 
 def test_nothing_runs_unconfined() -> None:
     for rule in BODY:
         assert not re.search(r"\b[uUpPcC]x\b", rule), rule
     assert "/opt/frame-gallery/** mr," in BODY
+
+
+def test_child_privileges_and_one_way_transition() -> None:
+    for name in ("image_worker", "tv_worker"):
+        rules = child(name)
+        assert {r for r in rules if r.startswith("capability")} == {
+            "capability setuid,",
+            "capability setgid,",
+        }
+        assert not any("change_profile" in r or re.search(r"\b[a-zA-Z]*x,", r) for r in rules)
+        assert not any(r.startswith(("/data/", "/dev/shm/")) for r in rules)
+    assert "change_profile -> **//image_worker," in BODY
+    assert "change_profile -> **//tv_worker," in BODY
+
+
+def test_image_worker_has_no_network_or_arbitrary_writes() -> None:
+    rules = child("image_worker")
+    assert "deny network," in rules
+    assert not any(r.startswith("network ") for r in rules)
+    writes = [r for r in rules if r.startswith("/") and re.search(r"\s\w*w\w*,", r)]
+    assert writes == [
+        "/dev/null rw,",
+        "/tmp/frame-gallery/run-*/out/ rw,",
+        "/tmp/frame-gallery/run-*/out/delivery-*.jpg rw,",
+    ]
+
+
+def test_tv_worker_only_reads_output_and_uses_ipv4_tcp() -> None:
+    rules = child("tv_worker")
+    assert [r for r in rules if r.startswith("network ")] == ["network inet stream,"]
+    assert [r for r in rules if r.startswith("/tmp/")] == [
+        "/tmp/frame-gallery/run-*/out/delivery-*.jpg r,"
+    ]
+    assert [r for r in rules if r.startswith("/") and re.search(r"\s\w*w\w*,", r)] == [
+        "/dev/null rw,"
+    ]

@@ -1,0 +1,6 @@
+# Development only. Exact uv 0.12.19 Linux wheels verified against PyPI.
+# aarch64 manylinux 2.17 / 2.28; x86_64 manylinux 2.17. No source build.
+uv==0.12.19 \
+    --hash=sha256:b466eb0f74645883df52446d54474905e8515d75fdf0b313bf099dedc3237896 \
+    --hash=sha256:a36d92c137098fdb9dce27261c5fa8ef5519ba82dcd15d70864c4676d889738d \
+    --hash=sha256:a63d18a0aa38ee9f21a5406afbbaeb41303bcd954be9d6b7c1b95ac275e53958

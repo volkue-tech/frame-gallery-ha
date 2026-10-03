@@ -1,0 +1,75 @@
+name: Native validation
+
+'on':
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+# No registry writes, deployments or repository changes from validation.
+permissions:
+  contents: read
+
+concurrency:
+  group: validate-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  native:
+    name: Native ${{ matrix.arch }}
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - arch: aarch64
+            runner: ubuntu-24.04-arm
+            machine: aarch64
+          - arch: amd64
+            runner: ubuntu-24.04
+            machine: x86_64
+    runs-on: ${{ matrix.runner }}
+    timeout-minutes: 45
+    steps:
+      - name: Check out own source
+        uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+        with:
+          persist-credentials: false
+      - name: Verify native host and Docker
+        env:
+          EXPECTED_MACHINE: ${{ matrix.machine }}
+        run: |
+          test "$(uname -m)" = "$EXPECTED_MACHINE"
+          test "$(docker info --format '{{.Architecture}}')" = "$EXPECTED_MACHINE"
+          docker buildx version
+      - name: Python for development gates
+        uses: actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065 # v5
+        with:
+          python-version: '3.14'
+      - name: Install hash-pinned development tool and locked dependencies
+        run: |
+          python -m pip --isolated install --disable-pip-version-check \
+            --index-url https://pypi.org/simple --require-hashes \
+            --only-binary=:all: --no-deps -r .github/requirements-ci.txt
+          cd frame_gallery
+          uv sync --locked
+      - name: Host quality gates and native seccomp kernel tests
+        working-directory: frame_gallery
+        run: |
+          mkdir -p ../build/phase9
+          bash scripts/check.sh 2>&1 | tee ../build/phase9/quality.log
+      - name: Build, Linux and root checks, native RLIMIT_AS measurement
+        working-directory: frame_gallery
+        env:
+          BUILD_ARCH: ${{ matrix.arch }}
+        run: |
+          bash scripts/container_check.sh "$BUILD_ARCH" --measure
+      - name: Retain validation evidence (no runtime state or credentials)
+        if: always()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
+        with:
+          name: native-${{ matrix.arch }}-validation
+          path: |
+            build/phase9/quality.log
+            build/container-checks/${{ matrix.arch }}
+          if-no-files-found: warn
+          retention-days: 14

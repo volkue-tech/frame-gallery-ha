@@ -55,6 +55,15 @@ class TestWorkerConfig:
         original = config(extra_paths=("/project",), identity=None)
         assert WorkerConfig.from_json(original.to_json()) == original
 
+    def test_profile_round_trip(self) -> None:
+        original = config(apparmor_profile="0123abcd_frame_gallery")
+        assert WorkerConfig.from_json(original.to_json()) == original
+
+    @pytest.mark.parametrize("value", [1, "unconfined", "frame_gallery//tv_worker"])
+    def test_invalid_profile(self, value: object) -> None:
+        with pytest.raises(ValueError, match="profile"):
+            WorkerConfig.from_json(self.mutated(apparmor_profile=value))
+
     def test_it_is_compact_json_without_secrets(self) -> None:
         text = config().to_json()
         data = json.loads(text)

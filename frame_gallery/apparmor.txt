@@ -2,13 +2,12 @@
 
 # Frame Gallery's AppArmor profile (ARCHITECTURE.md §17.6, D-129).
 #
-# A draft in complain mode for Phases 6 to 8: nothing outside the explicit
-# "deny" rules is refused; the kernel logs what the profile would refuse, so
-# that the Phase 8 live run can show what is missing:
-#     journalctl _TRANSPORT="audit" -g 'apparmor="ALLOWED"'
-# Phase 9 removes "complain", verifies the profile, and adds a child profile
-# per worker (R-31). Until then the workers run under this profile too.
-profile frame_gallery flags=(attach_disconnected,mediate_deleted,complain) {
+# Enforced parent and one-way task-specific child profiles (Phase 9).
+# The live check must prove both allowed behavior and denied accesses:
+#     journalctl _TRANSPORT="audit" -g 'apparmor="DENIED"'
+# The parent changes each fresh worker into the correct child before it
+# drops credentials, sets no-new-privileges or accepts an untrusted request.
+profile frame_gallery flags=(attach_disconnected,mediate_deleted) {
   #include <abstractions/base>
 
   # Process control: the parent drops each worker to user 65534, hands the
@@ -35,13 +34,14 @@ profile frame_gallery flags=(attach_disconnected,mediate_deleted,complain) {
   deny network raw,
   deny network packet,
 
-  # S6-Overlay, as in the official example.
-  /init ix,
-  /bin/** ix,
-  /usr/bin/** ix,
-  /run/{s6,s6-rc*,service}/** ix,
-  /package/** ix,
-  /command/** ix,
+  # S6-Overlay's paths from the official example. Scripts also need read
+  # permission for their interpreter under real enforcement.
+  /init rix,
+  /bin/** rix,
+  /usr/bin/** rix,
+  /run/{s6,s6-rc*,service}/** rix,
+  /package/** rix,
+  /command/** rix,
   /etc/services.d/** rwix,
   /etc/cont-init.d/** rwix,
   /etc/cont-finish.d/** rwix,
@@ -55,6 +55,9 @@ profile frame_gallery flags=(attach_disconnected,mediate_deleted,complain) {
   /dev/null rw,
   /dev/urandom r,
   @{PROC}/@{pid}/** r,
+  @{PROC}/@{pid}/attr/apparmor/current w,
+  change_profile -> **//image_worker,
+  change_profile -> **//tv_worker,
 
   # State, the RAM-backed scratch space, and the media folder (§13.1).
   /data/{,**} rwk,
@@ -64,4 +67,44 @@ profile frame_gallery flags=(attach_disconnected,mediate_deleted,complain) {
   /media/frame_gallery/ w,
   /media/frame_gallery/library/ w,
   /media/frame_gallery/preview/{,**} rw,
+
+  # No shell, executable transition, writable code, state, arbitrary tmp,
+  # shared-memory file, or return transition is granted to either worker.
+  # setuid/setgid are used only by our bootstrap; the subsequent drop removes
+  # all capabilities and PR_SET_NO_NEW_PRIVS prevents regaining them.
+  profile image_worker flags=(attach_disconnected,mediate_deleted) {
+    capability setuid,
+    capability setgid,
+    signal (receive) set=(kill,term),
+    deny network,
+    /lib/** mr,
+    /usr/lib/** mr,
+    /opt/frame-gallery/** mr,
+    /dev/null rw,
+    /dev/urandom r,
+    @{PROC}/@{pid}/** r,
+    /media/frame_gallery/library/{,**} r,
+    /tmp/frame-gallery/ r,
+    /tmp/frame-gallery/run-*/ r,
+    /tmp/frame-gallery/run-*/in/{,**} r,
+    /tmp/frame-gallery/run-*/out/ rw,
+    /tmp/frame-gallery/run-*/out/delivery-*.jpg rw,
+  }
+
+  profile tv_worker flags=(attach_disconnected,mediate_deleted) {
+    capability setuid,
+    capability setgid,
+    signal (receive) set=(kill,term),
+    network inet stream,
+    deny network raw,
+    deny network packet,
+    /lib/** mr,
+    /usr/lib/** mr,
+    /opt/frame-gallery/** mr,
+    /etc/ssl/{,**} r,
+    /dev/null rw,
+    /dev/urandom r,
+    @{PROC}/@{pid}/** r,
+    /tmp/frame-gallery/run-*/out/delivery-*.jpg r,
+  }
 }

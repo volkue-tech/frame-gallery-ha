@@ -39,6 +39,7 @@ from collections.abc import Callable, Mapping
 from pathlib import Path
 from typing import Any, Final, Protocol
 
+from frame_gallery.isolation.apparmor import ProfileError, confine
 from frame_gallery.isolation.executor import JsonObject, JsonValue
 from frame_gallery.isolation.launch import (
     PLATFORM_ENVIRONMENT,
@@ -47,6 +48,7 @@ from frame_gallery.isolation.launch import (
     MessageType,
     WorkerConfig,
 )
+from frame_gallery.isolation.network_filter import install as install_network_filter
 from frame_gallery.logs.redact import Redactor, set_active_redactor
 
 PR_SET_PDEATHSIG: Final = 1
@@ -104,6 +106,10 @@ def run(config: WorkerConfig, ops: OsOps, send: Callable[[JsonObject], None]) ->
     """Steps 1-6; returns the report the worker sends as ``ready``.
     Raises :class:`Refused`."""
     check_configuration(config)
+    try:
+        profile = confine(config.apparmor_profile, config.task)
+    except ProfileError as exc:
+        raise Refused(f"apparmor:{exc}") from None
     drop_privileges(config, ops)
     guard_parent(config, ops)
     set_umask(config, ops)
@@ -117,7 +123,7 @@ def run(config: WorkerConfig, ops: OsOps, send: Callable[[JsonObject], None]) ->
     limits: dict[str, JsonValue] = {
         limit.value: [*ops.getrlimit(limit)] for limit, _ in config.limits
     }
-    return {
+    report: JsonObject = {
         "uid": uid,
         "gid": gid,
         "groups": groups,
@@ -125,6 +131,10 @@ def run(config: WorkerConfig, ops: OsOps, send: Callable[[JsonObject], None]) ->
         "limits": limits,
         "environment": environment,
     }
+    if profile is not None:
+        report["apparmor_profile"] = profile
+        report["network_filter"] = config.task
+    return report
 
 
 def check_configuration(config: WorkerConfig) -> None:
@@ -175,6 +185,11 @@ def guard_parent(config: WorkerConfig, ops: OsOps) -> None:
             raise Refused("capabilities")
     if ops.getppid() != config.parent_pid:
         raise Refused("parent_gone")
+    if config.apparmor_profile is not None:
+        try:
+            install_network_filter(config.task)
+        except (OSError, ValueError):
+            raise Refused("network_filter") from None
     ops.start_lifeline(config.fds.lifeline)
 
 

@@ -244,7 +244,16 @@ with tarfile.open(fileobj=sys.stdout.buffer, mode="w|") as archive:
 EOF
 run --tmpfs /tmp -v "$data:/data" -v "$media:/media" "$APP" > "$OUT/smoke.txt" 2>&1 || true
 grep "frame_gallery" "$OUT/smoke.txt" || true
-grep -q "outcome=tv_unreachable exit=0" "$OUT/smoke.txt" || fail "smoke run outcome"
+# Docker Desktop cannot load the Green's AppArmor policy. The shipped entry
+# point must refuse this unprofiled container before any artwork I/O.
+grep -q "outcome=internal_error exit=70" "$OUT/smoke.txt" || fail "unprofiled entry did not refuse"
+# Exercise the internal test wiring separately; this is not a shipped CLI
+# option or a way to disable the mandatory profile in the Home Assistant app.
+run --tmpfs /tmp -v "$data:/data" -v "$media:/media" "$APP" \
+    with-contenv /opt/frame-gallery/bin/python -I -B -c \
+    'import os,sys; from frame_gallery.__main__ import run_app,Wiring; sys.exit(run_app(os.environ,sys.stderr,Wiring()))' \
+    > "$OUT/smoke-test-wiring.txt" 2>&1 || true
+grep -q "outcome=tv_unreachable exit=0" "$OUT/smoke-test-wiring.txt" || fail "test-wiring smoke run outcome"
 run -v "$data:/data" --entrypoint /bin/sh "$APP" -c 'cat /data/state/last_run.json' \
     > "$OUT/smoke-last-run.json"
 docker volume rm "$data" "$media" > /dev/null

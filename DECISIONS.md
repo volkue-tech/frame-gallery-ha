@@ -1,5 +1,148 @@
 # Decision log
 
+## Phase 9 implementation decisions (2026-10-03)
+
+### D-178 — enforced, one-way image and television child profiles
+
+Status: accepted within the user-approved Phase 9 hardening scope (R-31).
+
+The shipped entry point refuses to run without its own enforced Supervisor
+AppArmor profile. Each fresh worker switches to the built-in image_worker or
+tv_worker child before dropping credentials, setting no-new-privileges, loading
+third-party code or accepting a request. The kernel label is checked before and
+after the switch; the parent checks the bootstrap report before sending data.
+Missing profiles, wrong labels, complain mode and failed transitions fail closed.
+There is no user option to disable this requirement. The internal test wiring is
+not the shipped entry point and can still be exercised on Docker Desktop, whose
+kernel cannot enforce this policy.
+
+Image workers have no network permission; they read only code/libraries, the
+owned library and input scratch, and write delivery JPEGs only in output scratch.
+TV workers may use IPv4 TCP and read the prepared delivery JPEG, but may not
+read/write /data, previews, arbitrary scratch or shared-memory files. Neither
+child may execute a program or switch back. Both permit setuid/setgid solely for
+the trusted bootstrap; after the drop all capability sets are empty and NNP=1.
+Existing memory, CPU, file, process, wall-time and parent-death limits remain.
+
+Q-10/D-172 revisited: the parent remains root for this beta. It must create and
+verify root-owned state and per-run group access, spawn/downgrade multiple fresh
+workers, read their outputs and reap them. No additional capability or mount is
+introduced. Moving orchestration to an unprivileged parent would require a new
+privileged broker and a separately reviewed architecture, not a flag change.
+
+Supervisor renames only the top-level profile header. Children are nested and
+their actual parent name is obtained from the kernel, not guessed from a public
+repository hash. Parent transition rules allow the two child suffixes; worker
+bootstrap accepts only the validated own parent and a fixed task mapping.
+Syntax acceptance is not claimed as live enforcement: Green tests must prove
+allowed operation and denied access before release.
+
+Primary references checked during implementation:
+- https://raw.githubusercontent.com/home-assistant/supervisor/main/supervisor/utils/apparmor.py
+- https://manpages.ubuntu.com/manpages/resolute/man2/aa_change_profile.2.html
+- https://gitlab.com/apparmor/apparmor/-/raw/master/libraries/libapparmor/src/kernel.c
+
+The AppArmor 4.1.7-r1 parser and its official 4.1.7 profile includes were used only
+in a temporary development container. They are not new runtime dependencies.
+
+### D-179 — final name and repository
+
+Status: accepted, explicit user reply on 2026-10-03. Final name: Frame Gallery.
+Personal repository: https://github.com/volkue-tech/frame-gallery-ha . This resolves
+D-101/Q-13 for the chosen identifiers, not the publication/installation evidence.
+Apache-2.0 remains the accepted licence of project-owned code only (D-102).
+The user asked Codex to conduct the engineering licence audit; do not represent
+this as an independent legal opinion or waive unresolved compliance obligations.
+
+### D-180 — worker-only network syscall enforcement
+
+Status: accepted implementation within the authorized Phase 9 hardening scope;
+combined-profile no-TV probes passed on Green; normal-delivery validation remains
+a release gate.
+
+The enforced Green image-worker label denied options, unrelated scratch,
+shared-memory writes, execution and return transitions, but its `deny network`
+rule did not reject either socket creation or real TCP/UDP attempts to the
+container's loopback port 9. This is an observed enforcement gap, not a claim
+about its kernel's cause. Do not claim that AppArmor alone proves no network.
+
+A small, independently implemented seccomp BPF filter now complements AppArmor.
+After the verified privilege drop/NNP and before starting the lifeline thread or
+reading task input, image tasks deny socket creation; the TV task permits only
+IPv4 stream sockets with default/explicit TCP. Both reject socketpair, ptrace,
+pidfd_getfd and io_uring_setup, as well as foreign ABIs and high-bit/x32 syscall
+aliases. Workers inherit only the validated pipe/file descriptors, not network
+descriptors. The parent verifies the task-specific guard in the ready report.
+Installation/architecture failures refuse the request; there is no public switch
+to disable it. AppArmor continues to enforce file and executable restrictions.
+
+This uses the existing standard-library ctypes/libc kernel interface, with no
+new runtime package or container privileges. The parent does not install the
+filter. Native aarch64 Docker kernel probes confirmed image sockets refused and
+TV IPv4 TCP allowed with UDP/IPv6/UNIX refused. Subsequently the Green's actual
+enforced children plus seccomp passed the image TCP/UDP denials and TV TCP
+allowance/UDP denial, file/exec/return denials, identity, NNP, token and address-
+space checks. Confirmed records/options/preview hashes were unchanged and scratch
+empty. This was a synthetic no-TV probe, not a successful artwork delivery.
+Architecture-wide generated-filter tests cover both aarch64/x86_64, but native
+amd64 kernel tests remain pending.
+
+Primary ABI references checked: [kernel seccomp documentation](https://docs.kernel.org/userspace-api/seccomp_filter.html),
+[seccomp UAPI](https://github.com/torvalds/linux/blob/v6.12/include/uapi/linux/seccomp.h),
+[x86_64 syscalls](https://github.com/torvalds/linux/blob/v6.12/arch/x86/entry/syscalls/syscall_64.tbl),
+[generic/aarch64 syscalls](https://github.com/torvalds/linux/blob/v6.12/include/uapi/asm-generic/unistd.h),
+and [audit architecture constants](https://github.com/torvalds/linux/blob/v6.12/include/uapi/linux/audit.h).
+No kernel implementation or example filter was copied.
+
+### D-181 — native validation CI, no publication rights
+
+Status: implemented locally within Phase 9; no hosted run or native amd64 result
+is claimed until the personal repository is created and the run is observed.
+
+Validation uses the official GitHub standard `ubuntu-24.04-arm` and
+`ubuntu-24.04` runners, asserts native host/Docker architecture and does not
+install QEMU. Each runs the host gates, native disposable-child seccomp tests,
+container/root checks and `--measure` under real RLIMIT_AS. The workflow has only
+`contents: read`, does not persist checkout credentials, never accesses HA/TV,
+and cannot publish registry images or change the repository. Results are retained
+for 14 days. Publishing remains a separate, gated workflow to add later.
+
+Development-only official GitHub Actions, not shipped in the app image; exact
+commit LICENSE files read on 2026-10-03, all MIT (GitHub, Inc. and contributors):
+
+| Action | Pinned commit | Licence source |
+| --- | --- | --- |
+| actions/checkout v4 | `11d5960a326750d5838078e36cf38b85af677262` | https://github.com/actions/checkout/blob/11d5960a326750d5838078e36cf38b85af677262/LICENSE |
+| actions/setup-python v5 | `a26af69be951a213d495a4c3e4e4022e16d87065` | https://github.com/actions/setup-python/blob/a26af69be951a213d495a4c3e4e4022e16d87065/LICENSE |
+| actions/upload-artifact v4 | `ea165f8d65b6e75b540449e92b4886f43607fa02` | https://github.com/actions/upload-artifact/blob/ea165f8d65b6e75b540449e92b4886f43607fa02/LICENSE |
+
+CI uses the already-approved uv 0.12.19, installed from PyPI wheels with explicit
+hashes (aarch64 manylinux 2.17/2.28 and x86_64 manylinux 2.17, rechecked against
+https://pypi.org/pypi/uv/0.12.19/json). Project dependencies use `uv sync --locked`.
+No new runtime package or paid runner is introduced. Official runner reference:
+https://docs.github.com/en/actions/reference/runners/github-hosted-runners .
+
+### Phase 9 licence inventory corrections (engineering audit in progress)
+
+The exact official base recipe at `6a3ff4c10f6ed8564a092c33051024a1b1042ee2`
+(`2026.08.0`) specifies bashio 0.17.5 and jemalloc 5.3.1. The aarch64 image
+contains jemalloc's library and helper scripts, which the earlier inventory
+missed. Its version helper reports a missing-git-tags placeholder, not 5.3.1;
+source-to-binary provenance and amd64 verification remain open. Exact upstream
+licences verified: bashio 0.17.5 MIT, s6-overlay 3.2.3.0 ISC, jemalloc 5.3.1
+BSD-2-Clause, tempio 2026.07.0 Apache-2.0. Texts for the first three are added
+under `LICENSES/`. Subsidiary s6/Go components, bundled-library texts and full
+corresponding sources remain open; no release-compliance completion is claimed.
+
+Further audit progress: all eleven exact Python sdists are retained and checked
+against PyPI SHA256 values; their primary licences and applicable Apache NOTICE
+files are preserved. Six exact skarnet sources and ISC COPYING files are also
+retained (execline, s6, linux-init, linux-utils, portable-utils, rc). Public source
+manifests under `LICENSES/` record URLs/hashes. The latter hashes are calculated,
+not publisher attestations. s6-overlay/helpers build sources, linked dependencies,
+Go/native-wheel components and all Alpine source/patch/rebuild materials remain
+open. These records do not complete D-135 or assert binary-source equivalence.
+
 Status values:
 
 - `accepted`: binding.

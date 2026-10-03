@@ -59,6 +59,7 @@ from typing import Any, Final
 
 import frame_gallery
 from frame_gallery.budget.clock import Clock
+from frame_gallery.isolation.apparmor import CHILDREN, parent_profile
 from frame_gallery.isolation.channel import ChannelError, encode_message
 from frame_gallery.isolation.executor import (
     EventSink,
@@ -149,6 +150,8 @@ class Launch:
     """Added to the worker's environment but not to what it expects: lets a
     test prove that the worker refuses an environment it was not promised."""
 
+    apparmor_profile: str | None = None
+
     @classmethod
     def production(cls) -> Launch:
         """Root drops every worker to 65534; Linux requires the parent-death
@@ -165,6 +168,7 @@ class Launch:
             platform=sys.platform,
             site_paths=_site_paths(),
             skip_limits=frozenset() if is_linux else frozenset({Limit.ADDRESS_SPACE}),
+            apparmor_profile=parent_profile(),
         )
 
     @property
@@ -341,6 +345,7 @@ class ProcessExecutor:
                 fds=Channels(request_r, results_w, lifeline_r),
                 log_level=self._log_level(),
                 extra_paths=launch.extra_paths,
+                apparmor_profile=launch.apparmor_profile,
             )
             argv = [
                 launch.python,
@@ -501,6 +506,11 @@ class ProcessExecutor:
             and report.get("limits") == expected_limits
             and report.get("environment") == sorted(config.environment)
         )
+        if config.apparmor_profile is not None and isinstance(report, dict):
+            ok = ok and report.get("network_filter") == config.task
+            ok = ok and report.get("apparmor_profile") == (
+                f"{config.apparmor_profile}//{CHILDREN.get(config.task, 'invalid')}"
+            )
         if ok and config.identity is not None and isinstance(report, dict):
             uid, gid = config.identity
             ok = (
