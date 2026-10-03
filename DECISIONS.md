@@ -304,6 +304,57 @@ complete suite outside that restriction passes, without changing or skipping
 those tests. Original Go LICENSE/PATENTS and GCC COPYING.RUNTIME were compared
 byte-for-byte to the retained archives. No runtime or live-system change.
 
+### D-189 — native-Pillow sources, patent notices and the TIFF security patch
+
+Status: partial D-135 engineering evidence; no runtime change or release clearance.
+The official Pillow 12.3.0 release's wheel workflow, dependency versions and
+exact multibuild submodule `4546f4d4820ffd0104b872c3b6187260b3e64edc` were read
+as inert source. The release build inputs identify libavif 1.4.2's AOM 3.14.1,
+dav1d 1.5.3, libyuv commit `644251f252a84bf8ce91ff0aca86a9b16b069ab8` (version
+1924) and sharpyuv from libwebp 1.6.0. These agree with the observed wheel
+inventory; they are build-input provenance, not cryptographic static-object
+equivalence or a claim that these sources reproduce the wheel byte-for-byte.
+
+Twelve additional exact native source archives (64,401,436 bytes) are retained
+from official versioned endpoints, with no source execution or installation.
+The public `LICENSES/pillow-native-source-manifest.json` records those twelve,
+five release/build-input archives and four existing Alpine source archives
+shared by the native inventory. All archive SHA256s were rechecked offline;
+dav1d also matches its official published SHA256, the four Alpine sources match
+their exact recipe SHA512s. Other SHA256s are calculated retention checks,
+not publisher signatures. Initial redirects were rejected: FreeType was fetched
+from the GNU-selected HTTPS mirror and X.org from its HTTPS archive endpoint;
+there was no HTTP downgrade or automatic unbounded redirect following.
+
+Twenty-seven unabridged licence/patent/patch documents are read and retained,
+with byte-for-byte archive-member checks and recorded hashes. These include
+AOM's BSD-2-Clause LICENSE and AOM Patent License 1.0 PATENTS, libyuv and libwebp
+patent grants, complete libjpeg-turbo LICENSE.md/README.ijg, FreeType FTL and
+its licence map, and native primary texts. Conditional patent grants are
+retained without asserting universal patent clearance. The original libyuv
+PATENTS has no final newline and remains byte-identical. Complete sources
+retain subsidiary notices; file-level applicability is not declared finished.
+
+Pillow's installed ARM SBOM embeds libtiff's upstream cherry-pick
+`782a11d6b5b61c6dc21e714950a4af5bf89f023c`, the fix for CVE-2026-4775. Its decoded
+patch is byte-identical to the official Pillow release patch now retained under
+`LICENSES/libtiff-4.7.1/`; upstream TIFF source alone would omit this input.
+The complete TIFF licence also includes the Berkeley LZW acknowledgement;
+THIRD_PARTY_NOTICES now preserves that acknowledgement. No patch was newly
+applied to the runtime by this project.
+
+Three offline repository regressions verify all 27 retained text hashes/lengths,
+the versioned source records and critical patent texts, and the patch/required
+acknowledgements. With the existing inventory tests, 28 targeted tests pass.
+Root repository evidence is currently outside the image test context, so these
+three data checks are explicitly skipped there, not represented as shipped
+distribution checks. Full unsandboxed local gates passed: 4,720 tests / eleven
+expected skips, Ruff and strict mypy over 228 files on host/Linux, unchanged
+100% package line/branch coverage (9,168 statements / 1,954 branches).
+The stale provisional Pillow comment in pyproject.toml is corrected to D-171;
+no requirement or lock changes. Packaging the actual notice texts, complete source bundle,
+replacement/rebuild instructions and subsequent validation remain release gates.
+
 ### Phase 9 licence inventory corrections (engineering audit in progress)
 
 The exact official base recipe at `6a3ff4c10f6ed8564a092c33051024a1b1042ee2`

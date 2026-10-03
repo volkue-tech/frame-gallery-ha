@@ -40,6 +40,16 @@ on the Mac only). BearSSL, identified static-musl and Go toolchain source/texts,
 complete libbsd/libmd COPYING and the GCC runtime exception are retained.
 Native-Pillow completeness, applicability, packaged distribution notices and
 replacement/rebuild/source-bundle assembly still prevent release clearance.
+Further D-189 evidence retains twelve additional native source archives,
+Pillow's official wheel build inputs/exact multibuild submodule, and AVIF codec
+sources. Twenty-seven unabridged licence/patent/patch texts are archive-byte
+checked. AOM/libyuv/libwebp patent grants and the actual Pillow TIFF security
+patch are preserved; the TIFF patch also matches the installed ARM SBOM.
+Three new repository data regressions and the existing inventory tests pass
+(28 targeted tests). Full local gates passed: 4,720 tests / eleven expected skips,
+Ruff, strict mypy over 228 files, unchanged 100% line/branch coverage.
+No runtime change; notice shipping, subsidiary applicability,
+source-bundle assembly and replacement/rebuild documentation remain release gates.
 
 **Live checkpoint:** the normal entry point is restored and both temporary
 diagnostic modules are moved outside the own app source. Two card-started real
@@ -70,7 +80,9 @@ gate. Both non-root suites (4,719 passes / six skips), all root checks and both
 memory measurements passed; the notices gate alone failed. D-188 restores the
 verified metadata and adds a repository-notices regression test, with positive
 and mismatched-version/count cases. Local notices checks against both retained
-image inventories pass; the corrected revision still requires hosted validation. No
+image inventories pass. The corrected `aaf7016` main push is verified; native run
+`37145245403` started at 18:43:03 UTC and both host quality/kernel steps succeeded.
+Container/root/memory checks are still running, not claimed complete. No
 container publication or release. No existing-app change or `configuration.yaml`
 edit. The personal fine-grained token was entered privately in the user's Mac
 Terminal, held only in process memory and not stored by the helper. The retained

@@ -29,17 +29,17 @@ The project-owned source code is licensed under the Apache License 2.0 (D-102, a
 
 | Component (where in the wheel) | Version | Licence (SPDX) | Notes |
 | --- | --- | --- | --- |
-| libavif (`pillow.libs`) | 1.4.2 | `BSD-2-Clause` | Contains, linked statically: dav1d 1.5.3 (`BSD-2-Clause`), aom 3.14.1 (`BSD-2-Clause`; AOMedia's patent licence is checked in the licence review), libyuv (version number 1924, `BSD-3-Clause`), and libsharpyuv |
+| libavif (`pillow.libs`) | 1.4.2 | `BSD-2-Clause` | Contains, linked statically: dav1d 1.5.3 (`BSD-2-Clause`), aom 3.14.1 (`BSD-2-Clause`; original AOM Patent License 1.0 retained), libyuv (version number 1924, `BSD-3-Clause`; exact source revision/patent text retained), and libsharpyuv. D-189 records source/build-input evidence, not patent clearance. |
 | Brotli: libbrotlicommon, libbrotlidec | 1.2.0 | `MIT` | |
 | FreeType: libfreetype | 2.14.3 | `FTL` | Contains bzip2 1.0.8 (`bzip2-1.0.6`), linked statically. See the acknowledgement below. |
 | HarfBuzz: libharfbuzz | 14.2.1 | `MIT-Modern-Variant` | HarfBuzz's "Old MIT" licence, as the wheel's licence file carries it |
-| libjpeg-turbo: libjpeg | 3.1.4.1 | `IJG AND BSD-3-Clause AND Zlib` | See the acknowledgement below. The wheel's licence file carries only the IJG text; the zlib licence covers the SIMD extensions, which both wheels contain (upstream's licence file, to confirm in the licence review). |
+| libjpeg-turbo: libjpeg | 3.1.4.1 | `IJG AND BSD-3-Clause AND Zlib` | See the acknowledgement below. Complete upstream LICENSE.md and README.ijg retained, including its discussion of IJG-compatible SIMD redistribution and the distinct TurboJPEG/build terms (D-189). |
 | Little CMS 2: liblcms2 | 2.19.1 | `MIT` | |
 | liblzma (XZ Utils) | 5.8.3 | `0BSD` | The wheel's licence file still carries XZ Utils' older public-domain notice. |
 | OpenJPEG: libopenjp2 | 2.5.4 | `BSD-2-Clause` | |
 | libpng: libpng16 | 1.6.58 | `libpng-2.0` | |
 | libsharpyuv | 0.1.2 | `BSD-3-Clause` | Part of libwebp 1.6.0 |
-| libtiff | 4.7.1 | `libtiff` | |
+| libtiff | 4.7.1 with upstream security patch | `libtiff` (primary; complete original LZW/Berkeley notice also retained) | Pillow applies commit `782a11d6b5b61c6dc21e714950a4af5bf89f023c` for CVE-2026-4775. Original patch matches the installed ARM wheel SBOM byte-for-byte; retained with LICENSE.md (D-189). |
 | libwebp, libwebpdemux, libwebpmux | 1.6.0 | `BSD-3-Clause` | |
 | libxcb | 1.17.0 | `X11` | |
 | libXau | 1.0.12 | `MIT-open-group` | From Alpine's package 1.0.12-r0 |
@@ -58,6 +58,21 @@ The project-owned source code is licensed under the Apache License 2.0 (D-102, a
 
 - This software is based in part on the work of the Independent JPEG Group.
 - Portions of this software are copyright © The FreeType Project (www.freetype.org). All rights reserved.
+- This software includes software developed by the University of California, Berkeley.
+
+**Native-source and patent-text retention (D-189).** Exact versioned sources and
+27 unabridged, byte-checked licence/patent/patch documents are now recorded in
+`LICENSES/pillow-native-source-manifest.json`. The native sources include Pillow's
+release build files and exact multibuild submodule, libavif's documented AOM,
+dav1d, libyuv and sharpyuv inputs, and the other bundled libraries; four source
+archives are shared with the already retained Alpine sources. AOM's original
+`PATENTS` (AOM Patent License 1.0), libyuv's IP grant and libwebp's patent grant are
+preserved without claiming an unrestricted patent clearance. The local source
+SHA256s, except dav1d's publisher-checked release hash, are calculated download
+hashes. They do not prove byte-identical rebuilding of the installed libraries.
+Pillow's libtiff patch is retained, not newly applied by this project. Shipping
+these texts, subsidiary-attribution applicability, complete source-bundle assembly
+and replacement/rebuild instructions remain release requirements.
 
 ### urllib3 2.8.0
 

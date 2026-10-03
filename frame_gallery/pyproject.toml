@@ -12,8 +12,8 @@ description = "Sends one fresh artwork to a Samsung Frame TV each time it is sta
 requires-python = ">=3.12"
 dependencies = [
     # Image preparation, imported only by the imaging worker tasks (D-107).
-    # The wheels bundle GPL-3.0-or-later and LGPL-2.1-or-later components;
-    # see DECISIONS.md and THIRD_PARTY_NOTICES.md.
+    # Exact runtime wheels contain the LGPL-2.1-or-later fribidi-shim,
+    # not libimagequant or FriBiDi; see D-171 and THIRD_PARTY_NOTICES.md.
     "pillow==12.3.0",
     # The guarded gateway's HTTP transport, imported only by net/transport.py
     # (D-108, D-131); retries and redirects are disabled and handled there.

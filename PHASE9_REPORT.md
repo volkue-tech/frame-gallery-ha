@@ -195,6 +195,34 @@ Native-Pillow source completeness, licence applicability, subsidiary attribution
 packaged distribution texts, replacement/rebuild instructions and final
 source-bundle assembly remain open. No legal or binary-release clearance claimed.
 
+### Native-Pillow source and patent evidence (D-189)
+
+The official Pillow 12.3.0 build files, exact multibuild submodule and libavif's
+codec inputs are retained and passively read. Twelve further native sources,
+64,401,436 bytes total, plus five release/build-input archives are SHA256-checked;
+four overlapping native sources reuse the SHA512-verified Alpine archives.
+The public native-source manifest records their exact versions, URLs and hashes.
+Only dav1d's SHA256 is publisher-verified; calculated source hashes do not prove
+binary equivalence or reproducible rebuilding.
+
+All 27 new original licence/patent/patch texts are read and byte-compared against
+their archives, including full AOM Patent License 1.0, libyuv/webp patent grants,
+libjpeg-turbo's complete terms, FreeType FTL and subsidiary licence map, TIFF's
+Berkeley notice and the remaining native primary texts. Pillow's libtiff
+security cherry-pick `782a11d6b5b61c6dc21e714950a4af5bf89f023c` is retained and
+also byte-compared to the decoded installed ARM wheel SBOM patch. It was not
+newly applied by this project. The public notice adds the Berkeley acknowledgement.
+
+Three offline repository data regressions plus the existing inventory tests
+pass (28 targeted tests). Full unsandboxed local `check.sh` also passed:
+4,720 tests / eleven expected skips, Ruff, strict mypy (host/Linux, 228 files),
+100% package line/branch coverage (9,168 statements / 1,954 branches), unchanged
+100% mandated subset. Log: `build/phase9/check-pillow-native-notices-20261003.log`.
+Complete shipped notice packaging, subsidiary
+applicability, final corresponding-source assembly and replacement/rebuild
+instructions remain open. Nothing was installed on or transferred to the Green;
+no HA, TV or provider API was contacted.
+
 ## Remaining release gates
 
 The user-approved public repository was created in the personal Firefox session:
@@ -245,6 +273,11 @@ is still required; no images or release are published. Full unsandboxed Mac
 gates pass with 4,717 tests / 11 expected skips and 100% line/branch coverage
 (`build/phase9/check-tempio-source-native-20261003.log`). The initial sandboxed
 run failed two unchanged setgid tests; no test/runtime workaround was added.
+The personal main push of the corrected `aaf7016c1afd2a6ca23bdd37354c8713bc6ff192`
+is remotely verified. Native run `37145245403` started at 18:43:03 UTC; both
+host quality/kernel steps passed. Container/root/memory checks are underway,
+not yet claimed successful. Token was held only in the one-use helper process;
+no token was saved or logged and the backup branch was not pushed.
 
 1. Validate subsequent release changes; native amd64 kernel/root/memory evidence
    at `39d25da` is now passed, not an outstanding architecture gate.
