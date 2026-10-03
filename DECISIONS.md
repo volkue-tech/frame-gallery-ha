@@ -89,8 +89,8 @@ enforced children plus seccomp passed the image TCP/UDP denials and TV TCP
 allowance/UDP denial, file/exec/return denials, identity, NNP, token and address-
 space checks. Confirmed records/options/preview hashes were unchanged and scratch
 empty. This was a synthetic no-TV probe, not a successful artwork delivery.
-Architecture-wide generated-filter tests cover both aarch64/x86_64, but native
-amd64 kernel tests remain pending.
+Architecture-wide generated-filter tests cover both aarch64/x86_64. Native
+amd64 kernel tests subsequently passed in the hosted run recorded in D-185.
 
 Primary ABI references checked: [kernel seccomp documentation](https://docs.kernel.org/userspace-api/seccomp_filter.html),
 [seccomp UAPI](https://github.com/torvalds/linux/blob/v6.12/include/uapi/linux/seccomp.h),
@@ -179,6 +179,53 @@ parent-only link pairs. Syntax and link/target direction checked against the
 official packaged AppArmor manual on 2026-10-03:
 https://manpages.debian.org/bookworm/apparmor/apparmor.d.5.en.html#Link_rules .
 
+### D-184 — inventory every installed slashpackage category
+
+Status: implemented in the authorized Phase 9 engineering audit; no runtime,
+privilege, dependency or live-system change. The real existing aarch64 image
+contains s6-dns 2.4.1.2 under `/package/web`, s6-networking 2.8.0.0 under
+`/package/net` and skalibs 2.15.0.0 under `/package/prog`. The earlier
+`/package/admin`-only inventory omitted all three. Inventory now scans the four
+fixed categories, sorts results and skips symlink categories/version aliases;
+a regression test fails with the old implementation. Corrected in-container
+inventory observes eleven versioned S6 packages; all 22 inventory unit tests
+pass. Notices now identify the three omitted components and the verified helper.
+
+Their exact official versioned sources/COPYING files are retained: all ISC.
+The exact s6-overlay source `conf/versions` and `mk/skaware.mk` also disclose
+BearSSL revision `7bea48e5e850ab4cafbe68d3765cdaba13a86d6f` and a static-libc
+toolchain build. Those transitive sources, texts and binary/build provenance
+remain explicitly open; do not infer them from Alpine's dynamic musl package.
+Nine additional base archives, including the exact tempio binary VCS revision
+and official base recipe commit, have URL/calculated-hash records in
+`LICENSES/base-source-manifest.json`. This is partial D-135 evidence, not release
+clearance. Source files were read or retained only, never executed.
+
+### D-185 — native hosted ARM and Intel validation evidence
+
+Status: passed in the authorized personal public repository, source `39d25da`.
+Run `37141542920` verifies native host and Docker architecture before any test;
+no QEMU/Rosetta is used. ARM job `111256837980` completed successfully at
+17:58:51 UTC and Intel job `111256837847` at 18:02:25 UTC on 2026-10-03.
+Both host quality/kernel gates, container builds, inventory/init/stop checks,
+4,718 non-root container tests (six expected skips), five root checks and the
+13-case twice-repeated real 1 GiB memory gate succeeded. The Intel native memory
+condition of D-170 is now fulfilled. Hosted Docker has no own AppArmor profile;
+its smoke check correctly fails closed before artwork, rather than claiming
+enforced operation. Enforced Green evidence remains distinct.
+
+The ARM log was read through the personal GitHub Firefox session: all 26 prepare
+results succeeded, peak address space 765.5 MiB, slowest 2.16 s, and 150
+inspections had zero failures. Intel suite/root results and successful final job
+were observed; exact Intel peak/time values are not transcribed here. Evidence:
+https://github.com/volkue-tech/frame-gallery-ha/actions/runs/37141542920 .
+The Node.js 20 action-runtime warning was read: GitHub forces the three pinned
+actions onto Node.js 24; it is not a test failure or lost-artifact warning.
+Validation has no package/repository write permission. The later D-184 inventory
+fix changes only development tooling/notices and still needs its own hosted
+validation; no source compliance, image publication or public-install gate is
+waived by this successful run.
+
 ### Phase 9 licence inventory corrections (engineering audit in progress)
 
 The exact official base recipe at `6a3ff4c10f6ed8564a092c33051024a1b1042ee2`
@@ -199,6 +246,16 @@ manifests under `LICENSES/` record URLs/hashes. The latter hashes are calculated
 not publisher attestations. s6-overlay/helpers build sources, linked dependencies,
 Go/native-wheel components and all Alpine source/patch/rebuild materials remain
 open. These records do not complete D-135 or assert binary-source equivalence.
+
+Additional progress on tempio: twenty-one exact Go source ZIPs were retained from
+the official module proxy and checked against upstream tempio `go.sum` using the
+documented directory-content hash algorithm (https://go.dev/ref/mod#authenticating).
+The eleven modules named in the observed binary are distinguished from ten
+extra test/build-source modules. Their original primary licence files are
+byte-identical under `LICENSES/go/`; versions/URLs/SHA256/`h1` and primary licence
+identifiers are recorded in `LICENSES/go-source-manifest.json` and notices.
+Go 1.26.5 toolchain source, subsidiary notices and reproducible binary/build
+equivalence are still open. No new runtime package or source execution occurred.
 
 Status values:
 

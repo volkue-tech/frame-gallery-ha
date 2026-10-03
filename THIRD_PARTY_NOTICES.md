@@ -2,7 +2,7 @@
 
 **Status: provisional, started in Phase 2; the inventory is authoritative since Phase 6.** This file is not a release notice.
 
-- Nothing has been published. Phase 6 built the app image locally, for `aarch64` and `amd64`, from the pinned base image and the hash-pinned wheels; it was not pushed anywhere.
+- Project-owned source is now public under `volkue-tech/frame-gallery-ha`. No container image or beta release has been published. Phase 6 built the app image locally, for `aarch64` and `amd64`, from the pinned base image and the hash-pinned wheels; it was not pushed anywhere.
 - The runtime inventory below was taken in Phase 6 from the exact two Pillow runtime wheels and from the built image, for both architectures, which hold the same versions (`DECISIONS.md` D-171, accepted at the Phase 6 gate; `frame_gallery/scripts/image_inventory.py`). Entries marked **to verify** still need their licence read from upstream before any release.
 - The complete licence texts, and the corresponding source for every copyleft component (D-135), are added before the first release. The qualified licence review (D-135) is a release gate.
 - The details and the obligations are recorded in `DECISIONS.md` (*Proposed dependency inventory*).
@@ -175,8 +175,12 @@ The licence column is apk's own field. It is not always an SPDX expression: "Pub
 
 | Component | Version | Licence | Notes |
 | --- | --- | --- | --- |
-| s6-overlay | 3.2.3.0 | `ISC` | [Exact release COPYING](https://github.com/just-containers/s6-overlay/blob/v3.2.3.0/COPYING), copied to `LICENSES/`. Its component licences remain to verify: execline 2.9.9.0, s6 2.15.0.0, s6-linux-init 1.2.0.1, s6-linux-utils 2.6.4.1, s6-overlay-helpers 0.1.2.2, s6-portable-utils 2.3.1.2, and s6-rc 0.6.1.0 |
-| tempio | 2026.07.0 | `Apache-2.0` | [Exact release LICENSE](https://github.com/home-assistant/tempio/blob/2026.07.0/LICENSE); its Go 1.26.5 and 11 Go modules still require separate verification and notices; not used by the app |
+| s6-overlay | 3.2.3.0 | `ISC` | [Exact release COPYING](https://github.com/just-containers/s6-overlay/blob/v3.2.3.0/COPYING), copied to `LICENSES/`. Exact source COPYING texts for execline 2.9.9.0, s6 2.15.0.0, s6-linux-init 1.2.0.1, s6-linux-utils 2.6.4.1, s6-overlay-helpers 0.1.2.2, s6-portable-utils 2.3.1.2, and s6-rc 0.6.1.0 are verified as ISC and retained; static dependencies and source/build completeness remain open. |
+| s6-dns | 2.4.1.2 | `ISC` | Present under `/package/web`; original source COPYING retained in `LICENSES/s6-dns-2.4.1.2/`. Previously omitted by the admin-only inventory (D-184). |
+| s6-networking | 2.8.0.0 | `ISC` | Present under `/package/net`; original source COPYING retained in `LICENSES/s6-networking-2.8.0.0/`. The release build links BearSSL; its exact source/licence and static-toolchain completeness remain open (D-184). |
+| skalibs | 2.15.0.0 | `ISC` | Present under `/package/prog` and used by S6 binaries; original source COPYING retained in `LICENSES/skalibs-2.15.0.0/` (D-184). |
+| s6-overlay-helpers | 0.1.2.2 | `ISC` | Exact versioned source and original COPYING retained in `LICENSES/s6-overlay-helpers-0.1.2.2/`. |
+| tempio | 2026.07.0 | `Apache-2.0` | [Exact release LICENSE](https://github.com/home-assistant/tempio/blob/2026.07.0/LICENSE), retained from binary VCS revision `56918dfb7db5fec2161b2c5b37ee42f49176d34b`; its Go 1.26.5 source/build and subsidiary notices remain to complete; not used by the app |
 | bashio | 0.17.5 | `MIT` | [Exact release LICENSE.md](https://github.com/hassio-addons/bashio/blob/v0.17.5/LICENSE.md), copied to `LICENSES/`; version from the pinned base recipe, not an embedded version marker; not used by the app |
 | jemalloc | 5.3.1 | `BSD-2-Clause` | [Exact release COPYING](https://github.com/jemalloc/jemalloc/blob/5.3.1/COPYING), copied to `LICENSES/`. Previously omitted from the inventory; the aarch64 app image contains `/usr/local/lib/libjemalloc.so.2` and its two helper scripts. Exact binary/rebuild and amd64 verification remain pending. |
 
@@ -188,8 +192,9 @@ Their original COPYING files are all ISC and are copied under `LICENSES/`,
 with copyright Laurent Bercot (2011–2026, or 2015–2026 for linux-init/rc).
 `LICENSES/skarnet-source-manifest.json` records HTTPS URLs and calculated hashes;
 these hashes are not publisher signatures or binary-source equivalence proof.
-s6-overlay-helpers and build dependencies such as linked skarnet libraries still
-require verification. This supersedes only the six corresponding pending licence
+s6-overlay-helpers COPYING has since been verified as ISC; its source is now retained.
+Build dependencies and static library/toolchain completeness still
+require verification. This supersedes only the corresponding pending licence
 texts in the table, not the complete source/rebuild requirement.
 
 All eleven installed Python packages' original primary licence files and the
@@ -197,6 +202,48 @@ requests/propcache/yarl NOTICE files are now retained under `LICENSES/` from exa
 PyPI sdists. `LICENSES/python-source-manifest.json` records their source URLs and
 PyPI-verified hashes; archives remain local pending a complete release bundle.
 This does not cover the separate native libraries bundled in Pillow's wheels.
+
+The additional exact docker-base, bashio, tempio, jemalloc and s6-overlay source
+archives, plus helpers/skalibs/dns/networking, are retained locally;
+`LICENSES/base-source-manifest.json` records their URLs and calculated SHA256s.
+These are calculated download hashes, not publisher signatures. The tempio and
+docker-base Apache texts and the four extra ISC COPYING files are preserved in
+`LICENSES/`. The original six skarnet archives remain in their separate manifest.
+The corrected native ARM image inventory finds eleven versioned S6 packages,
+not just eight admin packages. Exact BearSSL, static musl/toolchain, Go toolchain,
+Alpine recipes/patches and Pillow-native sources remain part of the open D-135
+release gate; these downloads do not prove binary/source or rebuild equivalence.
+
+### Go modules linked into tempio
+
+The observed tempio binary lists the following eleven dependencies. Their exact
+source ZIPs from the official Go module proxy were checked with the documented
+directory-hash algorithm against `go.sum` in the exact tempio source revision.
+All original primary licence files are retained under `LICENSES/go/`.
+`LICENSES/go-source-manifest.json` records module versions, SHA256/archive URLs
+and verified `h1` hashes, distinguishing linked modules from ten additional
+test/build-source modules in upstream `go.sum`. This is not yet a Go-toolchain
+or subsidiary-file licensing/rebuild completeness finding.
+
+| Module | Version | Primary licence | Original text |
+| --- | --- | --- | --- |
+| dario.cat/mergo | v1.0.1 | `BSD-3-Clause` | LICENSE |
+| github.com/Masterminds/goutils | v1.1.1 | `Apache-2.0` | LICENSE.txt |
+| github.com/Masterminds/semver/v3 | v3.3.0 | `MIT` | LICENSE.txt |
+| github.com/Masterminds/sprig/v3 | v3.3.0 | `MIT` | LICENSE.txt |
+| github.com/google/uuid | v1.6.0 | `BSD-3-Clause` | LICENSE |
+| github.com/huandu/xstrings | v1.5.0 | `MIT` | LICENSE |
+| github.com/mitchellh/copystructure | v1.2.0 | `MIT` | LICENSE |
+| github.com/mitchellh/reflectwalk | v1.0.2 | `MIT` | LICENSE |
+| github.com/shopspring/decimal | v1.4.0 | `MIT` | LICENSE, including Oguz Bilgic attribution |
+| github.com/spf13/cast | v1.7.0 | `MIT` | LICENSE (original has no final newline) |
+| golang.org/x/crypto | v0.31.0 | `BSD-3-Clause` | LICENSE |
+
+Primary obligations: retain the full texts and copyright notices, the BSD
+non-endorsement clauses and any applicable Apache NOTICE/subsidiary attributions.
+The original eleven primary files are byte-identical to their checked archives;
+this does not assert that these primary files exhaust every source-file notice.
+Algorithm/proxy reference: https://go.dev/ref/mod#authenticating .
 
 ## Development tools (not distributed)
 

@@ -1,0 +1,138 @@
+[
+  {
+    "name": "docker-base",
+    "version": "6a3ff4c10f6ed8564a092c33051024a1b1042ee2",
+    "repository": "home-assistant/docker-base",
+    "ref": "6a3ff4c10f6ed8564a092c33051024a1b1042ee2",
+    "url": "https://codeload.github.com/home-assistant/docker-base/tar.gz/6a3ff4c10f6ed8564a092c33051024a1b1042ee2",
+    "filename": "docker-base-6a3ff4c10f6ed8564a092c33051024a1b1042ee2.tar.gz",
+    "sha256": "87fcc070c28d4b97dd71b364d061ec11804a4502cea97f95c2d2ec061a481c9d",
+    "bytes": 22667,
+    "licence_paths": [
+      "docker-base-6a3ff4c10f6ed8564a092c33051024a1b1042ee2/LICENSE"
+    ],
+    "build_paths": [
+      "docker-base-6a3ff4c10f6ed8564a092c33051024a1b1042ee2/.devcontainer/Dockerfile",
+      "docker-base-6a3ff4c10f6ed8564a092c33051024a1b1042ee2/alpine/Dockerfile",
+      "docker-base-6a3ff4c10f6ed8564a092c33051024a1b1042ee2/debian/Dockerfile",
+      "docker-base-6a3ff4c10f6ed8564a092c33051024a1b1042ee2/python/3.12/Dockerfile",
+      "docker-base-6a3ff4c10f6ed8564a092c33051024a1b1042ee2/python/3.13/Dockerfile",
+      "docker-base-6a3ff4c10f6ed8564a092c33051024a1b1042ee2/python/3.14/Dockerfile",
+      "docker-base-6a3ff4c10f6ed8564a092c33051024a1b1042ee2/ubuntu/Dockerfile"
+    ],
+    "verification": "calculated archive hash; not binary equivalence or complete source proof"
+  },
+  {
+    "name": "bashio",
+    "version": "0.17.5",
+    "repository": "hassio-addons/bashio",
+    "ref": "v0.17.5",
+    "url": "https://codeload.github.com/hassio-addons/bashio/tar.gz/v0.17.5",
+    "filename": "bashio-0.17.5.tar.gz",
+    "sha256": "224129aa0ecc799bb9e9dc2154e949aafa2adb9a2611e38a2ae0b52be0003ac2",
+    "bytes": 31620,
+    "licence_paths": [
+      "bashio-0.17.5/LICENSE.md"
+    ],
+    "build_paths": [],
+    "verification": "calculated archive hash; not binary equivalence or complete source proof"
+  },
+  {
+    "name": "tempio",
+    "version": "2026.07.0",
+    "repository": "home-assistant/tempio",
+    "ref": "56918dfb7db5fec2161b2c5b37ee42f49176d34b",
+    "url": "https://codeload.github.com/home-assistant/tempio/tar.gz/56918dfb7db5fec2161b2c5b37ee42f49176d34b",
+    "filename": "tempio-2026.07.0.tar.gz",
+    "sha256": "3fa6e4fa9c6ba0e8b523459b4ee21a0ea30d9cd0c452339ca65452115faa4bd8",
+    "bytes": 10847,
+    "licence_paths": [
+      "tempio-56918dfb7db5fec2161b2c5b37ee42f49176d34b/LICENSE"
+    ],
+    "build_paths": [
+      "tempio-56918dfb7db5fec2161b2c5b37ee42f49176d34b/go.mod",
+      "tempio-56918dfb7db5fec2161b2c5b37ee42f49176d34b/go.sum"
+    ],
+    "verification": "calculated archive hash; not binary equivalence or complete source proof"
+  },
+  {
+    "name": "jemalloc",
+    "version": "5.3.1",
+    "repository": "jemalloc/jemalloc",
+    "ref": "5.3.1",
+    "url": "https://codeload.github.com/jemalloc/jemalloc/tar.gz/5.3.1",
+    "filename": "jemalloc-5.3.1.tar.gz",
+    "sha256": "7b30f6116f11d736badd48c903cba2b3344a88d62e3a7b892434f870e860b1c0",
+    "bytes": 927097,
+    "licence_paths": [
+      "jemalloc-5.3.1/COPYING"
+    ],
+    "build_paths": [],
+    "verification": "calculated archive hash; not binary equivalence or complete source proof"
+  },
+  {
+    "name": "s6-overlay",
+    "version": "3.2.3.0",
+    "repository": "just-containers/s6-overlay",
+    "ref": "v3.2.3.0",
+    "url": "https://codeload.github.com/just-containers/s6-overlay/tar.gz/v3.2.3.0",
+    "filename": "s6-overlay-3.2.3.0.tar.gz",
+    "sha256": "b80530622dd501e0e2b3676694eda3628343c2b8f061232c7cea1b0e14dfe7fd",
+    "bytes": 41167,
+    "licence_paths": [
+      "s6-overlay-3.2.3.0/COPYING"
+    ],
+    "build_paths": [
+      "s6-overlay-3.2.3.0/Makefile"
+    ],
+    "verification": "calculated archive hash; not binary equivalence or complete source proof"
+  },
+  {
+    "name": "s6-overlay-helpers",
+    "version": "0.1.2.2",
+    "url": "https://codeload.github.com/just-containers/s6-overlay-helpers/tar.gz/v0.1.2.2",
+    "filename": "s6-overlay-helpers-0.1.2.2.tar.gz",
+    "sha256": "8e6324a68563274de65a7537f283b592ffde365cccd341958c5496a5189cd04b",
+    "bytes": 22854,
+    "licence_paths": [
+      "s6-overlay-helpers-0.1.2.2/COPYING"
+    ],
+    "verification": "calculated archive hash, not binary equivalence"
+  },
+  {
+    "name": "skalibs",
+    "version": "2.15.0.0",
+    "url": "https://skarnet.org/software/skalibs/skalibs-2.15.0.0.tar.gz",
+    "filename": "skalibs-2.15.0.0.tar.gz",
+    "sha256": "7fde96e8afb4191593a15328883e9c7726c96891cf071222146821e8c87f8007",
+    "bytes": 267454,
+    "licence_paths": [
+      "skalibs-2.15.0.0/COPYING"
+    ],
+    "verification": "calculated archive hash, not binary equivalence"
+  },
+  {
+    "name": "s6-dns",
+    "version": "2.4.1.2",
+    "url": "https://skarnet.org/software/s6-dns/s6-dns-2.4.1.2.tar.gz",
+    "filename": "s6-dns-2.4.1.2.tar.gz",
+    "sha256": "0618d8830fce63ee17b7f55e49428069c85c97a1710827a7b2349b660cd33a4e",
+    "bytes": 97212,
+    "licence_paths": [
+      "s6-dns-2.4.1.2/COPYING"
+    ],
+    "verification": "calculated archive hash, not binary equivalence"
+  },
+  {
+    "name": "s6-networking",
+    "version": "2.8.0.0",
+    "url": "https://skarnet.org/software/s6-networking/s6-networking-2.8.0.0.tar.gz",
+    "filename": "s6-networking-2.8.0.0.tar.gz",
+    "sha256": "ac4f65840fcec1624f7bf9c632fb40553851bc902957ff956b2a1f2281a45cd4",
+    "bytes": 126985,
+    "licence_paths": [
+      "s6-networking-2.8.0.0/COPYING"
+    ],
+    "verification": "calculated archive hash, not binary equivalence"
+  }
+]

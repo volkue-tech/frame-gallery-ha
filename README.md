@@ -1,6 +1,6 @@
 # Frame Gallery for Home Assistant
 
-Frame Gallery is a planned, independently implemented Home Assistant app for displaying curated artwork on compatible Samsung Frame televisions.
+Frame Gallery is an independently implemented Home Assistant app for displaying curated artwork on compatible Samsung Frame televisions. It is currently **pre-release**, not yet a one-click installable public beta.
 
 This repository contains the product specification, the architecture, and the implementation in progress (`frame_gallery/`). It intentionally contains no application code copied or adapted from predecessor projects.
 
@@ -16,9 +16,25 @@ No SSH access or `configuration.yaml` changes should be required for end users.
 
 ## Project status
 
-Phases 2 to 6 are implemented. Phases 2 to 5 cover the core, deterministic selection and rendering, the guarded network gateway, the Home Assistant helper reader, the three source adapters, the bounded persistent state (history, the TV-upload exclusion ledger, the metadata cache, the workspace, the preview, and the run records), the Samsung television adapter, and the isolated worker processes that run the image and television work. Everything is tested offline against fakes, synthesized fixtures, and a scripted television; no real television has been contacted yet. Phase 6 packaged the app for Home Assistant OS: the entry point, the container image for `aarch64` and `amd64` (built and checked locally, with the whole test suite inside it; nothing published), the app configuration, a draft AppArmor profile, and the user documentation (`frame_gallery/DOCS.md`). Its gate passed on 2026-10-03. Phase 7 validated a release candidate offline (`RELEASE_CANDIDATE.md`) and stops at the Phase 7 gate, where the user decides on the first supervised live test.
+The application, packaging and offline validation are implemented. Supervised
+development-app tests on Home Assistant Green and a real Samsung Frame TV passed:
+museum delivery, no-crop fitting, dashboard preview refresh, bounded loading,
+duplicate history, cancellation/cleanup and the documented crash-recovery checks.
+Enforced AppArmor child profiles and worker network restrictions were also tested
+on the Green, followed by successful regular deliveries. See `PHASE8_REPORT.md`
+and `PHASE9_REPORT.md` for the exact scope and limitations.
 
-The app has not run on Home Assistant yet: the first supervised run on a Home Assistant Green against a real television is Phase 8. In the first beta, the Art Institute offers the period filter, and Cleveland offers department and period; no source offers a colour filter (see `frame_gallery/VOCABULARY.md`). Developer setup and quality gates: `frame_gallery/DEVELOPMENT.md`.
+Phase 9 release preparation is in progress. Source is public, but no container
+images or public beta release are published yet. The first native ARM/Intel CI
+run passed, including the real memory limits. Validation of later changes,
+complete dependency licence/corresponding-source compliance and a clean public-repository
+Green installation remain release gates. Do not treat this source checkout as
+the final simple-install distribution. Current state: `STATUS.md` and `TASKS.md`.
+
+In the first beta, the Art Institute offers the period filter, and Cleveland
+offers department and period; no source offers a colour filter (see
+`frame_gallery/VOCABULARY.md`). Developer setup and quality gates:
+`frame_gallery/DEVELOPMENT.md`.
 
 One known limitation of the design: the app remembers the latest 20 000 artworks it has shown. Older ones are forgotten, so a very old artwork could in theory be shown again. At one artwork a day that takes about 55 years (R-29 in `DECISIONS.md`).
 
@@ -40,8 +56,9 @@ The two museum sources use only their documented open-access APIs and CC0 images
 - `DECISIONS.md`
 - `THIRD_PARTY_NOTICES.md` (provisional)
 - `RELEASE_CANDIDATE.md` (the report of the offline release validation)
+- `PHASE8_REPORT.md` (supervised Green/TV development tests)
+- `PHASE9_REPORT.md` (release hardening and remaining gates)
 
 ## Attribution
 
 The product idea is inspired by community experimentation around Home Assistant and Samsung Frame art-mode automation. The implementation in this repository must be written independently. Any future attribution must not imply that unlicensed predecessor code was copied, relicensed, or incorporated.
-

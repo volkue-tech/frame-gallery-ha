@@ -25,9 +25,15 @@ verified additional restriction without new packages or privileges. `/init` and
 S6 interpreter scripts also required read permission under actual enforcement.
 The supplementary parent-output-read probe also passed with Docker's existing
 DAC_OVERRIDE permission, without adding a capability (D-182). Latest native local
-`check.sh` passed: 4,713 tests / 11 expected skips, 100% line/branch coverage.
+`check.sh` passed after the inventory correction: 4,714 tests / 11 expected skips,
+100% line/branch coverage.
 Apache-2.0 and initial official dependency licence
 texts are added, but the licence/source bundle is not complete.
+The subsequent D-184 inventory fix includes the three installed net/prog/web
+S6 packages omitted by the admin-only scan. Twenty-two unit tests and the
+existing native ARM image confirm eleven S6 packages. Nine further official
+base-source archives and their licence texts/hashes are retained; BearSSL and
+static-libc/build provenance remain open along with the other D-135 sources.
 
 **Live checkpoint:** the normal entry point is restored and both temporary
 diagnostic modules are moved outside the own app source. Two card-started real
@@ -43,11 +49,15 @@ backup, proving D-183's refresh from actual state.
 Confirmed records were not reset; the deliveries legitimately extend them. The
 saved pre-Phase-9 source is
 `/share/frame-gallery-dev-before-phase9-v1`; the app-only backup is retained.
-Native amd64 measurement, complete source compliance, public images and a clean
-public installation remain release gates. The approved public repository
+Native amd64 measurement is now passed; complete source compliance, validation
+of subsequent changes, public images and a clean public installation remain
+release gates. The approved public repository
 `volkue-tech/frame-gallery-ha` is public and the first audited `main` push is
 verified at `39d25dac8a407b050c0fd2eb0bff083c316c8ca4`. Native ARM/Intel hosted
-validation has started (run `37141542920`); its result remains pending. No
+validation succeeded on both architectures (run `37141542920`, ARM completed
+17:58:51 UTC, Intel 18:02:25 UTC). The native Intel memory gate is passed at this
+source revision, without Rosetta or QEMU. The later development-inventory fix
+does not change runtime code; its hosted validation is not yet claimed. No
 container publication or release. No existing-app change or `configuration.yaml`
 edit. The personal fine-grained token was entered privately in the user's Mac
 Terminal, held only in process memory and not stored by the helper. The retained

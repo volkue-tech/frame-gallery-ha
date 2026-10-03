@@ -151,6 +151,27 @@ all subsidiary s6/Go/bundled-library texts, Alpine recipes/patches and complete
 corresponding sources/rebuild information are still open. This is not a lawyer's
 opinion, a GPL-free image, or a completed licence-release gate.
 
+Follow-up D-184 found three further installed S6 packages outside `/package/admin`:
+s6-dns 2.4.1.2, s6-networking 2.8.0.0 and skalibs 2.15.0.0. The fixed inventory
+scans admin/net/prog/web without following category/version aliases. Its 22 unit
+tests pass and execution in the existing native ARM image reports all eleven
+packages. This changes only the development inventory and notices, not the app
+runtime or privileges. Nine additional official base-component archives are
+retained with calculated hashes in `LICENSES/base-source-manifest.json`; four
+additional ISC COPYING and tempio/docker-base Apache texts are preserved.
+The s6 source build also names statically linked BearSSL and libc: their exact
+corresponding sources/build provenance, Go, Alpine and native-Pillow completeness
+remain open. The initial hosted run tests `39d25da`, before this inventory fix.
+
+Twenty-one further Go source ZIPs (2,901,790 bytes total) were retained from the
+official module proxy, with all directory hashes matching exact tempio `go.sum`.
+Eleven are linked in the observed binary; ten are extra test/build-source modules.
+The eleven primary licences were read (MIT/BSD-3-Clause/Apache-2.0), their original
+files preserved byte-for-byte and their versions/obligations listed in notices.
+`LICENSES/go-source-manifest.json` retains archive and directory hashes. No module
+was installed or executed. Go toolchain and subsidiary-attribution/source-build
+completeness stay open; the corresponding-source release bundle is not complete.
+
 ## Remaining release gates
 
 The user-approved public repository was created in the personal Firefox session:
@@ -170,14 +191,29 @@ possible secrets. No state/options/image archives are tracked; the only tracked
 PNG files are the own icon and logo. The old local backup branch was not pushed.
 The first native hosted validation started automatically at 17:43:10 UTC:
 https://github.com/volkue-tech/frame-gallery-ha/actions/runs/37141542920 .
-Both jobs passed native host/Docker architecture and dependency setup; their
-test/memory outcomes are pending. No container or release published.
+Both jobs succeeded: ARM at 17:58:51 UTC, Intel at 18:02:25 UTC. Native host and
+Docker architecture assertions passed (no QEMU/Rosetta), host quality/kernel
+gates passed, and both container suites passed with 4,718 non-root tests / six
+expected skips plus all five root tests. The 13-case twice-repeated measurement
+under real 1 GiB RLIMIT_AS passed on both architectures, fulfilling D-170's native
+Intel requirement. The ARM log reports 765.5 MiB peak address space, 2.16 s
+slowest prepare and 150 inspections without failure; exact Intel peak/time
+values are not transcribed. The logged synthetic Supervisor-token presence
+check prints a boolean only. Docker lacks the own AppArmor attachment and its
+smoke correctly exits 70 without artwork; it does not replace the Green's
+enforcement proof. The one ARM annotation is the Node.js 20 deprecation warning,
+with the pinned actions forced onto Node.js 24, not an artifact/test failure.
+This run precedes D-184's development-inventory correction. Local full gates
+after that correction passed with 4,714 tests / 11 skips and unchanged 100%
+line/branch coverage (`build/phase9/check-source-notices-20261003.log`). No
+container or release published. D-185 records the hosted evidence.
 
-1. Native amd64 kernel/root/memory evidence.
+1. Validate subsequent release changes; native amd64 kernel/root/memory evidence
+   at `39d25da` is now passed, not an outstanding architecture gate.
 2. Complete dependency licences, corresponding-source bundle and replacement/
    rebuild instructions; resolve exact licence expressions and retained notices.
-3. Observe actual hosted test outcomes (personal access and audited source push
-   are now complete).
+3. Repeat hosted validation after the later inventory/release changes (the first
+   audited source push and native hosted run are complete).
 4. Gated immutable multi-architecture images, one-click repository link, clean
    public Green install, final public slug/card and release limitations/notes.
 

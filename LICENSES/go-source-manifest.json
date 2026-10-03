@@ -1,0 +1,287 @@
+[
+  {
+    "module": "dario.cat/mergo",
+    "version": "v1.0.1",
+    "linked_in_tempio": true,
+    "url": "https://proxy.golang.org/dario.cat/mergo/@v/v1.0.1.zip",
+    "filename": "dario.cat__mergo-v1.0.1.zip",
+    "sha256": "a012b53df0ebc9082b81bb1afd824e72a2b08097266cc6526119deafafa8a91e",
+    "go_sum": "h1:Ra4+bf83h2ztPIQYNP99R6m+Y7KfnARDfID+a+vLl4s=",
+    "bytes": 49846,
+    "licence_paths": [
+      "dario.cat/mergo@v1.0.1/LICENSE"
+    ],
+    "license": "BSD-3-Clause"
+  },
+  {
+    "module": "github.com/Masterminds/goutils",
+    "version": "v1.1.1",
+    "linked_in_tempio": true,
+    "url": "https://proxy.golang.org/github.com/!masterminds/goutils/@v/v1.1.1.zip",
+    "filename": "github.com__!masterminds__goutils-v1.1.1.zip",
+    "sha256": "ef8778a20c37e98a92e3b1db5ab027cc201743a2f5bfb26ba228bf0515e20b48",
+    "go_sum": "h1:5nUrii3FMTL5diU80unEVvNevw1nH4+ZV4DSLVJLSYI=",
+    "bytes": 21693,
+    "licence_paths": [
+      "github.com/Masterminds/goutils@v1.1.1/LICENSE.txt"
+    ],
+    "license": "Apache-2.0"
+  },
+  {
+    "module": "github.com/Masterminds/semver/v3",
+    "version": "v3.3.0",
+    "linked_in_tempio": true,
+    "url": "https://proxy.golang.org/github.com/!masterminds/semver/v3/@v/v3.3.0.zip",
+    "filename": "github.com__!masterminds__semver__v3-v3.3.0.zip",
+    "sha256": "b492e8f6fa4c8240234a6d5095521f75d9e2e7c52672b90b5afde533281b540f",
+    "go_sum": "h1:B8LGeaivUe71a5qox1ICM/JLl0NqZSW5CHyL+hmvYS0=",
+    "bytes": 34352,
+    "licence_paths": [
+      "github.com/Masterminds/semver/v3@v3.3.0/LICENSE.txt"
+    ],
+    "license": "MIT"
+  },
+  {
+    "module": "github.com/Masterminds/sprig/v3",
+    "version": "v3.3.0",
+    "linked_in_tempio": true,
+    "url": "https://proxy.golang.org/github.com/!masterminds/sprig/v3/@v/v3.3.0.zip",
+    "filename": "github.com__!masterminds__sprig__v3-v3.3.0.zip",
+    "sha256": "c731370f7601711d1df9b4b0c9bb8488fc381b32fd3e7de97a03673e8287b719",
+    "go_sum": "h1:mQh0Yrg1XPo6vjYXgtf5OtijNAKJRNcTdOOGZe3tPhs=",
+    "bytes": 75394,
+    "licence_paths": [
+      "github.com/Masterminds/sprig/v3@v3.3.0/LICENSE.txt"
+    ],
+    "license": "MIT"
+  },
+  {
+    "module": "github.com/davecgh/go-spew",
+    "version": "v1.1.1",
+    "linked_in_tempio": false,
+    "url": "https://proxy.golang.org/github.com/davecgh/go-spew/@v/v1.1.1.zip",
+    "filename": "github.com__davecgh__go-spew-v1.1.1.zip",
+    "sha256": "6b44a843951f371b7010c754ecc3cabefe815d5ced1c5b9409fb2d697e8a890d",
+    "go_sum": "h1:vj9j/u1bqnvCEfJOwUhtlOARqs3+rkHYY13jYWTU97c=",
+    "bytes": 60320,
+    "licence_paths": [
+      "github.com/davecgh/go-spew@v1.1.1/LICENSE"
+    ]
+  },
+  {
+    "module": "github.com/frankban/quicktest",
+    "version": "v1.14.6",
+    "linked_in_tempio": false,
+    "url": "https://proxy.golang.org/github.com/frankban/quicktest/@v/v1.14.6.zip",
+    "filename": "github.com__frankban__quicktest-v1.14.6.zip",
+    "sha256": "8c7377023523780b2a6508f3c06bd3bbefd3dda064533ad6ff6724986234988d",
+    "go_sum": "h1:7Xjx+VpznH+oBnejlPUj8oUpdxnVs4f8XU8WnHkI4W8=",
+    "bytes": 56279,
+    "licence_paths": [
+      "github.com/frankban/quicktest@v1.14.6/LICENSE"
+    ]
+  },
+  {
+    "module": "github.com/google/go-cmp",
+    "version": "v0.6.0",
+    "linked_in_tempio": false,
+    "url": "https://proxy.golang.org/github.com/google/go-cmp/@v/v0.6.0.zip",
+    "filename": "github.com__google__go-cmp-v0.6.0.zip",
+    "sha256": "4b4e9bf6c48211080651b491dfb48d68b736c66a305bcf94605606e1ba2eaa4a",
+    "go_sum": "h1:ofyhxvXcZhMsU5ulbFiLKl/XBFqE1GSq7atu8tAmTRI=",
+    "bytes": 129773,
+    "licence_paths": [
+      "github.com/google/go-cmp@v0.6.0/LICENSE"
+    ]
+  },
+  {
+    "module": "github.com/google/uuid",
+    "version": "v1.6.0",
+    "linked_in_tempio": true,
+    "url": "https://proxy.golang.org/github.com/google/uuid/@v/v1.6.0.zip",
+    "filename": "github.com__google__uuid-v1.6.0.zip",
+    "sha256": "d0f02f377217f42702e259684e06441edbf5140dddcc34ba9bea56038b38a6ed",
+    "go_sum": "h1:NIvaJDMOsjHA8n1jAhLSgzrAzy1Hgr+hNrb57e+94F0=",
+    "bytes": 31981,
+    "licence_paths": [
+      "github.com/google/uuid@v1.6.0/LICENSE"
+    ],
+    "license": "BSD-3-Clause"
+  },
+  {
+    "module": "github.com/huandu/xstrings",
+    "version": "v1.5.0",
+    "linked_in_tempio": true,
+    "url": "https://proxy.golang.org/github.com/huandu/xstrings/@v/v1.5.0.zip",
+    "filename": "github.com__huandu__xstrings-v1.5.0.zip",
+    "sha256": "74bd0e897e5c35b1fd0e598cb8d9dfcebcb820b6edf3abf850d5404bfaaca6a2",
+    "go_sum": "h1:2ag3IFq9ZDANvthTwTiqSSZLjDc+BedvHPAp5tJy2TI=",
+    "bytes": 25745,
+    "licence_paths": [
+      "github.com/huandu/xstrings@v1.5.0/LICENSE"
+    ],
+    "license": "MIT"
+  },
+  {
+    "module": "github.com/kr/pretty",
+    "version": "v0.3.1",
+    "linked_in_tempio": false,
+    "url": "https://proxy.golang.org/github.com/kr/pretty/@v/v0.3.1.zip",
+    "filename": "github.com__kr__pretty-v0.3.1.zip",
+    "sha256": "ecf5a4af24826c3ad758ce06410ca08e2d58e4d95053be3b9dde2e14852c0cdc",
+    "go_sum": "h1:flRD4NNwYAUpkphVc1HcthR4KEIFJ65n8Mw5qdRn3LE=",
+    "bytes": 13388,
+    "licence_paths": [
+      "github.com/kr/pretty@v0.3.1/License"
+    ]
+  },
+  {
+    "module": "github.com/kr/text",
+    "version": "v0.2.0",
+    "linked_in_tempio": false,
+    "url": "https://proxy.golang.org/github.com/kr/text/@v/v0.2.0.zip",
+    "filename": "github.com__kr__text-v0.2.0.zip",
+    "sha256": "368eb318f91a5b67be905c47032ab5c31a1d49a97848b1011a0d0a2122b30ba4",
+    "go_sum": "h1:5Nx0Ya0ZqY2ygV366QzturHI13Jq95ApcVaJBhpS+AY=",
+    "bytes": 12607,
+    "licence_paths": [
+      "github.com/kr/text@v0.2.0/License"
+    ]
+  },
+  {
+    "module": "github.com/mitchellh/copystructure",
+    "version": "v1.2.0",
+    "linked_in_tempio": true,
+    "url": "https://proxy.golang.org/github.com/mitchellh/copystructure/@v/v1.2.0.zip",
+    "filename": "github.com__mitchellh__copystructure-v1.2.0.zip",
+    "sha256": "4a1ce1f3c66bf99883e55da50fe1b3122299b79ad1d11c5407abbd74ace12550",
+    "go_sum": "h1:vpKXTN4ewci03Vljg/q9QvCGUDttBOGBIa15WveJJGw=",
+    "bytes": 12351,
+    "licence_paths": [
+      "github.com/mitchellh/copystructure@v1.2.0/LICENSE"
+    ],
+    "license": "MIT"
+  },
+  {
+    "module": "github.com/mitchellh/reflectwalk",
+    "version": "v1.0.2",
+    "linked_in_tempio": true,
+    "url": "https://proxy.golang.org/github.com/mitchellh/reflectwalk/@v/v1.0.2.zip",
+    "filename": "github.com__mitchellh__reflectwalk-v1.0.2.zip",
+    "sha256": "c96eed6b50f00b1acdc79224e8e55f66ef3e98e3f7c6373afa3e3b8c6ef440d1",
+    "go_sum": "h1:G2LzWKi524PWgd3mLHV8Y5k7s6XUvT0Gef6zxSIeXaQ=",
+    "bytes": 8412,
+    "licence_paths": [
+      "github.com/mitchellh/reflectwalk@v1.0.2/LICENSE"
+    ],
+    "license": "MIT"
+  },
+  {
+    "module": "github.com/pmezard/go-difflib",
+    "version": "v1.0.0",
+    "linked_in_tempio": false,
+    "url": "https://proxy.golang.org/github.com/pmezard/go-difflib/@v/v1.0.0.zip",
+    "filename": "github.com__pmezard__go-difflib-v1.0.0.zip",
+    "sha256": "de04cecc1a4b8d53e4357051026794bcbc54f2e6a260cfac508ce69d5d6457a0",
+    "go_sum": "h1:4DBwDE0NGyQoBHbLQYPwSUPoCMWR5BEzIk/f1lZbAQM=",
+    "bytes": 12433,
+    "licence_paths": [
+      "github.com/pmezard/go-difflib@v1.0.0/LICENSE"
+    ]
+  },
+  {
+    "module": "github.com/rogpeppe/go-internal",
+    "version": "v1.9.0",
+    "linked_in_tempio": false,
+    "url": "https://proxy.golang.org/github.com/rogpeppe/go-internal/@v/v1.9.0.zip",
+    "filename": "github.com__rogpeppe__go-internal-v1.9.0.zip",
+    "sha256": "7d777908b9c91a1685f2d709550e6b7478e14e9c4699dffd7f0a150e36dbc7e9",
+    "go_sum": "h1:73kH8U+JUqXU8lRuOHeVHaa/SZPifC7BkcraZVejAe8=",
+    "bytes": 210263,
+    "licence_paths": [
+      "github.com/rogpeppe/go-internal@v1.9.0/LICENSE"
+    ]
+  },
+  {
+    "module": "github.com/shopspring/decimal",
+    "version": "v1.4.0",
+    "linked_in_tempio": true,
+    "url": "https://proxy.golang.org/github.com/shopspring/decimal/@v/v1.4.0.zip",
+    "filename": "github.com__shopspring__decimal-v1.4.0.zip",
+    "sha256": "751d4cd3460984afc72973d2a0df56ed9b10499c5cd0508d7f2207245d9e3315",
+    "go_sum": "h1:bxl37RwXBklmTi0C79JfXCEBD1cqqHt0bbgBAGFp81k=",
+    "bytes": 57031,
+    "licence_paths": [
+      "github.com/shopspring/decimal@v1.4.0/LICENSE"
+    ],
+    "license": "MIT"
+  },
+  {
+    "module": "github.com/spf13/cast",
+    "version": "v1.7.0",
+    "linked_in_tempio": true,
+    "url": "https://proxy.golang.org/github.com/spf13/cast/@v/v1.7.0.zip",
+    "filename": "github.com__spf13__cast-v1.7.0.zip",
+    "sha256": "7b24198857474e3f3c9c368fdec153b06003d06863a182c77c0605c3e51002c1",
+    "go_sum": "h1:ntdiHjuueXFgm5nzDRdOS4yfT43P5Fnud6DH50rz/7w=",
+    "bytes": 18084,
+    "licence_paths": [
+      "github.com/spf13/cast@v1.7.0/LICENSE"
+    ],
+    "license": "MIT"
+  },
+  {
+    "module": "github.com/stretchr/testify",
+    "version": "v1.11.1",
+    "linked_in_tempio": false,
+    "url": "https://proxy.golang.org/github.com/stretchr/testify/@v/v1.11.1.zip",
+    "filename": "github.com__stretchr__testify-v1.11.1.zip",
+    "sha256": "b7325b561ead5304b72b9f32aebc871ff49b3823667d530a49fd6c8f3adfc96e",
+    "go_sum": "h1:7s2iGBzp5EwR7/aIZr8ao5+dra3wiQyKjjFuvgVKu7U=",
+    "bytes": 134860,
+    "licence_paths": [
+      "github.com/stretchr/testify@v1.11.1/LICENSE"
+    ]
+  },
+  {
+    "module": "golang.org/x/crypto",
+    "version": "v0.31.0",
+    "linked_in_tempio": true,
+    "url": "https://proxy.golang.org/golang.org/x/crypto/@v/v0.31.0.zip",
+    "filename": "golang.org__x__crypto-v0.31.0.zip",
+    "sha256": "7cbc5fbc206b07db3c691ad59bc1b31f2c32a1dae2b04c9a7772f93a696381bf",
+    "go_sum": "h1:ihbySMvVjLAeSH1IbfcRTkD/iNscyz8rGzjF/E5hV6U=",
+    "bytes": 1792511,
+    "licence_paths": [
+      "golang.org/x/crypto@v0.31.0/LICENSE"
+    ],
+    "license": "BSD-3-Clause"
+  },
+  {
+    "module": "gopkg.in/check.v1",
+    "version": "v0.0.0-20161208181325-20d25e280405",
+    "linked_in_tempio": false,
+    "url": "https://proxy.golang.org/gopkg.in/check.v1/@v/v0.0.0-20161208181325-20d25e280405.zip",
+    "filename": "gopkg.in__check.v1-v0.0.0-20161208181325-20d25e280405.zip",
+    "sha256": "4e1817f964ca34e545b81afda0325a5e89cf58de2e413d8207c0afddd0fdc15c",
+    "go_sum": "h1:yhCVgyC4o1eVCa2tZl7eS0r+SDo693bJlVdllGtEeKM=",
+    "bytes": 39844,
+    "licence_paths": [
+      "gopkg.in/check.v1@v0.0.0-20161208181325-20d25e280405/LICENSE"
+    ]
+  },
+  {
+    "module": "gopkg.in/yaml.v3",
+    "version": "v3.0.1",
+    "linked_in_tempio": false,
+    "url": "https://proxy.golang.org/gopkg.in/yaml.v3/@v/v3.0.1.zip",
+    "filename": "gopkg.in__yaml.v3-v3.0.1.zip",
+    "sha256": "aab8fbc4e6300ea08e6afe1caea18a21c90c79f489f52c53e2f20431f1a9a015",
+    "go_sum": "h1:fxVm/GzAzEWqLHuvctI91KS9hhNmmWOoWu0XTYJS7CA=",
+    "bytes": 104623,
+    "licence_paths": [
+      "gopkg.in/yaml.v3@v3.0.1/LICENSE",
+      "gopkg.in/yaml.v3@v3.0.1/NOTICE"
+    ]
+  }
+]

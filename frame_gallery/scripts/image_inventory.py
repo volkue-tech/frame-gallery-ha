@@ -58,7 +58,7 @@ APK_FIELDS: Final = {
     "U": "url",
 }
 
-S6_PACKAGES: Final = Path("/package/admin")
+S6_PACKAGES: Final = Path("/package")
 GO_PROGRAMS: Final = (Path("/usr/bin/tempio"),)
 BASHIO: Final = Path("/usr/lib/bashio")
 JEMALLOC: Final = Path("/usr/local/lib/libjemalloc.so.2")
@@ -88,16 +88,22 @@ def apk_packages(text: str) -> list[Record]:
     return sorted(packages, key=lambda package: str(package["name"]))
 
 
-def s6_packages(admin: Path) -> list[Record]:
-    """The packages under ``admin`` (s6-overlay and the skarnet.org programs
-    it brings), from their versioned folder names; the unversioned links to
-    them are left out."""
+def s6_packages(root: Path) -> list[Record]:
+    """Versioned slashpackage directories in every installed S6 category.
+
+    Do not omit the net/web programs or prog libraries, and do not follow
+    unversioned package aliases or symlinked category directories.
+    """
     found: list[Record] = []
-    for entry in sorted(admin.iterdir()) if admin.is_dir() else []:
-        match = _VERSIONED.fullmatch(entry.name)
-        if match and entry.is_dir() and not entry.is_symlink():
-            found.append({"name": match["name"], "version": match["version"]})
-    return found
+    for category in ("admin", "net", "prog", "web"):
+        folder = root / category
+        if not folder.is_dir() or folder.is_symlink():
+            continue
+        for entry in sorted(folder.iterdir()):
+            match = _VERSIONED.fullmatch(entry.name)
+            if match and entry.is_dir() and not entry.is_symlink():
+                found.append({"name": match["name"], "version": match["version"]})
+    return sorted(found, key=lambda package: str(package["name"]))
 
 
 def go_program(path: Path) -> Record | None:

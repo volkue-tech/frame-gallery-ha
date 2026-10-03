@@ -158,12 +158,36 @@ def test_s6_packages_come_from_their_versioned_folders(tmp_path: Path) -> None:
         (admin / name).mkdir(parents=True)
     (admin / "s6").symlink_to("s6-2.15.0.0")
     (admin / "notes-1.0").write_text("a file, not a package")
-    assert INVENTORY.s6_packages(admin) == [
+    assert INVENTORY.s6_packages(tmp_path) == [
         {"name": "execline", "version": "2.9.9.0"},
         {"name": "s6", "version": "2.15.0.0"},
         {"name": "s6-overlay", "version": "3.2.3.0"},
     ]
     assert INVENTORY.s6_packages(tmp_path / "no-such-folder") == []
+
+
+def test_s6_inventory_includes_non_admin_categories_without_following_aliases(
+    tmp_path: Path,
+) -> None:
+    for category, name in (
+        ("admin", "s6-overlay-3.2.3.0"),
+        ("net", "s6-networking-2.8.0.0"),
+        ("prog", "skalibs-2.15.0.0"),
+        ("web", "s6-dns-2.4.1.2"),
+    ):
+        (tmp_path / category / name).mkdir(parents=True)
+    (tmp_path / "net" / "s6-networking").symlink_to("s6-networking-2.8.0.0")
+    (tmp_path / "net" / "alias-9.9").symlink_to("s6-networking-2.8.0.0")
+    assert INVENTORY.s6_packages(tmp_path) == [
+        {"name": "s6-dns", "version": "2.4.1.2"},
+        {"name": "s6-networking", "version": "2.8.0.0"},
+        {"name": "s6-overlay", "version": "3.2.3.0"},
+        {"name": "skalibs", "version": "2.15.0.0"},
+    ]
+    other = tmp_path / "symlink-root"
+    other.mkdir()
+    (other / "admin").symlink_to(tmp_path / "admin", target_is_directory=True)
+    assert INVENTORY.s6_packages(other) == []
 
 
 GO_BUILD_INFO: Final = (
@@ -204,7 +228,7 @@ def test_the_base_components_outside_apk(tmp_path: Path, monkeypatch: pytest.Mon
     (tmp_path / "bashio").mkdir()
     (tmp_path / "tool").write_bytes(GO_BUILD_INFO)
     (tmp_path / "jemalloc").write_bytes(b"synthetic library")
-    monkeypatch.setattr(INVENTORY, "S6_PACKAGES", tmp_path / "admin")
+    monkeypatch.setattr(INVENTORY, "S6_PACKAGES", tmp_path)
     monkeypatch.setattr(INVENTORY, "GO_PROGRAMS", (tmp_path / "tool", tmp_path / "missing"))
     monkeypatch.setattr(INVENTORY, "BASHIO", tmp_path / "bashio")
     monkeypatch.setattr(INVENTORY, "JEMALLOC", tmp_path / "jemalloc")
@@ -313,7 +337,7 @@ def test_the_inventory_is_one_json_document(
     database = tmp_path / "installed"
     database.write_text(APK_DATABASE)
     monkeypatch.setattr(INVENTORY, "APK_DATABASE", database)
-    monkeypatch.setattr(INVENTORY, "S6_PACKAGES", tmp_path / "admin")
+    monkeypatch.setattr(INVENTORY, "S6_PACKAGES", tmp_path)
     monkeypatch.setattr(INVENTORY, "GO_PROGRAMS", ())
     monkeypatch.setattr(INVENTORY, "BASHIO", tmp_path / "bashio")
     monkeypatch.setattr(INVENTORY, "JEMALLOC", tmp_path / "jemalloc")
