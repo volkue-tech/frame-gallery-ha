@@ -1,14 +1,14 @@
 # Project status
 
-Last updated: 2026-10-03 (Phase 7 done; stopped at the Phase 7 gate)
+Last updated: 2026-10-03 (Phase 8 started; separate test app installed)
 
 ## Current phase
 
-**Phase 7 (offline release validation): done. Work has stopped at the Phase 7 gate: Codex reviews the release-candidate report and the local results, and the user decides on the supervised live test (Phase 8). The user authorized Phase 7 on 2026-10-03, after the Phase 6 gate passed. Phase 8 does not start before it is explicitly authorized.**
+**Phase 8 (supervised Green validation): in progress. After Codex inspected the Phase 7 report, the user explicitly approved installation of a separate development app and Chicago/Cleveland image-delivery tests. `local_frame_gallery_dev` is installed, configured for the local-media test, and stopped. No image has been delivered. Next: sign in to the dedicated Chrome HA test tab, then run the first TV test. See `PHASE8_REPORT.md`. Phase 9 and publication remain unapproved.**
 
 - **Phase 6 gate (user decision, 2026-10-03, after the Codex review and its follow-up checks):** passed. D-166 to D-172 are accepted, including the unchanged 1 GiB limit of the image worker (D-170). The native `amd64` memory measurement is mandatory before an `amd64` version is published, at the latest in Phase 9. The qualified licence review and the enforcement of the AppArmor profile stay release prerequisites.
 - **Phase 7 conditions:** only Phase 7 of `TASKS.md`: offline validation with the existing local environments and container images, failure-path tests, and a release-candidate report. No new features, and no additional review loops without a concrete finding. The work stops at the Phase 7 gate.
-- No access to the Home Assistant Green, the television, or a provider API; nothing created, pushed, or published on GitHub; the existing Home Assistant configuration, `configuration.yaml` in particular, stays untouched.
+- **Current live scope:** the separate development installation and supervised TV/museum tests only. No existing app, dashboard, script, integration, or `configuration.yaml` may be changed. No GitHub publication. During Phase 7 there was no live access; Phase 8 has read HA/TV metadata and installed only the new test app.
 - Every commit uses the personal identity `Alexander Wilke <volkue@gmail.com>`.
 - **Coordination note (2026-10-03):** a message in the user's chat, signed as Codex acting for the user, confirmed that Phase 7 continues unchanged and that Codex reviews the report and the local results at the gate; the locks and the identity stay as they are (*Review records* in `DECISIONS.md`).
 
@@ -21,7 +21,7 @@ Last updated: 2026-10-03 (Phase 7 done; stopped at the Phase 7 gate)
 | 1. The container checks of the existing images, without a build or network; the notices held to the image (D-173) | `4faa907` |
 | 2. The failure paths through the real image (D-173) | `f42f72a` |
 | 3. The release-candidate report, with status, tasks, and decisions for the gate | `284e4d3` |
-| 4. The commit references in the status | this commit |
+| 4. The commit references in the status | `a0b1ce7` |
 
 ### Phase 7 results (for the gate)
 

@@ -77,11 +77,24 @@ Regenerate all three whenever `uv.lock` changes. Pillow and `samsungtvws` are up
 
 ## Installing a local development copy
 
-*Not yet tried on a device: Phase 8 decides the install route (Q-21) and confirms these steps.* Until images are published (Phase 9), Home Assistant builds the app on the device from this folder's `Dockerfile`; the build needs the network sources named below, and it produces the last stage, `runtime` (the app image).
+*The initial supervised Phase 8 installation on Green succeeded on 2026-10-03; TV delivery and dashboard setup are still pending (`PHASE8_REPORT.md` at the repository root).* Until images are published (Phase 9), Home Assistant builds the app on the device from this folder's `Dockerfile`; the build needs the network sources named below, and it produces the last stage, `runtime` (the app image).
 
 1. Copy this folder, without `.venv` and caches, into the local apps folder of Home Assistant (`/addons`), for example through a file-share app, so that `/addons/frame_gallery/config.yaml` exists.
 2. In **Settings → Apps → App store → ⋮ → Check for updates**, reload the store; the app appears under the local apps, with the ID `local_frame_gallery`.
 3. Install it, then continue with `DOCS.md` (*Installation*, step 3).
+
+On the tested Terminal & SSH version, the local app directory is
+`/local_apps`, not `/addons`. Verify the available mount before copying;
+creating an unmounted `/addons` directory would not install an app. The live
+test uses the separate development name/slug **Frame Gallery (Test)** /
+`frame_gallery_dev` and its corresponding AppArmor profile name, giving
+`local_frame_gallery_dev`; it does not replace another app.
+
+When transferring a tar archive from macOS, suppress AppleDouble metadata:
+use `COPYFILE_DISABLE=1 tar --exclude='._*' ...`, inspect the archive listing,
+and verify its SHA256 before extraction. Otherwise tar can add `._*.py`
+files that `compileall` rejects as Python containing NUL bytes. Do not copy
+`.venv`, caches, credentials, or unrelated files.
 
 ## The container image (Phase 6)
 

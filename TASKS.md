@@ -153,13 +153,13 @@ Authorized by the user on 2026-10-03, after the Phase 6 gate: offline validation
 - [x] Exercise the no-result, timeout, corrupt-history, failed-download, failed-decode, failed-upload, and upload-ledger paths. *Through the real image on both architectures, 10 scenarios, each as specified (`scripts/failure_paths.py`, D-173); a failed upload after `upload_started`, which needs a television that takes the upload, through the suite (E7-E10, the unchanged library against a scripted television).*
 - [x] Produce a release-candidate report. *`RELEASE_CANDIDATE.md`.*
 
-Gate: user approves live Home Assistant Green installation and television test. **Awaiting the gate** (2026-10-03): Codex reviews the report and the local results; the user decides on the live test; D-173 is proposed.
+Gate: user approves live Home Assistant Green installation and television test. **Live installation/test approved** (2026-10-03): after Codex inspected the report, the user explicitly approved a separate test app and Chicago/Cleveland image delivery. D-173 remains a proposed documentation clarification; publication remains unapproved.
 
 ## Phase 8 — Supervised Home Assistant Green validation
 
 Owner: Codex with user supervision
 
-- [ ] Install under a unique development slug without replacing another app (install route per Q-21).
+- [x] Install under a unique development slug without replacing another app (install route per Q-21). *`local_frame_gallery_dev`, Frame Gallery (Test), 0.1.0.dev0; built by Supervisor on Green via `/local_apps` in the existing Terminal & SSH app. Protection enabled, own AppArmor profile loaded, watchdog disabled. See `PHASE8_REPORT.md`.*
 - [ ] Preserve all existing Home Assistant configuration.
 - [ ] Run a local-media test.
 - [ ] Run Art Institute of Chicago and Cleveland Museum of Art tests, including a restrictive-filter fallback test, against `192.168.178.30`, entered in the options and never hard-coded.
