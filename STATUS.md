@@ -45,11 +45,14 @@ saved pre-Phase-9 source is
 `/share/frame-gallery-dev-before-phase9-v1`; the app-only backup is retained.
 Native amd64 measurement, complete source compliance, public images and a clean
 public installation remain release gates. The approved public repository
-`volkue-tech/frame-gallery-ha` is created and verified empty; no code push,
+`volkue-tech/frame-gallery-ha` is public and the first audited `main` push is
+verified at `39d25dac8a407b050c0fd2eb0bff083c316c8ca4`. Native ARM/Intel hosted
+validation has started (run `37141542920`); its result remains pending. No
 container publication or release. No existing-app change or `configuration.yaml`
-edit. Personal Git push authorization is still pending. See `PHASE9_REPORT.md` for actual evidence,
-temporary test-app state and remaining gates. The native CI workflow is prepared
-but unrun; exact Python sdists and initial upstream licences/NOTICE files are
+edit. The personal fine-grained token was entered privately in the user's Mac
+Terminal, held only in process memory and not stored by the helper. The retained
+old identity backup branch was not pushed. See `PHASE9_REPORT.md` for actual evidence,
+temporary test-app state and remaining gates. Exact Python sdists and initial upstream licences/NOTICE files are
 retained, not yet a complete corresponding-source distribution. Full native
 aarch64 container checks passed (13 worst cases twice, real 1 GiB limit,
 765.5 MiB peak; 150 inspections). These Docker checks have no own AppArmor

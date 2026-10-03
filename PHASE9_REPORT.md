@@ -153,17 +153,31 @@ opinion, a GPL-free image, or a completed licence-release gate.
 
 ## Remaining release gates
 
-The user-approved empty public repository was created and verified in the
-personal Firefox session: https://github.com/volkue-tech/frame-gallery-ha .
-Owner/visibility are exactly volkue-tech/Public, no initialization files or
-commits. Its description explicitly labels the beta unreleased. No code was
-pushed, hosted CI run or container/release published. Git push needs a separate,
-personal, repository-scoped credential; no business credentials were tried.
+The user-approved public repository was created in the personal Firefox session:
+https://github.com/volkue-tech/frame-gallery-ha . Owner/visibility are exactly
+volkue-tech/Public. Its description explicitly labels the beta unreleased.
+The user created a repository-scoped fine-grained token, stored it themselves in
+macOS Passwords and entered it through a hidden `getpass` prompt in Mac Terminal.
+The one-use helper verified `/user` as `volkue-tech`, the exact public target and
+empty remote, pushed only `refs/heads/main` and verified the remote SHA as
+`39d25dac8a407b050c0fd2eb0bff083c316c8ca4`. Token/authorization headers were held
+in process memory only, with no credential saving or printed value. Initial
+local format rejection made no network request; no business credentials tried.
+The pre-push scan of all 92 main commits found only the exact personal author/
+committer identity and no matches for the checked GitHub/API-token, private-key
+or business-email patterns. This bounded pattern scan is not proof against all
+possible secrets. No state/options/image archives are tracked; the only tracked
+PNG files are the own icon and logo. The old local backup branch was not pushed.
+The first native hosted validation started automatically at 17:43:10 UTC:
+https://github.com/volkue-tech/frame-gallery-ha/actions/runs/37141542920 .
+Both jobs passed native host/Docker architecture and dependency setup; their
+test/memory outcomes are pending. No container or release published.
 
 1. Native amd64 kernel/root/memory evidence.
 2. Complete dependency licences, corresponding-source bundle and replacement/
    rebuild instructions; resolve exact licence expressions and retained notices.
-3. Personal Git push access, audited source push and actual hosted test execution.
+3. Observe actual hosted test outcomes (personal access and audited source push
+   are now complete).
 4. Gated immutable multi-architecture images, one-click repository link, clean
    public Green install, final public slug/card and release limitations/notes.
 

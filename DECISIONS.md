@@ -52,8 +52,10 @@ Personal repository: https://github.com/volkue-tech/frame-gallery-ha . This reso
 D-101/Q-13 for the chosen identifiers, not the publication/installation evidence.
 Apache-2.0 remains the accepted licence of project-owned code only (D-102).
 The empty public repository was created through the verified personal Firefox
-session on 2026-10-03. No source push, hosted CI run, container or release yet;
-the repository description explicitly says public beta is not released.
+session on 2026-10-03. The first audited `main` push at `39d25da` is now verified
+against the remote SHA; native validation run `37141542920` started. Only the
+personal main history was transferred, not the retained old-identity backup
+branch. No container or release yet; the description says the beta is unreleased.
 The user asked Codex to conduct the engineering licence audit; do not represent
 this as an independent legal opinion or waive unresolved compliance obligations.
 
@@ -99,8 +101,9 @@ No kernel implementation or example filter was copied.
 
 ### D-181 — native validation CI, no publication rights
 
-Status: implemented locally within Phase 9; no hosted run or native amd64 result
-is claimed until the personal repository is created and the run is observed.
+Status: first native hosted run `37141542920` started at `39d25da` on 2026-10-03.
+Both jobs passed native host/Docker architecture checks and dependency setup;
+quality gates and container/memory outcomes remain pending.
 
 Validation uses the official GitHub standard `ubuntu-24.04-arm` and
 `ubuntu-24.04` runners, asserts native host/Docker architecture and does not
