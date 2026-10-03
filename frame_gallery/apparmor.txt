@@ -14,12 +14,14 @@ profile frame_gallery flags=(attach_disconnected,mediate_deleted) {
   # run's workspace to that group, and ends its workers (§11.3, D-163, D-164).
   # fsetid keeps the setgid bit when the parent sets the mode of a folder it
   # has given to the worker's group, of which it is not a member; and
-  # dac_read_search lets it read what a worker wrote (0640, owned by 65534).
+  # dac_override lets it read what a worker wrote (0640, owned by 65534).
+  # Docker already supplies this capability, but not dac_read_search. The
+  # mandatory path rules still restrict reads/writes; no cap-add is used.
   capability setuid,
   capability setgid,
   capability chown,
   capability fsetid,
-  capability dac_read_search,
+  capability dac_override,
   capability kill,
   signal (send) set=(kill,term),
   signal (receive) set=(kill,term),
@@ -61,6 +63,10 @@ profile frame_gallery flags=(attach_disconnected,mediate_deleted) {
 
   # State, the RAM-backed scratch space, and the media folder (§13.1).
   /data/{,**} rwk,
+  # Atomic history/ledger backups link only their own valid primary to a
+  # temporary backup name. Ordinary rw permissions do not permit link(2).
+  link subset /data/state/history.json.bak.tmp-* -> /data/state/history.json,
+  link subset /data/state/upload_ledger.json.bak.tmp-* -> /data/state/upload_ledger.json,
   /tmp/{,**} rwk,
   /media/ r,
   /media/** r,

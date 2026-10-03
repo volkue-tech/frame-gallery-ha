@@ -9,7 +9,7 @@ preparation and the separate Green test app; final personal repository name
 ## Enforced Green worker probes
 
 Observed via the already authorized Firefox Terminal & SSH path. The own test
-app advanced from `0.1.0.dev1` to `0.1.0.dev5`; protection stayed on, no host
+app advanced from `0.1.0.dev1` to `0.1.0.dev7`; protection stayed on, no host
 networking or new Docker capability was granted. Official Supervisor updates
 reloaded the profile. Rebuild alone was not treated as proof of reloading it.
 
@@ -40,19 +40,66 @@ dependency, privileges or public disable switch. Actual combined probes passed:
 Network probes contacted only closed port 9 on **container loopback**; no TV or
 external provider was contacted. The final probe reported two workers passed,
 all eight confirmed record/options/preview hashes unchanged and scratch empty.
-This proves the listed permissions, not normal artwork delivery or an isolated
-unprivileged parent. The parent remains root with existing responsibilities.
+The supplementary parent-output-read probe initially failed EACCES. D-182
+replaced unavailable DAC_READ_SEARCH with Docker's already-existing DAC_OVERRIDE
+in the parent AppArmor rule, without cap-add or any child change. After the
+official dev6 Supervisor update, parent read passed as well as all listed worker
+checks, with all eight hashes unchanged and scratch empty. This proves the listed
+permissions, not an unprivileged parent; the parent retains its existing trusted
+state/worker-management responsibilities.
 
-**Live handoff:** the test source currently still uses temporary
-`frame_gallery.phase9_diagnostic`, not the regular entry point. A supplementary
-parent-output-read probe is prepared but not transferred: the Mac locked again
-before the transfer. Do not infer that worker read permission proves parent read
-permission. Next: check that permission, restore the normal CMD, retain/move the
-two temporary diagnostic modules out of the app source, rebuild and run an
-ordinary card-started delivery/preview/loading/cleanup check. Preserve all options
-and confirmed records. Saved pre-Phase-9 source:
-`/share/frame-gallery-dev-before-phase9-v1`; retained app-only backup unchanged.
-No existing app/dashboard or `configuration.yaml` changed.
+## Restored normal app and delivery regression
+
+The two temporary diagnostic modules were moved out of the app source to
+`/share/frame-gallery-phase9-diagnostics-used-v4/`; the normal `frame_gallery`
+module CMD was restored and rebuilt successfully. A macOS AppleDouble sidecar
+that had broken diagnostic compilation was moved to a separate recoverable
+holding directory; subsequent transfer archives explicitly disable copyfile and
+xattrs and contain only the intended profile.
+
+Two existing-card-started runs used the original Cleveland / Chinese Art /
+before-1400 filters, with landscape/strict-TV-format/contain and the explicit
+test timer unchanged:
+
+- **16:21:36 UTC, dev6:** delivered `cma:97667`, TV markers connected,
+  upload_started, uploaded, selected, exit 0, 19.4 s. Preview changed without
+  reload and loading ended. This run exposed EACCES refreshing the two backup
+  generations, not the primary history/ledger writes.
+- **16:24:29 UTC, dev7:** following D-183's official Supervisor update, delivered
+  `cma:123590`, the same positive TV markers, exit 0, 16.9 s. Neither backup
+  warning recurred. Preview refreshed again without reload and loading ended.
+  State: seven files / 4,323 bytes; preview: one file / 983,879 bytes; cache:
+  two files / 513 bytes; all reported temporary/run-directory counts zero,
+  scratch zero files/bytes. These are bounded storage statistics, not a deep
+  integrity audit.
+
+D-183 grants only two parent `link subset` pairs, each temporary backup name to
+its own history/ledger primary. No general link access, worker state permission,
+mount or Docker capability is introduced. Original options were reconfirmed;
+dev7 stopped, protected true and host networking false. Confirmed records were
+not reset and legitimately gained the two deliveries. Saved pre-Phase-9 source
+and the original app-only backup remain. No existing app/dashboard or
+`configuration.yaml` changed. This is not yet a clean public installation.
+
+### App-only checkpoint and backup-generation verification
+
+The approved local partial-backup route created
+`/backup/frame-gallery-test-hardening-20261003.tar`, slug `1273a68b`, 47,022,080
+bytes. Its outer archive contains only the own app archive and backup metadata;
+no Core/folder archive, cloud upload, Mac download or restore. The original
+pre-hardening checkpoint is retained as well.
+
+Only the four fixed history/ledger JSON documents were extracted locally to an
+owned temporary directory for count/boolean checks. History has 14 unique IDs,
+its backup 13; the backup is a subset and differs by the latest delivery only.
+The ledger has three uploaded IDs, all also in history; the ledger backup keeps
+the latest delivery's uncertain write-ahead entry. Thus the corrected backup
+refresh is proven from the snapshot, not merely inferred from missing warnings.
+No token/options/image contents or other app were inspected.
+Comparison with the retained pre-hardening checkpoint confirms all twelve older
+IDs remain and the only additions are the two observed Cleveland deliveries.
+The four derived audit copies and their empty temporary directories were removed;
+both recoverable backups remain. Free space afterward: 14.8 GiB (rounded `df`).
 
 ## Local verification
 
@@ -75,6 +122,12 @@ No existing app/dashboard or `configuration.yaml` changed.
   is prepared, with pinned MIT actions and hash-pinned uv, no registry/repository
   write permissions. No hosted execution, native amd64 result or publication is
   claimed. D-181 records the exact versions and sources.
+- After D-182/D-183: native local `check.sh` exit 0, Ruff and both strict mypy
+  passes clean over 227 files; 4,713 passed / 11 expected skips, full package
+  100% line/branch (9,168 / 1,954), mandated subset 100% (7,533 / 1,640).
+  Log: `build/phase9/check-dev7-native-20261003.log`. A sandboxed attempt had two
+  workspace group/mode failures; the native run in the existing environment
+  passed without changing code, tests or relaxing assertions.
 
 ## Licence/source engineering audit
 
@@ -100,12 +153,18 @@ opinion, a GPL-free image, or a completed licence-release gate.
 
 ## Remaining release gates
 
-1. Parent-output read, restored regular Green app and normal delivery regression.
-2. Native amd64 kernel/root/memory evidence.
-3. Complete dependency licences, corresponding-source bundle and replacement/
+The user-approved empty public repository was created and verified in the
+personal Firefox session: https://github.com/volkue-tech/frame-gallery-ha .
+Owner/visibility are exactly volkue-tech/Public, no initialization files or
+commits. Its description explicitly labels the beta unreleased. No code was
+pushed, hosted CI run or container/release published. Git push needs a separate,
+personal, repository-scoped credential; no business credentials were tried.
+
+1. Native amd64 kernel/root/memory evidence.
+2. Complete dependency licences, corresponding-source bundle and replacement/
    rebuild instructions; resolve exact licence expressions and retained notices.
-4. Personal GitHub access and repository creation; no remote or public writes yet.
-5. Gated immutable multi-architecture images, one-click repository link, clean
+3. Personal Git push access, audited source push and actual hosted test execution.
+4. Gated immutable multi-architecture images, one-click repository link, clean
    public Green install, final public slug/card and release limitations/notes.
 
 Phase 9 remains active; no beta release is approved by this report.

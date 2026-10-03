@@ -51,14 +51,17 @@ Status: accepted, explicit user reply on 2026-10-03. Final name: Frame Gallery.
 Personal repository: https://github.com/volkue-tech/frame-gallery-ha . This resolves
 D-101/Q-13 for the chosen identifiers, not the publication/installation evidence.
 Apache-2.0 remains the accepted licence of project-owned code only (D-102).
+The empty public repository was created through the verified personal Firefox
+session on 2026-10-03. No source push, hosted CI run, container or release yet;
+the repository description explicitly says public beta is not released.
 The user asked Codex to conduct the engineering licence audit; do not represent
 this as an independent legal opinion or waive unresolved compliance obligations.
 
 ### D-180 — worker-only network syscall enforcement
 
 Status: accepted implementation within the authorized Phase 9 hardening scope;
-combined-profile no-TV probes passed on Green; normal-delivery validation remains
-a release gate.
+combined-profile no-TV probes and two normal card-started deliveries passed on
+Green. Clean public-install validation remains a separate release gate.
 
 The enforced Green image-worker label denied options, unrelated scratch,
 shared-memory writes, execution and return transitions, but its `deny network`
@@ -121,6 +124,57 @@ hashes (aarch64 manylinux 2.17/2.28 and x86_64 manylinux 2.17, rechecked against
 https://pypi.org/pypi/uv/0.12.19/json). Project dependencies use `uv sync --locked`.
 No new runtime package or paid runner is introduced. Official runner reference:
 https://docs.github.com/en/actions/reference/runners/github-hosted-runners .
+
+### D-182 — parent reads worker outputs using the existing Docker capability
+
+Status: implemented and positively checked within authorized Phase 9. The
+extended enforced Green probe passed parent-output read in `0.1.0.dev6`, with
+both worker checks, all eight confirmed hashes unchanged and scratch empty.
+After restoring the normal entry point, a card-started Cleveland delivery was
+selected by the TV in 19.4 s; preview refreshed and loading ended. That run also
+exposed a separate backup-link permission omission, addressed by D-183.
+
+The extended enforced Green probe confirmed worker permissions, but the root
+parent failed to read the synthetic worker-owned 0660 output with EACCES.
+The draft's `dac_read_search` does not match Docker's default capability set:
+Docker supplies `DAC_OVERRIDE`, not `DAC_READ_SEARCH`. Replace that one parent
+AppArmor capability with `dac_override`; do not add a container capability,
+grant FOWNER, make outputs world-readable or weaken either child. Six parent
+capabilities remain. DAC override also covers write/execute mode checks, so its
+AppArmor permission is not described as read-only; the unchanged mandatory path
+rules still restrict writes and execution independently. The root parent already
+has the trusted state/workspace-management role and CHOWN, not untrusted decoding.
+The worker capability drop, child paths, seccomp, NNP and budgets remain intact.
+
+This supersedes the specific `dac_read_search` requirement in D-168/D-172 and
+§17.6, not their other responsibilities. Reference checked on 2026-10-03:
+https://docs.docker.com/engine/containers/run/#runtime-privilege-and-linux-capabilities .
+
+### D-183 — pair-specific parent links for atomic state backups
+
+Status: implemented and live re-checked within authorized Phase 9. After the
+official Supervisor update to `0.1.0.dev7`, a card-started Cleveland delivery
+finished with selected/uploaded markers, exit 0 in 16.9 s. Both backup warnings
+were absent; state had seven files / 4,323 bytes with no temporary files, scratch
+was empty, preview refreshed without reload and loading ended. Original options
+and protected/non-host-networking state were unchanged. The subsequent app-only
+checkpoint verified 14 unique history IDs / 13 prior-generation IDs (subset,
+latest-delivery difference only), three uploaded ledger IDs in history and the
+latest uncertainty in the ledger backup. This is actual snapshot evidence;
+absence of a warning alone was not treated as its substitute.
+
+The first ordinary enforced run delivered successfully but reported EACCES
+refreshing both history and upload-ledger backup generations. `Directory` uses
+`os.link(primary, backup_temporary)` before an atomic rename; the existing `rwk`
+parent state permission does not grant hard-link creation. Add two `link subset`
+rules, each restricted to its own `/data/state/{history,upload_ledger}.json`
+primary and corresponding `.bak.tmp-*` link name. No general `l` permission,
+cross-document link, worker rule, Docker capability, mount or protection change
+is added. The existing validated-primary, descriptor-relative, no-symlink and
+fsync/rename logic remains unchanged. Packaging tests require exactly these two
+parent-only link pairs. Syntax and link/target direction checked against the
+official packaged AppArmor manual on 2026-10-03:
+https://manpages.debian.org/bookworm/apparmor/apparmor.d.5.en.html#Link_rules .
 
 ### Phase 9 licence inventory corrections (engineering audit in progress)
 

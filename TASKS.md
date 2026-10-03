@@ -190,9 +190,10 @@ Codex performs the engineering licence audit, without claiming legal counsel's
 approval. Existing release prerequisites remain mandatory.
 
 - [ ] Switch the AppArmor profile to enforce mode and verify the whole isolation design, with an approved supervised live re-check; add the per-worker child profiles (R-31), and revisit an unprivileged parent with them (Q-10, D-172). The enforcement is a release prerequisite (Phase 6 gate).
-  *D-178/D-180 implemented; actual enforced child plus seccomp negative/positive probes passed on Green with records preserved and scratch empty. Parent remains root; no new container privilege. Parent-output-read and normal app restoration/delivery regression still pending, so the whole-isolation gate is not closed. See `PHASE9_REPORT.md`.*
+  *D-178/D-180/D-182 implemented; actual enforced child plus seccomp negative/positive probes and parent-output read passed on Green with records preserved and scratch empty. Parent remains root with its trusted state/worker-management role; no new container privilege. The regular app is restored; two card-started deliveries passed with preview/loading/cleanup. D-183 corrects the backup-link omission found in the first run; the second after the official dev7 update had no backup warnings. Own development-install checks pass; the separate clean public-install gate remains open. See `PHASE9_REPORT.md`.*
 - [ ] Measure the worst-case preparation natively on `amd64` under the real `RLIMIT_AS` (`scripts/measure_prepare.py`, as root). Mandatory before an `amd64` version is published (Phase 6 gate, D-170).
-- [ ] Create the user-approved public repository under `volkue-tech`.
+- [x] Create the user-approved public repository under `volkue-tech`.
+  *https://github.com/volkue-tech/frame-gallery-ha created and verified public/empty in the personal Firefox session. No source push or binary release; personal Git authorization remains pending.*
 - [ ] Complete the qualified licence review (D-135) as a release gate: `samsungtvws` (LGPL-3.0), Pillow's fribidi-shim (LGPL-2.1-or-later; the runtime wheels contain neither `libimagequant` nor FriBiDi, D-171), the Alpine base packages, the tools outside apk (s6-overlay, tempio, bashio; R-33), and the exact form of libmd's "Public Domain" part.
 - [ ] Add the Apache-2.0 licence for project-owned code, and third-party notices with the GPL and LGPL texts and copyleft source availability.
 - [ ] Configure GitHub Actions for tests and multi-architecture GHCR publication.

@@ -1275,6 +1275,17 @@ With the custom AppArmor profile, the security rating is 6.
 
 *Amended at the Phase 6 gate (D-168).* The draft `apparmor.txt` (complain mode) names six capabilities: `setuid` and `setgid` (the drop to 65534), `chown` and `fsetid` (the workspace handed to the worker's group, without losing the setgid bit), `dac_read_search` (the parent reads what a worker wrote), and `kill`. It also allows UNIX stream sockets, which s6-overlay presumably uses; the Phase 8 complain log shows whether that is needed. Its syntax is checked (`apparmor_parser -Q -T`, Codex's follow-up check at the Phase 6 gate); its enforcement is not. Phase 8 reads what it would refuse on the Green, and Phase 9 enforces and verifies it, a release prerequisite.
 
+*Phase 9 correction (D-182):* replace the draft's `dac_read_search` with Docker's
+already-present `dac_override`, after the enforced Green parent-output-read probe
+failed with EACCES. No container capability is added. This capability covers DAC
+read/write/execute checks, not only reads; unchanged AppArmor path rules continue
+to restrict writes/execution. Children still lose all capabilities before input.
+
+*Phase 9 correction (D-183):* the parent's history/ledger atomic backup refresh
+also needs hard-link permission, not only `rwk`. Two `link subset` pairs allow
+each document's `.bak.tmp-*` name to link only its own valid JSON primary in
+`/data/state`. No general link permission or worker state access is introduced.
+
 **Sequencing (D-139).**
 
 - Phases 6–8 run the profile in complain mode.

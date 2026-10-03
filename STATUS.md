@@ -1,6 +1,6 @@
 # Project status
 
-Last updated: 2026-10-03 (Phase 9: combined worker isolation proven on Green; regular delivery still pending)
+Last updated: 2026-10-03 (Phase 9: enforced worker probes and regular Green delivery passed)
 
 ## Current phase
 
@@ -14,7 +14,7 @@ approval. No existing technical/compliance release gate is waived.
 
 **Current work:** enforced parent/image/TV profiles, fail-closed transitions and
 worker-only seccomp network restrictions (D-178/D-180). The combined no-TV probes
-passed on the Green in `0.1.0.dev5`: both workers UID/GID 65534, enforced child
+passed on the Green in `0.1.0.dev6`: both workers UID/GID 65534, enforced child
 labels, no-new-privileges, no HA token, exact 1 GiB/512 MiB address-space limits;
 image sockets denied, TV IPv4-TCP allowed and UDP denied; options, unrelated tmp,
 shared memory, executable and return-transition access denied. Only the image
@@ -23,24 +23,37 @@ hashes were unchanged and scratch was empty. AppArmor network rules alone did no
 deny these observed sockets; the cause is not established. Seccomp supplies the
 verified additional restriction without new packages or privileges. `/init` and
 S6 interpreter scripts also required read permission under actual enforcement.
-Latest local `check.sh` passed. Apache-2.0 and initial official dependency licence
+The supplementary parent-output-read probe also passed with Docker's existing
+DAC_OVERRIDE permission, without adding a capability (D-182). Latest native local
+`check.sh` passed: 4,713 tests / 11 expected skips, 100% line/branch coverage.
+Apache-2.0 and initial official dependency licence
 texts are added, but the licence/source bundle is not complete.
 
-**Live handoff:** the own test source still uses a temporary no-TV diagnostic.
-Its parent-output-read check and normal entry-point restoration/delivery remain
-pending. The follow-up transfer was interrupted by a newly locked Mac; do not
-claim that transfer or restoration complete. Preserve options, history, ledger
-and preview. The saved pre-Phase-9 source is
+**Live checkpoint:** the normal entry point is restored and both temporary
+diagnostic modules are moved outside the own app source. Two card-started real
+Cleveland deliveries under enforcement completed in 19.4 s and 16.9 s with TV
+selected/uploaded confirmation, preview refresh without reload, loading completion
+acknowledgement and empty scratch. The first revealed EACCES refreshing history/
+ledger backups; D-183 adds exactly two parent-only hard-link pairs. The second,
+after an official Supervisor update to `0.1.0.dev7`, had no backup warning.
+App stopped, protection on, host networking off, original filters/timer unchanged.
+The local app-only checkpoint verifies 14 unique history IDs / 13 in its prior
+generation and three uploaded ledger entries with a correct latest uncertainty
+backup, proving D-183's refresh from actual state.
+Confirmed records were not reset; the deliveries legitimately extend them. The
+saved pre-Phase-9 source is
 `/share/frame-gallery-dev-before-phase9-v1`; the app-only backup is retained.
 Native amd64 measurement, complete source compliance, public images and a clean
-public installation remain release gates. No Phase 9 publication or existing-app
-change; no `configuration.yaml` edit. See `PHASE9_REPORT.md` for actual evidence,
+public installation remain release gates. The approved public repository
+`volkue-tech/frame-gallery-ha` is created and verified empty; no code push,
+container publication or release. No existing-app change or `configuration.yaml`
+edit. Personal Git push authorization is still pending. See `PHASE9_REPORT.md` for actual evidence,
 temporary test-app state and remaining gates. The native CI workflow is prepared
 but unrun; exact Python sdists and initial upstream licences/NOTICE files are
 retained, not yet a complete corresponding-source distribution. Full native
 aarch64 container checks passed (13 worst cases twice, real 1 GiB limit,
 765.5 MiB peak; 150 inspections). These Docker checks have no own AppArmor
-attachment and do not substitute for the remaining ordinary enforced Green run.
+attachment and are distinct from the now-passed ordinary enforced Green runs.
 
 ### Archived Phase 8 completion notes
 

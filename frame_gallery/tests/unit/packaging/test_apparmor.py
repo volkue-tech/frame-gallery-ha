@@ -69,9 +69,10 @@ def test_every_rule_is_complete() -> None:
 def test_only_the_needed_capabilities() -> None:
     """The drop to 65534 (setuid, setgid), the workspace handed to the
     worker's group (chown, and fsetid for its setgid folders), reading the
-    worker's output (dac_read_search), and ending workers (kill)."""
+    worker's output (Docker's existing dac_override), and ending workers (kill)."""
     capabilities = {rule.split()[1].rstrip(",") for rule in BODY if rule.startswith("capability")}
-    assert capabilities == {"setuid", "setgid", "chown", "fsetid", "dac_read_search", "kill"}
+    assert capabilities == {"setuid", "setgid", "chown", "fsetid", "dac_override", "kill"}
+    assert "dac_read_search" not in capabilities
 
 
 def test_raw_and_packet_sockets_are_denied() -> None:
@@ -108,6 +109,15 @@ def test_media_is_read_only_except_the_preview() -> None:
 def test_state_and_scratch_space_are_writable() -> None:
     assert "/data/{,**} rwk," in BODY
     assert "/tmp/{,**} rwk," in BODY
+
+
+def test_backup_links_are_parent_only_and_pair_specific() -> None:
+    assert [rule for rule in BODY if rule.startswith("link ")] == [
+        "link subset /data/state/history.json.bak.tmp-* -> /data/state/history.json,",
+        "link subset /data/state/upload_ledger.json.bak.tmp-* -> /data/state/upload_ledger.json,",
+    ]
+    for name in ("image_worker", "tv_worker"):
+        assert not any(rule.startswith("link ") for rule in child(name))
 
 
 def test_nothing_runs_unconfined() -> None:
