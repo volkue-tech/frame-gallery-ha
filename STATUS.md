@@ -25,7 +25,7 @@ verified additional restriction without new packages or privileges. `/init` and
 S6 interpreter scripts also required read permission under actual enforcement.
 The supplementary parent-output-read probe also passed with Docker's existing
 DAC_OVERRIDE permission, without adding a capability (D-182). Latest native local
-`check.sh` passed after the inventory correction: 4,714 tests / 11 expected skips,
+`check.sh` passed after the tempio-notices correction: 4,717 tests / 11 expected skips,
 100% line/branch coverage.
 Apache-2.0 and initial official dependency licence
 texts are added, but the licence/source bundle is not complete.
@@ -34,6 +34,12 @@ S6 packages omitted by the admin-only scan. Twenty-two unit tests and the
 existing native ARM image confirm eleven S6 packages. Nine further official
 base-source archives and their licence texts/hashes are retained; BearSSL and
 static-libc/build provenance remain open along with the other D-135 sources.
+Further D-186/D-187 evidence retains all 45 exact Alpine recipes for 61 packages,
+197 verified local files and all 58 recipe-hash-verified upstream files (282 MB
+on the Mac only). BearSSL, identified static-musl and Go toolchain source/texts,
+complete libbsd/libmd COPYING and the GCC runtime exception are retained.
+Native-Pillow completeness, applicability, packaged distribution notices and
+replacement/rebuild/source-bundle assembly still prevent release clearance.
 
 **Live checkpoint:** the normal entry point is restored and both temporary
 diagnostic modules are moved outside the own app source. Two card-started real
@@ -57,7 +63,14 @@ verified at `39d25dac8a407b050c0fd2eb0bff083c316c8ca4`. Native ARM/Intel hosted
 validation succeeded on both architectures (run `37141542920`, ARM completed
 17:58:51 UTC, Intel 18:02:25 UTC). The native Intel memory gate is passed at this
 source revision, without Rosetta or QEMU. The later development-inventory fix
-does not change runtime code; its hosted validation is not yet claimed. No
+does not change runtime code; its push is verified at `9cd37f8`, and hosted run
+`37143460336` failed on both architectures: the rewritten tempio notice omitted
+the exact Go-version/module-count phrase required by the existing inventory
+gate. Both non-root suites (4,719 passes / six skips), all root checks and both
+memory measurements passed; the notices gate alone failed. D-188 restores the
+verified metadata and adds a repository-notices regression test, with positive
+and mismatched-version/count cases. Local notices checks against both retained
+image inventories pass; the corrected revision still requires hosted validation. No
 container publication or release. No existing-app change or `configuration.yaml`
 edit. The personal fine-grained token was entered privately in the user's Mac
 Terminal, held only in process memory and not stored by the helper. The retained

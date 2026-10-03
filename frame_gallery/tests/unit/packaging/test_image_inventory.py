@@ -489,3 +489,30 @@ def test_the_repository_notices_list_every_runtime_requirement() -> None:
         "pillow": {"libs": []},
     }
     assert INVENTORY.notices_problems(shipped, notices.read_text()) == []
+
+
+@pytest.mark.parametrize("change", [{}, {"go": "go1.26.6"}, {"dependencies": []}])
+def test_repository_notices_match_observed_tempio_metadata(change: dict[str, Any]) -> None:
+    """Catch documentation edits that omit the real base binary's Go metadata."""
+    notices = PROJECT.parent / "THIRD_PARTY_NOTICES.md"
+    if not notices.exists():
+        pytest.skip("THIRD_PARTY_NOTICES.md is outside the image's build context")
+    program: dict[str, Any] = {
+        "module": "github.com/home-assistant/tempio",
+        "version": "2026.07.0",
+        "go": "go1.26.5",
+        "dependencies": [{} for _ in range(11)],
+    }
+    program.update(change)
+    shipped = {
+        "alpine": [],
+        "base": {"s6": [], "go_programs": [program], "bashio_present": False},
+        "python": [],
+        "pillow": {"libs": []},
+    }
+    problems = INVENTORY.notices_problems(shipped, notices.read_text())
+    assert bool(problems) is bool(change)
+    if change:
+        go = str(program["go"]).removeprefix("go")
+        count = len(program["dependencies"])
+        assert problems == [f"tempio 2026.07.0 (Go {go}, {count} Go modules)"]

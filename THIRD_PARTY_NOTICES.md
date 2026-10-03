@@ -44,8 +44,8 @@ The project-owned source code is licensed under the Apache License 2.0 (D-102, a
 | libxcb | 1.17.0 | `X11` | |
 | libXau | 1.0.12 | `MIT-open-group` | From Alpine's package 1.0.12-r0 |
 | libXdmcp | 1.1.5 | `MIT-open-group` | From Alpine's package 1.1.5-r1 |
-| libbsd | 0.12.2 | `BSD-3-Clause` | From Alpine's package 0.12.2-r0; its licence as the official Alpine package directory gives it (checked by Codex at the Phase 6 gate, reported on 2026-10-03). The wheel carries no licence text for it; the release adds it. |
-| libmd | 1.1.0 | `BSD-3-Clause AND BSD-2-Clause AND ISC AND Beerware` and "Public Domain" | From Alpine's package 1.1.0-r0, whose licence field in the official Alpine package directory reads "BSD-3-Clause AND BSD-2-Clause AND ISC AND Beerware AND Public Domain" (checked by Codex at the Phase 6 gate, reported on 2026-10-03). **"Public Domain" is not an SPDX identifier**; the licence review settles how that part is expressed. The wheel carries no licence text for it; the release adds the texts. |
+| libbsd | 0.12.2 | `BSD-3-Clause` (package shorthand, not an exhaustive source-file expression) | From Alpine's package 0.12.2-r0. Full original `LICENSES/libbsd-0.12.2/COPYING` now retained, including ISC/MIT/BSD variants, public-domain and manual-page notices; applicability remains in review (D-187). |
+| libmd | 1.1.0 | `BSD-3-Clause AND BSD-2-Clause AND ISC AND Beerware AND LicenseRef-libmd-Public-Domain` (aggregate source description) | From Alpine's package 1.1.0-r0. **"Public Domain" is not an SPDX identifier.** The local LicenseRef denotes exactly the original MD4/MD5/SHA1 statements in the complete `LICENSES/libmd-1.1.0/COPYING`, not a new licence (D-187). |
 | libzstd | 1.5.7 | `BSD-3-Clause` | Zstandard is offered as `BSD-3-Clause OR GPL-2.0-only`; the wheel carries the BSD text. |
 | raqm (in `_imagingft`) | 0.10.5 | `MIT` | |
 | fribidi-shim (in `_imagingft`) | 1.x | `LGPL-2.1-or-later` | **Copyleft.** Pillow's code that loads FriBiDi at run time, if the system has it; the image does not. The LGPL-2.1 text and the corresponding source (the Pillow 12.3.0 sdist) are provided with each release (D-135). |
@@ -180,7 +180,7 @@ The licence column is apk's own field. It is not always an SPDX expression: "Pub
 | s6-networking | 2.8.0.0 | `ISC` | Present under `/package/net`; original source COPYING retained in `LICENSES/s6-networking-2.8.0.0/`. The release build links BearSSL; its exact source/licence and static-toolchain completeness remain open (D-184). |
 | skalibs | 2.15.0.0 | `ISC` | Present under `/package/prog` and used by S6 binaries; original source COPYING retained in `LICENSES/skalibs-2.15.0.0/` (D-184). |
 | s6-overlay-helpers | 0.1.2.2 | `ISC` | Exact versioned source and original COPYING retained in `LICENSES/s6-overlay-helpers-0.1.2.2/`. |
-| tempio | 2026.07.0 | `Apache-2.0` | [Exact release LICENSE](https://github.com/home-assistant/tempio/blob/2026.07.0/LICENSE), retained from binary VCS revision `56918dfb7db5fec2161b2c5b37ee42f49176d34b`; its Go 1.26.5 source/build and subsidiary notices remain to complete; not used by the app |
+| tempio | 2026.07.0 | `Apache-2.0` | Built with Go 1.26.5 and 11 Go modules (listed below). [Exact release LICENSE](https://github.com/home-assistant/tempio/blob/2026.07.0/LICENSE), retained from binary VCS revision `56918dfb7db5fec2161b2c5b37ee42f49176d34b`; source/build and subsidiary notices remain to complete; not used by the app |
 | bashio | 0.17.5 | `MIT` | [Exact release LICENSE.md](https://github.com/hassio-addons/bashio/blob/v0.17.5/LICENSE.md), copied to `LICENSES/`; version from the pinned base recipe, not an embedded version marker; not used by the app |
 | jemalloc | 5.3.1 | `BSD-2-Clause` | [Exact release COPYING](https://github.com/jemalloc/jemalloc/blob/5.3.1/COPYING), copied to `LICENSES/`. Previously omitted from the inventory; the aarch64 app image contains `/usr/local/lib/libjemalloc.so.2` and its two helper scripts. Exact binary/rebuild and amd64 verification remain pending. |
 
@@ -244,6 +244,36 @@ non-endorsement clauses and any applicable Apache NOTICE/subsidiary attributions
 The original eleven primary files are byte-identical to their checked archives;
 this does not assert that these primary files exhaust every source-file notice.
 Algorithm/proxy reference: https://go.dev/ref/mod#authenticating .
+
+### Further retained source and notice evidence (D-186/D-187)
+
+All 45 exact installed aports recipe directories and patches are retained:
+197 local files and all 58 upstream files verify against recipe SHA512 values.
+`LICENSES/alpine-source-manifest.json` identifies the 61 installed packages and
+archive hashes; both architecture databases have identical build-commit tuples.
+This is not a completed file-level licensing review or binary-reproducibility
+result. GCC 15.2.0 libgcc/libstdc++ source headers state GPL-3.0-or-later with
+GCC-exception-3.1; apk's broad field above is quoted metadata, not a complete
+file-level expression. Original COPYING.RUNTIME is in `LICENSES/gcc-15.2.0/`.
+
+Exact BearSSL source and MIT text (copyright Thomas Pornin), identified static
+musl source/full COPYRIGHT, and Go 1.26.5's official SHA256-verified source and
+original BSD-3-Clause LICENSE/PATENTS are retained. See
+`LICENSES/static-source-manifest.json` and the corresponding versioned directories
+under `LICENSES/`. Both documented S6 build toolchains report libc version
+`1.2.6-git-11-g5122f9f3`, resolved to full official Git commit
+`5122f9f3c99fee366167c5de98b31546312921ab`; their binaries were never executed.
+This identifies documented build inputs, not cryptographic linkage proof for
+installed S6 binaries. It supersedes only earlier statements that these sources
+were not yet retained, not the still-open source/build applicability gate.
+
+libmd's descriptive LicenseRef points to Colin Plumb/Todd C. Miller's original
+MD4/MD5 and Steve Reid's SHA1 dedication statements in the unabridged COPYING.
+No worldwide legal determination or relicensing is asserted. libbsd's complete
+COPYING also preserves source/manual terms not captured by the package shorthand.
+Native-Pillow source completeness, subsidiary attributions, distributed licence
+materials, replacement/rebuild instructions and final source assembly remain
+open; none of these downloads clears D-135.
 
 ## Development tools (not distributed)
 

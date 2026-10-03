@@ -172,6 +172,29 @@ files preserved byte-for-byte and their versions/obligations listed in notices.
 was installed or executed. Go toolchain and subsidiary-attribution/source-build
 completeness stay open; the corresponding-source release bundle is not complete.
 
+### Further source-availability evidence (D-186/D-187)
+
+Both existing app images have identical 61 name/version/origin/build-commit
+tuples in apk metadata (Intel was read under emulation for metadata only, not
+claimed as a native test). All 45 exact official aports recipe directories were
+retained, 243,307 bytes; 197 local source/patch files match SHA512. All 58 upstream
+files also match recipe SHA512 values, 282,359,632 bytes retained on the Mac only.
+No recipe was evaluated, code executed or archive symlink followed. Offline
+hashes were rechecked before `LICENSES/alpine-source-manifest.json` was generated.
+
+Exact BearSSL source/MIT text, identified static-musl source/full COPYRIGHT and
+Go 1.26.5's official hash-verified source/LICENSE/PATENTS are retained. Both
+documented S6 toolchains were passively inspected and identify libc
+`1.2.6-git-11-g5122f9f3`; this identifies build inputs, not installed-static-object
+equivalence. Original GCC Runtime Library Exception 3.1 is preserved after reading
+the exact libgcc/libstdc++ headers. `LICENSES/static-source-manifest.json` retains
+these records. Original libbsd/libmd COPYING files are read and preserved in full;
+the local libmd public-domain LicenseRef denotes its actual dedication statements.
+
+Native-Pillow source completeness, licence applicability, subsidiary attributions,
+packaged distribution texts, replacement/rebuild instructions and final
+source-bundle assembly remain open. No legal or binary-release clearance claimed.
+
 ## Remaining release gates
 
 The user-approved public repository was created in the personal Firefox session:
@@ -207,6 +230,21 @@ This run precedes D-184's development-inventory correction. Local full gates
 after that correction passed with 4,714 tests / 11 skips and unchanged 100%
 line/branch coverage (`build/phase9/check-source-notices-20261003.log`). No
 container or release published. D-185 records the hosted evidence.
+
+The follow-up main push at `9cd37f8` is verified. Run `37143460336` failed on
+both native architectures solely at the notices check: the documentation rewrite
+lost the exact tempio Go-version/module-count phrase required by the checker.
+Both job logs were inspected: 4,719 non-root passes / six skips, five root passes,
+all 26 prepare results and 150 inspections without failure on each architecture.
+ARM peak VM 766.5 MiB / slowest 2.15 s; Intel 762.8 MiB / slowest 2.33 s.
+D-188 restores the verified metadata, leaving the checker unchanged; a new
+repository-notices regression first failed and now passes, including rejection
+of mismatched Go version and module count. All 25 inventory tests and both local
+retained-image notices checks pass. Hosted validation of the corrected revision
+is still required; no images or release are published. Full unsandboxed Mac
+gates pass with 4,717 tests / 11 expected skips and 100% line/branch coverage
+(`build/phase9/check-tempio-source-native-20261003.log`). The initial sandboxed
+run failed two unchanged setgid tests; no test/runtime workaround was added.
 
 1. Validate subsequent release changes; native amd64 kernel/root/memory evidence
    at `39d25da` is now passed, not an outstanding architecture gate.

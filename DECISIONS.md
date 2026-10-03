@@ -226,6 +226,84 @@ fix changes only development tooling/notices and still needs its own hosted
 validation; no source compliance, image publication or public-install gate is
 waived by this successful run.
 
+### D-186 — exact Alpine sources and static build-input evidence
+
+Status: partial D-135 engineering evidence, not a completed release licence gate.
+The existing own ARM image's apk database supplies build commit `c` for all 61
+packages. Forty-five exact official aports recipe directories were retained from
+GitLab, with all included patches/build files, without evaluating shell code or
+following symlinks. The quoted SHA512 lists were parsed in both one-line and
+multiline form: 197 local files and all 58 external source files verify against
+their exact recipe checksums. The source files total 282,359,632 bytes; recipes
+243,307 bytes. Public URL/hash/package records are in
+`LICENSES/alpine-source-manifest.json`; retained archives are under ignored
+`build/phase9/alpine-{recipes,sources}/`. Hash checks were repeated offline.
+Source archives and manifest generation are not a reproducible-binary proof or
+a finding that every subsidiary licence has been reviewed.
+
+The exact S6 recipe refers to BearSSL commit
+`7bea48e5e850ab4cafbe68d3765cdaba13a86d6f`; its official Git source and original
+MIT LICENSE.txt are retained. Both documented skarnet GCC 15.2.0 toolchain
+archives were passively read, never executed: their libc.so strings report
+`1.2.6-git-11-g5122f9f3`, resolved in official musl Git to
+`5122f9f3c99fee366167c5de98b31546312921ab`. Exact musl source/COPYRIGHT are
+retained, including the MIT text and subsidiary attribution/exception discussion.
+These observations identify documented build inputs, not cryptographic proof of
+which static objects are inside the installed S6 binaries. Go 1.26.5's exact
+official source archive is SHA256-verified against go.dev release metadata;
+original LICENSE/PATENTS are retained. See `LICENSES/static-source-manifest.json`.
+
+The exact GCC 15.2.0 source shows GPL-3.0-or-later plus GCC-exception-3.1 in
+`libgcc/libgcc2.c` and `libstdc++-v3/include/bits/c++config`; its full original
+COPYING.RUNTIME is preserved under `LICENSES/gcc-15.2.0/`. Alpine's broad apk
+licence field remains quoted verbatim, not treated as a complete file-level
+licence expression. Exception eligibility and all other source/binary notices
+remain part of the release engineering audit.
+
+### D-187 — preserve full libbsd/libmd attributions and public-domain statements
+
+Status: exact upstream COPYING texts read and preserved; no blanket legal
+clearance or completed native-Pillow source bundle. Official versioned sources
+libbsd 0.12.2 and libmd 1.1.0 were retained with calculated archive hashes (not
+publisher signatures). `LICENSES/pillow-libbsd-libmd-source-manifest.json` records
+their URLs and texts. Both original COPYING files are retained unabridged.
+
+libmd's file-level public-domain statements cover MD4, MD5 and SHA1; the text
+identifies Colin Plumb, Todd C. Miller and Steve Reid. Use the descriptive local
+identifier `LicenseRef-libmd-Public-Domain` for those exact statements, with the
+complete original COPYING as its definition, not the non-existent SPDX term
+"Public Domain" or a newly invented licence. Its aggregate source description
+also retains BSD-3-Clause, BSD-2-Clause, ISC and Beerware notices.
+libbsd's complete file-level notice includes ISC/MIT/BSD-2-clause variants,
+public-domain statements, Beerware and a five-clause notice for a manual page;
+the prior package-directory shorthand BSD-3-Clause is not an exhaustive list.
+Preserve the full source notice; do not claim all source/manual terms describe
+every linked binary. Applicability and complete distributed notices remain in
+the engineering release review.
+
+### D-188 — repair a documentation-only tempio inventory regression
+
+Status: corrected locally; hosted validation of the corrected revision pending.
+Run `37143460336` on `9cd37f8` failed on ARM and Intel solely with
+`not in the notices: tempio 2026.07.0 (Go 1.26.5, 11 Go modules)`. Reading both
+authenticated GitHub job logs confirmed 4,719 non-root passes / six expected
+skips, all five root checks, all 26 prepare cases and 150 inspections without
+failure on each architecture. ARM peak VM was 766.5 MiB / slowest 2.15 s;
+Intel 762.8 MiB / slowest 2.33 s, under the unchanged 1 GiB limit. These are
+successful substeps, not a successful workflow or release clearance.
+
+The expanded notice retained the toolchain version and separate module table
+but lost the exact `Go 1.26.5 and 11 Go modules` phrase the existing checker
+requires. Restore that observed metadata without weakening the checker. A new
+repository-document regression fails before the correction and passes after;
+wrong Go version and module count must still be rejected. All 25 inventory tests
+and both retained-image notices checks pass. Full unsandboxed macOS gates pass:
+4,717 tests / 11 expected skips, strict mypy and 100% line/branch coverage.
+An initial sandboxed run failed two unchanged setgid handover tests; the same
+complete suite outside that restriction passes, without changing or skipping
+those tests. Original Go LICENSE/PATENTS and GCC COPYING.RUNTIME were compared
+byte-for-byte to the retained archives. No runtime or live-system change.
+
 ### Phase 9 licence inventory corrections (engineering audit in progress)
 
 The exact official base recipe at `6a3ff4c10f6ed8564a092c33051024a1b1042ee2`
