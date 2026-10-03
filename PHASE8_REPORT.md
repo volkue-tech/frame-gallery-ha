@@ -604,3 +604,95 @@ After recording the user's physical-TV confirmation, the local gates passed
 again: Ruff, both strict mypy passes, **4657 passed / 8 expected skips in
 32.69 s**, 100 % line/branch coverage and the architecture gate; exit 0.
 This confirmation update changed documentation only and made no live access.
+
+## Approved local app-only backup and state inspection (2026-10-03)
+
+The user explicitly approved an official partial backup of only the separate
+test app and local inspection. The protected SSH app exposes no Docker CLI or
+socket, own-app configuration mount, arbitrary app exec or hard-kill command;
+the test app reports `stdin`, `docker_api`, `full_access`, and `host_network`
+false. No protection or permission was changed to obtain private state access.
+
+After CLI argument validation failures (no backup created by those requests),
+the official CLI source established `.local`, not `local`, as the local target.
+The successful command was:
+
+```sh
+ha backups new --app=local_frame_gallery_dev \
+  --name='Frame Gallery Test integrity checkpoint 2026-10-03' \
+  --filename=frame-gallery-test-integrity-20261003.tar \
+  --location=.local --raw-json
+```
+
+It returned `ok`, backup slug **8063d8cc**. The retained file at
+`/backup/frame-gallery-test-integrity-20261003.tar` is **47011840 bytes**.
+Metadata reports a compressed partial backup, `protected: false` (this local
+checkpoint is unencrypted), no folders, and exactly `local_frame_gallery_dev`
+version `0.1.0.dev1`. The outer archive has the app archive and backup metadata,
+not a Home Assistant Core archive. Nothing was uploaded to cloud storage or
+downloaded to the Mac, and no restore was performed. Existing backup policy
+was not changed.
+
+Only six fixed app state JSON files were copied to a fresh temporary directory
+on Green for read-only `jq` checks. No options, TV tokens, container-image
+contents or other app data were read. File sizes were:
+
+| State file | Bytes | Mode in snapshot |
+| --- | ---: | --- |
+| history.json | 817 | 0600 |
+| history.json.bak | 701 | 0600 |
+| upload_ledger.json | 270 | 0600 |
+| upload_ledger.json.bak | 271 | 0600 |
+| current.json | 1065 | 0600 |
+| last_run.json | 1027 | 0600 |
+
+Observed checks:
+
+- History and ledger primaries and backups parsed as JSON with the expected
+  format/version, bounded entry count, qualified identifiers and valid UTC
+  timestamps in range. There were **12 unique history entries**, **11** in
+  the previous-generation backup; the backup is a subset of the primary and
+  differs by the latest delivery only. History timestamps are chronological.
+- The primary ledger has **two uploaded entries**, no duplicates, both also
+  in confirmed history. Its backup retains an `uncertain` write-ahead intent
+  for the latest delivery. The prior history plus the primary ledger still
+  exclude that latest delivery if the primary history needs recovery.
+- Both independently generated local fixtures, the known Chicago retable and
+  Cleveland bowl remain in history. The latest run record reports one older
+  candidate excluded, `delivered`, exit 0, **9.9 s**, matching the observed log.
+  An initial manually transcribed new-fixture fingerprint query returned false;
+  it contained a typo. Recomputing the fingerprint from the actual source with
+  the production function and checking that exact value returned true. No app
+  state was modified to obtain the corrected result.
+- Current and last-run artwork identifiers agree with the newest history
+  entry and with the recomputed 3:2 fixture identifier. Current preview SHA256
+  matches the local prepared JPEG and the unchanged live preview; its newest
+  preview fingerprint matches the production computation. Ten preview
+  fingerprints are retained, within the configured bound.
+- The current-record timestamp is **7 seconds later** than the latest history
+  timestamp. Source inspection explains this: history's timestamp is fixed at
+  PRE-STAGE before the TV call, whereas current's `delivered_at` is made during
+  PUBLISH. Equality is therefore not a valid invariant. The history module's
+  wording “when the television confirmed” is imprecise and should be clarified
+  before release; no timestamp or runtime behavior was changed in this audit.
+- The app backup member listing contained zero TV-token members, zero cache
+  files (the empty cache directory remains), and zero matching temporary-file
+  names. This proves their absence in this snapshot, not exclusion enforcement
+  for a populated token/cache directory or a scan of the live scratch mount.
+
+All six temporary audit copies (4151 bytes total) and their newly created
+empty directories were removed afterward; their recoverable source backup
+and the original app state remain intact. Own-app CLI reconfirmed stopped,
+protected true, host networking false, original museum filters and explicit
+timer. Preview SHA256 is unchanged; about **15.5 GB** remains free after the
+retained backup. No app/configuration/script/dashboard update or TV operation
+occurred. The private-state **current snapshot** check is complete; Green
+hard-kill/recovery, memory, pairing and AppArmor checks are still open.
+
+CLI reference used to resolve the location argument:
+[official Home Assistant CLI backup command](https://github.com/home-assistant/cli/blob/master/cmd/backups_new.go).
+
+Local quality gates after this documentation update passed: Ruff, both strict
+mypy passes over 222 files, **4657 passed / 8 expected skips in 34.76 s**,
+100 % line/branch coverage and the architecture gate; exit 0. The final edit
+only records these observed results; application code is unchanged.
