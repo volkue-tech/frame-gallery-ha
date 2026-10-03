@@ -425,3 +425,93 @@ After documenting the automation/cancellation/recovery continuation,
 Ruff and both strict mypy passes clean (221 files), **4614 passed, 8 expected
 skips in 35.24 s**, 100 % line/branch coverage (8995 statements, 1904 branches),
 architecture gate 100 % (7377 statements, 1594 branches), exit 0.
+
+## Loading feedback and stop-signal correction (2026-10-03)
+
+The user approved correcting only Frame Gallery (Test) and its own script,
+then scoped Green/TV verification. Runtime commit `d1bb654` implements D-176
+and D-177. No new dependency, privilege, mapping or existing HA configuration
+was introduced. No `configuration.yaml`, other app or existing dashboard was
+edited. The separate card itself was unchanged.
+
+### Offline verification and installation
+
+- Mac quality gates: Ruff and both strict mypy passes clean (222 files),
+  **4657 passed, 8 expected skips in 37.69 s**, 100 % line/branch coverage
+  (9042 statements, 1918 branches); architecture gate 100 % (7413 statements,
+  1604 branches), exit 0. The two actual group/setgid checks required the
+  unsandboxed run; they were not bypassed. A final code-docstring relocation
+  was also Ruff-checked and does not change behavior.
+- Both aarch64 and emulated amd64 full container checks passed, each with
+  **4659 passed, 6 expected skips**, plus all five real Linux/root isolation
+  checks. Exit 70 propagation, token visibility, inventory and offline smoke
+  checks passed. Real container stops allowed the eight-second cleanup and
+  no longer printed `sh: invalid number '--'`. This is not a native amd64
+  memory measurement or proof of AppArmor enforcement.
+- The archive SHA256 was
+  `c6095a5fbfadb9242896ac761a16f38e9c040bd8be00675228ecd312a6a2e609`.
+  Green verified it before extraction. The previous own source remains at
+  `/share/frame-gallery-dev-before-d1bb654`; no uninstall/data reset occurred.
+  The one-file LAN transfer completed and exited.
+- The app rebuild succeeded, but the unchanged version retained the old
+  installed schema. Only the local test packaging version was changed to
+  `0.1.0.dev1`, followed by a store metadata refresh and an update of
+  `local_frame_gallery_dev` only. The project source still declares dev0;
+  name, slug, AppArmor profile name and this version are test-copy differences.
+  Both changed client/runner source hashes matched the Mac staging copy.
+- CLI confirmed `stopped`, protection true, AppArmor `profile`, host networking
+  false, original Cleveland/Chinese Art/before-1400 filters and the new explicit
+  `loading_timer: timer.frame_gallery_test_run`. The UI script was saved and
+  reopened to verify its idle guard, 150-second timer/wait and four-second
+  single-mode shutdown hold. It no longer polls Running.
+
+### Live results
+
+- Card start delivered **cma:97672, Bulb Bowl: Jun Type, 960–1279**, as a
+  landscape fallback, in **20.9 s**. At **10:58:09 UTC** the TV result was
+  `ok`, markers `connected,upload_started,uploaded,selected`; preview publication
+  and cleanup preceded `loading timer completion acknowledged`. The retained
+  dashboard tab showed the new bowl and no loading note without reload or
+  camera-update action. This confirms TV API selection, not a new physical-TV
+  visual confirmation from the user.
+- Temporary local-media card start at **10:59:03 UTC** excluded the already-sent
+  fixture and ended `no_match`, **0.0 s** (rounded by the app). The completion
+  call was acknowledged after cleanup; no TV stage was entered. The bowl
+  preview SHA256 remained
+  `e030b5f473a93ea0d717f4feb49210a11c35722a2fef6479ab808935e1e9f90`.
+- After restoring Cleveland, a card-started run was stopped with the own-app
+  CLI. At **11:00:25 UTC** it ended `cancelled`, **14.1 s**, after downloading
+  **647755 bytes**, before TV delivery. Scratch reported zero files/bytes,
+  temporary files and run directories. The same preview hash remained. Loading
+  completion was acknowledged and the dashboard loading note was gone. The
+  `invalid number '--'` warning did not occur. A separate pre-existing s6-rc
+  shutdown message about its essential one-shot runner remains; this correction
+  does not claim that all base-container messages disappear.
+
+- Missing-notification fault injection: only the test app's loading-timer option
+  was temporarily unset and the source set to local media. At **11:01:16 UTC**
+  the app ended `no_match`, 0.0 s rounded, with scratch empty and no completion
+  call. CLI confirmed it stopped with the timer unset, while the dashboard still
+  showed loading. The loading note disappeared through the configured
+  **150-second expiry**, observed before 11:04 UTC, without manual cancel,
+  reload or camera update. This tests missing feedback, not a forced failed
+  Supervisor start or HTTP error on Green; those causes share the same timer
+  expiry and the HTTP error paths are covered offline.
+- The original Cleveland/Chinese Art/before-1400 settings, landscape/strict
+  preferences, contain mode, black background and explicit test timer were
+  restored and verified by CLI. The app remains stopped, protected, AppArmor
+  `profile`, host networking false. Preview hash is unchanged by the three
+  non-delivery tests; the latest preview is 815322 bytes. Green has about
+  **15.6 GB free**. No files/data were deleted; the own source rollback copy
+  remains recoverable. The existing event test automation was not edited or
+  triggered and retains its previously verified disabled/no-schedule setup.
+
+The loading/stop-warning correction is complete in its approved test scope.
+Detailed private history/ledger integrity, Green hard-kill
+and memory checks, edge/no-crop visual confirmation, pairing and AppArmor
+attachment/audit remain open. Phase 9/publication remains unapproved.
+
+Final host quality gates after the report/documentation updates passed again:
+Ruff and both strict mypy passes clean; **4657 passed, 8 expected skips in
+33.61 s**, 100 % line/branch coverage and architecture gate, exit 0. The final
+edits after that run only complete these live-result/status notes.

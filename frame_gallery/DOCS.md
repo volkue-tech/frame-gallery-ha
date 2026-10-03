@@ -2,7 +2,7 @@
 
 Frame Gallery sends one fresh artwork to a Samsung Frame TV each time you start it, then stops. It picks a public-domain work from the Art Institute of Chicago, an open-access work from the Cleveland Museum of Art, or one of your own images; prepares it for the TV's 16:9 screen without cropping (unless you ask for it); uploads it; shows it; and keeps a preview for your dashboard. It never shows the same work twice while unsent works remain.
 
-> **Status: development build (0.1.0.dev0).** Supervised Green tests confirmed local, Cleveland and corrected Chicago TV deliveries. Native Local File preview refresh now passed repeated card, actual event-automation, app-page and no-match tests without reload; one recovery run showed the new preview within 14 seconds after publication. Graceful cancellation after a 5 MB download removed scratch files and preserved the previous preview, and the next delivery succeeded. The draft loading indicator is not reliable: it can end before delivery or remain after delivery, although its timer bounds it to 150 seconds. Stop-time shell warnings and other Phase 8 checks remain open. The public dashboard setup below is still a draft, not a release-ready completion indicator. See `PHASE8_REPORT.md` at the repository root.
+> **Status: development build (0.1.0.dev0).** Supervised Green tests confirmed local, Cleveland and corrected Chicago TV deliveries, and native Local File preview refresh without reload. The corrected loading setup passed delivery, no-match, graceful-cancellation and missing-notification expiry tests: the app ends its own timer after cleanup instead of relying on the delayed Running sensor, with a 150-second expiry if feedback is missing. The stop-time `invalid number '--'` shell warning is corrected. Remaining Phase 8 checks and release hardening are still pending; the public dashboard setup and slug remain a draft. See `PHASE8_REPORT.md` at the repository root.
 
 Frame Gallery is an independent project. It is not made, endorsed, or supported by Samsung, by the museums, or by Home Assistant.
 
@@ -197,7 +197,7 @@ To start over completely, uninstall the app and install it again. Uninstalling r
 ## Privacy
 
 - The app sends nothing about you, your images, your configuration, or your TV to any third party, and it has no analytics.
-- It contacts only the museum you selected (and its image host), your TV on your home network, and, if you use helpers, Home Assistant itself.
+- It contacts only the museum you selected (and its image host), your TV on your home network, and, if you use helpers or the loading timer, Home Assistant itself.
 - Requests to the museums carry the app's name, version, and a project contact address, as the museums' guidelines ask.
 
 ## Licences
