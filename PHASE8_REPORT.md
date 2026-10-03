@@ -2,8 +2,9 @@
 
 Date: 2026-10-03. Codex performed the checks below, including successful local
 and Cleveland TV deliveries, followed by a successful Chicago delivery of the
-corrected runtime. The complete dashboard freshness gate remains open;
-Phase 8 is not complete.
+corrected runtime. The native preview refresh has now also passed an
+event-triggered automation and a delivery after controlled cancellation;
+loading feedback and the remaining checks keep Phase 8 open.
 
 ## Approval and scope
 
@@ -258,9 +259,9 @@ sensor, not the camera; its loading indicator is bounded by the timer.
   note disappeared. The app Info page then showed stopped. This gives a
   successful card delivery as well as no-match coverage for the final script.
 
-Native Local File refresh is a promising candidate, not a completed G5/D-140
-gate: automation-started delivery and further repeated final-script delivery
-tests remain open. No exact browser refresh latency is
+At this stage native Local File refresh was a promising candidate, not yet a
+completed G5/D-140 gate. The later automation/recovery tests below complete this
+start-path evidence. No exact browser refresh latency was
 claimed. User visual confirmation of these later Cleveland TV artworks is still
 pending; the subsequent Chicago delivery is visually confirmed as recorded above.
 
@@ -315,13 +316,85 @@ Official implementation references:
 [addon polling interval](https://github.com/home-assistant/core/blob/2026.9.4/homeassistant/components/hassio/const.py),
 [Running sensor](https://github.com/home-assistant/core/blob/2026.9.4/homeassistant/components/hassio/binary_sensor.py).
 
-The Core API sessions exited; no persistent relay, automation, polling job or
-credential file remains. The next live checks need the existing authenticated
-Firefox session to be free, or separately authorized admin access. The planned
+At the end of that diagnostic round the Core API sessions had exited; no
+persistent relay, automation, polling job or credential file remained. The planned
 automation is a new own unique-event test, initially disabled and self-disabling
 before starting the test script; no regular schedule and no existing automation
 change. The stopped test app, its options, dashboard and private history were
 not changed during this diagnostic round.
+
+### Approved live continuation: automation, cancellation and recovery
+
+After the user released Firefox, only the new test automation was saved through
+the existing authenticated UI: `automation.frame_gallery_test_one_shot`, UI
+configuration ID `1791021132526`. It has `initial_state: false`, no time/schedule
+trigger, idle timer/script guards, and disables itself with `stop_actions: false`
+before starting the existing test script. It remains disabled and retained.
+
+An authenticated Core REST event POST returned 401; that API session stopped
+immediately without retry or permission change. The event was then fired exactly
+once through Firefox's Events tool. The automation trace records the unique event
+`frame_gallery_phase8_once_20261003` at **09:53:14 UTC**, both conditions passing,
+self-disable, and the test script starting; trace duration 0.03 s. This is an
+actual event-triggered automation run, not the editor's Execute actions command.
+
+- Automation delivery: `cma:76522`, Dish with Carved Floral Design, 1100s–1200s,
+  fallback 3400 × 1889. All four TV markers; `delivered`, exit 0, **19.7 s**;
+  publication logged at 09:53:36 UTC. The open dashboard changed from the Chicago
+  retable to the dish without reload or a camera-update action. Exact refresh
+  latency was not timed in this first run. The trace shows the timer becoming
+  idle after **16 seconds**, before delivery finished: loading can end too early.
+  Cleanup: state 7 / 3345 bytes, cache 2 / 513, preview 1 / 751388,
+  scratch 0 files/bytes/run directories/temporary files.
+- Three guarded CLI starts/stops of only `local_frame_gallery_dev`, with delays
+  of 2, 6 and 13 seconds after the start command returned, ended as `cancelled`,
+  exit 0, app elapsed **0.1, 4.2 and 11.3 seconds**. The first two stopped during
+  selection before scratch creation; their scratch bucket was unavailable, not
+  proven empty. The third downloaded a **5,156,644-byte** image before cancellation
+  during preparation. Its post-cleanup scratch bucket was available and empty:
+  0 files/bytes/run directories/temporary files. No TV delivery stage occurred.
+  The successful dish preview's SHA256 stayed unchanged through all three stops:
+  `b11d323424e1b04bc908537bb6c12e49886bd331bf9a7d3e382664f41329ffcf`.
+- Recovery card run: `cma:149076`, Water Buffalo and Herdboys, late 1200s–early
+  1300s, fallback 3400 × 1950. `delivered`, exit 0, **17.0 s**, all four TV markers,
+  publication at **09:57:01 UTC**. The dashboard stayed open and showed the new
+  image without reload; the next clock observation was 09:57:15 UTC. Thus the
+  screenshot bounds this refresh to at most **14 seconds after publication**
+  (second-resolution log; not a continuous measurement or universal guarantee).
+  Cleanup: state 7 / 3515 bytes, cache 2 / 513, preview 1 / 2103827,
+  scratch 0 files/bytes/run directories/temporary files. One previously sent
+  candidate was excluded. The cancelled, never-uploaded work remained eligible.
+  Preview SHA256: `f5a2e14f094167e908a07685dbf4f7abb5ab22c2e6eed5d83242d008ea9c0890`.
+
+Every available bucket reported zero temporary files and run directories, zero
+unreadable entries and `truncated=false`; quarantine and TV buckets remained
+unavailable. These are count-only checks, not private history/ledger inspection.
+Supervisor again reported stopped, protected true, AppArmor profile and
+`host_network: false`. Original restrictive Cleveland options were unchanged.
+No existing automation, dashboard or `configuration.yaml` was edited.
+
+**Findings still requiring action:** all three Supervisor stops also printed
+`sh: invalid number '--'`. Cancellation and cleanup succeeded despite the warning;
+An offline, network-disabled container check reproduced it: the pinned base's
+`s6-overlay-3.2.3.0/etc/s6-linux-init/skel/CMDSIG` invokes
+`kill -s "${0##*/SIG}" -- "$pid"` through `/bin/sh`. That shell printed
+`invalid number '--'` for the same form against nonexistent PID 99999999
+(probe exit 2, plus the expected no-such-process message). This identifies an
+argument-compatibility source in the base script; it does not show that the
+actual Green stop signal failed, nor authorize a base-image patch. No script
+was modified. Running-based loading is
+unreliable: the automation run ended its indicator early, and the recovery card
+  still displayed loading after the new preview appeared. A final screenshot by
+  09:59:40 UTC showed no loading note. The existing 150-second timer bounds it;
+  it must not be represented as precise completion feedback.
+No runtime, installed script or security setting was changed to hide these findings.
+
+**Freshness conclusion:** D-140 candidate 1, native Local File refresh of the
+atomically replaced `/media/frame_gallery/preview/latest.jpg`, has live evidence
+for repeated card deliveries, event-automation delivery, direct app-page delivery,
+and preservation on no-match and cancellation. No manual camera update, alternating
+file names or browser reload is needed in the observed HA 2026.9.4 setup. This
+does not complete the separate loading-indicator or whole Phase 8 gate.
 
 Local quality gates were rerun after the documentation changes: Ruff and both
 strict mypy passes clean, 4,600 tests passed, 8 Linux/root-only checks skipped,
@@ -331,9 +404,9 @@ in a targeted unsandboxed rerun, followed by the complete passing unsandboxed
 gate. No runtime code or test was changed to bypass those checks.
 
 Visual edge/no-crop confirmation; pairing-token behaviour and exact Art API
-version; automation-started browser freshness and measured refresh latency;
-Running-sensor/indicator latency; detailed history and upload-ledger inspection;
-crash/forced-stop temporary cleanup and Green memory measurements; AppArmor
+version; reliable loading feedback and the stop-time shell warning;
+detailed history and upload-ledger inspection; a Green hard-kill test beyond the
+successful graceful stops, Green memory measurements; AppArmor
 attachment/audit. The separate dashboard entities and approved setup are
 recorded above. Observed normal-run timings,
 local duplicate/no-match, and Cleveland fallback passed as recorded above.
@@ -346,3 +419,9 @@ as noted above. These are deployment artifacts, not artwork-download buildup.
 After recording the corrected Chicago live results, `check.sh` was rerun:
 Ruff and both strict mypy passes clean; 4 614 passed, 8 expected skips;
 100 % line and branch coverage (8 995 statements, 1 904 branches), exit 0.
+
+After documenting the automation/cancellation/recovery continuation,
+`bash frame_gallery/scripts/check.sh` again passed outside the sandbox:
+Ruff and both strict mypy passes clean (221 files), **4614 passed, 8 expected
+skips in 35.24 s**, 100 % line/branch coverage (8995 statements, 1904 branches),
+architecture gate 100 % (7377 statements, 1594 branches), exit 0.

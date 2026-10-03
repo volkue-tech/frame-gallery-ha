@@ -685,7 +685,7 @@ The security and hardening design is unchanged, and no final acceptance criterio
 
 ### D-140 — Preview freshness is release-blocking; refresh mechanism [§16.3]
 
-Status: **accepted** as a requirement (Codex review). The mechanism is selected in Phase 8.
+Status: **accepted** as a requirement (Codex review). Native Local File refresh selected in Phase 8; observed evidence and limitations below.
 
 **Decision:**
 
@@ -701,6 +701,18 @@ Status: **accepted** as a requirement (Codex review). The mechanism is selected 
   4. another UI- or API-only method.
 - The evidence and the chosen mechanism are recorded here and in R-07.
 - The Collection Image integration (2026.9+) may be documented as an optional alternative. It must not raise the app's minimum Home Assistant version.
+
+**Phase 8 selection (2026-10-03, within approved supervised validation):**
+candidate 1, native Local File refresh of atomically replaced
+`/media/frame_gallery/preview/latest.jpg`. Repeated card deliveries, an actual
+event-triggered automation delivery, direct app-page delivery and unchanged
+preview after no-match/cancellation are recorded in `PHASE8_REPORT.md` on
+HA 2026.9.4 Green. No post-run camera action, alternating names or browser reload
+was needed. One recovery run bounds visible refresh to at most 14 seconds after
+publication; it is not a universal latency guarantee. No Running-triggered
+refresh automation is required for this candidate. This closes the preview
+freshness selection, not the separate loading or whole release gate: Running
+feedback lagged about 15 minutes and produced early or prolonged indicators.
 
 ## Phase 2 implementation decisions (accepted)
 
@@ -1711,8 +1723,8 @@ L = likelihood, I = impact; H = high, M = medium, L = low.
 | R-03 | The Samsung art protocol is undocumented and changes with firmware. The TLS or certificate behaviour and the token scope are unknown. The library connects without verifying the TV's certificate (D-161), so a machine that takes over the TV's address on the LAN could learn the token. | M / H | Isolated, pinned library; surface taken from the installed package (D-161); marker-based classification; the connect guard (D-162); trust-on-first-use pinning is feasible; at the Phase 5 gate (2026-10-02) the decision was deferred until the TV's certificate is observed in the supervised Phase 8 test; Phase 8 live validation | Phase 8 |
 | R-04 | `samsungtvws` has a single maintainer, an undocumented 3.x art API, LGPL obligations, and inherited licence provenance | M / M | Hash pin; contract tests; D-135; the Phase 5 check of `LICENSE` and headers found only LGPL-3.0 (D-160) | Licence review |
 | R-05 | Bing: undocumented endpoint, a `robots.txt` image-path rule, and restrictive Services Agreement terms | — | **Excluded** (Q-17, resolved) | — |
-| R-06 | The loading state depends on the Running entity (disabled by default, undocumented polling); short runs may never show it | M / M | 130 s guaranteed exit. The **normative** 150 s timer indicator, started by the card script, does not depend on the sensor. Phase 8 cases: a run under 10 s, a mistyped slug, a non-admin tap. | Phase 8 (Q-09, Q-19) |
-| R-07 | **Preview freshness** (release-blocking). The Local File update mechanism and the camera cache refresh are undocumented, and the existing installation had stale images. | H / H | Phase 8 selects one proven mechanism from D-140 through repeated live tests, and the dashboard is not declared complete until then. The platform basis for `/media` and the allowlist is recorded (D-111). | Phase 8; the result is recorded here |
+| R-06 | The loading state depends on the Running entity (disabled by default); short runs may be missed and completion feedback may lag | M / M | Hard watchdog exit and 150 s timer bound prevent indefinite loading. Phase 8 observed roughly 15-minute Running lag, one early indicator end and one prolonged indicator; the current script is not release-ready. Fix with user approval and test success, no-match, failure and missed-start cases. See PHASE8_REPORT.md. | Phase 8 (Q-09, Q-19); unresolved |
+| R-07 | **Preview freshness** (release-blocking). Local File refresh timing is not a universal guarantee. | H / H | D-140 candidate 1 selected on HA 2026.9.4 Green: native refresh of atomically replaced latest.jpg, verified on repeated card, actual event-automation, app-page and no-match runs without reload. Recovery refresh observed within a 14-second bound. Evidence: PHASE8_REPORT.md. Loading feedback is separate and remains unresolved. | Phase 8 freshness evidence complete for observed setup; monitor regression across HA versions |
 | R-08 | Image decoder vulnerabilities | M / H | Header limits; format allowlist; unprivileged, memory-limited worker; allowlisted environment; bytes-only results; prompt updates | Ongoing |
 | R-09 | Memory pressure during decode | M / M | Pixel caps (64 MP JPEG, 40 MP PNG); colour work after resizing; 1 GiB `RLIMIT_AS`; beta renditions ≤ 3400 px. §11.1 and D-121 estimated the worst case at ≈ 450–550 MiB. **Measured in Phase 5** (`scripts/measure_prepare.py`, macOS arm64, the production `prepare` task in a real worker, 2 runs each, every source within 1–4 MiB of the 40 MiB cap, 3840×2160 canvas, **without `RLIMIT_AS`**, which macOS cannot set). Peak resident memory and wall time: 64 MP JPEG baseline 165 MiB and 0.5 s; progressive 318 MiB and 1.1 s; progressive 4:4:4 531 MiB and 1.1 s; CMYK panorama (19 999×3 200) in `cover` 350 MiB and 0.6 s; **progressive CMYK panorama in `cover` 839 MiB and 1.4 s**; progressive 4:4:4 panorama in `cover` 717 MiB and 1.3 s; behind a header flood just under the D-144 caps 190 MiB and 0.4 s; 40 MP PNG RGB 281 MiB, RGBA 434 MiB, palette with transparency 479 MiB, grey with a transparent key 478 MiB, 16-bit grey 451 MiB, behind a chunk flood 297 MiB, each ≤ 0.7 s. The progressive coefficient buffers, which the estimate left out, make the progressive cases the heaviest. A progressive JPEG with very many scans was not generated (Pillow's encoder has a fixed scan script). The address space a worker uses exceeds its resident memory, so the heaviest cases may fail with `memory` under the real 1 GiB limit. *Phase 5 gate (2026-10-02):* the 1 GiB limit stays for now, and any change is decided only from the measurement under the real limit. The same script runs under the real `RLIMIT_AS` in the Linux container, as root (D-165; a condition of the gate, mandatory before any live test on the Home Assistant Green), and on the Green in Phase 8, which is several times slower; if preparation exceeds about 12 s there, the local-media pixel caps are lowered. **Measured in Phase 6 under the real 1 GiB `RLIMIT_AS`** (aarch64 container, as root, workers at 65534; D-170): all 13 cases succeed; the heaviest, the progressive CMYK panorama in `cover`, peaks at 766 MiB of address space (754 MiB resident) in 1.4 s, leaving 258 MiB. The Phase 5 resident figures were inflated by `ru_maxrss`, which on Linux counts the parent's memory before `exec`; the worker now reads `VmHWM` and `VmPeak`. The 1 GiB limit stays (D-170, accepted at the Phase 6 gate). Under Rosetta (amd64 on this host) every process has about 278 MiB more address space, and the heaviest case then fails, reported as `decode`, because Pillow reports libjpeg's failed allocation as a broken data stream (D-170). *Phase 6 gate (2026-10-03):* the native `amd64` measurement is mandatory before an `amd64` version is published, at the latest in Phase 9. | Phase 8 (the Green); Phase 9 (native `amd64`) |
 | R-10 | Home Assistant platform churn | M / M | Follow the current docs; re-check them in Phases 6 and 9 | Phase 6/9 |
