@@ -540,3 +540,59 @@ an accessible, bounded diagnostic route without disabling protection.
 The documentation checkpoint's local quality gates passed: Ruff, both strict
 mypy passes, 4657 tests passed / 8 expected skips in 36.79 s; 100 % line/branch
 coverage and the architecture gate. No application code changed.
+
+## Approved labelled contain fixture delivery (2026-10-03)
+
+The user explicitly approved sending the new synthetic fixture and restoring
+the existing filters afterward. Only the PNG source was transferred to the
+separate library, without overwriting a file:
+`/media/frame_gallery/library/phase8-contain-edges-3000x2000-v2.png`
+(141597 bytes, 3000 × 2000). Its SHA256 was verified on Green:
+`c0e3a34a2b6b6820c4e119ff2a61f363b541216cddad695fff9aec2194ce6a99`.
+The fixed one-file Mac LAN server exited after this download; no relay remains.
+
+Only the test app's source was temporarily changed to `local_media` through
+the authenticated Firefox UI. Landscape/strict preferences, contain mode,
+black background and explicit loading timer were unchanged. The existing card
+started the run at 13:24:34 UTC. Selection excluded the old sent fixture and
+offered the new 3:2 fixture as the landscape fallback; department and period
+were explicitly reported as unsupported/ignored for local media.
+
+At 13:24:44 UTC the TV returned `ok`, markers
+`connected,upload_started,uploaded,selected`; the run ended `delivered`, exit 0,
+**9.9 s**. History recording preceded preview publication and cleanup; loading
+timer completion was acknowledged. The Green preview was **328328 bytes**,
+SHA256 `326b6795385baf82b96c19b667d3e418a69a8ca2bbef08fad5ed170e2578271a`,
+identical to the Mac production preparation. That JPEG has all four coloured
+edges/corner labels and 300-pixel black margins on either side.
+
+The retained dashboard initially still displayed the previous bowl after
+loading had ended, then refreshed to the labelled fixture without reload or
+a camera-update action. The final observed card showed the edges and side
+margins, with no loading note. This proves eventual refresh on this run, not
+an instantaneous refresh or a universal timing bound. The card's title bar
+overlays the lower labels; physical-TV rendering remains a separate check.
+The user has been asked to confirm complete edges/corner labels on the TV;
+no visual confirmation has been received yet.
+
+Post-cleanup statistics: state 7 files / 4151 bytes; cache 2 / 513; preview
+1 / 328328; scratch 0 files/bytes, temporary files and run directories.
+Quarantine/TV buckets remain unavailable, not proven empty. A log line again
+reported no stored TV token (ENOENT), despite a successful connection; pairing
+persistence is still open and no token contents were read. The existing
+s6-rc essential one-shot shutdown warning remains; `invalid number '--'`
+did not appear in the observed run tail.
+
+Original Cleveland/Chinese Art/before-1400 settings, landscape/strict flags,
+contain, black background, debug logging and explicit loading timer were
+restored in the UI and verified with own-app CLI. The app is stopped,
+protected true, AppArmor `profile`, host networking false; about 15.6 GB free.
+The synthetic source and TV upload are retained as approved; nothing was
+deleted, no application code changed, and no existing dashboard/script,
+automation or `configuration.yaml` was edited. Phase 8 remains open for the
+previously recorded checks, and Phase 9/publication remains unapproved.
+
+Local quality gates after these report changes passed: Ruff, both strict mypy
+passes over 222 files, **4657 passed / 8 expected skips in 34.10 s**, 100 %
+line/branch coverage and the architecture gate; exit 0. The final edit only
+records that observed result.

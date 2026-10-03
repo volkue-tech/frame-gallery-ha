@@ -1,6 +1,6 @@
 # Project status
 
-Last updated: 2026-10-03 (Phase 8: corrected loading and stop signal installed/tested)
+Last updated: 2026-10-03 (Phase 8: labelled contain fixture delivered; visual TV check pending)
 
 ## Current phase
 
@@ -8,7 +8,7 @@ Last updated: 2026-10-03 (Phase 8: corrected loading and stop signal installed/t
 
 **Phase 8 (supervised Green validation): in progress. Native Local File preview refresh passed card, event-automation, app-page and no-match tests (D-140). The automation remains disabled, without a schedule. Earlier Running-based loading faults and the stop-time shell warning have been corrected in D-176/D-177 and tested on Green. Only separate test elements changed; no existing elements or `configuration.yaml`. Detailed private-state integrity, hard-kill on Green, memory, edge/no-crop, pairing and AppArmor checks remain open. See `PHASE8_REPORT.md`. Phase 9 and publication remain unapproved.**
 
-**Next-test preparation:** read-only recheck confirmed the stopped/protected app, host networking off and 15.6 GB free. No matching own-app AppArmor lines appeared in the bounded kernel-journal window; attachment/enforcement is not proven. A new labelled 3:2 edge fixture passed local production preparation with 300-pixel black side margins. It is only on the Mac, awaiting scoped TV-test confirmation; no live mutation in this preparation. See `PHASE8_REPORT.md`.
+**Approved edge-test delivery:** after explicit user confirmation, the new labelled 3:2 fixture was transferred once and delivered through the existing test card in 9.9 s. The Green preview SHA256 exactly matches the locally prepared 3840 × 2160 contain JPEG, including 300-pixel black side margins. The retained dashboard refreshed without reload and loading ended; scratch is empty. Original Cleveland/Chinese Art/before-1400 options and explicit timer are restored, app stopped/protected, host networking off, 15.6 GB free. Physical-TV confirmation of all four edges/corner labels is still pending. The earlier bounded kernel query found no own-app AppArmor entries; attachment/enforcement remains unproven. See `PHASE8_REPORT.md`.
 
 - **Phase 6 gate (user decision, 2026-10-03, after the Codex review and its follow-up checks):** passed. D-166 to D-172 are accepted, including the unchanged 1 GiB limit of the image worker (D-170). The native `amd64` memory measurement is mandatory before an `amd64` version is published, at the latest in Phase 9. The qualified licence review and the enforcement of the AppArmor profile stay release prerequisites.
 - **Phase 7 conditions:** only Phase 7 of `TASKS.md`: offline validation with the existing local environments and container images, failure-path tests, and a release-candidate report. No new features, and no additional review loops without a concrete finding. The work stops at the Phase 7 gate.
