@@ -515,3 +515,28 @@ Final host quality gates after the report/documentation updates passed again:
 Ruff and both strict mypy passes clean; **4657 passed, 8 expected skips in
 33.61 s**, 100 % line/branch coverage and architecture gate, exit 0. The final
 edits after that run only complete these live-result/status notes.
+
+## Next supervised checks: read-only preparation (2026-10-03)
+
+After the user requested continuation, the existing authenticated Firefox
+Terminal & SSH connection was reconnected. A bounded host-journal query
+(`ha host logs --identifier kernel --lines 10000`) was filtered on Green to
+AppArmor entries for `frame_gallery_dev`; no matching line was returned.
+Absence in this journal window does not prove attachment or enforcement.
+Own-app CLI still reported stopped, protected true, AppArmor `profile`, and
+host networking false; shared-media storage still had about 15.6 GB free.
+No live settings, files, history, pairing token or protection were changed.
+
+A second, independently generated edge fixture is prepared only on the Mac:
+3000 × 2000 PNG, four coloured edges and four labelled corners. The production
+preparation function produced an `ok` 3840 × 2160 JPEG (328328 bytes), with
+300-pixel black margins at each side. Pixel checks confirmed black margins
+and visual inspection confirmed all edge marks/corner labels. This is local
+preparation evidence, not a Green delivery or physical-TV confirmation.
+It has not been transferred or uploaded; the scoped live-test confirmation
+was requested. Detailed private-state integrity and live memory checks require
+an accessible, bounded diagnostic route without disabling protection.
+
+The documentation checkpoint's local quality gates passed: Ruff, both strict
+mypy passes, 4657 tests passed / 8 expected skips in 36.79 s; 100 % line/branch
+coverage and the architecture gate. No application code changed.
