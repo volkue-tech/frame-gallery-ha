@@ -500,6 +500,25 @@ class TestJson:
         with pytest.raises(ValueError, match="nested too deeply"):
             decode_json(b"[" * 100_000 + b"]" * 100_000)
 
+    @pytest.mark.parametrize("depth", [32, 33])
+    def test_json_container_depth_boundary(self, depth: int) -> None:
+        data = b"[" * depth + b"0" + b"]" * depth
+        if depth == 32:
+            assert decode_json(data) is not None
+        else:
+            with pytest.raises(ValueError, match="nested too deeply"):
+                decode_json(data)
+
+    def test_parser_recursion_failure_is_still_mapped(
+        self, monkeypatch: pytest.MonkeyPatch
+    ) -> None:
+        def refuse(*_args: object, **_kwargs: object) -> object:
+            raise RecursionError
+
+        monkeypatch.setattr("frame_gallery.store.atomic.json.loads", refuse)
+        with pytest.raises(ValueError, match="nested too deeply"):
+            decode_json(b"{}")
+
 
 class TestReadDocument:
     def read(self, directory: Directory, *, backup: bool = True) -> atomic.ReadResult[list[int]]:

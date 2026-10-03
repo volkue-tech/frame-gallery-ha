@@ -1,6 +1,6 @@
 # Phase 9 progress report
 
-Date: 2026-10-03. **In progress, not a release approval.**
+Updated: 2026-10-04. **In progress, not a release approval.**
 
 Authorized scope: Frame Gallery hardening, engineering licence audit, publication
 preparation and the separate Green test app; final personal repository name
@@ -488,3 +488,29 @@ skips, strict host/Linux mypy 236 files, 100% full/mandated line+branch; native 
 `build/phase9/check-beta-b1-ci-fixtures-final-20261003.log` and
 `build/phase9/container-beta-b1-ci-fixtures-final-aarch64-20261003.log`.
 Targeted local-media run: 73 passed; direct signal-refusal run: two passed.
+
+## Hosted Intel JSON limit correction (D-195)
+
+Personal main `3550186` was pushed successfully. Intel job `111301941395` in run
+`37156871737` failed three tests (4,799 other passes / five platform skips): its
+Python 3.14.7 JSON parser accepted 100,000 nested containers. IPC still refused
+the tree, but the network/store decoding paths depended on parser recursion and
+accepted the input. The complete raw own-job log was obtained through Firefox;
+no authenticated API retry or change to a test/coverage threshold was used.
+
+The three paths now apply an explicit 32-container byte scan before parsing.
+Quoted content, escaped quotes/backslashes and UTF-8 are handled independently
+of container depth, and the JSON parser retains syntax validation. IPC retains
+its defensive post-parse check. Targeted tests on the final correction: 310
+passed. Full Mac/native ARM and fresh hosted Intel/ARM validation are required,
+followed by newly assembled exact-commit sources. Older packages are not matching
+release assets. No live HA/TV change or source/image publication occurred.
+
+Final correction commands exited 0: Mac 4,816 passed / eleven existing platform
+skips, strict host/Linux mypy 238 files, 100% full coverage (9,201 statements /
+1,972 branches) and mandated coverage (7,543 / 1,640). Native ARM container:
+4,822 passed / five root-only skips, all five separate root tests, all 201 notice
+documents byte/readability verified, init/stop/token/smoke checks passed. Logs:
+`build/phase9/check-json-nesting-complete-20261004.log` and
+`build/phase9/container-json-nesting-complete-aarch64-20261004.log`.
+Fresh hosted native results and source/image/install release gates remain open.

@@ -14,13 +14,14 @@ from typing import Final, NoReturn
 
 from frame_gallery.errors import FrameGalleryError
 from frame_gallery.isolation.executor import JsonObject
+from frame_gallery.json_limits import MAX_JSON_NESTING_DEPTH, check_json_nesting
 
 MAX_MESSAGE_BYTES: Final = 64 * 1024
 """The message cap (§11.3), in both executors. The process executor carries
 each message in a frame that may be ``framing.ENVELOPE_BYTES`` larger for its
 envelope; the body is still held to this cap (D-163)."""
 
-MAX_NESTING_DEPTH: Final = 32
+MAX_NESTING_DEPTH: Final = MAX_JSON_NESTING_DEPTH
 """Containers (objects and arrays) nested deeper than this are refused."""
 
 
@@ -148,6 +149,11 @@ def decode_message(data: bytes, *, max_bytes: int = MAX_MESSAGE_BYTES) -> JsonOb
         text = data.decode("utf-8")
     except UnicodeDecodeError:
         msg = "message is not valid UTF-8"
+        raise ChannelError(msg) from None
+    try:
+        check_json_nesting(data)
+    except ValueError:
+        msg = f"message nests deeper than {MAX_NESTING_DEPTH} levels"
         raise ChannelError(msg) from None
     try:
         value: object = json.loads(

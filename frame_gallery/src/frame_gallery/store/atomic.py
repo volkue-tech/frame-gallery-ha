@@ -50,6 +50,7 @@ from pathlib import Path
 from typing import Final, Self
 
 from frame_gallery.errors import StateError
+from frame_gallery.json_limits import check_json_nesting
 
 DIRECTORY_FLAGS: Final = os.O_RDONLY | os.O_DIRECTORY | os.O_NOFOLLOW | os.O_CLOEXEC
 READ_FLAGS: Final = os.O_RDONLY | os.O_NOFOLLOW | os.O_CLOEXEC | os.O_NONBLOCK
@@ -425,9 +426,10 @@ def _finite(text: str) -> float:
 
 
 def decode_json(data: bytes) -> object:
-    """Parse JSON; ``NaN``, ``Infinity``, and numbers too large for a finite
-    float are refused. Raises ``ValueError``."""
+    """Parse JSON; non-finite numbers and containers deeper than 32 levels
+    are refused. Raises ``ValueError``."""
     try:
+        check_json_nesting(data)
         return json.loads(data, parse_constant=_refuse_constant, parse_float=_finite)
     except RecursionError:
         msg = "nested too deeply"

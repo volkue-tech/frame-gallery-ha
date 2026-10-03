@@ -240,11 +240,26 @@ def test_decode_rejects_deeper_arrays() -> None:
         decode_message(data)
 
 
-def test_decode_survives_nesting_beyond_the_parser_recursion_limit() -> None:
+def test_decode_rejects_extreme_nesting_before_the_parser(monkeypatch: pytest.MonkeyPatch) -> None:
+    def unexpected_parser(*args: object, **kwargs: object) -> object:
+        pytest.fail("oversized nesting must be refused before the JSON parser")
+
+    monkeypatch.setattr("frame_gallery.isolation.channel.json.loads", unexpected_parser)
     depth = 100_000
     data = b'{"a":' + b"[" * depth + b"]" * depth + b"}"
-    with pytest.raises(ChannelError, match="not valid JSON"):
+    with pytest.raises(ChannelError, match="nests deeper"):
         decode_message(data, max_bytes=len(data))
+
+
+def test_decode_retains_a_defensive_depth_check_on_the_decoded_tree(
+    monkeypatch: pytest.MonkeyPatch,
+) -> None:
+    def unexpected_tree(*args: object, **kwargs: object) -> object:
+        return _nested(MAX_NESTING_DEPTH + 1)
+
+    monkeypatch.setattr("frame_gallery.isolation.channel.json.loads", unexpected_tree)
+    with pytest.raises(ChannelError, match="nests deeper"):
+        decode_message(b"{}")
 
 
 @pytest.mark.parametrize("max_bytes", [0, -5])

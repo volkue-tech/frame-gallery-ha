@@ -548,6 +548,19 @@ class TestBodies:
             rig.channel.get_json(URL, rig.deadline())
         assert _kind(excinfo) is SourceErrorKind.UNEXPECTED_FORMAT
 
+    @pytest.mark.parametrize("depth", [32, 33])
+    def test_json_container_depth_boundary(self, rig: Rig, depth: int) -> None:
+        body = b"[" * depth + b"0" + b"]" * depth
+        response = FakeResponse(headers={"Content-Type": "application/json"}, body=body)
+        rig.transport.add(response)
+        if depth == 32:
+            assert rig.channel.get_json(URL, rig.deadline()) is not None
+        else:
+            with pytest.raises(SourceError, match="not valid JSON") as excinfo:
+                rig.channel.get_json(URL, rig.deadline())
+            assert _kind(excinfo) is SourceErrorKind.UNEXPECTED_FORMAT
+        assert response.closed
+
     def test_read_failure(self, rig: Rig) -> None:
         response = json_response({"a": 1})
         response.fail_after_reads = 0

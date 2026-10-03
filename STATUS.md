@@ -1,10 +1,20 @@
 # Project status
 
-Last updated: 2026-10-03 (Phase 9: enforced worker probes and regular Green delivery passed)
+Last updated: 2026-10-04 (Phase 9: hosted Intel JSON-bound correction)
 
 ## Current phase
 
-**Latest hosted follow-up:** the corrected personal main push to `7f20c14` is
+**Latest correction (D-195):** personal main `3550186` is pushed, but Intel job
+`111301941395` in run `37156871737` failed three JSON-depth tests. Its Python
+build accepted extreme nesting that other builds reject. All three JSON input
+paths now enforce a 32-container bound before parsing; this fixes the network
+and stored-JSON defect and preserves IPC refusal independently of the parser.
+Full local gates exited 0: Mac 4,816 / eleven platform skips, strict mypy 238
+files, 100% full/mandated line+branch; native ARM 4,822 / five root-only skips
+plus all five root checks. Fresh native hosted gates remain required. No source
+release or container image has been published; previous packages are superseded.
+
+**Prior fixture-correction evidence:** the personal main push to `7f20c14` is
 verified. Run `37156461763` failed two old local-media fixtures whose
 unlink/recreate assumption permits immediate inode reuse on Ubuntu. Their
 replacement is now allocated before the old inode is released; all refusal and
@@ -42,8 +52,8 @@ unchanged. No public candidate image or clean public installation is claimed.
 workflow is prepared, not dispatched. D-194's final workflow review found and
 corrected missing explicit Bash/pipefail defaults: a piped host gate must not be
 reported successful merely because tee succeeded. Both workflows select the
-documented fail-closed Bash invocation, with nine host/fixture/shell regressions
-regressions. The earlier numbered source upload is only a private untagged draft;
+documented fail-closed Bash invocation, with nine host/fixture/shell regressions.
+The earlier numbered source upload is only a private untagged draft;
 it is not distributed. Fresh native fail-closed hosted validation and a matching
 source package are required before activating image publication.
 

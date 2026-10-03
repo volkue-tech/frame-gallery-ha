@@ -35,6 +35,7 @@ from frame_gallery.budget.allowance import Allowance, AllowanceExhausted
 from frame_gallery.budget.clock import Clock
 from frame_gallery.budget.deadline import Deadline, DeadlineExceeded
 from frame_gallery.budget.limits import CONNECT_S, DNS_S, READ_S
+from frame_gallery.json_limits import check_json_nesting
 from frame_gallery.net.identity import ClientIdentity
 from frame_gallery.net.policy import (
     HTTPS_PORT,
@@ -556,6 +557,7 @@ def _reject_constant(name: str) -> NoReturn:
 def _parse_json(data: bytes) -> object:
     """Standard-library JSON only (D-127); NaN and Infinity are refused."""
     try:
+        check_json_nesting(data)
         document: object = json.loads(data.decode("utf-8"), parse_constant=_reject_constant)
     except (UnicodeDecodeError, ValueError, RecursionError):
         raise SourceError(

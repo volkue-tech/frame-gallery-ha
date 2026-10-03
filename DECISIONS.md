@@ -1,5 +1,43 @@
 # Decision log
 
+## Phase 9 hosted correction (2026-10-04)
+
+### D-195 — explicit JSON depth bound independent of the interpreter
+
+Status: correction within the already authorized release scope; full local and
+fresh native hosted validation remain required before publication.
+
+The personal main push to `3550186` is verified. Intel job `111301941395` in
+run `37156871737` failed three JSON-depth tests: its Python 3.14.7 build accepted
+100,000 nested containers instead of raising a parser recursion error. The IPC
+path still refused the resulting tree, but its test expected the parser's error;
+network JSON and stored JSON relied on that parser limit and did not refuse it.
+This is an input-bound defect, not a reason to waive the tests or coverage gate.
+
+All three decoding paths now scan already byte-capped input before parsing and
+refuse more than 32 nested containers, matching the existing IPC limit. The
+scanner uses constant auxiliary space, ignores quoted content and escaped
+quotes/backslashes, and leaves syntax validation to the JSON parser. The IPC
+tree check remains as a second defense. Network refusal retains
+`UNEXPECTED_FORMAT`; stored JSON raises `ValueError`, without altering existing
+recovery behavior. No dependency, live configuration or persistent state changes.
+
+Tests cover the exact 32/33 boundary in the scanner and both other decoding paths,
+large quoted bracket strings, escapes, UTF-8, malformed input left to the parser,
+extreme IPC input rejected before the parser is called, defensive tree refusal,
+and deterministic mapping of a parser recursion failure. Existing deep-input
+tests remain. Final full gates and matching exact-commit sources are mandatory;
+earlier source candidates must not be published.
+
+Final commands exited 0: full native Mac gates (4,816 passes / eleven existing
+platform skips, strict host/Linux mypy 238 files, 100% full line/branch coverage
+at 9,201 statements / 1,972 branches; mandated subset 7,543 / 1,640 at 100%).
+Native ARM container validation: 4,822 passes / five root-only skips, all five
+separate root checks and all 201 shipped notice documents verified. Logs:
+`build/phase9/check-json-nesting-complete-20261004.log` and
+`build/phase9/container-json-nesting-complete-aarch64-20261004.log`.
+Fresh exact-commit hosted Intel and ARM results remain required.
+
 ## Phase 9 implementation decisions (2026-10-03)
 
 ### D-194 — numbered candidate before activation and exact source publication
