@@ -1,0 +1,428 @@
+{
+  "schema": 1,
+  "scope": "retained native-Pillow sources and exact primary/patent texts; not complete legal clearance or binary reproducibility proof",
+  "sources": [
+    {
+      "name": "dav1d",
+      "version": "1.5.3",
+      "filename": "dav1d-1.5.3.tar.xz",
+      "url": "https://downloads.videolan.org/pub/videolan/dav1d/1.5.3/dav1d-1.5.3.tar.xz",
+      "sha256": "732010aa5ef461fa93355ed2c6c5fedb48ddc4b74e697eaabe8907eaeb943011",
+      "bytes": 1022836,
+      "verification": "official published SHA256"
+    },
+    {
+      "name": "freetype",
+      "version": "2.14.3",
+      "filename": "freetype-2.14.3.tar.gz",
+      "url": "https://ftp.cc.uoc.gr/mirrors/nongnu.org/freetype/freetype-2.14.3.tar.gz",
+      "sha256": "e61b31ab26358b946e767ed7eb7f4bb2e507da1cfefeb7a8861ace7fd5c899a1",
+      "bytes": 4134916,
+      "verification": "calculated archive SHA256; not publisher attestation or binary equivalence proof"
+    },
+    {
+      "name": "harfbuzz",
+      "version": "14.2.1",
+      "filename": "harfbuzz-14.2.1.tar.gz",
+      "url": "https://codeload.github.com/harfbuzz/harfbuzz/tar.gz/refs/tags/14.2.1",
+      "sha256": "3c2a9006a7e1bf58737e557014d7882c554c628fb379a9f00008f5ea53dbbdfb",
+      "bytes": 37415150,
+      "verification": "calculated archive SHA256; not publisher attestation or binary equivalence proof"
+    },
+    {
+      "name": "lcms2",
+      "version": "2.19.1",
+      "filename": "lcms2-2.19.1.tar.gz",
+      "url": "https://codeload.github.com/mm2/Little-CMS/tar.gz/refs/tags/lcms2.19.1",
+      "sha256": "267705e278e2f7c2fb886c259dadcbaeb2be52748bcbc71c79f08aacacb7a709",
+      "bytes": 5731108,
+      "verification": "calculated archive SHA256; not publisher attestation or binary equivalence proof"
+    },
+    {
+      "name": "libXau",
+      "version": "1.0.12",
+      "filename": "libXau-1.0.12.tar.gz",
+      "url": "https://xorg.freedesktop.org/archive/individual/lib/libXau-1.0.12.tar.gz",
+      "sha256": "2402dd938da4d0a332349ab3d3586606175e19cb32cb9fe013c19f1dc922dcee",
+      "bytes": 418722,
+      "verification": "calculated archive SHA256; not publisher attestation or binary equivalence proof"
+    },
+    {
+      "name": "libXdmcp",
+      "version": "1.1.5",
+      "filename": "libXdmcp-1.1.5.tar.gz",
+      "url": "https://xorg.freedesktop.org/archive/individual/lib/libXdmcp-1.1.5.tar.gz",
+      "sha256": "31a7abc4f129dcf6f27ae912c3eedcb94d25ad2e8f317f69df6eda0bc4e4f2f3",
+      "bytes": 442597,
+      "verification": "calculated archive SHA256; not publisher attestation or binary equivalence proof"
+    },
+    {
+      "name": "libjpeg-turbo",
+      "version": "3.1.4.1",
+      "filename": "libjpeg-turbo-3.1.4.1.tar.gz",
+      "url": "https://codeload.github.com/libjpeg-turbo/libjpeg-turbo/tar.gz/refs/tags/3.1.4.1",
+      "sha256": "a7da42b640377c2a9a9665e2c4b0ea60cd5599afb48c2521e6df0c9dc9d15a25",
+      "bytes": 2528617,
+      "verification": "calculated archive SHA256; not publisher attestation or binary equivalence proof"
+    },
+    {
+      "name": "libpng",
+      "version": "1.6.58",
+      "filename": "libpng-1.6.58.tar.gz",
+      "url": "https://codeload.github.com/pnggroup/libpng/tar.gz/refs/tags/v1.6.58",
+      "sha256": "a9d4df463d36a6e5f9c29bd6f4967312d17e996c1854f3511f833924eb1993cf",
+      "bytes": 1592190,
+      "verification": "calculated archive SHA256; not publisher attestation or binary equivalence proof"
+    },
+    {
+      "name": "libtiff",
+      "version": "4.7.1",
+      "filename": "tiff-4.7.1.tar.gz",
+      "url": "https://download.osgeo.org/libtiff/tiff-4.7.1.tar.gz",
+      "sha256": "f698d94f3103da8ca7438d84e0344e453fe0ba3b7486e04c5bf7a9a3fabe9b69",
+      "bytes": 4000609,
+      "verification": "calculated archive SHA256; not publisher attestation or binary equivalence proof"
+    },
+    {
+      "name": "libwebp",
+      "version": "1.6.0",
+      "filename": "libwebp-1.6.0.tar.gz",
+      "url": "https://storage.googleapis.com/downloads.webmproject.org/releases/webp/libwebp-1.6.0.tar.gz",
+      "sha256": "e4ab7009bf0629fd11982d4c2aa83964cf244cffba7347ecd39019a9e38c4564",
+      "bytes": 4296070,
+      "verification": "calculated archive SHA256; not publisher attestation or binary equivalence proof"
+    },
+    {
+      "name": "libxcb",
+      "version": "1.17.0",
+      "filename": "libxcb-1.17.0.tar.gz",
+      "url": "https://xorg.freedesktop.org/archive/individual/lib/libxcb-1.17.0.tar.gz",
+      "sha256": "2c69287424c9e2128cb47ffe92171e10417041ec2963bceafb65cb3fcf8f0b85",
+      "bytes": 661593,
+      "verification": "calculated archive SHA256; not publisher attestation or binary equivalence proof"
+    },
+    {
+      "name": "openjpeg",
+      "version": "2.5.4",
+      "filename": "openjpeg-2.5.4.tar.gz",
+      "url": "https://codeload.github.com/uclouvain/openjpeg/tar.gz/refs/tags/v2.5.4",
+      "sha256": "a695fbe19c0165f295a8531b1e4e855cd94d0875d2f88ec4b61080677e27188a",
+      "bytes": 2157028,
+      "verification": "calculated archive SHA256; not publisher attestation or binary equivalence proof"
+    },
+    {
+      "name": "Pillow release build inputs",
+      "version": "12.3.0",
+      "filename": "Pillow-12.3.0-git.tar.gz",
+      "url": "https://codeload.github.com/python-pillow/Pillow/tar.gz/refs/tags/12.3.0",
+      "sha256": "d7ce60fdf8b3d3b4370ea213834d7c852b1ca16396d4e75e5046be815b11b2fb",
+      "bytes": 47120631,
+      "verification": "calculated archive SHA256; documented build input, not publisher attestation or binary equivalence proof"
+    },
+    {
+      "name": "multibuild (Pillow submodule)",
+      "version": "4546f4d4820ffd0104b872c3b6187260b3e64edc",
+      "filename": "multibuild-4546f4d4820ffd0104b872c3b6187260b3e64edc.tar.gz",
+      "url": "https://codeload.github.com/multi-build/multibuild/tar.gz/4546f4d4820ffd0104b872c3b6187260b3e64edc",
+      "sha256": "e19297569173d647e2f7e3ddeb7a336789b4a3efad8180402a23b10da355076c",
+      "bytes": 822658,
+      "verification": "calculated archive SHA256; documented build input, not publisher attestation or binary equivalence proof"
+    },
+    {
+      "name": "libavif",
+      "version": "1.4.2",
+      "filename": "libavif-1.4.2.tar.gz",
+      "url": "https://codeload.github.com/AOMediaCodec/libavif/tar.gz/refs/tags/v1.4.2",
+      "sha256": "2b645287340ba5a631d268b551dc2d72bd73ac33335962dd36dcdb6d8366921d",
+      "bytes": 14665927,
+      "verification": "calculated archive SHA256; documented build input, not publisher attestation or binary equivalence proof"
+    },
+    {
+      "name": "aom",
+      "version": "3.14.1",
+      "filename": "aom-3.14.1.tar.gz",
+      "url": "https://aomedia.googlesource.com/aom/+archive/refs/tags/v3.14.1.tar.gz",
+      "sha256": "f9d7a55bd4f2875f0954f622dc7b3179c33fa4fa43784e26fda91661eb3ab5dd",
+      "bytes": 6438213,
+      "verification": "calculated archive SHA256; documented build input, not publisher attestation or binary equivalence proof"
+    },
+    {
+      "name": "libyuv",
+      "version": "644251f252a84bf8ce91ff0aca86a9b16b069ab8",
+      "filename": "libyuv-644251f252a84bf8ce91ff0aca86a9b16b069ab8.tar.gz",
+      "url": "https://chromium.googlesource.com/libyuv/libyuv/+archive/644251f252a84bf8ce91ff0aca86a9b16b069ab8.tar.gz",
+      "sha256": "2ed3dfeebb46d4fa0fade1c8c83ff95b45a8ee36151886d38bb4463e1d14c42b",
+      "bytes": 598315,
+      "verification": "calculated archive SHA256; documented build input, not publisher attestation or binary equivalence proof"
+    }
+  ],
+  "shared_alpine_sources": [
+    {
+      "filename": "brotli-1.2.0.tar.gz",
+      "sha512": "f94542afd2ecd96cc41fd21a805a3da314281ae558c10650f3e6d9ca732b8425bba8fde312823f0a564c7de3993bdaab5b43378edab65ebb798cefb6fd702256",
+      "origins": [
+        "brotli"
+      ],
+      "url": "https://distfiles.alpinelinux.org/distfiles/v3.24/brotli-1.2.0.tar.gz",
+      "sha256": "816c96e8e8f193b40151dad7e8ff37b1221d019dbcb9c35cd3fadbfe6477dfec",
+      "bytes": 646315,
+      "verification": "SHA512 matches exact installed build recipe; not binary reproducibility proof"
+    },
+    {
+      "filename": "bzip2-1.0.8.tar.gz",
+      "sha512": "083f5e675d73f3233c7930ebe20425a533feedeaaa9d8cc86831312a6581cefbe6ed0d08d2fa89be81082f2a5abdabca8b3c080bf97218a1bd59dc118a30b9f3",
+      "origins": [
+        "bzip2"
+      ],
+      "url": "https://distfiles.alpinelinux.org/distfiles/v3.24/bzip2-1.0.8.tar.gz",
+      "sha256": "ab5a03176ee106d3f0fa90e381da478ddae405918153cca248e682cd0c4a2269",
+      "bytes": 810029,
+      "verification": "SHA512 matches exact installed build recipe; not binary reproducibility proof"
+    },
+    {
+      "filename": "xz-5.8.3.tar.gz",
+      "sha512": "8fb5e6a13397d259d8ff7484f9b63f8a6752ff1c63e1a4601170ad8175aadefb5126a1cae7f73370bfc6c2a0b4e1c0bad57a58fc5b781d3f7d45e5a483c091cc",
+      "origins": [
+        "xz"
+      ],
+      "url": "https://distfiles.alpinelinux.org/distfiles/v3.24/xz-5.8.3.tar.gz",
+      "sha256": "8ec1767fa517642ecb4cf08b891ce667ba6f143551e382b07c7ef437bda335e2",
+      "bytes": 1664359,
+      "verification": "SHA512 matches exact installed build recipe; not binary reproducibility proof"
+    },
+    {
+      "filename": "zstd-1.5.7.tar.gz",
+      "sha512": "26e441267305f6e58080460f96ab98645219a90d290a533410b1b0b1d2f870721c95f8384e342ee647c5e968385a5b7e30c2d04340c37f59b3e6d86762c3260c",
+      "origins": [
+        "zstd"
+      ],
+      "url": "https://distfiles.alpinelinux.org/distfiles/v3.24/zstd-1.5.7.tar.gz",
+      "sha256": "37d7284556b20954e56e1ca85b80226768902e2edabd3b649e9e72c0c9012ee3",
+      "bytes": 2451884,
+      "verification": "SHA512 matches exact installed build recipe; not binary reproducibility proof"
+    }
+  ],
+  "texts": [
+    {
+      "path": "aom-3.14.1/LICENSE",
+      "archive": "aom-3.14.1.tar.gz",
+      "member": "LICENSE",
+      "sha256": "4764a286d8b2faeaf42f4418e7d7a28d58fc8fd4d00a3d0a7f44b0a4099de7f2",
+      "bytes": 1316,
+      "verification": "byte-identical to retained source archive member"
+    },
+    {
+      "path": "aom-3.14.1/PATENTS",
+      "archive": "aom-3.14.1.tar.gz",
+      "member": "PATENTS",
+      "sha256": "661fb8e504744e95587b556b94a58343448300606a41bea8c7a9b97125696e61",
+      "bytes": 5701,
+      "verification": "byte-identical to retained source archive member"
+    },
+    {
+      "path": "libyuv-644251f252a84bf8ce91ff0aca86a9b16b069ab8/LICENSE",
+      "archive": "libyuv-644251f252a84bf8ce91ff0aca86a9b16b069ab8.tar.gz",
+      "member": "LICENSE",
+      "sha256": "2b2cc1180c7e6988328ad2033b04b80117419db9c4c584918bbb3cfec7e9364f",
+      "bytes": 1506,
+      "verification": "byte-identical to retained source archive member"
+    },
+    {
+      "path": "libyuv-644251f252a84bf8ce91ff0aca86a9b16b069ab8/PATENTS",
+      "archive": "libyuv-644251f252a84bf8ce91ff0aca86a9b16b069ab8.tar.gz",
+      "member": "PATENTS",
+      "sha256": "4da84211f947c6f9f7dd8fbce513e1522e01833407ae732b8c9a2bbb75fed495",
+      "bytes": 1387,
+      "verification": "byte-identical to retained source archive member"
+    },
+    {
+      "path": "libjpeg-turbo-3.1.4.1/LICENSE.md",
+      "archive": "libjpeg-turbo-3.1.4.1.tar.gz",
+      "member": "libjpeg-turbo-3.1.4.1/LICENSE.md",
+      "sha256": "e10114e6e40f3d0311c401ca25245ac5ef459a43c20f976fd63f03e816f5741f",
+      "bytes": 5622,
+      "verification": "byte-identical to retained source archive member"
+    },
+    {
+      "path": "libjpeg-turbo-3.1.4.1/README.ijg",
+      "archive": "libjpeg-turbo-3.1.4.1.tar.gz",
+      "member": "libjpeg-turbo-3.1.4.1/README.ijg",
+      "sha256": "75815e3bf6484201a3c3d17a1bbf10f2e8e3237f84df10a2357ea896db2a81d6",
+      "bytes": 12799,
+      "verification": "byte-identical to retained source archive member"
+    },
+    {
+      "path": "harfbuzz-14.2.1/COPYING",
+      "archive": "harfbuzz-14.2.1.tar.gz",
+      "member": "harfbuzz-14.2.1/COPYING",
+      "sha256": "ba8f810f2455c2f08e2d56bb49b72f37fcf68f1f4fade38977cfd7372050ad64",
+      "bytes": 1971,
+      "verification": "byte-identical to retained source archive member"
+    },
+    {
+      "path": "harfbuzz-14.2.1/ms-use-COPYING",
+      "archive": "harfbuzz-14.2.1.tar.gz",
+      "member": "harfbuzz-14.2.1/src/ms-use/COPYING",
+      "sha256": "c2cfccb812fe482101a8f04597dfc5a9991a6b2748266c47ac91b6a5aae15383",
+      "bytes": 1141,
+      "verification": "byte-identical to retained source archive member"
+    },
+    {
+      "path": "freetype-2.14.3/FTL.TXT",
+      "archive": "freetype-2.14.3.tar.gz",
+      "member": "freetype-2.14.3/docs/FTL.TXT",
+      "sha256": "5a5ee54c5001bbad1cdc1a57cc3dd4c42199b2da09d39c7ee41fab002d02967f",
+      "bytes": 6743,
+      "verification": "byte-identical to retained source archive member"
+    },
+    {
+      "path": "freetype-2.14.3/LICENSE.TXT",
+      "archive": "freetype-2.14.3.tar.gz",
+      "member": "freetype-2.14.3/LICENSE.TXT",
+      "sha256": "bd36c8b474855fa294c2ec5c184544478ef3720aad37d65a6296a4f264fd2d3b",
+      "bytes": 2149,
+      "verification": "byte-identical to retained source archive member"
+    },
+    {
+      "path": "lcms2-2.19.1/LICENSE",
+      "archive": "lcms2-2.19.1.tar.gz",
+      "member": "Little-CMS-lcms2.19.1/LICENSE",
+      "sha256": "6dbd60437f8ef91d8de1f08ad75882547fd4931bfcc3566a0735f28db1484d31",
+      "bytes": 1080,
+      "verification": "byte-identical to retained source archive member"
+    },
+    {
+      "path": "libpng-1.6.58/LICENSE",
+      "archive": "libpng-1.6.58.tar.gz",
+      "member": "libpng-1.6.58/LICENSE",
+      "sha256": "bdb0a645ea18c60507d0368379b1ac5474b92255fcc2d115e07486a7672ba526",
+      "bytes": 5345,
+      "verification": "byte-identical to retained source archive member"
+    },
+    {
+      "path": "openjpeg-2.5.4/LICENSE",
+      "archive": "openjpeg-2.5.4.tar.gz",
+      "member": "openjpeg-2.5.4/LICENSE",
+      "sha256": "a6af136f3e15038a666b61f376612a07d9a4e48cb7c01adbf3e33b3f14ab49b6",
+      "bytes": 2112,
+      "verification": "byte-identical to retained source archive member"
+    },
+    {
+      "path": "libtiff-4.7.1/LICENSE.md",
+      "archive": "tiff-4.7.1.tar.gz",
+      "member": "tiff-4.7.1/LICENSE.md",
+      "sha256": "0e27c2382d7b8147972bbb746e04059a1152c8d0fda9d03ef1399d1a433c4ade",
+      "bytes": 2416,
+      "verification": "byte-identical to retained source archive member"
+    },
+    {
+      "path": "libwebp-1.6.0/COPYING",
+      "archive": "libwebp-1.6.0.tar.gz",
+      "member": "libwebp-1.6.0/COPYING",
+      "sha256": "5aec868f669e384a22372a4e8a1a6cd7d44c64cd451f960ca69cc170d1e13acf",
+      "bytes": 1496,
+      "verification": "byte-identical to retained source archive member"
+    },
+    {
+      "path": "libwebp-1.6.0/PATENTS",
+      "archive": "libwebp-1.6.0.tar.gz",
+      "member": "libwebp-1.6.0/PATENTS",
+      "sha256": "cc3273e0694ea5896145e0677699b53471b03ea43021ddc50e7923fbb9f5023c",
+      "bytes": 1436,
+      "verification": "byte-identical to retained source archive member"
+    },
+    {
+      "path": "libxcb-1.17.0/COPYING",
+      "archive": "libxcb-1.17.0.tar.gz",
+      "member": "libxcb-1.17.0/COPYING",
+      "sha256": "c5ffbfeaa501071ceeb97b7de2c0d703fdaa35de01c0fb6cbac1c28453a3e9fd",
+      "bytes": 1337,
+      "verification": "byte-identical to retained source archive member"
+    },
+    {
+      "path": "libXau-1.0.12/COPYING",
+      "archive": "libXau-1.0.12.tar.gz",
+      "member": "libXau-1.0.12/COPYING",
+      "sha256": "56abe29bb1d9806a9e04fa9f80fed2c0f18027594df3f098148d814aef6bddfa",
+      "bytes": 1148,
+      "verification": "byte-identical to retained source archive member"
+    },
+    {
+      "path": "libXdmcp-1.1.5/COPYING",
+      "archive": "libXdmcp-1.1.5.tar.gz",
+      "member": "libXdmcp-1.1.5/COPYING",
+      "sha256": "8a3c3f35b0dbcb60a4e242b9e4394a352a65bb27deb2938ea1e2e62a626e16e9",
+      "bytes": 1178,
+      "verification": "byte-identical to retained source archive member"
+    },
+    {
+      "path": "dav1d-1.5.3/COPYING",
+      "archive": "dav1d-1.5.3.tar.xz",
+      "member": "dav1d-1.5.3/COPYING",
+      "sha256": "dd92c3c2247c5651606fc23a5e2d6a1ebc5ace9a3e49cbde0e12f05ad1cb1ee5",
+      "bytes": 1317,
+      "verification": "byte-identical to retained source archive member"
+    },
+    {
+      "path": "brotli-1.2.0/LICENSE",
+      "archive": "brotli-1.2.0.tar.gz",
+      "member": "brotli-1.2.0/LICENSE",
+      "sha256": "3d180008e36922a4e8daec11c34c7af264fed5962d07924aea928c38e8663c94",
+      "bytes": 1084,
+      "verification": "byte-identical to retained source archive member"
+    },
+    {
+      "path": "bzip2-1.0.8/LICENSE",
+      "archive": "bzip2-1.0.8.tar.gz",
+      "member": "bzip2-1.0.8/LICENSE",
+      "sha256": "c6dbbf828498be844a89eaa3b84adbab3199e342eb5cb2ed2f0d4ba7ec0f38a3",
+      "bytes": 1896,
+      "verification": "byte-identical to retained source archive member"
+    },
+    {
+      "path": "xz-5.8.3/COPYING",
+      "archive": "xz-5.8.3.tar.gz",
+      "member": "xz-5.8.3/COPYING",
+      "sha256": "616a3ad264ce29b8f1cb97e53037b139d406899ca8d1f799651e17bfa09830b8",
+      "bytes": 3119,
+      "verification": "byte-identical to retained source archive member"
+    },
+    {
+      "path": "xz-5.8.3/COPYING.0BSD",
+      "archive": "xz-5.8.3.tar.gz",
+      "member": "xz-5.8.3/COPYING.0BSD",
+      "sha256": "0b01625d853911cd0e2e088dcfb743261034a091bb379246cb25a14cc4c74bf1",
+      "bytes": 607,
+      "verification": "byte-identical to retained source archive member"
+    },
+    {
+      "path": "zstd-1.5.7/LICENSE",
+      "archive": "zstd-1.5.7.tar.gz",
+      "member": "zstd-1.5.7/LICENSE",
+      "sha256": "7055266497633c9025b777c78eb7235af13922117480ed5c674677adc381c9d8",
+      "bytes": 1549,
+      "verification": "byte-identical to retained source archive member"
+    },
+    {
+      "path": "libavif-1.4.2/LICENSE",
+      "archive": "libavif-1.4.2.tar.gz",
+      "member": "libavif-1.4.2/LICENSE",
+      "sha256": "165abf92cc04b39e80d29cadea7a6a7e8fddf59407d4ad2616507a7ebe8216f9",
+      "bytes": 20415,
+      "verification": "byte-identical to retained source archive member"
+    },
+    {
+      "path": "libtiff-4.7.1/tiff-4.7.1.tar.gz.patch",
+      "archive": "Pillow-12.3.0-git.tar.gz",
+      "member": "Pillow-12.3.0/patches/tiff-4.7.1.tar.gz.patch",
+      "sha256": "76c498bdc9b811799c3b517e3c05479ac346dfb3bd53dee69d2e3fbe2aa046e6",
+      "bytes": 1754,
+      "verification": "byte-identical to retained source archive member"
+    }
+  ],
+  "libtiff_patch": {
+    "commit": "782a11d6b5b61c6dc21e714950a4af5bf89f023c",
+    "path": "libtiff-4.7.1/tiff-4.7.1.tar.gz.patch",
+    "verification": "byte-identical both to official Pillow 12.3.0 release patch and to installed ARM wheel SBOM patch"
+  }
+}

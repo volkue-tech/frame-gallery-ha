@@ -98,6 +98,17 @@ files that `compileall` rejects as Python containing NUL bytes. Do not copy
 
 ## The container image (Phase 6)
 
+The committed `license_bundle/` mechanically mirrors the public repository's
+`LICENSE`, `NOTICE`, `THIRD_PARTY_NOTICES.md` and `LICENSES/`; it contains no
+source archives, runtime data or credentials. After editing these originals,
+run `.venv/bin/python scripts/license_bundle.py` and commit the regenerated
+payload. `scripts/check.sh` checks it without changing files. Supervisor can
+build directly from the committed context, without a local pre-build script.
+The image keeps the original bytes in `/usr/share/frame-gallery/licenses/`;
+container validation checks every file against the checkout manifest as UID
+65534. This distribution step does not complete the separate corresponding-source
+and licence-applicability release gates.
+
 The image is built with Docker Buildx; on this host, Docker Desktop provides it, and `amd64` runs under Rosetta. The build reaches only the pinned base image (`ghcr.io`), the Alpine package source for `python3`, and PyPI for the hash-pinned wheels (approved on 2026-10-02); every other network use needs its own approval. `scripts/container_check.sh` builds the app image and the test image for one architecture and checks them:
 
 ```bash

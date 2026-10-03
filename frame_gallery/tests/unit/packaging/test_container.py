@@ -111,7 +111,7 @@ def test_the_labels_come_from_required_build_arguments() -> None:
     assert 'org.opencontainers.image.version="${BUILD_VERSION}"' in text
     assert 'org.opencontainers.image.source=""' in text
     assert 'org.opencontainers.image.created=""' in text
-    assert "licenses" not in text  # D-130: the OCI licenses label is omitted
+    assert "org.opencontainers.image.licenses=" not in text  # no blanket image licence
     assert 'test -n "${BUILD_VERSION}"' in text
     assert "arm64/aarch64|amd64/amd64" in text
 
@@ -145,6 +145,7 @@ def test_the_build_context_is_an_allowlist() -> None:
         "pyproject.toml",
         "uv.lock",
         "requirements",
+        "license_bundle",
         "src/frame_gallery",
         "tests",
         "scripts",

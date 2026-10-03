@@ -473,12 +473,10 @@ def test_the_notices_mode_reports_and_fails(
 
 def test_the_repository_notices_list_every_runtime_requirement() -> None:
     """H4 without the image: every package that the image installs, from its
-    requirement file, is in THIRD_PARTY_NOTICES.md with its version. The
-    notices live beside the app directory, outside the image's build context,
-    so the image's own copy of the tests has no file to check."""
+    requirement file, is in the original or shipped notices with its version."""
     notices = PROJECT.parent / "THIRD_PARTY_NOTICES.md"
     if not notices.exists():
-        pytest.skip("THIRD_PARTY_NOTICES.md is outside the image's build context")
+        notices = PROJECT / "license_bundle/THIRD_PARTY_NOTICES.md"
     requirements = (PROJECT / "requirements" / "image-runtime.txt").read_text()
     pins = [line.split(" ", 1)[0].split("==") for line in requirements.splitlines() if "==" in line]
     assert len(pins) == 11
@@ -496,7 +494,7 @@ def test_repository_notices_match_observed_tempio_metadata(change: dict[str, Any
     """Catch documentation edits that omit the real base binary's Go metadata."""
     notices = PROJECT.parent / "THIRD_PARTY_NOTICES.md"
     if not notices.exists():
-        pytest.skip("THIRD_PARTY_NOTICES.md is outside the image's build context")
+        notices = PROJECT / "license_bundle/THIRD_PARTY_NOTICES.md"
     program: dict[str, Any] = {
         "module": "github.com/home-assistant/tempio",
         "version": "2026.07.0",

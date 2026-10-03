@@ -5,6 +5,9 @@ cd "$(dirname "$0")/.."
 
 BIN=.venv/bin
 
+echo "== committed licence bundle"
+"$BIN/python" scripts/license_bundle.py --check
+
 echo "== ruff"
 "$BIN/ruff" check src tests scripts
 "$BIN/ruff" format --check src tests scripts

@@ -1,0 +1,55 @@
+{
+  "sources": [
+    {
+      "name": "BearSSL",
+      "revision": "7bea48e5e850ab4cafbe68d3765cdaba13a86d6f",
+      "filename": "bearssl-7bea48e5e850ab4cafbe68d3765cdaba13a86d6f.tar.gz",
+      "source": "https://www.bearssl.org/git/BearSSL",
+      "sha256": "65355f3f3d5de07c5309b44deb4f5e78b726cf04f4515f292141de28fd92ec60",
+      "bytes": 866376,
+      "license": "MIT",
+      "verification": "archive generated from exact official Git commit; no source executed; not binary equivalence proof"
+    },
+    {
+      "name": "musl (S6 toolchain)",
+      "revision": "5122f9f3c99fee366167c5de98b31546312921ab",
+      "filename": "musl-5122f9f3c99fee366167c5de98b31546312921ab.tar.gz",
+      "source": "https://git.musl-libc.org/git/musl",
+      "sha256": "0a8bfe88218fdb06fb1413985963ee68e8c34e066673db703972590c99b05077",
+      "bytes": 1083193,
+      "license": "MIT with subsidiary notices retained in COPYRIGHT",
+      "verification": "archive generated from exact official Git commit; no source executed; not binary equivalence proof"
+    },
+    {
+      "name": "Go toolchain source",
+      "filename": "go1.26.5.src.tar.gz",
+      "os": "",
+      "arch": "",
+      "version": "go1.26.5",
+      "sha256": "495be4bc87176ac567392e5b4116abd98466d33d7b49d41e764ccc6976b2dc42",
+      "size": 34140216,
+      "kind": "source",
+      "url": "https://go.dev/dl/go1.26.5.src.tar.gz",
+      "verification": "official go.dev release SHA256; source retained only, never executed",
+      "license": "BSD-3-Clause; PATENTS retained"
+    }
+  ],
+  "s6_toolchain_evidence": [
+    {
+      "filename": "aarch64-linux-musl_pi4-15.2.0.tar.xz",
+      "url": "https://skarnet.org/toolchains/cross/aarch64-linux-musl_pi4-15.2.0.tar.xz",
+      "sha256": "6948e58f2d0758e45a9f8a947df41ef6c57dbc8abb01980c61e90bad55762cc0",
+      "bytes": 60222732,
+      "observed_libc_version": "1.2.6-git-11-g5122f9f3",
+      "verification": "documented s6-overlay build input; passively read libc.so version; no toolchain executed; not proof of installed S6 binary source equivalence"
+    },
+    {
+      "filename": "x86_64-linux-musl_pc-15.2.0.tar.xz",
+      "url": "https://skarnet.org/toolchains/cross/x86_64-linux-musl_pc-15.2.0.tar.xz",
+      "sha256": "9b769a08b3e73522f03a39eee04fb788b653cae9ce80d8ceac8a93821ae06221",
+      "bytes": 63044380,
+      "observed_libc_version": "1.2.6-git-11-g5122f9f3",
+      "verification": "documented s6-overlay build input; passively read libc.so version; no toolchain executed; not proof of installed S6 binary source equivalence"
+    }
+  ]
+}

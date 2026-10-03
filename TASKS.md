@@ -197,6 +197,11 @@ approval. Existing release prerequisites remain mandatory.
   *https://github.com/volkue-tech/frame-gallery-ha created in the personal Firefox session. The audited `main` at `39d25da` is pushed and its remote SHA verified; only the personal identity and main history were transferred. Native hosted run `37141542920` started; no binary release.*
 - [ ] Complete the qualified licence review (D-135) as a release gate: `samsungtvws` (LGPL-3.0), Pillow's fribidi-shim (LGPL-2.1-or-later; the runtime wheels contain neither `libimagequant` nor FriBiDi, D-171), the Alpine base packages, the tools outside apk (s6-overlay, tempio, bashio; R-33), and the exact form of libmd's "Public Domain" part.
 - [ ] Add the Apache-2.0 licence for project-owned code, and third-party notices with the GPL and LGPL texts and copyleft source availability.
+  *Project LICENSE/NOTICE and the current original third-party/GPL/LGPL texts are
+  committed and shipped in the Supervisor-compatible image context (D-190).
+  All 89 evidence files are byte-checked and readable as uid 65534 in the native
+  ARM image; notice/source-data tests now run there without evidence skips.
+  Complete source distribution and engineering applicability remain open.*
 - [ ] Configure GitHub Actions for tests and multi-architecture GHCR publication.
   *Native read-only validation workflow succeeded on ARM and Intel (D-181, run `37141542920`, source `39d25da`). A separate gated publication workflow and validation of later changes remain pending.*
 - [ ] Publish immutable versioned images for `aarch64` and `amd64`.

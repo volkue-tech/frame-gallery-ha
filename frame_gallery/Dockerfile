@@ -60,6 +60,9 @@ RUN test -n "${BUILD_VERSION}" || { echo "BUILD_VERSION is required" >&2; exit 1
     && apk add --no-cache python3=3.14.8-r0 \
     && rm -rf /usr/lib/python3.14/ensurepip/_bundled
 COPY --from=builder /opt/frame-gallery /opt/frame-gallery
+# Current original notices/evidence are committed in the Supervisor build context.
+# This includes no downloaded source archives or runtime/user data. D-190.
+COPY license_bundle /usr/share/frame-gallery/licenses
 # D-177: the pinned s6 CMDSIG uses kill --, unsupported by BusyBox's sh
 # builtin. Bash is already in the base. Keep the body/arguments unchanged;
 # fail closed if the exact upstream script differs on a future base.

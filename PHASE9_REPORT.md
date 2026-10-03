@@ -225,6 +225,30 @@ no HA, TV or provider API was contacted.
 
 ## Remaining release gates
 
+### Original notices shipped in the app (D-190)
+
+The Supervisor-compatible build context now includes a mechanically generated,
+committed licence payload: the 89 original public evidence files plus a manifest,
+not downloaded source archives or any runtime/user data. Host checks reject
+stale copies; new tests cover deterministic byte-preserving generation,
+missing/changed/extra/symlinked evidence, preservation of unexpected outputs,
+CLI errors and the Docker copy. The image stores it at
+`/usr/share/frame-gallery/licenses/`. Actual native ARM validation reads all
+89 files as UID/GID 65534 and matches their bytes to the checkout manifest.
+
+Latest native ARM rebuild and complete container checks pass (exit 0):
+4,734 non-root tests / five root-only skips and all five separate root checks.
+All seven repository-notice/source-data checks previously outside the build
+context now run successfully against shipped data, with no licence skips.
+Log: `build/phase9/container-license-bundle-final-aarch64-20261003.log`.
+Latest full unsandboxed host gates also pass: 4,728 tests / eleven expected
+platform skips, Ruff/strict mypy on 230 files, unchanged 100% package and mandated
+line/branch coverage. Log: `build/phase9/check-license-bundle-final-20261003.log`.
+The longer real-limit ARM measurement against the initial notice-layer rebuild
+is still underway. Runtime code and all dependencies are unchanged; the latest
+image only adds documentation data. No Green/TV changes or container publication.
+This distribution step does not close the source/rebuild/applicability gates.
+
 The user-approved public repository was created in the personal Firefox session:
 https://github.com/volkue-tech/frame-gallery-ha . Owner/visibility are exactly
 volkue-tech/Public. Its description explicitly labels the beta unreleased.
@@ -274,9 +298,12 @@ gates pass with 4,717 tests / 11 expected skips and 100% line/branch coverage
 (`build/phase9/check-tempio-source-native-20261003.log`). The initial sandboxed
 run failed two unchanged setgid tests; no test/runtime workaround was added.
 The personal main push of the corrected `aaf7016c1afd2a6ca23bdd37354c8713bc6ff192`
-is remotely verified. Native run `37145245403` started at 18:43:03 UTC; both
-host quality/kernel steps passed. Container/root/memory checks are underway,
-not yet claimed successful. Token was held only in the one-use helper process;
+is remotely verified. Native run `37145245403` succeeded on both architectures:
+ARM job `111267719103` completed at 18:58:37 UTC and Intel job `111267718919`
+at 19:01:57 UTC. All host/container/root/notices/memory steps passed. Exact
+new hosted suite counts/peak values are not asserted without log inspection.
+This verifies `aaf7016`, not later D-189/D-190 changes or release clearance.
+Token was held only in the one-use helper process;
 no token was saved or logged and the backup branch was not pushed.
 
 1. Validate subsequent release changes; native amd64 kernel/root/memory evidence

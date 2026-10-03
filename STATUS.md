@@ -50,6 +50,15 @@ Three new repository data regressions and the existing inventory tests pass
 Ruff, strict mypy over 228 files, unchanged 100% line/branch coverage.
 No runtime change; notice shipping, subsidiary applicability,
 source-bundle assembly and replacement/rebuild documentation remain release gates.
+The D-190 notice payload is now implemented in the Supervisor-compatible build
+context: 89 original public evidence files plus a generated manifest, copied into
+the image and byte/readability-checked as UID 65534 in the new ARM rebuild.
+Missing or altered payloads fail the quality gate; new data tests no longer skip
+the shipped evidence. Latest full host gates pass (4,728 tests, eleven expected
+skips, strict mypy 230 files, 100% line/branch); latest ARM container suite passes
+(4,734 non-root tests / five root-only skips; five separate root passes).
+The longer ARM measurement is underway; app code/dependencies are unchanged. This
+does not clear source/rebuild/applicability or public-install release gates.
 
 **Live checkpoint:** the normal entry point is restored and both temporary
 diagnostic modules are moved outside the own app source. Two card-started real
@@ -81,8 +90,9 @@ memory measurements passed; the notices gate alone failed. D-188 restores the
 verified metadata and adds a repository-notices regression test, with positive
 and mismatched-version/count cases. Local notices checks against both retained
 image inventories pass. The corrected `aaf7016` main push is verified; native run
-`37145245403` started at 18:43:03 UTC and both host quality/kernel steps succeeded.
-Container/root/memory checks are still running, not claimed complete. No
+`37145245403` succeeded on both native architectures: ARM completed at 18:58:37
+UTC, Intel at 19:01:57 UTC, including host/container/root/notices/memory gates.
+This verifies `aaf7016`, not the later source/notice-packaging changes. No
 container publication or release. No existing-app change or `configuration.yaml`
 edit. The personal fine-grained token was entered privately in the user's Mac
 Terminal, held only in process memory and not stored by the helper. The retained

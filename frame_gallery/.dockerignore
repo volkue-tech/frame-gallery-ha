@@ -7,6 +7,7 @@
 !pyproject.toml
 !uv.lock
 !requirements/
+!license_bundle/
 !src/frame_gallery/
 !tests/
 !scripts/

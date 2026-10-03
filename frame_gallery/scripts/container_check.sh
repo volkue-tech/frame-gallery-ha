@@ -147,7 +147,7 @@ else
     if [ -s "$OUT/sources-differ.txt" ]; then
         echo "the test image's copy differs from this checkout in:"
         sed 's/^/  /' "$OUT/sources-differ.txt"
-        if grep -qE '^(src/|requirements/|Dockerfile$|\.dockerignore$|pyproject\.toml$|uv\.lock$)' \
+        if grep -qE '^(src/|requirements/|license_bundle/|Dockerfile$|\.dockerignore$|pyproject\.toml$|uv\.lock$)' \
             "$OUT/sources-differ.txt"; then
             fail "the test image was built from other build inputs: rebuild it"
         fi
@@ -176,6 +176,33 @@ run -i --entrypoint /opt/frame-gallery/bin/python "$APP" -I - < scripts/image_in
 .venv/bin/python scripts/image_inventory.py --summary "$OUT/inventory.json" || fail "inventory"
 .venv/bin/python scripts/image_inventory.py --notices "$OUT/inventory.json" ../THIRD_PARTY_NOTICES.md \
     || fail "the notices do not list what the image ships (H4)"
+
+note "original licence texts are shipped and readable without root"
+VERIFY_NOTICES='import hashlib, json, pathlib, sys
+root = pathlib.Path("/usr/share/frame-gallery/licenses")
+expected = json.load(sys.stdin)
+assert json.loads((root / "bundle-manifest.json").read_text()) == expected
+names = set()
+for row in expected["files"]:
+    name = row["path"]
+    relative = pathlib.PurePosixPath(name)
+    assert not relative.is_absolute() and ".." not in relative.parts and name not in names
+    names.add(name)
+    path = root / name
+    assert path.is_file() and not path.is_symlink()
+    data = path.read_bytes()
+    assert len(data) == row["bytes"] and hashlib.sha256(data).hexdigest() == row["sha256"]
+actual = set()
+for path in root.rglob("*"):
+    assert not path.is_symlink()
+    if path.is_file():
+        actual.add(path.relative_to(root).as_posix())
+assert actual == names | {"bundle-manifest.json"}
+print(len(names), "original public evidence files readable and byte-verified as uid 65534")'
+run -i --user 65534:65534 --entrypoint /opt/frame-gallery/bin/python "$APP" \
+    -I -c "$VERIFY_NOTICES" < license_bundle/bundle-manifest.json \
+    > "$OUT/license-bundle.txt" || fail "shipped original notice bytes/readability"
+cat "$OUT/license-bundle.txt"
 
 note "(b) the container stops with the app's exit status"
 set +e

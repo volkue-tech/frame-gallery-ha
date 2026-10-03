@@ -1,0 +1,147 @@
+[
+  {
+    "name": "certifi",
+    "version": "2026.7.22",
+    "filename": "certifi-2026.7.22.tar.gz",
+    "url": "https://files.pythonhosted.org/packages/a3/c2/24167ea9858356b47a87a50d39908bfdb72ceeefe0041586e704e5376b3a/certifi-2026.7.22.tar.gz",
+    "sha256": "741e2c3b351ddf169a738da9f2c048608ff7f2c5cc02f1ebc6b118bb090d5d55",
+    "bytes": 138112,
+    "licence_paths": [
+      "certifi-2026.7.22/LICENSE"
+    ],
+    "fribidi_paths": []
+  },
+  {
+    "name": "charset-normalizer",
+    "version": "3.5.1",
+    "filename": "charset_normalizer-3.5.1.tar.gz",
+    "url": "https://files.pythonhosted.org/packages/e5/3f/143b048436775b0f76ac3eec145c019e8173ccc2885c8f20319b996d5e83/charset_normalizer-3.5.1.tar.gz",
+    "sha256": "6117b84ea48435e5356dc737f5121485c30920ba43375fa7b434fd753df0eac3",
+    "bytes": 171764,
+    "licence_paths": [
+      "charset_normalizer-3.5.1/LICENSE",
+      "charset_normalizer-3.5.1/data/NOTICE.md"
+    ],
+    "fribidi_paths": []
+  },
+  {
+    "name": "idna",
+    "version": "3.20",
+    "filename": "idna-3.20.tar.gz",
+    "url": "https://files.pythonhosted.org/packages/f5/08/8eea9d4b8302028f3abb2c0813953f7aec26d33b7a8960ed760e65ff29fa/idna-3.20.tar.gz",
+    "sha256": "a7db850025b95ded1eae8a46181a1a6c56c92c96f0e2b005d9ff8dc0210cab44",
+    "bytes": 216463,
+    "licence_paths": [
+      "idna-3.20/LICENSE.md"
+    ],
+    "fribidi_paths": []
+  },
+  {
+    "name": "multidict",
+    "version": "6.9.1",
+    "filename": "multidict-6.9.1.tar.gz",
+    "url": "https://files.pythonhosted.org/packages/d6/99/1d4d69c3512d0ddbfa3a1b69cfd9a151012ab2eb4eabbb096201b1f0b7d8/multidict-6.9.1.tar.gz",
+    "sha256": "0f06e60fa190aa7abd0914c2a766736fdc8e9f34878c4346338534b73d1b20e2",
+    "bytes": 182404,
+    "licence_paths": [
+      "multidict-6.9.1/LICENSE"
+    ],
+    "fribidi_paths": []
+  },
+  {
+    "name": "pillow",
+    "version": "12.3.0",
+    "filename": "pillow-12.3.0.tar.gz",
+    "url": "https://files.pythonhosted.org/packages/1c/3d/bb7fca845737cf9d7dbde16ed1843984665ff2e0a518f5db43e77ec540b9/pillow-12.3.0.tar.gz",
+    "sha256": "3b8182a766685eaa002637e28b4ec8d6b18819a0c71f579bf0dbaa5830297cce",
+    "bytes": 47025035,
+    "licence_paths": [
+      "pillow-12.3.0/LICENSE",
+      "pillow-12.3.0/Tests/fonts/DejaVuSans/LICENSE.txt",
+      "pillow-12.3.0/Tests/fonts/LICENSE.txt",
+      "pillow-12.3.0/Tests/icc/LICENSE.txt",
+      "pillow-12.3.0/docs/COPYING",
+      "pillow-12.3.0/src/thirdparty/raqm/COPYING"
+    ],
+    "fribidi_paths": [
+      "pillow-12.3.0/src/thirdparty/fribidi-shim/fribidi.c",
+      "pillow-12.3.0/src/thirdparty/fribidi-shim/fribidi.h",
+      "pillow-12.3.0/winbuild/fribidi.cmake"
+    ]
+  },
+  {
+    "name": "propcache",
+    "version": "0.5.4",
+    "filename": "propcache-0.5.4.tar.gz",
+    "url": "https://files.pythonhosted.org/packages/b3/9a/9fbf4e4ec0c2d7f1c32519fff782ef467859b8faa9fbc5331a96f6395d43/propcache-0.5.4.tar.gz",
+    "sha256": "ff6b113f50bc066a698db5d944d2c6dc7507168dd3341e255a8892fd0715a558",
+    "bytes": 61545,
+    "licence_paths": [
+      "propcache-0.5.4/LICENSE",
+      "propcache-0.5.4/NOTICE"
+    ],
+    "fribidi_paths": []
+  },
+  {
+    "name": "requests",
+    "version": "2.34.2",
+    "filename": "requests-2.34.2.tar.gz",
+    "url": "https://files.pythonhosted.org/packages/ac/c3/e2a2b89f2d3e2179abd6d00ebd70bff6273f37fb3e0cc209f48b39d00cbf/requests-2.34.2.tar.gz",
+    "sha256": "f288924cae4e29463698d6d60bc6a4da69c89185ad1e0bcc4104f584e960b9ed",
+    "bytes": 142856,
+    "licence_paths": [
+      "requests-2.34.2/LICENSE",
+      "requests-2.34.2/NOTICE"
+    ],
+    "fribidi_paths": []
+  },
+  {
+    "name": "samsungtvws",
+    "version": "3.0.6",
+    "filename": "samsungtvws-3.0.6.tar.gz",
+    "url": "https://files.pythonhosted.org/packages/35/10/83c2d17e8643c262acc8b9e24581a44699862bb6c0ef0683b4bf682ee53a/samsungtvws-3.0.6.tar.gz",
+    "sha256": "166111d8370443cd2021b74cdfac9495896dfc41e3a87ea023289f24f922bb91",
+    "bytes": 48757,
+    "licence_paths": [
+      "samsungtvws-3.0.6/LICENSE"
+    ],
+    "fribidi_paths": []
+  },
+  {
+    "name": "urllib3",
+    "version": "2.8.0",
+    "filename": "urllib3-2.8.0.tar.gz",
+    "url": "https://files.pythonhosted.org/packages/e3/05/b17359e1cefb4f909b5e40b1b90a496d987258916dbbf88e842c729f510e/urllib3-2.8.0.tar.gz",
+    "sha256": "63bf2ead4c879426ebf22ef2a781eeb4aa3b4ae798a0435506f8687fd5bb9b63",
+    "bytes": 458972,
+    "licence_paths": [
+      "urllib3-2.8.0/LICENSE.txt"
+    ],
+    "fribidi_paths": []
+  },
+  {
+    "name": "websocket-client",
+    "version": "1.9.2",
+    "filename": "websocket_client-1.9.2.tar.gz",
+    "url": "https://files.pythonhosted.org/packages/d8/cb/a5abcc2891249f393827c650c6296660ce40374ac22d99ab9aea41f9d2a2/websocket_client-1.9.2.tar.gz",
+    "sha256": "0fcb57545848be86992e128218fd96dd87a6769ffdb1a968dff79632b85604d0",
+    "bytes": 84110,
+    "licence_paths": [
+      "websocket_client-1.9.2/LICENSE"
+    ],
+    "fribidi_paths": []
+  },
+  {
+    "name": "yarl",
+    "version": "1.25.1",
+    "filename": "yarl-1.25.1.tar.gz",
+    "url": "https://files.pythonhosted.org/packages/75/16/e8be8e2fb175bbf41a0680381a319f1199fae256588241a2ac8677eafb49/yarl-1.25.1.tar.gz",
+    "sha256": "03dd38de09bc213e9a8b29761eec33ee1d5318dac0e49d8af36e4d27830e23a7",
+    "bytes": 246245,
+    "licence_paths": [
+      "yarl-1.25.1/LICENSE",
+      "yarl-1.25.1/NOTICE"
+    ],
+    "fribidi_paths": []
+  }
+]

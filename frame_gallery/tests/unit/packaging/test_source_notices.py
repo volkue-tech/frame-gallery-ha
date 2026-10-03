@@ -1,7 +1,7 @@
 """Offline integrity checks of the retained native-Pillow licence evidence.
 
-These check repository data, not a legal opinion or binary reproducibility.
-The image test context does not yet ship the root evidence (a release gate).
+These check repository or shipped bundle data, not a legal opinion or binary
+reproducibility. Missing image evidence is a failure, not a skipped test.
 """
 
 from __future__ import annotations
@@ -12,14 +12,12 @@ import re
 from pathlib import Path
 from typing import Any, Final
 
-import pytest
-
-ROOT: Final = Path(__file__).resolve().parents[4]
+PROJECT: Final = Path(__file__).resolve().parents[3]
+ROOT: Final = (
+    PROJECT.parent if (PROJECT.parent / "LICENSE").is_file() else PROJECT / "license_bundle"
+)
 LICENSES: Final = ROOT / "LICENSES"
 MANIFEST: Final = LICENSES / "pillow-native-source-manifest.json"
-pytestmark = pytest.mark.skipif(
-    not MANIFEST.is_file(), reason="repository licence evidence is outside the image test context"
-)
 
 
 def _manifest() -> dict[str, Any]:

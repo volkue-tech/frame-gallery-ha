@@ -1,0 +1,1650 @@
+{
+  "evidence": "exact installed ARM apk database build commits; recipe/local-file and upstream-source hashes checked; not binary reproducibility proof",
+  "recipe_count": 45,
+  "package_count": 61,
+  "local_file_checks": 197,
+  "source_count": 58,
+  "source_bytes": 282359632,
+  "recipes": [
+    {
+      "origin": "alpine-base",
+      "commit": "0934530484bbcde7498e2c694c710a49616a450e",
+      "url": "https://gitlab.alpinelinux.org/api/v4/projects/alpine%2Faports/repository/archive.tar.gz?sha=0934530484bbcde7498e2c694c710a49616a450e&path=main%2Falpine-base",
+      "filename": "alpine-base-0934530484bbcde7498e2c694c710a49616a450e.tar.gz",
+      "sha256": "907c0854a60129a915ec509f360003ccb5eabacea5804fb18e987d217d21de88",
+      "bytes": 1063,
+      "packages": [
+        {
+          "name": "alpine-release",
+          "version": "3.24.1-r0",
+          "license": "MIT"
+        }
+      ],
+      "recipe_symlinks_not_followed": [],
+      "local_sha512_verified_count": 0,
+      "upstream_files": []
+    },
+    {
+      "origin": "alpine-baselayout",
+      "commit": "60a7585bbab2fa0f762504eb617dbca90216e31f",
+      "url": "https://gitlab.alpinelinux.org/api/v4/projects/alpine%2Faports/repository/archive.tar.gz?sha=60a7585bbab2fa0f762504eb617dbca90216e31f&path=main%2Falpine-baselayout",
+      "filename": "alpine-baselayout-60a7585bbab2fa0f762504eb617dbca90216e31f.tar.gz",
+      "sha256": "921f062496522ead94bc1a007ba0caf1aa6b6ae9fa62bd605f667acf5868850c",
+      "bytes": 10866,
+      "packages": [
+        {
+          "name": "alpine-baselayout",
+          "version": "3.7.2-r1",
+          "license": "GPL-2.0-only"
+        },
+        {
+          "name": "alpine-baselayout-data",
+          "version": "3.7.2-r1",
+          "license": "GPL-2.0-only"
+        }
+      ],
+      "recipe_symlinks_not_followed": [
+        {
+          "path": "alpine-baselayout.post-upgrade",
+          "target": "alpine-baselayout.post-install"
+        }
+      ],
+      "local_sha512_verified_count": 12,
+      "upstream_files": [
+        "protocols-6.4",
+        "services-6.4"
+      ]
+    },
+    {
+      "origin": "alpine-keys",
+      "commit": "b9f23becced4d7b3ccc0fa0f28530243ccd314a0",
+      "url": "https://gitlab.alpinelinux.org/api/v4/projects/alpine%2Faports/repository/archive.tar.gz?sha=b9f23becced4d7b3ccc0fa0f28530243ccd314a0&path=main%2Falpine-keys",
+      "filename": "alpine-keys-b9f23becced4d7b3ccc0fa0f28530243ccd314a0.tar.gz",
+      "sha256": "e26cb8d1a189f06aebdfec13969dec73c730deb22057c9b3b9e6c8cdf862b7f0",
+      "bytes": 10527,
+      "packages": [
+        {
+          "name": "alpine-keys",
+          "version": "2.6-r0",
+          "license": "MIT"
+        }
+      ],
+      "recipe_symlinks_not_followed": [],
+      "local_sha512_verified_count": 18,
+      "upstream_files": []
+    },
+    {
+      "origin": "apk-tools",
+      "commit": "1403ea7a8ae3fb8e5a11207ddb1ff536eb8de912",
+      "url": "https://gitlab.alpinelinux.org/api/v4/projects/alpine%2Faports/repository/archive.tar.gz?sha=1403ea7a8ae3fb8e5a11207ddb1ff536eb8de912&path=main%2Fapk-tools",
+      "filename": "apk-tools-1403ea7a8ae3fb8e5a11207ddb1ff536eb8de912.tar.gz",
+      "sha256": "a01b7a6ac70212464bf1fef565a89f6547617c8cd52cd2fff2d3b0be4ab8f524",
+      "bytes": 8219,
+      "packages": [
+        {
+          "name": "apk-tools",
+          "version": "3.0.6-r0",
+          "license": "GPL-2.0-only"
+        },
+        {
+          "name": "libapk",
+          "version": "3.0.6-r0",
+          "license": "GPL-2.0-only"
+        }
+      ],
+      "recipe_symlinks_not_followed": [],
+      "local_sha512_verified_count": 2,
+      "upstream_files": [
+        "apk-tools-v3.0.6.tar.gz"
+      ]
+    },
+    {
+      "origin": "bash",
+      "commit": "1522c3193610902d8493f9790a2755c11f21f26d",
+      "url": "https://gitlab.alpinelinux.org/api/v4/projects/alpine%2Faports/repository/archive.tar.gz?sha=1522c3193610902d8493f9790a2755c11f21f26d&path=main%2Fbash",
+      "filename": "bash-1522c3193610902d8493f9790a2755c11f21f26d.tar.gz",
+      "sha256": "8513bc220daff9c06a8a8cab0a472d17d67a0bc929116492dfbc6055d79df1c9",
+      "bytes": 3559,
+      "packages": [
+        {
+          "name": "bash",
+          "version": "5.3.9-r1",
+          "license": "GPL-3.0-or-later"
+        }
+      ],
+      "recipe_symlinks_not_followed": [
+        {
+          "path": "bash.post-upgrade",
+          "target": "bash.post-install"
+        }
+      ],
+      "local_sha512_verified_count": 3,
+      "upstream_files": [
+        "bash-5.3-1.tar.gz",
+        "bash53-001",
+        "bash53-002",
+        "bash53-003",
+        "bash53-004",
+        "bash53-005",
+        "bash53-006",
+        "bash53-007",
+        "bash53-008",
+        "bash53-009"
+      ]
+    },
+    {
+      "origin": "bind",
+      "commit": "771a9937848127acb1cbe24fc19cde840012a133",
+      "url": "https://gitlab.alpinelinux.org/api/v4/projects/alpine%2Faports/repository/archive.tar.gz?sha=771a9937848127acb1cbe24fc19cde840012a133&path=main%2Fbind",
+      "filename": "bind-771a9937848127acb1cbe24fc19cde840012a133.tar.gz",
+      "sha256": "9f3f369df8fb05c221f454f9f0232d15fd2bd6448358dd54944c4519208b8f6b",
+      "bytes": 6767,
+      "packages": [
+        {
+          "name": "bind-libs",
+          "version": "9.20.26-r0",
+          "license": "MPL-2.0"
+        },
+        {
+          "name": "bind-tools",
+          "version": "9.20.26-r0",
+          "license": "MPL-2.0"
+        }
+      ],
+      "recipe_symlinks_not_followed": [],
+      "local_sha512_verified_count": 6,
+      "upstream_files": [
+        "bind-9.20.26.tar.xz"
+      ]
+    },
+    {
+      "origin": "brotli",
+      "commit": "1ee249c9da168084b1c6c9f7488bdffa2ac33c84",
+      "url": "https://gitlab.alpinelinux.org/api/v4/projects/alpine%2Faports/repository/archive.tar.gz?sha=1ee249c9da168084b1c6c9f7488bdffa2ac33c84&path=main%2Fbrotli",
+      "filename": "brotli-1ee249c9da168084b1c6c9f7488bdffa2ac33c84.tar.gz",
+      "sha256": "ca602cba6bc1cb4b6bec8781563c4a2b1d202f1dbabfa15f8343bfa5400ebdcc",
+      "bytes": 2742,
+      "packages": [
+        {
+          "name": "brotli-libs",
+          "version": "1.2.0-r1",
+          "license": "MIT"
+        }
+      ],
+      "recipe_symlinks_not_followed": [],
+      "local_sha512_verified_count": 2,
+      "upstream_files": [
+        "brotli-1.2.0.tar.gz"
+      ]
+    },
+    {
+      "origin": "busybox",
+      "commit": "c3ef5d10e6ef6528852c51f0564963e2f8c1be19",
+      "url": "https://gitlab.alpinelinux.org/api/v4/projects/alpine%2Faports/repository/archive.tar.gz?sha=c3ef5d10e6ef6528852c51f0564963e2f8c1be19&path=main%2Fbusybox",
+      "filename": "busybox-c3ef5d10e6ef6528852c51f0564963e2f8c1be19.tar.gz",
+      "sha256": "0598ff6f34d8067a4e6663548961df3f2088f83f9a45810030b9d210ae53ef97",
+      "bytes": 75751,
+      "packages": [
+        {
+          "name": "busybox",
+          "version": "1.37.0-r31",
+          "license": "GPL-2.0-only"
+        },
+        {
+          "name": "busybox-binsh",
+          "version": "1.37.0-r31",
+          "license": "GPL-2.0-only"
+        },
+        {
+          "name": "ssl_client",
+          "version": "1.37.0-r31",
+          "license": "GPL-2.0-only"
+        }
+      ],
+      "recipe_symlinks_not_followed": [],
+      "local_sha512_verified_count": 74,
+      "upstream_files": [
+        "busybox-1.37.0.tar.bz2"
+      ]
+    },
+    {
+      "origin": "bzip2",
+      "commit": "33283848034c9885d984c8e8697c645c57324938",
+      "url": "https://gitlab.alpinelinux.org/api/v4/projects/alpine%2Faports/repository/archive.tar.gz?sha=33283848034c9885d984c8e8697c645c57324938&path=main%2Fbzip2",
+      "filename": "bzip2-33283848034c9885d984c8e8697c645c57324938.tar.gz",
+      "sha256": "b94368762de89bdadfc145c40ce937795d29a265eb3d28a7b1c0d7e9d1bb36d7",
+      "bytes": 4422,
+      "packages": [
+        {
+          "name": "libbz2",
+          "version": "1.0.8-r6",
+          "license": "bzip2-1.0.6"
+        }
+      ],
+      "recipe_symlinks_not_followed": [],
+      "local_sha512_verified_count": 6,
+      "upstream_files": [
+        "bzip2-1.0.8.tar.gz"
+      ]
+    },
+    {
+      "origin": "c-ares",
+      "commit": "138a6bf9dea5974644e48fef4826b7c474f2f7d8",
+      "url": "https://gitlab.alpinelinux.org/api/v4/projects/alpine%2Faports/repository/archive.tar.gz?sha=138a6bf9dea5974644e48fef4826b7c474f2f7d8&path=main%2Fc-ares",
+      "filename": "c-ares-138a6bf9dea5974644e48fef4826b7c474f2f7d8.tar.gz",
+      "sha256": "6abc639de9ea7acd7bc2d3f213d1ae5c4cc3a8017ba2d1e28c6bc24c03c523fd",
+      "bytes": 1078,
+      "packages": [
+        {
+          "name": "c-ares",
+          "version": "1.34.8-r0",
+          "license": "MIT"
+        }
+      ],
+      "recipe_symlinks_not_followed": [],
+      "local_sha512_verified_count": 0,
+      "upstream_files": [
+        "c-ares-1.34.8.tar.gz"
+      ]
+    },
+    {
+      "origin": "ca-certificates",
+      "commit": "e41cbd2ae991adfe8df298ba8e8e777e90bd0e03",
+      "url": "https://gitlab.alpinelinux.org/api/v4/projects/alpine%2Faports/repository/archive.tar.gz?sha=e41cbd2ae991adfe8df298ba8e8e777e90bd0e03&path=main%2Fca-certificates",
+      "filename": "ca-certificates-e41cbd2ae991adfe8df298ba8e8e777e90bd0e03.tar.gz",
+      "sha256": "68d52edf575f6b0730ca7ea793857bf529df4d04a35993ee9e755fda193f49a1",
+      "bytes": 1631,
+      "packages": [
+        {
+          "name": "ca-certificates",
+          "version": "20260611-r0",
+          "license": "MPL-2.0 AND MIT"
+        },
+        {
+          "name": "ca-certificates-bundle",
+          "version": "20260611-r0",
+          "license": "MPL-2.0 AND MIT"
+        }
+      ],
+      "recipe_symlinks_not_followed": [],
+      "local_sha512_verified_count": 0,
+      "upstream_files": [
+        "ca-certificates-20260611.tar.bz2"
+      ]
+    },
+    {
+      "origin": "curl",
+      "commit": "461165dc7870b3466496e2c7fc8368c974f06355",
+      "url": "https://gitlab.alpinelinux.org/api/v4/projects/alpine%2Faports/repository/archive.tar.gz?sha=461165dc7870b3466496e2c7fc8368c974f06355&path=main%2Fcurl",
+      "filename": "curl-461165dc7870b3466496e2c7fc8368c974f06355.tar.gz",
+      "sha256": "7db9b412a956fa1b43135f9888201f23aa15d4be2359189c7d4f1ab0f38c8f60",
+      "bytes": 2448,
+      "packages": [
+        {
+          "name": "curl",
+          "version": "8.21.0-r0",
+          "license": "curl"
+        },
+        {
+          "name": "libcurl",
+          "version": "8.21.0-r0",
+          "license": "curl"
+        }
+      ],
+      "recipe_symlinks_not_followed": [],
+      "local_sha512_verified_count": 0,
+      "upstream_files": [
+        "curl-8.21.0.tar.xz"
+      ]
+    },
+    {
+      "origin": "e2fsprogs",
+      "commit": "8683a6972cb245fbbdb535dad6435a9930bb9374",
+      "url": "https://gitlab.alpinelinux.org/api/v4/projects/alpine%2Faports/repository/archive.tar.gz?sha=8683a6972cb245fbbdb535dad6435a9930bb9374&path=main%2Fe2fsprogs",
+      "filename": "e2fsprogs-8683a6972cb245fbbdb535dad6435a9930bb9374.tar.gz",
+      "sha256": "52b662053c7e79556b8c38f99d293022b80b42aeafc012f5f249bf83515c1f42",
+      "bytes": 1563,
+      "packages": [
+        {
+          "name": "libcom_err",
+          "version": "1.47.4-r0",
+          "license": "GPL-2.0-or-later AND LGPL-2.0-or-later AND BSD-3-Clause AND MIT"
+        }
+      ],
+      "recipe_symlinks_not_followed": [],
+      "local_sha512_verified_count": 0,
+      "upstream_files": [
+        "e2fsprogs-1.47.4.tar.gz"
+      ]
+    },
+    {
+      "origin": "expat",
+      "commit": "41a9605db84bb52cd65c6349e5e087c2c7fe9efb",
+      "url": "https://gitlab.alpinelinux.org/api/v4/projects/alpine%2Faports/repository/archive.tar.gz?sha=41a9605db84bb52cd65c6349e5e087c2c7fe9efb&path=main%2Fexpat",
+      "filename": "expat-41a9605db84bb52cd65c6349e5e087c2c7fe9efb.tar.gz",
+      "sha256": "2a44f81fef596326f2a346ea5d60be83f9b0d97edcd9c8043b3959fe2af9de5c",
+      "bytes": 1209,
+      "packages": [
+        {
+          "name": "libexpat",
+          "version": "2.8.5-r0",
+          "license": "MIT"
+        }
+      ],
+      "recipe_symlinks_not_followed": [],
+      "local_sha512_verified_count": 0,
+      "upstream_files": [
+        "expat-2.8.5.tar.xz"
+      ]
+    },
+    {
+      "origin": "fstrm",
+      "commit": "fc95c59998285564fbcb0bfb2443898c62e10171",
+      "url": "https://gitlab.alpinelinux.org/api/v4/projects/alpine%2Faports/repository/archive.tar.gz?sha=fc95c59998285564fbcb0bfb2443898c62e10171&path=main%2Ffstrm",
+      "filename": "fstrm-fc95c59998285564fbcb0bfb2443898c62e10171.tar.gz",
+      "sha256": "d09bed8d175991193b8dad091b6774d5059cc628ffa902e939a431a54b2a4def",
+      "bytes": 1462,
+      "packages": [
+        {
+          "name": "fstrm",
+          "version": "0.6.1-r4",
+          "license": "MIT"
+        }
+      ],
+      "recipe_symlinks_not_followed": [],
+      "local_sha512_verified_count": 1,
+      "upstream_files": [
+        "fstrm-0.6.1.tar.gz"
+      ]
+    },
+    {
+      "origin": "gcc",
+      "commit": "423a8ad043d07f2c7546c8ec3e2b0384cda360ae",
+      "url": "https://gitlab.alpinelinux.org/api/v4/projects/alpine%2Faports/repository/archive.tar.gz?sha=423a8ad043d07f2c7546c8ec3e2b0384cda360ae&path=main%2Fgcc",
+      "filename": "gcc-423a8ad043d07f2c7546c8ec3e2b0384cda360ae.tar.gz",
+      "sha256": "e28e3d4de4e38ff6cdfacc7c0910093a4bd47281c4302b85c8f4e368a3d5ef75",
+      "bytes": 44561,
+      "packages": [
+        {
+          "name": "libgcc",
+          "version": "15.2.0-r5",
+          "license": "GPL-2.0-or-later AND LGPL-2.1-or-later"
+        },
+        {
+          "name": "libstdc++",
+          "version": "15.2.0-r5",
+          "license": "GPL-2.0-or-later AND LGPL-2.1-or-later"
+        }
+      ],
+      "recipe_symlinks_not_followed": [],
+      "local_sha512_verified_count": 44,
+      "upstream_files": [
+        "gcc-15.2.0.tar.xz"
+      ]
+    },
+    {
+      "origin": "gdbm",
+      "commit": "1ea03990396db618edfcc8a9a0bc6b72662bac8f",
+      "url": "https://gitlab.alpinelinux.org/api/v4/projects/alpine%2Faports/repository/archive.tar.gz?sha=1ea03990396db618edfcc8a9a0bc6b72662bac8f&path=main%2Fgdbm",
+      "filename": "gdbm-1ea03990396db618edfcc8a9a0bc6b72662bac8f.tar.gz",
+      "sha256": "c785aa8b0393aeba3f116b1a7a6422ca9f765b3fbd72b4cdaf31b4fed000ca87",
+      "bytes": 929,
+      "packages": [
+        {
+          "name": "gdbm",
+          "version": "1.26-r0",
+          "license": "GPL-3.0-or-later"
+        }
+      ],
+      "recipe_symlinks_not_followed": [],
+      "local_sha512_verified_count": 0,
+      "upstream_files": [
+        "gdbm-1.26.tar.gz"
+      ]
+    },
+    {
+      "origin": "jq",
+      "commit": "633a6cc86a90e8e5b78eaff91542c572e0377ca5",
+      "url": "https://gitlab.alpinelinux.org/api/v4/projects/alpine%2Faports/repository/archive.tar.gz?sha=633a6cc86a90e8e5b78eaff91542c572e0377ca5&path=main%2Fjq",
+      "filename": "jq-633a6cc86a90e8e5b78eaff91542c572e0377ca5.tar.gz",
+      "sha256": "6634e555425426fd03e5cef36f34ab61124328b73509666abf83c9ce514e048c",
+      "bytes": 1670,
+      "packages": [
+        {
+          "name": "jq",
+          "version": "1.8.1-r0",
+          "license": "MIT"
+        }
+      ],
+      "recipe_symlinks_not_followed": [],
+      "local_sha512_verified_count": 1,
+      "upstream_files": [
+        "jq-1.8.1.tar.gz"
+      ]
+    },
+    {
+      "origin": "json-c",
+      "commit": "8e0faa63c91abd41feb359ce5fe4299a88a57ef1",
+      "url": "https://gitlab.alpinelinux.org/api/v4/projects/alpine%2Faports/repository/archive.tar.gz?sha=8e0faa63c91abd41feb359ce5fe4299a88a57ef1&path=main%2Fjson-c",
+      "filename": "json-c-8e0faa63c91abd41feb359ce5fe4299a88a57ef1.tar.gz",
+      "sha256": "60536e8ea927c6e587cc9106202016ccc952b75f9a88de5e13ca2cfb21ada949",
+      "bytes": 1560,
+      "packages": [
+        {
+          "name": "json-c",
+          "version": "0.18-r1",
+          "license": "MIT"
+        }
+      ],
+      "recipe_symlinks_not_followed": [],
+      "local_sha512_verified_count": 1,
+      "upstream_files": [
+        "json-c-0.18.tar.gz"
+      ]
+    },
+    {
+      "origin": "keyutils",
+      "commit": "8bac74716d06c84627ab02d101fd9d2bafd0a34c",
+      "url": "https://gitlab.alpinelinux.org/api/v4/projects/alpine%2Faports/repository/archive.tar.gz?sha=8bac74716d06c84627ab02d101fd9d2bafd0a34c&path=main%2Fkeyutils",
+      "filename": "keyutils-8bac74716d06c84627ab02d101fd9d2bafd0a34c.tar.gz",
+      "sha256": "bb2e7114c1533a76624048c8001c080efd7b4b352a8eb26678956fddffb720ce",
+      "bytes": 1296,
+      "packages": [
+        {
+          "name": "keyutils-libs",
+          "version": "1.6.3-r4",
+          "license": "GPL-2.0-or-later AND LGPL-2.0-or-later"
+        }
+      ],
+      "recipe_symlinks_not_followed": [],
+      "local_sha512_verified_count": 1,
+      "upstream_files": [
+        "keyutils-1.6.3.tar.gz"
+      ]
+    },
+    {
+      "origin": "krb5",
+      "commit": "92bc4f0d36aa5307e819fb57167fc19952cf515f",
+      "url": "https://gitlab.alpinelinux.org/api/v4/projects/alpine%2Faports/repository/archive.tar.gz?sha=92bc4f0d36aa5307e819fb57167fc19952cf515f&path=main%2Fkrb5",
+      "filename": "krb5-92bc4f0d36aa5307e819fb57167fc19952cf515f.tar.gz",
+      "sha256": "31e81dbbbb1a4b192ecf432196f29876d8aad977eb85c707ff9b8dadeea9a581",
+      "bytes": 3768,
+      "packages": [
+        {
+          "name": "krb5-libs",
+          "version": "1.22.2-r1",
+          "license": "MIT"
+        }
+      ],
+      "recipe_symlinks_not_followed": [],
+      "local_sha512_verified_count": 4,
+      "upstream_files": [
+        "krb5-1.22.2.tar.gz"
+      ]
+    },
+    {
+      "origin": "krb5-conf",
+      "commit": "4a46b2cb955e25fd6d6f913794d35bc6d876aea9",
+      "url": "https://gitlab.alpinelinux.org/api/v4/projects/alpine%2Faports/repository/archive.tar.gz?sha=4a46b2cb955e25fd6d6f913794d35bc6d876aea9&path=main%2Fkrb5-conf",
+      "filename": "krb5-conf-4a46b2cb955e25fd6d6f913794d35bc6d876aea9.tar.gz",
+      "sha256": "b09176cd371e63643932e3f232d0be2614db97205c8ba719601ead21a0b59351",
+      "bytes": 928,
+      "packages": [
+        {
+          "name": "krb5-conf",
+          "version": "1.0-r2",
+          "license": "MIT"
+        }
+      ],
+      "recipe_symlinks_not_followed": [],
+      "local_sha512_verified_count": 0,
+      "upstream_files": []
+    },
+    {
+      "origin": "libffi",
+      "commit": "2c2a7bb4a8b16066834e90402567b2c19403a790",
+      "url": "https://gitlab.alpinelinux.org/api/v4/projects/alpine%2Faports/repository/archive.tar.gz?sha=2c2a7bb4a8b16066834e90402567b2c19403a790&path=main%2Flibffi",
+      "filename": "libffi-2c2a7bb4a8b16066834e90402567b2c19403a790.tar.gz",
+      "sha256": "9626de44bfa0f47310b8b37fbc1e1f6312891b9dd0fe5089e98c51262b968542",
+      "bytes": 1354,
+      "packages": [
+        {
+          "name": "libffi",
+          "version": "3.5.2-r1",
+          "license": "MIT"
+        }
+      ],
+      "recipe_symlinks_not_followed": [],
+      "local_sha512_verified_count": 1,
+      "upstream_files": [
+        "libffi-3.5.2.tar.gz"
+      ]
+    },
+    {
+      "origin": "libidn2",
+      "commit": "8240e09aa2fdd8f9979b2016be082273965aff0c",
+      "url": "https://gitlab.alpinelinux.org/api/v4/projects/alpine%2Faports/repository/archive.tar.gz?sha=8240e09aa2fdd8f9979b2016be082273965aff0c&path=main%2Flibidn2",
+      "filename": "libidn2-8240e09aa2fdd8f9979b2016be082273965aff0c.tar.gz",
+      "sha256": "f66cd5e781db67541cda0f3744713484a01ab86633ec101209c4efc989e7d3d2",
+      "bytes": 1035,
+      "packages": [
+        {
+          "name": "libidn2",
+          "version": "2.3.8-r0",
+          "license": "GPL-2.0-or-later OR LGPL-3.0-or-later"
+        }
+      ],
+      "recipe_symlinks_not_followed": [],
+      "local_sha512_verified_count": 0,
+      "upstream_files": [
+        "libidn2-2.3.8.tar.gz"
+      ]
+    },
+    {
+      "origin": "libpsl",
+      "commit": "6bd45b53fb316dc01bda59f5feaf1e127eb64f22",
+      "url": "https://gitlab.alpinelinux.org/api/v4/projects/alpine%2Faports/repository/archive.tar.gz?sha=6bd45b53fb316dc01bda59f5feaf1e127eb64f22&path=main%2Flibpsl",
+      "filename": "libpsl-6bd45b53fb316dc01bda59f5feaf1e127eb64f22.tar.gz",
+      "sha256": "e6b793559c7682b5ff28b2220004e6d172e1bfe924ac88e39284831d6fe97265",
+      "bytes": 1036,
+      "packages": [
+        {
+          "name": "libpsl",
+          "version": "0.21.5-r3",
+          "license": "MIT"
+        }
+      ],
+      "recipe_symlinks_not_followed": [],
+      "local_sha512_verified_count": 0,
+      "upstream_files": [
+        "libpsl-0.21.5.tar.gz"
+      ]
+    },
+    {
+      "origin": "libunistring",
+      "commit": "30d9f19340385b2cd16eaf1cc6a9a8b30c4afe1c",
+      "url": "https://gitlab.alpinelinux.org/api/v4/projects/alpine%2Faports/repository/archive.tar.gz?sha=30d9f19340385b2cd16eaf1cc6a9a8b30c4afe1c&path=main%2Flibunistring",
+      "filename": "libunistring-30d9f19340385b2cd16eaf1cc6a9a8b30c4afe1c.tar.gz",
+      "sha256": "5ca318612177f34f7f6fe635c3a65cefafd0339bfb85682a00a232a2e736faf8",
+      "bytes": 932,
+      "packages": [
+        {
+          "name": "libunistring",
+          "version": "1.4.2-r0",
+          "license": "GPL-2.0-or-later OR LGPL-3.0-or-later"
+        }
+      ],
+      "recipe_symlinks_not_followed": [],
+      "local_sha512_verified_count": 0,
+      "upstream_files": [
+        "libunistring-1.4.2.tar.xz"
+      ]
+    },
+    {
+      "origin": "libuv",
+      "commit": "8d19451845edceeab46dad1dbb903e55f5b918d5",
+      "url": "https://gitlab.alpinelinux.org/api/v4/projects/alpine%2Faports/repository/archive.tar.gz?sha=8d19451845edceeab46dad1dbb903e55f5b918d5&path=main%2Flibuv",
+      "filename": "libuv-8d19451845edceeab46dad1dbb903e55f5b918d5.tar.gz",
+      "sha256": "b85f9f08706a6ff40806a1bd6d2f14a51f61ffbdc3df953e132510fb6b765a1d",
+      "bytes": 1407,
+      "packages": [
+        {
+          "name": "libuv",
+          "version": "1.52.1-r0",
+          "license": "MIT"
+        }
+      ],
+      "recipe_symlinks_not_followed": [],
+      "local_sha512_verified_count": 1,
+      "upstream_files": [
+        "libuv-v1.52.1.tar.gz"
+      ]
+    },
+    {
+      "origin": "libverto",
+      "commit": "84a227baf001b6e0208e3352b294e4d7a40e93de",
+      "url": "https://gitlab.alpinelinux.org/api/v4/projects/alpine%2Faports/repository/archive.tar.gz?sha=84a227baf001b6e0208e3352b294e4d7a40e93de&path=main%2Flibverto",
+      "filename": "libverto-84a227baf001b6e0208e3352b294e4d7a40e93de.tar.gz",
+      "sha256": "7862ab5efff9e5dd08b42d95c1db84477c1aaf5e93df93178d5eec8503faa3b9",
+      "bytes": 971,
+      "packages": [
+        {
+          "name": "libverto",
+          "version": "0.3.2-r2",
+          "license": "MIT"
+        }
+      ],
+      "recipe_symlinks_not_followed": [],
+      "local_sha512_verified_count": 0,
+      "upstream_files": [
+        "libverto-0.3.2.tar.gz"
+      ]
+    },
+    {
+      "origin": "libxml2",
+      "commit": "f1bd5b6767a0e7fdda380c95138a1c938eb6e102",
+      "url": "https://gitlab.alpinelinux.org/api/v4/projects/alpine%2Faports/repository/archive.tar.gz?sha=f1bd5b6767a0e7fdda380c95138a1c938eb6e102&path=main%2Flibxml2",
+      "filename": "libxml2-f1bd5b6767a0e7fdda380c95138a1c938eb6e102.tar.gz",
+      "sha256": "276bad44b38c422909841a9371c108b7d2705f8a6e7d6441c5bd5e9d39b56f3b",
+      "bytes": 3196,
+      "packages": [
+        {
+          "name": "libxml2",
+          "version": "2.13.9-r2",
+          "license": "MIT"
+        }
+      ],
+      "recipe_symlinks_not_followed": [],
+      "local_sha512_verified_count": 2,
+      "upstream_files": [
+        "libxml2-2.13.9.tar.xz"
+      ]
+    },
+    {
+      "origin": "mpdecimal",
+      "commit": "c0519b85456e9b838e3142e1d233aab0b433b476",
+      "url": "https://gitlab.alpinelinux.org/api/v4/projects/alpine%2Faports/repository/archive.tar.gz?sha=c0519b85456e9b838e3142e1d233aab0b433b476&path=main%2Fmpdecimal",
+      "filename": "mpdecimal-c0519b85456e9b838e3142e1d233aab0b433b476.tar.gz",
+      "sha256": "551a973614f830123f1264eff704b5564df44561fd80daac0e89de1f43d30633",
+      "bytes": 947,
+      "packages": [
+        {
+          "name": "mpdecimal",
+          "version": "4.0.1-r0",
+          "license": "BSD-2-Clause"
+        }
+      ],
+      "recipe_symlinks_not_followed": [],
+      "local_sha512_verified_count": 0,
+      "upstream_files": [
+        "mpdecimal-4.0.1.tar.gz"
+      ]
+    },
+    {
+      "origin": "musl",
+      "commit": "f5640d3a10f664c9119720c60515265d3d6f6d01",
+      "url": "https://gitlab.alpinelinux.org/api/v4/projects/alpine%2Faports/repository/archive.tar.gz?sha=f5640d3a10f664c9119720c60515265d3d6f6d01&path=main%2Fmusl",
+      "filename": "musl-f5640d3a10f664c9119720c60515265d3d6f6d01.tar.gz",
+      "sha256": "6d576e22e61738ec022ca12fd839a35b02efbce533e8102277ba3d9cf1f0eaf9",
+      "bytes": 16891,
+      "packages": [
+        {
+          "name": "musl",
+          "version": "1.2.6-r2",
+          "license": "MIT"
+        },
+        {
+          "name": "musl-utils",
+          "version": "1.2.6-r2",
+          "license": "MIT AND BSD-2-Clause AND GPL-2.0-or-later"
+        }
+      ],
+      "recipe_symlinks_not_followed": [],
+      "local_sha512_verified_count": 10,
+      "upstream_files": [
+        "musl-1.2.6.tar.gz"
+      ]
+    },
+    {
+      "origin": "ncurses",
+      "commit": "2cee8a7328d061418336ad327b512d96bcd7bc5e",
+      "url": "https://gitlab.alpinelinux.org/api/v4/projects/alpine%2Faports/repository/archive.tar.gz?sha=2cee8a7328d061418336ad327b512d96bcd7bc5e&path=main%2Fncurses",
+      "filename": "ncurses-2cee8a7328d061418336ad327b512d96bcd7bc5e.tar.gz",
+      "sha256": "d48cd1136d1ad932a2e2366418808c269bc3a4a9919ed5ae470b7cf6c50f2343",
+      "bytes": 2693,
+      "packages": [
+        {
+          "name": "libncursesw",
+          "version": "6.6_p20260516-r0",
+          "license": "X11"
+        },
+        {
+          "name": "libpanelw",
+          "version": "6.6_p20260516-r0",
+          "license": "X11"
+        },
+        {
+          "name": "ncurses-terminfo-base",
+          "version": "6.6_p20260516-r0",
+          "license": "X11"
+        }
+      ],
+      "recipe_symlinks_not_followed": [],
+      "local_sha512_verified_count": 1,
+      "upstream_files": [
+        "ncurses-6.6-20260516.tgz"
+      ]
+    },
+    {
+      "origin": "nghttp2",
+      "commit": "2f3038c86a2a055b2becb5a8c4fd86365f77347a",
+      "url": "https://gitlab.alpinelinux.org/api/v4/projects/alpine%2Faports/repository/archive.tar.gz?sha=2f3038c86a2a055b2becb5a8c4fd86365f77347a&path=main%2Fnghttp2",
+      "filename": "nghttp2-2f3038c86a2a055b2becb5a8c4fd86365f77347a.tar.gz",
+      "sha256": "f60c250734c4bc2f10a7e78e9039246d9f404b99745c8d6b9cb0a1a898f4f1fc",
+      "bytes": 1326,
+      "packages": [
+        {
+          "name": "nghttp2-libs",
+          "version": "1.69.0-r0",
+          "license": "MIT"
+        }
+      ],
+      "recipe_symlinks_not_followed": [],
+      "local_sha512_verified_count": 0,
+      "upstream_files": [
+        "nghttp2-1.69.0.tar.xz"
+      ]
+    },
+    {
+      "origin": "oniguruma",
+      "commit": "31082e89063dfb6b02af0b38c46af803a118137a",
+      "url": "https://gitlab.alpinelinux.org/api/v4/projects/alpine%2Faports/repository/archive.tar.gz?sha=31082e89063dfb6b02af0b38c46af803a118137a&path=main%2Foniguruma",
+      "filename": "oniguruma-31082e89063dfb6b02af0b38c46af803a118137a.tar.gz",
+      "sha256": "3d7e29e10527972b6a2a37d22f3f4cc898cf8bfcd042e9a8eca2e0b70f12a414",
+      "bytes": 966,
+      "packages": [
+        {
+          "name": "oniguruma",
+          "version": "6.9.10-r0",
+          "license": "BSD-2-Clause"
+        }
+      ],
+      "recipe_symlinks_not_followed": [],
+      "local_sha512_verified_count": 0,
+      "upstream_files": [
+        "oniguruma-6.9.10.tar.gz"
+      ]
+    },
+    {
+      "origin": "openssl",
+      "commit": "4a4352d83ab03720965454a8c7b30b1b6a996c84",
+      "url": "https://gitlab.alpinelinux.org/api/v4/projects/alpine%2Faports/repository/archive.tar.gz?sha=4a4352d83ab03720965454a8c7b30b1b6a996c84&path=main%2Fopenssl",
+      "filename": "openssl-4a4352d83ab03720965454a8c7b30b1b6a996c84.tar.gz",
+      "sha256": "ae6558510774bf4df7c945c28f5dd2e2fb45c4a2e8116d166706cba4a38f496f",
+      "bytes": 3802,
+      "packages": [
+        {
+          "name": "libcrypto3",
+          "version": "3.5.7-r0",
+          "license": "Apache-2.0"
+        },
+        {
+          "name": "libssl3",
+          "version": "3.5.7-r0",
+          "license": "Apache-2.0"
+        }
+      ],
+      "recipe_symlinks_not_followed": [],
+      "local_sha512_verified_count": 1,
+      "upstream_files": [
+        "openssl-3.5.7.tar.gz"
+      ]
+    },
+    {
+      "origin": "pax-utils",
+      "commit": "c61801eeacb3ffcd9c2025b09e402153bb93fb39",
+      "url": "https://gitlab.alpinelinux.org/api/v4/projects/alpine%2Faports/repository/archive.tar.gz?sha=c61801eeacb3ffcd9c2025b09e402153bb93fb39&path=main%2Fpax-utils",
+      "filename": "pax-utils-c61801eeacb3ffcd9c2025b09e402153bb93fb39.tar.gz",
+      "sha256": "b2a748e27924d73beffb93de74210e577196381d34aaee6ec3c5216bc0789ff2",
+      "bytes": 1241,
+      "packages": [
+        {
+          "name": "scanelf",
+          "version": "1.3.9-r1",
+          "license": "GPL-2.0-only"
+        }
+      ],
+      "recipe_symlinks_not_followed": [],
+      "local_sha512_verified_count": 0,
+      "upstream_files": [
+        "pax-utils-1.3.9.tar.xz"
+      ]
+    },
+    {
+      "origin": "protobuf-c",
+      "commit": "376203ab3c643835e4a1e5e0de31076e8a429b37",
+      "url": "https://gitlab.alpinelinux.org/api/v4/projects/alpine%2Faports/repository/archive.tar.gz?sha=376203ab3c643835e4a1e5e0de31076e8a429b37&path=main%2Fprotobuf-c",
+      "filename": "protobuf-c-376203ab3c643835e4a1e5e0de31076e8a429b37.tar.gz",
+      "sha256": "3967f03405ab2ab1e0891d8a4d26179aa8f524b1de5b214269a18b73ed45a6f0",
+      "bytes": 1021,
+      "packages": [
+        {
+          "name": "protobuf-c",
+          "version": "1.5.2-r2",
+          "license": "BSD-2-Clause"
+        }
+      ],
+      "recipe_symlinks_not_followed": [],
+      "local_sha512_verified_count": 0,
+      "upstream_files": [
+        "protobuf-c-1.5.2.tar.gz"
+      ]
+    },
+    {
+      "origin": "python3",
+      "commit": "bc27f38b89f034547fd7da4dba62eeb6a0daeb3b",
+      "url": "https://gitlab.alpinelinux.org/api/v4/projects/alpine%2Faports/repository/archive.tar.gz?sha=bc27f38b89f034547fd7da4dba62eeb6a0daeb3b&path=main%2Fpython3",
+      "filename": "python3-bc27f38b89f034547fd7da4dba62eeb6a0daeb3b.tar.gz",
+      "sha256": "45995899c4238487b88c6c40129daff644601d23af2fa51757f7efb7613a1be2",
+      "bytes": 4617,
+      "packages": [
+        {
+          "name": "pyc",
+          "version": "3.14.8-r0",
+          "license": "PSF-2.0"
+        },
+        {
+          "name": "python3",
+          "version": "3.14.8-r0",
+          "license": "PSF-2.0"
+        },
+        {
+          "name": "python3-pyc",
+          "version": "3.14.8-r0",
+          "license": "PSF-2.0"
+        },
+        {
+          "name": "python3-pycache-pyc0",
+          "version": "3.14.8-r0",
+          "license": "PSF-2.0"
+        }
+      ],
+      "recipe_symlinks_not_followed": [],
+      "local_sha512_verified_count": 2,
+      "upstream_files": [
+        "Python-3.14.8.tar.xz"
+      ]
+    },
+    {
+      "origin": "readline",
+      "commit": "a854c03acdac188901fb012f7acbee70a36e8041",
+      "url": "https://gitlab.alpinelinux.org/api/v4/projects/alpine%2Faports/repository/archive.tar.gz?sha=a854c03acdac188901fb012f7acbee70a36e8041&path=main%2Freadline",
+      "filename": "readline-a854c03acdac188901fb012f7acbee70a36e8041.tar.gz",
+      "sha256": "73f6e2a8a6ffb9cc13a8ff2a02e4be8916b908486e149045c17e086327990008",
+      "bytes": 2661,
+      "packages": [
+        {
+          "name": "readline",
+          "version": "8.3.3-r1",
+          "license": "GPL-3.0-or-later"
+        }
+      ],
+      "recipe_symlinks_not_followed": [],
+      "local_sha512_verified_count": 2,
+      "upstream_files": [
+        "readline-8.3.tar.gz",
+        "readline83-001.patch",
+        "readline83-002.patch",
+        "readline83-003.patch"
+      ]
+    },
+    {
+      "origin": "sqlite",
+      "commit": "a9c3ba8b9129ec0f294d0a9bf538c2f1632bb016",
+      "url": "https://gitlab.alpinelinux.org/api/v4/projects/alpine%2Faports/repository/archive.tar.gz?sha=a9c3ba8b9129ec0f294d0a9bf538c2f1632bb016&path=main%2Fsqlite",
+      "filename": "sqlite-a9c3ba8b9129ec0f294d0a9bf538c2f1632bb016.tar.gz",
+      "sha256": "30a7054241e0254c6798c87e5624f140f510e7afb54e379d3a40638755a6886c",
+      "bytes": 1862,
+      "packages": [
+        {
+          "name": "sqlite-libs",
+          "version": "3.53.4-r0",
+          "license": "blessing"
+        }
+      ],
+      "recipe_symlinks_not_followed": [],
+      "local_sha512_verified_count": 0,
+      "upstream_files": [
+        "sqlite-autoconf-3530400.tar.gz",
+        "sqlite-src-3530400.zip"
+      ]
+    },
+    {
+      "origin": "tzdata",
+      "commit": "abde3c23ae79b9d3b7bf1a089076703ccda73875",
+      "url": "https://gitlab.alpinelinux.org/api/v4/projects/alpine%2Faports/repository/archive.tar.gz?sha=abde3c23ae79b9d3b7bf1a089076703ccda73875&path=main%2Ftzdata",
+      "filename": "tzdata-abde3c23ae79b9d3b7bf1a089076703ccda73875.tar.gz",
+      "sha256": "246f36bbcbcc321eca70b3c6e3073689428009dbc1865bf789aab4413acb774c",
+      "bytes": 2573,
+      "packages": [
+        {
+          "name": "tzdata",
+          "version": "2026c-r0",
+          "license": "Public-Domain"
+        }
+      ],
+      "recipe_symlinks_not_followed": [],
+      "local_sha512_verified_count": 2,
+      "upstream_files": [
+        "tzcode2026c.tar.gz",
+        "tzdata2026c.tar.gz",
+        "posixtz-0.5.tar.xz"
+      ]
+    },
+    {
+      "origin": "userspace-rcu",
+      "commit": "e7494294eddc019bc834a79e1eedeca35de22733",
+      "url": "https://gitlab.alpinelinux.org/api/v4/projects/alpine%2Faports/repository/archive.tar.gz?sha=e7494294eddc019bc834a79e1eedeca35de22733&path=main%2Fuserspace-rcu",
+      "filename": "userspace-rcu-e7494294eddc019bc834a79e1eedeca35de22733.tar.gz",
+      "sha256": "4eddf292996b194f4ad00ed944ab21ec7d924e217832abd6d983cfcc2d86ed38",
+      "bytes": 1164,
+      "packages": [
+        {
+          "name": "userspace-rcu",
+          "version": "0.15.3-r0",
+          "license": "LGPL-2.1-or-later"
+        }
+      ],
+      "recipe_symlinks_not_followed": [],
+      "local_sha512_verified_count": 0,
+      "upstream_files": [
+        "userspace-rcu-0.15.3.tar.bz2"
+      ]
+    },
+    {
+      "origin": "xz",
+      "commit": "ce9944f1daadb681dd6f0f81a06e9cce97127377",
+      "url": "https://gitlab.alpinelinux.org/api/v4/projects/alpine%2Faports/repository/archive.tar.gz?sha=ce9944f1daadb681dd6f0f81a06e9cce97127377&path=main%2Fxz",
+      "filename": "xz-ce9944f1daadb681dd6f0f81a06e9cce97127377.tar.gz",
+      "sha256": "e961b4f68cef2c21b3670bfefe3e1d6dc165ced7712415a997ab0b548f523933",
+      "bytes": 1212,
+      "packages": [
+        {
+          "name": "xz",
+          "version": "5.8.3-r0",
+          "license": "GPL-2.0-or-later AND 0BSD AND Public-Domain AND LGPL-2.1-or-later"
+        },
+        {
+          "name": "xz-libs",
+          "version": "5.8.3-r0",
+          "license": "GPL-2.0-or-later AND 0BSD AND Public-Domain AND LGPL-2.1-or-later"
+        }
+      ],
+      "recipe_symlinks_not_followed": [],
+      "local_sha512_verified_count": 0,
+      "upstream_files": [
+        "xz-5.8.3.tar.gz"
+      ]
+    },
+    {
+      "origin": "zlib",
+      "commit": "f248b33b5943c7dc69bf691031d7612ab2e8ed93",
+      "url": "https://gitlab.alpinelinux.org/api/v4/projects/alpine%2Faports/repository/archive.tar.gz?sha=f248b33b5943c7dc69bf691031d7612ab2e8ed93&path=main%2Fzlib",
+      "filename": "zlib-f248b33b5943c7dc69bf691031d7612ab2e8ed93.tar.gz",
+      "sha256": "574ed649c181d2e06636590f464e96ea5a081b7bd48ddcf998b4123e43f12135",
+      "bytes": 840,
+      "packages": [
+        {
+          "name": "zlib",
+          "version": "1.3.2-r0",
+          "license": "Zlib"
+        }
+      ],
+      "recipe_symlinks_not_followed": [],
+      "local_sha512_verified_count": 0,
+      "upstream_files": [
+        "zlib-1.3.2.tar.gz"
+      ]
+    },
+    {
+      "origin": "zstd",
+      "commit": "3c6e2ee2b16f403d53eab39c4426eb61f003c322",
+      "url": "https://gitlab.alpinelinux.org/api/v4/projects/alpine%2Faports/repository/archive.tar.gz?sha=3c6e2ee2b16f403d53eab39c4426eb61f003c322&path=main%2Fzstd",
+      "filename": "zstd-3c6e2ee2b16f403d53eab39c4426eb61f003c322.tar.gz",
+      "sha256": "7cd216f30a932961f12b696c60c2c87f2f40485ff0020761a4cca393071bca88",
+      "bytes": 1541,
+      "packages": [
+        {
+          "name": "zstd-libs",
+          "version": "1.5.7-r2",
+          "license": "BSD-3-Clause OR GPL-2.0-or-later"
+        }
+      ],
+      "recipe_symlinks_not_followed": [],
+      "local_sha512_verified_count": 0,
+      "upstream_files": [
+        "zstd-1.5.7.tar.gz"
+      ]
+    }
+  ],
+  "sources": [
+    {
+      "filename": "Python-3.14.8.tar.xz",
+      "sha512": "f9e6809b0c45d90fcc174b8051e15058a3037981c9136c598d110a118a22cbbb8263fbd677e07b2b9d93e1aa83cd9cb835b61b6af898fd301d1080a29c2156fe",
+      "origins": [
+        "python3"
+      ],
+      "url": "https://distfiles.alpinelinux.org/distfiles/v3.24/Python-3.14.8.tar.xz",
+      "sha256": "c2215904f02b175596dc49351585104f4bc20341e1c47378b26a2c274360ce73",
+      "bytes": 24130644,
+      "verification": "SHA512 matches exact installed build recipe; not binary reproducibility proof"
+    },
+    {
+      "filename": "apk-tools-v3.0.6.tar.gz",
+      "sha512": "86c6ba9aad517d7a39d204373b37a28c143afe1438fa5090df90845f205c7f01e8aaee00ed0b6f7b27206ff745e0f1db160e3b919d17b37639fb19ae78bd13e6",
+      "origins": [
+        "apk-tools"
+      ],
+      "url": "https://distfiles.alpinelinux.org/distfiles/v3.24/apk-tools-v3.0.6.tar.gz",
+      "sha256": "e9b62742ef7e9e8c1c051efdaed3a2f49d06d8ce20c707697aa23d29bbc7c86a",
+      "bytes": 384537,
+      "verification": "SHA512 matches exact installed build recipe; not binary reproducibility proof"
+    },
+    {
+      "filename": "bash-5.3-1.tar.gz",
+      "sha512": "426702c8b0fb9e0c9956259973ce5b657890fd47f4f807a64febf20077bb48d0b91474ed6e843d2ef277186b46c5fffa79b808da9b48d4ec027d5e2de1b28ed8",
+      "origins": [
+        "bash"
+      ],
+      "url": "https://distfiles.alpinelinux.org/distfiles/v3.24/bash-5.3-1.tar.gz",
+      "sha256": "0d5cd86965f869a26cf64f4b71be7b96f90a3ba8b3d74e27e8e9d9d5550f31ba",
+      "bytes": 11355854,
+      "verification": "SHA512 matches exact installed build recipe; not binary reproducibility proof"
+    },
+    {
+      "filename": "bash53-001",
+      "sha512": "66d0987f1a8951974c3a707a1980ef391a1f2a2938f0fa46adb77fcdcef6a3ca49e67182b9640ece3e59bb289e5b4a17eb870aa2a525a03e829a7be158d020a6",
+      "origins": [
+        "bash"
+      ],
+      "url": "https://distfiles.alpinelinux.org/distfiles/v3.24/bash53-001",
+      "sha256": "1f608434364af86b9b45c8b0ea3fb3b165fb830d27697e6cdfc7ac17dee3287f",
+      "bytes": 1531,
+      "verification": "SHA512 matches exact installed build recipe; not binary reproducibility proof"
+    },
+    {
+      "filename": "bash53-002",
+      "sha512": "05caea1c1f5a3d27f2aa351c24f324f9d544ded89db4183ae2872e0283dde62dd6166ca4e780304398935b4aa3fb4db77ecf57acd0f0e295d279ffe40b772158",
+      "origins": [
+        "bash"
+      ],
+      "url": "https://distfiles.alpinelinux.org/distfiles/v3.24/bash53-002",
+      "sha256": "e385548a00130765ec7938a56fbdca52447ab41fabc95a25f19ade527e282001",
+      "bytes": 2635,
+      "verification": "SHA512 matches exact installed build recipe; not binary reproducibility proof"
+    },
+    {
+      "filename": "bash53-003",
+      "sha512": "3d4004653cb3f2cba984e67b8e7ae54c19351e176b62bb415f88fdd482ae04be063dacf6303c8343ab6c8bf4f2388026c1742ac603a5cd5c330db22a4b76f4cb",
+      "origins": [
+        "bash"
+      ],
+      "url": "https://distfiles.alpinelinux.org/distfiles/v3.24/bash53-003",
+      "sha256": "f245d9c7dc3f5a20d84b53d249334747940936f09dc97e1dcb89fc3ab37d60ed",
+      "bytes": 2683,
+      "verification": "SHA512 matches exact installed build recipe; not binary reproducibility proof"
+    },
+    {
+      "filename": "bash53-004",
+      "sha512": "d3c7c83ae0742f2a4e1bc96e8fdb3f05c8c0a7e631d3473922ac245f83194925ae443e761269fa6a519298b1123ee4008bcbcdaf9180dff0a0df7fbe5e029bbb",
+      "origins": [
+        "bash"
+      ],
+      "url": "https://distfiles.alpinelinux.org/distfiles/v3.24/bash53-004",
+      "sha256": "9591d245045529f32f0812f94180b9d9ce9023f5a765c039b852e5dfc99747d0",
+      "bytes": 1266,
+      "verification": "SHA512 matches exact installed build recipe; not binary reproducibility proof"
+    },
+    {
+      "filename": "bash53-005",
+      "sha512": "e81b43b084c1e9d59acd174d0792a93053780bdef61e7f4072d90b425d99a3fb7d35ef4c0ab79c4fb24bb6b38a8d9e99aad2fceac6efddf723a2cd123b32f0ea",
+      "origins": [
+        "bash"
+      ],
+      "url": "https://distfiles.alpinelinux.org/distfiles/v3.24/bash53-005",
+      "sha256": "cca1ef52dbbf433bc98e33269b64b2c814028efe2538be1e2c9a377da90bc99d",
+      "bytes": 1072,
+      "verification": "SHA512 matches exact installed build recipe; not binary reproducibility proof"
+    },
+    {
+      "filename": "bash53-006",
+      "sha512": "f7e303405571635e20c26507c46f9ae0a61ea1328fa0492f2eba2095d398f799e62c1dbf0c07b440c290244f2c54186691ef4aaa2d65f2de101f9888386e2391",
+      "origins": [
+        "bash"
+      ],
+      "url": "https://distfiles.alpinelinux.org/distfiles/v3.24/bash53-006",
+      "sha256": "29119addefed8eff91ae37fd51822c31780ee30d4a28376e96002706c995ff10",
+      "bytes": 1346,
+      "verification": "SHA512 matches exact installed build recipe; not binary reproducibility proof"
+    },
+    {
+      "filename": "bash53-007",
+      "sha512": "5f9419b34c759b92a29f25d97e5da3f02603b3138afc11523c7bd304139db0cd02ff82a093cf78a338a7f9d88cb50a880fa6a105be83f8ca85ea8ff7d5c5d80b",
+      "origins": [
+        "bash"
+      ],
+      "url": "https://distfiles.alpinelinux.org/distfiles/v3.24/bash53-007",
+      "sha256": "c0976bbfffa1453c7cfdd62058f206a318568ff2d690f5d4fa048793fa3eb299",
+      "bytes": 1437,
+      "verification": "SHA512 matches exact installed build recipe; not binary reproducibility proof"
+    },
+    {
+      "filename": "bash53-008",
+      "sha512": "094b7dc2abe6fc41c62494c6b69640fbd8c6bd93e7cde0618504bb8589fc51fec2fb1686b2729c37e430d336d93ec174233d78f23c82026aca49a240a00477c1",
+      "origins": [
+        "bash"
+      ],
+      "url": "https://distfiles.alpinelinux.org/distfiles/v3.24/bash53-008",
+      "sha256": "097cd723cbfb8907674ac32214063a3fd85282657ec5b4e544d2c0f719653fb4",
+      "bytes": 5717,
+      "verification": "SHA512 matches exact installed build recipe; not binary reproducibility proof"
+    },
+    {
+      "filename": "bash53-009",
+      "sha512": "07f37cee118e510ae58ea408f9d97b942017e1378532d4e3cd5a4d7405994ddadaba5d3ddb4bbda6b375760967faa51add7f46914ba919a27c14e7036f64f3be",
+      "origins": [
+        "bash"
+      ],
+      "url": "https://distfiles.alpinelinux.org/distfiles/v3.24/bash53-009",
+      "sha256": "eee30fe78a4b0cb2fe20e010e00308899cfc613e0774ebb3c8557a1552f24f8c",
+      "bytes": 2468,
+      "verification": "SHA512 matches exact installed build recipe; not binary reproducibility proof"
+    },
+    {
+      "filename": "bind-9.20.26.tar.xz",
+      "sha512": "6d90452d86bfbd1cd6c1301f8c2d9c2251402c81a03d45ab30217f5db05ab1ca6ca7e01fac3642bcd7e1866bd535763e9a9526886312eb5eaf4e532431a92931",
+      "origins": [
+        "bind"
+      ],
+      "url": "https://distfiles.alpinelinux.org/distfiles/v3.24/bind-9.20.26.tar.xz",
+      "sha256": "55248def0f870c4c46b3de72978ea972615131516663188a4564dca1d20bf350",
+      "bytes": 5918032,
+      "verification": "SHA512 matches exact installed build recipe; not binary reproducibility proof"
+    },
+    {
+      "filename": "brotli-1.2.0.tar.gz",
+      "sha512": "f94542afd2ecd96cc41fd21a805a3da314281ae558c10650f3e6d9ca732b8425bba8fde312823f0a564c7de3993bdaab5b43378edab65ebb798cefb6fd702256",
+      "origins": [
+        "brotli"
+      ],
+      "url": "https://distfiles.alpinelinux.org/distfiles/v3.24/brotli-1.2.0.tar.gz",
+      "sha256": "816c96e8e8f193b40151dad7e8ff37b1221d019dbcb9c35cd3fadbfe6477dfec",
+      "bytes": 646315,
+      "verification": "SHA512 matches exact installed build recipe; not binary reproducibility proof"
+    },
+    {
+      "filename": "busybox-1.37.0.tar.bz2",
+      "sha512": "ad8fd06f082699774f990a53d7a73b189ed404fe0a2166aff13eae4d9d8ee5c9239493befe949c98801fe7897520dbff3ed0224faa7205854ce4fa975e18467e",
+      "origins": [
+        "busybox"
+      ],
+      "url": "https://distfiles.alpinelinux.org/distfiles/v3.24/busybox-1.37.0.tar.bz2",
+      "sha256": "3311dff32e746499f4df0d5df04d7eb396382d7e108bb9250e7b519b837043a4",
+      "bytes": 2565764,
+      "verification": "SHA512 matches exact installed build recipe; not binary reproducibility proof"
+    },
+    {
+      "filename": "bzip2-1.0.8.tar.gz",
+      "sha512": "083f5e675d73f3233c7930ebe20425a533feedeaaa9d8cc86831312a6581cefbe6ed0d08d2fa89be81082f2a5abdabca8b3c080bf97218a1bd59dc118a30b9f3",
+      "origins": [
+        "bzip2"
+      ],
+      "url": "https://distfiles.alpinelinux.org/distfiles/v3.24/bzip2-1.0.8.tar.gz",
+      "sha256": "ab5a03176ee106d3f0fa90e381da478ddae405918153cca248e682cd0c4a2269",
+      "bytes": 810029,
+      "verification": "SHA512 matches exact installed build recipe; not binary reproducibility proof"
+    },
+    {
+      "filename": "c-ares-1.34.8.tar.gz",
+      "sha512": "d5997a57fda9b3a3385b1685e6b2f9292c3a1d39bd27579acaabf3d2d33aa5e91bfec5d41c5e51ca6b50dbc1f4346d75e9bfbccf44a494fbd4bc7613b167143c",
+      "origins": [
+        "c-ares"
+      ],
+      "url": "https://distfiles.alpinelinux.org/distfiles/v3.24/c-ares-1.34.8.tar.gz",
+      "sha256": "c222b6d681096f9444d2c4863d2c1174019e27cacca0a4a5c114d36dd7d7bf78",
+      "bytes": 1036098,
+      "verification": "SHA512 matches exact installed build recipe; not binary reproducibility proof"
+    },
+    {
+      "filename": "ca-certificates-20260611.tar.bz2",
+      "sha512": "f473a1111eb508ef5d1096489479dba07db6b0d76ef2b900b3473933d57419429061d83e9c1e881ab61c4b0f17c64859ec74d670da6fc1d83d9b0fa73e1b7d8d",
+      "origins": [
+        "ca-certificates"
+      ],
+      "url": "https://distfiles.alpinelinux.org/distfiles/v3.24/ca-certificates-20260611.tar.bz2",
+      "sha256": "32ca73f2e81e2b88dc614f12e1ee04a82b1ec5a8e29d9f359ddf8905a0afcbb0",
+      "bytes": 226096,
+      "verification": "SHA512 matches exact installed build recipe; not binary reproducibility proof"
+    },
+    {
+      "filename": "curl-8.21.0.tar.xz",
+      "sha512": "5f7c646e5a3d4d3d8b8a3675adfa29c266a3148599d510d24f91c82d6ff064bfafce420af01522f8be973019619f3eee5e970398fa79be168b77f697c52bf8e5",
+      "origins": [
+        "curl"
+      ],
+      "url": "https://distfiles.alpinelinux.org/distfiles/v3.24/curl-8.21.0.tar.xz",
+      "sha256": "aa1b66a70eace83dc624508745646c08ae561de512ab403adffb93ac87fc72e6",
+      "bytes": 2882336,
+      "verification": "SHA512 matches exact installed build recipe; not binary reproducibility proof"
+    },
+    {
+      "filename": "e2fsprogs-1.47.4.tar.gz",
+      "sha512": "923c1ba52cf48557e190ee936be47ff3e43e4798950499e3c663f0f077470caefbb69ee845ebe1f969b3e7c1bb0c22e507188f1daca24649c54c5843c835b2f9",
+      "origins": [
+        "e2fsprogs"
+      ],
+      "url": "https://distfiles.alpinelinux.org/distfiles/v3.24/e2fsprogs-1.47.4.tar.gz",
+      "sha256": "9f82eaa7002673291629077b80ee005cadfcd49854907a22007fed70b0ef596e",
+      "bytes": 10152465,
+      "verification": "SHA512 matches exact installed build recipe; not binary reproducibility proof"
+    },
+    {
+      "filename": "expat-2.8.5.tar.xz",
+      "sha512": "ad3d4198a70682c7c8b2149cb7c743585cc9470ea2e4bd81ec7c0aff9545d9010b51df5cfcd0714335c7ef1578537cbd2a5580f649246b4ea78ee5e3466808a3",
+      "origins": [
+        "expat"
+      ],
+      "url": "https://distfiles.alpinelinux.org/distfiles/v3.24/expat-2.8.5.tar.xz",
+      "sha256": "1e727b8933ec51a77a9a9d9afcf8e688bce45d907c13e36ab7393fe36e703182",
+      "bytes": 528380,
+      "verification": "SHA512 matches exact installed build recipe; not binary reproducibility proof"
+    },
+    {
+      "filename": "fstrm-0.6.1.tar.gz",
+      "sha512": "b8bc954d894a6967ab20975949d3b5ab142933bb14d51f0bd93d6f72e6a8963d06365626ae4df977b70b2678eb495ca6edaedbfd1b9149ac1ec9384df2b56806",
+      "origins": [
+        "fstrm"
+      ],
+      "url": "https://distfiles.alpinelinux.org/distfiles/v3.24/fstrm-0.6.1.tar.gz",
+      "sha256": "bca4ac1e982a2d923ccd24cce2c98f4ceeed5009694430f73fc0dcebca8f098f",
+      "bytes": 471218,
+      "verification": "SHA512 matches exact installed build recipe; not binary reproducibility proof"
+    },
+    {
+      "filename": "gcc-15.2.0.tar.xz",
+      "sha512": "89047a2e07bd9da265b507b516ed3635adb17491c7f4f67cf090f0bd5b3fc7f2ee6e4cc4008beef7ca884b6b71dffe2bb652b21f01a702e17b468cca2d10b2de",
+      "origins": [
+        "gcc"
+      ],
+      "url": "https://distfiles.alpinelinux.org/distfiles/v3.24/gcc-15.2.0.tar.xz",
+      "sha256": "438fd996826b0c82485a29da03a72d71d6e3541a83ec702df4271f6fe025d24e",
+      "bytes": 101056276,
+      "verification": "SHA512 matches exact installed build recipe; not binary reproducibility proof"
+    },
+    {
+      "filename": "gdbm-1.26.tar.gz",
+      "sha512": "44aafe254f0950a8f5215d8f1337674f07b19f2a375f6eb19a7e39690028c80c3774b705c2b76b470ae74042b21f2ca77d02f6f57aa2ee50296db801220a3352",
+      "origins": [
+        "gdbm"
+      ],
+      "url": "https://distfiles.alpinelinux.org/distfiles/v3.24/gdbm-1.26.tar.gz",
+      "sha256": "6a24504a14de4a744103dcb936be976df6fbe88ccff26065e54c1c47946f4a5e",
+      "bytes": 1226591,
+      "verification": "SHA512 matches exact installed build recipe; not binary reproducibility proof"
+    },
+    {
+      "filename": "jq-1.8.1.tar.gz",
+      "sha512": "b09d48dbeaac7b552397b75692ed7833afa72186de80d977fb1b887a14ac66c02f677acdd79f9a2736db1fd738b7ce57a39725e34846bfa21ed3728cd7adc187",
+      "origins": [
+        "jq"
+      ],
+      "url": "https://distfiles.alpinelinux.org/distfiles/v3.24/jq-1.8.1.tar.gz",
+      "sha256": "2be64e7129cecb11d5906290eba10af694fb9e3e7f9fc208a311dc33ca837eb0",
+      "bytes": 2026798,
+      "verification": "SHA512 matches exact installed build recipe; not binary reproducibility proof"
+    },
+    {
+      "filename": "json-c-0.18.tar.gz",
+      "sha512": "4763f2352414dac3599bc2183b4fa57dbfaac0ca24de890097bd7d0bdda93c91efa280f6566e949e6d94212ef39a63fc76c5f9d0c54ff3d04b13c859717dba5a",
+      "origins": [
+        "json-c"
+      ],
+      "url": "https://distfiles.alpinelinux.org/distfiles/v3.24/json-c-0.18.tar.gz",
+      "sha256": "876ab046479166b869afc6896d288183bbc0e5843f141200c677b3e8dfb11724",
+      "bytes": 401788,
+      "verification": "SHA512 matches exact installed build recipe; not binary reproducibility proof"
+    },
+    {
+      "filename": "keyutils-1.6.3.tar.gz",
+      "sha512": "f65965b8566037078b8eeffa66c6fdbe121c8c2bea7fa5bce04cf7ba5ccc50d5b48e51f4a67ca91e4d5d9a12469e7e3eb3036c920ab25e3feba6e93b4c149cf9",
+      "origins": [
+        "keyutils"
+      ],
+      "url": "https://distfiles.alpinelinux.org/distfiles/v3.24/keyutils-1.6.3.tar.gz",
+      "sha256": "a61d5706136ae4c05bd48f86186bcfdbd88dd8bd5107e3e195c924cfc1b39bb4",
+      "bytes": 137022,
+      "verification": "SHA512 matches exact installed build recipe; not binary reproducibility proof"
+    },
+    {
+      "filename": "krb5-1.22.2.tar.gz",
+      "sha512": "3237cacfb2019285107991a3211e0d74944c605942ab38a8b4b372703b8f02f5779fa2de80c4e201bd59703d557f37ac346bdc5ea14b986b0a0db23eb422fc6f",
+      "origins": [
+        "krb5"
+      ],
+      "url": "https://distfiles.alpinelinux.org/distfiles/v3.24/krb5-1.22.2.tar.gz",
+      "sha256": "3243ffbc8ea4d4ac22ddc7dd2a1dc54c57874c40648b60ff97009763554eaf13",
+      "bytes": 8747729,
+      "verification": "SHA512 matches exact installed build recipe; not binary reproducibility proof"
+    },
+    {
+      "filename": "libffi-3.5.2.tar.gz",
+      "sha512": "76974a84e3aee6bbd646a6da2e641825ae0b791ca6efdc479b2d4cbcd3ad607df59cffcf5031ad5bd30822961a8c6de164ac8ae379d1804acd388b1975cdbf4d",
+      "origins": [
+        "libffi"
+      ],
+      "url": "https://distfiles.alpinelinux.org/distfiles/v3.24/libffi-3.5.2.tar.gz",
+      "sha256": "f3a3082a23b37c293a4fcd1053147b371f2ff91fa7ea1b2a52e335676bac82dc",
+      "bytes": 1423124,
+      "verification": "SHA512 matches exact installed build recipe; not binary reproducibility proof"
+    },
+    {
+      "filename": "libidn2-2.3.8.tar.gz",
+      "sha512": "4d8427c0f115268132f7544e80a808c883ab1406338f6c529b1a586b016d57aedb0857f66166eb8d9f37d70efc9dccf907b673b43b17bcf258c8797db1e829ce",
+      "origins": [
+        "libidn2"
+      ],
+      "url": "https://distfiles.alpinelinux.org/distfiles/v3.24/libidn2-2.3.8.tar.gz",
+      "sha256": "f557911bf6171621e1f72ff35f5b1825bb35b52ed45325dcdee931e5d3c0787a",
+      "bytes": 2234804,
+      "verification": "SHA512 matches exact installed build recipe; not binary reproducibility proof"
+    },
+    {
+      "filename": "libpsl-0.21.5.tar.gz",
+      "sha512": "c14d575cecc0f1693894dd79565b6b9220084ddfa43b908a1cefe16d147cdd5ec47796eb0c2135e2f829a951abaf39d8a371ab5c1352f57b36e610e25adf91f5",
+      "origins": [
+        "libpsl"
+      ],
+      "url": "https://distfiles.alpinelinux.org/distfiles/v3.24/libpsl-0.21.5.tar.gz",
+      "sha256": "1dcc9ceae8b128f3c0b3f654decd0e1e891afc6ff81098f227ef260449dae208",
+      "bytes": 7624251,
+      "verification": "SHA512 matches exact installed build recipe; not binary reproducibility proof"
+    },
+    {
+      "filename": "libunistring-1.4.2.tar.xz",
+      "sha512": "0215f7f40f426227eca5174140654a3fa43ac1520eeb212c2ba08043470f905687b2703afdda12e9635359a6187643900136b6bb11b422bd7567d17ca71b555f",
+      "origins": [
+        "libunistring"
+      ],
+      "url": "https://distfiles.alpinelinux.org/distfiles/v3.24/libunistring-1.4.2.tar.xz",
+      "sha256": "5b46e74377ed7409c5b75e7a96f95377b095623b689d8522620927964a41499c",
+      "bytes": 2786084,
+      "verification": "SHA512 matches exact installed build recipe; not binary reproducibility proof"
+    },
+    {
+      "filename": "libuv-v1.52.1.tar.gz",
+      "sha512": "3dbb61067c03d025fd880afa2015e67d9cd9de2672df2bfb9901a48759f7bd1285a600b4ac4177c1ee0bf8418c7b967fef356f81e37765e33a818df0aabdc1aa",
+      "origins": [
+        "libuv"
+      ],
+      "url": "https://distfiles.alpinelinux.org/distfiles/v3.24/libuv-v1.52.1.tar.gz",
+      "sha256": "66d511b9e6e334c0e62279eb234fbfb2b3110b1479c09b95b44c7afca8cff9e7",
+      "bytes": 1354296,
+      "verification": "SHA512 matches exact installed build recipe; not binary reproducibility proof"
+    },
+    {
+      "filename": "libverto-0.3.2.tar.gz",
+      "sha512": "0fb2b1bb80b62a06f8c068ba23011a5ddf1f640e08f3273292f33d9e4b6d101a3cd34113a592b7f4789931e95f180aae8d81e6fca94d8dc39dbf42d075da91f3",
+      "origins": [
+        "libverto"
+      ],
+      "url": "https://distfiles.alpinelinux.org/distfiles/v3.24/libverto-0.3.2.tar.gz",
+      "sha256": "b1005607e58961bf74945b87f36b8bdb94266a692685998b09a63190e3994dc1",
+      "bytes": 30894,
+      "verification": "SHA512 matches exact installed build recipe; not binary reproducibility proof"
+    },
+    {
+      "filename": "libxml2-2.13.9.tar.xz",
+      "sha512": "62d4813860124c969f204aaf33b497105dbc32a6c5655f5a86168743660e10987d687d7e5e7ee49fdfdeb8f6ad9fa4503f81fcce2e4d459094895f02436d1b13",
+      "origins": [
+        "libxml2"
+      ],
+      "url": "https://distfiles.alpinelinux.org/distfiles/v3.24/libxml2-2.13.9.tar.xz",
+      "sha256": "a2c9ae7b770da34860050c309f903221c67830c86e4a7e760692b803df95143a",
+      "bytes": 2426164,
+      "verification": "SHA512 matches exact installed build recipe; not binary reproducibility proof"
+    },
+    {
+      "filename": "mpdecimal-4.0.1.tar.gz",
+      "sha512": "431fa8ab90d6b8cdecc38b1618fd89d040185dec3c1150203e20f40f10a16160058f6b8abddd000f6ecb74f4dc42d9fef8111444f1496ab34c34f6b814ed32b7",
+      "origins": [
+        "mpdecimal"
+      ],
+      "url": "https://distfiles.alpinelinux.org/distfiles/v3.24/mpdecimal-4.0.1.tar.gz",
+      "sha256": "96d33abb4bb0070c7be0fed4246cd38416188325f820468214471938545b1ac8",
+      "bytes": 316268,
+      "verification": "SHA512 matches exact installed build recipe; not binary reproducibility proof"
+    },
+    {
+      "filename": "musl-1.2.6.tar.gz",
+      "sha512": "1adad96eddb3a2eb0cacb3e363b0046568925fcdd75cf8b0503f2139df1f693d64730779ca0ce8131b7624ab2d37f4247bb1d3393c523de6e30d2b1d7732555c",
+      "origins": [
+        "musl"
+      ],
+      "url": "https://distfiles.alpinelinux.org/distfiles/v3.24/musl-1.2.6.tar.gz",
+      "sha256": "d585fd3b613c66151fc3249e8ed44f77020cb5e6c1e635a616d3f9f82460512a",
+      "bytes": 1082499,
+      "verification": "SHA512 matches exact installed build recipe; not binary reproducibility proof"
+    },
+    {
+      "filename": "ncurses-6.6-20260516.tgz",
+      "sha512": "20ffc27f3266b078b410f712422db00d77f5fd497e398b7be252fd207ab70ebd72a2bdf8fd6c94e2a9e41bd2b64d1c6502240c0b8423c99add073bd1226f5859",
+      "origins": [
+        "ncurses"
+      ],
+      "url": "https://distfiles.alpinelinux.org/distfiles/v3.24/ncurses-6.6-20260516.tgz",
+      "sha256": "933438009f594f54656c53c7bc347a7e0ff21881700fc3db811086f7a3fd3b60",
+      "bytes": 3803559,
+      "verification": "SHA512 matches exact installed build recipe; not binary reproducibility proof"
+    },
+    {
+      "filename": "nghttp2-1.69.0.tar.xz",
+      "sha512": "31858cfd4a85995d006753c40393a7c23d2bfdd54fdb355757bef1a72b42177d31fff958e9e765a19d83e949eac77998e2bbe933b9390d1f2a1365506f5f6271",
+      "origins": [
+        "nghttp2"
+      ],
+      "url": "https://distfiles.alpinelinux.org/distfiles/v3.24/nghttp2-1.69.0.tar.xz",
+      "sha256": "1fb324b6ec2c56f6bde0658f4139ffd8209fa9e77ce98fd7a5f63af8d0e508ad",
+      "bytes": 1696336,
+      "verification": "SHA512 matches exact installed build recipe; not binary reproducibility proof"
+    },
+    {
+      "filename": "oniguruma-6.9.10.tar.gz",
+      "sha512": "60975b876662dec8701cca5d8d4027c0a36b8effe7dd32679395ed473e26b3d6b72d7f6eb63bd4dc96c3774b594e56808ce14f993f127a5d04363232586160e4",
+      "origins": [
+        "oniguruma"
+      ],
+      "url": "https://distfiles.alpinelinux.org/distfiles/v3.24/oniguruma-6.9.10.tar.gz",
+      "sha256": "ad92309d0d13eebc27f6592e875f3efbfa3dda2bf6da5952e00f0a2120c921a8",
+      "bytes": 657092,
+      "verification": "SHA512 matches exact installed build recipe; not binary reproducibility proof"
+    },
+    {
+      "filename": "openssl-3.5.7.tar.gz",
+      "sha512": "de5351d2d532e1a3908a738f7d8aae448d32bc60bdb24808c556a24bc37a3f53daedf12b5d432eeb8c235e16939d842f908332ede8a447ca103ad1c493c820d7",
+      "origins": [
+        "openssl"
+      ],
+      "url": "https://distfiles.alpinelinux.org/distfiles/v3.24/openssl-3.5.7.tar.gz",
+      "sha256": "a8c0d28a529ca480f9f36cf5792e2cd21984552a3c8e4aa11a24aa31aeac98e8",
+      "bytes": 53153930,
+      "verification": "SHA512 matches exact installed build recipe; not binary reproducibility proof"
+    },
+    {
+      "filename": "pax-utils-1.3.9.tar.xz",
+      "sha512": "96caf7f2087bedc7949db828d966835f7d691e29ef8177dee00605c10d433d4c5b5770a3d7f2e25e3c0218f5b9a6c6967669a3dea18cf138d6f0111d2bb5288b",
+      "origins": [
+        "pax-utils"
+      ],
+      "url": "https://distfiles.alpinelinux.org/distfiles/v3.24/pax-utils-1.3.9.tar.xz",
+      "sha256": "7409f246b3c59b3e2d459d2232a6f7374469637ae6cf616c115b8d5830cab840",
+      "bytes": 123560,
+      "verification": "SHA512 matches exact installed build recipe; not binary reproducibility proof"
+    },
+    {
+      "filename": "posixtz-0.5.tar.xz",
+      "sha512": "68dbaab9f4aef166ac2f2d40b49366527b840bebe17a47599fe38345835e4adb8a767910745ece9c384b57af815a871243c3e261a29f41d71f8054df3061b3fd",
+      "origins": [
+        "tzdata"
+      ],
+      "url": "https://distfiles.alpinelinux.org/distfiles/v3.24/posixtz-0.5.tar.xz",
+      "sha256": "e0a79e0922be2da686a1888d79cd253baaf81c2f30b4378fbbcf9ff9d632aab5",
+      "bytes": 3976,
+      "verification": "SHA512 matches exact installed build recipe; not binary reproducibility proof"
+    },
+    {
+      "filename": "protobuf-c-1.5.2.tar.gz",
+      "sha512": "78dc72988d7e8232c1b967849aa00939bc05ab7d39b86a8e2af005e38aa4ef4c9b03920d51fb5337399d980e65f35d11bd4742bea745a893ecc909f56a51c9ac",
+      "origins": [
+        "protobuf-c"
+      ],
+      "url": "https://distfiles.alpinelinux.org/distfiles/v3.24/protobuf-c-1.5.2.tar.gz",
+      "sha256": "e2c86271873a79c92b58fef7ebf8de1aa0df4738347a8bd5d4e65a80a16d0d24",
+      "bytes": 532447,
+      "verification": "SHA512 matches exact installed build recipe; not binary reproducibility proof"
+    },
+    {
+      "filename": "protocols-6.4",
+      "sha512": "3a00083bcdf5a9e884c9d07877d52311e3d99e79cbee656e236ba06e08ba0dddb7ba76494fdc9dd1a826c48e197a790a69e6bb458e9df64832d6b5e904e9fd15",
+      "origins": [
+        "alpine-baselayout"
+      ],
+      "url": "https://distfiles.alpinelinux.org/distfiles/v3.24/protocols-6.4",
+      "sha256": "4959498abbadaa1e50894a266f8d0d94500101cfe5b5f09dcad82e9d5bdfab46",
+      "bytes": 3144,
+      "verification": "SHA512 matches exact installed build recipe; not binary reproducibility proof"
+    },
+    {
+      "filename": "readline-8.3.tar.gz",
+      "sha512": "513002753dcf5db9213dbbb61d51217245f6a40d33b1dd45238e8062dfa8eef0c890b87a5548e11db959e842724fb572c4d3d7fb433773762a63c30efe808344",
+      "origins": [
+        "readline"
+      ],
+      "url": "https://distfiles.alpinelinux.org/distfiles/v3.24/readline-8.3.tar.gz",
+      "sha256": "fe5383204467828cd495ee8d1d3c037a7eba1389c22bc6a041f627976f9061cc",
+      "bytes": 3419642,
+      "verification": "SHA512 matches exact installed build recipe; not binary reproducibility proof"
+    },
+    {
+      "filename": "readline83-001.patch",
+      "sha512": "ced50af353ed527f6ec0eac5f65261f2ed208825ec72fe2acf5f0217f34f84f33dcbf01b895325f6b33664b5a426bac99506193e2ddb6eea8c79ccad37364b89",
+      "origins": [
+        "readline"
+      ],
+      "url": "https://distfiles.alpinelinux.org/distfiles/v3.24/readline83-001.patch",
+      "sha256": "21f0a03106dbe697337cd25c70eb0edbaa2bdb6d595b45f83285cdd35bac84de",
+      "bytes": 1846,
+      "verification": "SHA512 matches exact installed build recipe; not binary reproducibility proof"
+    },
+    {
+      "filename": "readline83-002.patch",
+      "sha512": "e45ad6443bd4e271ec8e8ab883de561b6420aec362b0b7f0256086cb5a023d946df55994ed99c76ceb191e8a25e8059ae9b553ef1d546626d671b80af292f04d",
+      "origins": [
+        "readline"
+      ],
+      "url": "https://distfiles.alpinelinux.org/distfiles/v3.24/readline83-002.patch",
+      "sha256": "e27364396ba9f6debf7cbaaf1a669e2b2854241ae07f7eca74ca8a8ba0c97472",
+      "bytes": 1613,
+      "verification": "SHA512 matches exact installed build recipe; not binary reproducibility proof"
+    },
+    {
+      "filename": "readline83-003.patch",
+      "sha512": "6b3ebffe994d0cd4d3466b15e3aee9a73613109283a4442f3bf10e28edcd1204df824c71356d66d01ac21014a806023a101fedf94526a19f6f590d9ffdc864cd",
+      "origins": [
+        "readline"
+      ],
+      "url": "https://distfiles.alpinelinux.org/distfiles/v3.24/readline83-003.patch",
+      "sha256": "72dee13601ce38f6746eb15239999a7c56f8e1ff5eb1ec8153a1f213e4acdb29",
+      "bytes": 2284,
+      "verification": "SHA512 matches exact installed build recipe; not binary reproducibility proof"
+    },
+    {
+      "filename": "services-6.4",
+      "sha512": "47b0f3ee73af2d259bd206a026204be0ea25531a895a0b035a904b38fe5407bc3dd2beab7f8fcb3d760587e6159702ebdb9cbc4f508942befdf7f10c10c87888",
+      "origins": [
+        "alpine-baselayout"
+      ],
+      "url": "https://distfiles.alpinelinux.org/distfiles/v3.24/services-6.4",
+      "sha256": "f6183055fd949f9c53d49ee620f85d0150123ea691d25ed1bba0c641b4ee2f48",
+      "bytes": 12813,
+      "verification": "SHA512 matches exact installed build recipe; not binary reproducibility proof"
+    },
+    {
+      "filename": "sqlite-autoconf-3530400.tar.gz",
+      "sha512": "c24374e9393a943157f533f96e89e6c5743e5f5aad169d8393cff3088ca5ccbe5cc0561681ace49c349d0fe402298ee2624d319f422967247ce0792e3b3aa01e",
+      "origins": [
+        "sqlite"
+      ],
+      "url": "https://distfiles.alpinelinux.org/distfiles/v3.24/sqlite-autoconf-3530400.tar.gz",
+      "sha256": "0e9483900e92cd5de8fd48d16bf9200145a61f7fd5be542a5ac81d8a9516eb9c",
+      "bytes": 3283177,
+      "verification": "SHA512 matches exact installed build recipe; not binary reproducibility proof"
+    },
+    {
+      "filename": "sqlite-src-3530400.zip",
+      "sha512": "4530f39a68e4e32460fc2656bc3ad9d8d73394390cb5c6668ff0755cb50d39219035677994d65078ad45ad126256c8c4e6a91afc5fcbc321883c805b11e7754e",
+      "origins": [
+        "sqlite"
+      ],
+      "url": "https://distfiles.alpinelinux.org/distfiles/v3.24/sqlite-src-3530400.zip",
+      "sha256": "d18fa15aec74d8c17e1463f861095adc01b5ad190256acb4f91d22f0368d232b",
+      "bytes": 14557315,
+      "verification": "SHA512 matches exact installed build recipe; not binary reproducibility proof"
+    },
+    {
+      "filename": "tzcode2026c.tar.gz",
+      "sha512": "ad1aadf26b9aaca487a4f780d7a8ebf1d7383472ce587b06cb63852d4eb030dbd190b537e393e75d59530318581e9d3f492ff5f97bbac78f548d0755c4f7257f",
+      "origins": [
+        "tzdata"
+      ],
+      "url": "https://distfiles.alpinelinux.org/distfiles/v3.24/tzcode2026c.tar.gz",
+      "sha256": "b1cffc3ace4c4c7cd0efba2f7add86ec3d0b79da48bcf03582671fd3c8feace8",
+      "bytes": 325445,
+      "verification": "SHA512 matches exact installed build recipe; not binary reproducibility proof"
+    },
+    {
+      "filename": "tzdata2026c.tar.gz",
+      "sha512": "e0b4b7044b66fbc27bc21d13d18063abcdf78ab58d5ba5fd64bd1a88d86e9d495f45add4d8e65bb6c40249f9c94ca29b72c8ebba8d0e4c468f2965ac77932ef0",
+      "origins": [
+        "tzdata"
+      ],
+      "url": "https://distfiles.alpinelinux.org/distfiles/v3.24/tzdata2026c.tar.gz",
+      "sha256": "e4a178a4477f3d0ea77cc31828ff72aa38feff8d61aa13e7e99e142e9d902be4",
+      "bytes": 475694,
+      "verification": "SHA512 matches exact installed build recipe; not binary reproducibility proof"
+    },
+    {
+      "filename": "userspace-rcu-0.15.3.tar.bz2",
+      "sha512": "9461f5f1ebfcfdb28bc9548738a030d0a29e754ae5340581d057c405c0fa5c17560a251fa15a20cf14d35f1fcc9aceac80841b37a5f348698da52a71ee4d4fe5",
+      "origins": [
+        "userspace-rcu"
+      ],
+      "url": "https://distfiles.alpinelinux.org/distfiles/v3.24/userspace-rcu-0.15.3.tar.bz2",
+      "sha256": "26687ec84e3e114759454c884a08abeaf79dec09b041895ddf4c45ec150acb6d",
+      "bytes": 684175,
+      "verification": "SHA512 matches exact installed build recipe; not binary reproducibility proof"
+    },
+    {
+      "filename": "xz-5.8.3.tar.gz",
+      "sha512": "8fb5e6a13397d259d8ff7484f9b63f8a6752ff1c63e1a4601170ad8175aadefb5126a1cae7f73370bfc6c2a0b4e1c0bad57a58fc5b781d3f7d45e5a483c091cc",
+      "origins": [
+        "xz"
+      ],
+      "url": "https://distfiles.alpinelinux.org/distfiles/v3.24/xz-5.8.3.tar.gz",
+      "sha256": "8ec1767fa517642ecb4cf08b891ce667ba6f143551e382b07c7ef437bda335e2",
+      "bytes": 1664359,
+      "verification": "SHA512 matches exact installed build recipe; not binary reproducibility proof"
+    },
+    {
+      "filename": "zlib-1.3.2.tar.gz",
+      "sha512": "70963771ea5d763614278a69b474f09b7d237ef8f53b675a10fe31d9923aeef601504b35d7ebd1b1e7f347e9ebb048e6b3b47fffdf137e7bdc7e8d5eb4ec4692",
+      "origins": [
+        "zlib"
+      ],
+      "url": "https://distfiles.alpinelinux.org/distfiles/v3.24/zlib-1.3.2.tar.gz",
+      "sha256": "bb329a0a2cd0274d05519d61c667c062e06990d72e125ee2dfa8de64f0119d16",
+      "bytes": 1502830,
+      "verification": "SHA512 matches exact installed build recipe; not binary reproducibility proof"
+    },
+    {
+      "filename": "zstd-1.5.7.tar.gz",
+      "sha512": "26e441267305f6e58080460f96ab98645219a90d290a533410b1b0b1d2f870721c95f8384e342ee647c5e968385a5b7e30c2d04340c37f59b3e6d86762c3260c",
+      "origins": [
+        "zstd"
+      ],
+      "url": "https://distfiles.alpinelinux.org/distfiles/v3.24/zstd-1.5.7.tar.gz",
+      "sha256": "37d7284556b20954e56e1ca85b80226768902e2edabd3b649e9e72c0c9012ee3",
+      "bytes": 2451884,
+      "verification": "SHA512 matches exact installed build recipe; not binary reproducibility proof"
+    }
+  ]
+}
