@@ -1,7 +1,8 @@
 # Supervised Green validation — in progress
 
 Date: 2026-10-03. Codex performed the checks below, including successful local
-and Cleveland TV deliveries. Chicago and dashboard freshness remain open;
+and Cleveland TV deliveries, followed by a successful Chicago delivery of the
+corrected runtime. The complete dashboard freshness gate remains open;
 Phase 8 is not complete.
 
 ## Approval and scope
@@ -118,6 +119,67 @@ allocation; `df` reported about 15.8 GB free. Private app `/data` and container
 scratch were unavailable from protected Terminal & SSH. Their live verification
 is pending the authorized in-app count-only report; no protection bypass.
 
+### Corrected build installed and Chicago delivered
+
+The user freed Firefox for the already-approved update and TV test. On
+2026-10-03, runtime commit `5d662e1` was transferred as a single named archive,
+with SHA256 `8da0fd041941c865145c74023761397ad7be40a406b594e6ee03e5c0a3ba0d10`.
+Green verified this hash before extraction. The previous own source directory
+was moved recoverably to `/share/frame-gallery-dev-before-5d662e1`; no app
+uninstall or private-data reset occurred. `ha apps rebuild local_frame_gallery_dev`
+completed successfully. The installed `aic.py` and `diagnostics.py` hashes
+matched the staged runtime. Protection stayed enabled, AppArmor remained
+`profile`, and host networking stayed off. The one-file transfer exited after
+its download.
+
+Only the test app's source, department and period were temporarily changed
+through its UI: Chicago, `any`, `any`. All other options were preserved.
+One run was started through the existing test dashboard card:
+
+- Search requests on shallow pages succeeded; selection evaluated 150
+  candidates and shortlisted two fallbacks, without relaxing the museum filter.
+- Chosen: `aic:88793`, **Retable and Frontal of the Life of Christ and the
+  Virgin**, Spanish, 1396; landscape fallback, source dimensions 1686 × 971.
+- TV result: `connected,upload_started,uploaded,selected`; `status=ok`.
+- Final outcome at 09:17:35 UTC: `delivered`, exit 0, **15.5 seconds**.
+- Preview SHA256: `505a9a529a4c2b17d088eb8ab9ce4e19523b8f5ac3a8c6567c486f2fe6406aa4`,
+  equal to the prepared delivery hash. It replaced, rather than accumulated
+  beside, the previous preview.
+- The dashboard stayed open while a separate tab displayed the logs. On
+  returning, loading had ended but the old preview was initially still visible;
+  a subsequent observation showed the new artwork without a page reload or
+  manual camera update. Exact refresh latency was not measured. This adds a
+  second successful card delivery for the final script, not proof of immediate
+  refresh or of automation-started refresh.
+- The prior Cleveland / Chinese Art / before-1400 options were saved again.
+  The UI offered a restart; it was declined to avoid another TV run. A subsequent
+  CLI check confirmed the saved original options, app `stopped`, protected true,
+  AppArmor `profile`, and host networking false. No card or script was changed.
+
+The count-only report ran after cleanup in this successful live run:
+
+| Bucket | Status | Regular files | Bytes |
+| --- | --- | --- | --- |
+| state | ok | 7 | 3 105 |
+| cache | ok | 2 | 513 |
+| preview | ok | 1 | 1 465 960 |
+| scratch | ok | 0 | 0 |
+| quarantine | unavailable | not established | not established |
+| tv | unavailable | not established | not established |
+
+For every available bucket, temporary files, run directories, other entries
+and unreadable entries were zero; no scan was truncated. `unavailable` does
+not prove an empty directory. The TV log separately reported no stored token
+because the TV directory could not be opened (`ENOENT`). These statistics do
+not inspect history/ledger contents or establish crash/forced-stop cleanup.
+
+The shared gallery still contained exactly two files: the retained synthetic
+fixture (263 066 bytes) and the one current preview (1 465 960 bytes). `df`
+reported about 15.7 GB available. The source backup and 632 KiB transfer archive
+are intentional rollback artifacts, not retained artwork downloads. No existing
+user media, configuration or history was deleted or reset. User visual
+confirmation of this Chicago image on the physical TV is still pending.
+
 ### Preview files and bounded media observations
 
 The first preview was 195,535 bytes, SHA256
@@ -210,10 +272,9 @@ in a targeted unsandboxed rerun, followed by the complete passing unsandboxed
 gate. No runtime code or test was changed to bypass those checks.
 
 Visual edge/no-crop confirmation; pairing-token behaviour and exact Art API
-version; Chicago rejection diagnosis and successful Chicago delivery;
-automation-started and repeated final-script browser freshness; measured
+version; automation-started browser freshness and measured refresh latency;
 Running-sensor/indicator latency; detailed history and upload-ledger inspection;
-container temporary cleanup and Green memory measurements; AppArmor
+crash/forced-stop temporary cleanup and Green memory measurements; AppArmor
 attachment/audit. The separate dashboard entities and approved setup are
 recorded above. Observed normal-run timings,
 local duplicate/no-match, and Cleveland fallback passed as recorded above.
@@ -222,3 +283,7 @@ Keep the development app and its data. Removal, publication, and changes to
 existing HA configuration require separate direction. Small transfer archives
 remain in Terminal & SSH's `/tmp`; the first source copy remains in `/share`
 as noted above. These are deployment artifacts, not artwork-download buildup.
+
+After recording the corrected Chicago live results, `check.sh` was rerun:
+Ruff and both strict mypy passes clean; 4 614 passed, 8 expected skips;
+100 % line and branch coverage (8 995 statements, 1 904 branches), exit 0.
