@@ -2,7 +2,7 @@
 
 Frame Gallery sends one fresh artwork to a Samsung Frame TV each time you start it, then stops. It picks a public-domain work from the Art Institute of Chicago, an open-access work from the Cleveland Museum of Art, or one of your own images; prepares it for the TV's 16:9 screen without cropping (unless you ask for it); uploads it; shows it; and keeps a preview for your dashboard. It never shows the same work twice while unsent works remain.
 
-> **Status: development build (0.1.0.dev0).** This is the first beta in preparation. Supervised tests on Home Assistant Green confirmed local-media and Cleveland deliveries to a real Frame TV, including a restrictive-filter fallback. Chicago returned HTTP 403 and remains under investigation. Dashboard freshness and the remaining validation checks are not yet complete; the dashboard below is still a draft. See `PHASE8_REPORT.md` at the repository root.
+> **Status: development build (0.1.0.dev0).** This is the first beta in preparation. Supervised tests on Home Assistant Green confirmed local-media and Cleveland deliveries to a real Frame TV, including a restrictive-filter fallback. A separate UI-created test dashboard refreshed its preview on card and direct app-page starts without reload. Chicago returned HTTP 403 and remains under investigation. The complete refresh gate and remaining validation checks are not yet complete; the public dashboard setup below is still a draft. See `PHASE8_REPORT.md` at the repository root.
 
 Frame Gallery is an independent project. It is not made, endorsed, or supported by Samsung, by the museums, or by Home Assistant.
 
@@ -100,6 +100,7 @@ sequence:
         - action: homeassistant.update_entity
           target:
             entity_id: binary_sensor.frame_gallery_running
+          continue_on_error: true
       until:
         - condition: template
           value_template: >-
@@ -117,6 +118,7 @@ sequence:
             - action: homeassistant.update_entity
               target:
                 entity_id: binary_sensor.frame_gallery_running
+              continue_on_error: true
           until:
             - condition: template
               value_template: >-
@@ -137,11 +139,16 @@ cards:
     entity: camera.frame_gallery_preview
     name: Frame Gallery
     show_state: false
+    show_name: true
+    camera_view: auto
+    aspect_ratio: "16:9"
     tap_action:
       action: perform-action
       perform_action: script.turn_on
       target:
         entity_id: script.frame_gallery_new_artwork
+    hold_action:
+      action: more-info
   - type: conditional
     conditions:
       - condition: state
@@ -152,7 +159,7 @@ cards:
       content: Updating artwork…
 ```
 
-The note disappears when the app has finished, and at the latest after two and a half minutes: the timer always runs out on its own. Starting the app needs an administrator account.
+The note disappears when the Running sensor reports that the app has finished, and at the latest after two and a half minutes: the timer always runs out on its own. Sensor updates can be delayed even when a run has already ended; the note is not an exact progress report. Starting the app needs an administrator account.
 
 **A new artwork every morning (optional).** **Settings → Automations & scenes → Create automation → ⋮ → Edit in YAML**:
 
@@ -169,7 +176,7 @@ actions:
 mode: single
 ```
 
-**Known gap in the draft.** Whether the preview always refreshes in the browser after a new artwork is not yet proven. The supervised test on a Home Assistant Green chooses one refresh method and completes this section; until then, reload the page if the preview looks old.
+**Supervised test setup.** The separate Green test uses `camera.frame_gallery_test_preview`, `timer.frame_gallery_test_run`, `binary_sensor.frame_gallery_test_aktiv`, `script.frame_gallery_test_new_artwork`, and app ID `local_frame_gallery_dev`. The exact complete configurations are in [the test card](examples/phase8-test-card.yaml) and [the test script](examples/phase8-test-script.yaml). Local File accepted the media path without a configuration-file edit. Native preview refresh worked after a direct app-page start; the final script therefore has no manual camera refresh. The final script passed a card-started Cleveland delivery with automatic preview refresh and a no-match run with unchanged preview; both loading notes ended. Automation-started and further repeated delivery checks are still needed before the refresh mechanism is release-ready. If the preview looks old during development, reload the page.
 
 ## Reading the log
 

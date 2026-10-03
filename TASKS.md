@@ -165,8 +165,10 @@ Owner: Codex with user supervision
 - [ ] Run Art Institute of Chicago and Cleveland Museum of Art tests, including a restrictive-filter fallback test, against `192.168.178.30`, entered in the options and never hard-coded.
 - [x] Verify Home Assistant Green-to-television connectivity without `host_network` before considering any change. *Local and two Cleveland deliveries confirmed by the TV API, without a networking/protection change. Chicago's HTTP 403 remains open; the combined museum-test task is not complete.*
 - [ ] Select and document one proven preview refresh mechanism. Verify, in repeated live tests covering card-started, automation-started, app-page-started, and no-match runs, that each newly delivered image is shown without a stale browser cache (release-blocking).
+  *Partial: separate UI-created Local File camera refreshed on card and direct app-page delivery without page reload; the final script passed a Cleveland delivery (16.8 s) and no-match with unchanged preview. Automation-started and further repeated final-script delivery remain open. Running-sensor latency is not yet measured; the loading note ended and remains timer-bounded.*
 - [ ] Verify history, the upload ledger, cleanup, finite stop within 120 s (no-match within 70 s), the loading indicator, and no stale temporary files.
 - [ ] Record the entity IDs and the proven refresh mechanism. Complete the dashboard card, script, and timer, except for the public slug.
+  *Test IDs and complete YAML examples are recorded in `PHASE8_REPORT.md` and `frame_gallery/examples/`; the approved separate test dashboard is installed. Final refresh-gate verification remains open.*
 - [ ] Remove or retain the development installation only as directed by the user. If it is removed, confirm that its `/data` folder goes with it, the reset path of D-172 (Q-06).
 
 Gate: user approves release hardening, public publication, and final name.

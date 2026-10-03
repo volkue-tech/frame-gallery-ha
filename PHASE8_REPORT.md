@@ -9,6 +9,8 @@ Phase 8 is not complete.
 The user explicitly approved installing Frame Gallery as a separate test app
 on HA Green and then sending Chicago/Cleveland images to the TV. Existing
 apps, dashboards, scripts, integrations and `configuration.yaml` stay unchanged.
+The user subsequently approved a separate preview camera, timer, test script
+and test dashboard; these new elements are recorded below.
 Nothing is published. No predecessor source or implementation was inspected.
 
 ## Observed installation
@@ -70,8 +72,9 @@ host networking. Logs and subsequent Supervisor status were observed.
 The restrictive run reached the 150-candidate evaluation allowance and chose a
 landscape fallback with `contain`; it did not loosen the museum/period filter.
 The prepared local JPEG and two museum JPEGs were confirmed selected by the
-TV API, not by a camera or direct visual observation. The user was asked to
-confirm the coloured edges; that visual confirmation is still pending.
+TV API. The user subsequently confirmed seeing the dog artwork on the TV.
+That is not a visual confirmation of the synthetic coloured edge marks;
+the edge/no-crop check remains pending.
 
 Chicago stopped at its first HTTP 403, with no automatic retry or follow-up
 request to that provider. The rejection's cause is not established. No DNS,
@@ -107,6 +110,59 @@ The test app is retained, stopped, with the last restrictive Cleveland options
 and debug logging. The existing Art Changer, dashboards, scripts, integrations,
 and `configuration.yaml` were not changed.
 
+### Separate dashboard and preview tests
+
+All setup used the authenticated Firefox UI, with explicit user approval.
+Local File accepted `/media/frame_gallery/preview/latest.jpg` without an
+allowlist or `configuration.yaml` edit. Only the test app's disabled Running
+sensor was enabled. The created IDs are:
+
+| Element | Observed identifier |
+| --- | --- |
+| Local File camera | `camera.frame_gallery_test_preview` |
+| Timer, 150 seconds, restore off | `timer.frame_gallery_test_run` |
+| Test script, single mode | `script.frame_gallery_test_new_artwork` |
+| Test app Running sensor | `binary_sensor.frame_gallery_test_aktiv` |
+| Separate dashboard | `/frame-gallery-test/0`, Frame Gallery Test |
+
+The complete installed card and final script are in
+`frame_gallery/examples/phase8-test-card.yaml` and
+`frame_gallery/examples/phase8-test-script.yaml`. They use built-in cards,
+not a custom-card dependency. The final script updates only the Running
+sensor, not the camera; its loading indicator is bounded by the timer.
+
+- First card start: loading appeared, then the dog preview changed to two
+  covered bowls with the dashboard left open, without reload. Loading ended.
+- Second card start: `cma:154678`, Foliated Saucer: Yaozhou Ware,
+  late 1000s–early 1100s, strict 3400 × 1920; `delivered`, exit 0, 15.6 s.
+  Returning to the dashboard showed the saucer and no loading note.
+  These first two runs still included a redundant script camera update.
+- Direct app-page start, without that script or a camera update:
+  `cma:147081`, Covered Box: Yue Ware, 907–960, strict 3400 × 1894;
+  `delivered`, exit 0, 16.5 s. The open dashboard changed from the saucer to
+  the covered box without reload. This independently supports the native
+  Local File refresh candidate in architecture §16.3.
+- After removing the redundant camera update and verifying the saved script,
+  a card start with `local_media` excluded the already-sent fixture:
+  `no_match`, exit 0, 0.0 s (rounded), at 08:22:02 UTC. No TV stage occurred.
+  The covered-box preview stayed unchanged, and the loading note disappeared
+  on a later observation. The Running sensor did not provide a prompt end
+  indication; exact sensor and indicator latency was not measured. Do not
+  claim immediate completion feedback. The timer prevents indefinite loading.
+- The source was restored to Cleveland, Chinese Art, before 1400; other
+  test app options were preserved. No scheduled automation was created.
+- Final card delivery, using the saved script without a camera update:
+  `cma:149954`, Cup and Stand (stand), 1100s, fallback 3400 × 1967;
+  `delivered`, exit 0, 16.8 s at 08:24:27 UTC. The dashboard remained open
+  and changed from the covered box to the stand without reload; its loading
+  note disappeared. The app Info page then showed stopped. This gives a
+  successful card delivery as well as no-match coverage for the final script.
+
+Native Local File refresh is a promising candidate, not a completed G5/D-140
+gate: automation-started delivery and further repeated final-script delivery
+tests remain open. No exact browser refresh latency is
+claimed. User visual confirmation of these later TV artworks is also pending.
+
 ## Still pending
 
 Local quality gates were rerun after the documentation changes: Ruff and both
@@ -116,11 +172,13 @@ tests but failed the two real supplementary-group/setgid checks; both passed
 in a targeted unsandboxed rerun, followed by the complete passing unsandboxed
 gate. No runtime code or test was changed to bypass those checks.
 
-User visual confirmation; pairing-token behaviour and exact Art API version;
-Chicago rejection diagnosis and successful Chicago delivery; actual browser
-preview freshness; detailed history and upload-ledger inspection; container
-temporary cleanup and Green memory measurements; AppArmor attachment/audit;
-dashboard entities and exact user-approved setup. Observed normal-run timings,
+Visual edge/no-crop confirmation; pairing-token behaviour and exact Art API
+version; Chicago rejection diagnosis and successful Chicago delivery;
+automation-started and repeated final-script browser freshness; measured
+Running-sensor/indicator latency; detailed history and upload-ledger inspection;
+container temporary cleanup and Green memory measurements; AppArmor
+attachment/audit. The separate dashboard entities and approved setup are
+recorded above. Observed normal-run timings,
 local duplicate/no-match, and Cleveland fallback passed as recorded above.
 
 Keep the development app and its data. Removal, publication, and changes to

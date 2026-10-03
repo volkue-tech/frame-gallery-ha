@@ -1,0 +1,47 @@
+alias: Frame Gallery Test New Artwork
+description: Separate Green test; starts only the Frame Gallery test app with a bounded loading indicator.
+mode: single
+sequence:
+  - action: timer.start
+    target:
+      entity_id: timer.frame_gallery_test_run
+    data:
+      duration: "00:02:30"
+  - action: hassio.app_start
+    data:
+      app: local_frame_gallery_dev
+    continue_on_error: true
+  - repeat:
+      sequence:
+        - delay: "00:00:05"
+        - action: homeassistant.update_entity
+          target:
+            entity_id: binary_sensor.frame_gallery_test_aktiv
+          continue_on_error: true
+      until:
+        - condition: template
+          value_template: >-
+            {{ is_state('binary_sensor.frame_gallery_test_aktiv', 'on')
+               or repeat.index >= 3
+               or not is_state('timer.frame_gallery_test_run', 'active') }}
+  - if:
+      - condition: state
+        entity_id: binary_sensor.frame_gallery_test_aktiv
+        state: "on"
+    then:
+      - repeat:
+          sequence:
+            - delay: "00:00:05"
+            - action: homeassistant.update_entity
+              target:
+                entity_id: binary_sensor.frame_gallery_test_aktiv
+              continue_on_error: true
+          until:
+            - condition: template
+              value_template: >-
+                {{ is_state('binary_sensor.frame_gallery_test_aktiv', 'off')
+                   or repeat.index >= 27
+                   or not is_state('timer.frame_gallery_test_run', 'active') }}
+  - action: timer.cancel
+    target:
+      entity_id: timer.frame_gallery_test_run
