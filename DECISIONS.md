@@ -2,6 +2,59 @@
 
 ## Optional dashboard attribution (2026-10-04)
 
+### D-204 — independently verified b2 images and bounded live-test authorization
+
+**Status:** completed image/source checks; live validation and app announcement pending (2026-10-04).
+
+Runtime/source commit: `f3d916c1519f86482a740c7dda54767d8ad99092`.
+Personal publisher run `37223299682` completed all five jobs successfully.
+Both native validations and actual upload-image suites passed; each actual-image
+suite reports 4,914 passed, five root-only skips, then five root checks passed.
+Both architectures passed all 26 worst-case image measurements under the real
+1 GiB RLIMIT_AS; no emulated measurement replaces the native Intel result.
+
+Independently anonymously downloaded image identities:
+
+- ARM: `ghcr.io/volkue-tech/frame-gallery-ha-aarch64@sha256:9e58bd22eaa4171025ff6b650b1de4a568ecb20a9254766786fade2597650e42`.
+- Intel: `ghcr.io/volkue-tech/frame-gallery-ha-amd64@sha256:765a87631cc044a1fc6e16c91a3bbc67cb92643409fccb6c8640365aaf57441a`.
+
+Each tag/digest manifest matches byte-for-byte; pulled image architecture,
+version and revision labels match. Independent Cosign 3.1.3 checks passed using
+the exact candidate-branch certificate identity from D-203, GitHub issuer and
+the full runtime SHA. No main-branch certificate identity is falsely claimed.
+Downloaded publisher ZIP SHA256s match GitHub: ARM
+`9daed3b85dddb99d04179ba8a4311dc130a776acbd307cf7401b4da03ef268e9`, Intel
+`c7227304bea5d716a37be6a61221ea7ba95f6845afa8facc8cb86f6f984b73c0`.
+Native validation ZIP SHA256s: ARM
+`909fd5d38db7167318a69077fdebba6e50270cdff8fac6a98684f10aead050af`, Intel
+`9be892ffbad920e5d0a99c24c1bc48ee9c56034434982f14ffe83b9e00b69592`.
+
+The public source-only prerelease `sources-v0.1.0b2` contains 172 upstream
+archives and the exact own snapshot, 521,646,080 bytes, SHA256
+`b5ac1de25f01dac9def0e855d35bb9e88f3ba24ddb0410ef9173cbd79b2846a5`.
+Its anonymous download passed hashing and exact-commit/member release preflight.
+Both one-time GitHub approval values are saved/read back as
+`DISABLED_AFTER_0.1.0b2`; no credential or permission was expanded.
+
+The user subsequently explicitly approved updating the same installed public
+app, one dedicated Text helper, a separate test card and a TV delivery, while
+preserving the original card/history and leaving configuration.yaml untouched.
+Created helper: `input_text.frame_gallery_artwork`; min 0/max 255/Text mode
+persisted and independently confirmed by reopening settings. Native AX setValue
+changed the visible maximum without persisting it on first creation; real
+keyboard input, saving and reopening confirmed the corrected 255 value.
+The guide now explains More options and the default 100 maximum.
+
+Read-only diagnostics confirmed the original camera/timer/script IDs. The
+stored normal HA API account is non-admin; an admin-only template request
+returned 401 and was not retried. One scoped current-user metadata probe
+confirmed the role. Its privileges were not expanded. The existing authorized
+admin Firefox session is the separate UI route for these approved live changes.
+No app update/options edit/card save/TV send/restart is claimed at this checkpoint.
+HA restart restoration still needs separate user approval. Store-main push and
+the app-release announcement are pending the personal credential handoff and
+actual live validation. Historical b1 receipts remain valid for b1 only.
+
 ### D-203 — approved b2 publication without exposing a missing store image
 
 **Status:** the user explicitly authorized publication on 2026-10-04. No live

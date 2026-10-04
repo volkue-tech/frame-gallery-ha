@@ -1,6 +1,35 @@
 # Project status
 
-Last updated: 2026-10-04 (optional artwork information in local development; public beta unchanged)
+Last updated: 2026-10-04 (b2 images verified; store push and live validation pending)
+
+## Artwork-information beta — images verified, live test authorized
+
+D-204 records the completed publication checks for runtime/source commit
+`f3d916c1519f86482a740c7dda54767d8ad99092`. All five jobs in personal publisher
+run `37223299682` passed. Native ARM and Intel actual-image suites each passed
+4,914 tests with five root-only skips, followed by all five root checks passing.
+Both architectures passed the real 1 GiB image-worker limit. The downloaded
+native/publisher evidence ZIP hashes match the GitHub artifact hashes.
+Both public images were independently anonymously pulled: labels match the
+exact runtime commit and 0.1.0b2; tag/digest manifest bytes match; Cosign checks
+the actual `codex/artwork-info` workflow certificate, issuer and exact SHA.
+The 172-archive corresponding-source asset is public, anonymously hash-checked
+and passed the exact-source preflight. Both one-time publisher variables are
+saved and read back as `DISABLED_AFTER_0.1.0b2`.
+
+The user explicitly approved updating the existing app, creating one dedicated
+Text helper and a separate test card, and sending artwork to the TV. The helper
+`input_text.frame_gallery_artwork` is now created, with its saved minimum 0,
+maximum 255 and Text mode independently confirmed by reopening its settings.
+No existing card, camera, timer, script, app options, history or configuration.yaml
+was changed. No image was sent during this checkpoint. The source-only release
+is not an app-release announcement; public store main still points to b1.
+
+Next: finish the authorized personal main push after the user's hidden token
+entry in the already-open bounded Terminal session, update the same store app
+without resetting data, and test the optional card. HA Core restart restoration
+requires the separately requested approval; it has not been performed or waived.
+Public app release v0.1.0b2 and the final live validation remain pending.
 
 ## Artwork-information beta publication — authorized, in progress
 
@@ -17,9 +46,9 @@ host gate and synthetic negative controls check the two named refs and actual
 ref-qualified certificate identity. One initial metadata regression still
 required b1 literally; it now checks numbered-beta syntax and runtime equality,
 and the entire suite was repeated successfully. No gate was bypassed.
-New source packaging, native CI, signed/public images and release evidence are
-pending. The candidate remains on the separate branch, not public store main.
-Live Green update, optional helper/card creation and rendering remain unapproved.
+At this earlier candidate checkpoint, source packaging, native CI and signed
+images were pending. D-204 above supersedes those pending checks and records
+the later explicit live-change approval. Store main and app release remain pending.
 
 ## Optional artwork information — local implementation, 2026-10-04
 
@@ -48,9 +77,9 @@ the pure metadata formatter's complete coverage. `git diff --check` passed.
 No dependency was added. Work is isolated on `codex/artwork-info`, leaving the
 published `main` branch and beta version unchanged.
 
-No live HA, TV, external documentation/API, Docker, registry or GitHub access was
-used for this feature. Version, tags and public images remain at 0.1.0b1; these
-source changes are not yet installed or published. A new version and native
+At this earlier local-implementation checkpoint, no live HA, TV, external
+documentation/API, Docker, registry or GitHub access was used for this feature.
+Version, tags and images then remained at 0.1.0b1. A new version and native
 build/source/signature checks require publication approval. Green update,
 helper/card creation, rendering and restart restoration require live-change
 approval; previous beta evidence does not validate this new feature.

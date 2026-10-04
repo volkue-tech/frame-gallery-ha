@@ -14,7 +14,9 @@ information card beneath the image. No HACS, custom dashboard extension, SSH or
 ## 1. Create one Text helper
 
 In Home Assistant, open **Settings → Devices & services → Helpers → Create
-helper → Text**. Enter:
+helper → Text**. Enter the name, then expand **More options** (**Weitere
+Optionen** in German) to see the length and display-mode settings. The default
+maximum is **100**, which must be changed to **255** before saving. Enter:
 
 | Setting | Value |
 | --- | --- |
@@ -33,6 +35,11 @@ Leaving **Initial value** unset allows Home Assistant to restore the helper's
 previous value after a restart. Do not type artwork details into this helper:
 the app owns its small JSON value. Use a dedicated helper, not one used for
 filtering, automations or another app.
+
+Some Home Assistant versions do not offer an Initial value field in this
+dialog; in that case there is nothing to enter. After creating the helper,
+open its settings and **More options** once to confirm that the saved maximum
+really is **255**.
 
 ## 2. Connect the helper to Frame Gallery
 
