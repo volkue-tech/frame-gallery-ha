@@ -1,6 +1,18 @@
 # Project status
 
-Last updated: 2026-10-04 (b2 Green software validation completed)
+Last updated: 2026-10-04 (b2 published; Green software validation completed)
+
+## 0.1.0b2 publication receipt
+
+Personal public prerelease `v0.1.0b2` was published at 19:17:19 UTC, targeting
+documentation/announcement commit `4c93d86ee28427687e49b8405d6a50ec7a41a792`.
+Anonymous GitHub API verification confirms `draft=false`, `prerelease=true`
+and the correct personal author/repository. Anonymous ls-remote confirmed the
+main push; both guides, the validation report and card-only screenshot were
+downloaded anonymously and matched local files byte-for-byte. Runtime/source
+remains the earlier exact `f3d916c` build, not this documentation commit.
+Historical b1 releases/images/sources are retained. All software publication
+work is complete; only the user's physical TV display confirmation is deferred.
 
 ## Artwork-information b2 — software validation completed, physical confirmation deferred
 
@@ -22,9 +34,9 @@ not live fault injection, validates TV-transport and metadata-service failures.
 
 The optional guide now names b2, includes a card-only actual screenshot and
 explains hidden optional options and the Text helper's default maximum of 100.
-The main basic card remains unchanged. These completion documents and the
-public app prerelease announcement are prepared for the authorized personal
-push/release; the final publication receipt is still pending at this checkpoint.
+The main basic card remains unchanged. At this earlier pre-publication checkpoint,
+the completion documents and app prerelease announcement were prepared for the
+authorized personal push/release. The completed publication receipt is above.
 Final local gates were actually repeated: Ruff, strict host/Linux mypy (244
 files), 4,908 passed, eleven unchanged platform/root skips, 100% whole-package
 line/branch coverage (9,272 statements / 2,002 branches) and the architecture's

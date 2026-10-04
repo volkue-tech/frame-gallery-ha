@@ -5,7 +5,9 @@
 ### D-205 — observed b2 Green rendering, negative outcomes and Core restoration
 
 **Status:** completed within the user's approved software-test scope (2026-10-04);
-physical TV confirmation deferred by the user, final app announcement pending.
+physical TV confirmation deferred by the user. Personal public prerelease
+`v0.1.0b2` subsequently published at 19:17:19 UTC targeting `4c93d86`;
+anonymous API/main/file comparisons independently verified it.
 
 The same public-store installation was updated in place to 0.1.0b2. The UI's
 keep-previous-version backup option was enabled; no backup restore is inferred.

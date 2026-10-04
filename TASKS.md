@@ -294,17 +294,19 @@ dashboard extension. The earlier Phase 9 completion is not broader authorization
   0.1.0b1), build/validate native ARM/Intel, refresh source evidence and sign/publish.
   *D-204: 0.1.0b2 images and corresponding sources published and independently
   verified for exact runtime commit f3d916c; all five publisher jobs passed.
-  Both approval variables are disabled again. Store main push and the public
-  app-release announcement are separate pending actions.*
+  Both approval variables are disabled again. Subsequent store push and app
+  announcement completed separately, recorded below and in D-205.*
 - [x] Create the approved dedicated Text helper with saved minimum 0, maximum
   255 and Text mode; confirm its actual ID without changing existing helpers.
   *D-204: input_text.frame_gallery_artwork, settings reopened and verified.*
-- [ ] Complete the personal store-main push and app-release announcement after
+- [x] Complete the personal store-main push and app-release announcement after
   successful authorized live validation; do not infer either from public images.
   *Store main push completed at e908602, independently confirmed anonymously.
   The user briefly postponed the test, then reauthorized all software testing
   with physical display confirmation deferred. D-205 records completed software
-  validation; the final app announcement remains pending at this checkpoint.*
+  validation. Public prerelease v0.1.0b2 targets 4c93d86; anonymous release/main
+  verification and byte-identical guide/report/screenshot downloads passed.
+  Physical TV confirmation remains explicitly deferred by the user.*
 - [x] After explicit live-change approval: update Green without data reset,
   create/configure dedicated helper, verify repeated refresh/no-match/failure,
   helper restoration after HA restart, and optional-card rendering.
