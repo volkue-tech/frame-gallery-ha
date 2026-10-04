@@ -2,6 +2,25 @@
 
 Last updated: 2026-10-04 (optional artwork information in local development; public beta unchanged)
 
+## Artwork-information beta publication — authorized, in progress
+
+The user explicitly requested publication after local commit `c8336d2`.
+Numbered candidate `0.1.0b2` retains all dependencies/base/notices. D-203 adds a
+narrow candidate-branch route to the existing manual, exact-SHA/source-hash,
+native-checked publisher: keep public `main` at the working b1 store metadata
+until both new images/signatures exist, then fast-forward the same candidate.
+Candidate gates passed: Ruff, strict host/Linux mypy (244 files), 4,908 tests
+passed, eleven unchanged Linux/root skips and 100% line/branch coverage (9,272
+statements / 2,002 branches). The lock passes `uv lock --check --offline` with
+the project-local cache; all 26 package pins are unchanged. The real workflow
+host gate and synthetic negative controls check the two named refs and actual
+ref-qualified certificate identity. One initial metadata regression still
+required b1 literally; it now checks numbered-beta syntax and runtime equality,
+and the entire suite was repeated successfully. No gate was bypassed.
+New source packaging, native CI, signed/public images and release evidence are
+pending. The candidate remains on the separate branch, not public store main.
+Live Green update, optional helper/card creation and rendering remain unapproved.
+
 ## Optional artwork information — local implementation, 2026-10-04
 
 The user authorized implementation of title, artist and museum alongside the

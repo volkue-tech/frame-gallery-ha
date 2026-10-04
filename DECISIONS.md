@@ -2,6 +2,24 @@
 
 ## Optional dashboard attribution (2026-10-04)
 
+### D-203 — approved b2 publication without exposing a missing store image
+
+**Status:** the user explicitly authorized publication on 2026-10-04. No live
+Home Assistant update or helper/card edit is authorized by this request.
+
+Prepare numbered beta `0.1.0b2` with unchanged dependencies, base, isolation and
+notices. Publish matching corresponding sources before any binary. The manual
+publisher additionally permits only the personal repository's exact
+`refs/heads/codex/artwork-info` candidate branch, still requiring the approved
+commit/source SHA, both native checks, non-overwrite and keyless signatures.
+Its signature certificate names the actual workflow ref, not a false main ref.
+Only after both versioned images pass may this candidate fast-forward `main`,
+so the app store never deliberately advertises a nonexistent new image. The
+old version/source remain retained. Disable the one-time approval values afterward.
+New optional-helper rendering/restoration remains explicitly unverified until
+the user authorizes a supervised Green update. No general arbitrary-branch or
+automatic publisher is introduced. Native/public evidence is recorded as it occurs.
+
 ### D-202 — native, optional artwork-information card without changing TV pixels
 
 **Status:** user authorized local implementation after approving the visual.

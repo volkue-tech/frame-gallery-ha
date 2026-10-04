@@ -118,7 +118,8 @@ def test_the_app_is_a_one_shot_without_extra_privileges() -> None:
 
 
 def test_the_public_image_mapping_selects_only_the_verified_own_architectures() -> None:
-    assert CONFIG["version"] == "0.1.0b1"
+    assert CONFIG["version"] == __version__
+    assert re.fullmatch(r"[0-9]+\.[0-9]+\.[0-9]+b[1-9][0-9]*", CONFIG["version"])
     assert CONFIG["image"] == "ghcr.io/volkue-tech/frame-gallery-ha-{arch}"
     assert [CONFIG["image"].format(arch=arch) for arch in CONFIG["arch"]] == [
         "ghcr.io/volkue-tech/frame-gallery-ha-aarch64",

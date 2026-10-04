@@ -1,6 +1,6 @@
 # Changelog
 
-## Unreleased
+## 0.1.0b2 (release candidate; native validation and publication pending)
 
 - Optional native dashboard artwork-information card (title, artist, museum),
   using one dedicated UI-created Text helper. Standard image card unchanged.

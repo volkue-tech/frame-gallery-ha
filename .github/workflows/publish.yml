@@ -22,7 +22,7 @@ concurrency:
 
 jobs:
   approved:
-    if: github.repository == 'volkue-tech/frame-gallery-ha' && github.ref == 'refs/heads/main'
+    if: github.repository == 'volkue-tech/frame-gallery-ha' && (github.ref == 'refs/heads/main' || github.ref == 'refs/heads/codex/artwork-info')
     runs-on: ubuntu-24.04
     timeout-minutes: 5
     steps:
@@ -147,7 +147,7 @@ jobs:
           python -c 'import re,sys; assert re.fullmatch("sha256:[0-9a-f]{64}",sys.argv[1])' "$DIGEST"
           "$RUNNER_TEMP/frame-gallery-cosign" sign --yes "${IMAGE}@${DIGEST}"
           "$RUNNER_TEMP/frame-gallery-cosign" verify \
-            --certificate-identity "https://github.com/volkue-tech/frame-gallery-ha/.github/workflows/publish.yml@refs/heads/main" \
+            --certificate-identity "https://github.com/volkue-tech/frame-gallery-ha/.github/workflows/publish.yml@${GITHUB_REF}" \
             --certificate-oidc-issuer https://token.actions.githubusercontent.com \
             "${IMAGE}@${DIGEST}"
           printf '%s@%s\n' "$IMAGE" "$DIGEST" > "../build/container-checks/${BUILD_ARCH}/published-digest.txt"

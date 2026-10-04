@@ -296,4 +296,4 @@ dashboard extension. The earlier Phase 9 completion is not broader authorization
   create/configure dedicated helper, verify repeated refresh/no-match/failure,
   helper restoration after HA restart, and optional-card rendering.
 
-Gate: publication and live changes remain unapproved for this feature.
+Publication approved on 2026-10-04 (D-203); live changes remain unapproved.

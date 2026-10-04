@@ -16,7 +16,10 @@ def test_host_gate_checks_both_actual_workflows_and_refuses_missing_default(
     directory = tmp_path / ".github/workflows"
     directory.mkdir(parents=True)
     for workflow in ci_defaults.WORKFLOWS:
-        (directory / workflow).write_text("name: fixture\n" + ci_defaults.BASH_DEFAULT)
+        text = "name: fixture\n" + ci_defaults.BASH_DEFAULT
+        if workflow == "publish.yml":
+            text += ci_defaults.PUBLISHER_REF_GATE + ci_defaults.PUBLISHER_CERTIFICATE
+        (directory / workflow).write_text(text)
     assert ci_defaults.main(tmp_path) == 0
     (directory / name).write_text("name: fixture\n")
     assert ci_defaults.main(tmp_path) == 1
@@ -39,6 +42,25 @@ def test_missing_or_linked_actual_workflow_fails_the_host_gate(tmp_path: Path) -
 def test_check_script_runs_the_actual_host_declaration_gate() -> None:
     project = Path(__file__).resolve().parents[3]
     assert '"$BIN/python" scripts/ci_defaults.py' in (project / "scripts/check.sh").read_text()
+
+
+def test_publisher_certificate_matches_the_narrow_approved_ref_gate() -> None:
+    ci_defaults.require_publisher_ref(
+        ci_defaults.PUBLISHER_REF_GATE + ci_defaults.PUBLISHER_CERTIFICATE
+    )
+
+
+@pytest.mark.parametrize("change", ["repo", "arbitrary_ref", "certificate"])
+def test_publisher_ref_and_signature_policy_changes_are_refused(change: str) -> None:
+    text = ci_defaults.PUBLISHER_REF_GATE + ci_defaults.PUBLISHER_CERTIFICATE
+    if change == "repo":
+        text = text.replace("volkue-tech/frame-gallery-ha", "another-owner/project")
+    elif change == "arbitrary_ref":
+        text = text.replace("refs/heads/codex/artwork-info", "refs/heads/arbitrary")
+    else:
+        text = text.replace("${GITHUB_REF}", "refs/heads/main")
+    with pytest.raises(ValueError, match="publisher ref gate"):
+        ci_defaults.require_publisher_ref(text)
 
 
 @pytest.mark.parametrize("code", [0, 7])
