@@ -1,8 +1,30 @@
 # Project status
 
-Last updated: 2026-10-04 (Phase 9: public Green installation and live verification)
+Last updated: 2026-10-04 (Phase 9: public beta and release-controls closure)
 
 ## Current phase
+
+**Phase 9 public-beta work completed in the documented scope (D-199).** `v0.1.0b1` is public at
+https://github.com/volkue-tech/frame-gallery-ha/releases/tag/v0.1.0b1 .
+Its tag independently resolves to `8a3e7ee`. Final native run `37193338410`
+completed successfully on ARM and Intel, including actual container/root and
+real-limit memory gates. Public Green installation and live delivery/preview/
+loading/fallback/cleanup are verified in the documented scope. The user confirmed
+the first artwork on the physical TV. Released runtime/source remains `d736c7a`.
+After the user's GitHub confirmation, both one-time publication approval values
+are saved and read back as `DISABLED_AFTER_0.1.0b1`; no approval can be reused.
+This documentation-only closure does not rebuild, replace or retag the release.
+No independent legal counsel, universal fresh pairing or public-install kernel
+negative probes are claimed. No new feature or later phase is authorized.
+
+### Earlier Phase 9 progress (historical, superseded by the release above)
+
+**Final corrected run:** `8a3e7ee` is pushed and independently verified. Native
+run `37193338410` is in progress; actual ARM/Intel logs both confirm 4,836 suite
+passes / five root-only skips plus all five root checks. Real-limit memory
+measurements remain in progress. The saved beta draft is explicitly pinned to
+`8a3e7ee` and marked prerelease. The previous `115c5e0`-target notes below are
+historical, not the current release approval.
 
 **Publication continuation:** personal `main` push of `115c5e0` is verified.
 Fresh native validation run `37192835740` is in progress for that exact commit;

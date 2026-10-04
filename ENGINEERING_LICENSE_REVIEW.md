@@ -82,15 +82,16 @@ different facts. Patent/ownership guarantees are not inferred from any of them.
 ## Assessment outcome
 
 The exact pinned licences permit an engineering route to distribution with the
-controls above. **The image-release gate is still conditional** on matching
-public source/notices availability, verified final image bytes/signatures and the
-other technical gates. The workflow requires an explicit reviewed commit/source
+controls above. **The technical distribution controls are verified**: matching
+public source/notices availability, final image bytes/signatures and the other
+technical gates passed in the recorded scope. The workflow requires an explicit reviewed commit/source
 hash and rejects development versions. Its first numbered image publication
 passed source preflight and native tests; public sources and both signed image
 digests were subsequently checked independently without authentication (D-196).
 The separate clean public Green installation and two live deliveries subsequently
 passed (D-198). Neither distribution nor installation evidence is an independent
-legal opinion; final corrected CI and the beta announcement remain pending.
+legal opinion. Final native validation `37193338410` passed and public beta
+`v0.1.0b1` is released at `8a3e7ee`; runtime/source commit remains `d736c7a`.
 
 This document records the applicability/risk assessment and a practical compliance
 plan. It does not declare an unpublished source bundle publicly available, mark

@@ -1,5 +1,38 @@
 # Decision log
 
+## Public beta release (2026-10-04)
+
+### D-199 — final native gates and public beta announcement
+
+Status: authorized public-beta work completed in the documented scope.
+
+Native run `37193338410` completed successfully for exact commit `8a3e7ee`:
+ARM job `111409999318`, Intel job `111409999440`, including host quality gates,
+actual test-context suites/root checks and real-limit memory measurements.
+Both suites recorded 4,836 passes / five root-only skips and all five separate
+root checks. A GitHub Node 20-to-24 action-runtime warning is recorded, not an
+app-test failure or a reason to change pinned actions during release.
+
+The saved prerelease was published only after both jobs succeeded. Public
+`v0.1.0b1` tag was independently resolved without saved Git credentials and
+matches `8a3e7ee0b5e07fb734768e18b9d9ac58e64e084e`. The release page confirms
+the prerelease label and correct own account. Runtime/source commit stays
+`d736c7a`; no public image/source archive was rebuilt, retagged or replaced.
+Public release: https://github.com/volkue-tech/frame-gallery-ha/releases/tag/v0.1.0b1 .
+
+Technical source/notices, signatures, install, live preview/loading/fallback and
+cleanup controls are recorded within their observed scope. The engineering
+assessment requested in D-179 is not a qualified lawyer's opinion, historical
+ownership/patent clearance, universal TV compatibility or a repeated fresh-pairing
+test. Earlier records and private data remain preserved.
+
+After the user's GitHub sudo confirmation, both publication variables were
+saved/read back as `DISABLED_AFTER_0.1.0b1`. They deliberately fail exact
+commit/hash checks, rather than deleting recoverable metadata. No permission was
+expanded. The bounded token process had already ended at its 45-minute deadline
+while waiting for that confirmation; no token was persisted. The final record
+is a personal documentation-only commit, not a new runtime/image release.
+
 ## Public installation checkpoint (2026-10-04)
 
 ### D-198 — public Green verification and portable repository regression

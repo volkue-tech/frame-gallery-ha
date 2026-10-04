@@ -262,4 +262,16 @@ approval. Existing release prerequisites remain mandatory.
   zero temporary counts, protection/profile settings and app-only backup checked.
   Public kernel negative probes/fresh pairing were not repeated. Corrected root
   repository test still needs fresh hosted CI before final announcement.*
-- [ ] Publish release notes and known limitations.
+- [x] Publish release notes and known limitations.
+  *D-199: public prerelease `v0.1.0b1`, tag `8a3e7ee`, with install/setup links,
+  exact signed-image/source identities and explicit compatibility/filter/licence
+  limits. Both final native jobs passed in run `37193338410`.*
+- [x] Deactivate the one-time image-publication approval values after release.
+  *After the user's personal GitHub confirmation, both values are saved/read back
+  as `DISABLED_AFTER_0.1.0b1`. This is reversible and fails the publisher's exact
+  commit/hash checks; no variables/data were deleted or privileges expanded.*
+
+Phase 9 public-beta work is complete within the documented engineering/test
+scope. Fresh authorization across all TV models, public-install kernel negative
+probes and independent legal counsel are not claimed. No next feature phase is
+authorized by this completion record.

@@ -2,7 +2,7 @@
 
 Frame Gallery sends one fresh artwork to a Samsung Frame TV each time you start it, then stops. It picks a public-domain work from the Art Institute of Chicago, an open-access work from the Cleveland Museum of Art, or one of your own images; prepares it for the TV's 16:9 screen without cropping (unless you ask for it); uploads it; shows it; and keeps a preview for your dashboard. It never shows the same work twice while unsent works remain.
 
-> **Status: 0.1.0b1 public beta candidate.** Signed pre-built ARM/Intel images and matching sources are publicly available and independently verified. Separate public-repository installation on Green, two live TV deliveries, preview refresh, loading completion and cleanup passed. The public app ID below was observed, not guessed. Final corrected CI and the beta announcement remain pending. See `PHASE9_REPORT.md` at the repository root for scope and limitations.
+> **Status: [0.1.0b1 public beta](https://github.com/volkue-tech/frame-gallery-ha/releases/tag/v0.1.0b1).** Signed pre-built ARM/Intel images and matching sources are publicly available and independently verified. Separate public-repository installation on Green, two live TV deliveries, preview refresh, loading completion and cleanup passed. Final native ARM/Intel validation passed for the release-tag commit. The public app ID below was observed, not guessed. See `PHASE9_REPORT.md` at the repository root for scope and limitations.
 
 Frame Gallery is an independent project. It is not made, endorsed, or supported by Samsung, by the museums, or by Home Assistant.
 

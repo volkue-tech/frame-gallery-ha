@@ -1,10 +1,10 @@
 # Frame Gallery for Home Assistant
 
-Frame Gallery is an independently implemented Home Assistant app for displaying curated artwork on compatible Samsung Frame televisions. **0.1.0b1 has passed separate public-repository installation and live delivery on Home Assistant Green.** Final corrected documentation/test CI and the beta announcement are pending.
+Frame Gallery is an independently implemented Home Assistant app for displaying curated artwork on compatible Samsung Frame televisions. **[0.1.0b1 is a public beta](https://github.com/volkue-tech/frame-gallery-ha/releases/tag/v0.1.0b1)**, tested through a separate public-repository installation and live delivery on Home Assistant Green.
 
 This repository contains the product specification, architecture and independently implemented app (`frame_gallery/`). It intentionally contains no application code copied or adapted from predecessor projects.
 
-## Installation candidate
+## Installation
 
 [Add the Frame Gallery repository to Home Assistant](https://my.home-assistant.io/redirect/supervisor_add_addon_repository/?repository_url=https%3A%2F%2Fgithub.com%2Fvolkue-tech%2Fframe-gallery-ha)
 
@@ -38,7 +38,7 @@ Enforced AppArmor child profiles and worker network restrictions were also teste
 on the Green, followed by successful regular deliveries. See `PHASE8_REPORT.md`
 and `PHASE9_REPORT.md` for the exact scope and limitations.
 
-Phase 9 is in progress. Both numbered architecture images were published by
+The public beta is released. Both numbered architecture images were published by
 [run 37159551965](https://github.com/volkue-tech/frame-gallery-ha/actions/runs/37159551965)
 from runtime commit `d736c7a`. Native host/container/root/memory gates passed;
 both images were independently downloaded anonymously and their keyless Cosign
@@ -49,8 +49,11 @@ selects those already verified images; it does not rebuild or retag them.
 The separate public-repository Green installation passed, with observed app ID
 `a94fc569_frame_gallery`. Two live deliveries refreshed the preview and ended
 loading; the user confirmed the first image on the TV. Invalid configuration
-ended safely and temporary files were cleaned. Final corrected test/documentation
-CI and the beta announcement remain pending. Current state: `STATUS.md` and `TASKS.md`.
+ended safely and temporary files were cleaned. Final native ARM/Intel
+[validation](https://github.com/volkue-tech/frame-gallery-ha/actions/runs/37193338410)
+passed for release tag commit `8a3e7ee`, including actual container/root/memory
+checks. Later documentation commits do not change the released runtime.
+Current state: `STATUS.md` and `TASKS.md`.
 
 In the first beta, the Art Institute offers the period filter, and Cleveland
 offers department and period; no source offers a colour filter (see

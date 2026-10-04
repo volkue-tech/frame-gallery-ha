@@ -1,6 +1,47 @@
 # Phase 9 progress report
 
+## Public beta released (2026-10-04, D-199)
+
+Both final native jobs completed successfully in run `37193338410` on exact
+commit `8a3e7ee`: ARM `111409999318`, Intel `111409999440`, including actual
+container/root checks and real-limit memory measurements. The Intel job ran
+13m40s; its container/memory step ran 12m40s. Both architecture suites have
+4,836 passes / five root-only skips plus five separate root passes. GitHub's
+Node.js 20-to-24 pinned-action runtime warning is not an app-test failure.
+
+Public prerelease: https://github.com/volkue-tech/frame-gallery-ha/releases/tag/v0.1.0b1 .
+Its label/title/tag commit were confirmed in Firefox; independent anonymous
+`git ls-remote` with all credential helpers disabled confirms tag SHA
+`8a3e7ee0b5e07fb734768e18b9d9ac58e64e084e`. Release notes include the verified
+installation link, complete card guide, source/digest identities and limitations.
+Runtime/source commit remains `d736c7a`; no public image rebuild or tag overwrite.
+After the user's GitHub personal password confirmation, both one-time approval
+variables were saved/read back as `DISABLED_AFTER_0.1.0b1`. The publisher's exact
+commit/hash checks reject these values; no variables were deleted or access
+expanded. The bounded private token process ended at its 45-minute deadline
+before the confirmation arrived, without persisting the token. This final
+documentation-only closure does not modify the tagged runtime or images.
+Phase 9 public-beta work is complete within the reported engineering/test scope,
+not a claim of independent legal counsel or universal fresh-pairing coverage.
+Final documentation-only host gates exited 0: 4,830 passed / eleven unchanged
+platform skips, strict host/Linux mypy 240 files, 100% full and mandated
+line/branch coverage. Log: `build/phase9/check-beta-closure-complete-20261004.log`.
+
+### Earlier preparation notes (historical, superseded by the release above)
+
 ## Final hosted verification (2026-10-04)
+
+Latest corrected main `8a3e7ee0b5e07fb734768e18b9d9ac58e64e084e` is pushed
+and independently verified. Replacement native run `37193338410` covers ARM
+job `111409999318` and Intel job `111409999440`. Their actual job logs both
+confirm 4,836 container-suite passes / five root-only skips and all five separate
+root checks. The real-limit measurements are still in progress. The public
+status API reached its unauthenticated rate limit; observation continued in the
+already authorized personal Firefox session, without new credentials or retries.
+The beta draft is saved with an explicit `8a3e7ee` target and prerelease marking.
+Only the exact repo main plus a later single documentation-only closure commit
+may be pushed by the bounded private Terminal process. The token is held only
+in its process memory, at most 45 minutes, and not stored by the helper.
 
 Personal main `115c5e0833b640efd21d28b1c882c6a2b8967076` was pushed and verified.
 Fresh native run `37192835740` is in progress: ARM job `111408463037`, Intel
