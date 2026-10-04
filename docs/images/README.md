@@ -33,6 +33,24 @@ downloaded for this documentation work, and the screenshot is not evidence of
 fresh physical-TV confirmation. Credits do not imply museum or HA endorsement.
 Do not use screenshots or assets of excluded predecessor apps.
 
+## First-time setup screenshot
+
+`local-file-setup.png` is the user's original Home Assistant Local File setup
+dialog screenshot, supplied on 2026-10-04 during fresh-install testing and
+included following the user's request for first-user documentation screenshots.
+It is copied without retouching from the supplied image. It contains no artwork,
+address bar, sidebar, account details, entity attributes or access tokens.
+It shows the unfilled German dialog, not a completed configuration. The guide's
+caption explicitly instructs readers to replace the default `Local File` name
+with `Frame Gallery Preview` and fill in the file path. Home Assistant's UI is
+third-party material; the project's Apache-2.0 licence does not relicense it.
+The asset lives outside the app runtime build context.
+
+For a future screenshot of the dashboard Entity picker, use a clean view with
+the named preview only, without development/test entries or personal entities.
+Do not reuse the supplied full Details screenshot: it exposes camera tokens.
+The existing verified-CC0 dashboard screenshot already illustrates the result.
+
 ## Presentation references
 
 Reviewed on 2026-10-04 for documentation structure only:

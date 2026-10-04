@@ -32,6 +32,8 @@ You need Home Assistant OS with Supervisor, Home Assistant 2026.2 or newer, and 
 
 **The dashboard is optional, not installed automatically.** First try the app from its own page. Then follow the [dashboard setup](frame_gallery/DOCS.md#dashboard): create a preview camera and a timer in the UI, and paste the complete script and card examples. No custom card is required. The guide also includes a complete daily automation.
 
+When adding **Local File**, replace its default name with **Frame Gallery Preview**. It automatically creates the image's camera entity; no physical camera is needed. The guide explains how to find its actual entity ID and select the right preview in the card editor.
+
 ## Choose your collection
 
 | Source | Available filters in this beta |

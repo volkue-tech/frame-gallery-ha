@@ -49,16 +49,55 @@ The pairing key the TV issues is stored in the app's private data and is exclude
 
 *Actual dashboard screenshot. This installation uses a German label; you can choose your own card name. Artwork: [“Elephant Bridge” souvenir](https://www.clevelandart.org/art/1929.342), Cleveland Museum of Art, 1929.342, [CC0 Open Access](https://www.clevelandart.org/open-access). The complete examples below use generic entity IDs for a new setup.*
 
-**Tap the preview to request new artwork.** During a run, the card adds an "Updating artwork…" note; afterward it shows the latest successful preview. Holding the image opens the camera's more-info view. A failed run keeps the previous preview.
+**Tap the preview to request new artwork.** The example labels the image **Load new artwork** so first-time users can see that it is a button, not just a picture. During a run, the card adds an "Updating artwork…" note; afterward it shows the latest successful preview. Holding the image opens the camera's more-info view. A failed run keeps the previous preview.
 
 The card uses only built-in Home Assistant components: no HACS, Mushroom or custom button card. It is not added automatically. Set it up once with a preview camera, a timer, a script and the complete card below. All of these are created through the user interface, not `configuration.yaml`.
 
 Use an administrator account for setup and for starting the app. The entity IDs below are the expected ones; check them in **Settings → Devices & services → Entities** and adjust the YAML if yours differ. The observed public app ID is `a94fc569_frame_gallery`. Check the app-page URL if yours differs; do not use a local development slug.
 
-1. **Preview camera.** Start the app once successfully so the preview file exists. Then **Settings → Devices & services → Add integration → Local File**. Name: `Frame Gallery Preview`. File path: `/media/frame_gallery/preview/latest.jpg`. Expected entity: `camera.frame_gallery_preview`. If this path is already configured, reuse its existing camera entity in the complete card below; HA refuses a duplicate Local File integration for the same path. Multiple installations share this latest-preview path but retain separate private histories.
-2. **Timer.** **Settings → Devices & services → Helpers → Create helper → Timer**. Name: `Frame Gallery run`. Duration: `0:02:30`. Expected entity: `timer.frame_gallery_run`.
-   In the app's Configuration tab, set **Dashboard loading timer** (`loading_timer`) to this exact entity ID. Use a separate timer for each app. The app cancels it after cleanup; expiry remains the fail-safe if completion cannot be reported.
-3. **Script.** **Settings → Automations & scenes → Scripts → Create script → ⋮ → Edit in YAML**, paste the following, and save. Expected entity: `script.frame_gallery_new_artwork`.
+**Copying the examples:** copy each entire YAML block, preserving its indentation. On GitHub, move the pointer over the block and use its top-right copy button. If your Home Assistant Documentation tab offers no copy button, [open this guide on GitHub](https://github.com/volkue-tech/frame-gallery-ha/blob/main/frame_gallery/DOCS.md#dashboard). Do not copy the surrounding instructions or the Markdown backtick fences.
+
+### 1. Create and name the preview camera
+
+Start the app once successfully so the preview file exists. Then open **Settings → Devices & services → Add integration → Local File**.
+
+![Actual Home Assistant Local File setup dialog in German, with the Name and File path fields. Replace the default Local File name with Frame Gallery Preview and enter the preview path below.](https://raw.githubusercontent.com/volkue-tech/frame-gallery-ha/main/docs/images/local-file-setup.png)
+
+*Actual setup dialog, before filling it in. **Name** is the name of the new entity; **Dateipfad** means File path. Replace the displayed default `Local File` — do not leave it unchanged. The screenshot uses German; the values below are the same in every UI language.*
+
+In the setup dialog, fill in **both** fields before selecting **OK**:
+
+| Field | Enter |
+| --- | --- |
+| Name | `Frame Gallery Preview` — replace the default `Local File` |
+| File path | `/media/frame_gallery/preview/latest.jpg` |
+
+**This creates the preview camera automatically.** It is not a physical camera: Home Assistant uses a camera entity to display the image file. The integration page may still be headed **Local File**. Its **1 entity** link means setup succeeded, not that another setup step is required.
+
+The name makes the preview recognizable in entity lists and dashboard pickers. The expected technical ID is `camera.frame_gallery_preview`, but naming conventions or an existing entity can produce a different ID. Check it once:
+
+1. On the **Local File** integration page, select **1 entity** (**1 Entität** in German).
+2. This opens a filtered entity list. Select the row **Frame Gallery Preview** — or **Local File** if you kept the default name.
+3. The image opens. Select the top-right **⋮ → Details**.
+4. Copy the **ID** from the Entity section. Also check that **File path** is `/media/frame_gallery/preview/latest.jpg`.
+
+**Already created it as Local File?** Reuse it; do not delete and recreate it. From the image window, select the **cog icon** to open the entity settings. Set the display name to `Frame Gallery Preview`. If you also want the example's ID, separately set **Entity ID** to `camera.frame_gallery_preview`, provided it is unused, and select **Update**. Changing the display name alone does not rename an existing ID. If you change the ID, update any existing cards, scripts or automations that reference it. See [Home Assistant's entity naming guide](https://www.home-assistant.io/docs/configuration/customizing-devices/).
+
+Alternatively, keep an ID such as `camera.local_file` and use that exact ID instead of `camera.frame_gallery_preview` in the complete card below. In the visual card editor, the **Entity** picker shows the display name and thumbnail, not necessarily the technical ID: choose **Frame Gallery Preview**, or **Local File** if you left its name unchanged.
+
+If this file path is already configured, reuse its existing camera entity; Home Assistant refuses a duplicate Local File integration for the same path. Multiple app installations share this latest-preview path but retain separate private histories.
+
+**Screenshot privacy:** the Details view also contains camera access tokens and a token-bearing image URL. Do not share the entire attributes section. For support, copy only the entity ID and file path, or share a screenshot showing only those safe fields.
+
+### 2. Create the loading timer
+
+Open **Settings → Devices & services → Helpers → Create helper → Timer**. Name: `Frame Gallery run`. Duration: `0:02:30`. Expected entity: `timer.frame_gallery_run`.
+
+In the app's Configuration tab, set **Dashboard loading timer** (`loading_timer`) to this exact entity ID. Use a separate timer for each app. The app cancels it after cleanup; expiry remains the fail-safe if completion cannot be reported.
+
+### 3. Create the script
+
+Open **Settings → Automations & scenes → Scripts → Create script → ⋮ → Edit in YAML**, paste the following, and save. Expected entity: `script.frame_gallery_new_artwork`.
 
 ```yaml
 alias: Frame Gallery new artwork
@@ -83,14 +122,16 @@ sequence:
   - delay: "00:00:04"
 ```
 
-4. **Card.** Edit a dashboard, add a card, choose **Manual**, and paste the whole block:
+### 4. Add the dashboard card
+
+Once the camera, timer and script are ready, edit a dashboard, add a card, choose **Manual**, and paste the whole block. If any of your entity IDs differ, replace the corresponding IDs throughout the examples before saving:
 
 ```yaml
 type: vertical-stack
 cards:
   - type: picture-entity
     entity: camera.frame_gallery_preview
-    name: Frame Gallery
+    name: Load new artwork
     show_state: false
     show_name: true
     camera_view: auto
@@ -111,6 +152,12 @@ cards:
       type: markdown
       content: Updating artwork…
 ```
+
+**Try it:** save the card and tap its image once. The TV should receive a new work and the card should update to the latest successful preview. The loading note is only shown while the timer is active; it is normal for the card to show just the image and its label when idle. Hold the image to open a larger preview. Margins in the preview preserve the complete artwork rather than cropping it.
+
+The visible label is not an entity ID: you can translate `Load new artwork` to `Neues Kunstwerk laden`, and `Updating artwork…` to `Kunstwerk wird geladen …`, without renaming the camera, timer or script.
+
+**Card editor check:** if the image is missing or Home Assistant reports "Entity not found", check the camera ID using the steps above. Do not create another Local File integration for the same path. The editor's preview of the loading note is not proof that an artwork run is active; check the timer and app log outside the editor.
 
 **Loading behavior:** the app ends the explicitly configured timer after cleanup on delivery, no-match or graceful cancellation. Idle means finished, not necessarily successful; check the app log for its outcome. Failed start, hard kill or a failed notification leaves loading bounded by the timer's 150-second expiry. Preview refresh is independent. No running-state sensor is required.
 

@@ -1,6 +1,39 @@
 # Project status
 
-Last updated: 2026-10-04 (approved store logo; released beta runtime unchanged)
+Last updated: 2026-10-04 (local preview-camera setup guide; released beta runtime unchanged)
+
+## Preview-camera setup UX — 2026-10-04
+
+User-led fresh-install testing showed that leaving the Local File setup name
+unchanged creates a generically labelled preview (`camera.local_file` in the
+observed installation). The local setup guide now explicitly tells users to
+enter `Frame Gallery Preview` alongside the file path before confirming, and
+explains that this automatically creates an image-backed camera entity.
+It documents the observed navigation from the integration's entity-count link
+to the entity list, image window and Details/ID, plus display-name versus
+technical-ID selection and safe UI renaming of an existing entity.
+The setup name field was independently confirmed in official Home Assistant
+Core 2026.9.4's Local File config flow; the entity settings instructions follow
+the official entity customization guide. Actual IDs must still be checked.
+The subsequent first-user screenshot request added only the original, unfilled
+Local File setup dialog, with an explicit caption telling users to replace its
+default name and enter the path. Capture provenance is in docs/images/README.md.
+The Details screenshot was excluded because it contains camera access tokens;
+this pass does not establish redistribution rights for the artwork shown in the
+other supplied screenshots. The guide includes a privacy warning.
+The follow-up card test succeeded according to the user. The complete card
+example now uses the action-oriented label `Load new artwork`, explains tapping,
+holding and idle/loading behavior, and includes German label translations.
+The guide also explains copying complete YAML via GitHub's code-block button.
+The user approved publication of the collected documentation changes. The 15
+focused presentation/documentation tests passed. Full quality gates also passed
+outside the macOS execution sandbox: Ruff, strict host/Linux mypy (240 files),
+4,834 tests passed, eleven Linux/root-only skips and 100% line/branch coverage.
+The initial sandboxed run had two group/mode test failures; the unchanged suite
+passed on the unsandboxed repeat. No test or application code was changed.
+No live HA configuration, entity, dashboard or TV state was changed. At this
+pre-publication checkpoint the reviewed documentation push is still pending;
+the released app runtime, version, images and tags remain unchanged.
 
 ## Store logo pass — 2026-10-04
 
@@ -22,6 +55,12 @@ and exact source/output equality; no pixel was changed to satisfy a test.
 The public push is pending at this pre-publication checkpoint. Runtime, app
 configuration, version, release images/tags, dashboard, live HA and TV are
 unchanged. No live store refresh, container rerun or new release is claimed.
+Publication subsequently completed: personal `main` independently resolves to
+`f3795db41c0ef78859f00470071bea36e6fc2ad6` without saved Git credentials. Both
+public presentation PNGs were fetched from that exact commit and matched the
+approved local exports byte-for-byte. The one-push token process ended. This
+receipt was recorded locally after the published logo commit;
+the Green's refreshed store appearance was not tested.
 
 ## App-store metadata pass — 2026-10-04
 
