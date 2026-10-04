@@ -1,15 +1,22 @@
 # Optional artwork information
 
-**Unreleased:** this feature is in development and is **not available in
-0.1.0b1**. Use these steps only after installing a release whose configuration
-includes **Dashboard artwork information** (`artwork_info_helper`). Release and
-live Home Assistant validation are still pending.
+**Available in 0.1.0b2 and newer; not available in 0.1.0b1.** Update the existing
+app from its Info tab — do not uninstall it or reset its history. Its configuration
+must include **Dashboard artwork information** (`artwork_info_helper`).
 
 The [standard dashboard card](DOCS.md#dashboard) remains the
 recommended starting point. It needs no artwork-information helper. This
 optional addition shows the title, artist and museum in a separate native
 information card beneath the image. No HACS, custom dashboard extension, SSH or
 `configuration.yaml` change is needed.
+
+![Actual native Frame Gallery preview with artwork title, artist and museum](https://raw.githubusercontent.com/volkue-tech/frame-gallery-ha/main/docs/images/dashboard-artwork-info.png)
+
+*Actual b2 dashboard screenshot after a Core restart, not a mockup. The German
+button label is editable. Artwork: Martin Johnson Heade,
+[Magnolias on Light Blue Velvet Cloth](https://www.artic.edu/artworks/100829),
+Art Institute of Chicago. Its official API record marks the work public domain.
+This screenshot verifies the dashboard, not the physical TV display.*
 
 ## 1. Create one Text helper
 
@@ -43,8 +50,14 @@ really is **255**.
 
 ## 2. Connect the helper to Frame Gallery
 
-Open **Settings → Apps → Frame Gallery → Configuration**. Enter the copied ID
-in **Dashboard artwork information** and save. The underlying option is
+Open **Settings → Apps → Frame Gallery → Configuration**. Enable **Show unused
+optional configuration options** (**Nicht verwendete optionale
+Konfigurationsoptionen einblenden** in German) if the field is hidden. If you
+just upgraded and it is still missing, reload this browser page once.
+Enter the copied ID in **Dashboard artwork information** and save. Also confirm
+that **Dashboard loading timer** contains your existing timer's ID; creating
+the timer or script alone does not connect app-completion feedback.
+The underlying artwork-information option is
 `artwork_info_helper`. The app does not create or rename the helper for you.
 
 The next successful artwork delivery fills the helper automatically, using
@@ -154,5 +167,7 @@ markup or links supplied by a provider.
 If nothing appears, first confirm that your installed version has the new
 option, then check the helper ID, minimum `0`, maximum `255`, and the app log.
 Do not share a camera Details screenshot without removing its access token.
-Live rendering, repeated refresh and restart restoration must still be checked
-on the approved Home Assistant Green update before this feature is released.
+Live rendering, two successive deliveries, browser reload, no-match retention,
+safe configuration-error retention and helper/preview restoration after one
+Core restart passed on the approved Green update. Physical TV display confirmation
+is deferred by the user. See [the exact validation scope](../BETA2_VALIDATION.md).

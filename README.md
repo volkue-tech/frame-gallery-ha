@@ -6,7 +6,7 @@ Fresh artwork on your Samsung Frame. Start it with a tap from Home Assistant.
 
 *Product illustration, not a screenshot. The optional dashboard card is added separately using the guide below.*
 
-**[Add to Home Assistant](https://my.home-assistant.io/redirect/supervisor_add_addon_repository/?repository_url=https%3A%2F%2Fgithub.com%2Fvolkue-tech%2Fframe-gallery-ha)** · [Setup guide](frame_gallery/DOCS.md) · [Latest beta](https://github.com/volkue-tech/frame-gallery-ha/releases/tag/v0.1.0b1)
+**[Add to Home Assistant](https://my.home-assistant.io/redirect/supervisor_add_addon_repository/?repository_url=https%3A%2F%2Fgithub.com%2Fvolkue-tech%2Fframe-gallery-ha)** · [Setup guide](frame_gallery/DOCS.md) · [Latest beta](https://github.com/volkue-tech/frame-gallery-ha/releases/tag/v0.1.0b2)
 
 ## Art first. No unwanted cropping.
 
@@ -14,6 +14,7 @@ Fresh artwork on your Samsung Frame. Start it with a tap from Home Assistant.
 - **Keep the whole work.** Original proportions are preserved by default; margins fill any unused space. Cropping is opt-in.
 - **Something new.** Previously sent artworks are skipped while new eligible works remain. History keeps the latest 20 000 works.
 - **See it before the next tap.** The optional native Home Assistant card shows the latest successful preview and starts a new run.
+- **Know the artwork.** Optionally add its title, artist and museum below the preview with one Text helper and built-in cards. The basic card stays unchanged.
 - **Made for Home Assistant OS, including Green.** Pre-built ARM and Intel/AMD images. No SSH, Docker installation, HACS, or `configuration.yaml` edits.
 
 ### The real dashboard card
@@ -31,6 +32,11 @@ Fresh artwork on your Samsung Frame. Start it with a tap from Home Assistant.
 You need Home Assistant OS with Supervisor, Home Assistant 2026.2 or newer, and a compatible Samsung Frame on the same home-network subnet. Home Assistant Container and Core-only installations cannot install this app.
 
 **The dashboard is optional, not installed automatically.** First try the app from its own page. Then follow the [dashboard setup](frame_gallery/DOCS.md#dashboard): create a preview camera and a timer in the UI, and paste the complete script and card examples. No custom card is required. The guide also includes a complete daily automation.
+
+Already have the standard card? In 0.1.0b2 and newer, follow the separate
+[artwork-information guide](frame_gallery/ARTWORK_INFO.md) to add optional
+title/artist/museum text. Reuse your camera, timer and script; no extra dashboard
+extension is needed.
 
 When adding **Local File**, replace its default name with **Frame Gallery Preview**. It automatically creates the image's camera entity; no physical camera is needed. The guide explains how to find its actual entity ID and select the right preview in the card editor.
 
@@ -59,13 +65,19 @@ When reporting a problem, include the app version, TV model and the final outcom
 
 ## Public beta
 
+[0.1.0b2](https://github.com/volkue-tech/frame-gallery-ha/releases/tag/v0.1.0b2)
+adds optional artwork information. Native ARM/Intel image checks passed, and an
+existing public Green installation was upgraded and software-tested without a
+data reset. Physical TV confirmation for those b2 runs is deferred by the user;
+protocol success is not a visual observation. See the [b2 validation scope](BETA2_VALIDATION.md).
+
 [0.1.0b1](https://github.com/volkue-tech/frame-gallery-ha/releases/tag/v0.1.0b1) was tested on Home Assistant Green and a real Samsung Frame: installation from the public repository, artwork delivery, preview refresh, loading completion and temporary-file cleanup passed in the documented scope. This is not a guarantee for every TV model; first-time pairing on every model has not been verified.
 
 The app runs once, then stops. It does not remove artworks already stored on your TV. It remembers the latest 20 000 deliveries; very old artworks can eventually return. [Read the limitations](frame_gallery/DOCS.md#good-to-know) before relying on unattended use.
 
 ## For contributors
 
-Frame Gallery is implemented independently. The project's own code is [Apache-2.0](LICENSE); distributed third-party components retain their own licences. The runtime is not GPL-free. [Third-party notices](THIRD_PARTY_NOTICES.md) and [matching component sources](https://github.com/volkue-tech/frame-gallery-ha/releases/tag/sources-v0.1.0b1) are available.
+Frame Gallery is implemented independently. The project's own code is [Apache-2.0](LICENSE); distributed third-party components retain their own licences. The runtime is not GPL-free. [Third-party notices](THIRD_PARTY_NOTICES.md) and [matching component sources](https://github.com/volkue-tech/frame-gallery-ha/releases/tag/sources-v0.1.0b2) are available; the historical b1 source release is retained.
 
 - [Developer setup and quality gates](frame_gallery/DEVELOPMENT.md)
 - [Product specification](PRODUCT_SPEC.md) · [Architecture](ARCHITECTURE.md) · [Acceptance tests](ACCEPTANCE_TESTS.md)

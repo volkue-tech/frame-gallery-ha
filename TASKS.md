@@ -285,7 +285,7 @@ dashboard extension. The earlier Phase 9 completion is not broader authorization
 - [x] Implement explicit Text-helper option, parent-only scoped output, bounded
   plain-text JSON and preview-coupled failure ordering, with synthetic tests.
 - [x] Write complete optional native-card/helper instructions; retain the basic
-  card and mark the new feature unreleased.
+  card and initially mark the new feature unreleased; graduate after validation.
 - [x] Run full local quality gates and record the actual results.
   *Ruff, strict host/Linux mypy (244 files), 4,904 passed, eleven unchanged
   Linux/root-only skips; 100% line/branch coverage (9,272 / 2,002). No native
@@ -301,10 +301,21 @@ dashboard extension. The earlier Phase 9 completion is not broader authorization
   *D-204: input_text.frame_gallery_artwork, settings reopened and verified.*
 - [ ] Complete the personal store-main push and app-release announcement after
   successful authorized live validation; do not infer either from public images.
-- [ ] After explicit live-change approval: update Green without data reset,
+  *Store main push completed at e908602, independently confirmed anonymously.
+  The user briefly postponed the test, then reauthorized all software testing
+  with physical display confirmation deferred. D-205 records completed software
+  validation; the final app announcement remains pending at this checkpoint.*
+- [x] After explicit live-change approval: update Green without data reset,
   create/configure dedicated helper, verify repeated refresh/no-match/failure,
   helper restoration after HA restart, and optional-card rendering.
+  *D-205: in-place b2 update, two successful native image/text updates, browser
+  reload, no-match and safe config-invalid retention, zero temporary counts,
+  restored original options, and one separately approved Core restart passed.
+  Live TV-transport/metadata faults were not injected; synthetic tests cover
+  them. Physical display confirmation is explicitly deferred, not claimed.*
 
 Publication approved on 2026-10-04 (D-203). The subsequent explicit live approval
 covers the existing-app update, dedicated helper, separate test card and TV run.
-HA Core restart permission was requested separately and remains unanswered.
+The user subsequently reauthorized software live testing and explicitly approved
+one HA Core restart. Physical confirmation of the displayed TV image will be
+supplied later; do not claim that observation from protocol success alone.

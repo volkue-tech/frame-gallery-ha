@@ -51,7 +51,33 @@ the named preview only, without development/test entries or personal entities.
 Do not reuse the supplied full Details screenshot: it exposes camera tokens.
 The existing verified-CC0 dashboard screenshot already illustrates the result.
 
-## Presentation references
+## Optional artwork-information screenshot
+
+`dashboard-artwork-info.png` was captured on 2026-10-04 after the approved b2
+Green update and one Core restart. Firefox's native region-screenshot tool
+selected only the image and information cards before capture. The original
+captured PNG is copied byte-for-byte without retouching. No account, sidebar,
+calendar, address bar or camera access token is included. The German button
+label is explained in the guide. This is software-rendering evidence, not
+physical TV confirmation, which the user deferred.
+
+Artwork: Martin Johnson Heade, **Magnolias on Light Blue Velvet Cloth**, 1885–95,
+Art Institute of Chicago, artwork 100829. The official metadata endpoint
+`https://api.artic.edu/api/v1/artworks/100829?fields=id,title,artist_display,is_public_domain,credit_line,image_id`
+was read once on 2026-10-04 and returned `is_public_domain: true`, matching
+title/artist and image ID `0729fbba-51e3-a2d7-6d4d-61c2be62af3f`.
+Credit: Purchased with funds provided by Gloria and Richard Manney;
+Harold L. Stuart Endowment Fund. See the [official object page](https://www.artic.edu/artworks/100829),
+[API copyright guidance](https://api.artic.edu/docs/#copyright) and
+[image-licensing policy](https://www.artic.edu/image-licensing).
+The website object/licensing pages returned 403 to the web-reading tool;
+the factual per-work verification is the successful official API response,
+not an assertion that those pages were newly readable. No raw museum image
+was downloaded for documentation. The screenshot is outside the runtime build
+context; the project's Apache-2.0 licence does not relicense third-party UI
+or museum material.
+
+## Presentation references (earlier pass)
 
 Reviewed on 2026-10-04 for documentation structure only:
 

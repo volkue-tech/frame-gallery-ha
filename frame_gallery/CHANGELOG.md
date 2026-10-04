@@ -1,14 +1,17 @@
 # Changelog
 
-## 0.1.0b2 (release candidate; native validation and publication pending)
+## 0.1.0b2 (public beta)
 
 - Optional native dashboard artwork-information card (title, artist, museum),
   using one dedicated UI-created Text helper. Standard image card unchanged.
 - Preview-coupled metadata updates, bounded output, omitted missing fields and
   clean failure handling. No extra museum requests or dashboard extension.
-- Not included in 0.1.0b1; new images and an approved Green upgrade are required.
+- Native ARM/Intel images validated and signed; existing public Green app upgraded
+  without resetting history. Repeated image/text refresh and negative outcomes
+  tested; physical b2 TV display confirmation is deferred.
+- Not included in 0.1.0b1; update the existing app to enable the optional feature.
 
-## 0.1.0b1 (release candidate; public installation not yet verified)
+## 0.1.0b1 (first public beta)
 
 - Independently implemented one-shot app for Home Assistant OS, including Green
   (`aarch64`) and native `amd64`; no SSH or configuration-file edits for users.
@@ -23,7 +26,8 @@
 - Original dependency notices, exact corresponding-source packaging and
   replacement/rebuild instructions; Apache-2.0 covers project-owned code only.
 - Native ARM/Intel quality gates and gated, signed version-image publication.
-  Publication and clean public installation remain separately verified gates.
+  Publication and a separate clean public Green installation passed; evidence
+  and limitations are recorded in the Phase 9 report.
 - Development-app delivery and enforced isolation passed on one Home Assistant
   Green / Samsung Frame combination. Fresh TV pairing was not reset; Chicago
   access has varied between tests. Compatibility with every TV/network is not

@@ -1,8 +1,53 @@
 # Project status
 
-Last updated: 2026-10-04 (b2 images verified; store push and live validation pending)
+Last updated: 2026-10-04 (b2 Green software validation completed)
 
-## Artwork-information beta — images verified, live test authorized
+## Artwork-information b2 — software validation completed, physical confirmation deferred
+
+The existing public-store app is installed as 0.1.0b2 after an in-place UI
+upgrade with the previous-version backup option enabled. D-205 and
+`BETA2_VALIDATION.md` record two delivered runs (19.4/16.6 s), correct native
+preview/title/artist/museum updates, browser reload, a 1.2 s no-match and safe
+invalid-configuration retention. Loading ended and all observed temporary/run
+directory counts were zero. The user's original app filters/TV/fitting options
+are restored; only the approved timer and artwork-information targets remain
+added. The original card/camera/timer/script/history were not reset or edited.
+
+One separately approved HA Core restart was performed. After disconnection and
+a fresh browser reload, the same Heade caption and magnolia preview returned
+without an app start or helper rewrite. HA subsequently reported fully started.
+The user explicitly deferred physical TV display confirmation; successful
+`selected` markers are not substituted for that observation. Synthetic coverage,
+not live fault injection, validates TV-transport and metadata-service failures.
+
+The optional guide now names b2, includes a card-only actual screenshot and
+explains hidden optional options and the Text helper's default maximum of 100.
+The main basic card remains unchanged. These completion documents and the
+public app prerelease announcement are prepared for the authorized personal
+push/release; the final publication receipt is still pending at this checkpoint.
+Final local gates were actually repeated: Ruff, strict host/Linux mypy (244
+files), 4,908 passed, eleven unchanged platform/root skips, 100% whole-package
+line/branch coverage (9,272 statements / 2,002 branches) and the architecture's
+100% subset. `git diff --check` passed. No runtime or dependency changed in
+this completion/documentation pass.
+
+## Earlier store push and live-test authorization — 2026-10-04
+
+The authorized personal main push completed. Anonymous `git ls-remote`
+independently confirms public main at
+`e90860218232f9601444791a51ad40b81aa6ea68`. This exposes the already verified
+0.1.0b2 store metadata and optional setup guide; it is not a successful live
+feature test or the final app-release announcement.
+
+At this earlier in-progress checkpoint, the user briefly postponed the live test while the TV was in use, then explicitly
+authorized all software testing, with physical display confirmation to be supplied
+later. The user also explicitly approved one HA Core restart for restoration
+testing. The existing-app update was started with the UI's keep-previous-version
+backup enabled; no successful installation or feature run is inferred from that
+start. Physical display confirmation, software test results and the final app
+release remain pending at this in-progress checkpoint.
+
+## Earlier artwork-information beta checkpoint — images verified, live test authorized
 
 D-204 records the completed publication checks for runtime/source commit
 `f3d916c1519f86482a740c7dda54767d8ad99092`. All five jobs in personal publisher
@@ -21,15 +66,16 @@ The user explicitly approved updating the existing app, creating one dedicated
 Text helper and a separate test card, and sending artwork to the TV. The helper
 `input_text.frame_gallery_artwork` is now created, with its saved minimum 0,
 maximum 255 and Text mode independently confirmed by reopening its settings.
-No existing card, camera, timer, script, app options, history or configuration.yaml
+At this earlier checkpoint, no existing card, camera, timer, script, app options, history or configuration.yaml
 was changed. No image was sent during this checkpoint. The source-only release
 is not an app-release announcement; public store main still points to b1.
 
-Next: finish the authorized personal main push after the user's hidden token
+At this earlier checkpoint, the next step was to finish the personal main push after the user's hidden token
 entry in the already-open bounded Terminal session, update the same store app
 without resetting data, and test the optional card. HA Core restart restoration
 requires the separately requested approval; it has not been performed or waived.
-Public app release v0.1.0b2 and the final live validation remain pending.
+The subsequent push, resumption and completed software validation are recorded above.
+Public app release v0.1.0b2 and final live validation remain pending.
 
 ## Artwork-information beta publication — authorized, in progress
 

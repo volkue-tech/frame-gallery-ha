@@ -1,4 +1,53 @@
-# Frame Gallery 0.1.0b1
+# Frame Gallery 0.1.0b2 — optional artwork information
+
+The standard image card stays unchanged. You can optionally show title, artist
+and museum below it with one dedicated Text helper and a built-in Markdown card.
+No HACS extension, SSH or configuration.yaml edit is required.
+
+- [Complete artwork-information setup and copyable card](https://github.com/volkue-tech/frame-gallery-ha/blob/main/frame_gallery/ARTWORK_INFO.md)
+- [Standard installation/dashboard guide](https://github.com/volkue-tech/frame-gallery-ha/blob/main/frame_gallery/DOCS.md)
+- [Add the repository to Home Assistant](https://my.home-assistant.io/redirect/supervisor_add_addon_repository/?repository_url=https%3A%2F%2Fgithub.com%2Fvolkue-tech%2Fframe-gallery-ha)
+
+Update the existing app from its Info tab without uninstalling it or resetting
+history. Leave Watchdog off. The new option is empty by default, so existing
+image-only setups continue working. Metadata uses the selected artwork's
+existing museum response: no extra museum requests and no new dependency.
+Missing fields are omitted; long text may be shortened. Image and text refresh
+are asynchronous, not one atomic browser update.
+
+On the approved Green upgrade, two software deliveries completed in 19.4 and
+16.6 s with matching preview/title/artist/museum and completed loading. Browser
+reload, no-match retention, safe invalid-configuration retention and one
+separately approved Core restart/restoration passed. Temporary counts were zero.
+Physical TV display confirmation is deferred by the user; protocol selection
+is not a visual observation. TV transport and metadata-service faults were not
+induced live. [Exact validation scope](BETA2_VALIDATION.md).
+
+Native ARM/Intel actual-image suites each passed 4,914 tests, followed by all
+five separate root checks. Both architectures passed the real 1 GiB image-worker
+limit. Anonymous image pulls and independent Cosign signature checks passed
+against the actual candidate-ref workflow certificate and exact runtime SHA.
+
+Runtime/source commit: `f3d916c1519f86482a740c7dda54767d8ad99092`.
+
+- ARM: `ghcr.io/volkue-tech/frame-gallery-ha-aarch64@sha256:9e58bd22eaa4171025ff6b650b1de4a568ecb20a9254766786fade2597650e42`
+- Intel: `ghcr.io/volkue-tech/frame-gallery-ha-amd64@sha256:765a87631cc044a1fc6e16c91a3bbc67cb92643409fccb6c8640365aaf57441a`
+
+[Matching corresponding sources](https://github.com/volkue-tech/frame-gallery-ha/releases/tag/sources-v0.1.0b2):
+521,646,080 bytes; SHA256
+`b5ac1de25f01dac9def0e855d35bb9e88f3ba24ddb0410ef9173cbd79b2846a5`.
+The anonymous download and exact-commit source checks passed. b1 images,
+sources and release remain retained. The one-time image publisher is disabled.
+
+Still an experimental numbered beta, not a guarantee for every TV/network.
+Existing provider/filter/TV limitations remain: no Google Arts & Culture,
+colour or style filter; first pairing on every model is not verified. The
+[engineering licence assessment](ENGINEERING_LICENSE_REVIEW.md) is not independent
+legal counsel. Own code is Apache-2.0; the runtime includes separately licensed
+GPL/LGPL components and is not GPL-free. Matching sources and original notices
+remain supplied.
+
+## Historical 0.1.0b1 release notes
 
 First public beta of an independently implemented Home Assistant app for Samsung
 Frame artwork. Install through Home Assistant OS/Supervisor, including Green;

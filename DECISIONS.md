@@ -2,9 +2,45 @@
 
 ## Optional dashboard attribution (2026-10-04)
 
+### D-205 — observed b2 Green rendering, negative outcomes and Core restoration
+
+**Status:** completed within the user's approved software-test scope (2026-10-04);
+physical TV confirmation deferred by the user, final app announcement pending.
+
+The same public-store installation was updated in place to 0.1.0b2. The UI's
+keep-previous-version backup option was enabled; no backup restore is inferred.
+Saved explicit timer and artwork-information targets, and one separate native
+test stack, leave the original camera/timer/script/card and private history intact.
+All temporary source/filter/address changes were restored to the user's original
+settings. No configuration.yaml, account privilege, SSH or extra extension change.
+
+Two new deliveries completed in 19.4 and 16.6 s with `selected` markers. Both
+native preview and escaped title/artist/museum changed correctly. A browser
+reload retained the first caption. A restrictive museum/period combination
+ended `no_match` in 1.2 s; safe unspecified-address refusal ended `config_invalid`
+before any TV communication. Both retained the second preview/caption and
+acknowledged loading completion. Observed storage summaries had zero temporary
+files/run directories and one latest preview. TV transport faults and metadata
+service faults were not induced live; synthetic coverage is the evidence there.
+
+The user explicitly approved one Core restart. The UI reported no running
+automations/scripts in its confirmation dialog. After restart, disconnect and
+a fresh browser reload, the previous Text-helper caption and preview reappeared
+without another artwork run; HA subsequently reported fully started. This
+verifies restoration for this setup, not every installation or integration.
+
+A card-only native Firefox capture after restoration is included in the optional
+guide, with no personal dashboard context or tokens. One official AIC record
+lookup confirmed the depicted artwork 100829's `is_public_domain: true` and
+matching metadata; documentation references the official policy/guidance rather
+than relicensing museum/UI material. Website 403s were not misreported as reads.
+`BETA2_VALIDATION.md` contains exact runs, image/source identities and limits.
+The user can later supply physical confirmation of the magnolia artwork; do
+not silently promote protocol selection to a physical-TV observation.
+
 ### D-204 — independently verified b2 images and bounded live-test authorization
 
-**Status:** completed image/source checks; live validation and app announcement pending (2026-10-04).
+**Status:** completed image/source checks (2026-10-04); D-205 records later software validation. Physical confirmation remains deferred.
 
 Runtime/source commit: `f3d916c1519f86482a740c7dda54767d8ad99092`.
 Personal publisher run `37223299682` completed all five jobs successfully.
@@ -54,6 +90,14 @@ No app update/options edit/card save/TV send/restart is claimed at this checkpoi
 HA restart restoration still needs separate user approval. Store-main push and
 the app-release announcement are pending the personal credential handoff and
 actual live validation. Historical b1 receipts remain valid for b1 only.
+
+Subsequent checkpoint: the personal main push completed at `e908602`, verified
+by anonymous ls-remote. The user then said the TV is being used and postponed
+the live test. No Green app update/start, options/card modification or TV send
+was performed during that pause. The user then explicitly reauthorized software
+live testing, with physical TV display confirmation deferred, and separately
+approved one HA Core restart. The public app release and guide graduation remain
+pending actual results; protocol success is not physical display confirmation.
 
 ### D-203 — approved b2 publication without exposing a missing store image
 

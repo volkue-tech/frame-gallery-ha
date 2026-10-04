@@ -6,7 +6,7 @@ One start, one fresh artwork on your Samsung Frame. Choose museum artwork or you
 
 *Illustration, not a screenshot. The dashboard is optional and is configured separately; installation does not add a card automatically.*
 
-> **[0.1.0b1 public beta](https://github.com/volkue-tech/frame-gallery-ha/releases/tag/v0.1.0b1).** Tested through a public-repository installation on Home Assistant Green and a real Samsung Frame. Compatibility with every TV model is not guaranteed.
+> **[0.1.0b2 public beta](https://github.com/volkue-tech/frame-gallery-ha/releases/tag/v0.1.0b2).** The optional title/artist/museum card was software-tested on Home Assistant Green; physical TV confirmation of the b2 runs is deferred. Earlier b1 installation and physical-TV evidence remains documented. Compatibility with every TV model is not guaranteed.
 
 **Start here:** [Install](#installation) → [Show your first artwork](#first-start-and-pairing) → [Add the dashboard card](#dashboard).
 
@@ -93,7 +93,7 @@ If this file path is already configured, reuse its existing camera entity; Home 
 
 Open **Settings → Devices & services → Helpers → Create helper → Timer**. Name: `Frame Gallery run`. Duration: `0:02:30`. Expected entity: `timer.frame_gallery_run`.
 
-In the app's Configuration tab, set **Dashboard loading timer** (`loading_timer`) to this exact entity ID. Use a separate timer for each app. The app cancels it after cleanup; expiry remains the fail-safe if completion cannot be reported.
+In the app's Configuration tab, set **Dashboard loading timer** (`loading_timer`) to this exact entity ID. Enable **Show unused optional configuration options** if the field is hidden. Creating the timer or script alone does not connect completion feedback. Use a separate timer for each app. The app cancels it after cleanup; expiry remains the fail-safe if completion cannot be reported.
 
 ### 3. Create the script
 
@@ -161,12 +161,13 @@ The visible label is not an entity ID: you can translate `Load new artwork` to `
 
 **Loading behavior:** the app ends the explicitly configured timer after cleanup on delivery, no-match or graceful cancellation. Idle means finished, not necessarily successful; check the app log for its outcome. Failed start, hard kill or a failed notification leaves loading bounded by the timer's 150-second expiry. Preview refresh is independent. No running-state sensor is required.
 
-**Optional artwork information (unreleased):** the unchanged standard card above
+**Optional artwork information (0.1.0b2 and newer):** the unchanged standard card above
 needs no extra helper. A separately prepared native card adds title, artist and
 museum below it: [complete artwork-information setup](https://github.com/volkue-tech/frame-gallery-ha/blob/main/frame_gallery/ARTWORK_INFO.md).
-This feature is not in the released **0.1.0b1** image. Do not configure it yet
-unless you are testing an explicitly approved new build with the
-**Dashboard artwork information** option. No HACS extension is needed.
+This feature is not in **0.1.0b1**. Update the existing app without uninstalling it,
+then connect one dedicated Text helper through **Dashboard artwork information**.
+The guide includes the complete native card and the saved helper length settings.
+No HACS extension is needed.
 
 **A new artwork every morning (optional).** **Settings → Automations & scenes → Create automation → ⋮ → Edit in YAML**:
 
