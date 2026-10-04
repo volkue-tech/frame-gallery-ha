@@ -83,6 +83,7 @@ def test_the_dashboard_yaml_is_complete_and_consistent() -> None:
     script, card, automation = _yaml_blocks()
     assert "app: a94fc569_frame_gallery" in script
     assert "app: local_frame_gallery" not in script
+    assert "!examples/" in (PROJECT / ".dockerignore").read_text().splitlines()
     installed_script = (PROJECT / "examples/public-beta-test-script.yaml").read_text()
     installed_card = (PROJECT / "examples/public-beta-test-card.yaml").read_text()
     assert "app: a94fc569_frame_gallery" in installed_script

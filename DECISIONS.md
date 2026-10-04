@@ -28,6 +28,11 @@ separate root checks). Final hosted native verification remains mandatory.
 The final documentation check also caught the presentation regression's old
 development slug. It now requires the observed public slug and cross-checks
 the complete installed beta examples; all other assertions remain intact.
+Follow-up build-context inspection found those examples absent from the test
+context allowlist. Add `!examples/` and require it in the presentation regression.
+This copies examples only to the unpublished test stage, not the runtime stage.
+The previously passing bind-mounted ARM suite is not proof of actual context
+inclusion. Actual-context checks and fresh hosted validation remain required.
 
 The installed AppArmor backup equals the reviewed file after only Supervisor's
 root-profile name substitution. Supervisor reports protection/custom profile,

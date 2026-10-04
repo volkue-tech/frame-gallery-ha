@@ -12,6 +12,7 @@
 !src/frame_gallery/
 !tests/
 !scripts/
+!examples/
 !config.yaml
 !translations/
 !apparmor.txt

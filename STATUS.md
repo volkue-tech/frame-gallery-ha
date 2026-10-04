@@ -4,6 +4,16 @@ Last updated: 2026-10-04 (Phase 9: public Green installation and live verificati
 
 ## Current phase
 
+**Publication continuation:** personal `main` push of `115c5e0` is verified.
+Fresh native validation run `37192835740` is in progress for that exact commit;
+both architecture host quality gates have passed. The private beta draft is
+now explicitly pinned to `115c5e0` rather than a moving main branch. Announcement
+and final phase closure remain pending until the full jobs finish successfully.
+The actual Docker context correction adds the beta example directory to the
+unpublished test stage. Actual ARM image build and no-mount suite passed 4,836 /
+five root-only skips plus all five root checks; full Mac gates passed 4,830 /
+eleven unchanged skips, strict mypy 240 files and unchanged 100% coverage.
+
 **Latest checkpoint (D-198):** the separate public `0.1.0b1` app installed
 successfully through the official repository link/app store after `60f22c4`.
 Observed slug: `a94fc569_frame_gallery`. No SSH/build/configuration-file change

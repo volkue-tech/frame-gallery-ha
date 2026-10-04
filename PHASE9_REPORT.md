@@ -1,5 +1,30 @@
 # Phase 9 progress report
 
+## Final hosted verification (2026-10-04)
+
+Personal main `115c5e0833b640efd21d28b1c882c6a2b8967076` was pushed and verified.
+Fresh native run `37192835740` is in progress: ARM job `111408463037`, Intel
+job `111408463235`; both host gates passed. The private prerelease draft's target
+was explicitly selected as `115c5e0` and saved. Full container/root/memory jobs
+and public beta announcement are not yet claimed complete.
+Build-context inspection during the run identified that the new presentation
+test reads beta examples absent from `.dockerignore`'s allowlist. The correction
+adds only `!examples/` for the unpublished test stage and a required assertion;
+the runtime stage and public images stay unchanged. Bind-mounted local checks
+alone were not treated as proof that actual Docker context contains the files.
+The actual ARM test image subsequently built successfully from the corrected
+context. Without any host mount, its whole non-root suite passed 4,836 tests /
+five unchanged root-only skips, and all five separate root checks passed.
+Mac full gates also passed (4,830 / eleven skips, strict mypy 240 files,
+unchanged 100% full/mandated line+branch). Logs:
+`build/phase9/container-public-beta-actual-context-final-20261004.log`,
+`build/phase9/container-public-beta-actual-context-root-final-20261004.log`,
+`build/phase9/check-public-beta-context-final-20261004.log`.
+The initial network-disabled build lacked the Alpine package cache and failed;
+the authorized pinned-source build succeeded. Two initial test commands used
+the inherited S6 entrypoint and were rejected; the documented Python test
+entrypoint was then used. No failure was called a pass or gate relaxed.
+
 ## Public Green installation and live checkpoint (2026-10-04, D-198)
 
 The pushed `60f22c4` repository was recognized through the official one-click

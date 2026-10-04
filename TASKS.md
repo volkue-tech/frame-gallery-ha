@@ -189,13 +189,19 @@ and personal public repository volkue-tech/frame-gallery-ha explicitly confirmed
 Codex performs the engineering licence audit, without claiming legal counsel's
 approval. Existing release prerequisites remain mandatory.
 
-- [ ] Switch the AppArmor profile to enforce mode and verify the whole isolation design, with an approved supervised live re-check; add the per-worker child profiles (R-31), and revisit an unprivileged parent with them (Q-10, D-172). The enforcement is a release prerequisite (Phase 6 gate).
+- [x] Switch the AppArmor profile to enforce mode and verify the whole isolation design, with an approved supervised live re-check; add the per-worker child profiles (R-31), and revisit an unprivileged parent with them (Q-10, D-172). The enforcement is a release prerequisite (Phase 6 gate).
   *D-178/D-180/D-182 implemented; actual enforced child plus seccomp negative/positive probes and parent-output read passed on Green with records preserved and scratch empty. Parent remains root with its trusted state/worker-management role; no new container privilege. The regular app is restored; two card-started deliveries passed with preview/loading/cleanup. D-183 corrects the backup-link omission found in the first run; the second after the official dev7 update had no backup warnings. Own development-install checks pass; the separate clean public-install gate remains open. See `PHASE9_REPORT.md`.*
 - [x] Measure the worst-case preparation natively on `amd64` under the real `RLIMIT_AS` (`scripts/measure_prepare.py`, as root). Mandatory before an `amd64` version is published (Phase 6 gate, D-170).
   *Native GitHub Intel job `111256837847` succeeded on `39d25da` at 18:02:25 UTC, run `37141542920`; ARM job succeeded as well. No emulation. Both container/root suites and the scripted 13-case, twice-repeated memory gate passed. This does not complete licence/image/public-install gates.*
 - [x] Create the user-approved public repository under `volkue-tech`.
   *https://github.com/volkue-tech/frame-gallery-ha created in the personal Firefox session. The audited `main` at `39d25da` is pushed and its remote SHA verified; only the personal identity and main history were transferred. Native hosted run `37141542920` started; no binary release.*
-- [ ] Complete the qualified licence review (D-135) as a release gate: `samsungtvws` (LGPL-3.0), Pillow's fribidi-shim (LGPL-2.1-or-later; the runtime wheels contain neither `libimagequant` nor FriBiDi, D-171), the Alpine base packages, the tools outside apk (s6-overlay, tempio, bashio; R-33), and the exact form of libmd's "Public Domain" part.
+- [x] Complete the user-requested engineering licence audit (D-179) and the distribution controls of D-135: `samsungtvws` (LGPL-3.0), Pillow's fribidi-shim (LGPL-2.1-or-later; the runtime wheels contain neither `libimagequant` nor FriBiDi, D-171), the Alpine base packages, the tools outside apk (s6-overlay, tempio, bashio; R-33), and the exact form of libmd's "Public Domain" part. This records an engineering assessment, not a qualified lawyer's approval.
+  *Latest evidence supersedes the historical preparation notes below:
+  ENGINEERING_LICENSE_REVIEW records applicability, retained original notices,
+  source/replaceability controls and remaining provenance/patent/ownership risks.
+  Exact runtime sources are public and anonymously hash-verified; actual image
+  notices and signatures passed. No independent legal opinion is claimed or
+  concrete unresolved source/notice obligation waived.*
   *D-186 to D-191 retain the exact source evidence and original texts. A local
   172-archive corresponding-source candidate plus the own clean source snapshot
   is assembled/read-back hash-verified (512 MB), not publicly released. Remaining
@@ -204,7 +210,10 @@ approval. Existing release prerequisites remain mandatory.
   assembler, plus 111 original Alpine subsidiary/primary/recipe documents.
   Full host gates passed (4,749 tests, 100% line/branch). Final release applicability,
   exact-commit assembly/validation and public availability remain separate checks.*
-- [ ] Add the Apache-2.0 licence for project-owned code, and third-party notices with the GPL and LGPL texts and copyleft source availability.
+- [x] Add the Apache-2.0 licence for project-owned code, and third-party notices with the GPL and LGPL texts and copyleft source availability.
+  *Latest: all 201 original evidence documents verified in the published images;
+  matching 172-archive corresponding sources remain publicly downloadable.
+  Original third-party licences remain intact; the image is not GPL-free.*
   *Project LICENSE/NOTICE and the current original third-party/GPL/LGPL texts are
   committed and shipped in the Supervisor-compatible image context (D-190).
   All 89 evidence files are byte-checked and readable as uid 65534 in the native
@@ -239,6 +248,8 @@ approval. Existing release prerequisites remain mandatory.
   Registry version tags are not administrator-immutable; the recorded signed
   digests are. No `latest` app tag was published. Evidence ZIP hashes match.*
 - [x] Add the one-click Home Assistant repository link.
+  *Latest D-198: actual official redirect/repository recognition and separate
+  pre-built installation passed on Green; no end-user SSH/config edit required.*
   *Prepared in README/app guide using the official repository redirect and exact
   personal URL; still marked installation candidate. Live redirect/install
   verification and public metadata push remain pending.*
