@@ -79,6 +79,7 @@ def schema() -> dict[str, Value]:
         "color_helper": HELPER_SCHEMA,
         "log_level": "list(info|debug)?",
         "loading_timer": r"match(^timer\.[a-z0-9_]{1,64}$)?",
+        "artwork_info_helper": r"match(^input_text\.[a-z0-9_]{1,64}$)?",
     }
 
 
@@ -211,6 +212,15 @@ def translations() -> dict[str, Value]:
                 "Optional. This app's dashboard timer, for example timer.frame_gallery_run. "
                 "Only this timer is cancelled after cleanup, also on no-match and cancellation. "
                 "Leave empty to disable feedback. Its duration remains the crash fail-safe."
+            ),
+        ),
+        "artwork_info_helper": (
+            "Dashboard artwork information",
+            (
+                "Optional. A dedicated Text helper, for example input_text.frame_gallery_artwork, "
+                "with minimum length 0, maximum length 255 and no Initial value. The app writes "
+                "title, artist and museum for the preview here. Do not use a filter helper. "
+                "Leave empty to keep the existing image-only dashboard behavior."
             ),
         ),
     }

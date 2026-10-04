@@ -161,6 +161,13 @@ The visible label is not an entity ID: you can translate `Load new artwork` to `
 
 **Loading behavior:** the app ends the explicitly configured timer after cleanup on delivery, no-match or graceful cancellation. Idle means finished, not necessarily successful; check the app log for its outcome. Failed start, hard kill or a failed notification leaves loading bounded by the timer's 150-second expiry. Preview refresh is independent. No running-state sensor is required.
 
+**Optional artwork information (unreleased):** the unchanged standard card above
+needs no extra helper. A separately prepared native card adds title, artist and
+museum below it: [complete artwork-information setup](https://github.com/volkue-tech/frame-gallery-ha/blob/main/frame_gallery/ARTWORK_INFO.md).
+This feature is not in the released **0.1.0b1** image. Do not configure it yet
+unless you are testing an explicitly approved new build with the
+**Dashboard artwork information** option. No HACS extension is needed.
+
 **A new artwork every morning (optional).** **Settings → Automations & scenes → Create automation → ⋮ → Edit in YAML**:
 
 ```yaml

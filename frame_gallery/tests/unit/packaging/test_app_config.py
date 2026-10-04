@@ -17,6 +17,7 @@ import pytest
 from frame_gallery import __version__
 from frame_gallery.config.filters import FilterField
 from frame_gallery.config.options import (
+    ARTWORK_INFO_ENTITY_ID,
     HELPER_ENTITY_ID,
     HELPER_OPTION_NAMES,
     ConfigError,
@@ -199,6 +200,21 @@ def test_the_helper_pattern_is_the_apps() -> None:
         assert bool(pattern.fullmatch(example)) == bool(HELPER_ENTITY_ID.fullmatch(example))
     for name in HELPER_OPTION_NAMES:
         assert name not in OPTIONS
+
+
+def test_artwork_information_is_optional_and_targets_only_text_helpers() -> None:
+    assert "artwork_info_helper" not in OPTIONS
+    rule = SCHEMA["artwork_info_helper"]
+    assert rule.endswith("?")
+    pattern = _pattern(rule)
+    for example in (
+        "input_text.frame_gallery_artwork",
+        "sensor.x",
+        "input_text.X",
+        "input_text.x\n",
+    ):
+        assert bool(pattern.fullmatch(example)) == bool(ARTWORK_INFO_ENTITY_ID.fullmatch(example))
+    assert "255" in TEXTS["artwork_info_helper"]["description"]
 
 
 def test_the_margin_colour_pattern_is_the_apps() -> None:

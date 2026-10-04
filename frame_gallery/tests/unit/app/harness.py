@@ -103,6 +103,9 @@ class Harness:
     records_port: RunRecords | None = None
     storage_report: Callable[[], None] = lambda: None
     finish_loading: Callable[[Deadline], None] = lambda _deadline: None
+    write_artwork_info: Callable[[str, str, Deadline], bool] = lambda _entity, _value, _deadline: (
+        False
+    )
 
     def __post_init__(self) -> None:
         clock, events = self.clock, self.events
@@ -151,6 +154,7 @@ class Harness:
             watchdog=self.watchdog,
             storage_report=self.storage_report,
             finish_loading=self.finish_loading,
+            write_artwork_info=self.write_artwork_info,
         )
         return Runner(
             ports,

@@ -292,6 +292,35 @@ def test_without_helpers_no_supervisor_request_is_made(rig: Rig) -> None:
     assert not rig.resolver.calls
 
 
+def test_optional_artwork_information_is_wired_to_preview_only_and_keeps_token_private(
+    rig: Rig,
+) -> None:
+    helper = "input_text.frame_gallery_artwork"
+    rig.options(source="local_media", artwork_info_helper=helper)
+    rig.library_image("Synthetic landscape.jpg", (3840, 2160))
+    assert rig.run() == 0
+    calls = rig.transport.calls
+    assert len(calls) == 3
+    assert calls[0].request.target == "/core/api/states/" + helper
+    for call in calls[1:]:
+        assert call.request.target == "/core/api/services/input_text/set_value"
+        assert call.request.headers["Authorization"] == f"Bearer {TOKEN}"
+    assert json.loads(calls[1].request.body or b"")["value"] == ""
+    info = json.loads(json.loads(calls[2].request.body or b"")["value"])
+    assert info == {"title": "Synthetic landscape", "artist": "", "museum": "Local images"}
+    preview = rig.layout.media / "frame_gallery" / "preview" / "latest.jpg"
+    assert preview.read_bytes() == rig.tv.payloads[0]
+    previous = preview.read_bytes()
+    current = (rig.layout.data / "state" / "current.json").read_bytes()
+    rig.environ["SUPERVISOR_TOKEN"] = TOKEN
+    assert rig.run() == 0  # no-match must not clear the previous helper
+    assert len(rig.transport.calls) == 3
+    assert preview.read_bytes() == previous
+    assert (rig.layout.data / "state" / "current.json").read_bytes() == current
+    assert TOKEN not in rig.output
+    assert "SUPERVISOR_TOKEN" not in rig.environ
+
+
 @pytest.mark.parametrize("deliver", [False, True])
 def test_explicit_loading_timer_uses_only_the_guarded_completion_service(
     rig: Rig, deliver: bool

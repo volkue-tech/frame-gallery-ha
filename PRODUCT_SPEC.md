@@ -167,6 +167,16 @@ Optional Home Assistant helper entity IDs may override the static source, depart
 
 ## Dashboard experience
 
+**Optional post-beta feature authorized 2026-10-04 (D-202):** preserve the
+standard preview card and provide a separate optional information card showing
+the published artwork's title, artist and museum. Use existing provider metadata
+only; omit missing artist/title rather than invent them. The UI-created Text
+helper and native card need no HACS, SSH or configuration.yaml change. Metadata
+changes only after TV-confirmed selection and successful preview publication;
+clear old labels before preview replacement, with bounded failure handling.
+No-match/TV failure preserve the previous information; a failed final write
+shows no caption instead of mismatched old labels. The TV JPEG stays unchanged.
+
 Documentation must provide complete copy-and-paste-ready Home Assistant dashboard YAML that:
 
 - displays the latest preview image;
@@ -222,6 +232,11 @@ Filter selection from a dashboard is desirable. The architecture proposal should
 
 ## Amendment log
 
+- **2026-10-04: user-approved optional artwork-information feature (D-202).**
+  Adds title/artist/museum below the unchanged standard card. Local implementation
+  only; no live HA edit or publication approval inferred. Fields are bounded,
+  escaped when displayed, and may be abbreviated to fit a 255-character helper.
+
 - **2026-09-26: Phase 1 Codex review of commit `d42adf5`, with user decisions.**
   - Beta providers are now local media, Art Institute of Chicago, and Cleveland Museum of Art. Google Arts & Culture and Bing moved to *Researched and excluded sources*, and the Museum of Modern Art and Musée d'Orsay filter values were removed.
   - The filters were separated into source/museum, department/collection, style/period, and colour, with a published capability matrix. The landscape-only and strict-format defaults moved to *Filter inputs*.
@@ -240,4 +255,3 @@ Filter selection from a dashboard is desirable. The architecture proposal should
   - D-146 to D-152 are accepted.
   - *Artwork sources:* the Art Institute offers only the period filter. Cleveland offers department and period; it has no style filter, and colour stays outside the first beta.
   - *Filter inputs:* the department, style/period, and colour requirements apply only to the filters the selected source supports, and the first-beta capability matrix is stated. A valid filter value that the source does not support stays visibly reported (acceptance item B8). A colour or style value, which the first beta does not offer, is rejected as invalid (B5). Acceptance items B2 and C1 are reworded to match.
-

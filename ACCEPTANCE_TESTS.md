@@ -89,7 +89,19 @@ These are product-level acceptance criteria. Unit and integration test details s
 - [ ] The chosen project license is approved by the user before publication.
 - [ ] A full live run is completed on Home Assistant Green only after explicit user approval.
 
+## I. Optional artwork information (post-beta, D-202)
+
+- [ ] Unset option leaves the existing preview/card and HA request set unchanged.
+- [ ] An explicit dedicated Text helper displays the published title, artist and museum; missing fields are omitted, text is escaped, and long fields are abbreviated within 255 characters.
+- [ ] No-match, TV failure and stop-before-publication leave old metadata untouched. Clear-before-preview and write-after-preview ordering is verified; failed clear retains preview, later failure leaves no caption.
+- [ ] At most one scoped GET and two fixed input_text.set_value POSTs use one shared two-second budget, without retries/redirects/token leakage or new privileges; 401/403 stops further authentication attempts.
+- [ ] Complete native card/helper instructions need no HACS/SSH/configuration.yaml; the last helper state restores after HA restart with no Initial value (live test required).
+- [ ] New versioned native ARM/Intel images, source/signature gates and an approved Green upgrade/card test pass before the feature is advertised as released.
+
 ## Amendment log
+
+- **2026-10-04:** append section I for the user-approved optional attribution
+  feature. Existing A–H position-based acceptance IDs stay unchanged.
 
 - **2026-09-26: Phase 1 Codex review of commit `d42adf5`, with user decisions.**
   - New items were appended at the end of their sections, so the position-based IDs used in `ARCHITECTURE.md` Appendix A stay stable.
@@ -107,4 +119,3 @@ These are product-level acceptance criteria. Unit and integration test details s
   - Reworded in place: B2 and C1 now apply only to the filters that the selected source supports according to the published capability matrix. For the first beta: Cleveland supports department and period, the Art Institute period, and no source supports colour (D-146, D-152).
   - Q-25 is resolved with option (a): the first beta ships without a colour filter.
   - A valid filter value that the selected source does not support stays visibly reported (B8). A value that matches none of the offered values, such as a style value or a colour other than a no-filter value, is rejected as invalid (B5). No IDs changed.
-

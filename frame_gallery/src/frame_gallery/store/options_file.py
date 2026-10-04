@@ -77,7 +77,10 @@ class OptionsFile:
             raw = self._read()
         except ConfigError:
             return False
-        return any(raw.get(name) not in (None, "") for name in HELPER_OPTION_NAMES)
+        return any(
+            raw.get(name) not in (None, "")
+            for name in (*HELPER_OPTION_NAMES, "artwork_info_helper")
+        )
 
     def _read(self) -> Mapping[str, object]:
         if self._error is not None:

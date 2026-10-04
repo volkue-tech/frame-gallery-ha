@@ -1,5 +1,58 @@
 # Decision log
 
+## Optional dashboard attribution (2026-10-04)
+
+### D-202 — native, optional artwork-information card without changing TV pixels
+
+**Status:** user authorized local implementation after approving the visual.
+The subsequent UX decision keeps the standard image card unchanged and the
+information card separate/optional. No community dashboard extension is used.
+Publication, new signed images and live HA configuration require separate approval.
+
+- `artwork_info_helper` is optional/unset by default and accepts only one explicit
+  `input_text.<lowercase identifier>` with at most 64 object-ID characters. It
+  must not also be a configured filter helper. Users create a dedicated Text
+  helper through the UI: minimum 0, maximum 255, no Initial value, Text mode.
+- The parent retains its existing Supervisor token only if needed, exactly as
+  for filter helpers/timer completion. The guarded Core client can GET this
+  existing helper and POST only `input_text.set_value` for that explicit ID.
+  This narrowly amends the HA-port write prohibition; no entity creation,
+  configuration write, new role, port, mapping, dependency or daemon is added.
+- After TV-confirmed selection/history recording, PUBLISH checks/clears this
+  helper before replacing the preview. If the clear fails, it retains the old
+  preview and reports a preview warning; confirmed TV delivery/history remain
+  recorded. If preview publication fails after the clear, information stays
+  empty. Only successful preview publication permits the final metadata write.
+  A failed final write normally leaves the new preview with no caption, not old
+  labels. A lost acknowledgement can mean Core already applied the correct new
+  caption; there is no retry or attempted restoration of the previous caption.
+  `no_match`, TV failure and a stop before PUBLISH leave old information untouched.
+- One shared two-second child deadline bounds the GET and at most two POSTs;
+  preview processing consumes time from it too. Existing PUBLISH/FINISH/total
+  limits are unchanged. No retry/redirect; responses close; a 401/403 prevents
+  later metadata or timer authentication attempts. No metadata/token bodies
+  enter logs. The target is inside the container's own Supervisor networks.
+- The helper holds a single compact JSON object (`title`, `artist`, `museum`),
+  maximum 255 characters including JSON escaping. Title/artist are normalized
+  plain text, each at most 100 characters, shortened further with an ellipsis
+  when needed. Missing fields stay empty; museum labels come only from known
+  provider keys. Local images use the filename stem, no invented artist.
+  No additional provider request, public sidecar or temporary file is created.
+- The native Markdown information card HTML-escapes each string and omits absent
+  fields. It is hidden during loading and when the helper is empty/unavailable.
+  The complete optional card leaves the native preview/refresh/action unchanged.
+  Core/helper and camera refresh are asynchronous: this pairs metadata with
+  the published file, not a claim of simultaneous browser-frame updates.
+- Persistence uses HA's restored Text-helper state, not a transient REST-created
+  sensor. The Initial-value setting must stay unset. Removing/editing this
+  dedicated helper affects the optional caption; reset/reinstall/history and
+  standard-card behavior are unchanged when the option is unset.
+- The released `0.1.0b1` image does not contain this feature. Local source changes
+  must not be published under that existing image tag. Release preparation must
+  choose a new version, build/validate both architectures, update corresponding
+  source evidence, sign/publish images and verify a Green upgrade before claiming
+  availability. Native helper/card/restoration behavior still needs that live test.
+
 ## Store brand refresh (2026-10-04)
 
 ### D-201 — approved independent mark as repository presentation assets

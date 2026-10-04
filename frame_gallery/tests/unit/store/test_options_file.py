@@ -156,7 +156,7 @@ def test_an_expired_deadline_stops_the_read(tmp_path: Path, clock: FakeClock) ->
         OptionsFile(tmp_path).load(expired)
 
 
-@pytest.mark.parametrize("name", HELPER_OPTION_NAMES)
+@pytest.mark.parametrize("name", [*HELPER_OPTION_NAMES, "artwork_info_helper"])
 def test_any_set_helper_counts_as_configured(tmp_path: Path, name: str) -> None:
     write(tmp_path, json.dumps({"tv_host": "10.0.0.5", name: "input_select.frame_gallery"}))
     assert OptionsFile(tmp_path).helpers_configured()
@@ -164,7 +164,10 @@ def test_any_set_helper_counts_as_configured(tmp_path: Path, name: str) -> None:
 
 @pytest.mark.parametrize("value", [None, ""])
 def test_unset_helpers_do_not_count(tmp_path: Path, value: str | None) -> None:
-    options = {"tv_host": "10.0.0.5", **dict.fromkeys(HELPER_OPTION_NAMES, value)}
+    options = {
+        "tv_host": "10.0.0.5",
+        **dict.fromkeys((*HELPER_OPTION_NAMES, "artwork_info_helper"), value),
+    }
     write(tmp_path, json.dumps(options))
     assert not OptionsFile(tmp_path).helpers_configured()
 

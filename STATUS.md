@@ -1,6 +1,40 @@
 # Project status
 
-Last updated: 2026-10-04 (local preview-camera setup guide; released beta runtime unchanged)
+Last updated: 2026-10-04 (optional artwork information in local development; public beta unchanged)
+
+## Optional artwork information — local implementation, 2026-10-04
+
+The user authorized implementation of title, artist and museum alongside the
+preview, then clarified that the standard card should remain minimal and the
+information card separate/optional. No extra dashboard extension is permitted.
+D-202 records the scope and safeguards. The unset-by-default
+`artwork_info_helper` option targets one dedicated UI-created Text helper.
+It uses existing provider metadata, bounded plain-text JSON and fixed Core
+service calls with a shared two-second budget. Old text is cleared before
+preview replacement; a failed clear retains the old preview, while a failed
+final write normally leaves the caption empty (or correctly updated if its
+acknowledgement was lost). No-match and delivery failures keep the
+previous preview/information. Museum labels come only from known provider keys.
+
+The complete optional native card and first-user instructions are in
+`frame_gallery/ARTWORK_INFO.md` and `frame_gallery/examples/artwork-info-card.yaml`.
+The existing basic YAML is unchanged; the guide marks the feature unreleased.
+Synthetic tests cover configuration, bounds, service scope, authentication,
+publication ordering, production wiring and the unchanged default/no-match paths.
+The final full local quality gates passed outside the macOS execution sandbox:
+Ruff, strict host/Linux mypy (244 files), 4,904 tests passed, eleven unchanged
+Linux/root-only skips and 100% line/branch coverage (9,272 statements / 2,002
+branches). This includes an explicit stop-after-TV-selection regression and
+the pure metadata formatter's complete coverage. `git diff --check` passed.
+No dependency was added. Work is isolated on `codex/artwork-info`, leaving the
+published `main` branch and beta version unchanged.
+
+No live HA, TV, external documentation/API, Docker, registry or GitHub access was
+used for this feature. Version, tags and public images remain at 0.1.0b1; these
+source changes are not yet installed or published. A new version and native
+build/source/signature checks require publication approval. Green update,
+helper/card creation, rendering and restart restoration require live-change
+approval; previous beta evidence does not validate this new feature.
 
 ## Preview-camera setup UX — 2026-10-04
 
@@ -34,6 +68,11 @@ passed on the unsandboxed repeat. No test or application code was changed.
 No live HA configuration, entity, dashboard or TV state was changed. At this
 pre-publication checkpoint the reviewed documentation push is still pending;
 the released app runtime, version, images and tags remain unchanged.
+Publication subsequently completed: anonymous `ls-remote` confirmed personal
+`main` at `b6cb9d9d300d64febc58bd8cf7f90717e0c3f335`. Both the main-branch guide
+and the setup PNG were anonymously downloaded and compared byte-for-byte with
+the reviewed local files. This receipt is local follow-up documentation after
+that push. No live Green documentation refresh is claimed.
 
 ## Store logo pass — 2026-10-04
 

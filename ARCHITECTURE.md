@@ -1,5 +1,17 @@
 # Frame Gallery for Home Assistant — Architecture proposal
 
+**Post-beta local feature amendment (2026-10-04, D-202):** the optional
+`artwork_info_helper` adds a separate native information card to the unchanged
+standard preview. It narrowly extends §5/§15/§16.3/§17.5/§18: the parent may
+read one explicit Text helper and issue at most two fixed `input_text.set_value`
+POSTs under one shared two-second PUBLISH deadline. Clear the helper before
+preview replacement, write new plain-text JSON only after preview success,
+retain preview on failed clear, and leave captions blank on later failure.
+No-match/TV failure preserve prior metadata. The token stays parent-only;
+no new privileges, worker access, daemon, dependency or configuration-file edit.
+Full specification, safety rules and release/live-test gates are in D-202.
+This is not part of the released 0.1.0b1 image or a claim of live validation.
+
 Status: **Revision 2, with final gate corrections.**
 
 - Revision 1 (commit `d42adf5`) was conditionally accepted in the Codex review.
@@ -166,7 +178,7 @@ Traffic crosses only three boundaries:
 
 - the local television, reached through its configured IPv4 address;
 - the one provider selected for this run, plus its documented image host;
-- the Supervisor's Core API proxy, only for configured helpers or an explicit loading timer (D-176).
+- the Supervisor's Core API proxy, only for configured filter helpers, an explicit loading timer (D-176), or the optional artwork-information Text helper (D-202).
 
 There is no telemetry.
 
@@ -1073,7 +1085,7 @@ Helpers are read only when at least one `*_helper` option is set.
 | Fits the one-shot lifecycle | Yes | **No**: needs a running server | Yes |
 | Dynamic option lists | No | Yes | Yes |
 | Automations | Excellent | Poor | Excellent |
-| Security surface | ≤ 4 helper GETs; optional fixed timer.cancel (D-176) | Web server, request handling, CSRF | Runs inside Home Assistant Core |
+| Security surface | ≤ 4 filter helper GETs; optional fixed timer.cancel (D-176); optional artwork helper GET and two fixed input_text.set_value calls in a shared 2 s budget (D-202) | Web server, request handling, CSRF | Runs inside Home Assistant Core |
 | Cost and maintenance | Small and low | High and medium–high | High and high |
 
 ### 16.2 Recommendation (D-126)
@@ -1083,6 +1095,16 @@ Helpers are read only when at least one `*_helper` option is set.
 - **Companion integration:** deferred.
 
 ### 16.3 Beta dashboard design (D-111, D-140)
+
+**Optional post-beta attribution (D-202):** users may add one dedicated Text
+helper (minimum 0, maximum 255, no Initial value) and the complete native card
+in `frame_gallery/ARTWORK_INFO.md`. The helper restores its last JSON value after HA
+restart; the information card displays escaped title, artist and known museum
+strings, omitting missing fields and hiding while loading. The original image
+card, timer, script and camera-refresh mechanism remain sufficient on their
+own. No HACS or automatic dashboard edit. Browser camera/helper refresh is
+asynchronous; metadata refers to the published preview file. Release/Green
+checks of this optional feature remain pending, not inherited from Phase 8/9.
 
 **Platform basis** (recorded in the Codex review):
 
@@ -1169,7 +1191,7 @@ boot: manual_only
 init: false                      # s6-overlay v3 base (D-130)
 stage: experimental              # until Phase 8 validation passes
 homeassistant: "2026.2.0"        # hassio.app_* actions; NOT raised for Collection Image
-homeassistant_api: true          # ≤ 4 helper GETs, plus optional fixed timer.cancel (D-176)
+homeassistant_api: true          # scoped helper/timer calls only (D-176, D-202)
 tmpfs: true
 timeout: 20
 map:
@@ -1251,7 +1273,7 @@ With the custom AppArmor profile, the security rating is 6.
 
 | Item | Handling |
 | --- | --- |
-| Environment | `SUPERVISOR_TOKEN` is kept in parent memory only for configured helpers or an explicit loading timer (D-176). `os.environ` is reduced to an **allowlist**: `PATH`, `LANG`, `LC_ALL`, `TZ`. Tokens, proxy variables, `NETRC`, and CA overrides are removed. |
+| Environment | `SUPERVISOR_TOKEN` is kept in parent memory only for configured filter helpers, an explicit loading timer (D-176), or the optional artwork helper (D-202). `os.environ` is reduced to an **allowlist**: `PATH`, `LANG`, `LC_ALL`, `TZ`. Tokens, proxy variables, `NETRC`, and CA overrides are removed. |
 | Options | Read directly from `/data/options.json` (mode `0600`) and re-validated. |
 | Time | UTC. |
 | SIGTERM | See §7.6. |
@@ -1325,7 +1347,7 @@ complete this gate.
 | --- | --- |
 | SSRF, DNS rebinding | Exact host rules; one resolution with every address checked as global; connect to the validated IP; peer check; identifier `fullmatch`; redirects re-validated |
 | Decompression bombs, parser exploits | Byte caps; header limits; unprivileged, memory-limited worker; bytes-only results; parent validation of the output |
-| Home Assistant API misuse | Token removed from the environment, never given to workers; ≤ 4 helper GETs and one optional fixed timer.cancel for a validated explicit timer. No arbitrary service/configuration write (D-176). |
+| Home Assistant API misuse | Token removed from the environment, never given to workers; ≤ 4 filter helper GETs and one optional fixed timer.cancel (D-176). D-202 adds only one explicit Text-helper GET and two fixed input_text.set_value calls under a shared 2 s deadline. No arbitrary service/configuration write. |
 | Secret leakage | Formatter-level redaction, including exception text; worker output piped through the parent; third-party loggers capped at WARNING; tokens excluded from backups (expected; Phase 8) |
 | Path traversal, symlinks | Fixed paths; `dir_fd` with `O_NOFOLLOW`; `O_EXCL` random temp names; refusal on symlinks |
 | TV misuse, internal services | IPv4 literal in LAN ranges only; container networks rejected |

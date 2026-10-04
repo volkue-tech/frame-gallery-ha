@@ -8,7 +8,7 @@ production ports and runs exactly one run:
    the runner honours it inside its classified region.
 2. The Supervisor token is read into memory, and the process environment is
    reduced to the allowlist before anything else runs, so no worker can see
-   the token (§17.5). The token is kept only with helpers or a loading timer,
+   the token (§17.5). The token is kept only with filter/artwork helpers or a loading timer,
    and it is registered with the redactor either way.
 3. Logging through the redactor (§19).
 4. The process executor (D-163). On Linux every isolation step must be in
@@ -236,6 +236,7 @@ def run_app(environ: MutableMapping[str, str], stream: TextIO, wiring: Wiring) -
         watchdog=watchdog,
         storage_report=functools.partial(log_storage, layout, clock),
         finish_loading=functools.partial(reader.finish_loading, timer),
+        write_artwork_info=reader.write_artwork_info,
     )
     runner = Runner(
         ports, clock=clock, random=random, cancellation=controller, set_log_level=set_app_level

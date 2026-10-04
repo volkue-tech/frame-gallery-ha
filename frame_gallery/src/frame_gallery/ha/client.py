@@ -20,6 +20,10 @@ reasons at INFO and DEBUG only. Home Assistant's ``unavailable`` and
 ``unknown`` states are returned as they are. Nothing is ever raised for a
 failed read; only ``Cancelled`` (a stop request) propagates. Log lines name
 the helper and the reason, never the token or the helper's value.
+
+D-176 permits one fixed timer.cancel after cleanup. D-202 optionally adds
+one existing Text-helper check and at most two fixed input_text.set_value
+POSTs, bounded together by two seconds in PUBLISH. No arbitrary HA writes.
 """
 
 from __future__ import annotations
@@ -35,7 +39,7 @@ from frame_gallery import __version__
 from frame_gallery.budget.deadline import Deadline, DeadlineExceeded
 from frame_gallery.budget.limits import CONNECT_S, DNS_S, HELPER_REQUEST_S, READ_S
 from frame_gallery.config.filters import FilterField
-from frame_gallery.config.options import HELPER_ENTITY_ID, TIMER_ENTITY_ID
+from frame_gallery.config.options import ARTWORK_INFO_ENTITY_ID, HELPER_ENTITY_ID, TIMER_ENTITY_ID
 from frame_gallery.errors import FrameGalleryError
 from frame_gallery.net.policy import content_length, is_private_address, media_type, path_segment
 from frame_gallery.net.wire import (
@@ -85,9 +89,75 @@ class SupervisorHelperReader:
         self._resolver = resolver
         self._transport = transport
         self._networks = tuple(networks)
+        self._artwork_addresses: Sequence[IPAddress] | None = None
 
     def __repr__(self) -> str:
         return "SupervisorHelperReader(token=<hidden>)"
+
+    def write_artwork_info(self, entity_id: str, value: str, deadline: Deadline) -> bool:
+        """D-202: only the explicitly configured input_text.set_value service.
+
+        The runner shares a two-second budget across checking/clearing the
+        existing helper, preview publication, and this final write. No retries,
+        redirects, entity creation, response-body logging or worker token.
+        Clearing checks that the helper exists before replacing the preview.
+        """
+        token = self._token
+        if (
+            ARTWORK_INFO_ENTITY_ID.fullmatch(entity_id) is None
+            or len(value) > MAX_STATE_LENGTH
+            or token is None
+            or _TOKEN.fullmatch(token) is None
+        ):
+            _log.warning("artwork information unavailable: invalid helper, value or token")
+            return False
+        try:
+            deadline.check()
+            if self._artwork_addresses is None:
+                self._artwork_addresses = self._resolve(deadline)
+            addresses = self._artwork_addresses
+            if not value:
+                state = self._read_one(entity_id, token, addresses, deadline)
+                if state == "unavailable":
+                    _fail("text helper unavailable")
+            body = json.dumps(
+                {"entity_id": entity_id, "value": value}, separators=(",", ":")
+            ).encode("ascii")
+            request = WireRequest(
+                address=addresses[0],
+                host=SUPERVISOR_HOST,
+                port=SUPERVISOR_PORT,
+                tls=False,
+                target="/core/api/services/input_text/set_value",
+                method="POST",
+                body=body,
+                headers={
+                    "Host": SUPERVISOR_HOST,
+                    "Authorization": f"Bearer {token}",
+                    "Content-Type": "application/json",
+                    "Content-Length": str(len(body)),
+                    "Connection": "close",
+                },
+            )
+            response = self._transport.open(
+                request,
+                connect_timeout=deadline.clamp(CONNECT_S),
+                exchange_timeout=deadline.clamp(2.0),
+            )
+            try:
+                if response.status in (401, 403):
+                    self._token = None  # no later metadata/timer authentication retry
+                if response.status != 200:
+                    _fail(f"HTTP {response.status}")
+            finally:
+                response.close()
+            return True
+        except (_ReadFailed, TransportFailure, DeadlineExceeded) as exc:
+            if isinstance(exc, _ReadFailed) and str(exc) in ("HTTP 401", "HTTP 403"):
+                self._token = None
+            reason = str(exc) if isinstance(exc, _ReadFailed) else type(exc).__name__
+            _log.warning("artwork information unavailable (%s)", reason)
+            return False
 
     def finish_loading(self, timer: str | None, deadline: Deadline) -> None:
         """D-176: one bounded cancel of the explicitly configured timer.

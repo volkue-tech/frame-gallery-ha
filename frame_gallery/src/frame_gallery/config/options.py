@@ -57,6 +57,7 @@ class Options:
 
     log_level: LogLevel = LogLevel.INFO
     loading_timer: str | None = None
+    artwork_info_helper: str | None = None
 
     def helper_for(self, field: FilterField) -> str | None:
         for helper_field, entity_id in self.helpers:
@@ -78,6 +79,7 @@ HELPER_OPTION_NAMES: Final = tuple(option for _, option in _HELPER_OPTIONS)
 """The names of the four helper options, ``source_helper`` first."""
 
 TIMER_ENTITY_ID: Final = re.compile(r"timer\.[a-z0-9_]{1,64}", re.ASCII)
+ARTWORK_INFO_ENTITY_ID: Final = re.compile(r"input_text\.[a-z0-9_]{1,64}", re.ASCII)
 
 
 def loading_timer(value: object) -> str | None:
@@ -261,6 +263,24 @@ def parse_options(
         issues.append(
             ConfigIssue("loading_timer", "Use a timer entity ID, such as timer.frame_gallery_run.")
         )
+    info = raw.get("artwork_info_helper")
+    info_helper: str | None = None
+    if info not in (None, ""):
+        if isinstance(info, str) and ARTWORK_INFO_ENTITY_ID.fullmatch(info):
+            info_helper = info
+            if info_helper in dict(helpers).values():
+                issues.append(
+                    ConfigIssue(
+                        "artwork_info_helper", "Use a dedicated text helper, not a filter helper."
+                    )
+                )
+        else:
+            issues.append(
+                ConfigIssue(
+                    "artwork_info_helper",
+                    "Use a text helper entity ID, such as input_text.frame_gallery_artwork.",
+                )
+            )
     if tv_host is None or issues:
         raise ConfigError(issues)
     return Options(
@@ -273,4 +293,5 @@ def parse_options(
         helpers=helpers,
         log_level=log_level,
         loading_timer=timer,
+        artwork_info_helper=info_helper,
     )

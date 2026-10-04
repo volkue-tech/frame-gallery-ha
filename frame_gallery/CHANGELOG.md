@@ -1,5 +1,13 @@
 # Changelog
 
+## Unreleased
+
+- Optional native dashboard artwork-information card (title, artist, museum),
+  using one dedicated UI-created Text helper. Standard image card unchanged.
+- Preview-coupled metadata updates, bounded output, omitted missing fields and
+  clean failure handling. No extra museum requests or dashboard extension.
+- Not included in 0.1.0b1; new images and an approved Green upgrade are required.
+
 ## 0.1.0b1 (release candidate; public installation not yet verified)
 
 - Independently implemented one-shot app for Home Assistant OS, including Green

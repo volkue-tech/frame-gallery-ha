@@ -36,7 +36,7 @@ This file constrains the architecture without prescribing or copying an implemen
 ## Home Assistant constraints
 
 - Read options from the standard app options mechanism.
-- Use the Supervisor-provided Home Assistant API token only when optional helper resolution is configured.
+- Use the Supervisor-provided Home Assistant API token only for configured filter helpers, explicit loading-timer completion (D-176), or the optional artwork-information Text helper (D-202). Keep it in parent memory and out of worker environments. D-202 permits only the explicit helper GET and fixed input_text.set_value service; no arbitrary configuration or state writes.
 - The app must work when no helper entities are configured.
 - Do not request access to Home Assistant configuration files.
 - Do not require privileged container mode, host networking, Docker socket access, or persistent background execution.
@@ -57,4 +57,3 @@ This file constrains the architecture without prescribing or copying an implemen
 - No container publication until the dependency license inventory is complete.
 - No stable release until `aarch64` installation and a full one-shot run are validated on Home Assistant Green.
 - Every release must have a changelog entry, immutable version tag, test result, and matching multi-architecture image.
-

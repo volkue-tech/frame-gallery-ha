@@ -1,0 +1,45 @@
+type: vertical-stack
+cards:
+  - type: picture-entity
+    entity: camera.frame_gallery_preview
+    name: Load new artwork
+    show_state: false
+    show_name: true
+    camera_view: auto
+    aspect_ratio: "16:9"
+    tap_action:
+      action: perform-action
+      perform_action: script.turn_on
+      target:
+        entity_id: script.frame_gallery_new_artwork
+    hold_action:
+      action: more-info
+  - type: conditional
+    conditions:
+      - condition: state
+        entity: timer.frame_gallery_run
+        state: active
+    card:
+      type: markdown
+      content: Updating artwork…
+  - type: conditional
+    conditions:
+      - condition: state
+        entity: timer.frame_gallery_run
+        state_not: active
+      - condition: state
+        entity: input_text.frame_gallery_artwork
+        state_not: ""
+      - condition: state
+        entity: input_text.frame_gallery_artwork
+        state_not: unknown
+      - condition: state
+        entity: input_text.frame_gallery_artwork
+        state_not: unavailable
+    card:
+      type: markdown
+      content: >-
+        {% set info = states('input_text.frame_gallery_artwork') | from_json(default={}) %}
+        {% if info is mapping %}
+        <div>{% if info.title is string and info.title %}<b>{{ info.title | e }}</b><br>{% endif %}{% if info.artist is string and info.artist %}{{ info.artist | e }}<br>{% endif %}{% if info.museum is string and info.museum %}<small>{{ info.museum | e }}</small>{% endif %}</div>
+        {% endif %}

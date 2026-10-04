@@ -275,3 +275,25 @@ Phase 9 public-beta work is complete within the documented engineering/test
 scope. Fresh authorization across all TV models, public-install kernel negative
 probes and independent legal counsel are not claimed. No next feature phase is
 authorized by this completion record.
+
+## Post-beta — optional artwork information (D-202)
+
+User explicitly authorized local implementation on 2026-10-04. Keep the standard
+card minimal and the title/artist/museum card separate/optional; no additional
+dashboard extension. The earlier Phase 9 completion is not broader authorization.
+
+- [x] Implement explicit Text-helper option, parent-only scoped output, bounded
+  plain-text JSON and preview-coupled failure ordering, with synthetic tests.
+- [x] Write complete optional native-card/helper instructions; retain the basic
+  card and mark the new feature unreleased.
+- [x] Run full local quality gates and record the actual results.
+  *Ruff, strict host/Linux mypy (244 files), 4,904 passed, eleven unchanged
+  Linux/root-only skips; 100% line/branch coverage (9,272 / 2,002). No native
+  runtime or live HA validation is inferred from this macOS run.*
+- [ ] After explicit publication approval: select a new version (never overwrite
+  0.1.0b1), build/validate native ARM/Intel, refresh source evidence and sign/publish.
+- [ ] After explicit live-change approval: update Green without data reset,
+  create/configure dedicated helper, verify repeated refresh/no-match/failure,
+  helper restoration after HA restart, and optional-card rendering.
+
+Gate: publication and live changes remain unapproved for this feature.

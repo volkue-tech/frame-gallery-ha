@@ -24,6 +24,7 @@ from datetime import datetime
 from pathlib import Path
 from typing import Final
 
+from frame_gallery.app.artwork_info import artwork_info
 from frame_gallery.app.outcomes import (
     Hint,
     LedgerAction,
@@ -147,6 +148,9 @@ class RunnerPorts:
     watchdog: WatchdogControl
     storage_report: Callable[[], None] = lambda: None
     finish_loading: Callable[[Deadline], None] = lambda _deadline: None
+    write_artwork_info: Callable[[str, str, Deadline], bool] = lambda _entity, _value, _deadline: (
+        False
+    )
 
 
 @dataclass(frozen=True, slots=True)
@@ -969,8 +973,10 @@ class Runner:
 
     def _publish(self, run: _RunState) -> None:
         self._enter(Stage.PUBLISH)
-        entry, artifact, finish = run.entry, run.artifact, run.finish_deadline
-        if entry is None or artifact is None or finish is None:  # pragma: no cover
+        entry, artifact, finish, options = run.entry, run.artifact, run.finish_deadline, run.options
+        if (
+            entry is None or artifact is None or finish is None or options is None
+        ):  # pragma: no cover
             raise RuntimeError("nothing to publish")
         # PUBLISH may not use FINISH's last seconds: the last-run record needs them.
         deadline = finish.cap_at(finish.expires_at - LAST_RUN_RESERVE_S, "publish")
@@ -978,11 +984,25 @@ class Runner:
             run.warnings.append("preview_skipped")
             self._log.warning("stop requested: the preview was not updated")
             return
+        info_helper = options.artwork_info_helper
+        info_deadline = deadline.child(2.0, "artwork information")
         try:
+            if info_helper is not None and not self._ports.write_artwork_info(
+                info_helper, "", info_deadline
+            ):
+                raise PublishError(
+                    "the artwork text helper could not be cleared; previous preview retained"
+                )
             self._ports.preview.publish(artifact, deadline)
         except (PublishError, StateError, DeadlineExceeded) as exc:
             run.warnings.append("preview_failed")
             self._log.warning("the preview could not be updated: %s", sanitize_for_log(str(exc)))
+        else:
+            if info_helper is not None and not self._ports.write_artwork_info(
+                info_helper, artwork_info(entry.candidate), info_deadline
+            ):
+                run.warnings.append("artwork_info_failed")
+                self._log.warning("preview updated, but artwork information remains empty")
         record = build_current_record(
             qualified_id=entry.candidate.qualified_id,
             attribution=entry.candidate.attribution,
