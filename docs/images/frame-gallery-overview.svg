@@ -1,0 +1,45 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1440" height="860" viewBox="0 0 1440 860" role="img" aria-labelledby="title desc">
+  <title id="title">Frame Gallery — artwork on your TV, a preview in Home Assistant</title>
+  <desc id="desc">Product illustration, not a screenshot. A framed television and an illustrative dashboard card share original geometric artwork. The dashboard must be configured separately.</desc>
+  <defs>
+    <linearGradient id="wall" x2="0" y2="1"><stop stop-color="#f6f3ea"/><stop offset="1" stop-color="#e9e5da"/></linearGradient>
+    <filter id="shadow" x="-25%" y="-25%" width="150%" height="170%"><feDropShadow dx="0" dy="14" stdDeviation="15" flood-color="#253d36" flood-opacity=".15"/></filter>
+    <clipPath id="card-clip"><rect x="1010" y="300" width="352" height="250" rx="18"/></clipPath>
+    <g id="art">
+      <rect width="768" height="432" fill="#e6cbb1"/>
+      <circle cx="618" cy="109" r="72" fill="#df7750"/>
+      <path d="M0 270 Q190 130 360 264 T768 217 V432 H0Z" fill="#6e9b89"/>
+      <path d="M0 345 Q170 235 339 339 T768 303 V432 H0Z" fill="#244a40"/>
+      <path d="M80 54 H168 V233 H80Z" fill="#e9e0ce"/>
+      <path d="M222 109 H278 V298 H222Z" fill="#ab5742"/>
+      <path d="M390 375 Q420 211 520 258 T722 347" fill="none" stroke="#e6cbb1" stroke-width="12"/>
+    </g>
+  </defs>
+  <rect width="1440" height="860" rx="28" fill="url(#wall)"/>
+  <rect x="64" y="55" width="168" height="32" rx="16" fill="#244a40"/>
+  <text x="148" y="77" text-anchor="middle" font-family="Arial, sans-serif" font-size="14" font-weight="700" letter-spacing="1.1" fill="#fff">FRAME GALLERY</text>
+  <text x="64" y="157" font-family="Arial, sans-serif" font-size="54" font-weight="700" fill="#203f35">A little more art. One tap away.</text>
+  <text x="66" y="205" font-family="Arial, sans-serif" font-size="23" fill="#52685d">Museum collections or your own images. Home Assistant to your Samsung Frame.</text>
+  <g filter="url(#shadow)">
+    <rect x="64" y="280" width="858" height="522" rx="4" fill="#bb906c"/>
+    <rect x="78" y="294" width="830" height="494" fill="#3d3027"/>
+    <rect x="86" y="302" width="814" height="478" fill="#eee6d7"/>
+    <use href="#art" x="109" y="325"/>
+  </g>
+  <text x="64" y="842" font-family="Arial, sans-serif" font-size="17" fill="#52685d">Whole artwork. Original proportions. No cropping by default.</text>
+  <text x="1010" y="280" font-family="Arial, sans-serif" font-size="16" font-weight="700" fill="#52685d">HOME ASSISTANT</text>
+  <rect x="1010" y="300" width="352" height="250" rx="18" fill="#fff" filter="url(#shadow)"/>
+  <g clip-path="url(#card-clip)">
+    <g transform="translate(1010 300) scale(.4583333)"><use href="#art"/></g>
+    <rect x="1010" y="459" width="352" height="39" fill="#192f28" fill-opacity=".88"/>
+    <text x="1186" y="485" text-anchor="middle" font-family="Arial, sans-serif" font-size="17" font-weight="700" fill="#fff">Frame Gallery</text>
+  </g>
+  <text x="1186" y="531" text-anchor="middle" font-family="Arial, sans-serif" font-size="15" fill="#52685d">Tap the preview for new artwork</text>
+  <path d="M960 460 H990 M983 453 L990 460 983 467" fill="none" stroke="#6e9b89" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+  <text x="1010" y="598" font-family="Arial, sans-serif" font-size="21" font-weight="700" fill="#203f35">Your collection. Your screen.</text>
+  <text x="1010" y="630" font-family="Arial, sans-serif" font-size="17" fill="#52685d">Chicago · Cleveland · Your images</text>
+  <text x="1010" y="688" font-family="Arial, sans-serif" font-size="16" fill="#52685d">Works with Home Assistant Green.</text>
+  <text x="1010" y="716" font-family="Arial, sans-serif" font-size="16" fill="#52685d">No SSH. No custom card required.</text>
+  <text x="1010" y="799" font-family="Arial, sans-serif" font-size="14" fill="#6c756c">Illustration, not a screenshot.</text>
+  <text x="1010" y="822" font-family="Arial, sans-serif" font-size="14" fill="#6c756c">Dashboard setup is a separate step.</text>
+</svg>

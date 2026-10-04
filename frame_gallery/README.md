@@ -1,7 +1,20 @@
 # Frame Gallery
 
-Sends one fresh artwork to a Samsung Frame TV each time it is started: a public-domain work from the Art Institute of Chicago, an open-access work from the Cleveland Museum of Art, or one of your own images. The whole artwork is shown, never cropped unless you ask for it, and no work is shown twice while unsent works remain. A dashboard preview shows what is on the TV.
+Fresh artwork on your Samsung Frame — from Home Assistant, with one tap.
 
-The app runs once per start and then stops; start it from a dashboard card, an automation, or the app page. It needs no SSH and no change to `configuration.yaml`. See the **Documentation** tab for setup, options, the dashboard card, and known limitations.
+![Actual Frame Gallery public-beta dashboard card with an artwork preview and a tap-to-load label.](https://raw.githubusercontent.com/volkue-tech/frame-gallery-ha/main/docs/images/dashboard-preview.png)
+
+*Actual dashboard screenshot. The optional card is set up separately. Artwork: [“Elephant Bridge” souvenir](https://www.clevelandart.org/art/1929.342), Cleveland Museum of Art, 1929.342, [CC0 Open Access](https://www.clevelandart.org/open-access).*
+
+- Choose museum artwork from the Art Institute of Chicago or Cleveland Museum of Art, or use your own JPEG/PNG images.
+- Show the whole work without cropping by default. Previously sent works are skipped while new eligible works remain.
+- Start from the app page, an automation, or an optional dashboard card with a preview of the latest successful upload.
+- Install on Home Assistant OS, including Green. No SSH, Docker setup, HACS, or edits to `configuration.yaml`.
+
+**First start:** enter your TV's fixed private IPv4 address in **Configuration**, save, keep **Watchdog off**, and start the app with the TV on. Accept the TV's connection prompt within 20 seconds. The app stops after each run by design.
+
+**Next:** open the **Documentation** tab for the setup guide, complete dashboard examples, supported filters, and troubleshooting. The dashboard is not installed automatically. Colour and style filters are not available in this beta.
+
+**Public beta: 0.1.0b1.** Public-repository installation and live delivery were tested on Home Assistant Green; compatibility with every Frame model is not guaranteed.
 
 Frame Gallery is an independent project, not affiliated with or endorsed by Samsung, the museums, or Home Assistant.

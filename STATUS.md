@@ -1,6 +1,32 @@
 # Project status
 
-Last updated: 2026-10-04 (Phase 9: public beta and release-controls closure)
+Last updated: 2026-10-04 (documentation improvement; released beta runtime unchanged)
+
+## Documentation improvement pass — 2026-10-04
+
+User-authorized documentation maintenance after the beta release: customer-first
+repository/app-store introductions, an original TV/dashboard illustration,
+direct installation links, first-use instructions before advanced options,
+complete unchanged dashboard YAML, and a troubleshooting FAQ. The hero is
+explicitly not a screenshot; the optional card is not installed automatically.
+The user explicitly authorized renewed Firefox access. The native region-
+screenshot tool captured only the actual beta card, without private UI details.
+Its previously delivered `cma:110817` artwork's official object page and CC0
+policy were checked and credited; no provider API or new raw artwork download.
+LEGAL_BOUNDARIES clarifies the narrow user-authorized CC0 documentation-screenshot
+exception, outside application source and runtime/release images. No predecessor
+asset was consulted. Public documentation pages supplied presentation patterns.
+No Home Assistant/TV setting, runtime, package, image tag or release mutation.
+Final local quality gates passed: 4,832 tests, eleven unchanged Linux/root-only
+skips, Ruff, strict mypy on host/Linux (240 files), and 100% line/branch coverage
+(9,201 statements / 1,972 branches). Two presentation regressions were added.
+An offline check validated 37 local links/assets/anchors and byte-identical
+script/card/automation YAML compared with the previous committed guide. Both PNGs
+were visually inspected; the 505 × 287 screenshot matches Firefox's saved region
+byte-for-byte, and the original hero is 1,440 × 860. Combined PNG size is 196,119
+bytes. No new container or hosted architecture run is claimed or needed for this
+documentation/test-only maintenance; runtime and packaging are unchanged.
+Public publication is not included in this checkpoint and requires confirmation.
 
 ## Current phase
 

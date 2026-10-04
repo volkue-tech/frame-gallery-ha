@@ -77,6 +77,28 @@ def test_the_store_text_disclaims_affiliation() -> None:
     assert "configuration.yaml" in readme
 
 
+def test_the_store_and_guide_label_the_visual_and_manual_dashboard_setup() -> None:
+    """Distinguish the real card from the hero and never promise auto-created UI."""
+    image_base = "https://raw.githubusercontent.com/volkue-tech/frame-gallery-ha/main/docs/images/"
+    for text in ((PROJECT / "README.md").read_text(), DOCS):
+        assert image_base + "dashboard-preview.png" in text
+        assert "Actual dashboard screenshot" in text
+        assert "https://www.clevelandart.org/art/1929.342" in text
+        assert "https://www.clevelandart.org/open-access" in text
+        assert "not installed automatically" in text or "does not add a card automatically" in text
+        assert "Watchdog off" in text or "**Watchdog** off" in text
+    assert image_base + "frame-gallery-overview.png" in DOCS
+    assert "not a screenshot" in DOCS.lower()
+
+
+def test_the_guide_puts_first_use_before_advanced_options_and_has_help() -> None:
+    assert DOCS.index("## Installation") < DOCS.index("## Dashboard") < DOCS.index("## Options")
+    assert "## Common questions" in DOCS
+    assert "## Validation notes for contributors" in DOCS
+    for anchor in ("installation", "first-start-and-pairing", "dashboard", "options"):
+        assert f"](#{anchor})" in DOCS
+
+
 def test_the_dashboard_yaml_is_complete_and_consistent() -> None:
     """G1: script, card, and the scheduling example, copy-and-paste ready,
     and all of them use the same entity IDs and app ID."""

@@ -43,7 +43,8 @@ The current `samsungtvws` package may be evaluated. Its current published licens
 
 ## Artwork and provider data
 
-- Do not bundle third-party artworks in source code or release images.
+- Do not bundle third-party artworks in application source code or runtime/release images.
+- User-authorized documentation screenshots of the current independent app may depict verified CC0 artwork. Keep them outside the runtime build context, remove private UI details, record the capture and official rights source, and provide an artwork credit. This does not authorize bundling a provider collection, default artwork, predecessor assets, or restricted images.
 - Download artwork only at runtime on the user's Home Assistant system.
 - Retain only the selected preview, bounded metadata cache, and identifiers required for duplicate prevention.
 - Preserve provider attribution or rights information when required and practical.
@@ -69,4 +70,3 @@ Suggested wording, subject to review:
 > Inspired by community experimentation around Home Assistant and Samsung Frame art-mode automation. Frame Gallery is an independent implementation and does not incorporate source code or assets from those predecessor projects.
 
 Do not use wording that implies an upstream license grants rights when no such license has been confirmed.
-

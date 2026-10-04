@@ -1,91 +1,76 @@
 # Frame Gallery for Home Assistant
 
-Frame Gallery is an independently implemented Home Assistant app for displaying curated artwork on compatible Samsung Frame televisions. **[0.1.0b1 is a public beta](https://github.com/volkue-tech/frame-gallery-ha/releases/tag/v0.1.0b1)**, tested through a separate public-repository installation and live delivery on Home Assistant Green.
+Fresh artwork on your Samsung Frame. Start it with a tap from Home Assistant.
 
-This repository contains the product specification, architecture and independently implemented app (`frame_gallery/`). It intentionally contains no application code copied or adapted from predecessor projects.
+![Illustration: a framed TV and a Home Assistant preview card showing the same original abstract artwork. The dashboard is set up separately.](docs/images/frame-gallery-overview.png)
 
-## Installation
+*Product illustration, not a screenshot. The optional dashboard card is added separately using the guide below.*
 
-[Add the Frame Gallery repository to Home Assistant](https://my.home-assistant.io/redirect/supervisor_add_addon_repository/?repository_url=https%3A%2F%2Fgithub.com%2Fvolkue-tech%2Fframe-gallery-ha)
+**[Add to Home Assistant](https://my.home-assistant.io/redirect/supervisor_add_addon_repository/?repository_url=https%3A%2F%2Fgithub.com%2Fvolkue-tech%2Fframe-gallery-ha)** · [Setup guide](frame_gallery/DOCS.md) · [Latest beta](https://github.com/volkue-tech/frame-gallery-ha/releases/tag/v0.1.0b1)
 
-Then open **Settings → Apps → App store → Frame Gallery → Install**. The app
-downloads the pre-built image for Home Assistant Green (`aarch64`) or an Intel/AMD
-installation (`amd64`); no SSH, Docker setup or `configuration.yaml` edit is needed.
-Enter the TV's fixed private IPv4 address, keep Watchdog off, and read
-[the app guide](frame_gallery/DOCS.md). This beta uses Supervisor's supported
-`experimental` lifecycle flag, not an unsupported `beta` flag.
+## Art first. No unwanted cropping.
 
-The one-click link uses Home Assistant's
-[official repository redirect](https://raw.githubusercontent.com/home-assistant/my.home-assistant.io/main/redirect.json).
+- **Museum artwork or your own images.** Choose the Art Institute of Chicago, the Cleveland Museum of Art, or your local JPEG/PNG collection.
+- **Keep the whole work.** Original proportions are preserved by default; margins fill any unused space. Cropping is opt-in.
+- **Something new.** Previously sent artworks are skipped while new eligible works remain. History keeps the latest 20 000 works.
+- **See it before the next tap.** The optional native Home Assistant card shows the latest successful preview and starts a new run.
+- **Made for Home Assistant OS, including Green.** Pre-built ARM and Intel/AMD images. No SSH, Docker installation, HACS, or `configuration.yaml` edits.
 
-## Intended user experience
+### The real dashboard card
 
-1. Add the repository to the Home Assistant app store with one click.
-2. Install the pre-built app on Home Assistant OS, including Home Assistant Green.
-3. Enter the television IP address and choose artwork filters.
-4. Start the app manually, from an automation, or from a documented dashboard card.
-5. The app selects one eligible, previously unsent artwork, prepares it without unwanted cropping, uploads it to the television, updates the dashboard preview, and exits cleanly.
+![Actual Frame Gallery public-beta dashboard card showing the complete Elephant Bridge artwork and a tap-to-load label.](docs/images/dashboard-preview.png)
 
-No SSH access or `configuration.yaml` changes should be required for end users.
+*Screenshot from the working public-beta installation. Tap the image to request another work; the label can be renamed. Artwork: [“Elephant Bridge” souvenir](https://www.clevelandart.org/art/1929.342), Cleveland Museum of Art, 1929.342, [CC0 Open Access](https://www.clevelandart.org/open-access).*
 
-## Project status
+## Get your first artwork
 
-The application, packaging and offline validation are implemented. Supervised
-development-app tests on Home Assistant Green and a real Samsung Frame TV passed:
-museum delivery, no-crop fitting, dashboard preview refresh, bounded loading,
-duplicate history, cancellation/cleanup and the documented crash-recovery checks.
-Enforced AppArmor child profiles and worker network restrictions were also tested
-on the Green, followed by successful regular deliveries. See `PHASE8_REPORT.md`
-and `PHASE9_REPORT.md` for the exact scope and limitations.
+1. **Install.** [Add the repository](https://my.home-assistant.io/redirect/supervisor_add_addon_repository/?repository_url=https%3A%2F%2Fgithub.com%2Fvolkue-tech%2Fframe-gallery-ha), then open **Settings → Apps → App store → Frame Gallery → Install**.
+2. **Configure.** Enter your TV's fixed private IPv4 address in the app's **Configuration** tab and save. Leave **Watchdog off**: this app intentionally stops after each run.
+3. **Start.** Switch the TV on, start the app, and accept its connection prompt on the TV within 20 seconds. Check the **Log** tab for `outcome=delivered`.
 
-The public beta is released. Both numbered architecture images were published by
-[run 37159551965](https://github.com/volkue-tech/frame-gallery-ha/actions/runs/37159551965)
-from runtime commit `d736c7a`. Native host/container/root/memory gates passed;
-both images were independently downloaded anonymously and their keyless Cosign
-signatures verified against the own workflow, issuer and exact commit.
-[Matching sources](https://github.com/volkue-tech/frame-gallery-ha/releases/tag/sources-v0.1.0b1)
-are public and anonymously hash-verified. App-store metadata added afterward
-selects those already verified images; it does not rebuild or retag them.
-The separate public-repository Green installation passed, with observed app ID
-`a94fc569_frame_gallery`. Two live deliveries refreshed the preview and ended
-loading; the user confirmed the first image on the TV. Invalid configuration
-ended safely and temporary files were cleaned. Final native ARM/Intel
-[validation](https://github.com/volkue-tech/frame-gallery-ha/actions/runs/37193338410)
-passed for release tag commit `8a3e7ee`, including actual container/root/memory
-checks. Later documentation commits do not change the released runtime.
-Current state: `STATUS.md` and `TASKS.md`.
+You need Home Assistant OS with Supervisor, Home Assistant 2026.2 or newer, and a compatible Samsung Frame on the same home-network subnet. Home Assistant Container and Core-only installations cannot install this app.
 
-In the first beta, the Art Institute offers the period filter, and Cleveland
-offers department and period; no source offers a colour filter (see
-`frame_gallery/VOCABULARY.md`). Developer setup and quality gates:
-`frame_gallery/DEVELOPMENT.md`.
+**The dashboard is optional, not installed automatically.** First try the app from its own page. Then follow the [dashboard setup](frame_gallery/DOCS.md#dashboard): create a preview camera and a timer in the UI, and paste the complete script and card examples. No custom card is required. The guide also includes a complete daily automation.
 
-One known limitation of the design: the app remembers the latest 20 000 artworks it has shown. Older ones are forgotten, so a very old artwork could in theory be shown again. At one artwork a day that takes about 55 years (R-29 in `DECISIONS.md`).
+## Choose your collection
 
-First-beta sources:
+| Source | Available filters in this beta |
+| --- | --- |
+| Art Institute of Chicago | Period |
+| Cleveland Museum of Art | Department and period |
+| Your own images | Landscape and fitting options |
 
-- local media;
-- the Art Institute of Chicago;
-- the Cleveland Museum of Art.
+Landscape selection and screen-shape preference work with all three sources. **Colour and style filters are not available yet.** Google Arts & Culture is not a source in this app. The museum sources use documented open-access APIs and eligible CC0 images; local media uses your own files.
 
-The two museum sources use only their documented open-access APIs and CC0 images; local media uses your own images. See:
+The default prefers landscape works close to 16:9. If no suitable new work is found within the search budget, it can fall back to a landscape work with margins, without cropping. See [all options and filter values](frame_gallery/DOCS.md#options).
 
-- `ARCHITECTURE.md` (the approved architecture, with the Phase 2 to Phase 6 refinements marked)
-- `PRODUCT_SPEC.md`
-- `ARCHITECTURE_CONSTRAINTS.md`
-- `ACCEPTANCE_TESTS.md`
-- `LEGAL_BOUNDARIES.md`
-- `TASKS.md`
-- `STATUS.md`
-- `DECISIONS.md`
-- `THIRD_PARTY_NOTICES.md` (component inventory and retained original notices)
-- `RELEASE_CANDIDATE.md` (the report of the offline release validation)
-- `PHASE8_REPORT.md` (supervised Green/TV development tests)
-- `PHASE9_REPORT.md` (release hardening and remaining gates)
-- `ENGINEERING_LICENSE_REVIEW.md` (bounded engineering assessment, not legal counsel)
-- `SOURCE_AND_REBUILD.md` (sources and library replacement for developers)
-- `RELEASE_PROCESS.md` (gated maintainer publication procedure)
+## Need help?
+
+- [Installation and first pairing](frame_gallery/DOCS.md#installation)
+- [Dashboard card and daily automation](frame_gallery/DOCS.md#dashboard)
+- [Common questions](frame_gallery/DOCS.md#common-questions)
+- [Log messages and what to do](frame_gallery/DOCS.md#reading-the-log)
+- [Known limitations](frame_gallery/DOCS.md#good-to-know)
+- [Report a problem](https://github.com/volkue-tech/frame-gallery-ha/issues)
+
+When reporting a problem, include the app version, TV model and the final outcome line. Remove personal details and secrets before sharing logs. Do not include pairing tokens, passwords or access tokens.
+
+## Public beta
+
+[0.1.0b1](https://github.com/volkue-tech/frame-gallery-ha/releases/tag/v0.1.0b1) was tested on Home Assistant Green and a real Samsung Frame: installation from the public repository, artwork delivery, preview refresh, loading completion and temporary-file cleanup passed in the documented scope. This is not a guarantee for every TV model; first-time pairing on every model has not been verified.
+
+The app runs once, then stops. It does not remove artworks already stored on your TV. It remembers the latest 20 000 deliveries; very old artworks can eventually return. [Read the limitations](frame_gallery/DOCS.md#good-to-know) before relying on unattended use.
+
+## For contributors
+
+Frame Gallery is implemented independently. The project's own code is [Apache-2.0](LICENSE); distributed third-party components retain their own licences. The runtime is not GPL-free. [Third-party notices](THIRD_PARTY_NOTICES.md) and [matching component sources](https://github.com/volkue-tech/frame-gallery-ha/releases/tag/sources-v0.1.0b1) are available.
+
+- [Developer setup and quality gates](frame_gallery/DEVELOPMENT.md)
+- [Product specification](PRODUCT_SPEC.md) · [Architecture](ARCHITECTURE.md) · [Acceptance tests](ACCEPTANCE_TESTS.md)
+- [Current status](STATUS.md) · [Tasks](TASKS.md) · [Decision log](DECISIONS.md) · [Independent-development boundaries](LEGAL_BOUNDARIES.md)
+- [Green/TV test report](PHASE8_REPORT.md) · [Public-beta validation](PHASE9_REPORT.md) · [Final ARM/Intel validation run](https://github.com/volkue-tech/frame-gallery-ha/actions/runs/37193338410)
+- [Sources and rebuilding](SOURCE_AND_REBUILD.md) · [Release process](RELEASE_PROCESS.md) · [Engineering licence assessment](ENGINEERING_LICENSE_REVIEW.md)
 
 ## Attribution
 
-The product idea is inspired by community experimentation around Home Assistant and Samsung Frame art-mode automation. The implementation in this repository must be written independently. Any future attribution must not imply that unlicensed predecessor code was copied, relicensed, or incorporated.
+The product idea is inspired by community experimentation around Home Assistant and Samsung Frame art-mode automation. No predecessor code is incorporated. Frame Gallery is an independent project, not affiliated with or endorsed by Samsung, the museums, or Home Assistant.
