@@ -1,6 +1,22 @@
 # Project status
 
-Last updated: 2026-10-04 (documentation improvement; released beta runtime unchanged)
+Last updated: 2026-10-04 (app-store discoverability; released beta runtime unchanged)
+
+## App-store metadata pass — 2026-10-04
+
+The user explicitly authorized changing and publishing the app display name to
+`Frame Gallery – Samsung Frame TV` and putting Samsung at the beginning of its
+description (D-200). The generator and generated config are changed together,
+with a metadata regression and matching installation instructions. Slug,
+repository brand, version `0.1.0b1`, image mapping, release tags, runtime, options,
+dashboard entities and live HA/TV configuration are unchanged. No new image,
+release or live store refresh is authorized or claimed. Full local quality gates
+passed: Ruff, strict mypy for host and Linux (240 files), 4,833 tests passed,
+eleven unchanged Linux/root-only skips, and 100% line/branch coverage (9,201
+statements / 1,972 branches). The metadata generator's check and `git diff --check`
+passed. Official frontend search code was fetched read-only from its pinned
+commit; the installed frontend and live refreshed store were not inspected.
+The user-approved public push remains pending at this pre-publication checkpoint.
 
 ## Documentation improvement pass — 2026-10-04
 
@@ -26,7 +42,14 @@ were visually inspected; the 505 × 287 screenshot matches Firefox's saved regio
 byte-for-byte, and the original hero is 1,440 × 860. Combined PNG size is 196,119
 bytes. No new container or hosted architecture run is claimed or needed for this
 documentation/test-only maintenance; runtime and packaging are unchanged.
-Public publication is not included in this checkpoint and requires confirmation.
+The checkpoint above preceded publication approval. On 2026-10-04 the user
+explicitly authorized publication including the real dashboard screenshot.
+Commit `3906beeeeae39e5292131fb74e478ade7c04b1ca` is now public on the personal
+repository's main branch, independently verified through anonymous `ls-remote`.
+All three user-facing Markdown pages, both PNGs and the original SVG were fetched
+anonymously from public main and matched the local files byte-for-byte. Runtime,
+release tag and HA/TV configuration are unchanged. This publication receipt is
+local follow-up documentation and was not part of that published commit.
 
 ## Current phase
 

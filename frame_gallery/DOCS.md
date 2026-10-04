@@ -28,7 +28,7 @@ No SSH, no command line, and no change to `configuration.yaml` is needed at any 
 [Add the repository to Home Assistant](https://my.home-assistant.io/redirect/supervisor_add_addon_repository/?repository_url=https%3A%2F%2Fgithub.com%2Fvolkue-tech%2Fframe-gallery-ha), or use `https://github.com/volkue-tech/frame-gallery-ha` in the repository dialog. Installation downloads the already built image; your Green does not compile the app or need SSH. This path passed a separate public Green installation.
 
 1. Use [Add to Home Assistant](https://my.home-assistant.io/redirect/supervisor_add_addon_repository/?repository_url=https%3A%2F%2Fgithub.com%2Fvolkue-tech%2Fframe-gallery-ha), or paste `https://github.com/volkue-tech/frame-gallery-ha` in **Settings → Apps → App store → ⋮ → Repositories**. This is an app repository, not a HACS integration.
-2. Open **Frame Gallery** in the app store and select **Install**. Home Assistant downloads the image for your device (`aarch64` for the Green, `amd64` for a PC).
+2. Open **Frame Gallery – Samsung Frame TV** in the app store and select **Install**. You can search for **Samsung** or **Frame Gallery**. Home Assistant downloads the image for your device (`aarch64` for the Green, `amd64` for a PC).
 3. Open the **Configuration** tab, enter the TV's address under **TV address**, choose your filters, and select **Save**.
 4. Leave **Watchdog** off: the app runs once per start and then stops by design, which the watchdog would take for a crash.
 

@@ -1,5 +1,27 @@
 # Decision log
 
+## App-store discoverability (2026-10-04)
+
+### D-200 — searchable display metadata without a runtime release
+
+**Status:** accepted by the user for implementation and publication.
+
+Keep the project/repository brand Frame Gallery. Set only the app display name
+to `Frame Gallery – Samsung Frame TV` and its description to
+`Samsung Frame TV artwork from museums or your own images.` The store's
+location-sensitive fuzzy search includes descriptions, but a keyword late in a
+description can still be excluded. The official frontend inspected at
+[`6775b1e`](https://github.com/home-assistant/frontend/blob/6775b1e2bb78b3263312a0b6e8ad7c8dd25006d3/src/panels/config/apps/components/supervisor-apps-filter.ts)
+searches name, description and slug with threshold `0.2`; Samsung now starts at
+offset 16 in the display name and at offset 0 in the description. This is not a
+claim that the exact installed frontend version or refreshed live results were
+tested. A regression keeps both metadata fields' keyword offsets at most 20.
+
+The generator remains authoritative. Slug, repository identity, version,
+architecture image mappings, release tags, runtime and dashboard entities remain
+unchanged. No rebuild, reinstall, TV run or live HA mutation is part of this
+metadata publication. Installation instructions name the updated store entry.
+
 ## Public beta release (2026-10-04)
 
 ### D-199 — final native gates and public beta announcement

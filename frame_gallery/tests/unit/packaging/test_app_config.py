@@ -74,6 +74,17 @@ def test_the_files_are_what_the_script_writes() -> None:
     )
 
 
+def test_store_metadata_keeps_samsung_near_the_start_of_both_search_fields() -> None:
+    """Keep the keyword inside HA's current location-sensitive search window.
+
+    This guards our metadata, not the live frontend or the Fuse implementation.
+    """
+    assert CONFIG["name"] == "Frame Gallery \u2013 Samsung Frame TV"
+    assert CONFIG["description"] == ("Samsung Frame TV artwork from museums or your own images.")
+    for field in ("name", "description"):
+        assert CONFIG[field].lower().index("samsung") <= 20
+
+
 def test_the_app_is_a_one_shot_without_extra_privileges() -> None:
     """§17.1, D-129, Q-16: what is set, and what is deliberately not set."""
     assert CONFIG["slug"] == "frame_gallery"

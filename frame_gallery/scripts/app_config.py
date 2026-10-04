@@ -87,10 +87,10 @@ def config() -> dict[str, Value]:
     verified per-architecture release images; its tag is ``version``.
     Experimental is the supported Supervisor lifecycle flag for this beta."""
     return {
-        "name": "Frame Gallery",
+        "name": "Frame Gallery \u2013 Samsung Frame TV",
         "version": __version__,
         "slug": "frame_gallery",
-        "description": "Sends one fresh artwork to a Samsung Frame TV each time it is started.",
+        "description": "Samsung Frame TV artwork from museums or your own images.",
         "arch": ["aarch64", "amd64"],
         "image": "ghcr.io/volkue-tech/frame-gallery-ha-{arch}",
         "url": "https://github.com/volkue-tech/frame-gallery-ha",
