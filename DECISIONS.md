@@ -1,5 +1,26 @@
 # Decision log
 
+## Public repository recognition (2026-10-04)
+
+### D-197 — required root repository descriptor
+
+Status: correction within the authorized Phase 9 publication scope; public
+retest pending, with no runtime or image change.
+
+The real official one-click installation link reached the Green's repository
+dialog with the correct own URL. Supervisor then returned "is not a valid app
+repository". The required `repository.yaml` was absent both locally and on
+public main `0b850e7`. Add the root descriptor with the own repository name,
+URL and maintainer only. The packaging regression demonstrably fails before
+the file exists and checks its exact metadata/root location afterwards.
+No new dependency, privilege, personal contact address, image version, source
+release or runtime change is introduced. The existing app remains untouched;
+this failed attempt installed/started no app. Recognition must be retested
+after publishing the correction, then separately confirm the new app install.
+
+Primary requirement: https://developers.home-assistant.io/docs/apps/repository/
+(root descriptor mandatory; read 2026-10-04).
+
 ## Public-image verification (2026-10-04)
 
 ### D-196 — verified pre-built images and separate install metadata

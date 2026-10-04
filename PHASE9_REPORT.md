@@ -1,5 +1,20 @@
 # Phase 9 progress report
 
+## Public repository recognition (2026-10-04, D-197)
+
+The personal metadata push is verified at `0b850e7`. The official one-click
+link opened the correct Green repository dialog, but adding it failed with
+"is not a valid app repository". The official requirement and the local/public
+file lists identify the missing root `repository.yaml`. A new packaging
+regression failed on the missing descriptor before its addition. Only own
+repository metadata and the regression/documentation change; published runtime
+images and source release remain unchanged. No app was installed or started.
+Full gates and a corrected public repository/add/install retest remain required.
+The full local correction gates subsequently exited 0: 4,818 passed / eleven
+unchanged platform skips, strict host/Linux mypy 238 files, unchanged 100%
+full/mandated line+branch. Log:
+`build/phase9/check-repository-descriptor-20261004.log`. Public retest is pending.
+
 ## Public image milestone (2026-10-04, D-196)
 
 Publisher run `37159551965` completed successfully in 34m30s for runtime commit

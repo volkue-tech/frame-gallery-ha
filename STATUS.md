@@ -4,6 +4,17 @@ Last updated: 2026-10-04 (Phase 9: hosted Intel JSON-bound correction)
 
 ## Current phase
 
+**Public repository recognition correction (D-197):** the metadata push of
+`0b850e7` is verified. The real one-click link opened the correct add-repository
+dialog on the Green, but Supervisor rejected the repository as invalid. The
+required root `repository.yaml` was missing locally and publicly. It is now
+added with only the own name/URL/maintainer; a regression failed on the missing
+file before the correction. Runtime images and their source release remain
+unchanged. Public recognition/installation must be retested after the fix is
+pushed; no app was installed or started by this failed attempt.
+Full local gates exited 0: 4,818 passed / eleven unchanged platform skips,
+strict host/Linux mypy 238 files and unchanged 100% full/mandated line+branch.
+
 **Latest publication (D-196):** publisher `37159551965` completed successfully
 on runtime commit `d736c7a`: both native validations and both actual-image
 publishers, including exact source checks/non-overwrite/signing. The own numbered
@@ -17,7 +28,8 @@ public app ID/final card and beta announcement remain pending; no live HA change
 at this milestone. Earlier entries below describe prior states.
 Full install-metadata gates passed: 4,817 tests / eleven unchanged platform
 skips, strict mypy 238 files (host and Linux), unchanged 100% full/mandated
-line+branch coverage. Public main synchronization still remains pending.
+line+branch coverage. Public main synchronization of `0b850e7` is verified;
+the newer repository-recognition correction above still needs publication.
 
 **Latest correction (D-195):** personal main `3550186` is pushed, but Intel job
 `111301941395` in run `37156871737` failed three JSON-depth tests. Its Python

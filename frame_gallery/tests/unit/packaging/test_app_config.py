@@ -74,6 +74,18 @@ def test_the_files_are_what_the_script_writes() -> None:
     )
 
 
+def test_the_repository_has_required_metadata_at_its_git_root() -> None:
+    """Supervisor must recognize the public repository before listing its app."""
+    metadata = {
+        "name": "Frame Gallery",
+        "url": "https://github.com/volkue-tech/frame-gallery-ha",
+        "maintainer": "Alexander Wilke",
+    }
+    expected = "".join(f"{key}: {SCRIPT._scalar(value)}\n" for key, value in metadata.items())
+    assert (PROJECT.parent / "repository.yaml").read_text() == expected
+    assert (PROJECT / "config.yaml").is_file()
+
+
 def test_the_app_is_a_one_shot_without_extra_privileges() -> None:
     """§17.1, D-129, Q-16: what is set, and what is deliberately not set."""
     assert CONFIG["slug"] == "frame_gallery"
