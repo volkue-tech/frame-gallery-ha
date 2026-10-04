@@ -1245,7 +1245,7 @@ With the custom AppArmor profile, the security rating is 6.
 - `translations/en.yaml`, with each filter description stating which sources it applies to.
 - The one-click repository link is `https://my.home-assistant.io/redirect/supervisor_add_addon_repository/?repository_url=<encoded URL>`.
 
-*Amended at the Phase 6 gate (D-168, D-172).* `DOCS.md` covers installation, the first start and pairing, the options with the capability matrix, the user's own images, the draft dashboard (§16.3), the outcomes of the log line, the known limitations in plain language, starting over (Q-06), privacy, and the licences. The icon and logo are original geometric drawings, made by `scripts/app_images.py` without fonts or trademarks.
+*Amended at the Phase 6 gate (D-168, D-172).* `DOCS.md` covers installation, the first start and pairing, the options with the capability matrix, the user's own images, the draft dashboard (§16.3), the outcomes of the log line, the known limitations in plain language, starting over (Q-06), privacy, and the licences. The initial icon and logo were geometric drawings made by `scripts/app_images.py` without fonts or trademarks. The user-approved post-release brand refresh (D-201) replaces these presentation files with the independently AI-assisted Living Gallery Window mark; the exporter copies its committed transparent master unchanged.
 
 ### 17.5 Runtime environment
 

@@ -47,15 +47,28 @@ def _yaml_blocks() -> list[str]:
     return re.findall(r"```yaml\n(.*?)```", DOCS, re.DOTALL)
 
 
-def test_the_icon_and_logo_are_what_the_script_draws() -> None:
+def test_the_icon_and_logo_export_the_approved_master_without_pixel_changes() -> None:
     images = _images()
     for name, draw, size in (
-        ("icon.png", images.icon, (128, 128)),
-        ("logo.png", images.logo, (250, 100)),
+        ("icon.png", images.icon, (1254, 1254)),
+        ("logo.png", images.logo, (1254, 1254)),
     ):
         with Image.open(PROJECT / name) as committed:
             assert committed.size == size
-            assert ImageChops.difference(committed.convert("RGB"), draw()).getbbox() is None
+            assert committed.mode == "RGBA"
+            difference = ImageChops.difference(committed, draw())
+            assert all(band.getbbox() is None for band in difference.split())
+        assert (PROJECT / name).read_bytes() == images.MASTER.read_bytes()
+
+
+def test_the_approved_mark_has_transparent_corners_and_a_nearly_opaque_tile() -> None:
+    with _images().icon() as image:
+        alpha = image.getchannel("A")
+        assert alpha.getpixel((0, 0)) == 0
+        assert alpha.getpixel((image.width - 1, image.height - 1)) == 0
+        # Preserve the approved generated PNG: central alpha is 254, not 255.
+        assert alpha.getpixel((image.width // 2, image.height // 2)) >= 250
+        assert alpha.getextrema() == (0, 255)
 
 
 def test_the_script_writes_both_files(tmp_path: Path, monkeypatch: pytest.MonkeyPatch) -> None:
@@ -65,6 +78,8 @@ def test_the_script_writes_both_files(tmp_path: Path, monkeypatch: pytest.Monkey
     assert images.main() == 0
     assert (tmp_path / "icon.png").exists()
     assert (tmp_path / "logo.png").exists()
+    assert (tmp_path / "icon.png").read_bytes() == images.MASTER.read_bytes()
+    assert (tmp_path / "logo.png").read_bytes() == images.MASTER.read_bytes()
 
 
 def test_the_changelog_names_this_version() -> None:

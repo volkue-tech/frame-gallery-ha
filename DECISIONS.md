@@ -1,5 +1,37 @@
 # Decision log
 
+## Store brand refresh (2026-10-04)
+
+### D-201 — approved independent mark as repository presentation assets
+
+**Status:** user explicitly approved adopting and publishing the selected logo.
+
+The Living Gallery Window mark was designed independently with built-in Imagegen
+and approved after previewing at 32, 48 and 64 CSS pixels on light/dark surfaces.
+No predecessor or competitor image was used as a generation input. The transparent
+refinement removes only the exterior white corners. Commit the approved RGBA
+master and both prompts under `frame_gallery/assets/brand/`; export it unchanged
+to both Supervisor presentation PNGs through `scripts/app_images.py`.
+
+The master is 1254 × 1254 (1,044,252 bytes). Keep its exact approved pixels and
+alpha: Home Assistant requires a square PNG icon; 128 × 128 is a recommendation,
+not a required size, and the logo may have another size/aspect ratio
+([official presentation guidance](https://developers.home-assistant.io/docs/apps/presentation/)).
+Both exported PNGs are byte-identical; Git deduplicates their identical blob.
+The test-context allowlist includes the master so host/container presentation
+tests see the same source. No art-generation dependency or brand asset is copied
+into the runtime Docker stage, and the released container is not rebuilt.
+
+The registered personal GitHub repository is the authoritative store source.
+The official Supervisor code inspected at `bdcba61` updates its local Git copy
+and serves the icon/logo from local app paths
+([repository](https://github.com/home-assistant/supervisor/blob/bdcba61fc7c1500e96d2e319d07546f7b896e067/supervisor/store/repository.py),
+[store API](https://github.com/home-assistant/supervisor/blob/bdcba61fc7c1500e96d2e319d07546f7b896e067/supervisor/api/store.py)).
+No separate image hosting, brands-repository submission, registry publication,
+new release tag, app reinstall, dashboard edit or live HA mutation is authorized
+or needed for this publication. Store refresh and browser reload can be necessary;
+no particular live cache interval or refreshed Green display is claimed.
+
 ## App-store discoverability (2026-10-04)
 
 ### D-200 — searchable display metadata without a runtime release
@@ -2262,7 +2294,7 @@ Status: **accepted** (Phase 6 gate, user decision, 2026-10-03). The enforcement 
 - **Translations** say for each filter which sources it applies to (B8).
 - **`apparmor.txt`** is the §17.6 profile as a draft in complain mode for Phases 6 to 8 (D-129, D-139): the capabilities `setuid` and `setgid` (the drop to 65534), `chown` and `fsetid` (the workspace handed to the worker's group: the parent sets the setgid folders' mode after giving them a group it is not a member of, and without `fsetid` the kernel would clear the setgid bit), `dac_read_search` (the parent reads what a worker wrote, mode 0640 and owned by 65534), and `kill`; TCP and UDP over IPv4 and IPv6; raw and packet sockets denied; the S6-Overlay lines of Home Assistant's example profile; `/media` read-only except the preview; `/data` and `/tmp`. It also allows UNIX stream sockets, which s6-overlay's own s6-rc services presumably use; the Phase 8 complain log shows whether that is needed. A test holds the profile to §17.6. **Syntax check** (Codex, an external follow-up check at the Phase 6 gate, reported on 2026-10-03): `apparmor_parser -Q -T` accepted `apparmor.txt` in a temporary aarch64 container with exit code 0; its only warning was that the container lacks the kernel's AppArmor interface. This checks the syntax only, **not the enforcement**: whether the profile, loaded by the Green's kernel and enforced, lets the app and its workers run is not tested. Phase 8 runs it in complain mode and reads what it would refuse; Phase 9 enforces and verifies it.
 - **Documentation.** `DOCS.md` covers installation, the first start and pairing, the options and the capability matrix, the user's own images, a draft dashboard as copy-and-paste YAML (the Local File camera `camera.frame_gallery_preview`, the Running sensor `binary_sensor.frame_gallery_running`, the timer `timer.frame_gallery_run`, the script `script.frame_gallery_new_artwork`, the card, and an optional morning automation; the app ID `local_frame_gallery` for a local copy), the outcomes of the log line, the known limitations in plain language (R-29 among them), privacy, and the licences. Every entity ID is marked as expected until Phase 8 confirms it. `README.md` is the store text, and `CHANGELOG.md` starts at 0.1.0.dev0.
-- **Icon and logo** are original geometric drawings, made by `scripts/app_images.py` without fonts or trademarks; a test redraws them and compares the pixels.
+- **Initial icon and logo** were original geometric drawings, made by `scripts/app_images.py` without fonts or trademarks; a test redrew them and compared the pixels. The post-release user-approved mark/export supersedes this presentation detail (D-201); the released runtime image is unchanged.
 
 ### D-169 — `inspect` over parent-opened descriptors, in batches [§8.3, §11.3; D-149, D-163, D-164; Phase 5 gate decisions]
 

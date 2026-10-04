@@ -1,6 +1,27 @@
 # Project status
 
-Last updated: 2026-10-04 (app-store discoverability; released beta runtime unchanged)
+Last updated: 2026-10-04 (approved store logo; released beta runtime unchanged)
+
+## Store logo pass — 2026-10-04
+
+The user approved the independently Imagegen-designed Living Gallery Window
+mark and explicitly authorized adopting/publishing it on personal GitHub
+(D-201). Its transparent master and prompts are recorded under assets/brand;
+the existing exporter now copies the approved pixels unchanged to the store
+icon and app-page logo. Alpha preservation and byte-identical export are tested.
+The design was visually checked at 32, 48 and 64 CSS pixels on light/dark surfaces.
+Full local quality gates passed: Ruff, strict mypy for host/Linux (240 files),
+4,834 tests passed, eleven unchanged Linux/root-only skips, 100% line/branch
+coverage (9,201 statements / 1,972 branches), and `git diff --check`. The image
+exports match the approved preview/master byte-for-byte, including alpha;
+SHA256 is `0a9b228920c140406f4dce9feb8d411b96d93d0bb65a9f8ae78601e82bb5be45`.
+The first transparency regression assumed center alpha 255; inspection found
+254 in the approved PNG. The regression now allows nearly opaque center alpha
+(at least 250) while requiring fully transparent corners, alpha extrema 0/255,
+and exact source/output equality; no pixel was changed to satisfy a test.
+The public push is pending at this pre-publication checkpoint. Runtime, app
+configuration, version, release images/tags, dashboard, live HA and TV are
+unchanged. No live store refresh, container rerun or new release is claimed.
 
 ## App-store metadata pass — 2026-10-04
 
@@ -17,6 +38,12 @@ statements / 1,972 branches). The metadata generator's check and `git diff --che
 passed. Official frontend search code was fetched read-only from its pinned
 commit; the installed frontend and live refreshed store were not inspected.
 The user-approved public push remains pending at this pre-publication checkpoint.
+Publication subsequently completed: commit
+`7ea233c1b0626368191b5c57051b2b42fe380dfa` is public on personal `main`, verified
+through anonymous `ls-remote`. Its public generated app config matched the local
+tested config byte-for-byte. The one-push token process ended. This receipt is
+local follow-up documentation, not part of that published commit. No live HA
+store refresh or search test was performed.
 
 ## Documentation improvement pass — 2026-10-04
 

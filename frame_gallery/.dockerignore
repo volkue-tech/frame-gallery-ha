@@ -12,6 +12,7 @@
 !src/frame_gallery/
 !tests/
 !scripts/
+!assets/brand/
 !examples/
 !config.yaml
 !translations/

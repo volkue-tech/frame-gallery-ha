@@ -1,0 +1,4 @@
+Built-in Imagegen, transparent-edge refinement of the independently generated v1.
+
+Use case: background-extraction / logo-brand.
+Edit the supplied Frame Gallery logo candidate. Preserve the logo mark exactly: the existing midnight-navy rounded-square tile, its warm-ivory horizontal gallery frame, the coral/vermilion folded ribbon and ochre reverse surface, composition, proportions, colors and safe padding. Change ONLY the white background outside the rounded-square tile to true alpha transparency. The dark navy inside the tile remains fully opaque. Do not crop the canvas, do not change corner radii, do not redraw or restyle the logo, do not add any text or other elements. Clean antialiased edge with no white halo. Output one standalone transparent PNG icon.
