@@ -242,6 +242,13 @@ approval. Existing release prerequisites remain mandatory.
   *Prepared in README/app guide using the official repository redirect and exact
   personal URL; still marked installation candidate. Live redirect/install
   verification and public metadata push remain pending.*
-- [ ] Finalize the dashboard card with the slug observed after installing from the public repository.
-- [ ] Verify clean installation on Home Assistant Green from the public repository.
+- [x] Finalize the dashboard card with the slug observed after installing from the public repository.
+  *D-198: `a94fc569_frame_gallery`; full script/card in DOCS and exact installed
+  beta examples. Native preview refreshed and timer loading ended on both runs.*
+- [x] Verify clean installation on Home Assistant Green from the public repository.
+  *D-198: separate store install after `60f22c4`, two delivered runs (21.2/17.3 s),
+  physical first-image confirmation, safe invalid-option refusal/restoration,
+  zero temporary counts, protection/profile settings and app-only backup checked.
+  Public kernel negative probes/fresh pairing were not repeated. Corrected root
+  repository test still needs fresh hosted CI before final announcement.*
 - [ ] Publish release notes and known limitations.

@@ -88,8 +88,9 @@ other technical gates. The workflow requires an explicit reviewed commit/source
 hash and rejects development versions. Its first numbered image publication
 passed source preflight and native tests; public sources and both signed image
 digests were subsequently checked independently without authentication (D-196).
-That observed distribution evidence is not an independent legal opinion or a
-completed clean public Green installation.
+The separate clean public Green installation and two live deliveries subsequently
+passed (D-198). Neither distribution nor installation evidence is an independent
+legal opinion; final corrected CI and the beta announcement remain pending.
 
 This document records the applicability/risk assessment and a practical compliance
 plan. It does not declare an unpublished source bundle publicly available, mark

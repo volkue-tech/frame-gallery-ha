@@ -1,5 +1,80 @@
 # Phase 9 progress report
 
+## Public Green installation and live checkpoint (2026-10-04, D-198)
+
+The pushed `60f22c4` repository was recognized through the official one-click
+link. A separate public app installed from the store using the pre-built image,
+version `0.1.0b1`, slug `a94fc569_frame_gallery`. End-user installation used no
+SSH, console, Docker setup or configuration-file edit. With explicit approval,
+only the new app/options and separate beta timer/script/dashboard were created.
+The existing Local File camera was reused unchanged because its preview path
+was already registered. Installed complete examples are in
+`frame_gallery/examples/public-beta-test-{card,script}.yaml`.
+
+Options: Cleveland, unrestricted department/period, landscape and strict-TV
+preference enabled, contain/black margins, private TV IPv4, explicit beta timer.
+The one-shot app has manual boot, watchdog/automatic updates off and is stopped
+after the tests. Old apps/scripts/history were not reset or uninstalled.
+
+| Actual UTC run | Result | Elapsed | Preview / temporary storage |
+| --- | --- | --- | --- |
+| 09:18:34–09:18:55 | `cma:155056`, strict, delivered; connected/upload_started/uploaded/selected | 21.2 s | 676,472 bytes; scratch/tmp/run counts zero |
+| 09:21:01 | `0.0.0.0` rejected, `config_invalid`, before discovery/TV | 0.0 s rounded | preceding preview preserved |
+| 09:27:22–09:27:39 | `cma:110817`, fallback, delivered; same four TV markers | 17.3 s | 605,737 bytes; scratch/tmp/run counts zero |
+
+Both normal previews changed without reload and loading ended with acknowledged
+timer completion. The user physically confirmed the first image, the red-figure
+drinking cup, on the TV. The second preview displayed the complete Elephant
+Bridge object without crop; physical second-image confirmation was not requested.
+The real TV address was saved and independently verified after the invalid-address
+test and before the second delivery. Both normal searches evaluated 150 candidates;
+their zero-excluded logs alone do not prove encountering a prior sent candidate.
+
+Supervisor reports protection on, custom AppArmor profile, no host network, no
+full access and no extra privileges. The backup's installed profile SHA256 is
+`a638683439ce357d446a0244b4fd737f4ac795f353836eac820bd9ffb972e577`,
+exactly matching the reviewed file with only the root name changed to the public
+slug. No complain flag occurs. This is stored-policy/setting evidence, not a
+repeated public kernel-label/socket-negative probe. Earlier development-app
+enforcement probes remain separately recorded; fresh authorization was not reset.
+
+Approved app-only checkpoint: local backup `e779415c`,
+`/backup/frame-gallery-public-beta-20261004.tar`, 20,480 bytes. Streamed read-only
+inspection confirmed two unique history IDs, one-entry previous generation,
+two uploaded ledger entries consistent with history and `cma:110817` as the new
+entry. No key/quarantine/cache contents were included. Final state statistics:
+seven files / 1,931 bytes, cache one file / 188 bytes, preview one file, scratch
+zero files/bytes. About 14.7 GB remained free. Source bundles stay on Mac/GitHub,
+not on the Green. No older backup or record was deleted.
+
+Hosted `37185516101` failed the repository regression because the app-only build
+context lacks the outer descriptor; native ARM reproduced that exact failure.
+The actual root check is now mandatory in the host gate, with portable fixture
+tests in containers. No skips/coverage gates/runtime/image changes. Corrected
+local full gates exited 0: Mac 4,830 / eleven existing platform skips, strict
+host/Linux mypy 240 files; native ARM 4,836 / five root-only skips and all five
+separate root checks. Full coverage remains 9,201 statements / 1,972 branches,
+mandated coverage 7,543 / 1,640, all 100%. Logs:
+`build/phase9/check-public-green-docs-20261004.log` and
+`build/phase9/container-public-green-final-suite-20261004.log`.
+Fresh corrected hosted CI and final beta announcement remain pending; published
+runtime/source commit `d736c7a` and image digests are unchanged.
+
+The final documentation gate caught the former development-slug assertion;
+the test now requires the observed public slug and cross-checks the installed
+beta examples. Final Mac gates passed with the same counts/coverage:
+`build/phase9/check-public-green-release-corrected-20261004.log`.
+An ARM invocation initially omitted its supplementary test group (4,834 passes /
+seven skips); the final invocation restores that group rather than accepting
+two extra skips. Its final result is recorded separately before commit.
+Final native ARM invocation exited 0: 4,836 passed / the five unchanged root-only
+skips, full 100% line/branch; all five separate root checks also exited 0.
+Log: `build/phase9/container-public-green-release-final-groups-20261004.log`.
+The beta announcement is saved only as a private untagged prerelease draft
+(`untagged-5568b4641087d92ed6f7`). Tag/target must be checked against the corrected
+public commit after its fresh hosted checks, before publishing; no beta tag or
+public beta announcement was created by saving the draft.
+
 ## Public repository recognition (2026-10-04, D-197)
 
 The personal metadata push is verified at `0b850e7`. The official one-click

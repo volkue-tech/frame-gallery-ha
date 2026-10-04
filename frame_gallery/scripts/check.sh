@@ -5,6 +5,9 @@ cd "$(dirname "$0")/.."
 
 BIN=.venv/bin
 
+echo "== actual root app repository metadata (host checkout only)"
+"$BIN/python" scripts/repository_config.py
+
 echo "== actual CI workflow shell defaults (host checkout only)"
 "$BIN/python" scripts/ci_defaults.py
 

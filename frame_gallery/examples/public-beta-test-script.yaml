@@ -1,0 +1,20 @@
+alias: Frame Gallery Beta New Artwork
+description: Separate public-beta test. The app ends its loading timer after cleanup; expiry is the fail-safe.
+mode: single
+sequence:
+  - condition: state
+    entity_id: timer.frame_gallery_beta_run
+    state: idle
+  - action: timer.start
+    target:
+      entity_id: timer.frame_gallery_beta_run
+    data:
+      duration: "00:02:30"
+  - action: hassio.app_start
+    data:
+      app: a94fc569_frame_gallery
+    continue_on_error: true
+  - wait_template: "{{ not is_state('timer.frame_gallery_beta_run', 'active') }}"
+    timeout: "00:02:30"
+    continue_on_timeout: true
+  - delay: "00:00:04"

@@ -1,5 +1,40 @@
 # Decision log
 
+## Public installation checkpoint (2026-10-04)
+
+### D-198 — public Green verification and portable repository regression
+
+Status: within the authorized Phase 9 publication/live-test scope; final
+corrected hosted checks and beta announcement remain required.
+
+The corrected repository at `60f22c4` was recognized and its separate pre-built
+`0.1.0b1` app installed through the official UI. Public slug is
+`a94fc569_frame_gallery`. Two normal card-started deliveries, immediate invalid
+configuration refusal, preview/loading completion, cleanup and a local app-only
+backup passed in the exact scope recorded in PHASE9_REPORT. Preserve the older
+app/history; the new app starts its own history. The existing Local File camera
+was reused unchanged because HA refuses a duplicate integration for the same
+preview path; separate beta timer/script/dashboard were created with approval.
+
+Hosted run `37185516101` failed the new root-descriptor pytest check: the app-only
+container build context correctly contains no outer `repository.yaml`. Native
+ARM reproduced the failure. Actual root/app-descriptor checks now run as a
+mandatory fail-closed host gate in `check.sh`, while synthetic fixtures run on
+both platforms. Missing/linked/invalid descriptors still fail; no skip, fallback,
+coverage exemption, runtime/dependency/image change or rebuild is introduced.
+Full Mac gates passed (4,830 / eleven existing skips, strict mypy 240 files,
+100% line/branch); native ARM passed (4,836 / five root-only skips plus five
+separate root checks). Final hosted native verification remains mandatory.
+The final documentation check also caught the presentation regression's old
+development slug. It now requires the observed public slug and cross-checks
+the complete installed beta examples; all other assertions remain intact.
+
+The installed AppArmor backup equals the reviewed file after only Supervisor's
+root-profile name substitution. Supervisor reports protection/custom profile,
+no host network/full access/privileged capabilities. These observations are not
+a new public-install kernel label/socket-negative probe; the earlier enforced
+development-app probe evidence and fresh-pairing limitation remain explicit.
+
 ## Public repository recognition (2026-10-04)
 
 ### D-197 — required root repository descriptor

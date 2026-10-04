@@ -1,8 +1,36 @@
 # Project status
 
-Last updated: 2026-10-04 (Phase 9: hosted Intel JSON-bound correction)
+Last updated: 2026-10-04 (Phase 9: public Green installation and live verification)
 
 ## Current phase
+
+**Latest checkpoint (D-198):** the separate public `0.1.0b1` app installed
+successfully through the official repository link/app store after `60f22c4`.
+Observed slug: `a94fc569_frame_gallery`. No SSH/build/configuration-file change
+was needed to install it. Two card-started Cleveland deliveries completed in
+21.2 s and 17.3 s; the user physically confirmed the first TV image. The second
+used the bounded aspect-ratio fallback without cropping. Both refreshed the
+native preview without reload, ended loading, and left scratch/tmp/run counts
+zero. Invalid TV address `0.0.0.0` ended immediately before discovery/TV contact;
+the real address was restored and verified before the second delivery.
+Protection/custom profile/no host network/no extra privilege are confirmed.
+The installed profile matches the reviewed policy exactly after Supervisor's
+slug substitution; public-install kernel negative probes were not repeated.
+The app-only local backup `e779415c` holds two unique confirmed history entries
+and two consistent uploaded ledger entries. About 14.7 GB remained free.
+
+The root-descriptor regression in `60f22c4` exposed an app-only-container fixture
+error in hosted run `37185516101`. D-198 moves actual root-file verification to
+a mandatory host gate and uses portable fixture tests in containers, without
+adding skips or changing runtime/images. Corrected Mac gates: 4,830 passed /
+eleven unchanged platform skips, strict host/Linux mypy 240 files, 100% full and
+mandated line/branch coverage. Native ARM: 4,836 passed / five root-only skips,
+plus all five separate root checks. Final corrected push/hosted CI and the beta
+announcement remain pending. Earlier pending-install entries below are history.
+Final Mac rerun and native ARM rerun retain those passing counts/coverage; the
+public-slug documentation test cross-checks both installed beta YAML examples.
+The announcement is saved as a private untagged prerelease draft only. Its
+target/tag will be rechecked after corrected push and hosted success.
 
 **Public repository recognition correction (D-197):** the metadata push of
 `0b850e7` is verified. The real one-click link opened the correct add-repository

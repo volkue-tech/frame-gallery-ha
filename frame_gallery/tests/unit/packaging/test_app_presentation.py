@@ -81,7 +81,15 @@ def test_the_dashboard_yaml_is_complete_and_consistent() -> None:
     """G1: script, card, and the scheduling example, copy-and-paste ready,
     and all of them use the same entity IDs and app ID."""
     script, card, automation = _yaml_blocks()
-    assert "app: local_frame_gallery" in script
+    assert "app: a94fc569_frame_gallery" in script
+    assert "app: local_frame_gallery" not in script
+    installed_script = (PROJECT / "examples/public-beta-test-script.yaml").read_text()
+    installed_card = (PROJECT / "examples/public-beta-test-card.yaml").read_text()
+    assert "app: a94fc569_frame_gallery" in installed_script
+    assert installed_script.count("timer.frame_gallery_beta_run") == 3
+    assert "timer.frame_gallery_beta_run" in installed_card
+    assert "script.frame_gallery_beta_new_artwork" in installed_card
+    assert "camera.frame_gallery_test_preview" in installed_card
     assert script.count("timer.frame_gallery_run") == 3
     assert "binary_sensor.frame_gallery_running" not in script
     assert "repeat:" not in script

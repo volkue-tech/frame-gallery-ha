@@ -2,7 +2,7 @@
 
 Frame Gallery sends one fresh artwork to a Samsung Frame TV each time you start it, then stops. It picks a public-domain work from the Art Institute of Chicago, an open-access work from the Cleveland Museum of Art, or one of your own images; prepares it for the TV's 16:9 screen without cropping (unless you ask for it); uploads it; shows it; and keeps a preview for your dashboard. It never shows the same work twice while unsent works remain.
 
-> **Status: 0.1.0b1 install candidate.** Signed pre-built ARM/Intel images and matching sources are publicly available and independently verified. Development-app Green/TV tests passed delivery, preview refresh, bounded loading, cleanup and enforced isolation. The separate clean public-repository installation and its public app ID remain under verification; the dashboard script below is still a development example. This is not yet the final beta announcement. See `PHASE9_REPORT.md` at the repository root.
+> **Status: 0.1.0b1 public beta candidate.** Signed pre-built ARM/Intel images and matching sources are publicly available and independently verified. Separate public-repository installation on Green, two live TV deliveries, preview refresh, loading completion and cleanup passed. The public app ID below was observed, not guessed. Final corrected CI and the beta announcement remain pending. See `PHASE9_REPORT.md` at the repository root for scope and limitations.
 
 Frame Gallery is an independent project. It is not made, endorsed, or supported by Samsung, by the museums, or by Home Assistant.
 
@@ -17,7 +17,7 @@ No SSH, no command line, and no change to `configuration.yaml` is needed at any 
 
 ## Installation
 
-[Add the repository to Home Assistant](https://my.home-assistant.io/redirect/supervisor_add_addon_repository/?repository_url=https%3A%2F%2Fgithub.com%2Fvolkue-tech%2Fframe-gallery-ha), or use `https://github.com/volkue-tech/frame-gallery-ha` in the repository dialog. Installation downloads the already built image; your Green does not compile the app or need SSH. The clean-install candidate is still being checked, as stated above.
+[Add the repository to Home Assistant](https://my.home-assistant.io/redirect/supervisor_add_addon_repository/?repository_url=https%3A%2F%2Fgithub.com%2Fvolkue-tech%2Fframe-gallery-ha), or use `https://github.com/volkue-tech/frame-gallery-ha` in the repository dialog. Installation downloads the already built image; your Green does not compile the app or need SSH. This path passed a separate public Green installation.
 
 1. Add the repository in **Settings → Apps → App store → ⋮ → Repositories**, or use the one-click link from the release notes.
 2. Open **Frame Gallery** in the app store and select **Install**. Home Assistant downloads the image for your device (`aarch64` for the Green, `amd64` for a PC).
@@ -71,11 +71,11 @@ Each filter option has a matching helper option. Create a dropdown helper (**Set
 
 Put JPEG and PNG files into the folder `frame_gallery/library` of Home Assistant's media, for example with **Media → My media → frame_gallery → library → Upload** (to be confirmed in the supervised test). The app creates the folder the first time it runs with your own images as the source. It looks at most four folder levels deep and at most 20 000 entries, skips hidden files, links, and files over 40 MiB, and lists the files it skipped in one warning. The preview folder is never used as a source.
 
-## Dashboard (draft)
+## Dashboard
 
-The dashboard shows the artwork on the TV and starts the app with a tap. It consists of a camera for the preview, a timer for the "Updating artwork…" note, a script, and a card, all created in the user interface. The entity IDs below are the expected ones; check them in **Settings → Devices & services → Entities** and adjust the YAML if yours differ. The app's ID is `local_frame_gallery` for a local development copy; the release notes name it for the public repository.
+The dashboard shows the latest preview and starts the app with a tap. It consists of a camera for the preview, a timer for the "Updating artwork…" note, a script, and a card, all created in the user interface. The entity IDs below are the expected ones; check them in **Settings → Devices & services → Entities** and adjust the YAML if yours differ. The observed public app ID is `a94fc569_frame_gallery`. Check the app-page URL if yours differs; do not use a local development slug.
 
-1. **Preview camera.** **Settings → Devices & services → Add integration → Local File**. Name: `Frame Gallery Preview`. File path: `/media/frame_gallery/preview/latest.jpg`. Expected entity: `camera.frame_gallery_preview`.
+1. **Preview camera.** Start the app once successfully so the preview file exists. Then **Settings → Devices & services → Add integration → Local File**. Name: `Frame Gallery Preview`. File path: `/media/frame_gallery/preview/latest.jpg`. Expected entity: `camera.frame_gallery_preview`. If this path is already configured, reuse its existing camera entity in the complete card below; HA refuses a duplicate Local File integration for the same path. Multiple installations share this latest-preview path but retain separate private histories.
 2. **Loading completion.** Running is optional diagnostics only; it is not needed by the card.
 3. **Timer.** **Settings → Devices & services → Helpers → Create helper → Timer**. Name: `Frame Gallery run`. Duration: `0:02:30`. Expected entity: `timer.frame_gallery_run`.
    In the app's Configuration tab, set **Dashboard loading timer** (`loading_timer`) to this exact entity ID. Use a separate timer for each app. The app cancels it after cleanup; expiry remains the fail-safe if completion cannot be reported.
@@ -96,7 +96,7 @@ sequence:
       duration: "00:02:30"
   - action: hassio.app_start
     data:
-      app: local_frame_gallery
+      app: a94fc569_frame_gallery
     continue_on_error: true
   - wait_template: "{{ not is_state('timer.frame_gallery_run', 'active') }}"
     timeout: "00:02:30"
@@ -133,7 +133,7 @@ cards:
       content: Updating artwork…
 ```
 
-**Loading behavior (D-176):** the app ends the explicitly configured timer after cleanup on delivery, no-match or graceful cancellation. Idle means finished, not necessarily successful; check the app log for its outcome. Failed start, hard kill or a failed notification leaves loading bounded by the timer's 150-second expiry. Preview refresh is independent. Starting the app needs an administrator account. Live verification of this corrected setup is recorded in `PHASE8_REPORT.md`; the public slug is still provisional.
+**Loading behavior (D-176):** the app ends the explicitly configured timer after cleanup on delivery, no-match or graceful cancellation. Idle means finished, not necessarily successful; check the app log for its outcome. Failed start, hard kill or a failed notification leaves loading bounded by the timer's 150-second expiry. Preview refresh is independent. Starting the app needs an administrator account. Development failure-path tests are recorded in `PHASE8_REPORT.md`; separate public delivery/loading and invalid-option checks are in `PHASE9_REPORT.md`.
 
 **A new artwork every morning (optional).** **Settings → Automations & scenes → Create automation → ⋮ → Edit in YAML**:
 
@@ -150,7 +150,15 @@ actions:
 mode: single
 ```
 
-**Supervised development setup.** The separate Green test uses `camera.frame_gallery_test_preview`, `timer.frame_gallery_test_run`, `binary_sensor.frame_gallery_test_aktiv`, `script.frame_gallery_test_new_artwork`, and app ID `local_frame_gallery_dev`. Complete installed configurations are in [the test card](examples/phase8-test-card.yaml) and [the test script](examples/phase8-test-script.yaml). Local File accepted the media path without a configuration-file edit. Native preview refresh passed repeated card, actual event-automation and app-page starts without reload or a camera-update action, and preserved the preview on no-match and cancellation. One recovery run's screenshot bounds refresh to at most 14 seconds after publication, not a timing guarantee for every installation. The one-shot test automation remains disabled. App-owned timer completion and its 150-second fail-safe passed the documented delivery/no-match/cancellation/notification-failure tests. Public app-ID confirmation remains pending.
+**Supervised development setup.** The separate Green test uses `camera.frame_gallery_test_preview`, `timer.frame_gallery_test_run`, `binary_sensor.frame_gallery_test_aktiv`, `script.frame_gallery_test_new_artwork`, and app ID `local_frame_gallery_dev`. Complete installed configurations are in [the test card](examples/phase8-test-card.yaml) and [the test script](examples/phase8-test-script.yaml). Local File accepted the media path without a configuration-file edit. Native preview refresh passed repeated card, actual event-automation and app-page starts without reload or a camera-update action, and preserved the preview on no-match and cancellation. One recovery run's screenshot bounds refresh to at most 14 seconds after publication, not a timing guarantee for every installation. The one-shot test automation remains disabled. App-owned timer completion and its 150-second fail-safe passed the documented delivery/no-match/cancellation/notification-failure tests.
+
+**Separate public beta setup.** The observed `a94fc569_frame_gallery` installation
+uses its own `timer.frame_gallery_beta_run`, `script.frame_gallery_beta_new_artwork`
+and Frame Gallery Beta dashboard. It reuses the unchanged existing preview camera.
+Exact complete installed configurations: [public beta card](examples/public-beta-test-card.yaml)
+and [public beta script](examples/public-beta-test-script.yaml). Both public normal
+runs updated the preview without reload and ended loading. Do not copy these test
+entity names into a new installation unless those entities exist there.
 
 ## Reading the log
 
@@ -186,7 +194,7 @@ Every run ends with one line such as `outcome=delivered exit=0 elapsed=23.4`. Wh
 - **The connection to the TV is not certificate-checked.** The TV's local interface uses a certificate that cannot be verified; whether to pin it is decided after the supervised test. Keep the TV's address reserved in your router.
 - **Another app uploading at the same moment** could, in rare cases, make the TV show that app's image instead; your artwork is still stored on the TV and is not sent again.
 - **Old artworks stay on the TV.** The app does not delete earlier uploads from the TV's memory.
-- **Isolation is enforced.** The parent and workers use enforced AppArmor profiles. Image workers additionally cannot create network sockets; the TV worker can use IPv4 TCP, not UDP. These restrictions were tested in the separate development app on the Green. The clean public installation still needs its own re-check.
+- **Isolation is enforced by design.** The parent and workers use enforced AppArmor profiles. Image workers additionally cannot create network sockets; the TV worker can use IPv4 TCP, not UDP. These restrictions were tested in the separate development app on the Green. The public installation's protection/profile settings and stored profile bytes were checked, and normal runs succeeded; its kernel negative probes were not repeated.
 
 ## Starting over
 

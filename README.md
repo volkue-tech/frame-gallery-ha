@@ -1,6 +1,6 @@
 # Frame Gallery for Home Assistant
 
-Frame Gallery is an independently implemented Home Assistant app for displaying curated artwork on compatible Samsung Frame televisions. **0.1.0b1 is a public install candidate; the clean public-repository Green test is still pending.** It is not yet the final beta announcement.
+Frame Gallery is an independently implemented Home Assistant app for displaying curated artwork on compatible Samsung Frame televisions. **0.1.0b1 has passed separate public-repository installation and live delivery on Home Assistant Green.** Final corrected documentation/test CI and the beta announcement are pending.
 
 This repository contains the product specification, architecture and independently implemented app (`frame_gallery/`). It intentionally contains no application code copied or adapted from predecessor projects.
 
@@ -46,8 +46,11 @@ signatures verified against the own workflow, issuer and exact commit.
 [Matching sources](https://github.com/volkue-tech/frame-gallery-ha/releases/tag/sources-v0.1.0b1)
 are public and anonymously hash-verified. App-store metadata added afterward
 selects those already verified images; it does not rebuild or retag them.
-The separate clean public-repository Green installation, observed public app ID
-and final beta announcement remain pending. Current state: `STATUS.md` and `TASKS.md`.
+The separate public-repository Green installation passed, with observed app ID
+`a94fc569_frame_gallery`. Two live deliveries refreshed the preview and ended
+loading; the user confirmed the first image on the TV. Invalid configuration
+ended safely and temporary files were cleaned. Final corrected test/documentation
+CI and the beta announcement remain pending. Current state: `STATUS.md` and `TASKS.md`.
 
 In the first beta, the Art Institute offers the period filter, and Cleveland
 offers department and period; no source offers a colour filter (see
@@ -72,7 +75,7 @@ The two museum sources use only their documented open-access APIs and CC0 images
 - `TASKS.md`
 - `STATUS.md`
 - `DECISIONS.md`
-- `THIRD_PARTY_NOTICES.md` (provisional)
+- `THIRD_PARTY_NOTICES.md` (component inventory and retained original notices)
 - `RELEASE_CANDIDATE.md` (the report of the offline release validation)
 - `PHASE8_REPORT.md` (supervised Green/TV development tests)
 - `PHASE9_REPORT.md` (release hardening and remaining gates)
