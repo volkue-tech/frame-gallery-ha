@@ -1,6 +1,6 @@
 # Changelog
 
-## 0.1.0b3 (release candidate; validation in progress)
+## 0.1.0b3 (public beta)
 
 - Wikimedia Commons: 50 curated landscape works of classical modernism, no
   registration or API key. Current rights, pinned file identity and bounded
@@ -10,8 +10,11 @@
   unused colour compatibility option. Existing saved options remain accepted.
 - German configuration labels and concise source/no-crop/16:9 explanations.
 - Commons project contact is volkue+commonsapi@gmail.com; no user email required.
-- Local tests and all 50 live metadata records passed. Native image and Green/TV
-  validation remain pending; do not interpret this candidate as a released build.
+- Local tests and all 50 live metadata records passed. Native ARM/Intel actual
+  images and independent signatures passed. The existing public Green app was
+  upgraded without reinstall/reset; two distinct Commons deliveries refreshed
+  preview/caption and finished loading/cleanup. The user confirmed the second
+  work on the TV. Landscape means wider than tall, not a guarantee of small margins.
 
 ## 0.1.0b2 (public beta)
 

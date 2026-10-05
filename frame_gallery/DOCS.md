@@ -1,8 +1,8 @@
 # Frame Gallery
 
-> 0.1.0b3 release candidate: the new [50-work Wikimedia Commons source](COMMONS.md)
-> is implemented locally but not available in the published 0.1.0b2 image yet.
-> Existing setup instructions and dashboard entities remain unchanged.
+> **New in 0.1.0b3:** [50 curated Wikimedia Commons works](COMMONS.md), no API key,
+> and clearer English/German configuration. Update without uninstalling; your
+> existing camera, timer, script and optional artwork-information helper still work.
 
 One start, one fresh artwork on your Samsung Frame. Choose museum artwork or your own images, preserve the whole work without cropping by default, and optionally see the latest successful preview on your Home Assistant dashboard.
 
@@ -10,7 +10,7 @@ One start, one fresh artwork on your Samsung Frame. Choose museum artwork or you
 
 *Illustration, not a screenshot. The dashboard is optional and is configured separately; installation does not add a card automatically.*
 
-> **[0.1.0b2 public beta](https://github.com/volkue-tech/frame-gallery-ha/releases/tag/v0.1.0b2).** The optional title/artist/museum card was software-tested on Home Assistant Green; physical TV confirmation of the b2 runs is deferred. Earlier b1 installation and physical-TV evidence remains documented. Compatibility with every TV model is not guaranteed.
+> **[0.1.0b3 public beta](https://github.com/volkue-tech/frame-gallery-ha/releases/tag/v0.1.0b3).** Native ARM/Intel checks and signatures passed. The existing public Green app was upgraded and two Commons works delivered; preview/text/loading/cleanup passed, and the user confirmed the second work on the TV. [Exact scope and limitations](https://github.com/volkue-tech/frame-gallery-ha/blob/main/BETA3_VALIDATION.md). Compatibility with every TV model is not guaranteed.
 
 **Start here:** [Install](#installation) → [Show your first artwork](#first-start-and-pairing) → [Add the dashboard card](#dashboard).
 
@@ -216,7 +216,7 @@ mode: single
 | Option | What it does | Default |
 | --- | --- | --- |
 | TV address | The TV's IPv4 address. Only private home-network addresses are accepted. | none: required |
-| Artwork source | `art_institute_chicago`, `cleveland_museum_of_art`, or `local_media` (your own images). Local unreleased extension: `wikimedia_commons` (50 curated works, no key). | `art_institute_chicago` |
+| Artwork source | `art_institute_chicago`, `cleveland_museum_of_art`, `local_media` (your own images), or `wikimedia_commons` (50 curated works, no key; b3 and newer). | `art_institute_chicago` |
 | Department (Cleveland only) | A department of the Cleveland Museum of Art, or `any`. | `any` |
 | Period (both museums) | `period_before_1400`, `period_1400_1599`, `period_1600_1799`, `period_1800_1899`, `period_1900_and_later`, or `any`. | `any` |
 | Colour | Only `any`: no source supports a colour filter yet. | `any` |
@@ -233,7 +233,7 @@ The full list of department and period values, with their labels and the other s
 
 ### Which filter works with which source
 
-| Filter | Your own images | Art Institute of Chicago | Cleveland Museum of Art | Wikimedia Commons (unreleased) |
+| Filter | Your own images | Art Institute of Chicago | Cleveland Museum of Art | Wikimedia Commons |
 | --- | --- | --- | --- | --- |
 | Department | not supported | not supported | supported | not supported |
 | Style | not supported | not supported | not supported | not supported |

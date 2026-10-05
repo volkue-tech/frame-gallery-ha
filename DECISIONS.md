@@ -2,6 +2,35 @@
 
 ## Commons beta and configuration UX (2026-10-05)
 
+### D-208 — verified b3 publication and in-place Green evidence
+
+The approved frozen runtime/source is `15644bf0f42b24e89621020fce9f511942237832`.
+Both native validations and actual publisher jobs passed. Anonymous pulls,
+tag/digest byte comparison, actual version/revision/platform labels and independent
+Cosign verification passed. The matching source download and all four evidence
+ZIPs matched their public hashes. See [b3 validation](BETA3_VALIDATION.md) for
+digests, signatures, source receipt, exact test counts and measurement scope.
+No older image/source tag was overwritten; no dependency pin or notice changed.
+
+Only after those gates, public main exposed b3 and the existing Green app was
+updated through its UI with previous-version backup retention enabled. No
+reinstall, history reset, card/helper recreation, SSH or configuration.yaml
+edit. Only source/strict-format options changed; the German UI, existing
+script/card, two distinct Commons deliveries, explicit repeat exclusion,
+preview/caption/loading completion and bounded cleanup were observed. The user
+confirmed the second work physically. Both publisher variables were disabled
+and read back. The new screenshot contains only the cards and public artwork.
+
+The old token session expired at its fixed 45-minute boundary and was not
+extended or persisted. The user supplied the same personal credential privately
+for a fresh, same-scope Store/completion push. Normal API app-info returned 401
+and was not retried; authenticated UI was used for the Green test.
+
+User feedback: landscape-only (>1:1) can still leave large side margins, as
+Macke's approximately 1.21:1 work demonstrated. A minimum broader ratio is
+a possible future product decision; no frozen b3 code/configuration definition
+was changed after its exact-source/native validation.
+
 ### D-207 — autonomous b3 preparation and preserved configuration
 
 The user explicitly asked to carry out the next beta build/Green test

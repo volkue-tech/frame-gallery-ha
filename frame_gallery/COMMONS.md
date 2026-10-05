@@ -1,7 +1,7 @@
 # Wikimedia Commons selection
 
-> Local development branch only: **not available in the published 0.1.0b2 app**.
-> A new validated beta is required before selecting this source on the Green.
+> Available in **0.1.0b3 and newer**. Update the existing app without
+> uninstalling it; the original dashboard setup remains compatible.
 
 ## What you get
 
@@ -9,7 +9,7 @@
 geometric compositions and a few quieter works of classical modernism.
 Not a promise of contemporary, still-copyrighted artists.
 
-In the source-enabled release, select **Artwork source → wikimedia_commons** in
+Select **Artwork source → wikimedia_commons** in
 the app's Configuration tab, save, and use your existing dashboard button.
 No account, API key, new helper or extra dashboard extension. Optional title/
 artist display continues to use the existing Text helper.
@@ -24,6 +24,19 @@ None is near-exact 16:9; the normal bounded fallback can use them with margins.
 Turning strict TV format off avoids the search for a 16:9 match that this initial
 selection cannot supply. Do not use `cover` with strict format on: that mode
 has no safe shape fallback. Source selection does not change your options.
+
+**Landscape does not mean widescreen.** The current option means wider than
+tall. Some works, such as Macke's *Garten am Thunersee* (about 1.21:1), still
+have substantial side margins on a 16:9 TV. This is the no-crop behaviour,
+not a failed transfer. A more selective width/ratio option is a possible future
+improvement, not available in b3.
+
+![Actual Commons dashboard preview with optional artist/title information](https://raw.githubusercontent.com/volkue-tech/frame-gallery-ha/main/docs/images/dashboard-commons.png)
+
+*Actual b3 Green screenshot: Theo van Doesburg, [Counter-composition XVI](https://commons.wikimedia.org/w/index.php?curid=3817033).
+The user confirmed this second live-test work on the TV. See the
+[b3 validation report](https://github.com/volkue-tech/frame-gallery-ha/blob/main/BETA3_VALIDATION.md).
+The complete 50-work selection was metadata-checked, not visually tested work by work.*
 
 Department, period, style and colour filters are not supported for Commons in
 this first implementation. Set them to `any`; otherwise the log reports them

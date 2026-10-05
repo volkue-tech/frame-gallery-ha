@@ -77,6 +77,31 @@ was downloaded for documentation. The screenshot is outside the runtime build
 context; the project's Apache-2.0 licence does not relicense third-party UI
 or museum material.
 
+## Commons beta screenshot
+
+`dashboard-commons.png` was captured on 2026-10-05 after the approved b3
+in-place Green update. Firefox's native region-screenshot tool selected only
+the Frame Gallery heading and its existing preview/information cards. The
+captured PNG is copied byte-for-byte, with no retouching; no account, address
+bar, sidebar, calendar, configuration or camera token is included. Its SHA256
+is `acaae007c0b92dd5c9135441bb17be0108937882321dc4a84f75d0b101061cf0`.
+
+Artwork: Theo van Doesburg, **Counter-composition XVI**, Commons page
+[`3817033`](https://commons.wikimedia.org/w/index.php?curid=3817033).
+The approved metadata-only 50-work check and the actual b3 production run
+both accepted this pinned file's public-domain metadata and current identity.
+The selected prepared payload SHA256 was
+`bc5d34a0195692176e6541bdad745561020b5d43389cfe74935572fae7ece6de`;
+this is the prepared image hash, not a hash of the original Commons upload.
+The native stack rendered matching title/artist/source, and the user physically
+confirmed the work on the TV. See [b3 validation](../../BETA3_VALIDATION.md).
+
+This is not a bundled provider artwork, default image or claim of worldwide
+copyright clearance. Current rights statements remain the source's statements;
+the project's Apache-2.0 licence does not relicense artwork or Home Assistant
+UI. The screenshot lives outside the runtime build context. No predecessor
+project asset was used.
+
 ## Presentation references (earlier pass)
 
 Reviewed on 2026-10-04 for documentation structure only:

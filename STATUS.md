@@ -1,6 +1,28 @@
 # Project status
 
-Last updated: 2026-10-05 (b3 images verified; Store/Green update pending)
+Last updated: 2026-10-05 (b3 Store/Green validation complete; announcement pending)
+
+## Green b3 live validation completed — 2026-10-05
+
+Verified images were exposed through public main. Store refresh found b3;
+the existing public Green app was updated in place with previous-version
+backup retention selected. Installed/latest 0.1.0b3 and the new German option
+texts were confirmed. No reinstall, data reset, SSH, configuration.yaml edit,
+new dashboard entity or Core restart occurred.
+
+Only source and strict shape were changed to Commons / false; TV address,
+landscape, contain, black margins, timer and caption helper remain intact.
+Two runs via the existing script/card delivered Macke's Garten am Thunersee
+(19.1 s) then van Doesburg's Counter-composition XVI (11.3 s). The second
+selection explicitly excluded the first sent Commons work. Preview and caption
+both changed, loading feedback appeared/ended, and storage remained one preview
+with zero temporary/scratch/run files. The user physically confirmed the
+second work. Exact evidence and limits: [b3 validation](BETA3_VALIDATION.md).
+
+Both publisher variables were disabled and read back. The user found Macke's
+side margins too large; this is recorded as a wider-ratio follow-up, not a
+post-validation runtime change. Public user-facing documentation and a private-
+data-free screenshot are being finalized; the GitHub b3 announcement is pending.
 
 ## Both b3 images published and independently verified — 2026-10-05
 

@@ -19,8 +19,14 @@ feature. Previous live/publication approvals do not authorize this update.
 - [x] Publish/download/hash-check exact matching sources; validate on both
   native architectures and hash-check their evidence ZIPs.
 - [x] Complete actual publisher jobs, anonymous pulls and independent signatures.
-- [ ] Green update/test authorized: update preserving history; verify Commons preview/
+- [x] Green update/test authorized: update preserving history; verify Commons preview/
   caption/loading/cleanup and actual TV display, then publish as authorized.
+- [x] Disable and read back both one-time publisher variables after success.
+- [ ] Publish the b3 announcement and final user-facing documentation/validation receipt.
+
+Follow-up (not part of the frozen b3 runtime): propose a broader minimum
+landscape ratio after the user's feedback about Macke's large side margins.
+No wider-ratio policy or new configuration field has been approved/implemented.
 
 The initial local-only stop gate was superseded by the user's explicit b3
 publication and Green-test approval. Do not update public Store main until

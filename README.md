@@ -6,11 +6,11 @@ Fresh artwork on your Samsung Frame. Start it with a tap from Home Assistant.
 
 *Product illustration, not a screenshot. The optional dashboard card is added separately using the guide below.*
 
-**[Add to Home Assistant](https://my.home-assistant.io/redirect/supervisor_add_addon_repository/?repository_url=https%3A%2F%2Fgithub.com%2Fvolkue-tech%2Fframe-gallery-ha)** · [Setup guide](frame_gallery/DOCS.md) · [Latest beta](https://github.com/volkue-tech/frame-gallery-ha/releases/tag/v0.1.0b2)
+**[Add to Home Assistant](https://my.home-assistant.io/redirect/supervisor_add_addon_repository/?repository_url=https%3A%2F%2Fgithub.com%2Fvolkue-tech%2Fframe-gallery-ha)** · [Setup guide](frame_gallery/DOCS.md) · [Latest beta](https://github.com/volkue-tech/frame-gallery-ha/releases/tag/v0.1.0b3)
 
 ## Art first. No unwanted cropping.
 
-- **Museum artwork or your own images.** Choose the Art Institute of Chicago, the Cleveland Museum of Art, or your local JPEG/PNG collection.
+- **Modern classics, museum artwork or your own images.** Choose 50 curated Wikimedia Commons works, the Art Institute of Chicago, the Cleveland Museum of Art, or your local JPEG/PNG collection. No API key needed.
 - **Keep the whole work.** Original proportions are preserved by default; margins fill any unused space. Cropping is opt-in.
 - **Something new.** Previously sent artworks are skipped while new eligible works remain. History keeps the latest 20 000 works.
 - **See it before the next tap.** The optional native Home Assistant card shows the latest successful preview and starts a new run.
@@ -44,11 +44,25 @@ When adding **Local File**, replace its default name with **Frame Gallery Previe
 
 | Source | Available filters in this beta |
 | --- | --- |
+| Wikimedia Commons | 50 curated landscape works of classical modernism; shared fitting options |
 | Art Institute of Chicago | Period |
 | Cleveland Museum of Art | Department and period |
 | Your own images | Landscape and fitting options |
 
-Landscape selection and screen-shape preference work with all three sources. **Colour and style filters are not available yet.** Google Arts & Culture is not a source in this app. The museum sources use documented open-access APIs and eligible CC0 images; local media uses your own files.
+Landscape selection and screen-shape preference work with all four sources. **Colour and style filters are not available yet.** Google Arts & Culture is not a source in this app. Museum sources use documented open-access APIs and eligible CC0 images; Commons uses a curated selection with current rights and file identity rechecked on each run; local media uses your own files.
+
+**For colourful modern classics:** choose `wikimedia_commons`, keep **Landscape
+only** on and **Image fit = contain**, and turn **Prefer 16:9** off. These works
+are landscape but not near-exact 16:9; margins preserve the complete art.
+No account, API key or new dashboard helper is required. See the
+[50-work collection and rights notes](frame_gallery/COMMONS.md).
+
+![Actual b3 Commons dashboard preview and optional artist/title information.](docs/images/dashboard-commons.png)
+
+*Actual Green screenshot after the b3 update; the user also confirmed this work
+on the TV. Theo van Doesburg, [Counter-composition XVI](https://commons.wikimedia.org/w/index.php?curid=3817033),
+Wikimedia Commons reproduction with public-domain metadata checked on 2026-10-05.
+The optional text card reuses the existing helper.*
 
 The default prefers landscape works close to 16:9. If no suitable new work is found within the search budget, it can fall back to a landscape work with margins, without cropping. See [all options and filter values](frame_gallery/DOCS.md#options).
 
@@ -65,6 +79,12 @@ When reporting a problem, include the app version, TV model and the final outcom
 
 ## Public beta
 
+[0.1.0b3](https://github.com/volkue-tech/frame-gallery-ha/releases/tag/v0.1.0b3)
+adds 50 curated Commons works and clearer English/German configuration. Native
+ARM/Intel checks, independent signatures, an in-place Green update, two distinct
+deliveries, preview/caption/loading/cleanup and physical confirmation of the
+second work passed in the [recorded b3 scope](BETA3_VALIDATION.md).
+
 [0.1.0b2](https://github.com/volkue-tech/frame-gallery-ha/releases/tag/v0.1.0b2)
 adds optional artwork information. Native ARM/Intel image checks passed, and an
 existing public Green installation was upgraded and software-tested without a
@@ -77,7 +97,7 @@ The app runs once, then stops. It does not remove artworks already stored on you
 
 ## For contributors
 
-Frame Gallery is implemented independently. The project's own code is [Apache-2.0](LICENSE); distributed third-party components retain their own licences. The runtime is not GPL-free. [Third-party notices](THIRD_PARTY_NOTICES.md) and [matching component sources](https://github.com/volkue-tech/frame-gallery-ha/releases/tag/sources-v0.1.0b2) are available; the historical b1 source release is retained.
+Frame Gallery is implemented independently. The project's own code is [Apache-2.0](LICENSE); distributed third-party components retain their own licences. The runtime is not GPL-free. [Third-party notices](THIRD_PARTY_NOTICES.md) and [matching component sources](https://github.com/volkue-tech/frame-gallery-ha/releases/tag/sources-v0.1.0b3) are available; historical b1/b2 source releases are retained.
 
 - [Developer setup and quality gates](frame_gallery/DEVELOPMENT.md)
 - [Product specification](PRODUCT_SPEC.md) · [Architecture](ARCHITECTURE.md) · [Acceptance tests](ACCEPTANCE_TESTS.md)
