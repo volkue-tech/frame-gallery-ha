@@ -2,6 +2,34 @@
 
 Last updated: 2026-10-05 (0.1.0b3 publication authorized; native checks in progress)
 
+## b3 source receipt and first native CI result — 2026-10-05
+
+Exact runtime/source candidate: `15644bf0f42b24e89621020fce9f511942237832`.
+The personal candidate branch is public. Its source-only prerelease
+`sources-v0.1.0b3` contains the 522,219,520-byte matching package, 172 upstream
+archives plus the exact own Git snapshot. An anonymous download matched SHA256
+`84eeaf5076d2880e76aaf509eaf3a59e468590804c2998ba6a3d2c67c292ef83`
+and passed the exact-source/member preflight. No artwork or HA data is included.
+
+Both exact release variables were saved and read back in the personal GitHub
+UI; the user completed GitHub's password reconfirmation. Publisher run
+`37351792462` is underway on `codex/commons-curated`. Its native ARM validation
+passed, including 4,997 tests/five root-only skips, all five root checks and
+the real 1 GiB measurement. The downloaded native ARM evidence ZIP matched its
+public artifact SHA256 `66de6c679351605e28b8533a88819cd02947ffd4289be221ba56565056dfb761`.
+Local ARM measurements also completed successfully: peak measured address
+space 765.5 MiB, longest preparation 1.46 s, all 150 inspections passed.
+Intel validation, both publishers/signatures, public Store update and Green
+delivery observations remain pending at this checkpoint.
+
+Read-only Firefox inspection confirmed the existing public Green app is b2,
+stopped, with the original TV/source/fitting settings and both existing feedback
+helpers intact. Its latest log retained sent-work exclusions, one preview and
+no scratch/temporary/run files. No live mutation has occurred. A normal login
+completed but Supervisor's app-info REST route returned 401 and was not retried;
+one narrow WebSocket user-metadata probe failed with OSError. The authenticated
+UI is used instead, without further credential or denied-endpoint retries.
+
 ## Commons b3 publication preparation — 2026-10-05 (D-207)
 
 The user explicitly authorized publishing beta 0.1.0b3 on the personal
@@ -19,9 +47,10 @@ Actual full local gates passed: Ruff/formatting, strict host/Linux mypy over
 248 files, 4,991 tests passed with eleven platform/root skips, and 100% line
 and branch coverage (9,420 statements / 2,052 branches). The native local ARM
 image built successfully; its non-root Linux suite passed 4,997 tests with five
-root-only skips, followed by all five root isolation checks passing. The real
-RLIMIT_AS measurement remains running. Intel CI, source publication, image
-signatures and Green validation are not yet completed. Public Store remains b2.
+root-only skips, followed by all five root isolation checks passing. At that
+preparation checkpoint the real RLIMIT_AS measurement was still running;
+its completion and source publication are recorded above. Image signatures
+and Green validation are not yet completed. Public Store remains b2.
 
 ## Commons local checkpoint — 2026-10-05 (D-206)
 
