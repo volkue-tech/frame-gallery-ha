@@ -22,7 +22,11 @@ feature. Previous live/publication approvals do not authorize this update.
 - [x] Green update/test authorized: update preserving history; verify Commons preview/
   caption/loading/cleanup and actual TV display, then publish as authorized.
 - [x] Disable and read back both one-time publisher variables after success.
-- [ ] Publish the b3 announcement and final user-facing documentation/validation receipt.
+- [x] Publish the b3 announcement and final user-facing documentation/validation receipt.
+  *Public prerelease v0.1.0b3, ID 404028775, published 2026-10-05 18:57:36 UTC;
+  draft=false / prerelease=true verified. Runtime/source remains 15644bf;
+  public main contains the final guides, screenshot and Green validation report.
+  Both one-time publisher approvals are disabled; previous betas remain.*
 
 Follow-up (not part of the frozen b3 runtime): propose a broader minimum
 landscape ratio after the user's feedback about Macke's large side margins.

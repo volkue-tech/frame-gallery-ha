@@ -1,6 +1,25 @@
 # Project status
 
-Last updated: 2026-10-05 (b3 Store/Green validation complete; announcement pending)
+Last updated: 2026-10-05 (b3 publicly released; Store/Green validation complete)
+
+## Commons b3 release completed — 2026-10-05
+
+Public prerelease [v0.1.0b3](https://github.com/volkue-tech/frame-gallery-ha/releases/tag/v0.1.0b3)
+was published at 18:57:36 UTC, release ID `404028775`. Authenticated API readback
+confirmed `draft=false`, `prerelease=true`, and target `codex/commons-curated`;
+the visible release links exact runtime/source commit `15644bf`. Public main
+contains the final setup/collection guides, native screenshot and actual Green
+validation report. Matching sources and signed ARM/Intel images are available;
+the installed Green app is b3. Earlier releases and images were retained.
+
+Final documentation gates passed: Ruff/format, strict mypy over 248 files,
+4,991 tests passed, eleven platform skips, 100% statement/branch coverage.
+Both one-time publisher approvals are disabled. No follow-up runtime feature
+is implied by this completion: the user's broader-ratio feedback remains a
+proposal, and the frozen b3 runtime was not changed after its validation.
+
+The following dated sections preserve intermediate checkpoints; their pending
+items are superseded by this completion record, not additional current blockers.
 
 ## Green b3 live validation completed — 2026-10-05
 
@@ -22,7 +41,7 @@ second work. Exact evidence and limits: [b3 validation](BETA3_VALIDATION.md).
 Both publisher variables were disabled and read back. The user found Macke's
 side margins too large; this is recorded as a wider-ratio follow-up, not a
 post-validation runtime change. Public user-facing documentation and a private-
-data-free screenshot are being finalized; the GitHub b3 announcement is pending.
+data-free screenshot were published, followed by the b3 prerelease above.
 
 ## Both b3 images published and independently verified — 2026-10-05
 

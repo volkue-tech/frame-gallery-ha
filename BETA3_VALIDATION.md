@@ -144,3 +144,25 @@ strict mypy (248 files), 4,991 tests passed and 11 platform skips. Whole-package
 coverage was 100% for 9,420 statements and 2,052 branches; the required subset
 was 100% for 7,728 statements and 1,708 branches. This checkpoint changed only
 documentation and the native dashboard screenshot, not the frozen runtime.
+
+## Public release receipt
+
+[Application prerelease v0.1.0b3](https://github.com/volkue-tech/frame-gallery-ha/releases/tag/v0.1.0b3)
+was published on 2026-10-05 at 18:57:36 UTC, GitHub release ID `404028775`.
+Authenticated readback confirmed `draft=false`, `prerelease=true`, and target
+`codex/commons-curated`; the native release page links exact commit `15644bf`.
+The authenticated tag-reference readback independently confirmed
+`refs/tags/v0.1.0b3` resolves directly to commit
+`15644bf0f42b24e89621020fce9f511942237832`.
+The runtime, matching source package and published-image identities remain
+unchanged. Later main commits contain documentation and the actual native
+dashboard screenshot only; they are not claimed as image build inputs.
+
+The release notes link the collection/setup guide, this report and matching
+source prerelease. Main's final documentation was pushed and verified at
+`5d1c13cb2d4dcd25453153d4ea386a3edc59d771` before the announcement. Both one-time
+publisher approvals remain disabled, and b1/b2 assets and tags remain intact.
+The source-only release description now links the completed beta and validation
+report; its existing tag, filename, source bytes and hash were not changed.
+The receipt checkpoint's full local gates passed again with the same
+4,991 passed / eleven platform skips / 100% coverage results.
