@@ -18,7 +18,7 @@ feature. Previous live/publication approvals do not authorize this update.
   ARM/Intel image/signature validation. Never overwrite b2.
 - [x] Publish/download/hash-check exact matching sources; validate on both
   native architectures and hash-check their evidence ZIPs.
-- [ ] Complete actual publisher jobs, anonymous pulls and independent signatures.
+- [x] Complete actual publisher jobs, anonymous pulls and independent signatures.
 - [ ] Green update/test authorized: update preserving history; verify Commons preview/
   caption/loading/cleanup and actual TV display, then publish as authorized.
 

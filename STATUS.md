@@ -1,6 +1,22 @@
 # Project status
 
-Last updated: 2026-10-05 (both native validations passed; b3 publishers in progress)
+Last updated: 2026-10-05 (b3 images verified; Store/Green update pending)
+
+## Both b3 images published and independently verified — 2026-10-05
+
+Publisher run `37351792462` completed all five jobs successfully. Both actual
+runtime images passed their repeated native non-root/root/memory checks and
+were signed. Anonymous tag/digest comparisons and pulls verified platform,
+version and runtime commit. Independent Cosign checks verified both exact
+digests against the candidate workflow identity, runtime SHA and GitHub OIDC
+issuer. Both publisher-evidence ZIPs were downloaded and matched their public
+artifact hashes. Exact digests and results are in [b3 validation](BETA3_VALIDATION.md).
+
+Public main/Store still offers b2. The private helper's 45-minute credential
+window expired normally after these long checks; a fresh same-scope personal
+token entry was requested for Store and completion-document pushes. No token
+was extended or persisted. Green has not yet been mutated. Release variables
+still require disabling after the completed run; no final app announcement exists.
 
 ## Both native validations completed — 2026-10-05
 

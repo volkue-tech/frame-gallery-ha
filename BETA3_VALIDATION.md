@@ -1,7 +1,7 @@
 # Frame Gallery 0.1.0b3 validation
 
-Recorded on 2026-10-05. This checkpoint records completed checks only. Image
-publication, the in-place Green update and Commons deliveries remain pending.
+Recorded on 2026-10-05. Image publication and independent verification have
+completed; the Store switch, in-place Green update and deliveries remain pending.
 
 ## Exact runtime and source
 
@@ -9,6 +9,29 @@ Runtime/source commit: `15644bf0f42b24e89621020fce9f511942237832`.
 [Publisher run](https://github.com/volkue-tech/frame-gallery-ha/actions/runs/37351792462)
 uses the frozen `codex/commons-curated` branch. Later documentation-only main
 commits do not change the built runtime or corresponding-source snapshot.
+
+All five jobs succeeded. Both actual publishers repeated the native suite
+(4,997 passed / five root-only skips), all five root checks and all 26 real
+1 GiB preparation measurements, plus 150 inspections with zero failures.
+Their maximum measured address spaces were 765.5 MiB (ARM) and 761.8 MiB
+(Intel), longest preparations 2.16 s and 2.29 s respectively.
+
+- ARM: `ghcr.io/volkue-tech/frame-gallery-ha-aarch64@sha256:f54ab393aa330897bb05cafe01a190ffeec360616cd901cf349faf9fa8d3864b`
+- Intel: `ghcr.io/volkue-tech/frame-gallery-ha-amd64@sha256:34864a0817fa060e4df757475a5800f43486b6db5593b31b99d8196ab58e4db1`
+
+Anonymous pulls verified actual platforms, b3 version and the exact runtime
+revision. Each tag and digest returned identical manifest bytes. Independent
+Cosign 3.1.3 verification passed against issuer
+`https://token.actions.githubusercontent.com`, the exact runtime SHA above,
+and certificate identity
+`https://github.com/volkue-tech/frame-gallery-ha/.github/workflows/publish.yml@refs/heads/codex/commons-curated`.
+The certificates identify the frozen candidate ref, not `main`.
+
+Both downloaded actual-publisher evidence ZIPs matched their public SHA256s:
+ARM `5cfb48964d4f182d8693b602bcca8f7779c6af6057c5bab58c51e6f280c4d949`,
+Intel `808374a5796aea06d5a4626a46004d031dd3a3f4a219152ecd7fe21e09a46e31`.
+The ZIPs' published digests match the independent manifest results. Neither
+previous-version tag was overwritten.
 
 [Matching sources](https://github.com/volkue-tech/frame-gallery-ha/releases/tag/sources-v0.1.0b3):
 172 retained upstream archives plus the exact clean project snapshot;
@@ -55,8 +78,7 @@ remained visible. Its latest storage summary reported zero scratch/temporary/
 run files. The normal app-info API route returned 401 and was not retried;
 the authenticated UI is used instead of denied-endpoint retries.
 
-Still pending: both actual publisher checks/signatures, anonymous tag/digest
-verification and pulls, Store update, in-place Green upgrade, two Commons
+Still pending: Store update, in-place Green upgrade, two Commons
 deliveries, preview/caption/loading/cleanup observations, disabling publisher
 approval variables and publication of the final beta announcement.
 
