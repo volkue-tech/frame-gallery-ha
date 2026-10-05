@@ -13,13 +13,18 @@ feature. Previous live/publication approvals do not authorize this update.
 - [x] Finish full local quality gates and record actual evidence in STATUS.md.
 - [x] After dedicated contact-header permission: repeat metadata-only adapter
   check after the CC0 correction; actual result 50/50 in 10.35 s, ten requests.
-- [ ] Explicit b3 publication approval received: new numbered beta,
+- [x] Explicit b3 publication approval received: new numbered beta,
   exact-source/source-package and native
   ARM/Intel image/signature validation. Never overwrite b2.
+- [x] Publish/download/hash-check exact matching sources; validate on both
+  native architectures and hash-check their evidence ZIPs.
+- [ ] Complete actual publisher jobs, anonymous pulls and independent signatures.
 - [ ] Green update/test authorized: update preserving history; verify Commons preview/
   caption/loading/cleanup and actual TV display, then publish as authorized.
 
-Stop after local validation, before HA/TV mutations, registry or GitHub writes.
+The initial local-only stop gate was superseded by the user's explicit b3
+publication and Green-test approval. Do not update public Store main until
+both actual publisher jobs and independent image verification succeed.
 
 ## Phase 0 — Specification package
 

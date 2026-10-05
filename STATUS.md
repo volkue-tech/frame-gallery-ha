@@ -1,6 +1,23 @@
 # Project status
 
-Last updated: 2026-10-05 (0.1.0b3 publication authorized; native checks in progress)
+Last updated: 2026-10-05 (both native validations passed; b3 publishers in progress)
+
+## Both native validations completed — 2026-10-05
+
+Native Intel validation also passed. Its evidence ZIP matched SHA256
+`b71416e4cf013fc12bbb7ef929c306566c7d67a9c06a642e42a96db5c444f8e5`.
+Both native suites passed 4,997 non-root tests plus all five root checks and
+26 preparations under the real 1 GiB limit. Intel's measured peak address
+space was 761.8 MiB and maximum preparation 2.67 s; ARM's 765.5 MiB and 2.16 s.
+Each 150-inspection run had zero failures. See [b3 validation](BETA3_VALIDATION.md).
+The two publisher jobs repeat checks on the actual images they will sign/push;
+those jobs and the live Green update remain pending. Public main still offers b2.
+Release-tag preparation was held by automatic review until these remaining
+image gates succeed; no new application tag or announcement was created.
+This checkpoint's full local gates passed on the normal Mac host (4,991 passed,
+eleven expected skips, 100% line/branch coverage); the sandboxed attempt failed
+the two already-known group/setgid checks. The unchanged suite passed outside
+that sandbox. No runtime change, test relaxation or additional skip was made.
 
 ## b3 source receipt and first native CI result — 2026-10-05
 
