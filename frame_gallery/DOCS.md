@@ -1,6 +1,6 @@
 # Frame Gallery
 
-> Development branch note: the new [50-work Wikimedia Commons source](COMMONS.md)
+> 0.1.0b3 release candidate: the new [50-work Wikimedia Commons source](COMMONS.md)
 > is implemented locally but not available in the published 0.1.0b2 image yet.
 > Existing setup instructions and dashboard entities remain unchanged.
 
@@ -37,6 +37,29 @@ No SSH, no command line, and no change to `configuration.yaml` is needed at any 
 4. Leave **Watchdog** off: the app runs once per start and then stops by design, which the watchdog would take for a crash.
 
 You can use Frame Gallery immediately from its app page. No dashboard setup is needed for the first test.
+
+### Simple configuration (0.1.0b3)
+
+The normal form has five fields: **TV address**, **Artwork source**, **Landscape
+only**, **Prefer 16:9**, and **Image fit**. The German UI uses **TV-IP-Adresse**,
+**Bildquelle**, **Nur Querformat**, **16:9 bevorzugen**, and **Bildanpassung**.
+Configuration keys stay unchanged, so updates retain existing settings.
+
+For the curated modern works choose `wikimedia_commons`, keep Landscape only on,
+choose `contain` (the complete artwork, no crop), and turn Prefer 16:9 off.
+These works are landscape but not near-exact 16:9: margins are intentional,
+not an error. No API key, registration or additional dashboard setup is needed.
+
+Museum period/department filters, margin colour and dashboard helpers are
+optional. Enable **Show unused optional configuration options** only when you
+need one. Period applies to Chicago/Cleveland; department only to Cleveland.
+Commons has no period/department/style/colour filter. The unused colour field
+is retained solely for older configurations and should stay `any`.
+
+On an upgrade previously saved optional values can remain visible. This is
+normal; saved filters and helper IDs are not silently deleted or reset. An
+unset optional field uses the same defaults as before: no museum filter and
+black margins. Do not enable automatic startup or the watchdog for this one-shot app.
 
 ## First start and pairing
 
@@ -291,8 +314,8 @@ To start over completely, uninstall the app and install it again. Uninstalling r
 ## Privacy
 
 - The app sends nothing about you, your images, your configuration, or your TV to any third party, and it has no analytics.
-- It contacts only the museum you selected (and its image host), your TV on your home network, and, if you use helpers or the loading timer, Home Assistant itself.
-- Requests to the museums carry the app's name, version, and a project contact address, as the museums' guidelines ask.
+- It contacts only the source you selected (a museum or Wikimedia Commons and its image host), your TV on your home network, and, if you use helpers or the loading timer, Home Assistant itself. The selected source sees normal request metadata, including your public IP address.
+- Source requests carry the app's name, version, and a project contact address. Commons uses its dedicated project contact; users need no account or API key.
 
 ## Licences
 

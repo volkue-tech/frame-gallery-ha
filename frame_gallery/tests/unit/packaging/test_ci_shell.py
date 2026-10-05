@@ -56,7 +56,7 @@ def test_publisher_ref_and_signature_policy_changes_are_refused(change: str) -> 
     if change == "repo":
         text = text.replace("volkue-tech/frame-gallery-ha", "another-owner/project")
     elif change == "arbitrary_ref":
-        text = text.replace("refs/heads/codex/artwork-info", "refs/heads/arbitrary")
+        text = text.replace("refs/heads/codex/commons-curated", "refs/heads/arbitrary")
     else:
         text = text.replace("${GITHUB_REF}", "refs/heads/main")
     with pytest.raises(ValueError, match="publisher ref gate"):

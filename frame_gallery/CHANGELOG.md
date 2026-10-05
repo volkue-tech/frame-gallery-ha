@@ -1,5 +1,18 @@
 # Changelog
 
+## 0.1.0b3 (release candidate; validation in progress)
+
+- Wikimedia Commons: 50 curated landscape works of classical modernism, no
+  registration or API key. Current rights, pinned file identity and bounded
+  image sizes checked on every run; existing no-repeat and cleanup retained.
+- Existing standard card and optional artist/title card work without new helpers.
+- Shorter basic configuration, optional museum filters/margin colour and hidden
+  unused colour compatibility option. Existing saved options remain accepted.
+- German configuration labels and concise source/no-crop/16:9 explanations.
+- Commons project contact is volkue+commonsapi@gmail.com; no user email required.
+- Local tests and all 50 live metadata records passed. Native image and Green/TV
+  validation remain pending; do not interpret this candidate as a released build.
+
 ## 0.1.0b2 (public beta)
 
 - Optional native dashboard artwork-information card (title, artist, museum),

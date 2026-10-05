@@ -1,5 +1,40 @@
 # Decision log
 
+## Commons beta and configuration UX (2026-10-05)
+
+### D-207 — autonomous b3 preparation and preserved configuration
+
+The user explicitly asked to carry out the next beta build/Green test
+independently and to keep app configuration comprehensible. Initial automatic
+review held the GitHub publication as requiring explicit approval. The user
+then separately approved publishing beta 0.1.0b3 to volkue-tech/frame-gallery-ha:
+candidate push, corresponding-source upload, ARM/Intel pipeline and store
+metadata after successful checks. An in-place Green update plus Commons run
+is also authorized, not unrelated HA/dashboard edits or credentials.
+No configuration.yaml change, no app reinstall and no history reset.
+
+- Numbered candidate 0.1.0b3; never overwrite b2. Public main stays on its working
+  image version until exact-source, both native images and signatures are verified.
+  The manual publisher permits only main and codex/commons-curated, replacing
+  the completed b2 candidate ref. Existing exact-SHA/hash/unused-tag gates stay.
+- Basic form: TV/source/landscape/strict shape/fit. Department, period, colour and
+  margin colour become optional without Supervisor defaults; parser defaults
+  remain exactly the same. Retain their schema keys and existing saved values.
+  No unsupported schema grouping or undocumented per-source dynamic hiding.
+- Unused colour is compatibility-only; not a promised filter. Native optional-
+  field reveal is documented. Existing optional settings may remain visible.
+- English/German texts map raw source keys to human-readable sources, explain
+  contain/cover and recommend disabling strict shape for the Commons selection.
+  No new options, dependencies, permissions, API key or dashboard extension.
+- Generator and regressions verify all translations, schema/parser alignment,
+  unchanged effective defaults and old saved-option compatibility. Live UI and
+  native validation are distinct gates; do not claim them from local tests.
+
+Basis: official [app configuration](https://developers.home-assistant.io/docs/apps/configuration/)
+rechecked 2026-10-05 (optional ? schemas and translations). Repository GitHub
+auth is presently unavailable; request the existing personal token privately
+instead of trying another identity or saving credentials.
+
 ## Curated Commons extension (2026-10-05)
 
 ### D-206 — bounded, keyless Wikimedia Commons adapter

@@ -1,6 +1,27 @@
 # Project status
 
-Last updated: 2026-10-05 (Commons local implementation validated; not released)
+Last updated: 2026-10-05 (0.1.0b3 publication authorized; native checks in progress)
+
+## Commons b3 publication preparation — 2026-10-05 (D-207)
+
+The user explicitly authorized publishing beta 0.1.0b3 on the personal
+`volkue-tech/frame-gallery-ha` repository: candidate push, matching source
+package, native ARM/Intel publisher and Store update after successful checks.
+Firefox is available for the approved Green test. Existing history, dashboard
+cards and helpers must remain intact; configuration.yaml is out of scope.
+
+The candidate now includes concise English and German option descriptions.
+Fresh installations expose the TV address and four basic defaults; optional
+filter/background options stay hidden when unset. Existing saved option values
+and the parser's defaults are preserved. Commons needs no user API key.
+
+Actual full local gates passed: Ruff/formatting, strict host/Linux mypy over
+248 files, 4,991 tests passed with eleven platform/root skips, and 100% line
+and branch coverage (9,420 statements / 2,052 branches). The native local ARM
+image built successfully; its non-root Linux suite passed 4,997 tests with five
+root-only skips, followed by all five root isolation checks passing. The real
+RLIMIT_AS measurement remains running. Intel CI, source publication, image
+signatures and Green validation are not yet completed. Public Store remains b2.
 
 ## Commons local checkpoint — 2026-10-05 (D-206)
 
@@ -50,10 +71,8 @@ platform skips, and 100% whole-package line/branch coverage (9,420 statements /
 2,052 branches). Regression tests check Commons' alias on metadata and image
 requests, preserve the runtime version, and leave museum identity unchanged.
 
-Next gate: request authorization for a new numbered beta and native ARM/Intel
-image/source validation, followed
-by an approved Green/TV update preserving history. No new beta, image, source
-package, GitHub push or release has been produced. Never retag the published b2.
+This earlier local checkpoint was followed by the explicit b3 publication
+authorization and candidate preparation above. Never retag the published b2.
 
 ## 0.1.0b2 publication receipt
 

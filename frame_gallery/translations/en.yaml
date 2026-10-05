@@ -5,7 +5,7 @@ configuration:
     description: 'The IPv4 address of your Frame TV on your home network, for example 192.168.1.20. Only private home-network addresses are accepted. Give the TV a fixed address in your router (a DHCP reservation), so that it keeps this address.'
   source:
     name: 'Artwork source'
-    description: 'Where the artwork comes from: the Art Institute of Chicago (public-domain works), the Cleveland Museum of Art (open-access works), Wikimedia Commons (50 curated modern landscape artworks, no API key), or local_media, your own JPEG and PNG images in the folder frame_gallery/library of Home Assistant''s media.'
+    description: 'wikimedia_commons: 50 curated classical-modern landscape works; no API key. art_institute_chicago: Art Institute of Chicago. cleveland_museum_of_art: Cleveland Museum of Art. local_media: your JPEG/PNG files in frame_gallery/library in Home Assistant media.'
   department:
     name: 'Department (Cleveland only)'
     description: 'Only works from this department of the Cleveland Museum of Art; any means no filter. The Art Institute of Chicago and your own images do not support a department: with them, a department is not applied, and the log and the run record say so. Wikimedia Commons does not support a department filter either.'
@@ -13,16 +13,16 @@ configuration:
     name: 'Period (both museums)'
     description: 'Only works created in this period: before 1400, 1400 to 1599, 1600 to 1799, 1800 to 1899, or 1900 and later; any means no filter. It applies to both museums, not to your own images. Art styles are not offered yet. Wikimedia Commons does not support a period filter either.'
   color:
-    name: Colour
-    description: 'No source supports a colour filter yet, so the only choice is any.'
+    name: 'Colour (not available)'
+    description: 'No source supports a colour filter yet. Leave any; retained for compatibility only.'
   landscape_only:
     name: 'Landscape only'
     description: 'Only choose artworks that are wider than they are tall.'
   strict_tv_format:
-    name: 'Prefer the TV''s shape'
-    description: 'Prefer artworks within about 1 % of the TV''s 16:9 shape. If there is none, and Landscape only is on with the contain fit, another landscape artwork is shown whole, with margins.'
+    name: 'Prefer 16:9 (may take longer)'
+    description: 'Prefer artworks within about 1 % of the TV''s 16:9 shape. If there is none, and Landscape only is on with the contain fit, another landscape artwork is shown whole, with margins. For Commons, turn this off: these 50 works are not near-exact 16:9.'
   fit_mode:
-    name: Fit
+    name: 'Image fit (contain = no crop)'
     description: 'contain shows the whole artwork, with margins where its shape differs from the TV''s (nothing is cropped). cover fills the whole screen and may crop the edges.'
   background_color:
     name: 'Margin colour'

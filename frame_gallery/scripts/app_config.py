@@ -32,6 +32,7 @@ type Value = str | int | list[Value] | dict[str, Value]
 
 CONFIG: Final = PROJECT / "config.yaml"
 TRANSLATIONS: Final = PROJECT / "translations" / "en.yaml"
+GERMAN_TRANSLATIONS: Final = PROJECT / "translations" / "de.yaml"
 
 TV_HOST_SCHEMA: Final = r"match(^(?:\d{1,3}\.){3}\d{1,3}$)"
 BACKGROUND_SCHEMA: Final = r"match(^#[0-9A-Fa-f]{6}$)"
@@ -57,13 +58,9 @@ def options() -> dict[str, Value]:
     app cannot start until the user enters it (B1)."""
     return {
         "source": "art_institute_chicago",
-        "department": "any",
-        "style": "any",
-        "color": "any",
         "landscape_only": True,
         "strict_tv_format": True,
         "fit_mode": "contain",
-        "background_color": "#000000",
     }
 
 
@@ -71,13 +68,12 @@ def schema() -> dict[str, Value]:
     return {
         "tv_host": TV_HOST_SCHEMA,
         "source": f"list({'|'.join(SOURCES)})",
-        "department": f"list({'|'.join(_choices(FilterField.DEPARTMENT))})",
-        "style": f"list({'|'.join(_choices(FilterField.STYLE))})",
-        "color": f"list({'|'.join(_choices(FilterField.COLOR))})",
         "landscape_only": "bool",
         "strict_tv_format": "bool",
         "fit_mode": "list(contain|cover)",
-        "background_color": BACKGROUND_SCHEMA,
+        "department": f"list({'|'.join(_choices(FilterField.DEPARTMENT))})?",
+        "style": f"list({'|'.join(_choices(FilterField.STYLE))})?",
+        "background_color": BACKGROUND_SCHEMA + "?",
         "source_helper": HELPER_SCHEMA,
         "department_helper": HELPER_SCHEMA,
         "style_helper": HELPER_SCHEMA,
@@ -85,6 +81,7 @@ def schema() -> dict[str, Value]:
         "log_level": "list(info|debug)?",
         "loading_timer": r"match(^timer\.[a-z0-9_]{1,64}$)?",
         "artwork_info_helper": r"match(^input_text\.[a-z0-9_]{1,64}$)?",
+        "color": f"list({'|'.join(_choices(FilterField.COLOR))})?",
     }
 
 
@@ -123,7 +120,7 @@ HELPER_TEXT: Final = (
 )
 
 
-def translations() -> dict[str, Value]:
+def translations(language: str = "en") -> dict[str, Value]:
     """``translations/en.yaml``: every option's name and description. The
     filter descriptions state which sources each filter applies to (B8)."""
     texts: dict[str, tuple[str, str]] = {
@@ -138,11 +135,10 @@ def translations() -> dict[str, Value]:
         "source": (
             "Artwork source",
             (
-                "Where the artwork comes from: the Art Institute of Chicago (public-domain "
-                "works), the Cleveland Museum of Art (open-access works), Wikimedia Commons "
-                "(50 curated modern landscape artworks, no API key), or local_media, your "
-                "own JPEG and PNG images in the folder frame_gallery/library of Home Assistant's "
-                "media."
+                "wikimedia_commons: 50 curated classical-modern landscape works; no API key. "
+                "art_institute_chicago: Art Institute of Chicago. cleveland_museum_of_art: "
+                "Cleveland Museum of Art. local_media: your JPEG/PNG files in "
+                "frame_gallery/library in Home Assistant media."
             ),
         ),
         "department": (
@@ -165,23 +161,24 @@ def translations() -> dict[str, Value]:
             ),
         ),
         "color": (
-            "Colour",
-            "No source supports a colour filter yet, so the only choice is any.",
+            "Colour (not available)",
+            "No source supports a colour filter yet. Leave any; retained for compatibility only.",
         ),
         "landscape_only": (
             "Landscape only",
             "Only choose artworks that are wider than they are tall.",
         ),
         "strict_tv_format": (
-            "Prefer the TV's shape",
+            "Prefer 16:9 (may take longer)",
             (
                 "Prefer artworks within about 1 % of the TV's 16:9 shape. If there is none, and "
                 "Landscape only is on with the contain fit, another landscape artwork is shown "
-                "whole, with margins."
+                "whole, with margins. For Commons, turn this off: these 50 works are not "
+                "near-exact 16:9."
             ),
         ),
         "fit_mode": (
-            "Fit",
+            "Image fit (contain = no crop)",
             (
                 "contain shows the whole artwork, with margins where its shape differs from the "
                 "TV's (nothing is cropped). cover fills the whole screen and may crop the edges."
@@ -232,6 +229,129 @@ def translations() -> dict[str, Value]:
             ),
         ),
     }
+    if language == "de":
+        texts = {
+            "tv_host": (
+                "TV-IP-Adresse",
+                (
+                    "Die feste private IPv4-Adresse deines Frame TV, z. B. 192.168.1.20. "
+                    "Reserviere sie im Router; Gerätenamen werden nicht unterstützt."
+                ),
+            ),
+            "source": (
+                "Bildquelle",
+                (
+                    "wikimedia_commons: 50 ausgewählte Querformat-Werke der klassischen Moderne, "
+                    "ohne API-Key. art_institute_chicago: Art Institute of Chicago. "
+                    "cleveland_museum_of_art: Cleveland Museum of Art. local_media: eigene "
+                    "JPEG/PNG-Dateien unter frame_gallery/library im HA-Medienordner."
+                ),
+            ),
+            "landscape_only": (
+                "Nur Querformat",
+                (
+                    "Wählt ausschließlich Bilder aus, die breiter als hoch sind. "
+                    "Für einen waagerechten Fernseher empfohlen."
+                ),
+            ),
+            "strict_tv_format": (
+                "16:9 bevorzugen (kann länger dauern)",
+                (
+                    "Sucht zuerst nach fast exakt 16:9. Mit Querformat und contain wird sonst "
+                    "ein ganzes Querformat-Bild mit Rand verwendet. Für Commons ausschalten: "
+                    "Die 50 Werke sind nicht nahezu exakt 16:9."
+                ),
+            ),
+            "fit_mode": (
+                "Bildanpassung (contain = ohne Beschnitt)",
+                (
+                    "contain zeigt das vollständige Werk mit Rand, ohne es zu beschneiden. "
+                    "cover füllt den Bildschirm und kann Ränder abschneiden. Empfehlung: contain."
+                ),
+            ),
+            "department": (
+                "Sammlung (nur Cleveland, optional)",
+                (
+                    "Filtert eine Sammlung des Cleveland Museum of Art. any bedeutet ohne Filter. "
+                    "Chicago, Commons und eigene Bilder unterstützen diesen Filter nicht; "
+                    "ignorierte Filter werden im Protokoll genannt."
+                ),
+            ),
+            "style": (
+                "Entstehungszeit (nur Museen, optional)",
+                (
+                    "Filtert das Entstehungsjahr in Chicago und Cleveland. any heißt ohne Filter. "
+                    "Commons und eigene Bilder unterstützen diesen Filter nicht. "
+                    "Kunststile werden noch nicht angeboten."
+                ),
+            ),
+            "background_color": (
+                "Randfarbe (optional)",
+                "Randfarbe bei contain als #RRGGBB. Ohne Angabe ist der Rand schwarz (#000000).",
+            ),
+            "source_helper": (
+                "Bildquelle vom Dashboard (optional)",
+                (
+                    "Entitäts-ID eines Dropdown- oder Text-Helfers, z. B. "
+                    "input_select.frame_gallery_source. Dessen Wert ersetzt die Bildquelle. "
+                    "Leer lassen, um die obige Einstellung zu nutzen."
+                ),
+            ),
+            "department_helper": (
+                "Sammlung vom Dashboard (optional)",
+                (
+                    "Entitäts-ID eines Dropdown- oder Text-Helfers für die Cleveland-Sammlung. "
+                    "Leer lassen, um die obige Einstellung zu nutzen."
+                ),
+            ),
+            "style_helper": (
+                "Entstehungszeit vom Dashboard (optional)",
+                (
+                    "Entitäts-ID eines Dropdown- oder Text-Helfers für die Entstehungszeit "
+                    "der Museumswerke. Leer lassen, um die obige Einstellung zu nutzen."
+                ),
+            ),
+            "color_helper": (
+                "Farb-Helfer (noch nicht verfügbar)",
+                (
+                    "Kein Farbfilter verfügbar. Leer lassen; nur zur Kompatibilität "
+                    "mit bisherigen Einstellungen vorhanden."
+                ),
+            ),
+            "log_level": (
+                "Protokolldetails (Expertenoption)",
+                (
+                    "info ist Standard. debug protokolliert zusätzlich die geprüften Kandidaten. "
+                    "Für den normalen Betrieb nicht erforderlich."
+                ),
+            ),
+            "loading_timer": (
+                "Dashboard-Ladeanzeige (optional)",
+                (
+                    "Entitäts-ID des zugehörigen Timers, z. B. timer.frame_gallery_run. "
+                    "Die App beendet dessen Ladeanzeige nach dem Aufräumen. "
+                    "Ohne Angabe ist der Timer-Ablauf die Absicherung."
+                ),
+            ),
+            "artwork_info_helper": (
+                "Künstler und Titel im Dashboard (optional)",
+                (
+                    "Entitäts-ID eines Text-Helfers, z. B. input_text.frame_gallery_artwork. "
+                    "Mindestlänge 0, Maximallänge 255, kein Initialwert. "
+                    "Nicht denselben Helfer wie für Filter verwenden. "
+                    "Leer lassen für die reine Bildkarte."
+                ),
+            ),
+            "color": (
+                "Farbe (noch nicht verfügbar)",
+                (
+                    "Kein Farbfilter verfügbar. any beibehalten; nur zur Kompatibilität "
+                    "mit bisherigen Einstellungen vorhanden."
+                ),
+            ),
+        }
+    elif language != "en":
+        raise ValueError("unsupported configuration language")
     return {
         "configuration": {
             option: {"name": name, "description": description}
@@ -287,7 +407,11 @@ def main(argv: Sequence[str] | None = None) -> int:
     parser.add_argument("--check", action="store_true", help="only compare, write nothing")
     arguments = parser.parse_args(argv)
     differs = []
-    for path, document in ((CONFIG, config()), (TRANSLATIONS, translations())):
+    for path, document in (
+        (CONFIG, config()),
+        (TRANSLATIONS, translations()),
+        (GERMAN_TRANSLATIONS, translations("de")),
+    ):
         text = render(document)
         if arguments.check:
             if not path.exists() or path.read_text() != text:

@@ -73,6 +73,41 @@ def test_the_files_are_what_the_script_writes() -> None:
     assert (PROJECT / "translations" / "en.yaml").read_text() == SCRIPT.render(
         SCRIPT.translations()
     )
+    assert (PROJECT / "translations" / "de.yaml").read_text() == SCRIPT.render(
+        SCRIPT.translations("de")
+    )
+
+
+def test_basic_settings_are_short_and_optional_defaults_preserve_existing_behavior() -> None:
+    assert list(OPTIONS) == ["source", "landscape_only", "strict_tv_format", "fit_mode"]
+    assert list(SCHEMA)[:5] == [
+        "tv_host",
+        "source",
+        "landscape_only",
+        "strict_tv_format",
+        "fit_mode",
+    ]
+    for option in ("department", "style", "color", "background_color"):
+        assert option not in OPTIONS
+        assert SCHEMA[option].endswith("?")
+    assert _parse(**OPTIONS) == _parse(
+        **OPTIONS, department="any", style="any", color="any", background_color="#000000"
+    )
+
+
+def test_german_texts_cover_every_option_and_explain_commons_and_no_crop() -> None:
+    texts = SCRIPT.translations("de")["configuration"]
+    assert set(texts) == set(SCHEMA)
+    assert "ohne API-Key" in texts["source"]["description"]
+    assert "Commons ausschalten" in texts["strict_tv_format"]["description"]
+    assert "ohne Beschnitt" in texts["fit_mode"]["name"]
+    assert "255" in texts["artwork_info_helper"]["description"]
+    for text in texts.values():
+        assert set(text) == {"name", "description"}
+        assert text["name"]
+        assert text["description"].endswith(".")
+    with pytest.raises(ValueError, match="language"):
+        SCRIPT.translations("not-a-language")
 
 
 def test_store_metadata_keeps_samsung_near_the_start_of_both_search_fields() -> None:
@@ -291,6 +326,7 @@ def test_the_check_mode_reports_and_the_write_mode_repairs(
 ) -> None:
     monkeypatch.setattr(SCRIPT, "CONFIG", tmp_path / "config.yaml")
     monkeypatch.setattr(SCRIPT, "TRANSLATIONS", tmp_path / "translations" / "en.yaml")
+    monkeypatch.setattr(SCRIPT, "GERMAN_TRANSLATIONS", tmp_path / "translations" / "de.yaml")
     monkeypatch.setattr(SCRIPT, "PROJECT", tmp_path)
     assert SCRIPT.main(["--check"]) == 1
     assert SCRIPT.main([]) == 0
