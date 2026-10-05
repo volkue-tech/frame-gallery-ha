@@ -34,6 +34,7 @@ from frame_gallery.net.policy import HostPolicy, validate_url
 from frame_gallery.providers.aic import AicProvider, aic_policy
 from frame_gallery.providers.cache import MemoryMetadataCache
 from frame_gallery.providers.cma import CmaProvider, cma_policy
+from frame_gallery.providers.commons import CommonsProvider, commons_policy
 from frame_gallery.providers.contract import (
     Candidate,
     DiscoveryContext,
@@ -46,6 +47,7 @@ from frame_gallery.providers.local_media import LocalInspectionProbe, LocalMedia
 from frame_gallery.providers.rights import ALLOWED_RIGHTS
 from frame_gallery.randomness import SeededRandomSource
 from tests.support.clock import FakeClock
+from tests.support.commons import TEST_CATALOG, CommonsSite
 from tests.support.images import marked, save_jpeg
 from tests.support.museums import AicMuseum, CmaMuseum, ParsedRequest, aic_record, cma_record
 from tests.support.net import (
@@ -172,10 +174,35 @@ def _local(tmp_path: Path) -> Subject:
     )
 
 
+def _commons() -> Subject:
+    clock = FakeClock()
+    site = CommonsSite()
+    transport = FakeTransport(clock=clock, handler=site)
+    gateway = Gateway(
+        resolver=FakeResolver(),
+        transport=transport,
+        clock=clock,
+        random=SeededRandomSource(1),
+        identity=TEST_IDENTITY,
+    )
+    policy = commons_policy()
+    channel = gateway.channel(policy, metadata_allowance=Allowance("metadata", 15))
+    return Subject(
+        source=SourceKey.WIKIMEDIA_COMMONS,
+        provider=CommonsProvider(channel, TEST_CATALOG),
+        clock=clock,
+        policy=policy,
+        transport=transport,
+        asked=lambda: [call.request.target for call in transport.calls],
+        fetcher=SourceFetcher(channels=[channel]),
+    )
+
+
 FACTORIES: dict[str, Callable[[Path], Subject]] = {
     "aic": lambda tmp_path: _aic(),
     "cma": lambda tmp_path: _cma(),
     "local": _local,
+    "commons": lambda tmp_path: _commons(),
 }
 
 

@@ -38,10 +38,13 @@ from frame_gallery.isolation.in_process import (
 )
 from frame_gallery.isolation.process import Launch
 from frame_gallery.net.wire import Resolver, Transport, WireRequest
+from frame_gallery.providers.commons_catalog import CATALOG
 from frame_gallery.randomness import SeededRandomSource
 from frame_gallery.store.layout import StoreLayout
 from frame_gallery.tv.port import Marker
 from tests.support.clock import FakeClock
+from tests.support.commons import CommonsSite
+from tests.support.commons import record as commons_record
 from tests.support.fakes import Events, FakeTelevision
 from tests.support.museums import AicMuseum, aic_image_id, aic_record
 from tests.support.net import (
@@ -50,6 +53,7 @@ from tests.support.net import (
     FakeResponse,
     FakeTransport,
     image_response,
+    json_response,
 )
 
 SUPERVISOR_NETWORK = IPv4Network("172.30.32.0/23")
@@ -353,6 +357,74 @@ def test_the_museum_wiring_uses_the_identity_and_the_file_cache(rig: Rig) -> Non
     )
     cache = json.loads((rig.layout.data / "cache" / "aic.json").read_text())
     assert cache["provider"] == "aic"
+
+
+def test_commons_production_wiring_delivers_two_distinct_works_and_cleans_up(rig: Rig) -> None:
+    site = CommonsSite(records={work.page_id: commons_record(work) for work in CATALOG})
+
+    def route(request: WireRequest) -> FakeResponse:
+        if request.host in {"upload.wikimedia.org", "thumb.wikimedia.org"}:
+            return image_response(jpeg((3840, 2160)))
+        return site(request)
+
+    rig.transport.handler = route
+    rig.options(source="wikimedia_commons")
+    for _ in range(2):
+        assert rig.run() == 0
+        assert "outcome=delivered " in rig.summary_lines[-1]
+    history = json.loads((rig.layout.data / "state" / "history.json").read_text())
+    ids = [item["id"] for item in history["entries"]]
+    assert len(ids) == len(set(ids)) == 2
+    assert all(value.startswith("commons:") for value in ids)
+    preview = rig.layout.media / "frame_gallery" / "preview" / "latest.jpg"
+    assert preview.read_bytes() == rig.tv.payloads[-1]
+    assert len(rig.tv.payloads) == 2
+    assert not list((rig.layout.tmp / "frame-gallery").iterdir())
+    assert "run_directories=0" in rig.output
+    assert not (rig.layout.data / "cache" / "commons.json").exists()
+    assert {path.name for path in preview.parent.iterdir()} == {"latest.jpg"}
+
+
+def test_commons_landscape_fallback_preserves_edges_and_publishes_caption(rig: Rig) -> None:
+    site = CommonsSite(records={work.page_id: commons_record(work) for work in CATALOG})
+    for row in site.records.values():
+        assert isinstance(row, dict)
+        infos = row["imageinfo"]
+        assert isinstance(infos, list)
+        infos[0]["thumbheight"] = 2560
+    captions: list[dict[str, str]] = []
+
+    def route(request: WireRequest) -> FakeResponse:
+        if request.host == "supervisor":
+            if request.method == "GET":
+                return json_response({"state": "", "attributes": {"max": 255}})
+            assert request.body is not None
+            body = json.loads(request.body)
+            assert body["entity_id"] == "input_text.frame_gallery_artwork"
+            if body["value"]:
+                captions.append(json.loads(body["value"]))
+            return FakeResponse(status=200)
+        if request.host in {"upload.wikimedia.org", "thumb.wikimedia.org"}:
+            return image_response(jpeg((3840, 2560)))
+        return site(request)
+
+    rig.transport.handler = route
+    rig.options(source="wikimedia_commons", artwork_info_helper="input_text.frame_gallery_artwork")
+    assert rig.run() == 0
+    assert "outcome=delivered " in rig.summary_lines[-1]
+    assert len(site.queries) == 10  # finite full search, then existing safe fallback
+    assert len(captions) == 1
+    assert captions[0]["museum"] == "Wikimedia Commons"
+    current = json.loads((rig.layout.data / "state" / "current.json").read_text())
+    work = next(work for work in CATALOG if "commons:" + str(work.page_id) == current["id"])
+    assert captions[0]["artist"] == work.artist
+    assert captions[0]["title"] == work.title
+    with Image.open(io.BytesIO(rig.tv.payloads[-1])) as image:
+        assert image.size == (3840, 2160)
+        assert image.getpixel((0, 1080)) == (0, 0, 0)
+        assert image.getpixel((3839, 1080)) == (0, 0, 0)
+        assert image.getpixel((1920, 1080)) != (0, 0, 0)
+    assert not list((rig.layout.tmp / "frame-gallery").iterdir())
 
 
 def test_the_log_level_option_reaches_the_app_loggers(rig: Rig) -> None:

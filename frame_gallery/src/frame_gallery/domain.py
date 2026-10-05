@@ -109,6 +109,7 @@ class SourceKey(enum.StrEnum):
     LOCAL_MEDIA = "local_media"
     ART_INSTITUTE_CHICAGO = "art_institute_chicago"
     CLEVELAND_MUSEUM_OF_ART = "cleveland_museum_of_art"
+    WIKIMEDIA_COMMONS = "wikimedia_commons"
 
     @property
     def provider_key(self) -> str:
@@ -120,6 +121,7 @@ _PROVIDER_KEYS = {
     SourceKey.LOCAL_MEDIA: "local",
     SourceKey.ART_INSTITUTE_CHICAGO: "aic",
     SourceKey.CLEVELAND_MUSEUM_OF_ART: "cma",
+    SourceKey.WIKIMEDIA_COMMONS: "commons",
 }
 
 DEFAULT_SOURCE = SourceKey.ART_INSTITUTE_CHICAGO

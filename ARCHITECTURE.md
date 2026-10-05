@@ -1,5 +1,15 @@
 # Frame Gallery for Home Assistant — Architecture proposal
 
+**Post-beta Commons addendum (2026-10-05, D-206, local/unreleased):** a fourth
+provider reuses the port/gateway and finite metadata-only catalogue in
+`providers/commons_catalog.py`. `providers/commons.py` checks current rights,
+pinned upload hashes and bounded JPEG renditions. No optional department/style/
+period/colour filter, persistent cache, dependency or permission change. Entire
+permanently excluded batches may skip requests via the existing predicate;
+mixed batches still go to selection. All state, TV, preview/caption, isolation,
+cleanup and deadline rules remain. Historical three-source diagrams describe
+the original beta. Separate native/live/publication gates remain.
+
 **Post-beta local feature amendment (2026-10-04, D-202):** the optional
 `artwork_info_helper` adds a separate native information card to the unchanged
 standard preview. It narrowly extends §5/§15/§16.3/§17.5/§18: the parent may

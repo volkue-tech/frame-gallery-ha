@@ -1,5 +1,9 @@
 # Frame Gallery
 
+> Development branch note: the new [50-work Wikimedia Commons source](COMMONS.md)
+> is implemented locally but not available in the published 0.1.0b2 image yet.
+> Existing setup instructions and dashboard entities remain unchanged.
+
 One start, one fresh artwork on your Samsung Frame. Choose museum artwork or your own images, preserve the whole work without cropping by default, and optionally see the latest successful preview on your Home Assistant dashboard.
 
 ![Product illustration: a framed TV and its optional dashboard preview. Not a screenshot.](https://raw.githubusercontent.com/volkue-tech/frame-gallery-ha/main/docs/images/frame-gallery-overview.png)
@@ -189,7 +193,7 @@ mode: single
 | Option | What it does | Default |
 | --- | --- | --- |
 | TV address | The TV's IPv4 address. Only private home-network addresses are accepted. | none: required |
-| Artwork source | `art_institute_chicago`, `cleveland_museum_of_art`, or `local_media` (your own images). | `art_institute_chicago` |
+| Artwork source | `art_institute_chicago`, `cleveland_museum_of_art`, or `local_media` (your own images). Local unreleased extension: `wikimedia_commons` (50 curated works, no key). | `art_institute_chicago` |
 | Department (Cleveland only) | A department of the Cleveland Museum of Art, or `any`. | `any` |
 | Period (both museums) | `period_before_1400`, `period_1400_1599`, `period_1600_1799`, `period_1800_1899`, `period_1900_and_later`, or `any`. | `any` |
 | Colour | Only `any`: no source supports a colour filter yet. | `any` |
@@ -206,13 +210,13 @@ The full list of department and period values, with their labels and the other s
 
 ### Which filter works with which source
 
-| Filter | Your own images | Art Institute of Chicago | Cleveland Museum of Art |
-| --- | --- | --- | --- |
-| Department | not supported | not supported | supported |
-| Style | not supported | not supported | not supported |
-| Period | not supported | supported | supported |
-| Colour | not supported | not supported | not supported |
-| Landscape only, the TV's shape, fit | supported | supported | supported |
+| Filter | Your own images | Art Institute of Chicago | Cleveland Museum of Art | Wikimedia Commons (unreleased) |
+| --- | --- | --- | --- | --- |
+| Department | not supported | not supported | supported | not supported |
+| Style | not supported | not supported | not supported | not supported |
+| Period | not supported | supported | supported | not supported |
+| Colour | not supported | not supported | not supported | not supported |
+| Landscape only, the TV's shape, fit | supported | supported | supported | supported |
 
 A filter that the chosen source does not support is not applied. The app says so in its log, in its last line (`ignored_filters=…`), and in its run record; it never pretends to apply it. A value that is not on the lists above is refused: the run ends at once with `outcome=config_invalid`, and the log names the option.
 

@@ -1,6 +1,47 @@
 # Project status
 
-Last updated: 2026-10-04 (b2 published; Green software validation completed)
+Last updated: 2026-10-05 (Commons local implementation validated; not released)
+
+## Commons local checkpoint — 2026-10-05 (D-206)
+
+The user's “leg los” authorized the curated 50-work Commons implementation,
+without the artwork-request feature. Work is isolated on `codex/commons-curated`.
+Published 0.1.0b2, HA Green and the TV have not been changed in this checkpoint.
+
+The new keyless source is wired through the existing guarded gateway, selection,
+history/upload ledger, image processing, preview and optional caption ports.
+Fifty distinct pinned reproductions across eight artists are documented in
+`frame_gallery/COMMONS.md`; only metadata is bundled, not image bytes. Chicago
+remains the default. Unsupported department/period/style/colour filters are
+reported as ignored; existing geometry options are not changed automatically.
+All selected originals are landscape but none is strict ±1% 16:9. The guide
+recommends contain without strict TV format to retain the complete artwork.
+
+Actual local `scripts/check.sh` result: Ruff and formatting passed; strict host
+and Linux-platform mypy passed over 248 files; 4,988 tests passed with eleven
+unchanged Linux/root skips. Whole-package coverage is 100% line and branch
+(9,414 statements / 2,052 branches); the architecture's 100% subset also passed.
+The first full run caught a missing COMMONS.md build-context allowlist entry;
+it was added and the entire suite rerun successfully. Tests were not relaxed.
+Production-wiring simulations verify two distinct deliveries/history IDs,
+preview bytes matching the fake TV payload, finite strict-format fallback,
+black contain margins, captions and removal of scratch/run directories.
+These are synthetic tests, not actual TV or native-container results.
+
+Public metadata research identified two unresolved US-basis Delaunay entries;
+they remain in historical research but were replaced in the runtime catalogue
+by Klee's Before the Town and Deep Pathos. A live metadata-only adapter check
+offered 48/50 in about 9.3 seconds before correcting CC0 handling: Commons
+reports Copyrighted=True for two valid CC0 dedications. The adapter now requires
+their canonical CC0 URL instead of Copyrighted=False, with regression tests.
+The post-correction 50/50 live check is **pending**: automatic review rejected
+transmitting the project's contact email in the request header without explicit
+permission. A narrow permission question is open. No rejected call was bypassed.
+
+Next gate: finish that metadata-only check if approved, then request authorization
+for a new numbered beta and native ARM/Intel image/source validation, followed
+by an approved Green/TV update preserving history. No new beta, image, source
+package, GitHub push or release has been produced. Never retag the published b2.
 
 ## 0.1.0b2 publication receipt
 

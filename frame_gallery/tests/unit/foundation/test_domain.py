@@ -127,6 +127,7 @@ class TestSourceKey:
             "local_media",
             "art_institute_chicago",
             "cleveland_museum_of_art",
+            "wikimedia_commons",
         ]
 
     @pytest.mark.parametrize(
@@ -135,6 +136,7 @@ class TestSourceKey:
             (SourceKey.LOCAL_MEDIA, "local"),
             (SourceKey.ART_INSTITUTE_CHICAGO, "aic"),
             (SourceKey.CLEVELAND_MUSEUM_OF_ART, "cma"),
+            (SourceKey.WIKIMEDIA_COMMONS, "commons"),
         ],
     )
     def test_provider_key(self, source: SourceKey, provider_key: str) -> None:

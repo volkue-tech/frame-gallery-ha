@@ -107,7 +107,7 @@ def test_invalid_source_helper_keeps_static_with_one_warning(value: str) -> None
     assert merge.warnings == (
         (
             "source_helper does not name a source (art_institute_chicago, "
-            "cleveland_museum_of_art, or local_media); using the static value"
+            "cleveland_museum_of_art, local_media, or wikimedia_commons); using the static value"
         ),
     )
 

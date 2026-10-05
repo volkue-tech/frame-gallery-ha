@@ -1,5 +1,24 @@
 # Acceptance tests
 
+## Additional post-beta Commons criteria (D-206; existing IDs unchanged)
+
+- Exactly 50 unique curated metadata entries, no artwork files. Exclude the two
+  research entries whose US public-domain basis remained open.
+- Static/helper source `wikimedia_commons` needs no key. Unsupported optional
+  filters are reported. Offer only curated IDs/pinned uploads with current Public
+  Domain or canonical CC0 rights, no attribution requirement/declared restriction.
+- Lazy batches of five records maximum use existing HTTPS/public-IP gateway,
+  pacing, allowance and deadlines. Ten normal metadata requests maximum; errors,
+  missing files and exhaustion finish cleanly, never unboundedly.
+- Download returned bounded JPEG renditions with their actual dimensions; never
+  huge originals when thumbnail metadata is missing. Shared byte/decode/upscale/
+  fit guards apply, including safe landscape contain fallback with margins.
+- Repeated synthetic production runs record distinct history, match preview to TV
+  payload/caption and leave scratch empty. Fully sent catalogue does not recycle;
+  uncertainty is not classified as a permanent exclusion.
+- Public b2 remains unchanged. New native ARM/Intel validation and approved
+  Green/TV tests are release gates; local tests do not substitute for them.
+
 These are product-level acceptance criteria. Unit and integration test details should be derived independently during implementation.
 
 ## A. Installation and packaging

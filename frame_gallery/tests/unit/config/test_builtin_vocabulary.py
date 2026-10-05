@@ -182,6 +182,7 @@ def test_the_document_states_the_capability_matrix() -> None:
         SourceKey.LOCAL_MEDIA,
         SourceKey.ART_INSTITUTE_CHICAGO,
         SourceKey.CLEVELAND_MUSEUM_OF_ART,
+        SourceKey.WIKIMEDIA_COMMONS,
     )
     for name, dimension in names.items():
         match = re.search(rf"^\| {name} \| (.+) \|$", table, re.MULTILINE)

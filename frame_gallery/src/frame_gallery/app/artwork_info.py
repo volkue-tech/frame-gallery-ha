@@ -15,6 +15,7 @@ _MUSEUMS = {
     "aic": "Art Institute of Chicago",
     "cma": "Cleveland Museum of Art",
     "local": "Local images",
+    "commons": "Wikimedia Commons",
 }
 
 

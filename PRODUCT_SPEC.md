@@ -1,5 +1,20 @@
 # Product specification
 
+## Post-beta Commons extension (2026-10-05, D-206)
+
+Locally authorized fourth source: `wikimedia_commons`, with 50 individually
+curated landscape reproductions, predominantly classical modernism. No API key,
+registration or artwork-request feature. Bundle metadata only; recheck curated
+identity/upload hash, current rights and bounded renditions via the documented
+MediaWiki API. No worldwide copyright-clearance claim.
+
+Commons supports source and existing shape/fit options, not department, style,
+period or colour. Unsupported filters are reported. Existing history/upload
+ledger, deadlines, no-crop default, preview/caption and cleanup remain in force.
+A fully sent catalogue ends as no-match rather than recycling works. Landscape
+does not guarantee 16:9 or native 4K detail. This is unreleased local work; new
+native images, Green/TV changes and publication need separate approval.
+
 ## Product vision
 
 Frame Gallery should let a non-technical Home Assistant OS user install an app, choose artwork preferences, and send a fresh artwork to a compatible Samsung Frame television without SSH, shell access, Docker knowledge, or changes to Home Assistant's `configuration.yaml`.

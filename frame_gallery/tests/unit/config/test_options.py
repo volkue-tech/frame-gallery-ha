@@ -235,7 +235,10 @@ def test_each_source_key_is_accepted(source: SourceKey) -> None:
 def test_static_source_is_exact(value: object) -> None:
     issue = _issue(source=value)
     assert issue.option == "source"
-    assert "art_institute_chicago, cleveland_museum_of_art, or local_media" in issue.message
+    assert (
+        "art_institute_chicago, cleveland_museum_of_art, local_media, or wikimedia_commons"
+        in issue.message
+    )
 
 
 # -- department, style, color -----------------------------------------------------------------

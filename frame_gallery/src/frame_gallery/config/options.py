@@ -101,7 +101,8 @@ _LOG_LEVELS: Final = {level.value: level for level in LogLevel}
 
 _NOT_A_MAPPING: Final = "The options must be an object of option names and values."
 _SOURCE_CHOICES: Final = (
-    "The source must be one of art_institute_chicago, cleveland_museum_of_art, or local_media."
+    "The source must be one of art_institute_chicago, cleveland_museum_of_art, "
+    "local_media, or wikimedia_commons."
 )
 _FIT_MODE_CHOICES: Final = (
     "The fit mode must be contain (shows the whole artwork) or cover (fills the screen and "
@@ -134,7 +135,7 @@ def _tv_host(
 
 
 def _source(value: object, issues: list[ConfigIssue]) -> SourceKey:
-    """The static source: one of the three keys exactly (no normalization)."""
+    """The static source: one of the source keys exactly (no normalization)."""
     if value is None:
         return DEFAULT_SOURCE
     source = _SOURCES.get(value) if isinstance(value, str) else None

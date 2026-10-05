@@ -32,7 +32,8 @@ class HelperMerge:
 _UNREADABLE: Final = "could not be read"
 _UNAVAILABLE: Final = "is unavailable in Home Assistant"
 _NOT_A_SOURCE: Final = (
-    "does not name a source (art_institute_chicago, cleveland_museum_of_art, or local_media)"
+    "does not name a source (art_institute_chicago, cleveland_museum_of_art, "
+    "local_media, or wikimedia_commons)"
 )
 _NOT_A_KEY: Final = "matches no key, label, or alias of this option"
 

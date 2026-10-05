@@ -29,6 +29,7 @@ HELPER = "input_text.frame_gallery_artwork"
         ("aic", "Art Institute of Chicago"),
         ("cma", "Cleveland Museum of Art"),
         ("local", "Local images"),
+        ("commons", "Wikimedia Commons"),
         ("other", ""),
     ],
 )

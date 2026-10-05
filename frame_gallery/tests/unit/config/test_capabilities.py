@@ -36,6 +36,7 @@ from tests.unit.config.synthetic import (
 LOCAL = SourceKey.LOCAL_MEDIA
 AIC = SourceKey.ART_INSTITUTE_CHICAGO
 CMA = SourceKey.CLEVELAND_MUSEUM_OF_ART
+COMMONS = SourceKey.WIKIMEDIA_COMMONS
 
 DEPARTMENT = FilterDimension.DEPARTMENT
 STYLE_DIM = FilterDimension.STYLE
@@ -45,6 +46,10 @@ COLOR_DIM = FilterDimension.COLOR
 # The expected matrix, written out by hand from §9.2 as amended by D-146
 # (not derived from the code).
 EXPECTED_SUPPORT = {
+    (COMMONS, DEPARTMENT): False,
+    (COMMONS, STYLE_DIM): False,
+    (COMMONS, PERIOD_DIM): False,
+    (COMMONS, COLOR_DIM): False,
     (LOCAL, DEPARTMENT): False,
     (LOCAL, STYLE_DIM): False,
     (LOCAL, PERIOD_DIM): False,
@@ -74,6 +79,11 @@ OTHER = IgnoreReason.OTHER_SOURCE
 
 # The expected outcome of each value for each source (None = applied).
 EXPECTED_OUTCOME = {
+    (COMMONS, AIC_DEPARTMENT): UNSUPPORTED,
+    (COMMONS, CMA_DEPARTMENT): UNSUPPORTED,
+    (COMMONS, STYLE): UNSUPPORTED,
+    (COMMONS, PERIOD): UNSUPPORTED,
+    (COMMONS, COLOR): UNSUPPORTED,
     (LOCAL, AIC_DEPARTMENT): UNSUPPORTED,
     (LOCAL, CMA_DEPARTMENT): UNSUPPORTED,
     (LOCAL, STYLE): UNSUPPORTED,
@@ -105,6 +115,7 @@ def _filters(
 
 def test_matrix_is_exactly_the_published_one() -> None:
     assert dict(CAPABILITY_MATRIX) == {
+        COMMONS: frozenset(),
         LOCAL: frozenset(),
         AIC: frozenset({PERIOD_DIM}),
         CMA: frozenset({DEPARTMENT, PERIOD_DIM}),
@@ -125,7 +136,7 @@ def test_capability_rows() -> None:
     rows = capability_rows()
     assert [dimension for dimension, _ in rows] == [DEPARTMENT, STYLE_DIM, PERIOD_DIM, COLOR_DIM]
     for dimension, cells in rows:
-        assert [source for source, _ in cells] == [LOCAL, AIC, CMA]
+        assert [source for source, _ in cells] == [LOCAL, AIC, CMA, COMMONS]
         for source, supported in cells:
             assert supported is EXPECTED_SUPPORT[(source, dimension)]
 

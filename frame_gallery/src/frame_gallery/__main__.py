@@ -67,6 +67,7 @@ from frame_gallery.net.wire import Resolver, Transport
 from frame_gallery.providers import aic, cma
 from frame_gallery.providers.aic import AicProvider, aic_policy
 from frame_gallery.providers.cma import CmaProvider, cma_policy
+from frame_gallery.providers.commons import CommonsProvider, commons_policy
 from frame_gallery.providers.local_media import LocalInspectionProbe, LocalMediaProvider
 from frame_gallery.randomness import RandomSource, SystemRandomSource
 from frame_gallery.store.diagnostics import log_storage
@@ -187,6 +188,10 @@ def run_app(environ: MutableMapping[str, str], stream: TextIO, wiring: Wiring) -
     )
     aic_cache = layout.metadata_cache(aic.PROVIDER_KEY, clock)
     cma_cache = layout.metadata_cache(cma.PROVIDER_KEY, clock)
+    commons_channel = gateway.channel(
+        commons_policy(),
+        metadata_allowance=Allowance("commons_metadata_requests", METADATA_REQUEST_ALLOWANCE),
+    )
     local = LocalMediaProvider(
         root=layout.media.joinpath(*LIBRARY_PARTS),
         preview_dir=layout.media.joinpath(*PREVIEW_PARTS),
@@ -226,8 +231,9 @@ def run_app(environ: MutableMapping[str, str], stream: TextIO, wiring: Wiring) -
                 probe=LocalInspectionProbe(local, executor),
                 after_discovery=local.report_discovery,
             ),
+            SourceKey.WIKIMEDIA_COMMONS: ProviderBinding(CommonsProvider(commons_channel)),
         },
-        fetcher=SourceFetcher(local=local, channels=(aic_channel, cma_channel)),
+        fetcher=SourceFetcher(local=local, channels=(aic_channel, cma_channel, commons_channel)),
         executor=executor,
         television=wiring.television(executor, layout),
         workspace=workspace,

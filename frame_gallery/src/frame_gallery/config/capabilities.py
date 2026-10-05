@@ -27,6 +27,7 @@ from frame_gallery.domain import SourceKey
 CAPABILITY_MATRIX: Final[Mapping[SourceKey, frozenset[FilterDimension]]] = MappingProxyType(
     {
         SourceKey.LOCAL_MEDIA: frozenset(),
+        SourceKey.WIKIMEDIA_COMMONS: frozenset(),
         SourceKey.ART_INSTITUTE_CHICAGO: frozenset({FilterDimension.PERIOD}),
         SourceKey.CLEVELAND_MUSEUM_OF_ART: frozenset(
             {FilterDimension.DEPARTMENT, FilterDimension.PERIOD}

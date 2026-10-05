@@ -17,10 +17,17 @@ class RightsBasis(enum.StrEnum):
     CC0 = "cc0"
     """A museum image dedicated to the public domain under CC0."""
 
+    PUBLIC_DOMAIN = "public_domain"
+    """An individually curated Commons reproduction labelled public domain.
+
+    This is not a warranty of worldwide legal clearance (D-206).
+    """
+
 
 ALLOWED_RIGHTS: Final[dict[SourceKey, frozenset[RightsBasis]]] = {
     SourceKey.LOCAL_MEDIA: frozenset({RightsBasis.USER_SUPPLIED}),
     SourceKey.ART_INSTITUTE_CHICAGO: frozenset({RightsBasis.CC0}),
     SourceKey.CLEVELAND_MUSEUM_OF_ART: frozenset({RightsBasis.CC0}),
+    SourceKey.WIKIMEDIA_COMMONS: frozenset({RightsBasis.CC0, RightsBasis.PUBLIC_DOMAIN}),
 }
 """Selection rejects any candidate whose rights basis is not listed here."""

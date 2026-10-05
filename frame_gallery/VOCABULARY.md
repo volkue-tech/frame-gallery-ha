@@ -55,9 +55,9 @@ A configured style or colour value is therefore invalid, and a helper that sends
 
 ## Capability matrix (beta)
 
-| Filter | Local media | Art Institute of Chicago | Cleveland Museum of Art |
-| --- | --- | --- | --- |
-| Department | unsupported | unsupported (values undocumented) | supported |
-| Style | unsupported | unsupported (values undocumented) | unsupported |
-| Period | unsupported | supported | supported |
-| Colour | unsupported | unsupported (members undocumented) | unsupported |
+| Filter | Local media | Art Institute of Chicago | Cleveland Museum of Art | Wikimedia Commons (unreleased) |
+| --- | --- | --- | --- | --- |
+| Department | unsupported | unsupported (values undocumented) | supported | unsupported |
+| Style | unsupported | unsupported (values undocumented) | unsupported | unsupported |
+| Period | unsupported | supported | supported | unsupported |
+| Colour | unsupported | unsupported (members undocumented) | unsupported | unsupported |

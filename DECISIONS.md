@@ -1,5 +1,56 @@
 # Decision log
 
+## Curated Commons extension (2026-10-05)
+
+### D-206 — bounded, keyless Wikimedia Commons adapter
+
+Status: local implementation authorized by the user's “leg los” after the
+50-landscape research. No HA/TV mutation or publication approval this turn.
+
+- Source `wikimedia_commons`, history prefix `commons`; Chicago stays default.
+  No registration/key, new dependency, image bundling or artwork-request feature.
+- Fifty metadata entries across eight artists: curated page ID/file title,
+  original-upload SHA-1, plain title/artist. Hash identifies the selected
+  reproduction, not legal/security clearance. Changed uploads/titles are skipped.
+- Delaunay files 22950618/104640628 stay in historical research only: their US
+  basis was open. Replacements are Klee's Before the Town (60907526) and Deep
+  Pathos (60907632), visually checked with explicit PD-old-auto-expired pages.
+- Documented MediaWiki query/imageinfo, formatversion 2, pageids, five records
+  per request, iilimit 1, English filtered rights fields, iiurlwidth 3840, maxlag 5.
+  Finite shuffle: at most ten normal requests; allowance 15 includes gateway
+  redirects/retries. Shared pacing, time and byte caps remain.
+- Exact metadata host commons.wikimedia.org; image hosts upload.wikimedia.org
+  and thumb.wikimedia.org under /wikipedia/commons/. Returned URLs/sizes only.
+  JPEG at most 3840 per axis; never oversized-original fallback. Workers still
+  verify actual bytes/dimensions. No arbitrary categories or HTML parsing.
+- Current Public domain requires Copyrighted false. CC0 additionally requires
+  the canonical creativecommons.org/publicdomain/zero/1.0/ dedication URL
+  (http/https and deed.en metadata forms, never fetched). Commons may report
+  Copyrighted True for CC0. Both require AttributionRequired false and no declared
+  Restrictions. Missing/revoked/unsupported rights fail closed. This is Commons'
+  statement, not legal advice or universal copyright clearance.
+- No optional department/style/period/colour filter. Shared geometry/contain and
+  optional artist/title helper work, source label Wikimedia Commons (not a claim
+  it owns the museum collection). None is strict ±1% 16:9; contain can leave margins.
+- Existing history/upload ledger decides no-repeat. Entire batches permanently
+  excluded skip requests and increment discovery notes; mixed batches yield valid
+  records to selection. Quarantine is never a permanent exclusion. After 50 sent
+  works: no-match, no recycle. No persistent metadata cache or downloaded library.
+- Synthetic fixtures/shared contract and production-wiring simulations cover
+  requests, rights, failures, repeated delivery, fallback, captions and cleanup.
+  Live metadata evidence is distinct from decode/container/Green/TV validation.
+- Work isolated on codex/commons-curated. Config changes are local only; published
+  b2 remains unchanged. New version, exact-source package, native ARM/Intel and
+  approved live validation are required before publication; never retag b2.
+
+Official references rechecked on 2026-10-05:
+[Imageinfo](https://www.mediawiki.org/wiki/API:Imageinfo),
+[API usage](https://foundation.wikimedia.org/wiki/Policy:Wikimedia_Foundation_API_Usage_Guidelines),
+[Commons reuse](https://commons.wikimedia.org/wiki/Commons:Reusing_content_outside_Wikimedia),
+[CC0](https://creativecommons.org/publicdomain/zero/1.0/),
+[Before the Town](https://commons.wikimedia.org/w/index.php?curid=60907526),
+[Deep Pathos](https://commons.wikimedia.org/w/index.php?curid=60907632).
+
 ## Optional dashboard attribution (2026-10-04)
 
 ### D-205 — observed b2 Green rendering, negative outcomes and Core restoration

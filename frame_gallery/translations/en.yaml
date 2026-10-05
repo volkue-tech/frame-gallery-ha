@@ -5,13 +5,13 @@ configuration:
     description: 'The IPv4 address of your Frame TV on your home network, for example 192.168.1.20. Only private home-network addresses are accepted. Give the TV a fixed address in your router (a DHCP reservation), so that it keeps this address.'
   source:
     name: 'Artwork source'
-    description: 'Where the artwork comes from: the Art Institute of Chicago (public-domain works), the Cleveland Museum of Art (open-access works), or local_media, your own JPEG and PNG images in the folder frame_gallery/library of Home Assistant''s media.'
+    description: 'Where the artwork comes from: the Art Institute of Chicago (public-domain works), the Cleveland Museum of Art (open-access works), Wikimedia Commons (50 curated modern landscape artworks, no API key), or local_media, your own JPEG and PNG images in the folder frame_gallery/library of Home Assistant''s media.'
   department:
     name: 'Department (Cleveland only)'
-    description: 'Only works from this department of the Cleveland Museum of Art; any means no filter. The Art Institute of Chicago and your own images do not support a department: with them, a department is not applied, and the log and the run record say so.'
+    description: 'Only works from this department of the Cleveland Museum of Art; any means no filter. The Art Institute of Chicago and your own images do not support a department: with them, a department is not applied, and the log and the run record say so. Wikimedia Commons does not support a department filter either.'
   style:
     name: 'Period (both museums)'
-    description: 'Only works created in this period: before 1400, 1400 to 1599, 1600 to 1799, 1800 to 1899, or 1900 and later; any means no filter. It applies to both museums, not to your own images. Art styles are not offered yet.'
+    description: 'Only works created in this period: before 1400, 1400 to 1599, 1600 to 1799, 1800 to 1899, or 1900 and later; any means no filter. It applies to both museums, not to your own images. Art styles are not offered yet. Wikimedia Commons does not support a period filter either.'
   color:
     name: Colour
     description: 'No source supports a colour filter yet, so the only choice is any.'

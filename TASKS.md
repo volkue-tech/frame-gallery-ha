@@ -1,5 +1,25 @@
 # Implementation plan and approval gates
 
+## Post-beta Commons (2026-10-05, D-206)
+
+User authorized local implementation of the 50-work source without a request
+feature. Previous live/publication approvals do not authorize this update.
+
+- [x] Recheck API docs, curate 50 metadata-only works, replace two unresolved
+  US-basis entries, pin upload hashes.
+- [x] Add guarded finite source, rights/rendition checks, schema/helper selection
+  and optional captions using existing no-repeat/runtime ports.
+- [x] Add synthetic safety/contract and production-wiring regression tests.
+- [x] Finish full local quality gates and record actual evidence in STATUS.md.
+- [ ] After contact-header permission: repeat metadata-only adapter check after
+  the CC0 correction (post-correction 50/50 is not yet a live observation).
+- [ ] After approval: new numbered beta, exact-source/source-package and native
+  ARM/Intel image/signature validation. Never overwrite b2.
+- [ ] After approval: update Green preserving history; verify Commons preview/
+  caption/loading/cleanup and actual TV display, then publish as authorized.
+
+Stop after local validation, before HA/TV mutations, registry or GitHub writes.
+
 ## Phase 0 — Specification package
 
 Owner: Codex

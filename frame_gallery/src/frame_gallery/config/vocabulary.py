@@ -3,7 +3,7 @@
 A vocabulary gives every filter key a label and optional aliases. Static
 option values and helper states are normalized with :func:`normalize_term`
 and matched against the keys, labels, and aliases of one option field only.
-The source is not part of any vocabulary: it accepts only the three source
+The source is not part of any vocabulary: it accepts only the defined source
 keys (§15.3).
 """
 
@@ -256,7 +256,7 @@ class Vocabulary:
     def lookup_source(self, value: str) -> SourceKey | None:
         """The source whose key equals the normalized ``value``, or ``None``.
 
-        Only the three source keys are accepted (§15.3): there are no labels
+        Only the defined source keys are accepted (§15.3): there are no labels
         or aliases, and "any" is not a source.
         """
         if len(value) > LOOKUP_MAX_LENGTH:

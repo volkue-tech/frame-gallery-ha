@@ -172,7 +172,12 @@ class TestSourceError:
 
 class TestRights:
     def test_bases(self) -> None:
-        assert [basis.value for basis in RightsBasis] == ["user_supplied", "cc0"]
+        assert [basis.value for basis in RightsBasis] == ["user_supplied", "cc0", "public_domain"]
+
+    def test_commons_is_curated_public_domain_or_cc0_only(self) -> None:
+        assert ALLOWED_RIGHTS[SourceKey.WIKIMEDIA_COMMONS] == frozenset(
+            {RightsBasis.CC0, RightsBasis.PUBLIC_DOMAIN}
+        )
 
     def test_every_source_has_an_allowlist(self) -> None:
         assert set(ALLOWED_RIGHTS) == set(SourceKey)
