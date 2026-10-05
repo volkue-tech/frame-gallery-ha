@@ -34,12 +34,24 @@ by Klee's Before the Town and Deep Pathos. A live metadata-only adapter check
 offered 48/50 in about 9.3 seconds before correcting CC0 handling: Commons
 reports Copyrighted=True for two valid CC0 dedications. The adapter now requires
 their canonical CC0 URL instead of Copyrighted=False, with regression tests.
-The post-correction 50/50 live check is **pending**: automatic review rejected
-transmitting the project's contact email in the request header without explicit
-permission. A narrow permission question is open. No rejected call was bypassed.
+The initial post-correction live check was held because automatic review rejected
+transmitting the project's original contact email without explicit permission.
+No rejected call was bypassed. The user then approved the dedicated contact
+`volkue+commonsapi@gmail.com`, now used by Commons metadata/image requests only;
+museum contacts and the personal Git identity remain unchanged. The actual
+post-correction metadata-only check accepted **50/50** in 10.35 seconds with
+ten metadata requests, no missing entries, and CC0/Public domain rights. Maximum
+returned rendition size was 12,599,040 pixels. No image bytes were downloaded;
+this is not a decode, native-container or television-display observation.
 
-Next gate: finish that metadata-only check if approved, then request authorization
-for a new numbered beta and native ARM/Intel image/source validation, followed
+The contact-alias follow-up reran the full offline quality script successfully:
+Ruff/formatting, strict host/Linux mypy (248 files), 4,989 passed, eleven unchanged
+platform skips, and 100% whole-package line/branch coverage (9,420 statements /
+2,052 branches). Regression tests check Commons' alias on metadata and image
+requests, preserve the runtime version, and leave museum identity unchanged.
+
+Next gate: request authorization for a new numbered beta and native ARM/Intel
+image/source validation, followed
 by an approved Green/TV update preserving history. No new beta, image, source
 package, GitHub push or release has been produced. Never retag the published b2.
 

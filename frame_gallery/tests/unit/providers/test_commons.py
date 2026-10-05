@@ -16,6 +16,7 @@ from frame_gallery.config.capabilities import CAPABILITY_MATRIX
 from frame_gallery.config.filters import EffectiveFilters, FilterSet
 from frame_gallery.domain import Size, SourceKey
 from frame_gallery.net.gateway import Gateway
+from frame_gallery.net.identity import commons_identity
 from frame_gallery.net.policy import HostPolicy
 from frame_gallery.providers.commons import CommonsProvider, commons_policy
 from frame_gallery.providers.commons_catalog import CATALOG
@@ -130,6 +131,10 @@ def test_identity_policy_caption_and_lazy_paced_batched_discovery() -> None:
         assert "extmetadata" in q["iiprop"]
         assert "sha1" in q["iiprop"]
     assert all("Authorization" not in call.request.headers for call in rig.transport.calls)
+    assert all(
+        call.request.headers["User-Agent"] == commons_identity().user_agent
+        for call in rig.transport.calls
+    )
 
 
 def test_empty_catalog_and_foreign_filters_or_channel_and_unoffered_refs() -> None:

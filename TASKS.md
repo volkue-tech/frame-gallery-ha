@@ -11,8 +11,8 @@ feature. Previous live/publication approvals do not authorize this update.
   and optional captions using existing no-repeat/runtime ports.
 - [x] Add synthetic safety/contract and production-wiring regression tests.
 - [x] Finish full local quality gates and record actual evidence in STATUS.md.
-- [ ] After contact-header permission: repeat metadata-only adapter check after
-  the CC0 correction (post-correction 50/50 is not yet a live observation).
+- [x] After dedicated contact-header permission: repeat metadata-only adapter
+  check after the CC0 correction; actual result 50/50 in 10.35 s, ten requests.
 - [ ] After approval: new numbered beta, exact-source/source-package and native
   ARM/Intel image/signature validation. Never overwrite b2.
 - [ ] After approval: update Green preserving history; verify Commons preview/

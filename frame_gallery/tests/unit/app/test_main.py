@@ -37,6 +37,7 @@ from frame_gallery.isolation.in_process import (
     default_tasks,
 )
 from frame_gallery.isolation.process import Launch
+from frame_gallery.net.identity import commons_identity
 from frame_gallery.net.wire import Resolver, Transport, WireRequest
 from frame_gallery.providers.commons_catalog import CATALOG
 from frame_gallery.randomness import SeededRandomSource
@@ -383,6 +384,10 @@ def test_commons_production_wiring_delivers_two_distinct_works_and_cleans_up(rig
     assert "run_directories=0" in rig.output
     assert not (rig.layout.data / "cache" / "commons.json").exists()
     assert {path.name for path in preview.parent.iterdir()} == {"latest.jpg"}
+    assert all(
+        call.request.headers["User-Agent"] == commons_identity(TEST_IDENTITY.version).user_agent
+        for call in rig.transport.calls
+    )
 
 
 def test_commons_landscape_fallback_preserves_edges_and_publishes_caption(rig: Rig) -> None:

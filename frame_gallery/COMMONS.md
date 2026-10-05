@@ -14,6 +14,11 @@ the app's Configuration tab, save, and use your existing dashboard button.
 No account, API key, new helper or extra dashboard extension. Optional title/
 artist display continues to use the existing Text helper.
 
+Commons requests identify Frame Gallery with the project contact
+`volkue+commonsapi@gmail.com`. This is not your own email or an API key; users
+need not configure it. This contact is recorded in project source/documentation
+and is sent in request headers to Commons and its allowed image hosts.
+
 **For these works:** keep Landscape only on and Fit mode `contain` (do not crop).
 None is near-exact 16:9; the normal bounded fallback can use them with margins.
 Turning strict TV format off avoids the search for a 16:9 match that this initial

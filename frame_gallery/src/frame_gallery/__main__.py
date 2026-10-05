@@ -189,7 +189,7 @@ def run_app(environ: MutableMapping[str, str], stream: TextIO, wiring: Wiring) -
     aic_cache = layout.metadata_cache(aic.PROVIDER_KEY, clock)
     cma_cache = layout.metadata_cache(cma.PROVIDER_KEY, clock)
     commons_channel = gateway.channel(
-        commons_policy(),
+        commons_policy(identity.version),
         metadata_allowance=Allowance("commons_metadata_requests", METADATA_REQUEST_ALLOWANCE),
     )
     local = LocalMediaProvider(

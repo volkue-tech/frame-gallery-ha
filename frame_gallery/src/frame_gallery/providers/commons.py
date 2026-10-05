@@ -11,9 +11,11 @@ from __future__ import annotations
 from collections.abc import Iterator, Mapping, Sequence
 from typing import Final
 
+from frame_gallery import __version__
 from frame_gallery.config.filters import EffectiveFilters
 from frame_gallery.domain import Size, SourceKey
 from frame_gallery.net.gateway import ProviderChannel
+from frame_gallery.net.identity import commons_identity
 from frame_gallery.net.policy import HostPolicy, PolicyViolation, https_url, validate_url
 from frame_gallery.providers.commons_catalog import CATALOG, CuratedWork
 from frame_gallery.providers.contract import (
@@ -41,8 +43,12 @@ CC0_URLS: Final = frozenset(
 )
 
 
-def commons_policy() -> HostPolicy:
-    return HostPolicy(provider_key=PROVIDER_KEY, hosts=IMAGE_HOSTS | {API_HOST})
+def commons_policy(version: str = __version__) -> HostPolicy:
+    return HostPolicy(
+        provider_key=PROVIDER_KEY,
+        hosts=IMAGE_HOSTS | {API_HOST},
+        courtesy_headers={"User-Agent": commons_identity(version).user_agent},
+    )
 
 
 class CommonsProvider:

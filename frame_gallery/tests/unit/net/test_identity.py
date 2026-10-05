@@ -5,7 +5,13 @@ from __future__ import annotations
 import pytest
 
 from frame_gallery import __version__
-from frame_gallery.net.identity import PROJECT_CONTACT, ClientIdentity, project_identity
+from frame_gallery.net.identity import (
+    COMMONS_CONTACT,
+    PROJECT_CONTACT,
+    ClientIdentity,
+    commons_identity,
+    project_identity,
+)
 from frame_gallery.net.policy import check_header
 from tests.support.net import PLACEHOLDER_CONTACT, TEST_IDENTITY
 
@@ -29,6 +35,15 @@ def test_the_production_identity_uses_the_approved_contact() -> None:
     assert identity.contact == PROJECT_CONTACT
     assert identity.version == __version__
     assert identity.contact != PLACEHOLDER_CONTACT
+
+
+def test_commons_contact_is_dedicated_and_preserves_the_requested_version() -> None:
+    assert commons_identity().contact == COMMONS_CONTACT
+    assert commons_identity().version == __version__
+    assert commons_identity().contact != project_identity().contact
+    assert commons_identity("0.0.0-test").version == "0.0.0-test"
+    check_header("User-Agent", commons_identity().user_agent)
+    assert project_identity().contact == PROJECT_CONTACT
 
 
 @pytest.mark.parametrize(

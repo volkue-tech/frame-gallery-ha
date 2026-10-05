@@ -9,6 +9,10 @@ Status: local implementation authorized by the user's “leg los” after the
 
 - Source `wikimedia_commons`, history prefix `commons`; Chicago stays default.
   No registration/key, new dependency, image bundling or artwork-request feature.
+- User approved `volkue+commonsapi@gmail.com` for Commons API contact headers on
+  2026-10-05. Commons' host policy overrides the User-Agent for metadata/image
+  requests only, preserving the runtime version; museum contacts and Git identity
+  stay unchanged. The address is a project contact, not a secret or API key.
 - Fifty metadata entries across eight artists: curated page ID/file title,
   original-upload SHA-1, plain title/artist. Hash identifies the selected
   reproduction, not legal/security clearance. Changed uploads/titles are skipped.
