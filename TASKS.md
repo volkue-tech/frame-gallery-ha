@@ -1,5 +1,41 @@
 # Implementation plan and approval gates
 
+## 400 usable Commons works and first-user UX (2026-10-06, D-211)
+
+- [x] Retain original proposals/caches; research additions in a separate folder.
+- [x] Visually inspect complete works; reject frames, details, duplicate scans,
+  poor reproductions and incompatible rights, without weakening the 2.5% limit.
+- [x] Freeze 400 distinct usable JPEG entries and their auditable provenance;
+  recheck all additions through the unchanged production metadata adapter.
+  *166 unchanged + 234 new; 299 artist labels; 400/400 metadata acceptance over
+  eight bounded audit passes in 74.45 s. No image/TV validation implied.*
+- [x] Promote the authentic colourful Commons dashboard screenshot to Info/guide.
+- [x] Explain the first TV run separately from optional camera/timer/script setup.
+- [x] Add expanded-catalogue tests, full quality gates and a scrolling preview.
+  *5,006 tests, eleven platform skips, 100% line/branch coverage, Ruff and strict
+  mypy. Preview: 400 usable works + 34 separately retained older review cases;
+  search/filter/bookmark tests passed. 26 vetted reserves remain local.*
+- [ ] Obtain explicit new publication approval before numbered release, personal
+  credential session, native builds, signed images or Store changes.
+
+Samsung IP reuse/discovery remains an optional feasibility question. No HA/TV
+changes or network scans are authorized by this task. Published b4 is immutable.
+
+## Commons default and source-order UX (2026-10-06, D-210)
+
+- [x] Use Commons first and as the shared default for new/missing-source options.
+- [x] Preserve all four saved source selections, shape/fit, helpers and history.
+- [x] Add parser/metadata/production-wiring regressions and update documentation.
+- [x] Run full local quality gates and record observed results.
+- [x] Research Detect-button feasibility only from official docs; no live scan.
+
+The scope-planning pause is superseded by D-211's local implementation approval.
+Initial 770 focused tests and final 5,006 full-suite tests passed; see STATUS.
+
+Gate: separate user approval before new runtime release/images/publication or
+live installation. Published b4 remains unchanged. No discovery implementation
+or extra network permissions are approved.
+
 ## Near-widescreen Commons update (2026-10-06, D-209)
 
 User authorized preserving research and publishing the update autonomously.

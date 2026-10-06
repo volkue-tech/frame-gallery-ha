@@ -1,6 +1,7 @@
 # Frame Gallery
 
-> **New in 0.1.0b4:** [166 near-widescreen Wikimedia Commons works](COMMONS.md), no API key,
+> **Next release, not yet published:** [400 near-widescreen Wikimedia Commons works](COMMONS.md), Commons first/default for new installations, and a clearer optional dashboard guide.
+> **Public 0.1.0b4:** 166 near-widescreen Wikimedia Commons works, no API key,
 > and unchanged simple English/German configuration. Update without uninstalling; your
 > existing camera, timer, script and optional artwork-information helper still work.
 
@@ -33,7 +34,7 @@ No SSH, no command line, and no change to `configuration.yaml` is needed at any 
 
 1. Use [Add to Home Assistant](https://my.home-assistant.io/redirect/supervisor_add_addon_repository/?repository_url=https%3A%2F%2Fgithub.com%2Fvolkue-tech%2Fframe-gallery-ha), or paste `https://github.com/volkue-tech/frame-gallery-ha` in **Settings → Apps → App store → ⋮ → Repositories**. This is an app repository, not a HACS integration.
 2. Open **Frame Gallery – Samsung Frame TV** in the app store and select **Install**. You can search for **Samsung** or **Frame Gallery**. Home Assistant downloads the image for your device (`aarch64` for the Green, `amd64` for a PC).
-3. Open the **Configuration** tab, enter the TV's address under **TV address**, choose your filters, and select **Save**.
+3. Open the **Configuration** tab, enter the TV's address under **TV address**, and select **Save**. For the first test, keep the remaining defaults; there is no API key to obtain and no need to configure advanced options.
 4. Leave **Watchdog** off: the app runs once per start and then stops by design, which the watchdog would take for a crash.
 
 You can use Frame Gallery immediately from its app page. No dashboard setup is needed for the first test.
@@ -73,9 +74,14 @@ The pairing key the TV issues is stored in the app's private data and is exclude
 
 ## Dashboard
 
-![Actual working Frame Gallery public-beta card showing the complete Elephant Bridge artwork. Tap the preview to start another run.](https://raw.githubusercontent.com/volkue-tech/frame-gallery-ha/main/docs/images/dashboard-preview.png)
+**Optional — your TV already works without this.** Continue here only when you
+want a preview and a convenient button in your dashboard. The one-time setup
+creates three named things: a preview camera, a loading timer and a script.
+They have different jobs; none is a physical camera or a second installation.
 
-*Actual dashboard screenshot. This installation uses a German label; you can choose your own card name. Artwork: [“Elephant Bridge” souvenir](https://www.clevelandart.org/art/1929.342), Cleveland Museum of Art, 1929.342, [CC0 Open Access](https://www.clevelandart.org/open-access). The complete examples below use generic entity IDs for a new setup.*
+![Actual working Frame Gallery card with Theo van Doesburg's colourful Counter-composition XVI and optional artwork information. Tap the preview to start another run.](https://raw.githubusercontent.com/volkue-tech/frame-gallery-ha/main/docs/images/dashboard-commons.png)
+
+*Actual historical b3 Green screenshot; optional artwork information is shown too. This installation uses a German label; you can choose your own card name. Artwork: Theo van Doesburg, [Counter-composition XVI](https://commons.wikimedia.org/w/index.php?curid=3817033), Wikimedia Commons reproduction with public-domain metadata checked on 2026-10-05. The complete examples below use generic entity IDs for a new setup; the text card remains optional.*
 
 **Tap the preview to request new artwork.** The example labels the image **Load new artwork** so first-time users can see that it is a button, not just a picture. During a run, the card adds an "Updating artwork…" note; afterward it shows the latest successful preview. Holding the image opens the camera's more-info view. A failed run keeps the previous preview.
 
@@ -217,7 +223,7 @@ mode: single
 | Option | What it does | Default |
 | --- | --- | --- |
 | TV address | The TV's IPv4 address. Only private home-network addresses are accepted. | none: required |
-| Artwork source | `art_institute_chicago`, `cleveland_museum_of_art`, `local_media` (your own images), or `wikimedia_commons` (166 near-widescreen works in b4; no key). | `art_institute_chicago` |
+| Artwork source | `wikimedia_commons` (400 near-widescreen works in the next release; b4 has 166; no key), `art_institute_chicago`, `cleveland_museum_of_art`, or `local_media` (your own images). | `wikimedia_commons` (next release; b4 defaults to Chicago) |
 | Department (Cleveland only) | A department of the Cleveland Museum of Art, or `any`. | `any` |
 | Period (both museums) | `period_before_1400`, `period_1400_1599`, `period_1600_1799`, `period_1800_1899`, `period_1900_and_later`, or `any`. | `any` |
 | Colour | Only `any`: no source supports a colour filter yet. | `any` |
@@ -227,6 +233,11 @@ mode: single
 | Margin colour | The margin colour in `contain` mode, as `#RRGGBB`. | `#000000` |
 | Source, department, period, and colour helpers | Optional helpers whose state replaces the matching option at every start (see below). | empty |
 | Log detail | `info`, or `debug` for every candidate the app considered. | `info` |
+
+The next release puts **Wikimedia Commons first** and selects it for new
+installations. Updates retain your saved source: choosing Chicago, Cleveland
+or your own images will not be undone. This change is not in the published b4
+image yet. To use Commons on b4, select `wikimedia_commons` and save.
 
 The full list of department and period values, with their labels and the other spellings the app accepts, is in [the vocabulary guide](https://github.com/volkue-tech/frame-gallery-ha/blob/main/frame_gallery/VOCABULARY.md).
 

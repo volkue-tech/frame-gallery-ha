@@ -1,5 +1,25 @@
 # Product specification
 
+## Commons catalogue expansion (2026-10-06, D-211; next release)
+
+Prepare 400 distinct near-widescreen works in total: all 166 released b4 pins
+unchanged, plus 234 visually reviewed additions. This supersedes only the older
+50/166 catalogue sizes, not rights guards, source identities, the ten-request
+discovery cap, strict 1% preference, no-crop fallback, history or cleanup.
+Every selected source is JPEG, at least 3000 pixels wide and within 2.5% relative
+16:9 deviation. Retain previous research and deferrals separately; no artwork
+bytes are bundled. Metadata acceptance is not decoding, worldwide legal
+clearance or TV evidence. Publication still needs explicit approval and exact
+new native images. Samsung discovery remains outside implementation scope.
+
+## Source-default UX amendment (2026-10-06, D-210; next release)
+
+Wikimedia Commons is the default for new installations and absent/null source
+options, and is first in the configuration's source choices. Explicit saved
+sources remain unchanged on updates. No additional option, discovery feature,
+network permission or change to fitting/shape/history is authorized by this
+amendment. The published b4 default remains Chicago until a new release.
+
 ## Post-beta Commons extension (2026-10-05, D-206)
 
 Locally authorized fourth source: `wikimedia_commons`, with 50 individually

@@ -27,6 +27,7 @@ sys.path.insert(0, str(PROJECT / "src"))
 from frame_gallery import __version__  # noqa: E402 - after the path above
 from frame_gallery.config.filters import FilterField  # noqa: E402
 from frame_gallery.config.vocabulary import BUILTIN_VOCABULARY  # noqa: E402
+from frame_gallery.domain import DEFAULT_SOURCE  # noqa: E402
 
 type Value = str | int | list[Value] | dict[str, Value]
 
@@ -38,10 +39,10 @@ TV_HOST_SCHEMA: Final = r"match(^(?:\d{1,3}\.){3}\d{1,3}$)"
 BACKGROUND_SCHEMA: Final = r"match(^#[0-9A-Fa-f]{6}$)"
 HELPER_SCHEMA: Final = r"match(^(?:input_select|select|input_text)\.[a-z0-9_]{1,64}$)?"
 SOURCES: Final = (
+    "wikimedia_commons",
     "art_institute_chicago",
     "cleveland_museum_of_art",
     "local_media",
-    "wikimedia_commons",
 )
 
 HEADER: Final = """\
@@ -57,7 +58,7 @@ def options() -> dict[str, Value]:
     """The defaults the Supervisor offers (§15.1). ``tv_host`` has none: the
     app cannot start until the user enters it (B1)."""
     return {
-        "source": "art_institute_chicago",
+        "source": DEFAULT_SOURCE.value,
         "landscape_only": True,
         "strict_tv_format": True,
         "fit_mode": "contain",
@@ -135,7 +136,8 @@ def translations(language: str = "en") -> dict[str, Value]:
         "source": (
             "Artwork source",
             (
-                "wikimedia_commons: 166 curated near-widescreen artworks; no API key. "
+                "wikimedia_commons (default for new installations): 400 curated "
+                "near-widescreen artworks; no API key. "
                 "art_institute_chicago: Art Institute of Chicago. cleveland_museum_of_art: "
                 "Cleveland Museum of Art. local_media: your JPEG/PNG files in "
                 "frame_gallery/library in Home Assistant media."
@@ -241,7 +243,8 @@ def translations(language: str = "en") -> dict[str, Value]:
             "source": (
                 "Bildquelle",
                 (
-                    "wikimedia_commons: 166 ausgewählte Werke im breiten Querformat, "
+                    "wikimedia_commons (Standard bei Neuinstallation): 400 ausgewählte "
+                    "Werke im breiten Querformat, "
                     "ohne API-Key. art_institute_chicago: Art Institute of Chicago. "
                     "cleveland_museum_of_art: Cleveland Museum of Art. local_media: eigene "
                     "JPEG/PNG-Dateien unter frame_gallery/library im HA-Medienordner."

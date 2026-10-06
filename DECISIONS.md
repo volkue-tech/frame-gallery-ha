@@ -1,5 +1,73 @@
 # Decision log
 
+## 400-work Commons and first-user UX scope (2026-10-06)
+
+### D-211 — preserve research, target 400 usable works, keep setup minimal
+
+Status: **accepted for local implementation** by the user's explicit request.
+New publication/token-session approval is pending; no HA/TV mutation is implied.
+
+- Target 400 distinct usable works **in total**, adding 234 to released b4's 166.
+  Preserve the prior 200 proposals and deferred entries in their dated research
+  snapshot. Keep new searches, public metadata and review decisions separately.
+- Retain JPEG, source width >=3000 and relative 16:9 deviation <=2.5%, pinned
+  upload identity, conservative PD/CC0 provenance, full-artwork visual review,
+  and artwork-level duplicate screening. Do not meet the count through crops,
+  frames, details, alternate scans or weaker rights rules. Research selection
+  alone is not runtime acceptance or qualified legal clearance.
+- Use the existing credited authentic Commons screenshot as the prominent Info
+  hero, not a fabricated UI or new raw-artwork asset. It is historical b3 evidence
+  and is explicitly labelled as such. Clarify first TV start versus optional
+  dashboard setup; preserve complete native-card YAML and existing helper IDs.
+- Commons default/order follow D-210. Keep five basic fields, optional advanced
+  options, current budgets, shape tolerance, no-crop fallback and history IDs.
+- Samsung IP reuse from an existing HA integration is optional feasibility only.
+  No discovery implementation, subnet scanning, new permissions or live changes.
+- A four-hour memory-only personal-token session was rejected before starting
+  due to unclear new-publication authority. Clipboard cleared; no token held or
+  authentication attempted. Ask for explicit approval; do not bypass that review.
+  A new release still requires exact sources, native tests and signatures.
+
+Local implementation observed: 400 entries / 299 artist labels, including all
+166 b4 tuples unchanged and 234 additions, plus 26 screened reserves. 152 source
+ratios meet the unchanged strict preference. The original 34 deferrals remain
+excluded. Production metadata audit accepted 400/400 over eight bounded passes
+in 74.45 seconds; it is not a normal run, decoding or TV test. Final local gates
+passed 5,006 tests, eleven platform skips, 100% line/branch coverage, Ruff and
+strict mypy. AIC-only test fixtures now name their modelled source explicitly;
+the actual absent/null-source composition-root test proves Commons delivery.
+No release, new image, token session or HA/TV change is claimed.
+
+## Source-default UX amendment (2026-10-06)
+
+### D-210 — Commons first and default for new installations
+
+Status: **accepted for local implementation** by the user's explicit request.
+Publication, live installation and network discovery are not authorized here.
+
+- Supersede only the source-default part of Q-08/D-123/D-206: Commons replaces
+  Chicago for new installations and absent/null source options. Generate the
+  Supervisor default from the runtime constant, keeping both in agreement.
+- Put Commons first, followed by Chicago, Cleveland and local media. Retain all
+  four existing IDs and explicit saved choices; no automatic migration.
+- Preserve source-helper overrides, no-crop/shape defaults, history, catalogue
+  and all network permissions. No additional configuration fields/dependencies.
+- Published b4/source/images remain immutable. This is a next-release change
+  requiring separate publication approval and matching new runtime validation.
+- The requested Detect button is feasibility research only. Official app
+  configuration documentation lists data fields, not executable action buttons.
+  Samsung's official HA integration already supports automatic discovery
+  (SSDP/DHCP/Zeroconf matches in Core's manifest). A custom Ingress setup page
+  or companion integration would be a separate design/scope decision, not a
+  schema toggle. Discovery must not silently choose among multiple televisions
+  or equate a Samsung match with verified Frame/Art Mode support.
+
+Public documentation checked on 2026-10-06; no API/device discovery request:
+[app configuration](https://developers.home-assistant.io/docs/apps/configuration/),
+[Ingress](https://developers.home-assistant.io/docs/apps/presentation/#ingress),
+[Samsung Smart TV](https://www.home-assistant.io/integrations/samsungtv/),
+[official Core manifest](https://github.com/home-assistant/core/blob/dev/homeassistant/components/samsungtv/manifest.json).
+
 ## Near-widescreen Commons catalogue (2026-10-06)
 
 ### D-209 — retained research and bounded b4 selection
@@ -1636,7 +1704,7 @@ Status: proposed
 
 ### D-123 — App options [§15.1]
 
-Status: proposed. The defaults are **accepted** (Codex review): `contain`, with no crop; landscape-only on; strict near-16:9 on. The default `source` is `art_institute_chicago`, which is **accepted** in the final gate review (Q-08).
+Status: proposed. The defaults are **accepted** (Codex review): `contain`, with no crop; landscape-only on; strict near-16:9 on. The original default `source` was `art_institute_chicago`, accepted in the final gate review (Q-08). D-210 supersedes only that source default for the next release; explicit saved sources are retained.
 
 **Decision.** The options are those in `ARCHITECTURE.md` §15.1:
 

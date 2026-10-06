@@ -2,9 +2,13 @@
 
 Fresh artwork on your Samsung Frame. Start it with a tap from Home Assistant.
 
-![Illustration: a framed TV and a Home Assistant preview card showing the same original abstract artwork. The dashboard is set up separately.](docs/images/frame-gallery-overview.png)
+> **Next release, not published yet:** 400 curated Commons works (166 retained
+> plus 234 new), Commons first/default for new installations, and a clearer
+> setup guide. The public Store release below remains **0.1.0b4 / 166 works**.
 
-*Product illustration, not a screenshot. The optional dashboard card is added separately using the guide below.*
+![Actual Frame Gallery dashboard with Theo van Doesburg's colourful geometric artwork, tap-to-load preview and optional artwork information.](docs/images/dashboard-commons.png)
+
+*Actual Green screenshot from b3; the optional dashboard is set up separately. Theo van Doesburg, [Counter-composition XVI](https://commons.wikimedia.org/w/index.php?curid=3817033), Commons reproduction with public-domain metadata checked on 2026-10-05. The user confirmed this work on the TV. This is historical evidence, not a new-release live test.*
 
 **[Add to Home Assistant](https://my.home-assistant.io/redirect/supervisor_add_addon_repository/?repository_url=https%3A%2F%2Fgithub.com%2Fvolkue-tech%2Fframe-gallery-ha)** · [Setup guide](frame_gallery/DOCS.md) · [Latest beta](https://github.com/volkue-tech/frame-gallery-ha/releases/tag/v0.1.0b4)
 
@@ -17,11 +21,11 @@ Fresh artwork on your Samsung Frame. Start it with a tap from Home Assistant.
 - **Know the artwork.** Optionally add its title, artist and museum below the preview with one Text helper and built-in cards. The basic card stays unchanged.
 - **Made for Home Assistant OS, including Green.** Pre-built ARM and Intel/AMD images. No SSH, Docker installation, HACS, or `configuration.yaml` edits.
 
-### The real dashboard card
+### One artwork. Your TV and an optional dashboard.
 
-![Actual Frame Gallery public-beta dashboard card showing the complete Elephant Bridge artwork and a tap-to-load label.](docs/images/dashboard-preview.png)
+![Illustration: a framed TV and a Home Assistant preview card showing the same original abstract artwork.](docs/images/frame-gallery-overview.png)
 
-*Screenshot from the working public-beta installation. Tap the image to request another work; the label can be renamed. Artwork: [“Elephant Bridge” souvenir](https://www.clevelandart.org/art/1929.342), Cleveland Museum of Art, 1929.342, [CC0 Open Access](https://www.clevelandart.org/open-access).*
+*Product illustration, not a screenshot. The optional dashboard card is added separately using the guide below. Tap the real card's preview to request another work; its label can be renamed.*
 
 ## Get your first artwork
 
@@ -44,7 +48,7 @@ When adding **Local File**, replace its default name with **Frame Gallery Previe
 
 | Source | Available filters in this beta |
 | --- | --- |
-| Wikimedia Commons | 166 curated near-widescreen works in b4; shared fitting options |
+| Wikimedia Commons | 400 prepared for the next release; b4 has 166. Shared fitting options |
 | Art Institute of Chicago | Period |
 | Cleveland Museum of Art | Department and period |
 | Your own images | Landscape and fitting options |
@@ -57,13 +61,6 @@ leave **Prefer 16:9** on for the closest matches (about 1%), or turn it off
 for the whole selection. Small margins can remain; the complete art is preserved.
 No account, API key or new dashboard helper is required. See the
 [collection and rights notes](frame_gallery/COMMONS.md).
-
-![Actual b3 Commons dashboard preview and optional artist/title information.](docs/images/dashboard-commons.png)
-
-*Actual Green screenshot after the b3 update; the user also confirmed this work
-on the TV. Theo van Doesburg, [Counter-composition XVI](https://commons.wikimedia.org/w/index.php?curid=3817033),
-Wikimedia Commons reproduction with public-domain metadata checked on 2026-10-05.
-The optional text card reuses the existing helper.*
 
 The default prefers landscape works close to 16:9. If no suitable new work is found within the search budget, it can fall back to a landscape work with margins, without cropping. See [all options and filter values](frame_gallery/DOCS.md#options).
 

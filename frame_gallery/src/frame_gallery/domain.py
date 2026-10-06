@@ -124,8 +124,8 @@ _PROVIDER_KEYS = {
     SourceKey.WIKIMEDIA_COMMONS: "commons",
 }
 
-DEFAULT_SOURCE = SourceKey.ART_INSTITUTE_CHICAGO
-"""Accepted default remote source (Q-08)."""
+DEFAULT_SOURCE = SourceKey.WIKIMEDIA_COMMONS
+"""Default for new installations or an absent source (D-210)."""
 
 
 @dataclass(frozen=True, slots=True)

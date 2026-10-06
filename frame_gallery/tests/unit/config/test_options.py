@@ -55,7 +55,7 @@ def _issue(**overrides: object) -> ConfigIssue:
 def test_minimal_options_take_the_accepted_defaults() -> None:
     options = _parse()
     assert options == Options(
-        tv_host=IPv4Address(TV), filters=FilterSet(SourceKey.ART_INSTITUTE_CHICAGO)
+        tv_host=IPv4Address(TV), filters=FilterSet(SourceKey.WIKIMEDIA_COMMONS)
     )
     assert options.landscape_only is True
     assert options.strict_tv_format is True
@@ -63,7 +63,7 @@ def test_minimal_options_take_the_accepted_defaults() -> None:
     assert options.background == BLACK
     assert options.helpers == ()
     assert options.log_level is LogLevel.INFO
-    assert options.filters.source is SourceKey.ART_INSTITUTE_CHICAGO
+    assert options.filters.source is SourceKey.WIKIMEDIA_COMMONS
     assert options.filters.source_provenance is Provenance.STATIC
     assert (options.filters.department, options.filters.style, options.filters.color) == (
         ANY,
@@ -89,6 +89,13 @@ def test_null_optional_values_take_their_defaults() -> None:
         "log_level",
     )
     assert _parse(**dict.fromkeys(names)) == _parse()
+
+
+@pytest.mark.parametrize("source", list(SourceKey))
+def test_saved_source_is_not_replaced_by_the_new_install_default(source: SourceKey) -> None:
+    options = _parse(source=source.value)
+    assert options.filters.source is source
+    assert options.filters.source_provenance is Provenance.STATIC
 
 
 def test_a_full_valid_object() -> None:
@@ -319,7 +326,7 @@ def test_control_characters_are_escaped_in_messages() -> None:
 def test_builtin_vocabulary_v1_accepts_only_offered_values() -> None:
     raw: dict[str, object] = {"tv_host": TV, "department": "any", "style": "", "color": None}
     options = parse_options(raw, vocabulary=BUILTIN_VOCABULARY, excluded_networks=())
-    assert options.filters == FilterSet(SourceKey.ART_INSTITUTE_CHICAGO)
+    assert options.filters == FilterSet(SourceKey.WIKIMEDIA_COMMONS)
     with pytest.raises(ConfigError) as caught:
         parse_options(
             {"tv_host": TV, "department": AIC_DEPARTMENT},

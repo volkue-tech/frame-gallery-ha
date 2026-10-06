@@ -5,7 +5,7 @@ configuration:
     description: 'The IPv4 address of your Frame TV on your home network, for example 192.168.1.20. Only private home-network addresses are accepted. Give the TV a fixed address in your router (a DHCP reservation), so that it keeps this address.'
   source:
     name: 'Artwork source'
-    description: 'wikimedia_commons: 166 curated near-widescreen artworks; no API key. art_institute_chicago: Art Institute of Chicago. cleveland_museum_of_art: Cleveland Museum of Art. local_media: your JPEG/PNG files in frame_gallery/library in Home Assistant media.'
+    description: 'wikimedia_commons (default for new installations): 400 curated near-widescreen artworks; no API key. art_institute_chicago: Art Institute of Chicago. cleveland_museum_of_art: Cleveland Museum of Art. local_media: your JPEG/PNG files in frame_gallery/library in Home Assistant media.'
   department:
     name: 'Department (Cleveland only)'
     description: 'Only works from this department of the Cleveland Museum of Art; any means no filter. The Art Institute of Chicago and your own images do not support a department: with them, a department is not applied, and the log and the run record say so. Wikimedia Commons does not support a department filter either.'

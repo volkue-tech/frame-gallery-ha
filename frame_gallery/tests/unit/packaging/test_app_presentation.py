@@ -96,12 +96,18 @@ def test_the_store_and_guide_label_the_visual_and_manual_dashboard_setup() -> No
     """Distinguish the real card from the hero and never promise auto-created UI."""
     image_base = "https://raw.githubusercontent.com/volkue-tech/frame-gallery-ha/main/docs/images/"
     for text in ((PROJECT / "README.md").read_text(), DOCS):
-        assert image_base + "dashboard-preview.png" in text
-        assert "Actual dashboard screenshot" in text
-        assert "https://www.clevelandart.org/art/1929.342" in text
-        assert "https://www.clevelandart.org/open-access" in text
+        assert image_base + "dashboard-commons.png" in text
+        assert "Actual" in text
+        assert "screenshot" in text
+        assert "https://commons.wikimedia.org/w/index.php?curid=3817033" in text
+        assert "Theo van Doesburg" in text
+        assert "public-domain metadata checked on 2026-10-05" in text
+        assert "b3" in text
+        assert "historical" in text
         assert "not installed automatically" in text or "does not add a card automatically" in text
         assert "Watchdog off" in text or "**Watchdog** off" in text
+    info = (PROJECT / "README.md").read_text()
+    assert info.index("dashboard-commons.png") < info.index("- Choose")
     assert image_base + "frame-gallery-overview.png" in DOCS
     assert "not a screenshot" in DOCS.lower()
 

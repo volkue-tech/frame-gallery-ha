@@ -1,6 +1,60 @@
 # Project status
 
-Last updated: 2026-10-06 (b4 near-widescreen beta published)
+Last updated: 2026-10-06 (400-work research and first-user UX implementation)
+
+## 400-work research and first-user UX — locally checked, unreleased, 2026-10-06
+
+User approved autonomous local implementation toward **400 usable Commons works
+in total**, preserving the existing 166-work release/research; D-211 records the
+scope. The local candidate now retains every one of the 166 b4 entries unchanged
+and adds 234 visually reviewed JPEG works: **400 works / 299 artist labels**,
+minimum 3000 pixels wide, at most 2.5% relative 16:9 deviation. 152 source ratios
+meet the unchanged strict 1% preference. A separate dated private folder retains
+public discovery caches, source hashes/revisions, known physical-size checks,
+visual decisions and 26 reserve works. The original 200 proposals/snapshot and
+34 deferred cases are preserved. The scrolling preview has 400 catalogue works
+plus the 34 separate older review cases; filters/search/bookmark restoration
+were browser-tested. No expanded catalogue is released yet.
+
+The actual production gateway/Commons adapter accepted 400/400 over eight
+bounded metadata-only passes in 74.45 seconds. This is not one app run, full
+image decoding or TV evidence. Receipt and metadata manifest are under
+frame_gallery/research/commons-400-*.json. No artwork bytes are bundled.
+
+Final full local gates passed: Ruff/format, strict mypy on Mac and Linux (248
+files), **5,006 tests passed, eleven platform skips, 100% line/branch coverage**
+(9,426 statements, 2,054 branches). AIC-only runner fixtures now explicitly
+select AIC rather than relying on the former installation default; real
+missing/null-source Commons wiring and all saved-source options have regressions.
+Initial failed gates were repaired, not skipped or relaxed. No dependency,
+network permission, discovery budget or runtime shape rule changed.
+
+The existing authentic, credited Commons dashboard screenshot is promoted to the
+app Info hero and setup guide; the guide distinguishes first TV use from optional
+camera/timer/script setup. Commons default/order edits remain local and tested
+by the final full gates above. The app version is still b4 with an Unreleased
+changelog; a numbered release and exact-source/image validation remain pending.
+
+Publication approval for this new scope is pending. A requested four-hour
+personal-token broker was denied by the execution review before starting; the
+clipboard was cleared and no token was retained, authenticated or saved. The
+user was informed and asked for explicit new publication/token-session approval.
+No Home Assistant/TV mutation, network scan or Samsung discovery implementation
+is included. Public b4 and its immutable sources/images remain unchanged.
+
+## Commons default and source order — local amendment, 2026-10-06
+
+User requested Commons as the installation default and first source choice.
+D-210 changes the shared runtime/Supervisor default and English/German hints;
+explicit saved sources, shape/fit, helper overrides and history stay unchanged.
+Tests cover all four saved sources plus missing/null Commons production wiring.
+Focused local checks initially passed 770 tests; the final full gates above
+now cover this amendment. The scope-planning pause ended when the user approved
+the 400-work research and UX implementation above; the result remains local.
+No new build, publication or HA/TV change.
+Published b4 remains unchanged. Detect-button feasibility was researched only
+against official documentation; no discovery or network scan was performed.
+Publication of this runtime change requires separate approval and new images.
 
 ## Near-widescreen b4 release completed — 2026-10-06
 

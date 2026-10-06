@@ -109,6 +109,10 @@ class Harness:
 
     def __post_init__(self) -> None:
         clock, events = self.clock, self.events
+        # This harness models AIC candidates and museum caches, not the
+        # installation default. Make that source explicit (D-210). Real
+        # absent/null-source Commons wiring is tested in test_main.py.
+        self.raw.setdefault("source", SourceKey.ART_INSTITUTE_CHICAGO.value)
         self.options = FakeOptionsSource(self.raw, events, clock)
         self.network = FakeNetworkInfo()
         self.state = FakeStateStore(events, clock)

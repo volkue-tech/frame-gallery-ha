@@ -148,9 +148,9 @@ class TestSourceKey:
         for key in keys:
             assert PROVIDER_KEY_PATTERN.fullmatch(key) is not None
 
-    def test_default_source_is_the_art_institute(self) -> None:
-        assert DEFAULT_SOURCE is SourceKey.ART_INSTITUTE_CHICAGO
-        assert DEFAULT_SOURCE.value == "art_institute_chicago"
+    def test_default_source_is_wikimedia_commons(self) -> None:
+        assert DEFAULT_SOURCE is SourceKey.WIKIMEDIA_COMMONS
+        assert DEFAULT_SOURCE.value == "wikimedia_commons"
 
     def test_parses_from_option_text(self) -> None:
         assert SourceKey("cleveland_museum_of_art") is SourceKey.CLEVELAND_MUSEUM_OF_ART

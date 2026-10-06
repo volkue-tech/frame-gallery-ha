@@ -1,5 +1,28 @@
 # Acceptance tests
 
+## Commons catalogue expansion (D-211; existing IDs unchanged)
+
+- Exactly 400 unique IDs, pinned hashes and title/artist pairs; retain the first
+  166 entries identically to the unchanged b4 manifest and exclude its 34 deferrals.
+- Add 234 actually inspected JPEG works with source-page evidence and recorded
+  physical-proportion checks; all originals meet width >=3000 and the 2.5% bound.
+- Keep the strict approximately 1% rule unchanged; 152 prepared source ratios
+  meet it. Larger synthetic 200/400 catalogues stay within the ten normal
+  metadata-request ceiling, and exhausted history makes no requests/no repeats.
+- Retain research/preview and test source filters, search and reversible local
+  bookmarks. Production metadata-only audit must accept all 400 current pins;
+  it does not replace native-image, decoding or television validation.
+
+## Source-default UX amendment (D-210; existing IDs unchanged)
+
+- New-install Supervisor defaults and runtime missing/null-source defaults agree
+  on `wikimedia_commons`; Commons is first, with all four source IDs retained.
+- Explicit saved Chicago, Cleveland, local-media and Commons selections are
+  preserved. Shape/fit settings, optional helpers and history stay compatible.
+- Synthetic production runs with missing, null and explicit Commons sources
+  select distinct Commons works, update the preview and leave scratch empty.
+- No network discovery or live HA/TV change is part of this local amendment.
+
 ## Additional post-beta Commons criteria (D-206; existing IDs unchanged)
 
 - Exactly 50 unique curated metadata entries, no artwork files. Exclude the two

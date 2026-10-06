@@ -24,7 +24,7 @@ from frame_gallery.config.options import (
     parse_options,
 )
 from frame_gallery.config.vocabulary import BUILTIN_VOCABULARY
-from frame_gallery.domain import SourceKey
+from frame_gallery.domain import DEFAULT_SOURCE, SourceKey
 
 PROJECT: Final = Path(__file__).resolve().parents[3]
 CONTAINER: Final = (IPv4Network("172.30.32.0/23"),)
@@ -100,7 +100,7 @@ def test_german_texts_cover_every_option_and_explain_commons_and_no_crop() -> No
     assert set(texts) == set(SCHEMA)
     assert "ohne API-Key" in texts["source"]["description"]
     assert "2,5 %" in texts["strict_tv_format"]["description"]
-    assert "166" in texts["source"]["description"]
+    assert "400" in texts["source"]["description"]
     assert "ohne Beschnitt" in texts["fit_mode"]["name"]
     assert "255" in texts["artwork_info_helper"]["description"]
     for text in texts.values():
@@ -183,12 +183,23 @@ def test_the_tv_address_is_required_without_a_default() -> None:
 
 
 def test_the_defaults_are_the_accepted_ones() -> None:
-    """D-123: contain, landscape-only, and strict 16:9; the Art Institute (Q-08)."""
+    """D-123/D-210: no-crop/shape defaults unchanged; Commons is the new source default."""
     options = _parse(**OPTIONS)
-    assert options.filters.source is SourceKey.ART_INSTITUTE_CHICAGO  # type: ignore[attr-defined]
+    assert OPTIONS["source"] == DEFAULT_SOURCE.value == "wikimedia_commons"
+    assert options.filters.source is SourceKey.WIKIMEDIA_COMMONS  # type: ignore[attr-defined]
+    assert options == _parse()
     assert options.landscape_only is True  # type: ignore[attr-defined]
     assert options.strict_tv_format is True  # type: ignore[attr-defined]
     assert options.fit_mode.value == "contain"  # type: ignore[attr-defined]
+
+
+def test_commons_is_first_without_removing_or_renaming_existing_choices() -> None:
+    assert _choices(SCHEMA["source"]) == [
+        "wikimedia_commons",
+        "art_institute_chicago",
+        "cleveland_museum_of_art",
+        "local_media",
+    ]
 
 
 @pytest.mark.parametrize(

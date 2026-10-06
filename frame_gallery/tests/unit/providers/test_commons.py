@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+import hashlib
 import json
 import math
 import re
@@ -81,17 +82,44 @@ class Rig:
 
 
 def test_curated_manifest_is_pinned_widescreen_and_matches_retained_research() -> None:
-    assert len(CATALOG) == len({work.page_id for work in CATALOG}) == 166
-    assert len({work.sha1 for work in CATALOG}) == 166
-    assert len({(work.title, work.artist) for work in CATALOG}) == 166
-    assert len({work.artist for work in CATALOG}) == 112
+    assert len(CATALOG) == len({work.page_id for work in CATALOG}) == 400
+    assert len({work.sha1 for work in CATALOG}) == 400
+    assert len({(work.title.casefold(), work.artist.casefold()) for work in CATALOG}) == 400
+    assert len({work.artist for work in CATALOG}) == 299
     root = Path(__file__).resolve().parents[3]
-    manifest = json.loads((root / "research/commons-wide-selection-2026-10-06.json").read_text())
-    assert manifest["proposal_count"] == 200
-    assert len(manifest["deferred"]) == 34
+    baseline_path = root / "research/commons-wide-selection-2026-10-06.json"
+    baseline = json.loads(baseline_path.read_text())
+    manifest = json.loads((root / "research/commons-400-selection-2026-10-06.json").read_text())
+    assert (
+        manifest["baseline_manifest_sha256"]
+        == hashlib.sha256(baseline_path.read_bytes()).hexdigest()
+    )
+    assert baseline["proposal_count"] == 200
+    assert len(baseline["deferred"]) == 34
+    assert manifest["baseline_count"] == 166
+    assert manifest["added_count"] == 234
+    assert manifest["included_count"] == 400
+    assert manifest["artist_label_count"] == 299
+    assert manifest["criteria"] == {
+        "minimum_source_width_px": 3000,
+        "relative_16_9_tolerance": 0.025,
+    }
     rows = manifest["included"]
+    assert rows[:166] == baseline["included"]
+    assert manifest["previously_deferred"] == baseline["deferred"]
+    known_qids = [row["qid"] for row in rows[166:] if row["qid"]]
+    assert len(known_qids) == len(set(known_qids))
+    for row in rows[166:]:
+        assert row["visual_review_date"] == "2026-10-06"
+        assert row["source_revision"] > 0
+        assert re.fullmatch("[0-9a-f]{64}", row["source_page_sha256"])
+        assert row["rights_label_observed"] in {"Public domain", "CC0"}
+        assert not row["physical_check"]["dimension_review"]
     assert [work.page_id for work in CATALOG] == [row["id"] for row in rows]
-    assert {row["id"] for row in manifest["deferred"]}.isdisjoint(work.page_id for work in CATALOG)
+    assert {row["id"] for row in baseline["deferred"]}.isdisjoint(work.page_id for work in CATALOG)
+    assert set(manifest["visually_reviewed_reserve_ids"]).isdisjoint(
+        work.page_id for work in CATALOG
+    )
     assert 98722784 not in {work.page_id for work in CATALOG}
     assert 3817033 in {work.page_id for work in CATALOG}
     for work, row in zip(CATALOG, rows, strict=True):
@@ -108,7 +136,8 @@ def test_curated_manifest_is_pinned_widescreen_and_matches_retained_research() -
             abs(math.log((row["width"] / row["height"]) / (16 / 9))) <= math.log(1.01)
             for row in rows
         )
-        == 67
+        == manifest["within_app_strict_ratio"]
+        == 152
     )
     for work in CATALOG:
         assert work.page_id > 0
@@ -364,18 +393,19 @@ def test_catalog_is_shuffled_reproducibly_without_repeats() -> None:
     assert [c.native_id for c in other] != [c.native_id for c in left.run()]
 
 
-def large_catalog(rig: Rig) -> None:
+def large_catalog(rig: Rig, count: int) -> None:
     catalog = tuple(
         replace(TEST_CATALOG[0], page_id=n, file_title=f"File:Synthetic {n}.jpg", sha1=f"{n:040x}")
-        for n in range(1, 201)
+        for n in range(1, count + 1)
     )
     rig.provider = CommonsProvider(rig.channel, catalog)
     rig.site.records = {work.page_id: record(work) for work in catalog}
 
 
-def test_large_catalog_has_ten_request_cap_not_an_unbounded_full_scan() -> None:
+@pytest.mark.parametrize("count", [200, 400])
+def test_large_catalog_has_ten_request_cap_not_an_unbounded_full_scan(count: int) -> None:
     rig = Rig()
-    large_catalog(rig)
+    large_catalog(rig, count)
     started = rig.clock.monotonic()
     found = rig.run()
     assert len(found) == len({candidate.native_id for candidate in found}) == 50
@@ -383,28 +413,31 @@ def test_large_catalog_has_ten_request_cap_not_an_unbounded_full_scan() -> None:
     assert rig.clock.monotonic() - started < 30
 
 
-def test_large_catalog_last_unsent_work_is_found_without_requerying_sent_works() -> None:
+@pytest.mark.parametrize("count", [200, 400])
+def test_large_catalog_last_unsent_work_is_found_without_requerying_sent_works(count: int) -> None:
     rig = Rig()
-    large_catalog(rig)
-    ctx = replace(rig.context(), is_excluded_for_good=lambda key: key != "commons:200")
+    large_catalog(rig, count)
+    ctx = replace(rig.context(), is_excluded_for_good=lambda key: key != f"commons:{count}")
     found = list(rig.provider.iter_candidates(filters(), ctx))
-    assert [candidate.qualified_id for candidate in found] == ["commons:200"]
-    assert [query["pageids"] for query in rig.site.queries] == ["200"]
-    assert ctx.notes.pages_skipped == 39
+    assert [candidate.qualified_id for candidate in found] == [f"commons:{count}"]
+    assert [query["pageids"] for query in rig.site.queries] == [str(count)]
+    assert ctx.notes.pages_skipped == count // 5 - 1
 
 
-def test_large_catalog_exhaustion_is_request_free_and_does_not_recycle() -> None:
+@pytest.mark.parametrize("count", [200, 400])
+def test_large_catalog_exhaustion_is_request_free_and_does_not_recycle(count: int) -> None:
     rig = Rig()
-    large_catalog(rig)
+    large_catalog(rig, count)
     ctx = replace(rig.context(), is_excluded_for_good=lambda _key: True)
     assert list(rig.provider.iter_candidates(filters(), ctx)) == []
-    assert ctx.notes.pages_skipped == 40
+    assert ctx.notes.pages_skipped == count // 5
     assert not rig.transport.calls
 
 
-def test_large_catalog_rejected_rights_stops_at_the_same_request_limit() -> None:
+@pytest.mark.parametrize("count", [200, 400])
+def test_large_catalog_rejected_rights_stops_at_the_same_request_limit(count: int) -> None:
     rig = Rig()
-    large_catalog(rig)
+    large_catalog(rig, count)
     for row in rig.site.records.values():
         cast("dict[str, Any]", row)["imageinfo"][0]["extmetadata"]["Copyrighted"]["value"] = "True"
     assert rig.run() == []

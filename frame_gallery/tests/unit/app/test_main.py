@@ -360,7 +360,10 @@ def test_the_museum_wiring_uses_the_identity_and_the_file_cache(rig: Rig) -> Non
     assert cache["provider"] == "aic"
 
 
-def test_commons_production_wiring_delivers_two_distinct_works_and_cleans_up(rig: Rig) -> None:
+@pytest.mark.parametrize("source_options", [{}, {"source": None}, {"source": "wikimedia_commons"}])
+def test_commons_production_wiring_delivers_two_distinct_works_and_cleans_up(
+    rig: Rig, source_options: dict[str, object]
+) -> None:
     site = CommonsSite(records={work.page_id: commons_record(work) for work in CATALOG})
 
     def route(request: WireRequest) -> FakeResponse:
@@ -369,7 +372,7 @@ def test_commons_production_wiring_delivers_two_distinct_works_and_cleans_up(rig
         return site(request)
 
     rig.transport.handler = route
-    rig.options(source="wikimedia_commons")
+    rig.options(**source_options)
     for _ in range(2):
         assert rig.run() == 0
         assert "outcome=delivered " in rig.summary_lines[-1]

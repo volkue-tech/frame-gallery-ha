@@ -136,7 +136,7 @@ def test_b6_defaults_preserve_the_full_artwork() -> None:
     assert options.strict_tv_format is True
     assert options.fit_mode is FitMode.CONTAIN
     assert options.background == BLACK
-    assert options.filters.source is SourceKey.ART_INSTITUTE_CHICAGO
+    assert options.filters.source is SourceKey.WIKIMEDIA_COMMONS
 
 
 @pytest.mark.parametrize(

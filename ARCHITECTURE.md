@@ -1,5 +1,14 @@
 # Frame Gallery for Home Assistant — Architecture proposal
 
+**Next-release catalogue amendment (2026-10-06, D-210/D-211):** Commons is first
+and default only for new/missing-source settings. Expand the metadata tuple to
+400 works while preserving all 166 b4 tuples and permanent history IDs. Source
+width >=3000 and relative 16:9 deviation <=2.5% are curation limits, not a change
+to the runtime strict preference. The existing bounded provider, rights gateway,
+shape/fit, worker, cleanup and history contracts stay unchanged. No new fields,
+dependencies, permissions, discovery daemon or HA configuration. Matching native
+images and explicit publication approval remain outstanding; public b4 is unchanged.
+
 **Post-beta Commons addendum (2026-10-05, D-206, local/unreleased):** a fourth
 provider reuses the port/gateway and finite metadata-only catalogue in
 `providers/commons_catalog.py`. `providers/commons.py` checks current rights,
@@ -1032,7 +1041,7 @@ Tests cover failure injection at every stage (`F1`, `F2`), byte bounds over repe
 | Option | Schema (Supervisor syntax) | Default | Plain-language meaning |
 | --- | --- | --- | --- |
 | `tv_host` | `match(^(?:\d{1,3}\.){3}\d{1,3}$)` (required; no default) | — | IPv4 address of your Frame TV (reserve it in your router). |
-| `source` | `list(art_institute_chicago\|cleveland_museum_of_art\|local_media)` | `art_institute_chicago` (Q-08, accepted) | Which museum or source the artwork comes from. |
+| `source` | `list(wikimedia_commons\|art_institute_chicago\|cleveland_museum_of_art\|local_media)` | `wikimedia_commons` (D-210, next release) | Which museum or source the artwork comes from. |
 | `department` | `list(any\|cma_…)` | `any` | Department or collection within the selected museum. The first beta offers Cleveland departments only; with another source, a department is reported as not applicable. |
 | `style` | `list(any\|period_…)` | `any` | Period of creation (both museums). The first beta offers no styles. |
 | `color` | `list(any)` | `any` | No source supports a colour filter in the first beta (Q-25, option (a)); the description says so. |
@@ -1044,6 +1053,11 @@ Tests cover failure injection at every stage (`F1`, `F2`), byte bounds over repe
 | `log_level` | `list(info\|debug)?` | unset → `info` | Advanced: log detail. |
 
 - **Accepted defaults** (D-123): `contain` (no crop), landscape-only, and strict near-16:9 are all on.
+- **Source-default amendment** (D-210, 2026-10-06): Commons is first and the
+  default for new installations or absent/null sources. Explicit saved sources
+  are not migrated. Published b4 and the historical Q-08 decision use Chicago;
+  the new default requires a separately approved release. Shape/fit defaults
+  and the optional source-helper override remain unchanged.
 - **`tv_host`** is required (acceptance item `B1`) and re-validated by the app (§15.4, acceptance item `B7`). `192.168.178.30` is only the user's Phase 8 test value: it is never a default and never appears in code.
 - **Not options:** there is no time-limit option (§7.2) and no library-path option (§9.3).
 - **Descriptions** in `translations/en.yaml` state which sources each filter applies to (§9.2).
