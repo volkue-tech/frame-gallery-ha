@@ -10,7 +10,7 @@ One start, one fresh artwork on your Samsung Frame. Choose museum artwork or you
 
 *Illustration, not a screenshot. The dashboard is optional and is configured separately; installation does not add a card automatically.*
 
-> **[0.1.0b3 public beta](https://github.com/volkue-tech/frame-gallery-ha/releases/tag/v0.1.0b3).** Native ARM/Intel checks and signatures passed. The existing public Green app was upgraded and two Commons works delivered; preview/text/loading/cleanup passed, and the user confirmed the second work on the TV. [Exact scope and limitations](https://github.com/volkue-tech/frame-gallery-ha/blob/main/BETA3_VALIDATION.md). Compatibility with every TV model is not guaranteed.
+> **[0.1.0b4 public beta](https://github.com/volkue-tech/frame-gallery-ha/releases/tag/v0.1.0b4).** Matching public sources, native ARM/Intel checks on the actual images, anonymous pulls and independent signatures passed. [Exact b4 scope](https://github.com/volkue-tech/frame-gallery-ha/blob/main/BETA4_VALIDATION.md). No new Green/TV live test is claimed for this catalogue update. The preceding b3 passed two Commons deliveries and preview/text/loading/cleanup on Green, with physical TV confirmation of the second work. [Historical b3 evidence](https://github.com/volkue-tech/frame-gallery-ha/blob/main/BETA3_VALIDATION.md). Compatibility with every TV model is not guaranteed.
 
 **Start here:** [Install](#installation) → [Show your first artwork](#first-start-and-pairing) → [Add the dashboard card](#dashboard).
 

@@ -16,9 +16,19 @@ No new HA/TV mutation is included in this approval.
 - [x] Finish final production-adapter metadata check and full local quality gates.
   *166/166 metadata entries accepted in 35.61 s over four bounded audit passes;
   4,995 tests, eleven platform skips, 100% line/branch coverage.*
-- [ ] Publish/download/hash-check exact corresponding sources from the clean candidate.
-- [ ] Validate both native architectures and actual publisher images/signatures.
-- [ ] Independently verify anonymous sources/registry and exact Cosign evidence.
+- [x] Publish/download/hash-check exact corresponding sources from the clean candidate.
+  *Runtime/source 5011966; public sources-v0.1.0b4, 522,618,880 bytes,
+  SHA256 6a3ece93091f52f8d89ee37cb59b63625ccd7ebde6d12b025ac7969ee5c60e16;
+  anonymous download and every-member preflight passed.*
+- [x] Validate both native architectures and actual publisher images/signatures.
+  *Run 37428676044: all five jobs succeeded. Both native suites and actual
+  publisher containers passed; no new Green/TV test.*
+- [x] Independently verify anonymous sources/registry and exact Cosign evidence.
+  *Both anonymous pulls/manifest comparisons, actual version/catalogue checks
+  and independent exact-SHA/identity signatures passed; BETA4_VALIDATION.md.*
+- [x] Retain/hash-check both actual publisher evidence ZIPs.
+  *Both downloaded ZIPs matched their public hashes and published digests;
+  native actual-container checks and limits passed. Receipts: BETA4_VALIDATION.md.*
 - [ ] Only then update Store main, announce b4 and disable/read back both approvals.
 - [ ] Stop the memory-only personal credential process and record the actual receipt.
 

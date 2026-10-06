@@ -22,6 +22,6 @@ Fresh artwork on your Samsung Frame — from Home Assistant, with one tap.
 
 *Actual Green screenshot; Theo van Doesburg, [Counter-composition XVI](https://commons.wikimedia.org/w/index.php?curid=3817033), Wikimedia Commons reproduction with public-domain metadata checked on 2026-10-05. The user confirmed this work on the TV.*
 
-**Release candidate: 0.1.0b4.** The expanded catalogue still requires exact-source publication, native ARM/Intel validation and signed-image checks before Store publication. No new Green/TV live test is claimed. The preceding public b3 passed two deliveries and preview/text/loading/cleanup on Green; see the [historical validation scope](https://github.com/volkue-tech/frame-gallery-ha/blob/main/BETA3_VALIDATION.md). Compatibility with every Frame model is not guaranteed.
+**Public beta: 0.1.0b4.** Matching public sources, native ARM/Intel validators and actual runtime images, anonymous pulls and independent signatures passed. See the [b4 validation scope](https://github.com/volkue-tech/frame-gallery-ha/blob/main/BETA4_VALIDATION.md). No new Green/TV live test is claimed. The preceding public b3 passed two deliveries and preview/text/loading/cleanup on Green; see the [historical validation scope](https://github.com/volkue-tech/frame-gallery-ha/blob/main/BETA3_VALIDATION.md). Compatibility with every Frame model is not guaranteed.
 
 Frame Gallery is an independent project, not affiliated with or endorsed by Samsung, the museums, or Home Assistant.

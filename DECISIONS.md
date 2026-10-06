@@ -49,6 +49,17 @@ confirmed the correct personal account/repository. The already authenticated
 personal Firefox session provides the existing release-gate UI; no token scope
 or account permission is expanded, and no corporate credential is accessed.
 
+Publication evidence: frozen runtime/source `5011966879d5993d548a54df32e0361da86135ca`;
+matching public sources SHA256
+`6a3ece93091f52f8d89ee37cb59b63625ccd7ebde6d12b025ac7969ee5c60e16`.
+Run `37428676044` passed all five jobs, including both native validators and
+actual publishers. Independently checked anonymous manifests/pulls, actual
+runtime labels/catalogue and exact workflow/SHA/issuer signatures passed.
+All four evidence ZIPs matched their public hashes and were retained locally.
+Exact image digests and native measurements are in BETA4_VALIDATION.md.
+Both one-time variables are disabled and read back as `DISABLED_AFTER_0.1.0b4`.
+No new HA/TV test is implied; b3 hardware evidence remains historical.
+
 ## Commons beta and configuration UX (2026-10-05)
 
 ### D-208 — verified b3 publication and in-place Green evidence

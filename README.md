@@ -6,11 +6,11 @@ Fresh artwork on your Samsung Frame. Start it with a tap from Home Assistant.
 
 *Product illustration, not a screenshot. The optional dashboard card is added separately using the guide below.*
 
-**[Add to Home Assistant](https://my.home-assistant.io/redirect/supervisor_add_addon_repository/?repository_url=https%3A%2F%2Fgithub.com%2Fvolkue-tech%2Fframe-gallery-ha)** · [Setup guide](frame_gallery/DOCS.md) · [Latest beta](https://github.com/volkue-tech/frame-gallery-ha/releases/tag/v0.1.0b3)
+**[Add to Home Assistant](https://my.home-assistant.io/redirect/supervisor_add_addon_repository/?repository_url=https%3A%2F%2Fgithub.com%2Fvolkue-tech%2Fframe-gallery-ha)** · [Setup guide](frame_gallery/DOCS.md) · [Latest beta](https://github.com/volkue-tech/frame-gallery-ha/releases/tag/v0.1.0b4)
 
 ## Art first. No unwanted cropping.
 
-- **A broad, colourful collection, museum artwork or your own images.** The b4 candidate includes 166 near-widescreen Wikimedia Commons works, alongside the Art Institute of Chicago, the Cleveland Museum of Art, or your local JPEG/PNG collection. No API key needed.
+- **A broad, colourful collection, museum artwork or your own images.** b4 includes 166 near-widescreen Wikimedia Commons works, alongside the Art Institute of Chicago, the Cleveland Museum of Art, or your local JPEG/PNG collection. No API key needed.
 - **Keep the whole work.** Original proportions are preserved by default; margins fill any unused space. Cropping is opt-in.
 - **Something new.** Previously sent artworks are skipped while new eligible works remain. History keeps the latest 20 000 works.
 - **See it before the next tap.** The optional native Home Assistant card shows the latest successful preview and starts a new run.
@@ -80,11 +80,14 @@ When reporting a problem, include the app version, TV model and the final outcom
 
 ## Public beta
 
-The **0.1.0b4 candidate** expands the Commons selection to 166 near-widescreen
-JPEG works from 112 artist labels. All 200 research proposals are retained;
-34 require further rights/proportion/source-format review. Exact-source,
-native-image and signature gates are required before Store publication.
-No new Green/TV live validation is claimed for this catalogue update.
+[0.1.0b4](https://github.com/volkue-tech/frame-gallery-ha/releases/tag/v0.1.0b4)
+expands the Commons selection to 166 near-widescreen JPEG works from 112 artist
+labels. All 200 research proposals are retained; 34 require further rights,
+proportion or source-format review. Matching public sources, both native
+validators and actual images, anonymous pulls and independent signatures passed.
+See the [b4 validation report](BETA4_VALIDATION.md). No new Green/TV live validation
+is claimed for this catalogue update. Update in place; existing options,
+dashboard helpers and sent-image history stay compatible.
 
 [0.1.0b3](https://github.com/volkue-tech/frame-gallery-ha/releases/tag/v0.1.0b3)
 adds 50 curated Commons works and clearer English/German configuration. Native
@@ -104,7 +107,7 @@ The app runs once, then stops. It does not remove artworks already stored on you
 
 ## For contributors
 
-Frame Gallery is implemented independently. The project's own code is [Apache-2.0](LICENSE); distributed third-party components retain their own licences. The runtime is not GPL-free. [Third-party notices](THIRD_PARTY_NOTICES.md) and [matching component sources](https://github.com/volkue-tech/frame-gallery-ha/releases/tag/sources-v0.1.0b3) are available; historical b1/b2 source releases are retained.
+Frame Gallery is implemented independently. The project's own code is [Apache-2.0](LICENSE); distributed third-party components retain their own licences. The runtime is not GPL-free. [Third-party notices](THIRD_PARTY_NOTICES.md) and [matching component sources](https://github.com/volkue-tech/frame-gallery-ha/releases/tag/sources-v0.1.0b4) are available; historical b1/b2/b3 source releases are retained.
 
 - [Developer setup and quality gates](frame_gallery/DEVELOPMENT.md)
 - [Product specification](PRODUCT_SPEC.md) · [Architecture](ARCHITECTURE.md) · [Acceptance tests](ACCEPTANCE_TESTS.md)

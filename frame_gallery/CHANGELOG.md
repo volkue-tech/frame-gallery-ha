@@ -1,6 +1,6 @@
 # Changelog
 
-## 0.1.0b4 (release candidate)
+## 0.1.0b4 (public beta)
 
 - Replace the broad-ratio Commons selection with 166 curated near-widescreen
   works from 112 artist labels. Sources are at least 3000 pixels wide and
@@ -12,8 +12,9 @@
   request/deadline limits, and omit permanently sent works from mixed batches.
 - Retain all 200 research proposals; defer 34 rights/proportion/source-format cases
   rather than treating a research preview as release clearance.
-- The candidate still requires exact-source publication, native ARM/Intel
-  validation and signed-image checks. No new Green/TV live test is claimed.
+- Matching public sources, native ARM/Intel validators and actual runtime images,
+  anonymous pulls and independent signatures passed. Existing versions remain
+  available. No new Green/TV live test is claimed for this catalogue update.
 
 ## 0.1.0b3 (public beta)
 

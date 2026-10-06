@@ -1,6 +1,6 @@
 # Project status
 
-Last updated: 2026-10-06 (b4 near-widescreen candidate; publication gates pending)
+Last updated: 2026-10-06 (b4 near-widescreen images verified; Store announcement pending)
 
 ## Near-widescreen b4 candidate — 2026-10-06
 
@@ -22,11 +22,32 @@ skips and 100% line/branch coverage. Raw outputs remain git-ignored under
 build/commons-wide-release/check-final-local.log and live-metadata-jpeg.log.
 No image download, HA change, TV contact or claim of new live validation.
 
-Public Store main remains b3 until the matching source package, both native
-architectures, actual publisher images and independent signatures pass. Existing
+Public Store main remains b3 until the completed checks and publication receipt
+are exposed through the approved fast-forward. Existing
 personal token works for the repository, not the Actions-variable API; one 403
 was not retried. Existing personal Firefox access to release-gate UI is verified.
 No credential or broader permission is persisted or created.
+
+The candidate branch is public at `5011966879d5993d548a54df32e0361da86135ca`.
+Matching source-only release `sources-v0.1.0b4` is public (release `404356865`,
+asset `614614240`, 522,618,880 bytes). Anonymous download and every-member
+preflight passed; source SHA256 is
+`6a3ece93091f52f8d89ee37cb59b63625ccd7ebde6d12b025ac7969ee5c60e16`.
+After the user's GitHub password confirmation, both exact approval values were
+saved/read back. Publisher run `37428676044` started on the candidate branch;
+all five jobs completed successfully at 07:55:30 UTC on 2026-10-06. Both native
+validators and actual publisher-image checks passed. After resuming the Mac,
+anonymous tag/digest verification, pulls and isolated catalogue/version checks
+passed on both images. Independent Cosign verification passed against the exact
+candidate workflow identity, SHA and GitHub issuer. Exact digests are recorded
+in BETA4_VALIDATION.md. Both actual publisher evidence ZIPs were downloaded,
+hash-verified and retained; their published digests match independent registry
+checks. Both approval variables were set to DISABLED_AFTER_0.1.0b4 and read back
+in the personal repository UI. Store main exposure and announcement remain pending.
+
+The user's pause stopped the memory-only token broker, local monitoring and
+caffeinate; the remote workflow was not cancelled. Research and intentional
+documentation changes were preserved. No HA/TV change occurred while paused.
 
 ## Commons b3 release completed — 2026-10-05
 
