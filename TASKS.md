@@ -39,9 +39,11 @@
   Each native/actual image passed 5,012 non-root tests plus five root checks,
   all memory/inspection cases; anonymous 400-work/default imports and exact
   candidate-identity signatures passed. Public prerelease 405188764 exists;
-  Store main handoff and final credential shutdown follow documentation gates.*
-- [ ] Only after successful checks, publish b5 Store main and release, disable
-  both one-time approvals and discard the personal credential session.
+  Store main handoff completed at 6a79f8c with exact authenticated ref readback.*
+- [x] Only after successful checks, publish b5 Store main and release and disable
+  both one-time approvals. *Main readback HTTP 200 at 2026-10-06 22:30:23 UTC;
+  both variables read back as DISABLED_AFTER_0.1.0b5. The bounded personal
+  credential process closes immediately after this final receipt push.*
 
 Samsung IP reuse/discovery remains an optional feasibility question. No HA/TV
 changes or network scans are authorized by this task. Published b4 is immutable.

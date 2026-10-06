@@ -110,7 +110,10 @@ passed. Public prerelease
 was created at 2026-10-06 22:26:34 UTC (2026-10-07 00:26:34 Europe/Berlin),
 release ID `405188764`, `draft=false`, `prerelease=true`, exact frozen target
 `44b727881981fd158f1f4fa9293f9d6a793ba1ee`. Its source-only release description
-now links this beta. Public Store main handoff follows this documentation gate.
+now links this beta. Public Store main handoff completed at
+`6a79f8cc6b7d54a174d4ac6f45eb8f4625138940`; authenticated ref readback returned
+HTTP 200 with the exact commit at 2026-10-06 22:30:23 UTC. The final nine-file
+documentation gate passed 5,006 tests and 100% line/branch coverage before push.
 Both one-time approval variables were set to `DISABLED_AFTER_0.1.0b5` and read
 back in the personal repository UI after both publisher jobs completed.
 

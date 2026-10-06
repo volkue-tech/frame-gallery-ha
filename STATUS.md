@@ -1,6 +1,6 @@
 # Project status
 
-Last updated: 2026-10-07 (b5 released/verified; Store documentation handoff)
+Last updated: 2026-10-07 (b5 public Store handoff completed)
 
 ## b5 released and independently verified — 2026-10-07
 
@@ -24,7 +24,10 @@ Exact digests, artifact hashes and limits: [b5 validation](BETA5_VALIDATION.md).
 
 Public prerelease `v0.1.0b5`, release `405188764`, was created at 2026-10-06
 22:26:34 UTC (2026-10-07 00:26:34 Europe/Berlin), exact frozen target `44b7278`,
-not draft. Public Store main handoff follows the final documentation gates.
+not draft. Public Store main handoff completed at
+`6a79f8cc6b7d54a174d4ac6f45eb8f4625138940`; authenticated ref readback returned
+HTTP 200 with that exact commit at 2026-10-06 22:30:23 UTC. The final nine-file
+documentation gate passed 5,006 tests and 100% line/branch coverage before push.
 Both publisher approval variables are disabled and were read back in the UI.
 The approved bounded personal token remains only in process memory until the
 last push; HA and TV remain untouched. Earlier sources/images stay available.

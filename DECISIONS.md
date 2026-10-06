@@ -42,8 +42,10 @@ Publication receipt (2026-10-07 Europe/Berlin): native run 37536546471 passed
 all five jobs; both actual image repeats, four artifact hashes, anonymous
 sources/pulls, isolated 400-work/Commons-default imports and independent exact-
 identity signatures passed. Public prerelease 405188764 / v0.1.0b5 targets
-frozen runtime/source 44b7278 (2026-10-06 22:26:34 UTC); final Store documentation
-handoff follows. BETA5_VALIDATION.md records exact digests and limits. The
+frozen runtime/source 44b7278 (2026-10-06 22:26:34 UTC). Store main handoff
+completed at 6a79f8c, authenticated exact-ref readback HTTP 200 at 2026-10-06
+22:30:23 UTC, after the final full documentation gate passed.
+BETA5_VALIDATION.md records exact digests and limits. The
 anonymous API watcher stopped on a rate-limit refusal; personal Firefox
 supplied final UI evidence without extending token rights. No new HA/TV test
 is authorized or claimed; previous sources, tags and versions are retained.
