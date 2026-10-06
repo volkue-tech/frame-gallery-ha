@@ -29,8 +29,14 @@ No new HA/TV mutation is included in this approval.
 - [x] Retain/hash-check both actual publisher evidence ZIPs.
   *Both downloaded ZIPs matched their public hashes and published digests;
   native actual-container checks and limits passed. Receipts: BETA4_VALIDATION.md.*
-- [ ] Only then update Store main, announce b4 and disable/read back both approvals.
-- [ ] Stop the memory-only personal credential process and record the actual receipt.
+- [x] Only then update Store main, announce b4 and disable/read back both approvals.
+  *Public release 404519064 / v0.1.0b4, 2026-10-06 09:12:20 UTC, exact runtime
+  5011966; anonymous Store metadata and tag readback passed. Both approvals
+  read back as DISABLED_AFTER_0.1.0b4; previous betas retained.*
+- [x] Record the actual receipt using the bounded memory-only credential process.
+  *BETA4_VALIDATION.md and STATUS.md. Publication close stops the broker and
+  caffeinate; the local checkpoint records their observed shutdown. No token
+  is persisted and no new HA/TV mutation is included.*
 
 ## Post-beta Commons (2026-10-05, D-206)
 

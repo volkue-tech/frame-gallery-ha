@@ -60,6 +60,13 @@ Exact image digests and native measurements are in BETA4_VALIDATION.md.
 Both one-time variables are disabled and read back as `DISABLED_AFTER_0.1.0b4`.
 No new HA/TV test is implied; b3 hardware evidence remains historical.
 
+Public release `404519064` / `v0.1.0b4` was published at 2026-10-06 09:12:20 UTC,
+after public main exposed the verified version. Anonymous readback confirmed the
+public prerelease and tag at exact runtime/source `5011966`; Store metadata
+confirmed b4 and the pre-built image mapping. The publication receipts are
+documentation-only follow-ups, not additional runtime/image changes. Prior
+versions and source archives remain available; no b4 Green installation occurred.
+
 ## Commons beta and configuration UX (2026-10-05)
 
 ### D-208 — verified b3 publication and in-place Green evidence

@@ -1,6 +1,33 @@
 # Project status
 
-Last updated: 2026-10-06 (b4 near-widescreen images verified; Store announcement pending)
+Last updated: 2026-10-06 (b4 near-widescreen beta published)
+
+## Near-widescreen b4 release completed — 2026-10-06
+
+Public prerelease [v0.1.0b4](https://github.com/volkue-tech/frame-gallery-ha/releases/tag/v0.1.0b4)
+was published at 09:12:20 UTC (11:12:20 Europe/Berlin), release ID `404519064`.
+Anonymous readback confirmed `draft=false`, `prerelease=true`, and exact frozen
+runtime/source tag `5011966879d5993d548a54df32e0361da86135ca`. Public Store main
+was fast-forwarded only after all required checks; its app metadata offers b4
+with both pre-built images. The later main changes are documentation only.
+
+166 curated near-widescreen JPEG works from 112 artist labels are available;
+all 200 proposals remain saved locally, with 34 deferred for further review.
+No new fields, dependencies, dashboard helpers or HA configuration changes.
+Existing sent-image IDs and saved options remain compatible. The strict 1%
+preference and no-crop fallback are unchanged. Previous betas/sources remain.
+
+Both native validators and actual publisher images passed, all four evidence
+ZIPs matched their hashes, anonymous source/registry/pull checks and independent
+signatures passed. Exact receipts: [b4 validation](BETA4_VALIDATION.md).
+Final publication documentation gates passed 4,995 tests, eleven platform skips,
+strict mypy, Ruff and 100% statement/branch coverage. Both one-time release
+variables are disabled and read back. The personal token remains bounded to
+process memory and is discarded when the publication session closes.
+
+No b4 installation/update or live test was performed on the Green or TV.
+The installed b3 setup and its historical hardware evidence remain separate.
+The dated checkpoints below are history, superseded by this completion record.
 
 ## Near-widescreen b4 candidate — 2026-10-06
 

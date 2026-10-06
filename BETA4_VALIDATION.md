@@ -94,7 +94,7 @@ the claims, transparency-log proof and trusted signing certificate. Identity:
 issuer `https://token.actions.githubusercontent.com`; workflow SHA
 `5011966879d5993d548a54df32e0361da86135ca`.
 
-## Required before Store publication
+## Publication gates and public receipt
 
 - Clean reviewed candidate commit and matching public source package: passed.
 - Anonymous source hash/member verification: passed.
@@ -103,7 +103,16 @@ issuer `https://token.actions.githubusercontent.com`; workflow SHA
 - Retain and hash-check both actual publisher evidence ZIPs: passed.
 - Both one-time approval variables were set to `DISABLED_AFTER_0.1.0b4` and
   read back after the successful run. No scope or security permission expanded.
-- Store main fast-forward and beta announcement follow the completed checks.
+- Store main was fast-forwarded after all checks; anonymous public metadata
+  readback confirmed version `0.1.0b4` and both pre-built image mappings.
+
+Public prerelease [v0.1.0b4](https://github.com/volkue-tech/frame-gallery-ha/releases/tag/v0.1.0b4),
+release `404519064`, was published at 2026-10-06 09:12:20 UTC.
+Anonymous API readback verified it is public/non-draft, marked prerelease and
+tagged at exact runtime/source `5011966879d5993d548a54df32e0361da86135ca`.
+Public main `83ba5d9ddef84fe50c070785f338139641e78218` exposed b4 with the
+validated runtime and documentation-only follow-up. Subsequent receipt changes
+are documentation only. No old tag/source was overwritten.
 
 No new Green/TV installation or physical display validation is claimed for b4.
 The previous [b3 live report](BETA3_VALIDATION.md) remains separate evidence.
