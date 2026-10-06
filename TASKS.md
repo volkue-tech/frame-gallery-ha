@@ -1,5 +1,16 @@
 # Implementation plan and approval gates
 
+## Deferred personal release-access improvement (user request, 2026-10-06)
+
+- [ ] After b5, arrange browserless personal GitHub release access, limited to
+  `volkue-tech/frame-gallery-ha`: fine-grained Variables read/write for exact
+  approval values and Actions read/write for manual dispatch, alongside the
+  existing push/release access. Prefer safe macOS Keychain retrieval without
+  printing/persisting secrets in repository files or logs. User asked to keep
+  this for later, not to alter token rights or store credentials during b5.
+  Confirm the security-sensitive access change at implementation time; no
+  corporate account, organization or credential is permitted.
+
 ## 400 usable Commons works and first-user UX (2026-10-06, D-211)
 
 - [x] Retain original proposals/caches; research additions in a separate folder.
@@ -18,9 +29,17 @@
 - [x] Obtain explicit new publication approval before numbered release, personal
   credential session, native builds, signed images or Store changes.
   *User explicitly approved 0.1.0b5 and the bounded personal session, 2026-10-06.*
-- [ ] Freeze numbered b5 sources; publish and anonymously verify their archive.
-- [ ] Validate both native architectures and actual publisher runtime images;
+- [x] Freeze numbered b5 sources; publish and anonymously verify their archive.
+  *Runtime/source 44b7278; public sources-v0.1.0b5, 523,089,920 bytes,
+  SHA256 d810c71ed634f3936e5761032c694e7fd9413374349acd5a1b41dd50e04f8637;
+  anonymous download and every-member/version/commit preflight passed.*
+- [x] Validate both native architectures and actual publisher runtime images;
   verify independent signatures, anonymous pulls and exact catalogue/default.
+  *Run 37536546471: all five jobs passed; all four evidence ZIP hashes matched.
+  Each native/actual image passed 5,012 non-root tests plus five root checks,
+  all memory/inspection cases; anonymous 400-work/default imports and exact
+  candidate-identity signatures passed. Public prerelease 405188764 exists;
+  Store main handoff and final credential shutdown follow documentation gates.*
 - [ ] Only after successful checks, publish b5 Store main and release, disable
   both one-time approvals and discard the personal credential session.
 

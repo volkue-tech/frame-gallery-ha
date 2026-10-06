@@ -1,6 +1,38 @@
 # Project status
 
-Last updated: 2026-10-06 (b5 publication approved; preparing frozen candidate)
+Last updated: 2026-10-07 (b5 released/verified; Store documentation handoff)
+
+## b5 released and independently verified — 2026-10-07
+
+Frozen runtime/source commit: `44b727881981fd158f1f4fa9293f9d6a793ba1ee`,
+on public candidate branch `codex/commons-curated`; the runtime/source is frozen.
+Source-only release `sources-v0.1.0b5` (`405156736`) is public; asset `616707821`
+has 523,089,920 bytes and SHA256
+`d810c71ed634f3936e5761032c694e7fd9413374349acd5a1b41dd50e04f8637`.
+Anonymous download and tracked preflight passed: exact commit/version/hash and
+every source member, including 172 retained upstream archives.
+
+Both exact public approval values were read back in the personal repository UI,
+after the user completed GitHub's existing-password confirmation. Manual run
+[37536546471](https://github.com/volkue-tech/frame-gallery-ha/actions/runs/37536546471)
+completed all five jobs successfully (35m 42s). Both native host and actual
+publisher-image suites passed 5,012 non-root tests, five root checks, 13 memory
+cases twice and 150 batched inspections. All four evidence archives matched
+their public run hashes. Anonymous tag/digest bytes, pulls, isolated 400-work/
+299-artist/default imports and independent exact-identity signatures passed.
+Exact digests, artifact hashes and limits: [b5 validation](BETA5_VALIDATION.md).
+
+Public prerelease `v0.1.0b5`, release `405188764`, was created at 2026-10-06
+22:26:34 UTC (2026-10-07 00:26:34 Europe/Berlin), exact frozen target `44b7278`,
+not draft. Public Store main handoff follows the final documentation gates.
+Both publisher approval variables are disabled and were read back in the UI.
+The approved bounded personal token remains only in process memory until the
+last push; HA and TV remain untouched. Earlier sources/images stay available.
+The anonymous API watcher stopped on its rate-limit refusal; Firefox supplied
+final success and artifact readback without new token rights or blind retries.
+
+The dated candidate/default checkpoints below are retained history, superseded
+by this release receipt rather than additional current blockers.
 
 ## 400-work research and first-user UX — b5 candidate, 2026-10-06
 
@@ -33,7 +65,8 @@ The existing authentic, credited Commons dashboard screenshot is promoted to the
 app Info hero and setup guide; the guide distinguishes first TV use from optional
 camera/timer/script setup. Commons default/order edits remain local and tested
 by the final full gates above. The numbered candidate is now 0.1.0b5;
-exact-source/image validation and publication remain pending.
+matching sources are public/verified, with native image validation and final
+publication pending as recorded in the checkpoint above.
 
 Publication of b5 and a four-hour memory-only personal-token session were
 explicitly approved by the user on 2026-10-06. A previously requested four-hour

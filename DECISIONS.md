@@ -38,8 +38,15 @@ in 74.45 seconds; it is not a normal run, decoding or TV test. Final local gates
 passed 5,006 tests, eleven platform skips, 100% line/branch coverage, Ruff and
 strict mypy. AIC-only test fixtures now name their modelled source explicitly;
 the actual absent/null-source composition-root test proves Commons delivery.
-Publication is now approved, not yet completed. No new HA/TV test is authorized
-or claimed; existing versions, sources and tags must remain untouched.
+Publication receipt (2026-10-07 Europe/Berlin): native run 37536546471 passed
+all five jobs; both actual image repeats, four artifact hashes, anonymous
+sources/pulls, isolated 400-work/Commons-default imports and independent exact-
+identity signatures passed. Public prerelease 405188764 / v0.1.0b5 targets
+frozen runtime/source 44b7278 (2026-10-06 22:26:34 UTC); final Store documentation
+handoff follows. BETA5_VALIDATION.md records exact digests and limits. The
+anonymous API watcher stopped on a rate-limit refusal; personal Firefox
+supplied final UI evidence without extending token rights. No new HA/TV test
+is authorized or claimed; previous sources, tags and versions are retained.
 
 ## Source-default UX amendment (2026-10-06)
 

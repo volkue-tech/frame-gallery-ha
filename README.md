@@ -2,19 +2,19 @@
 
 Fresh artwork on your Samsung Frame. Start it with a tap from Home Assistant.
 
-> **0.1.0b5 candidate, publication checks running:** 400 curated Commons works (166 retained
-> plus 234 new), Commons first/default for new installations, and a clearer
-> setup guide. The public Store release below remains **0.1.0b4 / 166 works**.
+> **0.1.0b5 public beta:** 400 curated Commons works (166 retained plus 234 new),
+> Commons first/default for new installations, and a clearer setup guide.
+> Update in place; saved sources, dashboard helpers and history stay compatible.
 
 ![Actual Frame Gallery dashboard with Theo van Doesburg's colourful geometric artwork, tap-to-load preview and optional artwork information.](docs/images/dashboard-commons.png)
 
 *Actual Green screenshot from b3; the optional dashboard is set up separately. Theo van Doesburg, [Counter-composition XVI](https://commons.wikimedia.org/w/index.php?curid=3817033), Commons reproduction with public-domain metadata checked on 2026-10-05. The user confirmed this work on the TV. This is historical evidence, not a new-release live test.*
 
-**[Add to Home Assistant](https://my.home-assistant.io/redirect/supervisor_add_addon_repository/?repository_url=https%3A%2F%2Fgithub.com%2Fvolkue-tech%2Fframe-gallery-ha)** · [Setup guide](frame_gallery/DOCS.md) · [Latest beta](https://github.com/volkue-tech/frame-gallery-ha/releases/tag/v0.1.0b4)
+**[Add to Home Assistant](https://my.home-assistant.io/redirect/supervisor_add_addon_repository/?repository_url=https%3A%2F%2Fgithub.com%2Fvolkue-tech%2Fframe-gallery-ha)** · [Setup guide](frame_gallery/DOCS.md) · [Latest beta](https://github.com/volkue-tech/frame-gallery-ha/releases/tag/v0.1.0b5)
 
 ## Art first. No unwanted cropping.
 
-- **A broad, colourful collection, museum artwork or your own images.** b4 includes 166 near-widescreen Wikimedia Commons works, alongside the Art Institute of Chicago, the Cleveland Museum of Art, or your local JPEG/PNG collection. No API key needed.
+- **A broad, colourful collection, museum artwork or your own images.** b5 includes 400 near-widescreen Wikimedia Commons works, alongside the Art Institute of Chicago, the Cleveland Museum of Art, or your local JPEG/PNG collection. No API key needed.
 - **Keep the whole work.** Original proportions are preserved by default; margins fill any unused space. Cropping is opt-in.
 - **Something new.** Previously sent artworks are skipped while new eligible works remain. History keeps the latest 20 000 works.
 - **See it before the next tap.** The optional native Home Assistant card shows the latest successful preview and starts a new run.
@@ -48,7 +48,7 @@ When adding **Local File**, replace its default name with **Frame Gallery Previe
 
 | Source | Available filters in this beta |
 | --- | --- |
-| Wikimedia Commons | 400 in the b5 candidate; b4 has 166. Shared fitting options |
+| Wikimedia Commons | 400 curated works. Shared fitting options |
 | Art Institute of Chicago | Period |
 | Cleveland Museum of Art | Department and period |
 | Your own images | Landscape and fitting options |
@@ -56,7 +56,7 @@ When adding **Local File**, replace its default name with **Frame Gallery Previe
 Landscape selection and screen-shape preference work with all four sources. **Colour and style filters are not available yet.** Google Arts & Culture is not a source in this app. Museum sources use documented open-access APIs and eligible CC0 images; Commons uses a curated selection with current rights and file identity rechecked on each run; local media uses your own files.
 
 **For the wide Commons collection:** choose `wikimedia_commons`, keep **Landscape
-only** on and **Image fit = contain**. b4 sources are within 2.5% of 16:9;
+only** on and **Image fit = contain**. Sources are within 2.5% of 16:9;
 leave **Prefer 16:9** on for the closest matches (about 1%), or turn it off
 for the whole selection. Small margins can remain; the complete art is preserved.
 No account, API key or new dashboard helper is required. See the
@@ -76,6 +76,15 @@ The default prefers landscape works close to 16:9. If no suitable new work is fo
 When reporting a problem, include the app version, TV model and the final outcome line. Remove personal details and secrets before sharing logs. Do not include pairing tokens, passwords or access tokens.
 
 ## Public beta
+
+[0.1.0b5](https://github.com/volkue-tech/frame-gallery-ha/releases/tag/v0.1.0b5)
+expands Commons to 400 works from 299 artist labels, puts it first/default for
+new installations, and clarifies the optional dashboard setup. All 166 b4 pins
+are retained unchanged. Both native validators and actual publisher images,
+hash-checked evidence, anonymous sources/pulls and independent signatures passed.
+See the [b5 validation report](BETA5_VALIDATION.md). No new Green/TV test is
+claimed. Samsung IP detection remains deferred. Update without uninstalling;
+your saved sources, helpers and sent-image history stay compatible.
 
 [0.1.0b4](https://github.com/volkue-tech/frame-gallery-ha/releases/tag/v0.1.0b4)
 expands the Commons selection to 166 near-widescreen JPEG works from 112 artist
@@ -104,7 +113,7 @@ The app runs once, then stops. It does not remove artworks already stored on you
 
 ## For contributors
 
-Frame Gallery is implemented independently. The project's own code is [Apache-2.0](LICENSE); distributed third-party components retain their own licences. The runtime is not GPL-free. [Third-party notices](THIRD_PARTY_NOTICES.md) and [matching component sources](https://github.com/volkue-tech/frame-gallery-ha/releases/tag/sources-v0.1.0b4) are available; historical b1/b2/b3 source releases are retained.
+Frame Gallery is implemented independently. The project's own code is [Apache-2.0](LICENSE); distributed third-party components retain their own licences. The runtime is not GPL-free. [Third-party notices](THIRD_PARTY_NOTICES.md) and [matching component sources](https://github.com/volkue-tech/frame-gallery-ha/releases/tag/sources-v0.1.0b5) are available; historical b1/b2/b3/b4 source releases are retained.
 
 - [Developer setup and quality gates](frame_gallery/DEVELOPMENT.md)
 - [Product specification](PRODUCT_SPEC.md) · [Architecture](ARCHITECTURE.md) · [Acceptance tests](ACCEPTANCE_TESTS.md)

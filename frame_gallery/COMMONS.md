@@ -1,16 +1,16 @@
 # Wikimedia Commons selection
 
-> **0.1.0b5 candidate, publication checks running:** 400 curated near-widescreen works from 299 artist labels.
-> Public **0.1.0b4** contains 166 works; every one is retained unchanged in this expansion.
+> **0.1.0b5 public beta:** 400 curated near-widescreen works from 299 artist labels.
+> All 166 works from b4 are retained unchanged in this expansion.
 > Update the existing app; do not uninstall it or reset its history.
 
 ## What you get
 
 A broad, colourful selection of modern classics, landscapes, still lifes,
 seascapes and older paintings. Each source is at least 3000 pixels wide and
-within 2.5% of the 16:9 screen ratio. The next catalogue adds 234 visually
+within 2.5% of the 16:9 screen ratio. This catalogue adds 234 visually
 reviewed works without removing or repinning any of the 166 b4 entries.
-Commons is first/default for new installations in that next release; saved
+Commons is first/default for new installations; saved
 source choices on upgrades stay unchanged.
 No account, API key, new helper or dashboard extension is needed.
 
@@ -19,7 +19,7 @@ Select **Artwork source → wikimedia_commons**, keep **Landscape only** on and
 for the closest matches, or turn it off for the whole curated selection.
 
 **2.5% selection is not the same as the app's strict 16:9 preference.** That
-preference still means about 1%; 152 of the prepared 400 sources meet it
+preference still means about 1%; 152 of the 400 sources meet it
 (b4: 67 of 166). The existing
 bounded fallback can show the other near-widescreen works without cropping.
 Small margins, or margins already present in a source scan, can remain.
@@ -29,7 +29,7 @@ There is no new configuration option and no change to your saved options.
 
 *Historical b3 Green screenshot: Theo van Doesburg,
 [Counter-composition XVI](https://commons.wikimedia.org/w/index.php?curid=3817033).
-This work remains unchanged in the next catalogue. The 400-work selection
+This work remains unchanged in the catalogue. The 400-work selection
 has not been TV-tested work by work. See the [b3 live-test scope](https://github.com/volkue-tech/frame-gallery-ha/blob/main/BETA3_VALIDATION.md).*
 
 Department, period, style and colour filters are not supported for Commons.

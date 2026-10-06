@@ -1,8 +1,7 @@
 # Frame Gallery
 
-> **0.1.0b5 candidate, publication checks running:** [400 near-widescreen Wikimedia Commons works](COMMONS.md), Commons first/default for new installations, and a clearer optional dashboard guide.
-> **Public 0.1.0b4:** 166 near-widescreen Wikimedia Commons works, no API key,
-> and unchanged simple English/German configuration. Update without uninstalling; your
+> **0.1.0b5 public beta:** [400 near-widescreen Wikimedia Commons works](COMMONS.md), Commons first/default for new installations, and a clearer optional dashboard guide.
+> No API key is needed. Update without uninstalling; your saved sources and
 > existing camera, timer, script and optional artwork-information helper still work.
 
 One start, one fresh artwork on your Samsung Frame. Choose museum artwork or your own images, preserve the whole work without cropping by default, and optionally see the latest successful preview on your Home Assistant dashboard.
@@ -11,7 +10,7 @@ One start, one fresh artwork on your Samsung Frame. Choose museum artwork or you
 
 *Illustration, not a screenshot. The dashboard is optional and is configured separately; installation does not add a card automatically.*
 
-> **[0.1.0b4 public beta](https://github.com/volkue-tech/frame-gallery-ha/releases/tag/v0.1.0b4).** Matching public sources, native ARM/Intel checks on the actual images, anonymous pulls and independent signatures passed. [Exact b4 scope](https://github.com/volkue-tech/frame-gallery-ha/blob/main/BETA4_VALIDATION.md). No new Green/TV live test is claimed for this catalogue update. The preceding b3 passed two Commons deliveries and preview/text/loading/cleanup on Green, with physical TV confirmation of the second work. [Historical b3 evidence](https://github.com/volkue-tech/frame-gallery-ha/blob/main/BETA3_VALIDATION.md). Compatibility with every TV model is not guaranteed.
+> **[0.1.0b5 public beta](https://github.com/volkue-tech/frame-gallery-ha/releases/tag/v0.1.0b5).** Matching public sources, native ARM/Intel checks on the actual images, anonymous pulls and independent signatures passed. [Exact b5 scope](https://github.com/volkue-tech/frame-gallery-ha/blob/main/BETA5_VALIDATION.md). No new Green/TV live test is claimed for this catalogue update. The preceding b3 passed two Commons deliveries and preview/text/loading/cleanup on Green, with physical TV confirmation of the second work. [Historical b3 evidence](https://github.com/volkue-tech/frame-gallery-ha/blob/main/BETA3_VALIDATION.md). Compatibility with every TV model is not guaranteed.
 
 **Start here:** [Install](#installation) → [Show your first artwork](#first-start-and-pairing) → [Add the dashboard card](#dashboard).
 
@@ -39,7 +38,7 @@ No SSH, no command line, and no change to `configuration.yaml` is needed at any 
 
 You can use Frame Gallery immediately from its app page. No dashboard setup is needed for the first test.
 
-### Simple configuration (0.1.0b4)
+### Simple configuration (0.1.0b5)
 
 The normal form has five fields: **TV address**, **Artwork source**, **Landscape
 only**, **Prefer 16:9**, and **Image fit**. The German UI uses **TV-IP-Adresse**,
@@ -223,7 +222,7 @@ mode: single
 | Option | What it does | Default |
 | --- | --- | --- |
 | TV address | The TV's IPv4 address. Only private home-network addresses are accepted. | none: required |
-| Artwork source | `wikimedia_commons` (400 near-widescreen works in the next release; b4 has 166; no key), `art_institute_chicago`, `cleveland_museum_of_art`, or `local_media` (your own images). | `wikimedia_commons` (next release; b4 defaults to Chicago) |
+| Artwork source | `wikimedia_commons` (400 near-widescreen works; no key), `art_institute_chicago`, `cleveland_museum_of_art`, or `local_media` (your own images). | `wikimedia_commons` |
 | Department (Cleveland only) | A department of the Cleveland Museum of Art, or `any`. | `any` |
 | Period (both museums) | `period_before_1400`, `period_1400_1599`, `period_1600_1799`, `period_1800_1899`, `period_1900_and_later`, or `any`. | `any` |
 | Colour | Only `any`: no source supports a colour filter yet. | `any` |
@@ -234,10 +233,10 @@ mode: single
 | Source, department, period, and colour helpers | Optional helpers whose state replaces the matching option at every start (see below). | empty |
 | Log detail | `info`, or `debug` for every candidate the app considered. | `info` |
 
-The next release puts **Wikimedia Commons first** and selects it for new
+Version 0.1.0b5 puts **Wikimedia Commons first** and selects it for new
 installations. Updates retain your saved source: choosing Chicago, Cleveland
-or your own images will not be undone. This change is not in the published b4
-image yet. To use Commons on b4, select `wikimedia_commons` and save.
+or your own images will not be undone. To switch an existing installation,
+select `wikimedia_commons` and save.
 
 The full list of department and period values, with their labels and the other spellings the app accepts, is in [the vocabulary guide](https://github.com/volkue-tech/frame-gallery-ha/blob/main/frame_gallery/VOCABULARY.md).
 
