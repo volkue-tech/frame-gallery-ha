@@ -1,8 +1,8 @@
 # Project status
 
-Last updated: 2026-10-06 (400-work research and first-user UX implementation)
+Last updated: 2026-10-06 (b5 publication approved; preparing frozen candidate)
 
-## 400-work research and first-user UX — locally checked, unreleased, 2026-10-06
+## 400-work research and first-user UX — b5 candidate, 2026-10-06
 
 User approved autonomous local implementation toward **400 usable Commons works
 in total**, preserving the existing 166-work release/research; D-211 records the
@@ -32,13 +32,17 @@ network permission, discovery budget or runtime shape rule changed.
 The existing authentic, credited Commons dashboard screenshot is promoted to the
 app Info hero and setup guide; the guide distinguishes first TV use from optional
 camera/timer/script setup. Commons default/order edits remain local and tested
-by the final full gates above. The app version is still b4 with an Unreleased
-changelog; a numbered release and exact-source/image validation remain pending.
+by the final full gates above. The numbered candidate is now 0.1.0b5;
+exact-source/image validation and publication remain pending.
 
-Publication approval for this new scope is pending. A requested four-hour
+Publication of b5 and a four-hour memory-only personal-token session were
+explicitly approved by the user on 2026-10-06. A previously requested four-hour
 personal-token broker was denied by the execution review before starting; the
 clipboard was cleared and no token was retained, authenticated or saved. The
-user was informed and asked for explicit new publication/token-session approval.
+fresh approval resolves that gate. The current personal account was verified
+as volkue-tech; the token is held only in the bounded process memory, never in
+files, Git configuration or output. Matching public sources, both native
+validators/publishers, signatures and anonymous checks precede any Store update.
 No Home Assistant/TV mutation, network scan or Samsung discovery implementation
 is included. Public b4 and its immutable sources/images remain unchanged.
 

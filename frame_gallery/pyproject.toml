@@ -7,7 +7,7 @@
 
 [project]
 name = "frame-gallery"
-version = "0.1.0b4"
+version = "0.1.0b5"
 description = "Sends one fresh artwork to a Samsung Frame TV each time it is started."
 requires-python = ">=3.12"
 dependencies = [

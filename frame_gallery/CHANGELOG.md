@@ -1,6 +1,6 @@
 # Changelog
 
-## Unreleased
+## 0.1.0b5 (public beta candidate)
 
 - Expand the pinned near-widescreen Commons catalogue to 400 works from 299 artist labels: all 166 b4 entries unchanged, plus 234 visually reviewed JPEG works. Sources remain at least 3000 pixels wide and within 2.5% of 16:9; no crop, ratio-rule, request-budget or history reset. Metadata-only research and the 34 older deferred proposals are retained.
 

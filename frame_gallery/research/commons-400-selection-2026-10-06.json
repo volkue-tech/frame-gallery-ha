@@ -1,7 +1,7 @@
 {
   "schema": 1,
   "research_date": "2026-10-06",
-  "release_status": "unreleased",
+  "release_status": "0.1.0b5 candidate; see BETA5_VALIDATION.md for publication evidence",
   "scope": "Metadata-only curation with actual thumbnail inspection. Commons rights statements are not worldwide legal clearance. No artwork bytes or raw description pages.",
   "criteria": {
     "minimum_source_width_px": 3000,

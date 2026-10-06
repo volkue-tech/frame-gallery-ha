@@ -2,7 +2,7 @@
 
 Fresh artwork on your Samsung Frame. Start it with a tap from Home Assistant.
 
-> **Next release, not published yet:** 400 curated Commons works (166 retained
+> **0.1.0b5 candidate, publication checks running:** 400 curated Commons works (166 retained
 > plus 234 new), Commons first/default for new installations, and a clearer
 > setup guide. The public Store release below remains **0.1.0b4 / 166 works**.
 
@@ -48,7 +48,7 @@ When adding **Local File**, replace its default name with **Frame Gallery Previe
 
 | Source | Available filters in this beta |
 | --- | --- |
-| Wikimedia Commons | 400 prepared for the next release; b4 has 166. Shared fitting options |
+| Wikimedia Commons | 400 in the b5 candidate; b4 has 166. Shared fitting options |
 | Art Institute of Chicago | Period |
 | Cleveland Museum of Art | Department and period |
 | Your own images | Landscape and fitting options |

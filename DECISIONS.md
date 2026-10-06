@@ -4,8 +4,9 @@
 
 ### D-211 — preserve research, target 400 usable works, keep setup minimal
 
-Status: **accepted for local implementation** by the user's explicit request.
-New publication/token-session approval is pending; no HA/TV mutation is implied.
+Status: **accepted for implementation and b5 publication** by the user's explicit
+request and fresh publication approval on 2026-10-06. A memory-only personal
+token session of at most four hours is authorized; no HA/TV mutation is implied.
 
 - Target 400 distinct usable works **in total**, adding 234 to released b4's 166.
   Preserve the prior 200 proposals and deferred entries in their dated research
@@ -25,8 +26,9 @@ New publication/token-session approval is pending; no HA/TV mutation is implied.
   No discovery implementation, subnet scanning, new permissions or live changes.
 - A four-hour memory-only personal-token session was rejected before starting
   due to unclear new-publication authority. Clipboard cleared; no token held or
-  authentication attempted. Ask for explicit approval; do not bypass that review.
-  A new release still requires exact sources, native tests and signatures.
+  authentication attempted. The user subsequently explicitly approved b5
+  publication and the bounded session. A new release still requires exact
+  sources, native tests and signatures before updating public Store main.
 
 Local implementation observed: 400 entries / 299 artist labels, including all
 166 b4 tuples unchanged and 234 additions, plus 26 screened reserves. 152 source
@@ -36,7 +38,8 @@ in 74.45 seconds; it is not a normal run, decoding or TV test. Final local gates
 passed 5,006 tests, eleven platform skips, 100% line/branch coverage, Ruff and
 strict mypy. AIC-only test fixtures now name their modelled source explicitly;
 the actual absent/null-source composition-root test proves Commons delivery.
-No release, new image, token session or HA/TV change is claimed.
+Publication is now approved, not yet completed. No new HA/TV test is authorized
+or claimed; existing versions, sources and tags must remain untouched.
 
 ## Source-default UX amendment (2026-10-06)
 

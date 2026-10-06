@@ -15,8 +15,14 @@
   *5,006 tests, eleven platform skips, 100% line/branch coverage, Ruff and strict
   mypy. Preview: 400 usable works + 34 separately retained older review cases;
   search/filter/bookmark tests passed. 26 vetted reserves remain local.*
-- [ ] Obtain explicit new publication approval before numbered release, personal
+- [x] Obtain explicit new publication approval before numbered release, personal
   credential session, native builds, signed images or Store changes.
+  *User explicitly approved 0.1.0b5 and the bounded personal session, 2026-10-06.*
+- [ ] Freeze numbered b5 sources; publish and anonymously verify their archive.
+- [ ] Validate both native architectures and actual publisher runtime images;
+  verify independent signatures, anonymous pulls and exact catalogue/default.
+- [ ] Only after successful checks, publish b5 Store main and release, disable
+  both one-time approvals and discard the personal credential session.
 
 Samsung IP reuse/discovery remains an optional feasibility question. No HA/TV
 changes or network scans are authorized by this task. Published b4 is immutable.

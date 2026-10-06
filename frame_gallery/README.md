@@ -6,7 +6,7 @@ Fresh artwork on your Samsung Frame — from Home Assistant, with one tap.
 
 *Actual Green screenshot; the dashboard is optional and set up separately. Theo van Doesburg, [Counter-composition XVI](https://commons.wikimedia.org/w/index.php?curid=3817033), Wikimedia Commons reproduction with public-domain metadata checked on 2026-10-05. The user confirmed this work on the TV. The screenshot is historical b3 evidence, not a new-release live test.*
 
-- Choose 400 near-widescreen works from Wikimedia Commons (next release; published b4 has 166), museum artwork from the Art Institute of Chicago or Cleveland Museum of Art, or your own JPEG/PNG images. No API key is needed.
+- Choose 400 near-widescreen works from Wikimedia Commons in the b5 candidate (published b4 has 166), museum artwork from the Art Institute of Chicago or Cleveland Museum of Art, or your own JPEG/PNG images. No API key is needed.
 - Show the whole work without cropping by default. Previously sent works are skipped while new eligible works remain.
 - Start from the app page, an automation, or an optional dashboard card with a preview of the latest successful upload.
 - Optionally add title, artist and museum below the preview with built-in cards and one Text helper; the standard card stays minimal.

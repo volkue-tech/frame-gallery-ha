@@ -1,6 +1,6 @@
 # Frame Gallery
 
-> **Next release, not yet published:** [400 near-widescreen Wikimedia Commons works](COMMONS.md), Commons first/default for new installations, and a clearer optional dashboard guide.
+> **0.1.0b5 candidate, publication checks running:** [400 near-widescreen Wikimedia Commons works](COMMONS.md), Commons first/default for new installations, and a clearer optional dashboard guide.
 > **Public 0.1.0b4:** 166 near-widescreen Wikimedia Commons works, no API key,
 > and unchanged simple English/German configuration. Update without uninstalling; your
 > existing camera, timer, script and optional artwork-information helper still work.

@@ -1,6 +1,6 @@
 # Wikimedia Commons selection
 
-> **Next release, not published yet:** 400 curated near-widescreen works from 299 artist labels.
+> **0.1.0b5 candidate, publication checks running:** 400 curated near-widescreen works from 299 artist labels.
 > Public **0.1.0b4** contains 166 works; every one is retained unchanged in this expansion.
 > Update the existing app; do not uninstall it or reset its history.
 
