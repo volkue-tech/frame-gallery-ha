@@ -1,5 +1,27 @@
 # Implementation plan and approval gates
 
+## Near-widescreen Commons update (2026-10-06, D-209)
+
+User authorized preserving research and publishing the update autonomously.
+No new HA/TV mutation is included in this approval.
+
+- [x] Retain all 200 research proposals, preview, reviewed IDs and source metadata
+  locally; create a checksummed snapshot and a metadata-only release inventory.
+- [x] Curate 166 near-widescreen JPEG sources; defer 34 rights/proportion/format
+  cases without losing them from research. Preserve Commons history IDs.
+- [x] Explicitly cap normal metadata batches at ten and exclude already-sent
+  entries from mixed batches. Add larger-catalogue/exhaustion regressions.
+- [x] Update numbered b4 metadata and English/German hints without new fields,
+  dependencies, broad permissions or a changed strict 16:9 tolerance.
+- [x] Finish final production-adapter metadata check and full local quality gates.
+  *166/166 metadata entries accepted in 35.61 s over four bounded audit passes;
+  4,995 tests, eleven platform skips, 100% line/branch coverage.*
+- [ ] Publish/download/hash-check exact corresponding sources from the clean candidate.
+- [ ] Validate both native architectures and actual publisher images/signatures.
+- [ ] Independently verify anonymous sources/registry and exact Cosign evidence.
+- [ ] Only then update Store main, announce b4 and disable/read back both approvals.
+- [ ] Stop the memory-only personal credential process and record the actual receipt.
+
 ## Post-beta Commons (2026-10-05, D-206)
 
 User authorized local implementation of the 50-work source without a request

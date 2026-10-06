@@ -1,6 +1,32 @@
 # Project status
 
-Last updated: 2026-10-05 (b3 publicly released; Store/Green validation complete)
+Last updated: 2026-10-06 (b4 near-widescreen candidate; publication gates pending)
+
+## Near-widescreen b4 candidate — 2026-10-06
+
+User approved preserving the 200-work research and publishing the expanded
+selection autonomously under volkue-tech/frame-gallery-ha. D-209 records the
+scope: 166 pinned JPEG works from 112 artist labels, width >=3000, relative
+16:9 deviation <=2.5%; 34 proposals deferred and retained. The stricter app
+preference, saved options, no-crop fallback and history IDs are unchanged.
+Ten normal metadata batches now explicitly bound the larger shuffled catalogue;
+permanently sent entries are omitted from mixed requests. No dependency changed.
+
+Initial full local gates passed: Ruff/format, strict mypy on Mac/Linux, 4,995
+tests passed, eleven platform skips, 100% line/branch coverage (9,426 statements,
+2,054 branches). A live production-adapter metadata check found PNG/TIFF sources
+in the research; those eleven were deferred rather than weakening the adapter.
+The final JPEG-only adapter check accepted 166/166 over four bounded passes in
+35.61 seconds. Final full local gates again passed 4,995 tests, eleven platform
+skips and 100% line/branch coverage. Raw outputs remain git-ignored under
+build/commons-wide-release/check-final-local.log and live-metadata-jpeg.log.
+No image download, HA change, TV contact or claim of new live validation.
+
+Public Store main remains b3 until the matching source package, both native
+architectures, actual publisher images and independent signatures pass. Existing
+personal token works for the repository, not the Actions-variable API; one 403
+was not retried. Existing personal Firefox access to release-gate UI is verified.
+No credential or broader permission is persisted or created.
 
 ## Commons b3 release completed — 2026-10-05
 

@@ -10,7 +10,7 @@ Fresh artwork on your Samsung Frame. Start it with a tap from Home Assistant.
 
 ## Art first. No unwanted cropping.
 
-- **Modern classics, museum artwork or your own images.** Choose 50 curated Wikimedia Commons works, the Art Institute of Chicago, the Cleveland Museum of Art, or your local JPEG/PNG collection. No API key needed.
+- **A broad, colourful collection, museum artwork or your own images.** The b4 candidate includes 166 near-widescreen Wikimedia Commons works, alongside the Art Institute of Chicago, the Cleveland Museum of Art, or your local JPEG/PNG collection. No API key needed.
 - **Keep the whole work.** Original proportions are preserved by default; margins fill any unused space. Cropping is opt-in.
 - **Something new.** Previously sent artworks are skipped while new eligible works remain. History keeps the latest 20 000 works.
 - **See it before the next tap.** The optional native Home Assistant card shows the latest successful preview and starts a new run.
@@ -44,18 +44,19 @@ When adding **Local File**, replace its default name with **Frame Gallery Previe
 
 | Source | Available filters in this beta |
 | --- | --- |
-| Wikimedia Commons | 50 curated landscape works of classical modernism; shared fitting options |
+| Wikimedia Commons | 166 curated near-widescreen works in b4; shared fitting options |
 | Art Institute of Chicago | Period |
 | Cleveland Museum of Art | Department and period |
 | Your own images | Landscape and fitting options |
 
 Landscape selection and screen-shape preference work with all four sources. **Colour and style filters are not available yet.** Google Arts & Culture is not a source in this app. Museum sources use documented open-access APIs and eligible CC0 images; Commons uses a curated selection with current rights and file identity rechecked on each run; local media uses your own files.
 
-**For colourful modern classics:** choose `wikimedia_commons`, keep **Landscape
-only** on and **Image fit = contain**, and turn **Prefer 16:9** off. These works
-are landscape but not near-exact 16:9; margins preserve the complete art.
+**For the wide Commons collection:** choose `wikimedia_commons`, keep **Landscape
+only** on and **Image fit = contain**. b4 sources are within 2.5% of 16:9;
+leave **Prefer 16:9** on for the closest matches (about 1%), or turn it off
+for the whole selection. Small margins can remain; the complete art is preserved.
 No account, API key or new dashboard helper is required. See the
-[50-work collection and rights notes](frame_gallery/COMMONS.md).
+[collection and rights notes](frame_gallery/COMMONS.md).
 
 ![Actual b3 Commons dashboard preview and optional artist/title information.](docs/images/dashboard-commons.png)
 
@@ -78,6 +79,12 @@ The default prefers landscape works close to 16:9. If no suitable new work is fo
 When reporting a problem, include the app version, TV model and the final outcome line. Remove personal details and secrets before sharing logs. Do not include pairing tokens, passwords or access tokens.
 
 ## Public beta
+
+The **0.1.0b4 candidate** expands the Commons selection to 166 near-widescreen
+JPEG works from 112 artist labels. All 200 research proposals are retained;
+34 require further rights/proportion/source-format review. Exact-source,
+native-image and signature gates are required before Store publication.
+No new Green/TV live validation is claimed for this catalogue update.
 
 [0.1.0b3](https://github.com/volkue-tech/frame-gallery-ha/releases/tag/v0.1.0b3)
 adds 50 curated Commons works and clearer English/German configuration. Native

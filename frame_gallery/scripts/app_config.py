@@ -135,7 +135,7 @@ def translations(language: str = "en") -> dict[str, Value]:
         "source": (
             "Artwork source",
             (
-                "wikimedia_commons: 50 curated classical-modern landscape works; no API key. "
+                "wikimedia_commons: 166 curated near-widescreen artworks; no API key. "
                 "art_institute_chicago: Art Institute of Chicago. cleveland_museum_of_art: "
                 "Cleveland Museum of Art. local_media: your JPEG/PNG files in "
                 "frame_gallery/library in Home Assistant media."
@@ -173,8 +173,8 @@ def translations(language: str = "en") -> dict[str, Value]:
             (
                 "Prefer artworks within about 1 % of the TV's 16:9 shape. If there is none, and "
                 "Landscape only is on with the contain fit, another landscape artwork is shown "
-                "whole, with margins. For Commons, turn this off: these 50 works are not "
-                "near-exact 16:9."
+                "whole, with margins. Commons sources are within 2.5 % of 16:9; turn this "
+                "off to include the whole curated selection rather than prefer the closest matches."
             ),
         ),
         "fit_mode": (
@@ -241,7 +241,7 @@ def translations(language: str = "en") -> dict[str, Value]:
             "source": (
                 "Bildquelle",
                 (
-                    "wikimedia_commons: 50 ausgewählte Querformat-Werke der klassischen Moderne, "
+                    "wikimedia_commons: 166 ausgewählte Werke im breiten Querformat, "
                     "ohne API-Key. art_institute_chicago: Art Institute of Chicago. "
                     "cleveland_museum_of_art: Cleveland Museum of Art. local_media: eigene "
                     "JPEG/PNG-Dateien unter frame_gallery/library im HA-Medienordner."
@@ -258,8 +258,9 @@ def translations(language: str = "en") -> dict[str, Value]:
                 "16:9 bevorzugen (kann länger dauern)",
                 (
                     "Sucht zuerst nach fast exakt 16:9. Mit Querformat und contain wird sonst "
-                    "ein ganzes Querformat-Bild mit Rand verwendet. Für Commons ausschalten: "
-                    "Die 50 Werke sind nicht nahezu exakt 16:9."
+                    "ein ganzes Querformat-Bild mit Rand verwendet. Commons liegt höchstens "
+                    "2,5 % neben 16:9; ausschalten, um die gesamte Auswahl statt bevorzugt "
+                    "der engsten 16:9-Treffer zu nutzen."
                 ),
             ),
             "fit_mode": (

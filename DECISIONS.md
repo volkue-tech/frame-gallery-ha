@@ -1,5 +1,54 @@
 # Decision log
 
+## Near-widescreen Commons catalogue (2026-10-06)
+
+### D-209 — retained research and bounded b4 selection
+
+The user approved the scrolling 200-proposal preview, asked to preserve the
+research locally and publish an update independently using only the personal
+volkue-tech/frame-gallery-ha account. No new HA/TV mutation is authorized here.
+
+- Preserve all 200 proposals, review/rejection IDs, source-page metadata and
+  HTML locally, plus a checksummed snapshot. The release stores a small,
+  metadata-only manifest with included/deferred IDs and evidence hashes.
+  No full-resolution artwork downloads are bundled or archived as app assets.
+- Replace b3's broad-ratio 50-work runtime catalogue with 166 distinct pinned
+  JPEG sources from 112 artist labels, width >=3000 and relative 16:9 deviation
+  <=2.5%. Preserve `commons:<pageid>` and existing sent/upload history. The old
+  catalogue remains in Git and the retained b3 matching-source distribution.
+- The app's strict preference stays `abs(ln(r/(16/9))) <= ln(1.01)`; 67 selected
+  originals meet it. Contain/no-crop, landscape, safe fallback, request/byte/time
+  budgets and all existing options/helpers remain unchanged. No new form field.
+- Defer 34 proposals: 11 PNG/TIFF sources outside the JPEG-only adapter, five
+  scan/work proportion review cases, and 18 source-rights review cases. These
+  remain in private research. Beckmann's 1937 artwork conflicts with its
+  PD-old-100-expired tag; a template label is not accepted as legal clearance.
+  Additional attribution claims and old-only/regional tags without explicit US
+  basis are deferred. This is conservative curation, not a legal opinion.
+- Preserve the ten normal five-record-request discovery ceiling explicitly for
+  the larger catalogue, within the existing shared allowance of 15 including
+  redirects/retries. Omit permanently excluded entries from mixed requests;
+  retain quarantine handling. Exhaustion ends cleanly without automatic repeats.
+  Each run samples the shuffled catalogue, not an exhaustive 166-item scan.
+- Source-only release, exact-commit/hash approvals, both native validators and
+  actual publishers, anonymous registry/source checks and independent Cosign
+  verification remain mandatory before exposing b4 in public Store main.
+  Existing b1/b2/b3 sources/images remain. No new live Green/TV test is claimed.
+
+Official template meanings checked 2026-10-06: [PD-Art-two-auto](https://commons.wikimedia.org/wiki/Template:PD-Art-two-auto),
+[PD-old-100-expired](https://commons.wikimedia.org/wiki/Template:PD-old-100-expired),
+[PD-old-70](https://commons.wikimedia.org/wiki/Template:PD-old-70).
+The 2.5% research criterion is not a blanket copyright determination.
+
+Personal credentials: the user named the exact Mac Passwords item
+`Github Frame Gallery Token`. Its account and repository were verified as
+volkue-tech / the public personal repository. The token remains process-memory
+only with a four-hour maximum, and clipboard data is cleared. Actions-variable
+API returned 403 once and was not retried; a narrow repository metadata probe
+confirmed the correct personal account/repository. The already authenticated
+personal Firefox session provides the existing release-gate UI; no token scope
+or account permission is expanded, and no corporate credential is accessed.
+
 ## Commons beta and configuration UX (2026-10-05)
 
 ### D-208 — verified b3 publication and in-place Green evidence

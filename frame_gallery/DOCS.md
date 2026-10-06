@@ -1,7 +1,7 @@
 # Frame Gallery
 
-> **New in 0.1.0b3:** [50 curated Wikimedia Commons works](COMMONS.md), no API key,
-> and clearer English/German configuration. Update without uninstalling; your
+> **New in 0.1.0b4:** [166 near-widescreen Wikimedia Commons works](COMMONS.md), no API key,
+> and unchanged simple English/German configuration. Update without uninstalling; your
 > existing camera, timer, script and optional artwork-information helper still work.
 
 One start, one fresh artwork on your Samsung Frame. Choose museum artwork or your own images, preserve the whole work without cropping by default, and optionally see the latest successful preview on your Home Assistant dashboard.
@@ -38,17 +38,18 @@ No SSH, no command line, and no change to `configuration.yaml` is needed at any 
 
 You can use Frame Gallery immediately from its app page. No dashboard setup is needed for the first test.
 
-### Simple configuration (0.1.0b3)
+### Simple configuration (0.1.0b4)
 
 The normal form has five fields: **TV address**, **Artwork source**, **Landscape
 only**, **Prefer 16:9**, and **Image fit**. The German UI uses **TV-IP-Adresse**,
 **Bildquelle**, **Nur Querformat**, **16:9 bevorzugen**, and **Bildanpassung**.
 Configuration keys stay unchanged, so updates retain existing settings.
 
-For the curated modern works choose `wikimedia_commons`, keep Landscape only on,
-choose `contain` (the complete artwork, no crop), and turn Prefer 16:9 off.
-These works are landscape but not near-exact 16:9: margins are intentional,
-not an error. No API key, registration or additional dashboard setup is needed.
+For the curated wide artworks choose `wikimedia_commons`, keep Landscape only on
+and choose `contain` (the complete artwork, no crop). Sources are within 2.5% of
+16:9; Prefer 16:9 still uses the stricter approximately 1% threshold. Leave it
+on for the closest matches, or turn it off for the whole selection. Small
+margins can remain. No API key, registration or additional dashboard setup is needed.
 
 Museum period/department filters, margin colour and dashboard helpers are
 optional. Enable **Show unused optional configuration options** only when you
@@ -216,7 +217,7 @@ mode: single
 | Option | What it does | Default |
 | --- | --- | --- |
 | TV address | The TV's IPv4 address. Only private home-network addresses are accepted. | none: required |
-| Artwork source | `art_institute_chicago`, `cleveland_museum_of_art`, `local_media` (your own images), or `wikimedia_commons` (50 curated works, no key; b3 and newer). | `art_institute_chicago` |
+| Artwork source | `art_institute_chicago`, `cleveland_museum_of_art`, `local_media` (your own images), or `wikimedia_commons` (166 near-widescreen works in b4; no key). | `art_institute_chicago` |
 | Department (Cleveland only) | A department of the Cleveland Museum of Art, or `any`. | `any` |
 | Period (both museums) | `period_before_1400`, `period_1400_1599`, `period_1600_1799`, `period_1800_1899`, `period_1900_and_later`, or `any`. | `any` |
 | Colour | Only `any`: no source supports a colour filter yet. | `any` |

@@ -5,7 +5,7 @@ configuration:
     description: 'The IPv4 address of your Frame TV on your home network, for example 192.168.1.20. Only private home-network addresses are accepted. Give the TV a fixed address in your router (a DHCP reservation), so that it keeps this address.'
   source:
     name: 'Artwork source'
-    description: 'wikimedia_commons: 50 curated classical-modern landscape works; no API key. art_institute_chicago: Art Institute of Chicago. cleveland_museum_of_art: Cleveland Museum of Art. local_media: your JPEG/PNG files in frame_gallery/library in Home Assistant media.'
+    description: 'wikimedia_commons: 166 curated near-widescreen artworks; no API key. art_institute_chicago: Art Institute of Chicago. cleveland_museum_of_art: Cleveland Museum of Art. local_media: your JPEG/PNG files in frame_gallery/library in Home Assistant media.'
   department:
     name: 'Department (Cleveland only)'
     description: 'Only works from this department of the Cleveland Museum of Art; any means no filter. The Art Institute of Chicago and your own images do not support a department: with them, a department is not applied, and the log and the run record say so. Wikimedia Commons does not support a department filter either.'
@@ -20,7 +20,7 @@ configuration:
     description: 'Only choose artworks that are wider than they are tall.'
   strict_tv_format:
     name: 'Prefer 16:9 (may take longer)'
-    description: 'Prefer artworks within about 1 % of the TV''s 16:9 shape. If there is none, and Landscape only is on with the contain fit, another landscape artwork is shown whole, with margins. For Commons, turn this off: these 50 works are not near-exact 16:9.'
+    description: 'Prefer artworks within about 1 % of the TV''s 16:9 shape. If there is none, and Landscape only is on with the contain fit, another landscape artwork is shown whole, with margins. Commons sources are within 2.5 % of 16:9; turn this off to include the whole curated selection rather than prefer the closest matches.'
   fit_mode:
     name: 'Image fit (contain = no crop)'
     description: 'contain shows the whole artwork, with margins where its shape differs from the TV''s (nothing is cropped). cover fills the whole screen and may crop the edges.'

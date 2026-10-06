@@ -33,6 +33,7 @@ PROVIDER_KEY: Final = "commons"
 API_HOST: Final = "commons.wikimedia.org"
 IMAGE_HOSTS: Final = frozenset({"upload.wikimedia.org", "thumb.wikimedia.org"})
 BATCH_SIZE: Final = 5
+MAX_METADATA_BATCHES: Final = 10
 RENDITION_WIDTH: Final = 3840
 MAX_RENDITION_HEIGHT: Final = 3840
 RIGHTS_FIELDS: Final = "LicenseShortName|LicenseUrl|Copyrighted|AttributionRequired|Restrictions"
@@ -76,6 +77,7 @@ class CommonsProvider:
         self._refs.clear()
         order = list(self._catalog)
         ctx.random.shuffle(order)
+        requests = 0
         for offset in range(0, len(order), BATCH_SIZE):
             ctx.deadline.check()
             batch = order[offset : offset + BATCH_SIZE]
@@ -84,6 +86,12 @@ class CommonsProvider:
             if all(ctx.is_excluded_for_good(f"commons:{work.page_id}") for work in batch):
                 ctx.notes.pages_skipped += 1
                 continue
+            if requests >= MAX_METADATA_BATCHES:
+                break
+            batch = [
+                work for work in batch if not ctx.is_excluded_for_good(f"commons:{work.page_id}")
+            ]
+            requests += 1
             query = (
                 ("action", "query"),
                 ("format", "json"),

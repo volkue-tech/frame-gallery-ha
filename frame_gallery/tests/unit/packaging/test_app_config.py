@@ -99,7 +99,8 @@ def test_german_texts_cover_every_option_and_explain_commons_and_no_crop() -> No
     texts = SCRIPT.translations("de")["configuration"]
     assert set(texts) == set(SCHEMA)
     assert "ohne API-Key" in texts["source"]["description"]
-    assert "Commons ausschalten" in texts["strict_tv_format"]["description"]
+    assert "2,5 %" in texts["strict_tv_format"]["description"]
+    assert "166" in texts["source"]["description"]
     assert "ohne Beschnitt" in texts["fit_mode"]["name"]
     assert "255" in texts["artwork_info_helper"]["description"]
     for text in texts.values():

@@ -3,8 +3,10 @@
 from __future__ import annotations
 
 import json
+import math
 import re
 from dataclasses import replace
+from pathlib import Path
 from typing import Any, cast
 
 import pytest
@@ -78,13 +80,36 @@ class Rig:
         return list(self.provider.iter_candidates(filters(), self.context()))
 
 
-def test_curated_manifest_is_fifty_distinct_pinned_landscape_reproductions() -> None:
-    assert len(CATALOG) == len({work.page_id for work in CATALOG}) == 50
-    assert len({work.sha1 for work in CATALOG}) == 50
-    assert len({(work.title, work.artist) for work in CATALOG}) == 50
-    assert len({work.artist for work in CATALOG}) == 8
-    assert {22950618, 104640628}.isdisjoint(work.page_id for work in CATALOG)
-    assert {60907526, 60907632} <= {work.page_id for work in CATALOG}
+def test_curated_manifest_is_pinned_widescreen_and_matches_retained_research() -> None:
+    assert len(CATALOG) == len({work.page_id for work in CATALOG}) == 166
+    assert len({work.sha1 for work in CATALOG}) == 166
+    assert len({(work.title, work.artist) for work in CATALOG}) == 166
+    assert len({work.artist for work in CATALOG}) == 112
+    root = Path(__file__).resolve().parents[3]
+    manifest = json.loads((root / "research/commons-wide-selection-2026-10-06.json").read_text())
+    assert manifest["proposal_count"] == 200
+    assert len(manifest["deferred"]) == 34
+    rows = manifest["included"]
+    assert [work.page_id for work in CATALOG] == [row["id"] for row in rows]
+    assert {row["id"] for row in manifest["deferred"]}.isdisjoint(work.page_id for work in CATALOG)
+    assert 98722784 not in {work.page_id for work in CATALOG}
+    assert 3817033 in {work.page_id for work in CATALOG}
+    for work, row in zip(CATALOG, rows, strict=True):
+        assert (work.file_title, work.sha1, work.title, work.artist) == (
+            row["file_title"],
+            row["sha1"],
+            row["title"],
+            row["artist"],
+        )
+        assert row["width"] >= 3000
+        assert abs(row["width"] * 9 - row["height"] * 16) * 40 <= row["height"] * 16
+    assert (
+        sum(
+            abs(math.log((row["width"] / row["height"]) / (16 / 9))) <= math.log(1.01)
+            for row in rows
+        )
+        == 67
+    )
     for work in CATALOG:
         assert work.page_id > 0
         assert work.file_title.startswith("File:")
@@ -337,3 +362,50 @@ def test_catalog_is_shuffled_reproducibly_without_repeats() -> None:
     assert [c.native_id for c in left.run()] == [c.native_id for c in right.run()]
     other = list(right.provider.iter_candidates(filters(), right.context(12)))
     assert [c.native_id for c in other] != [c.native_id for c in left.run()]
+
+
+def large_catalog(rig: Rig) -> None:
+    catalog = tuple(
+        replace(TEST_CATALOG[0], page_id=n, file_title=f"File:Synthetic {n}.jpg", sha1=f"{n:040x}")
+        for n in range(1, 201)
+    )
+    rig.provider = CommonsProvider(rig.channel, catalog)
+    rig.site.records = {work.page_id: record(work) for work in catalog}
+
+
+def test_large_catalog_has_ten_request_cap_not_an_unbounded_full_scan() -> None:
+    rig = Rig()
+    large_catalog(rig)
+    started = rig.clock.monotonic()
+    found = rig.run()
+    assert len(found) == len({candidate.native_id for candidate in found}) == 50
+    assert len(rig.site.queries) == 10
+    assert rig.clock.monotonic() - started < 30
+
+
+def test_large_catalog_last_unsent_work_is_found_without_requerying_sent_works() -> None:
+    rig = Rig()
+    large_catalog(rig)
+    ctx = replace(rig.context(), is_excluded_for_good=lambda key: key != "commons:200")
+    found = list(rig.provider.iter_candidates(filters(), ctx))
+    assert [candidate.qualified_id for candidate in found] == ["commons:200"]
+    assert [query["pageids"] for query in rig.site.queries] == ["200"]
+    assert ctx.notes.pages_skipped == 39
+
+
+def test_large_catalog_exhaustion_is_request_free_and_does_not_recycle() -> None:
+    rig = Rig()
+    large_catalog(rig)
+    ctx = replace(rig.context(), is_excluded_for_good=lambda _key: True)
+    assert list(rig.provider.iter_candidates(filters(), ctx)) == []
+    assert ctx.notes.pages_skipped == 40
+    assert not rig.transport.calls
+
+
+def test_large_catalog_rejected_rights_stops_at_the_same_request_limit() -> None:
+    rig = Rig()
+    large_catalog(rig)
+    for row in rig.site.records.values():
+        cast("dict[str, Any]", row)["imageinfo"][0]["extmetadata"]["Copyrighted"]["value"] = "True"
+    assert rig.run() == []
+    assert len(rig.site.queries) == 10

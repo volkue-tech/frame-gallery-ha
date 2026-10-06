@@ -5,13 +5,13 @@ configuration:
     description: 'Die feste private IPv4-Adresse deines Frame TV, z. B. 192.168.1.20. Reserviere sie im Router; Gerätenamen werden nicht unterstützt.'
   source:
     name: Bildquelle
-    description: 'wikimedia_commons: 50 ausgewählte Querformat-Werke der klassischen Moderne, ohne API-Key. art_institute_chicago: Art Institute of Chicago. cleveland_museum_of_art: Cleveland Museum of Art. local_media: eigene JPEG/PNG-Dateien unter frame_gallery/library im HA-Medienordner.'
+    description: 'wikimedia_commons: 166 ausgewählte Werke im breiten Querformat, ohne API-Key. art_institute_chicago: Art Institute of Chicago. cleveland_museum_of_art: Cleveland Museum of Art. local_media: eigene JPEG/PNG-Dateien unter frame_gallery/library im HA-Medienordner.'
   landscape_only:
     name: 'Nur Querformat'
     description: 'Wählt ausschließlich Bilder aus, die breiter als hoch sind. Für einen waagerechten Fernseher empfohlen.'
   strict_tv_format:
     name: '16:9 bevorzugen (kann länger dauern)'
-    description: 'Sucht zuerst nach fast exakt 16:9. Mit Querformat und contain wird sonst ein ganzes Querformat-Bild mit Rand verwendet. Für Commons ausschalten: Die 50 Werke sind nicht nahezu exakt 16:9.'
+    description: 'Sucht zuerst nach fast exakt 16:9. Mit Querformat und contain wird sonst ein ganzes Querformat-Bild mit Rand verwendet. Commons liegt höchstens 2,5 % neben 16:9; ausschalten, um die gesamte Auswahl statt bevorzugt der engsten 16:9-Treffer zu nutzen.'
   fit_mode:
     name: 'Bildanpassung (contain = ohne Beschnitt)'
     description: 'contain zeigt das vollständige Werk mit Rand, ohne es zu beschneiden. cover füllt den Bildschirm und kann Ränder abschneiden. Empfehlung: contain.'
