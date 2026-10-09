@@ -106,19 +106,27 @@ scratch. Full baseline metadata is in frame_gallery/research for host/container
 test consistency; production still copies only the compact 64,385-byte index,
 not full palettes or JPEGs. No native/release/live gate is represented by these tests.
 
-Expansion research milestone: 7,000 metadata candidates, 2,747 automatically
-eligible records and the first 1,783 previews actually screened; 1,243 first-screen
-deferrals. The second review of 39 contact sheets plus stricter source/physical
-proportion and artwork-identity checks has yielded **230 retained local
+Expansion research milestone: 9,000 metadata candidates, 3,163 automatically
+eligible records and the first 2,254 previews actually screened; 1,577 first-screen
+deferrals. The second review of 47 contact sheets plus stricter source/physical
+proportion and artwork-identity checks has yielded **283 retained local
 additions**. The earlier provisional 127 are superseded: plain dimensions in
 museum/GAP receipts and descriptions expose additional possible crops; neither
 image/sheet scopes nor out-of-band physical ratios are silently ignored. Separate
-Art Photo attribution/share-alike declarations stay deferred. Forty-three choices
+Art Photo attribution/share-alike declarations stay deferred. Forty-six choices
 remain deferred. The 400 baseline upload pins were rechecked and 347 artwork QIDs
 retained. Curator
 receipts and complete provisional colour data are metadata-only under
-frame_gallery/research. The private preview has 630 works; the runtime
-catalogue still has exactly 400. 370 additions and the full release scope remain.
+frame_gallery/research. The private preview has 683 works; the runtime
+catalogue still has exactly 400. 317 additions and the full release scope remain.
+
+The private measurement parser also retains fractional inches, repeated-unit
+pairs and explicit H/B axes. This added 56 second-view works and deferred three
+earlier choices after contradictory original measurements became visible.
+The baseline format audit keeps all 400 pins unchanged: 227 measured sources,
+57 unresolved measurement-scope prompts, not 57 proven crops or removals.
+These must be resolved before a final 1000-usable-work claim. No active catalogue,
+history or external system was changed.
 
 The private evidence parser now recognizes explicitly labelled Dutch `h/b`
 museum measurements with repeated/mixed units. All measurement scopes remain

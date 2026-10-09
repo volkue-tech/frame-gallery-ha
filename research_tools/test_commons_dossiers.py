@@ -16,6 +16,27 @@ from research_tools.commons_targeted import artist_term
 
 
 class DossierTests(unittest.TestCase):
+    def test_fractional_inches_do_not_hide_out_of_band_originals(self):
+        values = physical("|dimensions=6 3/8 x 12 ½ in.\n|date=1869")
+        self.assertAlmostEqual(values[0]["ratio"], 12.5 / 6.375)
+        self.assertGreater(abs(values[0]["ratio"] / (16 / 9) - 1), 0.025)
+        self.assertAlmostEqual(
+            physical("|dimensions=9 x 16 inches")[0]["ratio"], 16 / 9
+        )
+        self.assertAlmostEqual(physical('|dimensions=9 x 16"')[0]["ratio"], 16 / 9)
+        self.assertEqual(physical("|dimensions=0 x 16 in."), [])
+
+    def test_repeated_units_and_semicolon_axes_preserve_originals(self):
+        self.assertAlmostEqual(
+            physical("|description=39 cm x 65 cm")[0]["ratio"], 65 / 39
+        )
+        self.assertAlmostEqual(
+            physical("|description=H 78; B 136 cm.")[0]["ratio"], 136 / 78
+        )
+        self.assertAlmostEqual(
+            physical("|dimensions=160 mm x 9 cm")[0]["ratio"], 160 / 90
+        )
+
     def test_missing_artist_uses_explicit_creators_not_categories(self):
         text = (
             "|artist = {{Creator:Joost de Momper d. J.}} "

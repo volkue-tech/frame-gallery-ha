@@ -284,6 +284,8 @@ def metadata(limit: int) -> None:
     # Specific Artwork declarations first, broad search as separately retained
     # fallback evidence. No automatic promotion based on these search labels.
     for name in (
+        "discovery-cc0-art-precise.json",
+        "discovery-paintings-precise.json",
         "discovery-targeted.json",
         "discovery-pdart.json",
         "discovery-pdart-single.json",

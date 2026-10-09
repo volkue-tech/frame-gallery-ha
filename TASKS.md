@@ -20,15 +20,20 @@ for future combinations. This update exposes only one colour selection.
   Broader visual calibration and the 600 additional works remain incomplete.*
 - [ ] Research and visually verify 600 additional distinct eligible works,
   keeping the existing width, ratio, rights and reproduction requirements.
-  *230 additions retained after stricter source-measure checks and actual
-  second-view review; 370 remain. All 1783 candidate previews screened,
+  *283 additions retained after stricter source-measure checks and actual
+  second-view review; 317 remain. All 2254 candidate previews screened,
   all 400 baseline upload pins checked and 347 artwork QIDs retained. Candidate
   counts and temporary network deferrals are not accepted-work counts.*
 - [ ] Complete source-bound colour profiles and a reviewable preview for all
   1000 accepted works; preserve baseline IDs/pins and deferred research.
-  *The private preview contains 630 works, including the 230 unpublished
+  *The private preview contains 683 works, including the 283 unpublished
   additions with complete provisional palettes/distributions/top groups. Runtime
   still has 400; extend/freeze it only after 600 genuine additions are complete.*
+- [ ] Resolve the 57 baseline physical-measurement scope prompts before claiming
+  1000 genuinely usable complete works. Do not silently repin/remove a baseline
+  work or treat an automatic prompt as an established crop.
+  *All 400 source revisions/upload pins checked offline; 227 have parsed
+  measurements. Exact source evidence is retained in the baseline format audit.*
 - [x] Implement the single Commons colour option, default any, with bounded
   selection, history compatibility and no silent colour fallback.
   *Local 400-work draft: readable names, one basic field, source-pinned offline

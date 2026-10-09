@@ -10,6 +10,7 @@ import hashlib
 import json
 import re
 import unicodedata
+from fractions import Fraction
 
 from research_tools.commons_colours import BASELINE, ROOT, save
 from research_tools.commons_expand import OUTPUT
@@ -66,11 +67,47 @@ def physical(text: str) -> list[dict]:
     dimensions += re.findall(r"\|\s*pretty_dimensions\s*=([^\n]*)", markup, re.I)
     dimensions += re.findall(r"\|\s*core:format\s*=([^\n]*)", markup, re.I)
     dimensions += re.findall(
-        r"\|\s*description\s*=(.*?)(?=\n\s*\||\n\s*}})", markup, re.I | re.S
+        r"\|\s*description\s*=(.*?)(?=\n\s*\||\n\s*}}|\Z)", markup, re.I | re.S
     )
     for field in dimensions:
         if "{{size" in field.lower():
             continue
+        # Auction sources also use mixed-number inches. Ignoring these would
+        # let a wide file hide a substantially different original proportion.
+        inch_number = r"[0-9]+(?:[.,][0-9]+|\s+[0-9]+/[0-9]+|\s*[¼½¾⅛⅜⅝⅞])?"
+        for match in re.finditer(
+            rf"({inch_number})\s*[x×]\s*({inch_number})\s*(?:in\.?|inches|\")",
+            field,
+            re.I,
+        ):
+
+            def inches(value: str) -> float:
+                fractions = dict(
+                    zip("¼½¾⅛⅜⅝⅞", (0.25, 0.5, 0.75, 0.125, 0.375, 0.625, 0.875))
+                )
+                value = value.strip()
+                if value[-1] in fractions:
+                    return float(value[:-1].strip()) + fractions[value[-1]]
+                if "/" in value:
+                    whole, part = value.split()
+                    return float(whole) + float(Fraction(part))
+                return float(value.replace(",", "."))
+
+            try:
+                a, b = inches(match[1]), inches(match[2])
+            except (ValueError, ZeroDivisionError):
+                continue
+            if min(a, b) > 0:
+                result.append(
+                    dict(
+                        raw=field.strip(),
+                        width=max(a, b),
+                        height=min(a, b),
+                        ratio=max(a, b) / min(a, b),
+                        interpretation="plain two axes in inches; "
+                        "original measurement scope retained",
+                    )
+                )
         # Rijksmuseum's retained source description labels h/b explicitly and
         # often repeats units: "h 138 mm × b 254 mm". Keep axes and all scopes;
         # a support/frame measurement is not silently treated as the image.
@@ -95,6 +132,47 @@ def physical(text: str) -> list[dict]:
                         ratio=width / height,
                         interpretation="explicit Dutch h/b axes; "
                         "all measurement scopes retained",
+                    )
+                )
+        for match in re.finditer(
+            r"\bH\s+([0-9]+(?:[.,][0-9]+)?)\s*;\s*B\s+"
+            r"([0-9]+(?:[.,][0-9]+)?)\s*(cm|mm)\b",
+            field,
+        ):
+            height, width = (
+                float(match[1].replace(",", ".")),
+                float(match[2].replace(",", ".")),
+            )
+            if min(height, width) > 0:
+                result.append(
+                    dict(
+                        raw=field.strip(),
+                        width=width,
+                        height=height,
+                        ratio=width / height,
+                        interpretation="explicit H/B axes with shared unit",
+                    )
+                )
+        for match in re.finditer(
+            r"([0-9]+(?:[.,][0-9]+)?)\s*(cm|mm)\s*[x×]\s*"
+            r"([0-9]+(?:[.,][0-9]+)?)\s*(cm|mm)\b",
+            field,
+        ):
+            a = float(match[1].replace(",", ".")) * (
+                10 if match[2].lower() == "cm" else 1
+            )
+            b = float(match[3].replace(",", ".")) * (
+                10 if match[4].lower() == "cm" else 1
+            )
+            if min(a, b) > 0:
+                result.append(
+                    dict(
+                        raw=field.strip(),
+                        width=max(a, b),
+                        height=min(a, b),
+                        ratio=max(a, b) / min(a, b),
+                        interpretation="plain two axes with repeated units; "
+                        "all scopes retained",
                     )
                 )
         for match in re.finditer(
@@ -134,6 +212,12 @@ def physical(text: str) -> list[dict]:
 
 
 def dossiers() -> None:
+    manual_path = ROOT / "research/commons-curator-deferrals-2026-10-09.json"
+    manual = (
+        {r["id"]: r["reason"] for r in json.loads(manual_path.read_text())["records"]}
+        if manual_path.exists()
+        else {}
+    )
     baseline = json.loads(BASELINE.read_text())["included"]
     baseline_by_id = {w["id"]: w for w in baseline}
     baseline_qids = {}
@@ -193,6 +277,8 @@ def dossiers() -> None:
         measures = physical(text)
         ratio = work["width"] / work["height"]
         flags = list(work["reasons"])
+        if work["id"] in manual:
+            flags.append("manual curator deferral: " + manual[work["id"]])
         # A marked frame's additional dimensions need manual scope resolution;
         # don't silently choose whichever measurements fit our desired ratio.
         if measures and any(abs(m["ratio"] / ratio - 1) > 0.025 for m in measures):

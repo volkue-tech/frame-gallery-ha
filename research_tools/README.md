@@ -3,7 +3,7 @@
 This tooling is outside the runtime package. No credentials, original-image
 downloads, Home Assistant access or television access are needed. It does not
 automatically approve catalogue additions. Explicit second-view choices retain
-230 retained local research acceptances; the current released/runtime catalogue
+283 retained local research acceptances; the current released/runtime catalogue
 has 400. The earlier provisional 127 were reduced after plain source measurements
 exposed additional possible crops; subsequent actual visual reviews added other
 works. Use the checkpoint/curation manifest for the current count, not this history.
@@ -28,6 +28,13 @@ evidence, not worldwide copyright clearance or a substitute for provenance revie
   local acceptance decisions and inspected-source hashes, not release approval.
 - `frame_gallery/research/commons-expansion-colours-2026-10-09.json`: full
   provisional colour profiles for those accepted additions, metadata only.
+- `research/commons-curator-deferrals-2026-10-09.json`: explicit observed
+  second-view issues. Dossiers keep these flagged until separately resolved;
+  a new search or a lack of automatic flags must not silently approve them.
+- `research/commons-baseline-format-audit-2026-10-09.json`: all 400 unchanged
+  baseline source revisions and upload pins; 57 physical-measurement scope
+  prompts need resolution. This report does not declare 57 crops or approve,
+  remove, replace or modify an existing work.
 
 Do not remove the ignored build directories: they are the resumable local
 research requested by the user. None belongs in the app image or artwork assets
@@ -52,7 +59,10 @@ frame_gallery/.venv/bin/python -m research_tools.commons_targeted --limit 150
 frame_gallery/.venv/bin/python -m research_tools.commons_expand --pdart
 frame_gallery/.venv/bin/python -m research_tools.commons_expand --precise
 frame_gallery/.venv/bin/python -m research_tools.commons_expand --artwork-precise
+frame_gallery/.venv/bin/python -m research_tools.commons_expand --paintings-precise
+frame_gallery/.venv/bin/python -m research_tools.commons_expand --cc0-art-precise
 frame_gallery/.venv/bin/python -m research_tools.commons_identity_review
+frame_gallery/.venv/bin/python -m research_tools.commons_baseline_audit
 frame_gallery/.venv/bin/python -m research_tools.commons_dossiers
 frame_gallery/.venv/bin/python -m research_tools.commons_dossiers sheets
 frame_gallery/.venv/bin/python -m research_tools.commons_curate
@@ -82,6 +92,8 @@ repeat or differ. Institution upload credits are not used as artist attribution:
 the explicit Rijksmuseum maker field is retained, or the artist is unidentified.
 Explicit `core:format` width/height pairs are checked too; decimal commas and
 mixed units must not hide conflicting original dimensions.
+Fractional-inch pairs, repeated units and explicit H/B semicolon axes also retain
+original scopes; they are not ignored because a file itself is near 16:9.
 
 For newly inspected ranges, `commons_resume batch --start N --stop M
 --plausible 'positions'` records the actual first viewing, bound to the saved
@@ -114,6 +126,13 @@ that window is skipped on later automatic passes, not called exhausted or retrie
 The separate Artwork-declaration narrow pass retains its own receipts. Preview
 priority changes ordering only, never acceptance or permanent exclusion; labelled
 documents/archival drawings remain available for separately recorded inspection.
+The separate narrow painting pass combines Artwork declarations with the source
+word "oil" to prioritize paintings rather than objects and documents. This is a
+discovery aid, not a medium, attribution, completeness or rights determination.
+The separate CC0/art query also searches for contemporary/original abstract and
+digital art without requiring an Artwork declaration. A photographic CC0 label
+does not clear the depicted artwork; source ownership, completeness and rights
+scope still require individual review. No runtime rights policy is widened.
 Absent artist metadata may use Creator names in the explicit artwork artist
 field. Do not infer attribution from categories, file titles or uploader identity.
 The documented template filter is searched separately: CirrusSearch does not

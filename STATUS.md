@@ -1,6 +1,6 @@
 # Project status
 
-Last updated: 2026-10-09 (630 retained local works; research continues toward 1000)
+Last updated: 2026-10-09 (683 retained local works; research continues toward 1000)
 
 ## Next Commons update scoped — 2026-10-09
 
@@ -23,7 +23,7 @@ blue-and-yellow matches; thresholds and labels are not release approved.
 Private thumbnails total 64,316,428 bytes, actual maximum axis 960px despite
 512px requests. They remain under ignored build/, never in runtime/releases.
 The local research preview at `http://127.0.0.1:8881/gallery.html` now contains
-the 400 baseline works plus 230 locally curated additions. New works are marked
+the 400 baseline works plus 283 locally curated additions. New works are marked
 unpublished and can be displayed separately. The earlier 400-card/violet check
 passed; at the 513-work intermediate milestone the browser verified 49 blue
 newcomers. The published app and the runtime catalogue still contain 400 works.
@@ -45,20 +45,20 @@ optional helper descriptions agree; public b5 has not changed.
 
 The full local gates were repeated after this curation milestone: 5,020 passed,
 eleven platform skips, strict Mac/Linux mypy and 100% line/branch coverage.
-Twenty-seven offline research tests and research Ruff E/F/I plus formatting checks
+Twenty-nine offline research tests and research Ruff E/F/I plus formatting checks
 pass. The earlier 527-card browser check verified 127 provisional newcomers and
 56 blue newcomers. It is superseded by the stricter source-measure review below;
 the 598-card browser check verified 198 retained newcomers; the following
-616-card check verified 216. The latest generated preview contains 630 works.
+616-card check verified 216. The latest generated preview contains 683 works.
 
 New-work discovery is kept separate from acceptance. The broad pass found 2,575
 dimension-eligible candidates (including irrelevant photographs); narrower
 Artwork and oil-declaration passes found 1,213 and 839 candidates respectively.
 These overlap and are NOT summed or counted as accepted works. Source revision,
-PD/CC0 metadata and direct rights-basis checks cover 7,000 distinct candidates in
-the retained checkpoint; 2,747 pass the automatic evidence screen, which is not
-curator/legal acceptance. The first 1,783 private previews have actual
-visual-screen receipts; 1,243 are
+PD/CC0 metadata and direct rights-basis checks cover 9,000 distinct candidates in
+the retained checkpoint; 3,163 pass the automatic evidence screen, which is not
+curator/legal acceptance. The first 2,254 private previews have actual
+visual-screen receipts; 1,577 are
 conservatively deferred at first view. Original physical dimensions are checked where supplied;
 contradictions and EXIF-rotated portrait renditions remain unresolved, not accepted.
 The official PD-Art-two-auto, PD-old-100-1923 and PD-old-70-expired declarations
@@ -66,22 +66,22 @@ were verified and their explicit evidence recognized without accepting bare PD-A
 
 All 400 baseline upload pins passed a separate artwork-identity metadata check;
 347 recorded artwork QIDs supplement title and visual-fingerprint comparisons.
-Thirty-nine second-view curator sheets were inspected. Plain museum/GAP and
+Forty-seven second-view curator sheets were inspected. Plain museum/GAP and
 description measurements now supplement Size templates: image/sheet scopes are
 retained, not cherry-picked. Both source physical proportions and file shape must
 meet the requested band; conflicts remain deferred. Art Photo declarations with
 a separate attribution/share-alike photographic licence also remain outside this
-PD/CC0-only draft. **230 distinct additions are currently locally accepted**,
+PD/CC0-only draft. **283 distinct additions are currently locally accepted**,
 with upload/source/revision, rights declarations, physical
 evidence limits and inspected-sheet hashes retained in
 `frame_gallery/research/commons-expansion-curation-2026-10-09.json`.
 Their full provisional colour data is retained in the corresponding
-`commons-expansion-colours-2026-10-09.json`. Forty-three selected cases are deferred,
+`commons-expansion-colours-2026-10-09.json`. Forty-six selected cases are deferred,
 including baseline identity matches and newly exposed measurement conflicts.
 The previous 127 provisional additions were not frozen: source rechecks removed
 uncertain cases and subsequent actual visual review added different works. No
 baseline entry was changed. This is a partial research milestone, not release
-approval or worldwide copyright clearance. **370 further additions remain.**
+approval or worldwide copyright clearance. **317 further additions remain.**
 
 Fourteen decoder/shape refusals and an individual thumbnail timeout are retained
 separately. One targeted search response refusal lacked detail under the older
@@ -130,11 +130,34 @@ checked afterwards. Preview ordering now prioritizes paintings over labelled
 archival material without dropping or approving candidates. A separate narrow
 Artwork-declaration discovery pass retained 7,737 overlapping unreviewed candidates
 in 140 completed requests, then stopped at its finite cap. These are not accepted
-works; the next metadata batch is in progress.
+works. The subsequent finite metadata batch ended at 8,000 records. A separate
+narrow oil/Artwork search is now in progress; its type query is discovery only,
+not acceptance. Eight explicit second-view deferrals are retained in
+`research/commons-curator-deferrals-2026-10-09.json` and stay flagged in dossiers.
 Missing artist metadata may use literal Creator templates from the explicit
 artwork artist field, never categories or uploader credits. Conflicting Lesser
 Ury/Max Beckmann attribution and the separately licensed book reproduction remain
 unselected. The 400 baseline entries and published application are unchanged.
+
+An additional offline baseline audit checked all 400 source revisions and exact
+upload pins. 227 supply parsed physical measurements; 57 raise measurement-scope
+prompts outside the original near-16:9 band. These are unresolved prompts, not
+57 established crops or automatic removals. The source-pinned report is
+`research/commons-baseline-format-audit-2026-10-09.json`. Retained preview counts
+must not be represented as a finally qualified 1000-work catalogue until these
+cases have been resolved. No baseline entry, active catalogue or history changed.
+
+The latest second-view pass added 56 individually inspected works. Fractional
+inches, repeated unit pairs and explicit H/B axes now preserve source measurements;
+three earlier choices were deferred after these exposed unresolved original
+proportions. Net count rose from 230 to 283 additions. The full palette/profile
+receipt and private preview were regenerated, not the runtime catalogue.
+Twenty-four explicit manual deferrals prevent frames, labelled fragments,
+photographer-as-artist credits and conflicting licence scopes from being silently
+reintroduced by a later search. Independent finite searches retained 827 narrow
+oil/Artwork and 11,277 CC0/art candidates, with overlap and irrelevant photographs;
+neither figure is an accepted-work count. A saved search-busy refusal ends the
+oil pass without an automatic retry. The CC0 pass ended at its 140-request cap.
 
 Next: finish the 600 additional-work review, profile the accepted additions,
 extend the exact runtime index, and complete catalogue/guide/native verification. The detailed

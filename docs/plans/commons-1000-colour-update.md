@@ -23,16 +23,16 @@ Der Bestand ist `frame_gallery/research/commons-400-selection-2026-10-06.json`. 
 
 Der lokale App-Entwurf enthält inzwischen das einzelne Farbfeld und den geprüften Farbfilter. Der Runtime-Katalog bleibt bei 400 Werken; die veröffentlichte Beta ist unverändert. Ein Wochenendziel ist keine garantierte Fertigstellung: Rechte, Bildqualität und bestandene Prüfungen haben Vorrang vor der Zahl und dem Termin.
 
-Lokaler Zwischenstand: 48 Bestandswerke visuell im Farbpilot geprüft und das Verfahren an dunklem Blau und Ockertönen korrigiert. Alle 400 Bestandswerke besitzen vorläufige Farbprofile mit vollständiger Verteilung und Quellenbeleg. Hinzu kommen **230 derzeit lokal kuratierte neue Werke**, ebenfalls mit vollständigen Farbprofilen. Die private [Farbvorschau](http://127.0.0.1:8881/gallery.html) enthält somit **630 Werke** und lässt sich nach Farbgruppe sowie Bestand oder Neuzugängen filtern. **370 weitere Aufnahmen fehlen noch zum Ziel.** Die [neue Farbanleitung](commons-colour-user-guide-draft.md) bleibt ein unveröffentlichter Entwurf.
+Lokaler Zwischenstand: 48 Bestandswerke visuell im Farbpilot geprüft und das Verfahren an dunklem Blau und Ockertönen korrigiert. Alle 400 Bestandswerke besitzen vorläufige Farbprofile mit vollständiger Verteilung und Quellenbeleg. Hinzu kommen **283 derzeit lokal kuratierte neue Werke**, ebenfalls mit vollständigen Farbprofilen. Die private [Farbvorschau](http://127.0.0.1:8881/gallery.html) enthält somit **683 Werke** und lässt sich nach Farbgruppe sowie Bestand oder Neuzugängen filtern. **317 weitere Aufnahmen fehlen noch zum Ziel.** Die [neue Farbanleitung](commons-colour-user-guide-draft.md) bleibt ein unveröffentlichter Entwurf.
 
-Der gesicherte Prüfstand enthält 7000 zusätzliche Kandidaten mit Quellen-/
-Rechtemetadaten; 2747 bestehen die automatische Vorprüfung. Die ersten 1783
-Vorschauen wurden tatsächlich gesichtet, 1243 dabei zunächst zurückgestellt.
-39 Kontaktbögen wurden ein zweites Mal
+Der gesicherte Prüfstand enthält 9000 zusätzliche Kandidaten mit Quellen-/
+Rechtemetadaten; 3163 bestehen die automatische Vorprüfung. Die ersten 2254
+Vorschauen wurden tatsächlich gesichtet, 1577 dabei zunächst zurückgestellt.
+47 Kontaktbögen wurden ein zweites Mal
 gesichtet. Zusätzliche Maßangaben im Klartext haben mögliche Ausschnitte sichtbar
 gemacht: Die frühere provisorische 127er-Auswahl wurde entsprechend reduziert
 und durch weitere tatsächlich geprüfte Werke ergänzt. Der aktuelle Stand ist
-230 Aufnahmen, nicht die frühere provisorische Auswahl. 43 ausgewählte Fälle
+283 Aufnahmen, nicht die frühere provisorische Auswahl. 46 ausgewählte Fälle
 bleiben zurückgestellt, darunter
 Duplikate und widersprüchliche Originalmaße. 347 Werk-Identitäten aus den
 Metadaten des Bestands ergänzen die Titel- und Bildvergleiche. Weitere kleine
@@ -40,6 +40,20 @@ Vorschauen werden gesammelt; der 400er-Bestand bleibt unverändert.
 Einzelne Netzwerk-Ausfälle bleiben separat zurückgestellt und zählen nicht mit.
 Prüfstand und Aufnahmebelege sind lokal gesichert; keine Kandidatenzahl ersetzt
 600 echte Aufnahmeentscheidungen oder die spätere Releaseprüfung.
+
+Eine ergänzende Bestandsprüfung hat alle 400 Quellenrevisionen und Upload-Pins
+abgeglichen. 227 enthalten auswertbare Originalmaßangaben; bei 57 entstehen
+Prüffragen zu Maßumfang oder Proportionen. Das sind keine 57 bestätigten
+Ausschnitte. Diese Fälle müssen vor der abschließenden Behauptung „1000 nutzbare
+Werke“ geklärt sein. Die vorhandenen Einträge und der Verlauf bleiben unverändert;
+es gibt weder automatische Entfernung noch heimliche Ersatz-Pins. Der Beleg
+liegt in `research/commons-baseline-format-audit-2026-10-09.json`.
+
+Die letzte zweite Sichtung hat 56 Werke hinzugefügt. Die erweiterte Prüfung von
+Zoll-Brüchen, mehrfach angegebenen Einheiten und H/B-Maßen hat zugleich drei
+frühere Neuzugänge zurückgestellt. Quellen, Farbprofile und Vorschau wurden
+entsprechend neu abgeglichen. Fotografennamen werden nicht als Künstlernamen
+übernommen; ungeklärte Zuschreibungen, Bildfragmente und Rahmen bleiben draußen.
 
 ## Umfang dieses Updates
 

@@ -58,6 +58,8 @@ def discover(
     pdart: bool = False,
     precise: bool = False,
     artwork_precise: bool = False,
+    paintings_precise: bool = False,
+    cc0_art_precise: bool = False,
 ) -> None:
     sys.path.insert(0, str(ROOT))
     sys.path.insert(0, str(ROOT / "frame_gallery/src"))
@@ -76,7 +78,11 @@ def discover(
 
     OUTPUT.mkdir(parents=True, exist_ok=True)
     name = (
-        "artwork-precise"
+        "cc0-art-precise"
+        if cc0_art_precise
+        else "paintings-precise"
+        if paintings_precise
+        else "artwork-precise"
         if artwork_precise
         else "pdart-precise"
         if precise
@@ -123,7 +129,7 @@ def discover(
     hashes = excluded_hashes | {w["sha1"] for w in report["candidates"]}
     windows = (
         PRECISE_WINDOWS
-        if precise or artwork_precise
+        if precise or artwork_precise or paintings_precise or cc0_art_precise
         else WIDTH_WINDOWS + ((20001, 35000), (35001, 100000))
         if pdart
         else WIDTH_WINDOWS
@@ -142,7 +148,12 @@ def discover(
         # original metadata gets the unchanged exact 2.5% check afterwards.
         bottom, top = int(low / (16 / 9) / 1.025), int(high / (16 / 9) / 0.975) + 1
         subject = (
-            "hastemplate:Artwork"
+            "hastemplate:CC-zero (painting OR watercolor OR gouache "
+            'OR "digital art" OR abstract)'
+            if cc0_art_precise
+            else 'hastemplate:Artwork insource:"oil"'
+            if paintings_precise
+            else "hastemplate:Artwork"
             if artwork_precise
             else 'hastemplate:"PD-Art"'
             if pdart or precise
@@ -285,6 +296,8 @@ if __name__ == "__main__":
     parser.add_argument("--pdart", action="store_true")
     parser.add_argument("--precise", action="store_true")
     parser.add_argument("--artwork-precise", action="store_true")
+    parser.add_argument("--paintings-precise", action="store_true")
+    parser.add_argument("--cc0-art-precise", action="store_true")
     args = parser.parse_args()
     if (
         sum(
@@ -294,11 +307,19 @@ if __name__ == "__main__":
                 args.pdart,
                 args.precise,
                 args.artwork_precise,
+                args.paintings_precise,
+                args.cc0_art_precise,
             )
         )
         > 1
     ):
         parser.error("choose one research search scope")
     discover(
-        args.artwork, args.paintings, args.pdart, args.precise, args.artwork_precise
+        args.artwork,
+        args.paintings,
+        args.pdart,
+        args.precise,
+        args.artwork_precise,
+        args.paintings_precise,
+        args.cc0_art_precise,
     )

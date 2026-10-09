@@ -509,13 +509,15 @@ def gallery() -> None:
         "[hidden]{display:none}</style><h1>Lokale Sammlung · "
         + str(len(cards))
         + " Werke</h1>"
-        "<p>Geprüfte Auswahl auf dem Weg zu 1000 Werken. Die veröffentlichte App "
-        "enthält weiterhin 400. Ungeprüfte Kandidaten werden hier nicht mitgezählt.</p>"
+        "<p>Bestand und lokal kuratierte Neuzugänge auf dem Weg zu 1000 Werken. "
+        "Die veröffentlichte App enthält weiterhin 400. Ungeprüfte Kandidaten "
+        "werden hier nicht mitgezählt. Einzelne Originalmaßangaben des Bestands "
+        "werden noch nachgeprüft; dies ist kein fertiger 1000-Werke-Katalog.</p>"
         "<p>Vorläufige Farbanalyse · vollständiges Bild ohne zugesetzte TV-Ränder.</p>"
         '<label>Farbwunsch <select id="colour"><option value="any">Alle Farben</option>'
         + choices
         + '</select></label> <label>Auswahl <select id="kind">'
-        '<option value="any">Gesamte geprüfte Auswahl</option>'
+        '<option value="any">Bestand und Neuzugänge</option>'
         '<option value="new">Nur Neuzugänge</option>'
         '<option value="baseline">400 Bestandswerke</option></select></label>'
         '<p id="count" aria-live="polite"></p><div class="grid">'
