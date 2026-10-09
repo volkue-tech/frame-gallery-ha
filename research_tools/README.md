@@ -3,7 +3,10 @@
 This tooling is outside the runtime package. No credentials, original-image
 downloads, Home Assistant access or television access are needed. It does not
 automatically approve catalogue additions. Explicit second-view choices retain
-127 local research acceptances; the current released/runtime catalogue has 400.
+115 retained local research acceptances; the current released/runtime catalogue
+has 400. The earlier provisional 127 were reduced after plain source measurements
+exposed additional possible crops; subsequent actual visual reviews added other
+works. Use the checkpoint/curation manifest for the current count, not this history.
 
 The project required reading and the D-212/D-213 boundaries apply. Do not weaken
 the minimum source width, near-16:9 shape, existing PD/CC0 policy, reproduction
@@ -67,6 +70,10 @@ Prior inspected contact sheets are retained by content-hash filenames when a
 new batch changes a partial sheet. Before accepting any new work, verify the
 complete physical proportions and EXIF-oriented reproduction as well as its
 metadata dimensions. A wide file containing a cropped detail is not a wide artwork.
+Plain museum/GAP measurements and description dimensions supplement Size
+templates. Preserve image/sheet scopes and conflicting measurements for review;
+neither physical proportions outside the target band nor separate Art Photo
+attribution/share-alike declarations are automatically approved.
 
 Official source notes checked on 2026-10-09: [PD-Art-two-auto](https://commons.wikimedia.org/wiki/Template:PD-Art-two-auto)
 documents its combined underlying/US basis, and [PD-old-100-1923](https://commons.wikimedia.org/wiki/Template:PD-old-100-1923)

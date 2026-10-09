@@ -106,15 +106,19 @@ scratch. Full baseline metadata is in frame_gallery/research for host/container
 test consistency; production still copies only the compact 64,385-byte index,
 not full palettes or JPEGs. No native/release/live gate is represented by these tests.
 
-Expansion research milestone: 4,000 metadata candidates, 1,067 automatically
-eligible records and all first 667 previews actually screened; 371 first-screen
-deferrals. The second review of sixteen contact sheets plus source/physical
-proportion and artwork-identity checks has yielded **127 locally accepted
-additions**. The 400 baseline upload pins were rechecked and 347 artwork QIDs
-retained; two selected candidates were deferred as already represented. Curator
+Expansion research milestone: 5,000 metadata candidates, 1,280 automatically
+eligible records and the first 1,056 previews actually screened; 691 first-screen
+deferrals. The second review of 21 contact sheets plus stricter source/physical
+proportion and artwork-identity checks has yielded **115 retained local
+additions**. The earlier provisional 127 are superseded: plain dimensions in
+museum/GAP receipts and descriptions expose additional possible crops; neither
+image/sheet scopes nor out-of-band physical ratios are silently ignored. Separate
+Art Photo attribution/share-alike declarations stay deferred. Forty-two choices
+remain deferred. The 400 baseline upload pins were rechecked and 347 artwork QIDs
+retained. Curator
 receipts and complete provisional colour data are metadata-only under
-frame_gallery/research. The private preview has 527 reviewed works; the runtime
-catalogue still has exactly 400. 473 additions and the full release scope remain.
+frame_gallery/research. The private preview has 515 works; the runtime
+catalogue still has exactly 400. 485 additions and the full release scope remain.
 
 Source-supported PD-Art-two-auto (explicit old deathyear), PD-old-100-1923 and
 PD-old-70-expired aliases now count as private evidence, not automatic curator

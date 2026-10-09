@@ -59,6 +59,50 @@ def physical(text: str) -> list[dict]:
         result.append(
             dict(raw=raw, width=a, height=b, ratio=a / b, interpretation=meaning)
         )
+    # Some museum/GAP receipts expose plain image/sheet measurements instead
+    # of {{Size}}. Keep every scope; never pick just the one matching our target.
+    markup = source_markup(text)
+    dimensions = re.findall(r"\|\s*(?:commons_)?dimensions\s*=([^\n]*)", markup, re.I)
+    dimensions += re.findall(r"\|\s*pretty_dimensions\s*=([^\n]*)", markup, re.I)
+    dimensions += re.findall(
+        r"\|\s*description\s*=(.*?)(?=\n\s*\||\n\s*}})", markup, re.I | re.S
+    )
+    for field in dimensions:
+        if "{{size" in field.lower():
+            continue
+        for match in re.finditer(
+            r"([0-9]+(?:[.,][0-9]+)?)\s*[x×]\s*([0-9]+(?:[.,][0-9]+)?)\s*(cm|mm)\b",
+            field,
+        ):
+            a, b = float(match[1].replace(",", ".")), float(match[2].replace(",", "."))
+            if min(a, b) > 0:
+                result.append(
+                    dict(
+                        raw=field.strip(),
+                        width=max(a, b),
+                        height=min(a, b),
+                        ratio=max(a, b) / min(a, b),
+                        interpretation="plain two axes; measurement scope retained, "
+                        "landscape observed visually",
+                    )
+                )
+        match = re.search(
+            r"w([0-9]+(?:\.[0-9]+)?)\s*[x×]\s*h([0-9]+(?:\.[0-9]+)?)\s*(cm|mm)\b",
+            field,
+            re.I,
+        )
+        if match:
+            a, b = float(match[1]), float(match[2])
+            if min(a, b) > 0:
+                result.append(
+                    dict(
+                        raw=field.strip(),
+                        width=a,
+                        height=b,
+                        ratio=a / b,
+                        interpretation="explicit w/h plain dimensions",
+                    )
+                )
     return result
 
 
@@ -128,6 +172,18 @@ def dossiers() -> None:
             flags.append(
                 "physical dimensions contradict file shape; "
                 "cropping/distortion unresolved"
+            )
+        if any(abs(m["ratio"] / (16 / 9) - 1) > 0.025 for m in measures):
+            flags.append(
+                "recorded physical proportions outside requested 2.5% band; "
+                "measurement scope/crop unresolved"
+            )
+        if re.search(r"\{\{\s*Art Photo\b", text, re.I) and re.search(
+            r"\{\{\s*(?:self\s*\|\s*)?cc-by", text, re.I
+        ):
+            flags.append(
+                "Art Photo declares a separate attribution/share-alike "
+                "photographic license; PD/CC0-only scope unresolved"
             )
         size = profile.get("oriented_dimensions")
         if not size or abs(size[0] / size[1] / (16 / 9) - 1) > 0.025:

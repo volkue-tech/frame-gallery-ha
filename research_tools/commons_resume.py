@@ -315,9 +315,132 @@ def third_screen() -> None:
     print(json.dumps(dict(third_screened=58, plausible=len(plausible))))
 
 
+def fourth_screen() -> None:
+    """Transcribe sheets 041--065 actually viewed, without catalogue approval."""
+    plausible = {
+        668,
+        671,
+        674,
+        675,
+        677,
+        678,
+        680,
+        682,
+        686,
+        687,
+        689,
+        690,
+        692,
+        693,
+        694,
+        696,
+        697,
+        699,
+        700,
+        702,
+        704,
+        706,
+        709,
+        710,
+        712,
+        713,
+        714,
+        734,
+        752,
+        791,
+        794,
+        795,
+        800,
+        821,
+        823,
+        827,
+        831,
+        835,
+        849,
+        850,
+        860,
+        861,
+        862,
+        863,
+        864,
+        865,
+        904,
+        907,
+        917,
+        928,
+        932,
+        962,
+        993,
+        1001,
+        1007,
+        1011,
+        1015,
+        1021,
+        1022,
+        1024,
+        1025,
+        1029,
+        1037,
+        1044,
+        1047,
+        1050,
+        1051,
+        1052,
+        1055,
+    }
+    works = json.loads((OUTPUT / "profiles.json").read_text())["profiles"]
+    path = OUTPUT / "visual-screen-004.json"
+    if path.exists():
+        saved = json.loads(path.read_text())["records"]
+        for row, work in zip(saved, works[667:1056], strict=True):
+            if (
+                row["id"] != work["id"]
+                or row["thumbnail_sha256"] != work["thumbnail_sha256"]
+            ):
+                raise ValueError("fourth inspected preview changed")
+        return
+    rows = []
+    for position in range(667, 1056):
+        work = works[position]
+        rows.append(
+            dict(
+                id=work["id"],
+                original_sha1=work["original_sha1"],
+                thumbnail_sha256=work["thumbnail_sha256"],
+                contact_sheet_position=position,
+                contact_sheet_sha256=hashlib.sha256(
+                    (OUTPUT / f"sheet-{position // 16:03}.jpg").read_bytes()
+                ).hexdigest(),
+                screen="visual first-pass" if position in plausible else "deferred",
+                reason=(
+                    "Complete reproduction visually plausible; physical "
+                    "proportions, source and artwork identity need second review"
+                )
+                if position in plausible
+                else (
+                    "Observed frame/margin, archival page, object photo, artwork "
+                    "detail/alternative scan or muted/repetitive motif; "
+                    "not gallery priority"
+                ),
+            )
+        )
+    save(
+        path,
+        dict(
+            schema=1,
+            inspected_at=datetime.now(UTC).isoformat(),
+            status="Actual first visual screen only; no automatic acceptance",
+            records=rows,
+        ),
+    )
+    print(json.dumps(dict(fourth_screened=len(rows), plausible=len(plausible))))
+
+
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
-    parser.add_argument("mode", choices=("screen", "reparse", "failures", "third"))
+    parser.add_argument(
+        "mode", choices=("screen", "reparse", "failures", "third", "fourth")
+    )
     args = parser.parse_args()
     if args.mode == "screen":
         screen()
@@ -325,5 +448,7 @@ if __name__ == "__main__":
         reparse()
     elif args.mode == "failures":
         failures()
-    else:
+    elif args.mode == "third":
         third_screen()
+    else:
+        fourth_screen()

@@ -23,14 +23,18 @@ Der Bestand ist `frame_gallery/research/commons-400-selection-2026-10-06.json`. 
 
 Der lokale App-Entwurf enthält inzwischen das einzelne Farbfeld und den geprüften Farbfilter. Der Runtime-Katalog bleibt bei 400 Werken; die veröffentlichte Beta ist unverändert. Ein Wochenendziel ist keine garantierte Fertigstellung: Rechte, Bildqualität und bestandene Prüfungen haben Vorrang vor der Zahl und dem Termin.
 
-Lokaler Zwischenstand: 48 Bestandswerke visuell im Farbpilot geprüft und das Verfahren an dunklem Blau und Ockertönen korrigiert. Alle 400 Bestandswerke besitzen vorläufige Farbprofile mit vollständiger Verteilung und Quellenbeleg. Hinzu kommen **127 lokal kuratierte neue Werke**, ebenfalls mit vollständigen Farbprofilen. Die private [Farbvorschau](http://127.0.0.1:8881/gallery.html) enthält somit **527 geprüfte Werke** und lässt sich nach Farbgruppe sowie Bestand oder Neuzugängen filtern. **473 weitere Aufnahmen fehlen noch zum Ziel.** Die [neue Farbanleitung](commons-colour-user-guide-draft.md) bleibt ein unveröffentlichter Entwurf.
+Lokaler Zwischenstand: 48 Bestandswerke visuell im Farbpilot geprüft und das Verfahren an dunklem Blau und Ockertönen korrigiert. Alle 400 Bestandswerke besitzen vorläufige Farbprofile mit vollständiger Verteilung und Quellenbeleg. Hinzu kommen **115 derzeit lokal kuratierte neue Werke**, ebenfalls mit vollständigen Farbprofilen. Die private [Farbvorschau](http://127.0.0.1:8881/gallery.html) enthält somit **515 Werke** und lässt sich nach Farbgruppe sowie Bestand oder Neuzugängen filtern. **485 weitere Aufnahmen fehlen noch zum Ziel.** Die [neue Farbanleitung](commons-colour-user-guide-draft.md) bleibt ein unveröffentlichter Entwurf.
 
-4000 zusätzliche Kandidaten haben Quellen-/Rechtemetadaten; 1067 bestehen die
-automatische Vorprüfung. Die ersten 667 Vorschauen wurden tatsächlich gesichtet,
-371 dabei zurückgestellt. Die zweite Sichtung und Quellen-/Maßprüfung hat die
-127 Aufnahmeentscheidungen ergeben; zwei weitere Auswahlen waren bereits im
-Bestand vertreten. 347 Werk-Identitäten aus den Metadaten des Bestands ergänzen
-die Titel- und Bildvergleiche. Weitere kleine Vorschauen werden gesammelt.
+5000 zusätzliche Kandidaten haben Quellen-/Rechtemetadaten; 1280 bestehen die
+automatische Vorprüfung. Die ersten 1056 Vorschauen wurden tatsächlich gesichtet,
+691 dabei zunächst zurückgestellt. 21 Kontaktbögen wurden ein zweites Mal
+gesichtet. Zusätzliche Maßangaben im Klartext haben mögliche Ausschnitte sichtbar
+gemacht: Die frühere provisorische 127er-Auswahl wurde entsprechend reduziert
+und durch weitere tatsächlich geprüfte Werke ergänzt. Der aktuelle Stand ist
+115 Aufnahmen, nicht 127. 42 ausgewählte Fälle bleiben zurückgestellt, darunter
+Duplikate und widersprüchliche Originalmaße. 347 Werk-Identitäten aus den
+Metadaten des Bestands ergänzen die Titel- und Bildvergleiche. Weitere kleine
+Vorschauen werden gesammelt; der 400er-Bestand bleibt unverändert.
 Einzelne Netzwerk-Ausfälle bleiben separat zurückgestellt und zählen nicht mit.
 Prüfstand und Aufnahmebelege sind lokal gesichert; keine Kandidatenzahl ersetzt
 600 echte Aufnahmeentscheidungen oder die spätere Releaseprüfung.
