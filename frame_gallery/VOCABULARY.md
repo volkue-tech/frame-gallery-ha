@@ -1,10 +1,12 @@
-# Filter vocabulary, version 1
+# Filter vocabulary, version 2 (local next-update draft)
 
 This is the vocabulary the app ships (`config/vocabulary.py`, `BUILTIN_VOCABULARY`). It was decided in Q-14 and D-152. A test (`tests/unit/config/test_builtin_vocabulary.py`) keeps this table identical to the code and to the values the adapters send.
 
 **How values are matched.** A static option or a helper state is case-folded, stripped of diacritics, and joined with `_`. The result is then compared with each entry's key, label, and aliases, within one option only. For example, `Prints`, `prints (cleveland)`, and `cma_prints` all select the same department. `any`, `all`, `random`, `none`, and an empty value mean "no filter".
 
-**Source.** Every value comes from the official documentation re-read on 2026-09-27 (D-146). Nothing undocumented is used.
+**Source.** Museum values come from official documentation (D-146). Version 2
+adds project-defined offline Commons colour families (D-213), not undocumented
+museum colour API values. Published b5 still has version 1.
 
 ## Departments (`department` option)
 
@@ -44,14 +46,44 @@ These are project-defined ranges of a work's earliest creation year, bounds incl
 | `period_1800_1899` | 1800 to 1899 | 1800-1899; 19th century | 1800–1899 |
 | `period_1900_and_later` | 1900 and later | since 1900; 20th century and later | ≥ 1900 |
 
-## Styles and colours
+## Colours (`color` option, Commons only)
+
+Choose one family, or `any` for all colours. A matching family occupies a
+noticeable measured area (provisionally >=5%); it need not dominate. Warm ochre
+and gold may match yellow. Analysis uses the original preview without added TV
+padding. Every family has measured baseline matches, though counts differ.
+No-match never substitutes another colour. Full palette/distribution evidence
+is retained for future combinations; multiple-colour UI is not offered.
+The native configuration list displays the readable labels, such as `Blue`;
+internal keys such as `color_blue` and German aliases remain valid helper values.
+
+| Key | Label | Aliases | Local search family |
+| --- | --- | --- | --- |
+| `color_red` | Red | Rot | red |
+| `color_orange` | Orange | — | orange |
+| `color_yellow` | Yellow | Gelb | yellow |
+| `color_green` | Green | Grün | green |
+| `color_blue` | Blue | Blau | blue |
+| `color_purple` | Purple | Violet; Violett; Lila | purple |
+| `color_pink` | Pink | Rosa | pink |
+| `color_brown` | Brown | Braun | brown |
+| `color_beige` | Beige | — | beige |
+| `color_gray` | Gray | Grey; Grau | gray |
+| `color_black` | Black | Schwarz | black |
+| `color_white` | White | Weiß | white |
+
+## Styles and museum colours
 
 None in version 1:
 
 - **Styles.** Cleveland documents no style field. The Art Institute documents `style_title`, but not its values.
 - **Colours.** The Art Institute documents a dominant-colour object "in HSL", but not its members. Cleveland documents no colour field.
 
-A configured style or colour value is therefore invalid, and a helper that sends one falls back to the static value with a warning. Q-25 is resolved with option (a): the first beta ships without them, and no live observation is approved. Adding them later needs a new decision and explicit approval.
+A configured style remains invalid; valid colour choices are applied only to
+Commons and visibly reported as unsupported for museum/local sources. Invalid
+values (including multiple colours) retain the existing validation/fallback
+behaviour. Q-25's original first-beta limitation remains historical; D-213
+authorizes this local next-update colour implementation, not publication.
 
 ## Capability matrix (beta)
 
@@ -60,4 +92,4 @@ A configured style or colour value is therefore invalid, and a helper that sends
 | Department | unsupported | unsupported (values undocumented) | supported | unsupported |
 | Style | unsupported | unsupported (values undocumented) | unsupported | unsupported |
 | Period | unsupported | supported | supported | unsupported |
-| Colour | unsupported | unsupported (members undocumented) | unsupported | unsupported |
+| Colour | unsupported | unsupported (members undocumented) | unsupported | supported (offline, pinned) |

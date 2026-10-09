@@ -1,5 +1,16 @@
 # Frame Gallery for Home Assistant — Architecture proposal
 
+**Local next-update colour addendum (2026-10-09, D-212/D-213):** Commons alone
+supports a single colour family, default any. Twelve offline-measured families
+are added to vocabulary version 2. A compact immutable ID/upload-pin/family
+index filters the catalogue before shuffle and API access, without decoding on
+Green or adding runtime image storage. Unknown profiles/stale pins never match.
+The existing rights, rendition, sent/upload/quarantine, shape-only fallback,
+time/request caps and cleanup remain unchanged. Full research palettes and
+source evidence are retained outside runtime; published b5 is unchanged.
+Target 1000 distinct reviewed works; automatic discovery/evidence is not curator
+acceptance. Native builds, release and live tests remain separate approval gates.
+
 **Next-release catalogue amendment (2026-10-06, D-210/D-211):** Commons is first
 and default only for new/missing-source settings. Expand the metadata tuple to
 400 works while preserving all 166 b4 tuples and permanent history IDs. Source

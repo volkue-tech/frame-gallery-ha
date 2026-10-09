@@ -25,12 +25,14 @@ backup_exclude:
   - 'tv/**'
 options:
   source: wikimedia_commons
+  color: any
   landscape_only: true
   strict_tv_format: true
   fit_mode: contain
 schema:
   tv_host: 'match(^(?:\d{1,3}\.){3}\d{1,3}$)'
   source: 'list(wikimedia_commons|art_institute_chicago|cleveland_museum_of_art|local_media)'
+  color: 'list(any|Red|Orange|Yellow|Green|Blue|Purple|Pink|Brown|Beige|Gray|Black|White)?'
   landscape_only: bool
   strict_tv_format: bool
   fit_mode: 'list(contain|cover)'
@@ -44,4 +46,3 @@ schema:
   log_level: 'list(info|debug)?'
   loading_timer: 'match(^timer\.[a-z0-9_]{1,64}$)?'
   artwork_info_helper: 'match(^input_text\.[a-z0-9_]{1,64}$)?'
-  color: 'list(any)?'

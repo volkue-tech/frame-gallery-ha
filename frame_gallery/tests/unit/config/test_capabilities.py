@@ -49,7 +49,7 @@ EXPECTED_SUPPORT = {
     (COMMONS, DEPARTMENT): False,
     (COMMONS, STYLE_DIM): False,
     (COMMONS, PERIOD_DIM): False,
-    (COMMONS, COLOR_DIM): False,
+    (COMMONS, COLOR_DIM): True,
     (LOCAL, DEPARTMENT): False,
     (LOCAL, STYLE_DIM): False,
     (LOCAL, PERIOD_DIM): False,
@@ -83,7 +83,7 @@ EXPECTED_OUTCOME = {
     (COMMONS, CMA_DEPARTMENT): UNSUPPORTED,
     (COMMONS, STYLE): UNSUPPORTED,
     (COMMONS, PERIOD): UNSUPPORTED,
-    (COMMONS, COLOR): UNSUPPORTED,
+    (COMMONS, COLOR): APPLIED,
     (LOCAL, AIC_DEPARTMENT): UNSUPPORTED,
     (LOCAL, CMA_DEPARTMENT): UNSUPPORTED,
     (LOCAL, STYLE): UNSUPPORTED,
@@ -115,7 +115,7 @@ def _filters(
 
 def test_matrix_is_exactly_the_published_one() -> None:
     assert dict(CAPABILITY_MATRIX) == {
-        COMMONS: frozenset(),
+        COMMONS: frozenset({COLOR_DIM}),
         LOCAL: frozenset(),
         AIC: frozenset({PERIOD_DIM}),
         CMA: frozenset({DEPARTMENT, PERIOD_DIM}),

@@ -1,5 +1,44 @@
 # Implementation plan and approval gates
 
+## 1000 Commons works and single-colour selection (user request, 2026-10-09)
+
+Product scope and acceptance checklist:
+[weekend update plan](docs/plans/commons-1000-colour-update.md).
+User authorized planning, research and autonomous local work, then clarified
+that up to three meaningful colour groups and their shares should be collected
+for future combinations. This update exposes only one colour selection.
+
+- [x] Verify the 400-work baseline and document product scope and acceptance.
+  *400 distinct IDs, 299 artist labels, zero colour profiles in the selection
+  manifest; no runtime, release or HA/TV change.*
+- [x] Complete the repository required reading before technical design/code.
+  *All eight required documents read; local pilot boundary recorded in D-212.*
+- [x] Pilot colour profiles on 40–60 visually checked baseline works; retain
+  full group distributions and source/version evidence, not invented colours.
+  *48 visually inspected; provisional v2 calibrated. All 400 baseline profiles
+  and a colour-filtered private preview exist; thirteen research tests pass.
+  Broader visual calibration and the 600 additional works remain incomplete.*
+- [ ] Research and visually verify 600 additional distinct eligible works,
+  keeping the existing width, ratio, rights and reproduction requirements.
+- [ ] Complete source-bound colour profiles and a reviewable preview for all
+  1000 accepted works; preserve baseline IDs/pins and deferred research.
+- [x] Implement the single Commons colour option, default any, with bounded
+  selection, history compatibility and no silent colour fallback.
+  *Local 400-work draft: readable names, one basic field, source-pinned offline
+  prefilter and vocabulary v2. Static/helper production wiring and shape-only
+  fallback/no-match preservation tested. Not a 1000-work or released update.*
+- [x] Test and document the local draft's upgrade/no-match/unsupported-source behaviour and run
+  the unchanged quality gates; record observed results in STATUS.
+  *5,020 passed, eleven platform skips, strict mypy for Mac/Linux, 100% line/branch
+  coverage; thirteen research tests. Draft guide is local, published b5 unchanged.
+  Repeat catalogue-specific checks after the genuine 1000-work freeze.*
+- [ ] Obtain separate approval for native release builds/publication and
+  separately for a Green update/TV test; do not infer either from local work.
+
+No IP discovery, multi-colour UI, new provider or configuration.yaml change.
+Credentials are not needed for initial research; security-sensitive GitHub
+access changes remain subject to the deferred access task's confirmation.
+
 ## Deferred personal release-access improvement (user request, 2026-10-06)
 
 - [ ] After b5, arrange browserless personal GitHub release access, limited to

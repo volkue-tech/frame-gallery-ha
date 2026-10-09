@@ -1,6 +1,67 @@
 # Project status
 
-Last updated: 2026-10-07 (b5 public Store handoff completed)
+Last updated: 2026-10-09 (400 colour profiles, local single-colour draft and expansion research)
+
+## Next Commons update scoped — 2026-10-09
+
+User requested autonomous local preparation toward **1000 usable Commons works
+in total**, retaining the 400-work baseline, and a single colour choice in the
+configuration. The follow-up requests up to three meaningful colour groups,
+their shares and representative values per work for future combinations;
+multi-colour UI remains outside this update. Full distributions and provenance
+are included in the product plan, rather than losing all non-top-three data.
+
+Required reading is complete. The baseline retains 400 records, 400 unique IDs,
+299 artist labels, no duplicate upload hashes and minimum width 3000. A 48-work
+visual pilot exposed dark-blue/ochre classification issues; the provisional v2
+method corrected them. All **400 baseline works now have source-bound profiles**:
+up to three distinct dominant and chromatic groups, full twelve-family area
+distributions and the complete quantized palette. The audit verifies source
+pins, thumbnail hashes, area conservation and bounds. There are 81 provisional
+blue-and-yellow matches; thresholds and labels are not release approved.
+
+Private thumbnails total 64,316,428 bytes, actual maximum axis 960px despite
+512px requests. They remain under ignored build/, never in runtime/releases.
+The local research preview at `http://127.0.0.1:8881/gallery.html` has 400 cards;
+browser tests verified all-card count and the violet filter's 11 correct matches.
+Metadata-only profiles are retained in frame_gallery/research/ and the audit
+in research/commons-colour-audit-2026-10-09.json. Thirteen
+offline research tests and research Ruff/format checks passed. Full production
+gates with the local colour draft passed outside the Mac sandbox: 5,020 tests,
+eleven platform skips, strict mypy (Mac/Linux) and 100% line/branch coverage.
+Normal Mac permissions are required by the existing group/setgid tests; they
+were not weakened. The final count includes the real-wiring optional helper test.
+
+The local draft adds one readable colour list immediately after source, default
+any, with twelve measured families and no new required helper. Older missing/null
+values and explicit source options remain compatible. Commons prefilters by
+exact source pin before network/shuffle. Tests verify source/helper choices,
+no-repeat, empty/changed profiles, shape fallback without colour relaxation and
+no-match preserving preview/caption/history/TV. The draft native metadata and
+optional helper descriptions agree; public b5 has not changed.
+
+New-work discovery is kept separate from acceptance. The broad pass found 2,575
+dimension-eligible candidates (including irrelevant photographs); narrower
+Artwork and oil-declaration passes found 1,213 and 839 candidates respectively.
+These overlap and are NOT summed or counted as accepted works. Source revision,
+PD/CC0 metadata and US-basis evidence checks covered 2,000 distinct candidates;
+614 pass the automatic evidence screen, which is not curator/legal acceptance.
+299 private candidate previews were first-pass inspected; 81 are conservatively
+deferred (frames/details/poor reproduction/duplicates or gallery priority).
+50 fingerprint-distance prompts across the full 609-preview candidate cache
+require manual artwork-identity comparison. Five local decoder/shape deferrals
+are retained separately. Candidate JPEGs total 93,008,860 bytes; none is accepted
+or copied into the runtime. All raw receipts and research remain resumable in
+ignored build/. No new work is accepted yet.
+
+Next: finish the 600 additional-work review, profile the accepted additions,
+extend the exact runtime index, and complete catalogue/guide/native verification. The detailed
+scope and checklist remain in [the update plan](docs/plans/commons-1000-colour-update.md).
+No new dependency, no credentials loaded, no HA/Green/TV/GitHub mutation.
+Local runtime changes exist only as an unreleased next-update draft.
+Public b5 remains unchanged. Release publication and live installation/testing
+still require their separate approvals. The weekend is a target, not permission
+to weaken rights, image quality, bounded execution or verification.
 
 ## b5 released and independently verified — 2026-10-07
 

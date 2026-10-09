@@ -34,8 +34,8 @@ configuration:
     name: 'Entstehungszeit vom Dashboard (optional)'
     description: 'Entitäts-ID eines Dropdown- oder Text-Helfers für die Entstehungszeit der Museumswerke. Leer lassen, um die obige Einstellung zu nutzen.'
   color_helper:
-    name: 'Farb-Helfer (noch nicht verfügbar)'
-    description: 'Kein Farbfilter verfügbar. Leer lassen; nur zur Kompatibilität mit bisherigen Einstellungen vorhanden.'
+    name: 'Farbe vom Dashboard (optional, Commons)'
+    description: 'Entitäts-ID eines Dropdown- oder Text-Helfers für eine einzelne Farbe. Für Commons funktionieren z. B. Blau, Blue oder color_blue. Leer lassen, um den obigen Farbwunsch zu nutzen. Andere Quellen wenden den Farbwunsch nicht an. Kein zusätzlicher Helfer erforderlich.'
   log_level:
     name: 'Protokolldetails (Expertenoption)'
     description: 'info ist Standard. debug protokolliert zusätzlich die geprüften Kandidaten. Für den normalen Betrieb nicht erforderlich.'
@@ -46,5 +46,5 @@ configuration:
     name: 'Künstler und Titel im Dashboard (optional)'
     description: 'Entitäts-ID eines Text-Helfers, z. B. input_text.frame_gallery_artwork. Mindestlänge 0, Maximallänge 255, kein Initialwert. Nicht denselben Helfer wie für Filter verwenden. Leer lassen für die reine Bildkarte.'
   color:
-    name: 'Farbe (noch nicht verfügbar)'
-    description: 'Kein Farbfilter verfügbar. any beibehalten; nur zur Kompatibilität mit bisherigen Einstellungen vorhanden.'
+    name: 'Farbwunsch (Commons)'
+    description: 'any bedeutet alle Farben. Für Commons eine Farbgruppe wählen: Sie muss einen sichtbaren Anteil am Werk haben (etwa 5 %), nicht zwingend die größte Fläche. Ocker/Gold kann als Gelb zählen. Andere Quellen wenden den Wunsch nicht an und melden das im Protokoll. Ohne Treffer bleibt das bisherige Werk; es gibt keinen Ersatz anderer Farbe.'

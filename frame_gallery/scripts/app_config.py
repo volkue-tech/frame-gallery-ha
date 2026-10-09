@@ -51,6 +51,10 @@ HEADER: Final = """\
 
 
 def _choices(field: FilterField) -> list[str]:
+    if field is FilterField.COLOR:
+        # Native Supervisor list controls display their values verbatim.
+        # Use readable labels; the existing vocabulary normalizes them to keys.
+        return ["any", *(entry.label for entry in BUILTIN_VOCABULARY.entries_for(field))]
     return ["any", *(entry.key for entry in BUILTIN_VOCABULARY.entries_for(field))]
 
 
@@ -59,6 +63,7 @@ def options() -> dict[str, Value]:
     app cannot start until the user enters it (B1)."""
     return {
         "source": DEFAULT_SOURCE.value,
+        "color": "any",
         "landscape_only": True,
         "strict_tv_format": True,
         "fit_mode": "contain",
@@ -69,6 +74,7 @@ def schema() -> dict[str, Value]:
     return {
         "tv_host": TV_HOST_SCHEMA,
         "source": f"list({'|'.join(SOURCES)})",
+        "color": f"list({'|'.join(_choices(FilterField.COLOR))})?",
         "landscape_only": "bool",
         "strict_tv_format": "bool",
         "fit_mode": "list(contain|cover)",
@@ -82,7 +88,6 @@ def schema() -> dict[str, Value]:
         "log_level": "list(info|debug)?",
         "loading_timer": r"match(^timer\.[a-z0-9_]{1,64}$)?",
         "artwork_info_helper": r"match(^input_text\.[a-z0-9_]{1,64}$)?",
-        "color": f"list({'|'.join(_choices(FilterField.COLOR))})?",
     }
 
 
@@ -163,8 +168,14 @@ def translations(language: str = "en") -> dict[str, Value]:
             ),
         ),
         "color": (
-            "Colour (not available)",
-            "No source supports a colour filter yet. Leave any; retained for compatibility only.",
+            "Colour wish (Commons)",
+            (
+                "any means all colours. For Commons, choose one colour family: it must occupy "
+                "a noticeable part of the artwork (about 5 %), not necessarily the largest. "
+                "Warm ochre/gold can match yellow. Other sources do not apply this wish and "
+                "report it in the log. No match keeps the current artwork; another colour "
+                "is never used as a fallback."
+            ),
         ),
         "landscape_only": (
             "Landscape only",
@@ -316,10 +327,12 @@ def translations(language: str = "en") -> dict[str, Value]:
                 ),
             ),
             "color_helper": (
-                "Farb-Helfer (noch nicht verfügbar)",
+                "Farbe vom Dashboard (optional, Commons)",
                 (
-                    "Kein Farbfilter verfügbar. Leer lassen; nur zur Kompatibilität "
-                    "mit bisherigen Einstellungen vorhanden."
+                    "Entitäts-ID eines Dropdown- oder Text-Helfers für eine einzelne Farbe. "
+                    "Für Commons funktionieren z. B. Blau, Blue oder color_blue. "
+                    "Leer lassen, um den obigen Farbwunsch zu nutzen. Andere Quellen "
+                    "wenden den Farbwunsch nicht an. Kein zusätzlicher Helfer erforderlich."
                 ),
             ),
             "log_level": (
@@ -347,10 +360,13 @@ def translations(language: str = "en") -> dict[str, Value]:
                 ),
             ),
             "color": (
-                "Farbe (noch nicht verfügbar)",
+                "Farbwunsch (Commons)",
                 (
-                    "Kein Farbfilter verfügbar. any beibehalten; nur zur Kompatibilität "
-                    "mit bisherigen Einstellungen vorhanden."
+                    "any bedeutet alle Farben. Für Commons eine Farbgruppe wählen: Sie "
+                    "muss einen sichtbaren Anteil am Werk haben (etwa 5 %), nicht zwingend "
+                    "die größte Fläche. Ocker/Gold kann als Gelb zählen. Andere Quellen "
+                    "wenden den Wunsch nicht an und melden das im Protokoll. Ohne Treffer "
+                    "bleibt das bisherige Werk; es gibt keinen Ersatz anderer Farbe."
                 ),
             ),
         }

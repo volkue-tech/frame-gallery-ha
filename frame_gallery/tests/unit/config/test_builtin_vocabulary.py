@@ -28,23 +28,27 @@ VOCAB = BUILTIN_VOCABULARY
 
 
 def test_version_and_shape() -> None:
-    assert VOCAB.version == "1"
+    assert VOCAB.version == "2"
     departments = VOCAB.entries_for(FilterField.DEPARTMENT)
     styles = VOCAB.entries_for(FilterField.STYLE)
     assert len(departments) == 12
     assert {entry.source for entry in departments} == {SourceKey.CLEVELAND_MUSEUM_OF_ART}
     assert [entry.dimension for entry in styles] == [FilterDimension.PERIOD] * 5
-    assert VOCAB.entries_for(FilterField.COLOR) == ()
+    assert len(VOCAB.entries_for(FilterField.COLOR)) == 12
+    assert all(
+        entry.dimension is FilterDimension.COLOR for entry in VOCAB.entries_for(FilterField.COLOR)
+    )
 
 
 def test_only_documented_values_are_used() -> None:
-    # D-146: no Art Institute departments, no styles, no colours.
+    # D-146/D-213: no Art Institute departments/styles; Commons colours are ours.
     keys = [
         entry.key
         for field in (FilterField.DEPARTMENT, FilterField.STYLE, FilterField.COLOR)
         for entry in VOCAB.entries_for(field)
     ]
-    assert not [key for key in keys if key.startswith(("aic_", "style_", "color_"))]
+    assert not [key for key in keys if key.startswith(("aic_", "style_"))]
+    assert len([key for key in keys if key.startswith("color_")]) == 12
 
 
 def test_cleveland_entries_match_the_adapter_mapping() -> None:
@@ -111,7 +115,12 @@ def test_terms_are_unique_and_never_reserved() -> None:
         (FilterField.STYLE, "20th century and later", "period_1900_and_later"),
         (FilterField.STYLE, "15th and 16th centuries", "period_1400_1599"),
         (FilterField.STYLE, "Impressionism", None),
-        (FilterField.COLOR, "Blue", None),
+        (FilterField.COLOR, "Blue", "color_blue"),
+        (FilterField.COLOR, "  BLAU  ", "color_blue"),
+        (FilterField.COLOR, "Violett", "color_purple"),
+        (FilterField.COLOR, "Weiß", "color_white"),
+        (FilterField.COLOR, "Cyan", None),
+        (FilterField.COLOR, "Blue and yellow", None),
     ],
 )
 def test_normalization_and_aliases(field: FilterField, value: str, key: str | None) -> None:

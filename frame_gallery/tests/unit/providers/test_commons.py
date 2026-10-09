@@ -16,7 +16,7 @@ from frame_gallery.app.artwork_info import artwork_info
 from frame_gallery.budget.allowance import Allowance, AllowanceExhausted
 from frame_gallery.budget.deadline import Deadline, DeadlineExceeded
 from frame_gallery.config.capabilities import CAPABILITY_MATRIX
-from frame_gallery.config.filters import EffectiveFilters, FilterSet
+from frame_gallery.config.filters import EffectiveFilters, FilterDimension, FilterSet
 from frame_gallery.domain import Size, SourceKey
 from frame_gallery.net.gateway import Gateway
 from frame_gallery.net.identity import commons_identity
@@ -153,7 +153,7 @@ def test_identity_policy_caption_and_lazy_paced_batched_discovery() -> None:
     cap = rig.provider.capabilities()
     assert cap.source is SourceKey.WIKIMEDIA_COMMONS
     assert cap.dims_in_metadata
-    assert not CAPABILITY_MATRIX[cap.source]
+    assert CAPABILITY_MATRIX[cap.source] == {FilterDimension.COLOR}
     assert commons_policy().hosts == {
         "commons.wikimedia.org",
         "upload.wikimedia.org",

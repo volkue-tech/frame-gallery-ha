@@ -1,0 +1,3144 @@
+{
+  "schema": 1,
+  "recorded_at": "2026-10-09T17:29:51.205571+00:00",
+  "status": "incomplete private curation; zero new catalogue approvals",
+  "baseline_count": 400,
+  "target_total": 1000,
+  "accepted_additions": 0,
+  "metadata_checked": 2000,
+  "metadata_eligible": 614,
+  "metadata_receipt_sha256": "79293c95416f34c635124ee9af606b515508c0a30eb8d0002a937639d9628b4c",
+  "preview_count": 609,
+  "preview_receipt_sha256": "f7aa577e5ca7aa4d204ffa546a71532356557d76a55fffe0e3a6c1d3702ad47c",
+  "locally_refused": [
+    {
+      "id": 61155923,
+      "reason": "local decoder/shape bound"
+    },
+    {
+      "id": 61449438,
+      "reason": "local decoder/shape bound"
+    },
+    {
+      "id": 58767087,
+      "reason": "local decoder/shape bound"
+    },
+    {
+      "id": 61449465,
+      "reason": "local decoder/shape bound"
+    },
+    {
+      "id": 59660289,
+      "reason": "local decoder/shape bound"
+    }
+  ],
+  "visually_screened_count": 299,
+  "visual_deferrals": 81,
+  "visual_screen": {
+    "schema": 1,
+    "inspected_at": "2026-10-09T17:16:23.312493+00:00",
+    "status": "screening evidence only; zero catalogue approvals",
+    "records": [
+      {
+        "id": 25893538,
+        "original_sha1": "baa83b6925bdb65c148a1756aefd2648419682f1",
+        "thumbnail_sha256": "05dcafe380fb7b2b559db2a9a8de59d859dbd1fb5c597363a1a765fd6a107fe4",
+        "contact_sheet_position": 0,
+        "contact_sheet_sha256": "852c1547d7d4ea5084ec7b810333b85538a2b64970c402d5bda6ed11b204c3d4",
+        "screen": "visual first-pass",
+        "reason": "complete reproduction visually plausible; provenance and duplicate review still required"
+      },
+      {
+        "id": 36204783,
+        "original_sha1": "e1726c03474b0a2a02cc8b369c54a200eee65e2d",
+        "thumbnail_sha256": "78058788b54e2b311226e1500e5c1ff783fc2c4f227054dc758e168e0e14f3e8",
+        "contact_sheet_position": 1,
+        "contact_sheet_sha256": "852c1547d7d4ea5084ec7b810333b85538a2b64970c402d5bda6ed11b204c3d4",
+        "screen": "deferred",
+        "reason": "museum-photo border/shadow; verify full reproduction"
+      },
+      {
+        "id": 38150775,
+        "original_sha1": "b163d64ddd926b2e2854349f850c087f6ce08adf",
+        "thumbnail_sha256": "6f5a06ba551da6b507f283cf33388f9f030e8e13d872b31e04b5b2db2d086f6c",
+        "contact_sheet_position": 2,
+        "contact_sheet_sha256": "852c1547d7d4ea5084ec7b810333b85538a2b64970c402d5bda6ed11b204c3d4",
+        "screen": "visual first-pass",
+        "reason": "complete reproduction visually plausible; provenance and duplicate review still required"
+      },
+      {
+        "id": 45132507,
+        "original_sha1": "989fdfe712d42802aeb96d501188e62d0f089f35",
+        "thumbnail_sha256": "983927902209c14cf50a14b26a157d43f361ea560343708bae31de1eac09eba0",
+        "contact_sheet_position": 3,
+        "contact_sheet_sha256": "852c1547d7d4ea5084ec7b810333b85538a2b64970c402d5bda6ed11b204c3d4",
+        "screen": "visual first-pass",
+        "reason": "complete reproduction visually plausible; provenance and duplicate review still required"
+      },
+      {
+        "id": 74888952,
+        "original_sha1": "445ed4dec25a51b46e7a1b9f77c8979292883ac0",
+        "thumbnail_sha256": "ebb5e86790c00c58ff8c61165321001c9f779212a5f3d7b9054f04fa00f2ae33",
+        "contact_sheet_position": 4,
+        "contact_sheet_sha256": "852c1547d7d4ea5084ec7b810333b85538a2b64970c402d5bda6ed11b204c3d4",
+        "screen": "visual first-pass",
+        "reason": "complete reproduction visually plausible; provenance and duplicate review still required"
+      },
+      {
+        "id": 90858339,
+        "original_sha1": "fbbdd614142f6c4dafea26135a8dd73bc5573430",
+        "thumbnail_sha256": "c4724a1bdb1f06e699f63fd64e54255a7c76f9688984e8deae43c19227a0c248",
+        "contact_sheet_position": 5,
+        "contact_sheet_sha256": "852c1547d7d4ea5084ec7b810333b85538a2b64970c402d5bda6ed11b204c3d4",
+        "screen": "visual first-pass",
+        "reason": "complete reproduction visually plausible; provenance and duplicate review still required"
+      },
+      {
+        "id": 154506823,
+        "original_sha1": "a8642967055da5f2b16ed080a8d77b2ed6c5663a",
+        "thumbnail_sha256": "ccc379b8b764ca8440d7250d6b0c31cf4fd71f555966350d7bde1a623f681fda",
+        "contact_sheet_position": 6,
+        "contact_sheet_sha256": "852c1547d7d4ea5084ec7b810333b85538a2b64970c402d5bda6ed11b204c3d4",
+        "screen": "visual first-pass",
+        "reason": "complete reproduction visually plausible; provenance and duplicate review still required"
+      },
+      {
+        "id": 5671569,
+        "original_sha1": "e9040edcac7953a390e7d8f6c94cba17c4b91640",
+        "thumbnail_sha256": "083cdeec0fd19c4e21672557be02d9edacb7ba8742bb63332f9c7095fdcca5cf",
+        "contact_sheet_position": 7,
+        "contact_sheet_sha256": "852c1547d7d4ea5084ec7b810333b85538a2b64970c402d5bda6ed11b204c3d4",
+        "screen": "visual first-pass",
+        "reason": "complete reproduction visually plausible; provenance and duplicate review still required"
+      },
+      {
+        "id": 16392378,
+        "original_sha1": "80fed10b72173840e086941df5094456c9561a3e",
+        "thumbnail_sha256": "7636110185018c77f207f3a89800bd9f2f090100e610b84d76509528474d9341",
+        "contact_sheet_position": 8,
+        "contact_sheet_sha256": "852c1547d7d4ea5084ec7b810333b85538a2b64970c402d5bda6ed11b204c3d4",
+        "screen": "visual first-pass",
+        "reason": "complete reproduction visually plausible; provenance and duplicate review still required"
+      },
+      {
+        "id": 23040475,
+        "original_sha1": "e40830cbe56fb098cb55952051aa855349790834",
+        "thumbnail_sha256": "c68b4a34f2225cee93c3e33b847e69fc5b3f461ab9af6486ac87dea09169f291",
+        "contact_sheet_position": 9,
+        "contact_sheet_sha256": "852c1547d7d4ea5084ec7b810333b85538a2b64970c402d5bda6ed11b204c3d4",
+        "screen": "visual first-pass",
+        "reason": "complete reproduction visually plausible; provenance and duplicate review still required"
+      },
+      {
+        "id": 30479115,
+        "original_sha1": "cd3473aee0b79b07e988a17b2e72b08c90f6b666",
+        "thumbnail_sha256": "7de34c1e75538741ddddb690c8f87740cd9eef509809136797da72b23a63fdde",
+        "contact_sheet_position": 10,
+        "contact_sheet_sha256": "852c1547d7d4ea5084ec7b810333b85538a2b64970c402d5bda6ed11b204c3d4",
+        "screen": "visual first-pass",
+        "reason": "complete reproduction visually plausible; provenance and duplicate review still required"
+      },
+      {
+        "id": 34494010,
+        "original_sha1": "9451e1c674eefce9dc81fa443470a156f036a8db",
+        "thumbnail_sha256": "1f2e67f857928b110722aeafb1e632c401a71d7eaeed6dddaece5b1c3daadf57",
+        "contact_sheet_position": 11,
+        "contact_sheet_sha256": "852c1547d7d4ea5084ec7b810333b85538a2b64970c402d5bda6ed11b204c3d4",
+        "screen": "visual first-pass",
+        "reason": "complete reproduction visually plausible; provenance and duplicate review still required"
+      },
+      {
+        "id": 56403672,
+        "original_sha1": "3c581b84524f1d79c6b2e432a673ac98ebce76d4",
+        "thumbnail_sha256": "6b7a4dbe70fffc3f5ce641fc28578a3548bd5973f277ba003f13f121cfb64713",
+        "contact_sheet_position": 12,
+        "contact_sheet_sha256": "852c1547d7d4ea5084ec7b810333b85538a2b64970c402d5bda6ed11b204c3d4",
+        "screen": "visual first-pass",
+        "reason": "complete reproduction visually plausible; provenance and duplicate review still required"
+      },
+      {
+        "id": 66903802,
+        "original_sha1": "15273de8b06f93a64cfee698537ccd969ae5a0f5",
+        "thumbnail_sha256": "b3f1ef5f7209a4833c9e0154bdbf19401b0ee5708d7b75fd06392f7d131f425b",
+        "contact_sheet_position": 13,
+        "contact_sheet_sha256": "852c1547d7d4ea5084ec7b810333b85538a2b64970c402d5bda6ed11b204c3d4",
+        "screen": "visual first-pass",
+        "reason": "complete reproduction visually plausible; provenance and duplicate review still required"
+      },
+      {
+        "id": 74726012,
+        "original_sha1": "02f3e8216a48e54d33d9ccbaeb91703b6d9084ed",
+        "thumbnail_sha256": "22b9ec2323081d0d9895f0aa6b13203ba6b2ef32019a03dd7de51d161c5eda1c",
+        "contact_sheet_position": 14,
+        "contact_sheet_sha256": "852c1547d7d4ea5084ec7b810333b85538a2b64970c402d5bda6ed11b204c3d4",
+        "screen": "visual first-pass",
+        "reason": "complete reproduction visually plausible; provenance and duplicate review still required"
+      },
+      {
+        "id": 103694347,
+        "original_sha1": "9054e752253c5399d73f8737460e262073eded04",
+        "thumbnail_sha256": "1305783cf41231e39b575987e67cc07fcc2d2772089a3eff1313a4f686e465ef",
+        "contact_sheet_position": 15,
+        "contact_sheet_sha256": "852c1547d7d4ea5084ec7b810333b85538a2b64970c402d5bda6ed11b204c3d4",
+        "screen": "visual first-pass",
+        "reason": "complete reproduction visually plausible; provenance and duplicate review still required"
+      },
+      {
+        "id": 141525210,
+        "original_sha1": "a84f3b4d1a767738dc8e789fde85450156d904a3",
+        "thumbnail_sha256": "24f98a073283b61a4d9d2a912b94e8f88359f3a9e5617dc2ed80f5e007cddac3",
+        "contact_sheet_position": 16,
+        "contact_sheet_sha256": "95ed73b7b53b9e6b0ed251ed289652afcf375d99b536f1f5e3cc703a623780df",
+        "screen": "visual first-pass",
+        "reason": "complete reproduction visually plausible; provenance and duplicate review still required"
+      },
+      {
+        "id": 142200844,
+        "original_sha1": "9e1a17daf44a9c96e7d98f382b385472e19e5f83",
+        "thumbnail_sha256": "8282d7479dc8476664de16f5330428d85680dbcb136a67f153c60148252729c8",
+        "contact_sheet_position": 17,
+        "contact_sheet_sha256": "95ed73b7b53b9e6b0ed251ed289652afcf375d99b536f1f5e3cc703a623780df",
+        "screen": "visual first-pass",
+        "reason": "complete reproduction visually plausible; provenance and duplicate review still required"
+      },
+      {
+        "id": 178217854,
+        "original_sha1": "a8de1c4d846d2b1e7b12a4fa2f57a3bbd3cb4a45",
+        "thumbnail_sha256": "ca0ec5224d2eb04d16600f9451e86c5f127f53f652b8d7f12509423ba08bc949",
+        "contact_sheet_position": 18,
+        "contact_sheet_sha256": "95ed73b7b53b9e6b0ed251ed289652afcf375d99b536f1f5e3cc703a623780df",
+        "screen": "visual first-pass",
+        "reason": "complete reproduction visually plausible; provenance and duplicate review still required"
+      },
+      {
+        "id": 4691628,
+        "original_sha1": "b8e9f83e8aa763f8d92e0d8505c79ea786689856",
+        "thumbnail_sha256": "2b56f0373b6b9c3d9731670305ae7f4d39ddf4ba34b94f31ff4304c88f632f59",
+        "contact_sheet_position": 19,
+        "contact_sheet_sha256": "95ed73b7b53b9e6b0ed251ed289652afcf375d99b536f1f5e3cc703a623780df",
+        "screen": "visual first-pass",
+        "reason": "complete reproduction visually plausible; provenance and duplicate review still required"
+      },
+      {
+        "id": 8871392,
+        "original_sha1": "2ec353f6efbf35b7480969ccdafd89c3f1f2215a",
+        "thumbnail_sha256": "f4cd6e6122c8afb9984308d0b3425bd5472d4b32fb9bd8e97695be36034c161e",
+        "contact_sheet_position": 20,
+        "contact_sheet_sha256": "95ed73b7b53b9e6b0ed251ed289652afcf375d99b536f1f5e3cc703a623780df",
+        "screen": "visual first-pass",
+        "reason": "complete reproduction visually plausible; provenance and duplicate review still required"
+      },
+      {
+        "id": 25027786,
+        "original_sha1": "a1e377ac4700d3693e0622a4e6adde93dec717f8",
+        "thumbnail_sha256": "9f99ff8c9b5a95e69e9fef51dff169610803d9ea6be583dfe45ddb2fe9075920",
+        "contact_sheet_position": 21,
+        "contact_sheet_sha256": "95ed73b7b53b9e6b0ed251ed289652afcf375d99b536f1f5e3cc703a623780df",
+        "screen": "visual first-pass",
+        "reason": "complete reproduction visually plausible; provenance and duplicate review still required"
+      },
+      {
+        "id": 50345997,
+        "original_sha1": "24f4e4e47696e2701ca2e0e89826dfdf43076a51",
+        "thumbnail_sha256": "66347081f79ee9c47f4a8258c0018152c562de8387ee41f775b291e9f4057b45",
+        "contact_sheet_position": 22,
+        "contact_sheet_sha256": "95ed73b7b53b9e6b0ed251ed289652afcf375d99b536f1f5e3cc703a623780df",
+        "screen": "visual first-pass",
+        "reason": "complete reproduction visually plausible; provenance and duplicate review still required"
+      },
+      {
+        "id": 53871235,
+        "original_sha1": "df646c8ae06cc0e5b0a82f996909330cd9405d56",
+        "thumbnail_sha256": "795ac9cf71bda0dd951378df556b9d57913ee322ebf8d2e546b3d8dc943bc151",
+        "contact_sheet_position": 23,
+        "contact_sheet_sha256": "95ed73b7b53b9e6b0ed251ed289652afcf375d99b536f1f5e3cc703a623780df",
+        "screen": "visual first-pass",
+        "reason": "complete reproduction visually plausible; provenance and duplicate review still required"
+      },
+      {
+        "id": 78000341,
+        "original_sha1": "1b2b617d152a815f6f88c1c95a398bb41c5e56e1",
+        "thumbnail_sha256": "90108ff0ec456d92a94fdceed7c7c18f1c46a8f7e8d7460b18558575672a21c0",
+        "contact_sheet_position": 24,
+        "contact_sheet_sha256": "95ed73b7b53b9e6b0ed251ed289652afcf375d99b536f1f5e3cc703a623780df",
+        "screen": "deferred",
+        "reason": "visible surrounding frame"
+      },
+      {
+        "id": 107060939,
+        "original_sha1": "e48db6d669e61dfa87cf8ca27aa454083afee3c8",
+        "thumbnail_sha256": "8eeaa4063a131b160c80c0a9d5c4d78e29acedb0f07066c9a2f0832de64eb52b",
+        "contact_sheet_position": 25,
+        "contact_sheet_sha256": "95ed73b7b53b9e6b0ed251ed289652afcf375d99b536f1f5e3cc703a623780df",
+        "screen": "visual first-pass",
+        "reason": "complete reproduction visually plausible; provenance and duplicate review still required"
+      },
+      {
+        "id": 123170828,
+        "original_sha1": "fb263ad9e0006a664621f818a847a9c67a251843",
+        "thumbnail_sha256": "2cdeaff5b87008f9b70f14b684bb4afbb361ca52913b94312d522610964f1479",
+        "contact_sheet_position": 26,
+        "contact_sheet_sha256": "95ed73b7b53b9e6b0ed251ed289652afcf375d99b536f1f5e3cc703a623780df",
+        "screen": "visual first-pass",
+        "reason": "complete reproduction visually plausible; provenance and duplicate review still required"
+      },
+      {
+        "id": 145870193,
+        "original_sha1": "2a329dee0baec9a44d4e914b576c70c9c4850d94",
+        "thumbnail_sha256": "0920d6fa1c56dceafb69a71681272259d7f1123e091520a2df1a2aff0a6a65d4",
+        "contact_sheet_position": 27,
+        "contact_sheet_sha256": "95ed73b7b53b9e6b0ed251ed289652afcf375d99b536f1f5e3cc703a623780df",
+        "screen": "visual first-pass",
+        "reason": "complete reproduction visually plausible; provenance and duplicate review still required"
+      },
+      {
+        "id": 4297328,
+        "original_sha1": "64d391bb1d7e4f69df6aecd828992fa6591b72f9",
+        "thumbnail_sha256": "9679c8524eb521fd41952a2ee41e3d7190370ae3245165b7cf91043a762a080d",
+        "contact_sheet_position": 28,
+        "contact_sheet_sha256": "95ed73b7b53b9e6b0ed251ed289652afcf375d99b536f1f5e3cc703a623780df",
+        "screen": "deferred",
+        "reason": "inscription-heavy ex-voto; reserve rather than colourful-gallery priority"
+      },
+      {
+        "id": 14937760,
+        "original_sha1": "112f0662818be7e74e0fb43391fed9c12bfb9264",
+        "thumbnail_sha256": "96ee184f2d7167aa0d0e182aa5e1579cd8c3665ddf3538599b74a144bfc45609",
+        "contact_sheet_position": 29,
+        "contact_sheet_sha256": "95ed73b7b53b9e6b0ed251ed289652afcf375d99b536f1f5e3cc703a623780df",
+        "screen": "visual first-pass",
+        "reason": "complete reproduction visually plausible; provenance and duplicate review still required"
+      },
+      {
+        "id": 18649360,
+        "original_sha1": "8e0fa837e9fd53a8abdbb559cbcdebb0fb5afd66",
+        "thumbnail_sha256": "7e4b461eeb45b7d8e10a39ce5eb6f083708dcb83b1778e47c7626ead6ca49600",
+        "contact_sheet_position": 30,
+        "contact_sheet_sha256": "95ed73b7b53b9e6b0ed251ed289652afcf375d99b536f1f5e3cc703a623780df",
+        "screen": "visual first-pass",
+        "reason": "complete reproduction visually plausible; provenance and duplicate review still required"
+      },
+      {
+        "id": 41466351,
+        "original_sha1": "5e72e3f4b11c2c3b243c80f7bc2f10366dc565bf",
+        "thumbnail_sha256": "bdb4aa5a1739c6c0a25bd1789989c333bd8a8f9d8315cb7d16057d851d3ecaef",
+        "contact_sheet_position": 31,
+        "contact_sheet_sha256": "95ed73b7b53b9e6b0ed251ed289652afcf375d99b536f1f5e3cc703a623780df",
+        "screen": "visual first-pass",
+        "reason": "complete reproduction visually plausible; provenance and duplicate review still required"
+      },
+      {
+        "id": 123234663,
+        "original_sha1": "04d3087d4f7ea8eeb9bd9aeaf22d53f2c5628192",
+        "thumbnail_sha256": "6cca43c5af91fd19ce953bf2db789f7b459d5cc95c9e18247e1fa89a36ec4889",
+        "contact_sheet_position": 32,
+        "contact_sheet_sha256": "28c922b6dfcc1553e23fbed67f617146923e5970d8946eb31903f0bc810dbb15",
+        "screen": "visual first-pass",
+        "reason": "complete reproduction visually plausible; provenance and duplicate review still required"
+      },
+      {
+        "id": 142385221,
+        "original_sha1": "147d785f532fe68e83b752a92117829a756f8185",
+        "thumbnail_sha256": "4555c6e15c966a724c9b4217837fb05f5ca41e6e0602e985e9cfa59cedb3b82e",
+        "contact_sheet_position": 33,
+        "contact_sheet_sha256": "28c922b6dfcc1553e23fbed67f617146923e5970d8946eb31903f0bc810dbb15",
+        "screen": "visual first-pass",
+        "reason": "complete reproduction visually plausible; provenance and duplicate review still required"
+      },
+      {
+        "id": 143896348,
+        "original_sha1": "a5da6c21248b3b55cb4d6adbffccc3bdd9d57759",
+        "thumbnail_sha256": "010869996337d4deed435555f7970bbe6ce64ecc0754279921db67e25b2d7b55",
+        "contact_sheet_position": 34,
+        "contact_sheet_sha256": "28c922b6dfcc1553e23fbed67f617146923e5970d8946eb31903f0bc810dbb15",
+        "screen": "visual first-pass",
+        "reason": "complete reproduction visually plausible; provenance and duplicate review still required"
+      },
+      {
+        "id": 146054651,
+        "original_sha1": "aaa86794012defaa1d0dda7a484154207e70c2ed",
+        "thumbnail_sha256": "252529a3e1f5f0621660fc9d95ebb8cfa3e1d3b7b48eecbdb16a3cdee9f3db55",
+        "contact_sheet_position": 35,
+        "contact_sheet_sha256": "28c922b6dfcc1553e23fbed67f617146923e5970d8946eb31903f0bc810dbb15",
+        "screen": "visual first-pass",
+        "reason": "complete reproduction visually plausible; provenance and duplicate review still required"
+      },
+      {
+        "id": 149931955,
+        "original_sha1": "c9096dfc862d25093602401346af220aaa298e31",
+        "thumbnail_sha256": "ef7f1f5bd786950022b00c0238ff20ff42b2547b5ee1482be11c3dd1504c093d",
+        "contact_sheet_position": 36,
+        "contact_sheet_sha256": "28c922b6dfcc1553e23fbed67f617146923e5970d8946eb31903f0bc810dbb15",
+        "screen": "visual first-pass",
+        "reason": "complete reproduction visually plausible; provenance and duplicate review still required"
+      },
+      {
+        "id": 8008281,
+        "original_sha1": "bd1cfb465ea5e86f1f9f238463486455feb10ca5",
+        "thumbnail_sha256": "f933c527a4b766afd8feb20f73d2914813741cb81a500d6e403792834eb46686",
+        "contact_sheet_position": 37,
+        "contact_sheet_sha256": "28c922b6dfcc1553e23fbed67f617146923e5970d8946eb31903f0bc810dbb15",
+        "screen": "visual first-pass",
+        "reason": "complete reproduction visually plausible; provenance and duplicate review still required"
+      },
+      {
+        "id": 9855671,
+        "original_sha1": "9eb759d648725028e16f1a372daba670a3587ead",
+        "thumbnail_sha256": "a4e3e6dfb9de6d7d2002128984c32ce79e78d60b67a154d413c734d4c9729eaa",
+        "contact_sheet_position": 38,
+        "contact_sheet_sha256": "28c922b6dfcc1553e23fbed67f617146923e5970d8946eb31903f0bc810dbb15",
+        "screen": "visual first-pass",
+        "reason": "complete reproduction visually plausible; provenance and duplicate review still required"
+      },
+      {
+        "id": 10770177,
+        "original_sha1": "395ff8f1e387bec95edd34c17c28eecce15e64af",
+        "thumbnail_sha256": "56a84f7d401bd732531a30ee98565693073405f7fde408c9b8c0f1d36a8a2ed7",
+        "contact_sheet_position": 39,
+        "contact_sheet_sha256": "28c922b6dfcc1553e23fbed67f617146923e5970d8946eb31903f0bc810dbb15",
+        "screen": "visual first-pass",
+        "reason": "complete reproduction visually plausible; provenance and duplicate review still required"
+      },
+      {
+        "id": 25875909,
+        "original_sha1": "32af68db3abde43f2a61199fbad79af06b944888",
+        "thumbnail_sha256": "3cd1880383a2e73189680d3c553a35bb2b56f88bdb3524fbb5e6a8a7dadb5f0c",
+        "contact_sheet_position": 40,
+        "contact_sheet_sha256": "28c922b6dfcc1553e23fbed67f617146923e5970d8946eb31903f0bc810dbb15",
+        "screen": "visual first-pass",
+        "reason": "complete reproduction visually plausible; provenance and duplicate review still required"
+      },
+      {
+        "id": 28205724,
+        "original_sha1": "a53feea48e070e0ea8fa90699bb8bfaf117f59a5",
+        "thumbnail_sha256": "09c721ab8796bfa100081877d99cfd278366c4d0205926e162acafacb82a4680",
+        "contact_sheet_position": 41,
+        "contact_sheet_sha256": "28c922b6dfcc1553e23fbed67f617146923e5970d8946eb31903f0bc810dbb15",
+        "screen": "visual first-pass",
+        "reason": "complete reproduction visually plausible; provenance and duplicate review still required"
+      },
+      {
+        "id": 29010353,
+        "original_sha1": "b9f7c3647161c2b46b27b4e6902683ca006d1f28",
+        "thumbnail_sha256": "7729fc8c89e77549e8fff588c68c36580d3a786463a76930bee377b581bc7f88",
+        "contact_sheet_position": 42,
+        "contact_sheet_sha256": "28c922b6dfcc1553e23fbed67f617146923e5970d8946eb31903f0bc810dbb15",
+        "screen": "visual first-pass",
+        "reason": "complete reproduction visually plausible; provenance and duplicate review still required"
+      },
+      {
+        "id": 44891389,
+        "original_sha1": "f9eb6cdc4c211d80dfaf1b3783e77c14dcdeb4ff",
+        "thumbnail_sha256": "88cd5c1840310dff4658bf91425ed7272894e608d7b0d254c9595e37c41b5d25",
+        "contact_sheet_position": 43,
+        "contact_sheet_sha256": "28c922b6dfcc1553e23fbed67f617146923e5970d8946eb31903f0bc810dbb15",
+        "screen": "visual first-pass",
+        "reason": "complete reproduction visually plausible; provenance and duplicate review still required"
+      },
+      {
+        "id": 61020885,
+        "original_sha1": "99138080ec7438d728c03ae175a7da61aeaa6986",
+        "thumbnail_sha256": "33f56d2421c46f513aed710899be993bebdbbf307c666ebf81d767fe838473f4",
+        "contact_sheet_position": 44,
+        "contact_sheet_sha256": "28c922b6dfcc1553e23fbed67f617146923e5970d8946eb31903f0bc810dbb15",
+        "screen": "visual first-pass",
+        "reason": "complete reproduction visually plausible; provenance and duplicate review still required"
+      },
+      {
+        "id": 114877885,
+        "original_sha1": "511359ba2edaa277ae042dbaa29794cf585cada8",
+        "thumbnail_sha256": "df15899db0bddf5997351955b4bdc5c1504e3360950990847b1adb2751c5e1d1",
+        "contact_sheet_position": 45,
+        "contact_sheet_sha256": "28c922b6dfcc1553e23fbed67f617146923e5970d8946eb31903f0bc810dbb15",
+        "screen": "visual first-pass",
+        "reason": "complete reproduction visually plausible; provenance and duplicate review still required"
+      },
+      {
+        "id": 140070044,
+        "original_sha1": "d33ee27310a8791d995c3bd928f96f502b93bd3b",
+        "thumbnail_sha256": "3df180ad7ecf5b64e8ad995a8b8b82ae2e873566e6ab9c10258bbc9352d340bf",
+        "contact_sheet_position": 46,
+        "contact_sheet_sha256": "28c922b6dfcc1553e23fbed67f617146923e5970d8946eb31903f0bc810dbb15",
+        "screen": "visual first-pass",
+        "reason": "complete reproduction visually plausible; provenance and duplicate review still required"
+      },
+      {
+        "id": 142202947,
+        "original_sha1": "acf894be8e93d1bb17dfd760ee9a8dd6758a97e1",
+        "thumbnail_sha256": "81e2440b5900361c819157ca4dcf74f7a75bb55301ea00df1f24e046f51bd120",
+        "contact_sheet_position": 47,
+        "contact_sheet_sha256": "28c922b6dfcc1553e23fbed67f617146923e5970d8946eb31903f0bc810dbb15",
+        "screen": "visual first-pass",
+        "reason": "complete reproduction visually plausible; provenance and duplicate review still required"
+      },
+      {
+        "id": 149908016,
+        "original_sha1": "b47263587f31cbea589f35e38e52b217c4cbe62b",
+        "thumbnail_sha256": "a2a332f99d17a6f69dadbc2d162a9b83b28e4b216d3d5e6b15798ed749270ba9",
+        "contact_sheet_position": 48,
+        "contact_sheet_sha256": "236ea61f5f3cda3839b8fe1afac65812337267affa7703737b6908751cc5b80f",
+        "screen": "deferred",
+        "reason": "visible surrounding frame"
+      },
+      {
+        "id": 154506527,
+        "original_sha1": "25057c5cf40377dc9836a8f9073755426ef7ebc5",
+        "thumbnail_sha256": "c32cf438972654d4d04e5ea7e51bf5abd13cada0db24bc81d3d1b98b08d67fe6",
+        "contact_sheet_position": 49,
+        "contact_sheet_sha256": "236ea61f5f3cda3839b8fe1afac65812337267affa7703737b6908751cc5b80f",
+        "screen": "deferred",
+        "reason": "explicitly labelled fragment, not a complete work"
+      },
+      {
+        "id": 156839714,
+        "original_sha1": "0cb3cc64fcdae7b3d12dcc28ac52a4a2afccbf4f",
+        "thumbnail_sha256": "69d5cc0897537970b281e738f871fafebbeeddc90c9b328decb70d1f3789f59a",
+        "contact_sheet_position": 50,
+        "contact_sheet_sha256": "236ea61f5f3cda3839b8fe1afac65812337267affa7703737b6908751cc5b80f",
+        "screen": "deferred",
+        "reason": "two framed paintings in one photograph"
+      },
+      {
+        "id": 156867759,
+        "original_sha1": "437499779c735c27f3a821c2b259b554faf1c6c6",
+        "thumbnail_sha256": "27d26b8276116fc117bfe621ec5e00f6280c2be095cf2bb1ac2b9e64e333df61",
+        "contact_sheet_position": 51,
+        "contact_sheet_sha256": "236ea61f5f3cda3839b8fe1afac65812337267affa7703737b6908751cc5b80f",
+        "screen": "deferred",
+        "reason": "auction footer/watermark"
+      },
+      {
+        "id": 17129214,
+        "original_sha1": "aeaeaeee7dea85a679dec27a46efbea4cbcb59b3",
+        "thumbnail_sha256": "fd5ac9cca17b529daec3b0c3d46a9e716c766ddc5577ced8709cb92962dc2679",
+        "contact_sheet_position": 52,
+        "contact_sheet_sha256": "236ea61f5f3cda3839b8fe1afac65812337267affa7703737b6908751cc5b80f",
+        "screen": "visual first-pass",
+        "reason": "complete reproduction visually plausible; provenance and duplicate review still required"
+      },
+      {
+        "id": 34312197,
+        "original_sha1": "99daeead9f3015f3503eb961ae068695370bf458",
+        "thumbnail_sha256": "f4c4e783fdfd2d3d5b65d87e5a8534390cc826aebb09bd1fe6af1f6f4e8eea1f",
+        "contact_sheet_position": 53,
+        "contact_sheet_sha256": "236ea61f5f3cda3839b8fe1afac65812337267affa7703737b6908751cc5b80f",
+        "screen": "deferred",
+        "reason": "framed triptych photograph"
+      },
+      {
+        "id": 36652938,
+        "original_sha1": "295fecfe9f210e6e7b2dcf56463c7d3cc0751a94",
+        "thumbnail_sha256": "03d956f1718937cf1911e3d4b37ce6edee3c2d87d499281e12ea8ce3b9c0ccef",
+        "contact_sheet_position": 54,
+        "contact_sheet_sha256": "236ea61f5f3cda3839b8fe1afac65812337267affa7703737b6908751cc5b80f",
+        "screen": "visual first-pass",
+        "reason": "complete reproduction visually plausible; provenance and duplicate review still required"
+      },
+      {
+        "id": 70846784,
+        "original_sha1": "0dea67022c1dd0ed9ba34af1751a07107ac0696f",
+        "thumbnail_sha256": "2048074c1c6ee7b56ff70c3b3894b40324dcfa8670781b68979ddba00a3ae8e0",
+        "contact_sheet_position": 55,
+        "contact_sheet_sha256": "236ea61f5f3cda3839b8fe1afac65812337267affa7703737b6908751cc5b80f",
+        "screen": "visual first-pass",
+        "reason": "complete reproduction visually plausible; provenance and duplicate review still required"
+      },
+      {
+        "id": 91957917,
+        "original_sha1": "5f0ef035d8bebd457ca8f4f96aff0d1bdf7c088d",
+        "thumbnail_sha256": "feba1c39ae5c3ef774b0794547067ee39101bf152935b0640bbb293328fbb7bf",
+        "contact_sheet_position": 56,
+        "contact_sheet_sha256": "236ea61f5f3cda3839b8fe1afac65812337267affa7703737b6908751cc5b80f",
+        "screen": "visual first-pass",
+        "reason": "complete reproduction visually plausible; provenance and duplicate review still required"
+      },
+      {
+        "id": 123899524,
+        "original_sha1": "4ddaa9a87e22be34cf9c6bd4fdf7c9f3f3462a1a",
+        "thumbnail_sha256": "90c63ac305da40fbdfba19aaa03b0da8197942690a9f1f1a5d94e308a487c9b6",
+        "contact_sheet_position": 57,
+        "contact_sheet_sha256": "236ea61f5f3cda3839b8fe1afac65812337267affa7703737b6908751cc5b80f",
+        "screen": "visual first-pass",
+        "reason": "complete reproduction visually plausible; provenance and duplicate review still required"
+      },
+      {
+        "id": 156837227,
+        "original_sha1": "11361d3ccbba91d799e2aa43d3335f098144c12d",
+        "thumbnail_sha256": "26e329aa114875cace694ed2ff0d57cb3b419e15f1010c7f681d6cb35e1f80fd",
+        "contact_sheet_position": 58,
+        "contact_sheet_sha256": "236ea61f5f3cda3839b8fe1afac65812337267affa7703737b6908751cc5b80f",
+        "screen": "deferred",
+        "reason": "paired oval portraits with surrounding whitespace"
+      },
+      {
+        "id": 17132228,
+        "original_sha1": "0c2c3ee0c88bced02a6141fbeef38394e710f5bd",
+        "thumbnail_sha256": "36002d679db16cf86bdb632c5b0125e93c98c1d3f4f74c92349ef97aef6d298d",
+        "contact_sheet_position": 59,
+        "contact_sheet_sha256": "236ea61f5f3cda3839b8fe1afac65812337267affa7703737b6908751cc5b80f",
+        "screen": "visual first-pass",
+        "reason": "complete reproduction visually plausible; provenance and duplicate review still required"
+      },
+      {
+        "id": 20418052,
+        "original_sha1": "6813b94ed86187ddec70070b726aa570d66524af",
+        "thumbnail_sha256": "6fdd549363f275fe510efbc50ac8c2f937a3f072774a54a8d4c8aae451ac9824",
+        "contact_sheet_position": 60,
+        "contact_sheet_sha256": "236ea61f5f3cda3839b8fe1afac65812337267affa7703737b6908751cc5b80f",
+        "screen": "visual first-pass",
+        "reason": "complete reproduction visually plausible; provenance and duplicate review still required"
+      },
+      {
+        "id": 98555091,
+        "original_sha1": "09f489df91c47049d9fd6fba4af0c58bc7588d2a",
+        "thumbnail_sha256": "5ab0bcc3710a4ce293cabed0f9b4ff4812a7bc92e33040a65d89b236f368cd93",
+        "contact_sheet_position": 61,
+        "contact_sheet_sha256": "236ea61f5f3cda3839b8fe1afac65812337267affa7703737b6908751cc5b80f",
+        "screen": "deferred",
+        "reason": "white border/rounded corners; verify complete reproduction"
+      },
+      {
+        "id": 123067744,
+        "original_sha1": "3e491424b718db05635f1504ead1ac1627fc7d84",
+        "thumbnail_sha256": "de0483acdb85763aa8383d965209768e2cd7a21378e245db0e7a10d02dfe21af",
+        "contact_sheet_position": 62,
+        "contact_sheet_sha256": "236ea61f5f3cda3839b8fe1afac65812337267affa7703737b6908751cc5b80f",
+        "screen": "visual first-pass",
+        "reason": "complete reproduction visually plausible; provenance and duplicate review still required"
+      },
+      {
+        "id": 123898742,
+        "original_sha1": "78d3238e564864e64cfe6a834d365fbf567101b4",
+        "thumbnail_sha256": "9acafd55bcc78852c4400fc3ce0040dc87401279238ee97a260939f3186b9a46",
+        "contact_sheet_position": 63,
+        "contact_sheet_sha256": "236ea61f5f3cda3839b8fe1afac65812337267affa7703737b6908751cc5b80f",
+        "screen": "visual first-pass",
+        "reason": "complete reproduction visually plausible; provenance and duplicate review still required"
+      },
+      {
+        "id": 156145432,
+        "original_sha1": "f63b8aded066cb3b67b48b4a2cc8210cbff80f70",
+        "thumbnail_sha256": "e283ab67eb700292a9407bebf414b711e8216231d04329b1e4721422c9f16337",
+        "contact_sheet_position": 64,
+        "contact_sheet_sha256": "fccc8c4ed788bd08ddce8dbec5963e7db10b2f8a5d95efd0ff17035c03856965",
+        "screen": "visual first-pass",
+        "reason": "complete reproduction visually plausible; provenance and duplicate review still required"
+      },
+      {
+        "id": 156880737,
+        "original_sha1": "df7d0b8521928c8210d883d2958f95d60289961b",
+        "thumbnail_sha256": "2e4d603541981946e12a11fa410da3a083a4e8d7bea69168fdd690baa180f7f1",
+        "contact_sheet_position": 65,
+        "contact_sheet_sha256": "fccc8c4ed788bd08ddce8dbec5963e7db10b2f8a5d95efd0ff17035c03856965",
+        "screen": "visual first-pass",
+        "reason": "complete reproduction visually plausible; provenance and duplicate review still required"
+      },
+      {
+        "id": 21959684,
+        "original_sha1": "9c3f4634faa1e171343f2a11977789446a1a8595",
+        "thumbnail_sha256": "5c579d4f0bcfb6dc4e2098ea4bc8bb1292e524b3566f3820f5ec4a966366382d",
+        "contact_sheet_position": 66,
+        "contact_sheet_sha256": "fccc8c4ed788bd08ddce8dbec5963e7db10b2f8a5d95efd0ff17035c03856965",
+        "screen": "visual first-pass",
+        "reason": "complete reproduction visually plausible; provenance and duplicate review still required"
+      },
+      {
+        "id": 26210769,
+        "original_sha1": "0d1c18edcb454cfa8ee8826fb121ebe1c67811ba",
+        "thumbnail_sha256": "f0666ff5ffa70185d22f1cdb1f37d0a62e5d61cd51c12b39c4e99915071c56e8",
+        "contact_sheet_position": 67,
+        "contact_sheet_sha256": "fccc8c4ed788bd08ddce8dbec5963e7db10b2f8a5d95efd0ff17035c03856965",
+        "screen": "visual first-pass",
+        "reason": "complete reproduction visually plausible; provenance and duplicate review still required"
+      },
+      {
+        "id": 31189050,
+        "original_sha1": "da3cf0af9389e8e142ab83e4b1cb509fde11ac8c",
+        "thumbnail_sha256": "bd9472c9eaa7b54d87aeaecf1b42acbd14cb24cf44902fff405b3348a5453287",
+        "contact_sheet_position": 68,
+        "contact_sheet_sha256": "fccc8c4ed788bd08ddce8dbec5963e7db10b2f8a5d95efd0ff17035c03856965",
+        "screen": "visual first-pass",
+        "reason": "complete reproduction visually plausible; provenance and duplicate review still required"
+      },
+      {
+        "id": 37709189,
+        "original_sha1": "0c8ff0fdbac8ab42823218fd5a5a7314bb0eae81",
+        "thumbnail_sha256": "6ad5c53d04348b5f09a07979ae3b08280fd47f1fe47b088849f37c91651d31cf",
+        "contact_sheet_position": 69,
+        "contact_sheet_sha256": "fccc8c4ed788bd08ddce8dbec5963e7db10b2f8a5d95efd0ff17035c03856965",
+        "screen": "visual first-pass",
+        "reason": "complete reproduction visually plausible; provenance and duplicate review still required"
+      },
+      {
+        "id": 59040202,
+        "original_sha1": "d7371a0bc8b710308c74bbf1c951930431eb2f24",
+        "thumbnail_sha256": "32a9acc1d2be685fc57d958ecfb86d09c8ae1cbc1f13eee721bf25e98116f01a",
+        "contact_sheet_position": 70,
+        "contact_sheet_sha256": "fccc8c4ed788bd08ddce8dbec5963e7db10b2f8a5d95efd0ff17035c03856965",
+        "screen": "visual first-pass",
+        "reason": "complete reproduction visually plausible; provenance and duplicate review still required"
+      },
+      {
+        "id": 125729395,
+        "original_sha1": "b0490cfce02868b6874d1c977c24ca5d3f67a9ea",
+        "thumbnail_sha256": "ccc7cc89c4aa395f9b447e0d537a006ed897d68702e521cada58bf901e550f7d",
+        "contact_sheet_position": 71,
+        "contact_sheet_sha256": "fccc8c4ed788bd08ddce8dbec5963e7db10b2f8a5d95efd0ff17035c03856965",
+        "screen": "visual first-pass",
+        "reason": "complete reproduction visually plausible; provenance and duplicate review still required"
+      },
+      {
+        "id": 141506644,
+        "original_sha1": "d276a748d4d7cf7ef1d48fbe3d35ecece8ec4901",
+        "thumbnail_sha256": "4d6a6a16a54b267ab500275be3e1d801aa19877c4b7e7d238022792227d8b309",
+        "contact_sheet_position": 72,
+        "contact_sheet_sha256": "fccc8c4ed788bd08ddce8dbec5963e7db10b2f8a5d95efd0ff17035c03856965",
+        "screen": "visual first-pass",
+        "reason": "complete reproduction visually plausible; provenance and duplicate review still required"
+      },
+      {
+        "id": 141534000,
+        "original_sha1": "2fa72946ad2c22314e758dc932aa1708fba80a37",
+        "thumbnail_sha256": "dc25c16de5ba70a4051287306ae9f5e9936d07d406d5e5eabc25bb6a7d1a6f51",
+        "contact_sheet_position": 73,
+        "contact_sheet_sha256": "fccc8c4ed788bd08ddce8dbec5963e7db10b2f8a5d95efd0ff17035c03856965",
+        "screen": "visual first-pass",
+        "reason": "complete reproduction visually plausible; provenance and duplicate review still required"
+      },
+      {
+        "id": 141536411,
+        "original_sha1": "7532e77c1e02d9e0a6fd4b0ea6e8ecdbfb3ecd2f",
+        "thumbnail_sha256": "569a24f1333de51597bbace27c81eda79f5645f7e1fbba9f360b54b3c11aa8e5",
+        "contact_sheet_position": 74,
+        "contact_sheet_sha256": "fccc8c4ed788bd08ddce8dbec5963e7db10b2f8a5d95efd0ff17035c03856965",
+        "screen": "visual first-pass",
+        "reason": "complete reproduction visually plausible; provenance and duplicate review still required"
+      },
+      {
+        "id": 142204289,
+        "original_sha1": "e81b316dd252fd7a5c40c7cfcac8ca9484297504",
+        "thumbnail_sha256": "29f8484cd746b0d458533979b3dc68c29ecd42ed51d72a0f5edc26e4f0917e69",
+        "contact_sheet_position": 75,
+        "contact_sheet_sha256": "fccc8c4ed788bd08ddce8dbec5963e7db10b2f8a5d95efd0ff17035c03856965",
+        "screen": "visual first-pass",
+        "reason": "complete reproduction visually plausible; provenance and duplicate review still required"
+      },
+      {
+        "id": 200090400,
+        "original_sha1": "c0cf53bc95f77e84af2097469da66b5f0c8faca2",
+        "thumbnail_sha256": "54de795fe377b5db1e41affd62dd389d0166e8e086183c062a2e6ea692eee18e",
+        "contact_sheet_position": 76,
+        "contact_sheet_sha256": "fccc8c4ed788bd08ddce8dbec5963e7db10b2f8a5d95efd0ff17035c03856965",
+        "screen": "visual first-pass",
+        "reason": "complete reproduction visually plausible; provenance and duplicate review still required"
+      },
+      {
+        "id": 18774412,
+        "original_sha1": "212e01738962a0feba2c42662b73d08c56aa9196",
+        "thumbnail_sha256": "1705c6226cf2519ea96efb006effdf24fe0f1d8fc7da252524c1ea66bcfe29ea",
+        "contact_sheet_position": 77,
+        "contact_sheet_sha256": "fccc8c4ed788bd08ddce8dbec5963e7db10b2f8a5d95efd0ff17035c03856965",
+        "screen": "visual first-pass",
+        "reason": "complete reproduction visually plausible; provenance and duplicate review still required"
+      },
+      {
+        "id": 55955732,
+        "original_sha1": "4974e5333a76cda789891ca8b4e17f77e6a5aace",
+        "thumbnail_sha256": "4797f282232c4dc2b0889382e4a21cbad5ba360be4f29134545fa3075861eefb",
+        "contact_sheet_position": 78,
+        "contact_sheet_sha256": "fccc8c4ed788bd08ddce8dbec5963e7db10b2f8a5d95efd0ff17035c03856965",
+        "screen": "visual first-pass",
+        "reason": "complete reproduction visually plausible; provenance and duplicate review still required"
+      },
+      {
+        "id": 60188687,
+        "original_sha1": "3374149058c650e998eef2d7f291547cab2e1737",
+        "thumbnail_sha256": "f877c55563bef9d68ea5e3ed8dddec07e1f67ab74ffb708d2ea3321bfb99db2d",
+        "contact_sheet_position": 79,
+        "contact_sheet_sha256": "fccc8c4ed788bd08ddce8dbec5963e7db10b2f8a5d95efd0ff17035c03856965",
+        "screen": "deferred",
+        "reason": "ornamented engraving border; not gallery priority"
+      },
+      {
+        "id": 76074755,
+        "original_sha1": "e69a69a9aa73b9637f2f420b4dabff83a4d9f3c1",
+        "thumbnail_sha256": "8f17050909e707a5f94777511dcf345d2b390b9b9ecc20719801ddc1a04b56e3",
+        "contact_sheet_position": 80,
+        "contact_sheet_sha256": "6e7648ca114204319ca4b37a406094050fb6291d2ef1cde11dc310164cd0c0e2",
+        "screen": "visual first-pass",
+        "reason": "complete reproduction visually plausible; provenance and duplicate review still required"
+      },
+      {
+        "id": 76125295,
+        "original_sha1": "adef80ff66f3212ffde52416e3506d2114818e48",
+        "thumbnail_sha256": "1c94cb49ac253c11b1b7dc21f63c46889da72837f22c53bba47ca94a8d69534b",
+        "contact_sheet_position": 81,
+        "contact_sheet_sha256": "6e7648ca114204319ca4b37a406094050fb6291d2ef1cde11dc310164cd0c0e2",
+        "screen": "deferred",
+        "reason": "sketchbook page, not standalone complete painting"
+      },
+      {
+        "id": 95306820,
+        "original_sha1": "05bb9d62fd0a063a028d323aee1a588091fde1cc",
+        "thumbnail_sha256": "58a6eae879329ddc77a09a7eee5385ca34b4d1ea06b8699177facee793f9b4b5",
+        "contact_sheet_position": 82,
+        "contact_sheet_sha256": "6e7648ca114204319ca4b37a406094050fb6291d2ef1cde11dc310164cd0c0e2",
+        "screen": "visual first-pass",
+        "reason": "complete reproduction visually plausible; provenance and duplicate review still required"
+      },
+      {
+        "id": 127439553,
+        "original_sha1": "63f7065bc67590b38b0fa08407e40127311d0afa",
+        "thumbnail_sha256": "46d0128d4c09107aa5032766fe4b7675a8e8c576cf2b2662a7182c7cc783b923",
+        "contact_sheet_position": 83,
+        "contact_sheet_sha256": "6e7648ca114204319ca4b37a406094050fb6291d2ef1cde11dc310164cd0c0e2",
+        "screen": "deferred",
+        "reason": "visible surrounding frame"
+      },
+      {
+        "id": 9934723,
+        "original_sha1": "dca1243b0b4d161eea77b4ada62b8c3ce1b3bd50",
+        "thumbnail_sha256": "e14ffe59e1dd47913ccab51fe54df8dceb0a2f6863f10570aefb9e8f44d61392",
+        "contact_sheet_position": 84,
+        "contact_sheet_sha256": "6e7648ca114204319ca4b37a406094050fb6291d2ef1cde11dc310164cd0c0e2",
+        "screen": "visual first-pass",
+        "reason": "complete reproduction visually plausible; provenance and duplicate review still required"
+      },
+      {
+        "id": 13318212,
+        "original_sha1": "638edaf02b0877840770e1229e86e1edb365b985",
+        "thumbnail_sha256": "84b67f7e6a7d21bbf703138e90cb6b74303374af9a6b2a9283e2366970eb1e06",
+        "contact_sheet_position": 85,
+        "contact_sheet_sha256": "6e7648ca114204319ca4b37a406094050fb6291d2ef1cde11dc310164cd0c0e2",
+        "screen": "visual first-pass",
+        "reason": "complete reproduction visually plausible; provenance and duplicate review still required"
+      },
+      {
+        "id": 31888585,
+        "original_sha1": "62826098fc15f2768d60a0651fb2b8cdbb1ed889",
+        "thumbnail_sha256": "6dfadc5b66691dae860e6f749141272d935ad59beb3207e2f25a7ac425d53a7e",
+        "contact_sheet_position": 86,
+        "contact_sheet_sha256": "6e7648ca114204319ca4b37a406094050fb6291d2ef1cde11dc310164cd0c0e2",
+        "screen": "visual first-pass",
+        "reason": "complete reproduction visually plausible; provenance and duplicate review still required"
+      },
+      {
+        "id": 34314680,
+        "original_sha1": "463472f78068e42689184358b0090e3b0d521788",
+        "thumbnail_sha256": "2115321a1222d5b2f41c5269773ea47e0a940e3387d8ba177ae1e6781c84821e",
+        "contact_sheet_position": 87,
+        "contact_sheet_sha256": "6e7648ca114204319ca4b37a406094050fb6291d2ef1cde11dc310164cd0c0e2",
+        "screen": "visual first-pass",
+        "reason": "complete reproduction visually plausible; provenance and duplicate review still required"
+      },
+      {
+        "id": 53720695,
+        "original_sha1": "e8abc6ae237ae9cd6b23527164d11befd9a6901c",
+        "thumbnail_sha256": "dfef654a16ef61d74c16f67189a4050c2b0f671145fd4d53a06cb6ccbdd1bb2c",
+        "contact_sheet_position": 88,
+        "contact_sheet_sha256": "6e7648ca114204319ca4b37a406094050fb6291d2ef1cde11dc310164cd0c0e2",
+        "screen": "deferred",
+        "reason": "detail of a larger work"
+      },
+      {
+        "id": 57398770,
+        "original_sha1": "79a22cd82d1e72145769164df33c6ac50da8ee4c",
+        "thumbnail_sha256": "a6e6c15698665270c3a335a4fa64f15a76adb7c3b334e5799693de0e287454b3",
+        "contact_sheet_position": 89,
+        "contact_sheet_sha256": "6e7648ca114204319ca4b37a406094050fb6291d2ef1cde11dc310164cd0c0e2",
+        "screen": "deferred",
+        "reason": "monochrome alternative reproduction; duplicate review pending"
+      },
+      {
+        "id": 76000401,
+        "original_sha1": "bb221e66c2254067092f6e68a24b00b9d666a309",
+        "thumbnail_sha256": "19c4670dc8013389e855e7607f71dff46a3bafc3dee40484cfe2086d9713d6a6",
+        "contact_sheet_position": 90,
+        "contact_sheet_sha256": "6e7648ca114204319ca4b37a406094050fb6291d2ef1cde11dc310164cd0c0e2",
+        "screen": "visual first-pass",
+        "reason": "complete reproduction visually plausible; provenance and duplicate review still required"
+      },
+      {
+        "id": 76000748,
+        "original_sha1": "2bb8725a0b7c8f89e199450d50535b4aeb749082",
+        "thumbnail_sha256": "20e31cc0a2dc1699d0446c72f0489ab1f2d4d2f5c0e80e0d84fbe4d99bd030c8",
+        "contact_sheet_position": 91,
+        "contact_sheet_sha256": "6e7648ca114204319ca4b37a406094050fb6291d2ef1cde11dc310164cd0c0e2",
+        "screen": "visual first-pass",
+        "reason": "complete reproduction visually plausible; provenance and duplicate review still required"
+      },
+      {
+        "id": 81322994,
+        "original_sha1": "2dc4dbb0ebcfbd80f0584e0a915c959864948d64",
+        "thumbnail_sha256": "248312b7402b55e07c092dd580a2e936c0a44b2e4d43e9d26588de3a82aadba6",
+        "contact_sheet_position": 92,
+        "contact_sheet_sha256": "6e7648ca114204319ca4b37a406094050fb6291d2ef1cde11dc310164cd0c0e2",
+        "screen": "visual first-pass",
+        "reason": "complete reproduction visually plausible; provenance and duplicate review still required"
+      },
+      {
+        "id": 136483777,
+        "original_sha1": "d02714bce5eae68565941c379f1ae6e05c4a4c07",
+        "thumbnail_sha256": "3a3ec41b0c4bb48641e0939b3c2b7f8b625ef7fdcfad39deba2ea265afa2e8b9",
+        "contact_sheet_position": 93,
+        "contact_sheet_sha256": "6e7648ca114204319ca4b37a406094050fb6291d2ef1cde11dc310164cd0c0e2",
+        "screen": "deferred",
+        "reason": "photographic glare/blue cast; reproduction quality deferred"
+      },
+      {
+        "id": 140967256,
+        "original_sha1": "cbfef1abda2023be05462f901bf10b93125e458e",
+        "thumbnail_sha256": "430794680bbbea7c1b586813bd699c80f0bcf78570ec45992761889cb2af2453",
+        "contact_sheet_position": 94,
+        "contact_sheet_sha256": "6e7648ca114204319ca4b37a406094050fb6291d2ef1cde11dc310164cd0c0e2",
+        "screen": "visual first-pass",
+        "reason": "complete reproduction visually plausible; provenance and duplicate review still required"
+      },
+      {
+        "id": 156850328,
+        "original_sha1": "04098450a974be86915732967e97ebedbdff788f",
+        "thumbnail_sha256": "a171b3541d55c382594d06f4af08b4dba4daf5f48f8b9a82a5b2dd6de7f886bb",
+        "contact_sheet_position": 95,
+        "contact_sheet_sha256": "6e7648ca114204319ca4b37a406094050fb6291d2ef1cde11dc310164cd0c0e2",
+        "screen": "visual first-pass",
+        "reason": "complete reproduction visually plausible; provenance and duplicate review still required"
+      },
+      {
+        "id": 32118818,
+        "original_sha1": "880dc53c351ab959e7c8b5ead24033f2e48517b9",
+        "thumbnail_sha256": "c62b7e55cb516f0e14dda479464407768b17279024a575ae2f3f9a8f092d0325",
+        "contact_sheet_position": 96,
+        "contact_sheet_sha256": "c43c7bff2e926e9c6454cd39fbd7707b1a6c644acf1140add5f5aadcc43d6054",
+        "screen": "visual first-pass",
+        "reason": "complete reproduction visually plausible; provenance and duplicate review still required"
+      },
+      {
+        "id": 38119070,
+        "original_sha1": "6dad7432a14ece421e7a24efeae392cb2d6b0550",
+        "thumbnail_sha256": "95beea0389f6d3bf0f1680bd60f932395f44a22ce713c93dd0b3191d3bc56320",
+        "contact_sheet_position": 97,
+        "contact_sheet_sha256": "c43c7bff2e926e9c6454cd39fbd7707b1a6c644acf1140add5f5aadcc43d6054",
+        "screen": "visual first-pass",
+        "reason": "complete reproduction visually plausible; provenance and duplicate review still required"
+      },
+      {
+        "id": 63223435,
+        "original_sha1": "1f95958e5f2aaffaeeef3ccbac54c511a48b2c2b",
+        "thumbnail_sha256": "5105786e714e40e46416ace635eb9b33c1ac8e4d917f34a7d02992405317a44c",
+        "contact_sheet_position": 98,
+        "contact_sheet_sha256": "c43c7bff2e926e9c6454cd39fbd7707b1a6c644acf1140add5f5aadcc43d6054",
+        "screen": "visual first-pass",
+        "reason": "complete reproduction visually plausible; provenance and duplicate review still required"
+      },
+      {
+        "id": 76151999,
+        "original_sha1": "a6ade749eb6133ef7128be83b125a6d9a3227809",
+        "thumbnail_sha256": "c7c16ac05dab48ec58c919f2c45f93c83615100447fb2d9d73cd621ad9c80708",
+        "contact_sheet_position": 99,
+        "contact_sheet_sha256": "c43c7bff2e926e9c6454cd39fbd7707b1a6c644acf1140add5f5aadcc43d6054",
+        "screen": "deferred",
+        "reason": "sketchbook page"
+      },
+      {
+        "id": 156830081,
+        "original_sha1": "8c6fa870b1d2628918445a0d82ed168468ad23f2",
+        "thumbnail_sha256": "54211f9626fb87294fcbc2b5734c7ee82e78c2e5ae4ef5322989ed3a6fefb95f",
+        "contact_sheet_position": 100,
+        "contact_sheet_sha256": "c43c7bff2e926e9c6454cd39fbd7707b1a6c644acf1140add5f5aadcc43d6054",
+        "screen": "visual first-pass",
+        "reason": "complete reproduction visually plausible; provenance and duplicate review still required"
+      },
+      {
+        "id": 186444250,
+        "original_sha1": "36e0dcff314247f7a81fb31a49ba476c2fa06af6",
+        "thumbnail_sha256": "f724c1158182bd22445d62c2d850c1f25e7dea1c38f9991e62fe272ef51b54c4",
+        "contact_sheet_position": 101,
+        "contact_sheet_sha256": "c43c7bff2e926e9c6454cd39fbd7707b1a6c644acf1140add5f5aadcc43d6054",
+        "screen": "deferred",
+        "reason": "monochrome alternative scan of position 16"
+      },
+      {
+        "id": 5307658,
+        "original_sha1": "c8332a4d65e9977425c3dca021e941bea81b130a",
+        "thumbnail_sha256": "8125ac5077c1200f7f46e61b292ac9ce8b2db76d4ae334e7506b2cd711af4dee",
+        "contact_sheet_position": 102,
+        "contact_sheet_sha256": "c43c7bff2e926e9c6454cd39fbd7707b1a6c644acf1140add5f5aadcc43d6054",
+        "screen": "deferred",
+        "reason": "monochrome Counter-composition XVI; existing artwork duplicate"
+      },
+      {
+        "id": 9456373,
+        "original_sha1": "8074c3cc07fc7c7e3b3073cf0fe6615cbdeed668",
+        "thumbnail_sha256": "0170f6d4845697b6522a6b05789962041849426aa4687f7322cb24a46e4b9498",
+        "contact_sheet_position": 103,
+        "contact_sheet_sha256": "c43c7bff2e926e9c6454cd39fbd7707b1a6c644acf1140add5f5aadcc43d6054",
+        "screen": "visual first-pass",
+        "reason": "complete reproduction visually plausible; provenance and duplicate review still required"
+      },
+      {
+        "id": 9735385,
+        "original_sha1": "c4b7370ab2248c46414baac26cf47dd8c2be1a3a",
+        "thumbnail_sha256": "4819190674ba7259ef6450eab0fcf79414fa0c878c5a266fd83ebf9f55d85a1c",
+        "contact_sheet_position": 104,
+        "contact_sheet_sha256": "c43c7bff2e926e9c6454cd39fbd7707b1a6c644acf1140add5f5aadcc43d6054",
+        "screen": "deferred",
+        "reason": "framed triptych photograph"
+      },
+      {
+        "id": 21170851,
+        "original_sha1": "fed99af02ea5cc40674d5a627a3bfd346acc4be4",
+        "thumbnail_sha256": "5aafdfc17fddbf5c9b436e1246626ee0205ec21aa005ff62724fa44c5eb13e2d",
+        "contact_sheet_position": 105,
+        "contact_sheet_sha256": "c43c7bff2e926e9c6454cd39fbd7707b1a6c644acf1140add5f5aadcc43d6054",
+        "screen": "visual first-pass",
+        "reason": "complete reproduction visually plausible; provenance and duplicate review still required"
+      },
+      {
+        "id": 25905749,
+        "original_sha1": "b24d3cc1b0e56dac44bf2fce29a109367e981f03",
+        "thumbnail_sha256": "ad69f31bbc4381adeaf4c6761a2bfa4a35fc68dc1ebf5319ff4bc3411c46ffb9",
+        "contact_sheet_position": 106,
+        "contact_sheet_sha256": "c43c7bff2e926e9c6454cd39fbd7707b1a6c644acf1140add5f5aadcc43d6054",
+        "screen": "visual first-pass",
+        "reason": "complete reproduction visually plausible; provenance and duplicate review still required"
+      },
+      {
+        "id": 35117396,
+        "original_sha1": "2aa115a001feeb2a2d5a81ff857a3a563ff39bf9",
+        "thumbnail_sha256": "d967ccb313d542f9a41bd477032d72503c67be675faf3dc8e524d30161a4fafd",
+        "contact_sheet_position": 107,
+        "contact_sheet_sha256": "c43c7bff2e926e9c6454cd39fbd7707b1a6c644acf1140add5f5aadcc43d6054",
+        "screen": "deferred",
+        "reason": "alternate Bellotto scan of position 103"
+      },
+      {
+        "id": 36388866,
+        "original_sha1": "d6bee4119d05bbf96f6b4e1738375b683b98a15e",
+        "thumbnail_sha256": "e167aebd85d1c45423a2d023d8410a26c4208ce87353a3d7dfc1ec55b93d8bcc",
+        "contact_sheet_position": 108,
+        "contact_sheet_sha256": "c43c7bff2e926e9c6454cd39fbd7707b1a6c644acf1140add5f5aadcc43d6054",
+        "screen": "deferred",
+        "reason": "museum-room photograph, not artwork reproduction"
+      },
+      {
+        "id": 37246561,
+        "original_sha1": "006b17b5a4847196c7b1900bf30148b44b96155d",
+        "thumbnail_sha256": "348f09b48423096f1ae4caa95406364d22fc589c434ba80339225bfee1140f6d",
+        "contact_sheet_position": 109,
+        "contact_sheet_sha256": "c43c7bff2e926e9c6454cd39fbd7707b1a6c644acf1140add5f5aadcc43d6054",
+        "screen": "deferred",
+        "reason": "surrounding band/glare; reproduction quality deferred"
+      },
+      {
+        "id": 53720616,
+        "original_sha1": "f33685cc36a18aa5e1de16338de14de237c256be",
+        "thumbnail_sha256": "86590bcb7a550cba14cb1eae5c7f59238cc08ec4a01392a903e6ccbe2529cfaa",
+        "contact_sheet_position": 110,
+        "contact_sheet_sha256": "c43c7bff2e926e9c6454cd39fbd7707b1a6c644acf1140add5f5aadcc43d6054",
+        "screen": "deferred",
+        "reason": "detail of a larger work"
+      },
+      {
+        "id": 65099524,
+        "original_sha1": "8b7180669031287605892da3751f62aff0e7138c",
+        "thumbnail_sha256": "f6a17ff832c89a038b638250088094d826fc35875acd65c1521f634a6a7e49a2",
+        "contact_sheet_position": 111,
+        "contact_sheet_sha256": "c43c7bff2e926e9c6454cd39fbd7707b1a6c644acf1140add5f5aadcc43d6054",
+        "screen": "deferred",
+        "reason": "outline-only illustration; not gallery priority"
+      },
+      {
+        "id": 76001995,
+        "original_sha1": "d218f16616ce4c5f3feadd3d5ac816b05f4827f9",
+        "thumbnail_sha256": "944580ff662b5848902f1ef8c2446ccad86e4be19376a6d23d2d589a6c1d0159",
+        "contact_sheet_position": 112,
+        "contact_sheet_sha256": "449117140b58a73cf4aca9a3ecca50722b10146894a6cbf4571dfa4724edd1eb",
+        "screen": "visual first-pass",
+        "reason": "complete reproduction visually plausible; provenance and duplicate review still required"
+      },
+      {
+        "id": 76139251,
+        "original_sha1": "75b650557152ba08a45fcfc9638e2783826b905d",
+        "thumbnail_sha256": "840b909c36b9dfa13ce50500b16b6fb80491db10d32e276ff262b7401304e1c8",
+        "contact_sheet_position": 113,
+        "contact_sheet_sha256": "449117140b58a73cf4aca9a3ecca50722b10146894a6cbf4571dfa4724edd1eb",
+        "screen": "deferred",
+        "reason": "sketchbook page"
+      },
+      {
+        "id": 146030403,
+        "original_sha1": "acac3d56708cfcbf4560ef2f970d358ca5fa2b99",
+        "thumbnail_sha256": "3038b5171328c742317efdd377b80bd57bdee9ace7af6fcba7193f0a96589abf",
+        "contact_sheet_position": 114,
+        "contact_sheet_sha256": "449117140b58a73cf4aca9a3ecca50722b10146894a6cbf4571dfa4724edd1eb",
+        "screen": "visual first-pass",
+        "reason": "complete reproduction visually plausible; provenance and duplicate review still required"
+      },
+      {
+        "id": 31235555,
+        "original_sha1": "f6145c8ca3c48f2a54e0acb13e3fc07887fbb0f7",
+        "thumbnail_sha256": "677e167261d3746060bfe74158ac45c2bf66d25c46e6c1b259d8bac9d61aa858",
+        "contact_sheet_position": 115,
+        "contact_sheet_sha256": "449117140b58a73cf4aca9a3ecca50722b10146894a6cbf4571dfa4724edd1eb",
+        "screen": "deferred",
+        "reason": "visible surrounding frame"
+      },
+      {
+        "id": 31863150,
+        "original_sha1": "3bb5081c6d05623f9ee55d91e1917ed7d2d35786",
+        "thumbnail_sha256": "05fac1132b687db68042ccf79cc4d7446d53e5330c0e8b501258209daf60d7cb",
+        "contact_sheet_position": 116,
+        "contact_sheet_sha256": "449117140b58a73cf4aca9a3ecca50722b10146894a6cbf4571dfa4724edd1eb",
+        "screen": "deferred",
+        "reason": "visible surrounding frame"
+      },
+      {
+        "id": 53719155,
+        "original_sha1": "f3b656683f1cac71a9f71fa39ff9f6f646d33ae2",
+        "thumbnail_sha256": "bb7283a638446473972d8d875b89bd36d64d279fd7f93911a03e78e25b28f8b1",
+        "contact_sheet_position": 117,
+        "contact_sheet_sha256": "449117140b58a73cf4aca9a3ecca50722b10146894a6cbf4571dfa4724edd1eb",
+        "screen": "deferred",
+        "reason": "framed artwork photograph"
+      },
+      {
+        "id": 53720540,
+        "original_sha1": "910193c3ea6789428af7f1b749f06dd97230225e",
+        "thumbnail_sha256": "3f80134dfe44b025f62e4f30b77ecc3c65b3fcc3f3ba0748600af844a5a99e08",
+        "contact_sheet_position": 118,
+        "contact_sheet_sha256": "449117140b58a73cf4aca9a3ecca50722b10146894a6cbf4571dfa4724edd1eb",
+        "screen": "deferred",
+        "reason": "detail of a larger work"
+      },
+      {
+        "id": 76003488,
+        "original_sha1": "ee896d716f1b20d8b97d66acb69a35c4cdb73cc8",
+        "thumbnail_sha256": "356639a80c079a61b90bedb56e1ac842054a5ee6d74e718e212b1ce3a86d89f8",
+        "contact_sheet_position": 119,
+        "contact_sheet_sha256": "449117140b58a73cf4aca9a3ecca50722b10146894a6cbf4571dfa4724edd1eb",
+        "screen": "visual first-pass",
+        "reason": "complete reproduction visually plausible; provenance and duplicate review still required"
+      },
+      {
+        "id": 76146558,
+        "original_sha1": "de1c83eb5d00aaebe77ac398556cb23c025aded4",
+        "thumbnail_sha256": "bfbd581dc52f323effd3878e417c90521c70dc047fe68653bce0a6430d01aa43",
+        "contact_sheet_position": 120,
+        "contact_sheet_sha256": "449117140b58a73cf4aca9a3ecca50722b10146894a6cbf4571dfa4724edd1eb",
+        "screen": "deferred",
+        "reason": "sketchbook page"
+      },
+      {
+        "id": 76613575,
+        "original_sha1": "871198443827130b8429c7f8c6b36d6e279ef072",
+        "thumbnail_sha256": "03a7821f868b399390dbdc3747d0ef2e0952e267756782dd2281037a9ccbdf88",
+        "contact_sheet_position": 121,
+        "contact_sheet_sha256": "449117140b58a73cf4aca9a3ecca50722b10146894a6cbf4571dfa4724edd1eb",
+        "screen": "visual first-pass",
+        "reason": "complete reproduction visually plausible; provenance and duplicate review still required"
+      },
+      {
+        "id": 128612500,
+        "original_sha1": "0a357703b656b99628358a9b7073ce5ad5afb9ed",
+        "thumbnail_sha256": "7275b05e7b8921fe51b8f1fb42f75bb6086de4e2ce5c58ade875a154cf15c23d",
+        "contact_sheet_position": 122,
+        "contact_sheet_sha256": "449117140b58a73cf4aca9a3ecca50722b10146894a6cbf4571dfa4724edd1eb",
+        "screen": "visual first-pass",
+        "reason": "complete reproduction visually plausible; provenance and duplicate review still required"
+      },
+      {
+        "id": 144856373,
+        "original_sha1": "b1adc6139c71ebf2807a626007f1641cbdc859d5",
+        "thumbnail_sha256": "80d1d3ddce7a1fbd495f02b33d35265573b48e339c6f2fc2ea49149ef1662b9c",
+        "contact_sheet_position": 123,
+        "contact_sheet_sha256": "449117140b58a73cf4aca9a3ecca50722b10146894a6cbf4571dfa4724edd1eb",
+        "screen": "visual first-pass",
+        "reason": "complete reproduction visually plausible; provenance and duplicate review still required"
+      },
+      {
+        "id": 147242668,
+        "original_sha1": "b312aa8b3f05e6281a141c438abf6417724f18dd",
+        "thumbnail_sha256": "df437e19c0421c37d32392d4d6ba8507965bc006b0da4d480d873dc1ee88b84d",
+        "contact_sheet_position": 124,
+        "contact_sheet_sha256": "449117140b58a73cf4aca9a3ecca50722b10146894a6cbf4571dfa4724edd1eb",
+        "screen": "visual first-pass",
+        "reason": "complete reproduction visually plausible; provenance and duplicate review still required"
+      },
+      {
+        "id": 12664633,
+        "original_sha1": "228ac2d2a27ef7e8c493a24f056f805095676ad7",
+        "thumbnail_sha256": "ef22151faadca31a531c860ec32ff227a694d5883f08362d986d9666008e7a6d",
+        "contact_sheet_position": 125,
+        "contact_sheet_sha256": "449117140b58a73cf4aca9a3ecca50722b10146894a6cbf4571dfa4724edd1eb",
+        "screen": "visual first-pass",
+        "reason": "complete reproduction visually plausible; provenance and duplicate review still required"
+      },
+      {
+        "id": 51087259,
+        "original_sha1": "ef5e655000985de451549804fa8b06e0e53ca81d",
+        "thumbnail_sha256": "cb2aad29481bc25c51d31a5b4b9d7622958fd956ee9155421b7eb680e41bea87",
+        "contact_sheet_position": 126,
+        "contact_sheet_sha256": "449117140b58a73cf4aca9a3ecca50722b10146894a6cbf4571dfa4724edd1eb",
+        "screen": "visual first-pass",
+        "reason": "complete reproduction visually plausible; provenance and duplicate review still required"
+      },
+      {
+        "id": 57671451,
+        "original_sha1": "7af7dbefd27be681d5f8eefd674a13a018849786",
+        "thumbnail_sha256": "4a8073c94837e4a4adab6c4cee76a233234e690d6ce502e6a934529544e3ea46",
+        "contact_sheet_position": 127,
+        "contact_sheet_sha256": "449117140b58a73cf4aca9a3ecca50722b10146894a6cbf4571dfa4724edd1eb",
+        "screen": "deferred",
+        "reason": "monochrome alternative scan; artwork duplicate review pending"
+      },
+      {
+        "id": 63444858,
+        "original_sha1": "1e7a5f0e1d58416fcc5cd752895bdea9160b07ba",
+        "thumbnail_sha256": "c74bc29ca1af973b170e85955b925a13e65c4edd68cf37e74b29de59e86cbff5",
+        "contact_sheet_position": 128,
+        "contact_sheet_sha256": "5b006c55b2a7482aee05614c43c99b7e9edc4273f1e59734c9900bbf28226518",
+        "screen": "visual first-pass",
+        "reason": "complete reproduction visually plausible; provenance and duplicate review still required"
+      },
+      {
+        "id": 140238194,
+        "original_sha1": "7f19804bb577f30edcd09927afac26609fdda615",
+        "thumbnail_sha256": "5e64b623bcf375a69340d4fd76984437911498b063d6bc405ccca6f883ee6dc8",
+        "contact_sheet_position": 129,
+        "contact_sheet_sha256": "5b006c55b2a7482aee05614c43c99b7e9edc4273f1e59734c9900bbf28226518",
+        "screen": "deferred",
+        "reason": "very dark/damaged reproduction; quality deferred"
+      },
+      {
+        "id": 145878433,
+        "original_sha1": "588c1451892ea4ff197e276868e6245836fa3c57",
+        "thumbnail_sha256": "d511e62e69794de0e63eca54211f909f67c2bc5aad9242b2fc6b1861e575b48a",
+        "contact_sheet_position": 130,
+        "contact_sheet_sha256": "5b006c55b2a7482aee05614c43c99b7e9edc4273f1e59734c9900bbf28226518",
+        "screen": "deferred",
+        "reason": "visible surrounding frame"
+      },
+      {
+        "id": 156882066,
+        "original_sha1": "766fe4d33375c6f7e38f3c5fd527f27ab55eda01",
+        "thumbnail_sha256": "beef1e0fe818779ae63dd659b2996d1b7fc1260a6666e077dbbe37aa1d2f84ac",
+        "contact_sheet_position": 131,
+        "contact_sheet_sha256": "5b006c55b2a7482aee05614c43c99b7e9edc4273f1e59734c9900bbf28226518",
+        "screen": "visual first-pass",
+        "reason": "complete reproduction visually plausible; provenance and duplicate review still required"
+      },
+      {
+        "id": 186729481,
+        "original_sha1": "153f664a11489f5105b902fc6b9382178c3aabbf",
+        "thumbnail_sha256": "7912ec74d4ef82f11e3818df9ea7e386bbf6bcd6a52bf9ce457ecc041745164f",
+        "contact_sheet_position": 132,
+        "contact_sheet_sha256": "5b006c55b2a7482aee05614c43c99b7e9edc4273f1e59734c9900bbf28226518",
+        "screen": "visual first-pass",
+        "reason": "complete reproduction visually plausible; provenance and duplicate review still required"
+      },
+      {
+        "id": 37106948,
+        "original_sha1": "2f323cf613ae4549136c671ac0df54d1d755a3ac",
+        "thumbnail_sha256": "9dd8e64b4df1bd5826d6b336d9cfe11d6ac89eee896eba828c84077820907360",
+        "contact_sheet_position": 133,
+        "contact_sheet_sha256": "5b006c55b2a7482aee05614c43c99b7e9edc4273f1e59734c9900bbf28226518",
+        "screen": "visual first-pass",
+        "reason": "complete reproduction visually plausible; provenance and duplicate review still required"
+      },
+      {
+        "id": 45453768,
+        "original_sha1": "e24640c8c55b5d18abceec9b05147eb9f1200def",
+        "thumbnail_sha256": "14169e0777ea24ad5342120d4d2dd4e2eca0520cc7f263962246ab5a7b25fe1d",
+        "contact_sheet_position": 134,
+        "contact_sheet_sha256": "5b006c55b2a7482aee05614c43c99b7e9edc4273f1e59734c9900bbf28226518",
+        "screen": "visual first-pass",
+        "reason": "complete reproduction visually plausible; provenance and duplicate review still required"
+      },
+      {
+        "id": 53720428,
+        "original_sha1": "43bafa19a054241fd70fc3afcf08593b967f1a7c",
+        "thumbnail_sha256": "e118828df7a3728d43d92aacedf03641b37d65a5c95bf90c691b7bc5507635cc",
+        "contact_sheet_position": 135,
+        "contact_sheet_sha256": "5b006c55b2a7482aee05614c43c99b7e9edc4273f1e59734c9900bbf28226518",
+        "screen": "deferred",
+        "reason": "detail of a larger work"
+      },
+      {
+        "id": 54950059,
+        "original_sha1": "04e3bdae839dbf64dc12437b3dc440794052f0cb",
+        "thumbnail_sha256": "beb9826c3db72350715f36ef0c5c5c1df7e66fa2f327c57e1d482c251f241bbd",
+        "contact_sheet_position": 136,
+        "contact_sheet_sha256": "5b006c55b2a7482aee05614c43c99b7e9edc4273f1e59734c9900bbf28226518",
+        "screen": "visual first-pass",
+        "reason": "complete reproduction visually plausible; provenance and duplicate review still required"
+      },
+      {
+        "id": 56403655,
+        "original_sha1": "153c25db86efbdb3b5b0747b1d66aa7f1852ca1c",
+        "thumbnail_sha256": "d88d420891e6aaa84957f642fe2a18cc9176fb27dee7b5d67893dfcca08673dd",
+        "contact_sheet_position": 137,
+        "contact_sheet_sha256": "5b006c55b2a7482aee05614c43c99b7e9edc4273f1e59734c9900bbf28226518",
+        "screen": "visual first-pass",
+        "reason": "complete reproduction visually plausible; provenance and duplicate review still required"
+      },
+      {
+        "id": 61156413,
+        "original_sha1": "7511ef25f2a70b93c591da716ec09d5c26aab7b1",
+        "thumbnail_sha256": "05fc6e894cfc8be806f3df90eb505e5ef115cc80dff14e4a46cb9d9bdb10a0c4",
+        "contact_sheet_position": 138,
+        "contact_sheet_sha256": "5b006c55b2a7482aee05614c43c99b7e9edc4273f1e59734c9900bbf28226518",
+        "screen": "deferred",
+        "reason": "monochrome decorative sketch; reserve, not colourful-gallery priority"
+      },
+      {
+        "id": 76139241,
+        "original_sha1": "c01a4fc005454a55363b6cd84426a46c7c7278c9",
+        "thumbnail_sha256": "094100c1e3d8b2bd22c965d7657f9f88c7e8cd9d2cf47621397cda0eb6f8dc2a",
+        "contact_sheet_position": 139,
+        "contact_sheet_sha256": "5b006c55b2a7482aee05614c43c99b7e9edc4273f1e59734c9900bbf28226518",
+        "screen": "deferred",
+        "reason": "sketchbook page"
+      },
+      {
+        "id": 80029645,
+        "original_sha1": "fe885f897dce7f2109d24752ba3993dcb1b084e8",
+        "thumbnail_sha256": "05a9f36c7d3f0e38819918e59127c97b4cd9a1e274189b8ec856bd64aa6673fe",
+        "contact_sheet_position": 140,
+        "contact_sheet_sha256": "5b006c55b2a7482aee05614c43c99b7e9edc4273f1e59734c9900bbf28226518",
+        "screen": "visual first-pass",
+        "reason": "complete reproduction visually plausible; provenance and duplicate review still required"
+      },
+      {
+        "id": 98428901,
+        "original_sha1": "7744e78ac3da0ad36bbfc4ec774a1028208f6ac0",
+        "thumbnail_sha256": "151ac43947db2f3bf882451038c0ce88947fb003b32c469536cfc3b1e419c55e",
+        "contact_sheet_position": 141,
+        "contact_sheet_sha256": "5b006c55b2a7482aee05614c43c99b7e9edc4273f1e59734c9900bbf28226518",
+        "screen": "visual first-pass",
+        "reason": "complete reproduction visually plausible; provenance and duplicate review still required"
+      },
+      {
+        "id": 23599371,
+        "original_sha1": "2d3d6b91a2b23902ecd756b5818e578d42b323af",
+        "thumbnail_sha256": "797d095098aa18f1d1205fb5b530c4d06a614b671dc450676dce31f934121c70",
+        "contact_sheet_position": 142,
+        "contact_sheet_sha256": "5b006c55b2a7482aee05614c43c99b7e9edc4273f1e59734c9900bbf28226518",
+        "screen": "visual first-pass",
+        "reason": "complete reproduction visually plausible; provenance and duplicate review still required"
+      },
+      {
+        "id": 65094315,
+        "original_sha1": "01f4b85b0c802e792d16533e2515e36eed6c577b",
+        "thumbnail_sha256": "b0035eabd62e115fcf9931760b98f59864088bf797fbadeab86a19861a13b72b",
+        "contact_sheet_position": 143,
+        "contact_sheet_sha256": "5b006c55b2a7482aee05614c43c99b7e9edc4273f1e59734c9900bbf28226518",
+        "screen": "deferred",
+        "reason": "back of a canvas, not artwork"
+      },
+      {
+        "id": 65094319,
+        "original_sha1": "4790ca5e41ec918b564c2b6a92f7dc771581edb9",
+        "thumbnail_sha256": "d75d9efc56b89e889fdeded9d75604d6ab16c08a9e0ce1320f7390594d78b34f",
+        "contact_sheet_position": 144,
+        "contact_sheet_sha256": "ff51bb65a6b581294cf3fe0443f3aac5d98bd0a88fedded5d30c90f7de3e985a",
+        "screen": "deferred",
+        "reason": "back of a canvas, not artwork"
+      },
+      {
+        "id": 129926035,
+        "original_sha1": "0a66776147e2f7ead57041d291b3de28f3bc666f",
+        "thumbnail_sha256": "eaeb745a66d5ca5c8adc494649166eafe05ada4eb697f1dfbbfbe4b26fdd2f2f",
+        "contact_sheet_position": 145,
+        "contact_sheet_sha256": "ff51bb65a6b581294cf3fe0443f3aac5d98bd0a88fedded5d30c90f7de3e985a",
+        "screen": "deferred",
+        "reason": "visible surrounding frame"
+      },
+      {
+        "id": 5785206,
+        "original_sha1": "119e07430915736288e9dd72ad14e81d57eed400",
+        "thumbnail_sha256": "006f32e483d420c7782bd03d1b6c8a746dad1ce4553a37201a7584f84b2669b4",
+        "contact_sheet_position": 146,
+        "contact_sheet_sha256": "ff51bb65a6b581294cf3fe0443f3aac5d98bd0a88fedded5d30c90f7de3e985a",
+        "screen": "visual first-pass",
+        "reason": "complete reproduction visually plausible; provenance and duplicate review still required"
+      },
+      {
+        "id": 13319862,
+        "original_sha1": "e62a649fb8b5c5779ed9ba9fa5173961f5362e45",
+        "thumbnail_sha256": "c455823e3429a5d9a998a230e0cc9b9a610c178d61cd255e1a543da136e0281c",
+        "contact_sheet_position": 147,
+        "contact_sheet_sha256": "ff51bb65a6b581294cf3fe0443f3aac5d98bd0a88fedded5d30c90f7de3e985a",
+        "screen": "visual first-pass",
+        "reason": "complete reproduction visually plausible; provenance and duplicate review still required"
+      },
+      {
+        "id": 20196139,
+        "original_sha1": "65179d95614dc80e72ee189bc84d21393ac28a79",
+        "thumbnail_sha256": "55a17c36b47c6744a62a6c44fd147a867c5486878c82d280c790c50dcef310d7",
+        "contact_sheet_position": 148,
+        "contact_sheet_sha256": "ff51bb65a6b581294cf3fe0443f3aac5d98bd0a88fedded5d30c90f7de3e985a",
+        "screen": "visual first-pass",
+        "reason": "complete reproduction visually plausible; provenance and duplicate review still required"
+      },
+      {
+        "id": 57398771,
+        "original_sha1": "73c1060ce4c3d93eb29a817579020ebf643ebf00",
+        "thumbnail_sha256": "da791341897707da10662dc7096e912aaf1ffdf7194f970c9b211bca285e9489",
+        "contact_sheet_position": 149,
+        "contact_sheet_sha256": "ff51bb65a6b581294cf3fe0443f3aac5d98bd0a88fedded5d30c90f7de3e985a",
+        "screen": "deferred",
+        "reason": "visible surrounding frame"
+      },
+      {
+        "id": 57669526,
+        "original_sha1": "1ddc0875664f1469d938114e20d781e65aa125a8",
+        "thumbnail_sha256": "3593bd554e50b75caeb57e4e67987309e79ad3936614b365ac91c53cee538173",
+        "contact_sheet_position": 150,
+        "contact_sheet_sha256": "ff51bb65a6b581294cf3fe0443f3aac5d98bd0a88fedded5d30c90f7de3e985a",
+        "screen": "deferred",
+        "reason": "nonrectangular shaped painting with surrounding black area"
+      },
+      {
+        "id": 61156462,
+        "original_sha1": "5130427432bb923c6136f9c43c371d799d8f5ee5",
+        "thumbnail_sha256": "0410b9ab2b795616392abd8137d92761d24f92461c95d605cb667724ad8d013a",
+        "contact_sheet_position": 151,
+        "contact_sheet_sha256": "ff51bb65a6b581294cf3fe0443f3aac5d98bd0a88fedded5d30c90f7de3e985a",
+        "screen": "deferred",
+        "reason": "monochrome decorative sketch; reserve"
+      },
+      {
+        "id": 62025574,
+        "original_sha1": "737cfc8d37e3cfc359754ba99603adbb89698768",
+        "thumbnail_sha256": "bb894478e0d462cf82b0611bc98dac51fa37be4d32b07c87696bbdd15c0add0f",
+        "contact_sheet_position": 152,
+        "contact_sheet_sha256": "ff51bb65a6b581294cf3fe0443f3aac5d98bd0a88fedded5d30c90f7de3e985a",
+        "screen": "visual first-pass",
+        "reason": "complete reproduction visually plausible; provenance and duplicate review still required"
+      },
+      {
+        "id": 65099619,
+        "original_sha1": "e6991a6b06906e501841af7070c1532c0b3a0c0a",
+        "thumbnail_sha256": "a7381b2a972f39785f300be7a6b81f0ff440b757381957daf521a6dcec8b5053",
+        "contact_sheet_position": 153,
+        "contact_sheet_sha256": "ff51bb65a6b581294cf3fe0443f3aac5d98bd0a88fedded5d30c90f7de3e985a",
+        "screen": "deferred",
+        "reason": "detail of a larger portrait"
+      },
+      {
+        "id": 65099620,
+        "original_sha1": "9ae08d93140aa45ac4150866c94ce63e312c7c8c",
+        "thumbnail_sha256": "4c2bb04385519e3337a9132e83f33144e60edc884ef37512d252aa3ad3c2a153",
+        "contact_sheet_position": 154,
+        "contact_sheet_sha256": "ff51bb65a6b581294cf3fe0443f3aac5d98bd0a88fedded5d30c90f7de3e985a",
+        "screen": "deferred",
+        "reason": "detail of a larger portrait"
+      },
+      {
+        "id": 65099623,
+        "original_sha1": "9c2a34c2d46e42ad85a48d947b17f121efc5486e",
+        "thumbnail_sha256": "ecb61c7381de5723e24ec5350c9496b5d8b77bb35eded77f246c9bbe50c9e2cc",
+        "contact_sheet_position": 155,
+        "contact_sheet_sha256": "ff51bb65a6b581294cf3fe0443f3aac5d98bd0a88fedded5d30c90f7de3e985a",
+        "screen": "deferred",
+        "reason": "detail of a larger portrait"
+      },
+      {
+        "id": 66183830,
+        "original_sha1": "d13bc329c264dfea3e88590ab34844388c22fc86",
+        "thumbnail_sha256": "85118e28720e4d59f8ac497b2fdfc2d577fdb6a7895a92a0969349a974cab6ab",
+        "contact_sheet_position": 156,
+        "contact_sheet_sha256": "ff51bb65a6b581294cf3fe0443f3aac5d98bd0a88fedded5d30c90f7de3e985a",
+        "screen": "visual first-pass",
+        "reason": "complete reproduction visually plausible; provenance and duplicate review still required"
+      },
+      {
+        "id": 74811509,
+        "original_sha1": "2dd944a1210b5d9ec28309268227d1e0007692cb",
+        "thumbnail_sha256": "a6f1723f5341ac5b7080d0f17106bbd689459f1e0fc41b84333f43756c050a7e",
+        "contact_sheet_position": 157,
+        "contact_sheet_sha256": "ff51bb65a6b581294cf3fe0443f3aac5d98bd0a88fedded5d30c90f7de3e985a",
+        "screen": "deferred",
+        "reason": "framed artwork photographed obliquely"
+      },
+      {
+        "id": 76614673,
+        "original_sha1": "b4efc9691d03ed3fe222e1c9627e33524af8a5a0",
+        "thumbnail_sha256": "d2080797ff41624a4d977cf153603236e7800a3dd6073db04f417cb8c64ac9b4",
+        "contact_sheet_position": 158,
+        "contact_sheet_sha256": "ff51bb65a6b581294cf3fe0443f3aac5d98bd0a88fedded5d30c90f7de3e985a",
+        "screen": "visual first-pass",
+        "reason": "complete reproduction visually plausible; provenance and duplicate review still required"
+      },
+      {
+        "id": 81307549,
+        "original_sha1": "a76b5a615456a6f8c604b416c549fd25044d630f",
+        "thumbnail_sha256": "ce4256e4dd81136e386794b6fcf8e4cd2e51117f5ca55062f2e7055d061d0758",
+        "contact_sheet_position": 159,
+        "contact_sheet_sha256": "ff51bb65a6b581294cf3fe0443f3aac5d98bd0a88fedded5d30c90f7de3e985a",
+        "screen": "deferred",
+        "reason": "alternate Fortress of Koenigstein scan; duplicate review pending"
+      },
+      {
+        "id": 20005027,
+        "original_sha1": "ccde616ecfae811888806e6bf22b1b2a89e7fc48",
+        "thumbnail_sha256": "a1611b7847a8ff7fdb52dcb394602157d2f3e3ef591c6cb5e66e561912b39fc7",
+        "contact_sheet_position": 160,
+        "contact_sheet_sha256": "a707d19ab9d582671c81f56822305780455a8f946ff207c0571f266ecff552e0",
+        "screen": "visual first-pass",
+        "reason": "complete reproduction visually plausible; provenance and duplicate review still required"
+      },
+      {
+        "id": 25484564,
+        "original_sha1": "9be05667a5a745570058e483de9f559a1217a18e",
+        "thumbnail_sha256": "fc5fcd1a391522560e7549b3bc7fcb9ee61e25dabba5623a80f3673f12b81e25",
+        "contact_sheet_position": 161,
+        "contact_sheet_sha256": "a707d19ab9d582671c81f56822305780455a8f946ff207c0571f266ecff552e0",
+        "screen": "visual first-pass",
+        "reason": "complete reproduction visually plausible; provenance and duplicate review still required"
+      },
+      {
+        "id": 46319242,
+        "original_sha1": "079f32bc92606e10c6629e73640510db1b943c04",
+        "thumbnail_sha256": "68b023b281afdcce9f7118b4ed031ba772328dc1769bcea2f90c7e1d401f6ff6",
+        "contact_sheet_position": 162,
+        "contact_sheet_sha256": "a707d19ab9d582671c81f56822305780455a8f946ff207c0571f266ecff552e0",
+        "screen": "visual first-pass",
+        "reason": "complete reproduction visually plausible; provenance and duplicate review still required"
+      },
+      {
+        "id": 57393854,
+        "original_sha1": "8e2726e69000b6315c159110cbd564b575011da7",
+        "thumbnail_sha256": "796766533973bd784786fb3452804c2cb2b3c903f8424bbf0ccacb5cee06380b",
+        "contact_sheet_position": 163,
+        "contact_sheet_sha256": "a707d19ab9d582671c81f56822305780455a8f946ff207c0571f266ecff552e0",
+        "screen": "visual first-pass",
+        "reason": "complete reproduction visually plausible; provenance and duplicate review still required"
+      },
+      {
+        "id": 57394112,
+        "original_sha1": "0ac7995e6eb08b0e8dddda9cc38eaef81972fbe0",
+        "thumbnail_sha256": "b436bacff4406d93ecfed0cbf2c36711b3c64360276d67c723fe8ef576c7dcba",
+        "contact_sheet_position": 164,
+        "contact_sheet_sha256": "a707d19ab9d582671c81f56822305780455a8f946ff207c0571f266ecff552e0",
+        "screen": "deferred",
+        "reason": "visible surrounding frame"
+      },
+      {
+        "id": 60852748,
+        "original_sha1": "f4b1dbcbe8f44deed6143ea507798bdbaad3b0fb",
+        "thumbnail_sha256": "473274518e3cc660d3c0d3c5e9443d75dc6d443b52c16795fc3b4f5a94b62099",
+        "contact_sheet_position": 165,
+        "contact_sheet_sha256": "a707d19ab9d582671c81f56822305780455a8f946ff207c0571f266ecff552e0",
+        "screen": "deferred",
+        "reason": "surrounding paper border/sketch"
+      },
+      {
+        "id": 74648716,
+        "original_sha1": "29ba117e50b5f85acfa9867ca1dac99009880e3b",
+        "thumbnail_sha256": "b0e37ac86acd8afd3e05c3e584f8fffefc44611a36c9c171235acef5efd224f3",
+        "contact_sheet_position": 166,
+        "contact_sheet_sha256": "a707d19ab9d582671c81f56822305780455a8f946ff207c0571f266ecff552e0",
+        "screen": "visual first-pass",
+        "reason": "complete reproduction visually plausible; provenance and duplicate review still required"
+      },
+      {
+        "id": 83531367,
+        "original_sha1": "de8164c8de72051f5844f91b493840ca688c099f",
+        "thumbnail_sha256": "3fe0e689f6cdc224c712fef54deec48dfda56a5afbbc19635bdf32c4f96b47b4",
+        "contact_sheet_position": 167,
+        "contact_sheet_sha256": "a707d19ab9d582671c81f56822305780455a8f946ff207c0571f266ecff552e0",
+        "screen": "visual first-pass",
+        "reason": "complete reproduction visually plausible; provenance and duplicate review still required"
+      },
+      {
+        "id": 50573805,
+        "original_sha1": "a838feb81784f0ca6e630a5840369ee1c3e5e622",
+        "thumbnail_sha256": "85a37d0764d2714524d191a7605f34cc0dc6e9989c818c8c2f943eb66b0ee0f6",
+        "contact_sheet_position": 168,
+        "contact_sheet_sha256": "a707d19ab9d582671c81f56822305780455a8f946ff207c0571f266ecff552e0",
+        "screen": "visual first-pass",
+        "reason": "complete reproduction visually plausible; provenance and duplicate review still required"
+      },
+      {
+        "id": 57397635,
+        "original_sha1": "e3c9fe8f4ef4e074c70c98cc5c6047c82e93d9ff",
+        "thumbnail_sha256": "2cbb4952838500db0d9b40466125b791b7d9bb51252ae898700324476f17a43d",
+        "contact_sheet_position": 169,
+        "contact_sheet_sha256": "a707d19ab9d582671c81f56822305780455a8f946ff207c0571f266ecff552e0",
+        "screen": "deferred",
+        "reason": "detail of a larger work"
+      },
+      {
+        "id": 57397637,
+        "original_sha1": "e8fd02993a13f3a644eb9326c740bcf5865e50ec",
+        "thumbnail_sha256": "507fdbaa94a77d8df8a3788af053c2b9bc6be7ccd8c0c3376703c632e4ec299e",
+        "contact_sheet_position": 170,
+        "contact_sheet_sha256": "a707d19ab9d582671c81f56822305780455a8f946ff207c0571f266ecff552e0",
+        "screen": "deferred",
+        "reason": "detail of a larger work"
+      },
+      {
+        "id": 57397667,
+        "original_sha1": "a54dba737d83e893e4ece84bd9a3ea57b92a80ca",
+        "thumbnail_sha256": "26e558789f0a4ba445898686c31739d195dba6a97f8a9b66c05e6edcf896d832",
+        "contact_sheet_position": 171,
+        "contact_sheet_sha256": "a707d19ab9d582671c81f56822305780455a8f946ff207c0571f266ecff552e0",
+        "screen": "deferred",
+        "reason": "detail of a larger work"
+      },
+      {
+        "id": 61156474,
+        "original_sha1": "e4edcb1d6d39e3e689392f756929f867e197e8e0",
+        "thumbnail_sha256": "aff445da1db792a28520dec51c48e9705256b1856d57867d55228097677b80b9",
+        "contact_sheet_position": 172,
+        "contact_sheet_sha256": "a707d19ab9d582671c81f56822305780455a8f946ff207c0571f266ecff552e0",
+        "screen": "deferred",
+        "reason": "monochrome decorative sketch; reserve"
+      },
+      {
+        "id": 23823395,
+        "original_sha1": "9d86a235139a8dbe978d538fb43ab48ae13ddb60",
+        "thumbnail_sha256": "220e81ede03c375d7c4a323606ad65320983a902fab9050b9991ef1b4d230a48",
+        "contact_sheet_position": 173,
+        "contact_sheet_sha256": "a707d19ab9d582671c81f56822305780455a8f946ff207c0571f266ecff552e0",
+        "screen": "visual first-pass",
+        "reason": "complete reproduction visually plausible; provenance and duplicate review still required"
+      },
+      {
+        "id": 36873144,
+        "original_sha1": "d8481ca5d18d5f7582ee224f5ac5f14c4d056d3c",
+        "thumbnail_sha256": "53e4b2dbae1ea510173214dc75503a3ed60582a9dda36312aeb18ae2343c3594",
+        "contact_sheet_position": 174,
+        "contact_sheet_sha256": "a707d19ab9d582671c81f56822305780455a8f946ff207c0571f266ecff552e0",
+        "screen": "visual first-pass",
+        "reason": "complete reproduction visually plausible; provenance and duplicate review still required"
+      },
+      {
+        "id": 57397627,
+        "original_sha1": "cf48bc010e928f15737235d3324d6de847c32da3",
+        "thumbnail_sha256": "a6a124eb630483a5d86ad9122d1305cd787cabb01d569daad550375c76633696",
+        "contact_sheet_position": 175,
+        "contact_sheet_sha256": "a707d19ab9d582671c81f56822305780455a8f946ff207c0571f266ecff552e0",
+        "screen": "deferred",
+        "reason": "visible surrounding frame"
+      },
+      {
+        "id": 57397629,
+        "original_sha1": "b3a04db30eca48cd807e7201b59e8d3ad9b6c62c",
+        "thumbnail_sha256": "d6df253743b50522dd6e4812a757ee94102a524e055da4eec2236ca574fb557f",
+        "contact_sheet_position": 176,
+        "contact_sheet_sha256": "d9d9132861b281b896bbb076b5ac8e0dedde02503b33b188280ea9ba27cb1fff",
+        "screen": "deferred",
+        "reason": "framed alternate reproduction of position 175"
+      },
+      {
+        "id": 65099621,
+        "original_sha1": "277d76b74c47a85aa2231454dd70f98ccda2ba18",
+        "thumbnail_sha256": "d1f4c1e763bbc967e47d1c78cc3e18fda4a999e8bf489b4722aec7495b8ae891",
+        "contact_sheet_position": 177,
+        "contact_sheet_sha256": "d9d9132861b281b896bbb076b5ac8e0dedde02503b33b188280ea9ba27cb1fff",
+        "screen": "deferred",
+        "reason": "detail of a larger portrait"
+      },
+      {
+        "id": 65099622,
+        "original_sha1": "c95e6bf65645259649c2c27dac373356b5bdfb78",
+        "thumbnail_sha256": "886558676f9ba661236f6eed46f5ebd4f7d2c9089a4b28b2cf91ae4e27a0d739",
+        "contact_sheet_position": 178,
+        "contact_sheet_sha256": "d9d9132861b281b896bbb076b5ac8e0dedde02503b33b188280ea9ba27cb1fff",
+        "screen": "deferred",
+        "reason": "detail of a larger portrait"
+      },
+      {
+        "id": 99406219,
+        "original_sha1": "21c5ee1ae373008d1720e1fd22fdadd974e53ed8",
+        "thumbnail_sha256": "9830f8fa1376c8271b20121da14f932ae27b77458a7a68974d62f74af5447e43",
+        "contact_sheet_position": 179,
+        "contact_sheet_sha256": "d9d9132861b281b896bbb076b5ac8e0dedde02503b33b188280ea9ba27cb1fff",
+        "screen": "visual first-pass",
+        "reason": "complete reproduction visually plausible; provenance and duplicate review still required"
+      },
+      {
+        "id": 142071813,
+        "original_sha1": "31990361a528c6f6a98b017997f93c372cc604a3",
+        "thumbnail_sha256": "4ec9fd2c98a6639dfedadccaceddc12c262ceffef49fd7a4e9935f9b8b48631c",
+        "contact_sheet_position": 180,
+        "contact_sheet_sha256": "d9d9132861b281b896bbb076b5ac8e0dedde02503b33b188280ea9ba27cb1fff",
+        "screen": "visual first-pass",
+        "reason": "complete reproduction visually plausible; provenance and duplicate review still required"
+      },
+      {
+        "id": 150940461,
+        "original_sha1": "4b72bca1bb7ea5acee3f08d7e6d412450bfa7c79",
+        "thumbnail_sha256": "c26d7a58e2292f2f96c113d82a03ffd7cf93d04a018b11113bc4bf3db828ac04",
+        "contact_sheet_position": 181,
+        "contact_sheet_sha256": "d9d9132861b281b896bbb076b5ac8e0dedde02503b33b188280ea9ba27cb1fff",
+        "screen": "visual first-pass",
+        "reason": "complete reproduction visually plausible; provenance and duplicate review still required"
+      },
+      {
+        "id": 13405478,
+        "original_sha1": "c253055e317a598864d6f1f7ac419ad55410b88f",
+        "thumbnail_sha256": "b3baaf3aee01605e57813b26b310a1e7bc496d1cf1858096cb021d55b840e1cd",
+        "contact_sheet_position": 182,
+        "contact_sheet_sha256": "d9d9132861b281b896bbb076b5ac8e0dedde02503b33b188280ea9ba27cb1fff",
+        "screen": "visual first-pass",
+        "reason": "complete reproduction visually plausible; provenance and duplicate review still required"
+      },
+      {
+        "id": 15288395,
+        "original_sha1": "7fc77884171b667e423df4d1c833131fa3bf859c",
+        "thumbnail_sha256": "a407c957e79dbcd8d623253bfd787c36f773c15117f719a9d939c11a2f6de487",
+        "contact_sheet_position": 183,
+        "contact_sheet_sha256": "d9d9132861b281b896bbb076b5ac8e0dedde02503b33b188280ea9ba27cb1fff",
+        "screen": "visual first-pass",
+        "reason": "complete reproduction visually plausible; provenance and duplicate review still required"
+      },
+      {
+        "id": 24986087,
+        "original_sha1": "0ce242624e17b4a33e2380afa844f7194549f61a",
+        "thumbnail_sha256": "41ade0e8cf9201d694a7da74ddaa7bcb46bfbf585dbe960028cfa9439d3bd34e",
+        "contact_sheet_position": 184,
+        "contact_sheet_sha256": "d9d9132861b281b896bbb076b5ac8e0dedde02503b33b188280ea9ba27cb1fff",
+        "screen": "visual first-pass",
+        "reason": "complete reproduction visually plausible; provenance and duplicate review still required"
+      },
+      {
+        "id": 49057437,
+        "original_sha1": "c5b864dcfb79c26878355687d8595ee1cde2ee26",
+        "thumbnail_sha256": "3608de03847442a393b24d4f21e4381a1247c9455bcb3134ad075995fc7bc2c5",
+        "contact_sheet_position": 185,
+        "contact_sheet_sha256": "d9d9132861b281b896bbb076b5ac8e0dedde02503b33b188280ea9ba27cb1fff",
+        "screen": "visual first-pass",
+        "reason": "complete reproduction visually plausible; provenance and duplicate review still required"
+      },
+      {
+        "id": 50308787,
+        "original_sha1": "4879b0cf2f42cd56670e3002dc82fb6155f67e9c",
+        "thumbnail_sha256": "1b41b21d4d79f88fc94e217ab18495687a8191e3cab447002ff8aa89d276c559",
+        "contact_sheet_position": 186,
+        "contact_sheet_sha256": "d9d9132861b281b896bbb076b5ac8e0dedde02503b33b188280ea9ba27cb1fff",
+        "screen": "visual first-pass",
+        "reason": "complete reproduction visually plausible; provenance and duplicate review still required"
+      },
+      {
+        "id": 52272885,
+        "original_sha1": "13272187cc60311fb91ca5855ada25eeaa2f1cc2",
+        "thumbnail_sha256": "8ff1b80d4df3c3ec7d137f3da7c4c7b1178597e1c33fcd57356a345f73bb8eb1",
+        "contact_sheet_position": 187,
+        "contact_sheet_sha256": "d9d9132861b281b896bbb076b5ac8e0dedde02503b33b188280ea9ba27cb1fff",
+        "screen": "visual first-pass",
+        "reason": "complete reproduction visually plausible; provenance and duplicate review still required"
+      },
+      {
+        "id": 57365668,
+        "original_sha1": "10b9ede7b75ecff92d11e8dd08b47fcb7a301a79",
+        "thumbnail_sha256": "46bb1037fde3ae1e9a0cb8c721ca179490b0b3dc1ac94291b427d12261bdbbb0",
+        "contact_sheet_position": 188,
+        "contact_sheet_sha256": "d9d9132861b281b896bbb076b5ac8e0dedde02503b33b188280ea9ba27cb1fff",
+        "screen": "deferred",
+        "reason": "visible dark border; reproduction review pending"
+      },
+      {
+        "id": 57397630,
+        "original_sha1": "d891f5d0501830df067759ca9d688344b101d4dc",
+        "thumbnail_sha256": "fb39961cdf5dd501c2678318eda2f12c8b9c7608957c485907983166d9f48c5a",
+        "contact_sheet_position": 189,
+        "contact_sheet_sha256": "d9d9132861b281b896bbb076b5ac8e0dedde02503b33b188280ea9ba27cb1fff",
+        "screen": "deferred",
+        "reason": "detail of a larger work"
+      },
+      {
+        "id": 57397631,
+        "original_sha1": "eca721ad280b9519cba3f06006e9d506cf035557",
+        "thumbnail_sha256": "0cfe53c820a9df91002c0fd77f4f0dedd6e529075909b5cdf3cb3589cb9b61f4",
+        "contact_sheet_position": 190,
+        "contact_sheet_sha256": "d9d9132861b281b896bbb076b5ac8e0dedde02503b33b188280ea9ba27cb1fff",
+        "screen": "deferred",
+        "reason": "detail of a larger work"
+      },
+      {
+        "id": 61156913,
+        "original_sha1": "425f491d230970450791b86f8071b2d0be79bff7",
+        "thumbnail_sha256": "b6e852e1c243535c1cc16ed07d85c8044f32cfd78de4d8501be756986e1f44f5",
+        "contact_sheet_position": 191,
+        "contact_sheet_sha256": "d9d9132861b281b896bbb076b5ac8e0dedde02503b33b188280ea9ba27cb1fff",
+        "screen": "deferred",
+        "reason": "visible surrounding frame"
+      },
+      {
+        "id": 81326189,
+        "original_sha1": "cb9ea7d61c892c84329165983fd7942c6190aaf2",
+        "thumbnail_sha256": "ac8da50e6cc5bc300d23e2ea7b4ebd3d77862bfdb798208444a64b6c4253cd26",
+        "contact_sheet_position": 192,
+        "contact_sheet_sha256": "b354b0cc39ab18e1c082b4639e13a27152fbda5f72ec3d8808ec5d6b2daee18f",
+        "screen": "visual first-pass",
+        "reason": "complete reproduction visually plausible; provenance and duplicate review still required"
+      },
+      {
+        "id": 81330419,
+        "original_sha1": "8c5bb26983e10bd1d3f248dfddf7a890afc0d951",
+        "thumbnail_sha256": "6fd4076ad8714a2f9d9902c77cc3252bcd3cf21731510c924b906f7151d33983",
+        "contact_sheet_position": 193,
+        "contact_sheet_sha256": "b354b0cc39ab18e1c082b4639e13a27152fbda5f72ec3d8808ec5d6b2daee18f",
+        "screen": "deferred",
+        "reason": "alternate scan of position 186"
+      },
+      {
+        "id": 81333248,
+        "original_sha1": "cb56ac6c9a97ea0f9eb86e08c57250f729ad141a",
+        "thumbnail_sha256": "f684faffd6ff9e573b693d5183992ce003d68a618e2895bf0ecbb6b86dc3fee5",
+        "contact_sheet_position": 194,
+        "contact_sheet_sha256": "b354b0cc39ab18e1c082b4639e13a27152fbda5f72ec3d8808ec5d6b2daee18f",
+        "screen": "visual first-pass",
+        "reason": "complete reproduction visually plausible; provenance and duplicate review still required"
+      },
+      {
+        "id": 138667986,
+        "original_sha1": "bfb538ff919720ca4c0145e84b513399ad01b7e1",
+        "thumbnail_sha256": "e0f8922bf38865c55b0b60226e3b28dab239a23d0b4bf777bcd4542632d67d39",
+        "contact_sheet_position": 195,
+        "contact_sheet_sha256": "b354b0cc39ab18e1c082b4639e13a27152fbda5f72ec3d8808ec5d6b2daee18f",
+        "screen": "visual first-pass",
+        "reason": "complete reproduction visually plausible; provenance and duplicate review still required"
+      },
+      {
+        "id": 9801532,
+        "original_sha1": "1f8ad2c72920f69e827f5a36f82e771579841b0c",
+        "thumbnail_sha256": "ec5ddba6d1c6045cf2fac377481ba462d5ff458a20b9e67c2a1b41be315f97c6",
+        "contact_sheet_position": 196,
+        "contact_sheet_sha256": "b354b0cc39ab18e1c082b4639e13a27152fbda5f72ec3d8808ec5d6b2daee18f",
+        "screen": "visual first-pass",
+        "reason": "complete reproduction visually plausible; provenance and duplicate review still required"
+      },
+      {
+        "id": 20518159,
+        "original_sha1": "2e0829d5e5c7aaeb93a18429845271085c2a7ff9",
+        "thumbnail_sha256": "99e57651b8fc5b93f47bec947dd0d786909df3ebffabf1b7af207c82507e723f",
+        "contact_sheet_position": 197,
+        "contact_sheet_sha256": "b354b0cc39ab18e1c082b4639e13a27152fbda5f72ec3d8808ec5d6b2daee18f",
+        "screen": "visual first-pass",
+        "reason": "complete reproduction visually plausible; provenance and duplicate review still required"
+      },
+      {
+        "id": 41235033,
+        "original_sha1": "9ddddb9e6555635a0cdb63dd3e604480e7b9e9ea",
+        "thumbnail_sha256": "b848ea71ff96f8eb83eba16214d16a418d81fb1a52377da2dc6216d29ccf01cc",
+        "contact_sheet_position": 198,
+        "contact_sheet_sha256": "b354b0cc39ab18e1c082b4639e13a27152fbda5f72ec3d8808ec5d6b2daee18f",
+        "screen": "visual first-pass",
+        "reason": "complete reproduction visually plausible; provenance and duplicate review still required"
+      },
+      {
+        "id": 57365326,
+        "original_sha1": "66b6b4a6a1f7a0aed90667224c652ddbaf5f00fc",
+        "thumbnail_sha256": "f108b292a2e0133471c3f54d5f00ba5495de479b4629c168e06741ff2ea469be",
+        "contact_sheet_position": 199,
+        "contact_sheet_sha256": "b354b0cc39ab18e1c082b4639e13a27152fbda5f72ec3d8808ec5d6b2daee18f",
+        "screen": "deferred",
+        "reason": "visible dark border; duplicate review pending"
+      },
+      {
+        "id": 81306373,
+        "original_sha1": "1d05881606d037fdaab6637c99988c8f496c9692",
+        "thumbnail_sha256": "8c00876eef40ca235147d92005924b28d0848a804a53066dd72dde34da1daddb",
+        "contact_sheet_position": 200,
+        "contact_sheet_sha256": "b354b0cc39ab18e1c082b4639e13a27152fbda5f72ec3d8808ec5d6b2daee18f",
+        "screen": "visual first-pass",
+        "reason": "complete reproduction visually plausible; provenance and duplicate review still required"
+      },
+      {
+        "id": 94091272,
+        "original_sha1": "52ac4f96bf63cd9d607acdb3f7fbffc748f7187e",
+        "thumbnail_sha256": "f22833eee2387c675616171b8962a4bf4abaa0fbfd4fea8ae95d58b1e1698abf",
+        "contact_sheet_position": 201,
+        "contact_sheet_sha256": "b354b0cc39ab18e1c082b4639e13a27152fbda5f72ec3d8808ec5d6b2daee18f",
+        "screen": "visual first-pass",
+        "reason": "complete reproduction visually plausible; provenance and duplicate review still required"
+      },
+      {
+        "id": 156839173,
+        "original_sha1": "c56b4583b0246f354db06264ff4647290c4f5b0b",
+        "thumbnail_sha256": "a238beb78de8c6a1573f8b61606cdb006ce669a95954083585701151524336c1",
+        "contact_sheet_position": 202,
+        "contact_sheet_sha256": "b354b0cc39ab18e1c082b4639e13a27152fbda5f72ec3d8808ec5d6b2daee18f",
+        "screen": "visual first-pass",
+        "reason": "complete reproduction visually plausible; provenance and duplicate review still required"
+      },
+      {
+        "id": 57364478,
+        "original_sha1": "c8e0a82a480057943b75539309800b5596f8e030",
+        "thumbnail_sha256": "6004c9c46546f5b4516ca32b33b4ca8830437626c195e0d4b625ac2888dc54ef",
+        "contact_sheet_position": 203,
+        "contact_sheet_sha256": "b354b0cc39ab18e1c082b4639e13a27152fbda5f72ec3d8808ec5d6b2daee18f",
+        "screen": "deferred",
+        "reason": "visible surrounding frame"
+      },
+      {
+        "id": 57384637,
+        "original_sha1": "14797c8bd9a82199d1b3f8be01bea7363def174c",
+        "thumbnail_sha256": "b25f5a95ef8e452f50db9a1e5bc259ae27b58c7698f341c4dca2519ff57d56c5",
+        "contact_sheet_position": 204,
+        "contact_sheet_sha256": "b354b0cc39ab18e1c082b4639e13a27152fbda5f72ec3d8808ec5d6b2daee18f",
+        "screen": "visual first-pass",
+        "reason": "complete reproduction visually plausible; provenance and duplicate review still required"
+      },
+      {
+        "id": 76055021,
+        "original_sha1": "607072aa25772ae631c2d37a0a75620a25b4a064",
+        "thumbnail_sha256": "1e91e1d8a40314c4956d94dad67ac9c495a0e6868992fe175e101bcb8e900052",
+        "contact_sheet_position": 205,
+        "contact_sheet_sha256": "b354b0cc39ab18e1c082b4639e13a27152fbda5f72ec3d8808ec5d6b2daee18f",
+        "screen": "deferred",
+        "reason": "detail of frame/canvas, not complete painting"
+      },
+      {
+        "id": 18430183,
+        "original_sha1": "cd6181501e9cfd89633f3d08fe97ea102f526bbb",
+        "thumbnail_sha256": "32ffb390a3a4099854e2c45be9ff1f188f6890e9195adec3e5db8c16c6e1bf5f",
+        "contact_sheet_position": 206,
+        "contact_sheet_sha256": "b354b0cc39ab18e1c082b4639e13a27152fbda5f72ec3d8808ec5d6b2daee18f",
+        "screen": "visual first-pass",
+        "reason": "complete reproduction visually plausible; provenance and duplicate review still required"
+      },
+      {
+        "id": 50292591,
+        "original_sha1": "3648fb7fdbb3ce19e7ae8e1594ab7006f6c8aa3c",
+        "thumbnail_sha256": "85ba58de65404e63ef63919185e2efaaf88870b4d1c9b86fce57498eee995b46",
+        "contact_sheet_position": 207,
+        "contact_sheet_sha256": "b354b0cc39ab18e1c082b4639e13a27152fbda5f72ec3d8808ec5d6b2daee18f",
+        "screen": "visual first-pass",
+        "reason": "complete reproduction visually plausible; provenance and duplicate review still required"
+      },
+      {
+        "id": 50308774,
+        "original_sha1": "8173b2b9237ced20b4e5c60f174be17b326d1a04",
+        "thumbnail_sha256": "dbc6033ba28c9ef4678cd2a4258d2476c459905cf74f12278f9ea83785feb837",
+        "contact_sheet_position": 208,
+        "contact_sheet_sha256": "fd305605106dcf19d6fb63e29245dbfe3160ba2b9ded47007b1b2df90095ac5c",
+        "screen": "visual first-pass",
+        "reason": "complete reproduction visually plausible; provenance and duplicate review still required"
+      },
+      {
+        "id": 50812731,
+        "original_sha1": "868ec09b9789c4f37fa9a896af143b378deea412",
+        "thumbnail_sha256": "91773a848012ec9e4acda0bdea6bf68ab6db07dc71680c02e6c3055b843dbb57",
+        "contact_sheet_position": 209,
+        "contact_sheet_sha256": "fd305605106dcf19d6fb63e29245dbfe3160ba2b9ded47007b1b2df90095ac5c",
+        "screen": "visual first-pass",
+        "reason": "complete reproduction visually plausible; provenance and duplicate review still required"
+      },
+      {
+        "id": 50950829,
+        "original_sha1": "2eef506dd281ceaefe0a099156809f410a29a5a3",
+        "thumbnail_sha256": "d07b385d06d0288e4150cf2452129eb35e8b2c101f6f92d4ae90364230596911",
+        "contact_sheet_position": 210,
+        "contact_sheet_sha256": "fd305605106dcf19d6fb63e29245dbfe3160ba2b9ded47007b1b2df90095ac5c",
+        "screen": "visual first-pass",
+        "reason": "complete reproduction visually plausible; provenance and duplicate review still required"
+      },
+      {
+        "id": 57397633,
+        "original_sha1": "3167eb5499ba634bb9455110a2de08d4d5c5981f",
+        "thumbnail_sha256": "0b8d46d1ff760056681defdb3f9de1189414d605f1253b4bff108d09e3c1e562",
+        "contact_sheet_position": 211,
+        "contact_sheet_sha256": "fd305605106dcf19d6fb63e29245dbfe3160ba2b9ded47007b1b2df90095ac5c",
+        "screen": "deferred",
+        "reason": "detail of a larger work"
+      },
+      {
+        "id": 64497875,
+        "original_sha1": "4b001f6cbfba383e421d4838d94133483f95a1cd",
+        "thumbnail_sha256": "d70df6705422e724ff124500ad2da650c65c3831523244f7ca876cce842bf391",
+        "contact_sheet_position": 212,
+        "contact_sheet_sha256": "fd305605106dcf19d6fb63e29245dbfe3160ba2b9ded47007b1b2df90095ac5c",
+        "screen": "visual first-pass",
+        "reason": "complete reproduction visually plausible; provenance and duplicate review still required"
+      },
+      {
+        "id": 65094321,
+        "original_sha1": "dda167ae50887a284f85fdbe8f494d4bf135a3a5",
+        "thumbnail_sha256": "fafbd91007a8a5fe9106af15f4925ae2e58bb9809eeb395edb2126112b166266",
+        "contact_sheet_position": 213,
+        "contact_sheet_sha256": "fd305605106dcf19d6fb63e29245dbfe3160ba2b9ded47007b1b2df90095ac5c",
+        "screen": "deferred",
+        "reason": "back of a canvas, not artwork"
+      },
+      {
+        "id": 65099650,
+        "original_sha1": "8ae357ae67b9f899eef3efe66b8a6b6dd5c4a78e",
+        "thumbnail_sha256": "896555819769fb50003661a37ae6d11775b274c6a8cdd5151a42992ca393f207",
+        "contact_sheet_position": 214,
+        "contact_sheet_sha256": "fd305605106dcf19d6fb63e29245dbfe3160ba2b9ded47007b1b2df90095ac5c",
+        "screen": "deferred",
+        "reason": "detail of a larger portrait"
+      },
+      {
+        "id": 81306453,
+        "original_sha1": "75f60bf0c3ce5fc4f46e5e0e523071b12e520418",
+        "thumbnail_sha256": "112cb91cb12e7aeab6c0d62230cc2f3a2f43c742b7f7a902b6aed447556844c6",
+        "contact_sheet_position": 215,
+        "contact_sheet_sha256": "fd305605106dcf19d6fb63e29245dbfe3160ba2b9ded47007b1b2df90095ac5c",
+        "screen": "visual first-pass",
+        "reason": "complete reproduction visually plausible; provenance and duplicate review still required"
+      },
+      {
+        "id": 18430503,
+        "original_sha1": "1e85ec76967f351fa3c6c55b131c4db18adaaaac",
+        "thumbnail_sha256": "5ee8867eeb73fa90e4bc6248adee59fc26a6d228ac71875e455137846a71e9e6",
+        "contact_sheet_position": 216,
+        "contact_sheet_sha256": "fd305605106dcf19d6fb63e29245dbfe3160ba2b9ded47007b1b2df90095ac5c",
+        "screen": "visual first-pass",
+        "reason": "complete reproduction visually plausible; provenance and duplicate review still required"
+      },
+      {
+        "id": 169640367,
+        "original_sha1": "84a606301f8a0e49e8d3fd8e6849179c32970bd7",
+        "thumbnail_sha256": "9a9f1533b4c60145673d00c2b071a26bd5e3dbcf539756c609c19fa3adafbe21",
+        "contact_sheet_position": 217,
+        "contact_sheet_sha256": "fd305605106dcf19d6fb63e29245dbfe3160ba2b9ded47007b1b2df90095ac5c",
+        "screen": "visual first-pass",
+        "reason": "complete reproduction visually plausible; provenance and duplicate review still required"
+      },
+      {
+        "id": 637573,
+        "original_sha1": "2af84d4674e5dcac396d11d9f00a2be22f6d09b2",
+        "thumbnail_sha256": "5d5f27a25911cde4d4ea3d7dc7d9bf6dab05b70e0b0da1066552778aee74755c",
+        "contact_sheet_position": 218,
+        "contact_sheet_sha256": "fd305605106dcf19d6fb63e29245dbfe3160ba2b9ded47007b1b2df90095ac5c",
+        "screen": "visual first-pass",
+        "reason": "complete reproduction visually plausible; provenance and duplicate review still required"
+      },
+      {
+        "id": 18936216,
+        "original_sha1": "b796258fcc4da3f8dbcbbf2963a3b61b7dc37ef1",
+        "thumbnail_sha256": "a0f284dbf693a045bcfbeee8d8ed26429cd7adac8c142d449a4b57f2d634b44b",
+        "contact_sheet_position": 219,
+        "contact_sheet_sha256": "fd305605106dcf19d6fb63e29245dbfe3160ba2b9ded47007b1b2df90095ac5c",
+        "screen": "visual first-pass",
+        "reason": "complete reproduction visually plausible; provenance and duplicate review still required"
+      },
+      {
+        "id": 26598752,
+        "original_sha1": "3439ad499b1051483a386bf8c9becda4d05c2a34",
+        "thumbnail_sha256": "8c71ca5d6e3df582c458f1887f818502b32e547077e8de0459108e38a2b5df9b",
+        "contact_sheet_position": 220,
+        "contact_sheet_sha256": "fd305605106dcf19d6fb63e29245dbfe3160ba2b9ded47007b1b2df90095ac5c",
+        "screen": "visual first-pass",
+        "reason": "complete reproduction visually plausible; provenance and duplicate review still required"
+      },
+      {
+        "id": 28946447,
+        "original_sha1": "36641e7f5124f227e4c216cee17130562bc65dd3",
+        "thumbnail_sha256": "120332235985fa6defe45124512066a05b59e00bdfc51ca03cc4e00c2f46d843",
+        "contact_sheet_position": 221,
+        "contact_sheet_sha256": "fd305605106dcf19d6fb63e29245dbfe3160ba2b9ded47007b1b2df90095ac5c",
+        "screen": "visual first-pass",
+        "reason": "complete reproduction visually plausible; provenance and duplicate review still required"
+      },
+      {
+        "id": 47697170,
+        "original_sha1": "bfda4aa27cd92b2b110cdeb22d51376ca21532dc",
+        "thumbnail_sha256": "2c908929145ef9ed5b6466d9f635a8c11cbc94b6b67e18770598bfa3daa03bff",
+        "contact_sheet_position": 222,
+        "contact_sheet_sha256": "fd305605106dcf19d6fb63e29245dbfe3160ba2b9ded47007b1b2df90095ac5c",
+        "screen": "visual first-pass",
+        "reason": "complete reproduction visually plausible; provenance and duplicate review still required"
+      },
+      {
+        "id": 130771001,
+        "original_sha1": "a24d9e360e1d7b32e5ba551301f7362eb18431f0",
+        "thumbnail_sha256": "994da9142e10c373bd3bb13d10f8fcdd99ec181985162c18005b34951183536b",
+        "contact_sheet_position": 223,
+        "contact_sheet_sha256": "fd305605106dcf19d6fb63e29245dbfe3160ba2b9ded47007b1b2df90095ac5c",
+        "screen": "deferred",
+        "reason": "white band and colour calibration chart"
+      },
+      {
+        "id": 165878149,
+        "original_sha1": "164af6cfdd2af2e05ebef3b9c83d5e69970fcac8",
+        "thumbnail_sha256": "964964371aa43d2e2e00a6186f3c40bae3f5af59b6625736ff871b32fa4f56f6",
+        "contact_sheet_position": 224,
+        "contact_sheet_sha256": "7f9dfa361724ccecf91e0d949a241a7fb66dc052d2d6ad1e78bec2f80f6b3d2c",
+        "screen": "visual first-pass",
+        "reason": "complete reproduction visually plausible; provenance and duplicate review still required"
+      },
+      {
+        "id": 101180635,
+        "original_sha1": "67164610c5a3f810d70609d7262aec9b3dd167c1",
+        "thumbnail_sha256": "80e46c257d871398ef325ed8d88938852a1f435921c3cf09456a3fce7a2ca11a",
+        "contact_sheet_position": 225,
+        "contact_sheet_sha256": "7f9dfa361724ccecf91e0d949a241a7fb66dc052d2d6ad1e78bec2f80f6b3d2c",
+        "screen": "visual first-pass",
+        "reason": "complete reproduction visually plausible; provenance and duplicate review still required"
+      },
+      {
+        "id": 189725849,
+        "original_sha1": "d7332b73df9cb703f47480e1e943cfe08312cc3b",
+        "thumbnail_sha256": "5fd6a903a6bfdb965a8432de9cd91cc421d71457499901fdeb9eb44cc7819a9d",
+        "contact_sheet_position": 226,
+        "contact_sheet_sha256": "7f9dfa361724ccecf91e0d949a241a7fb66dc052d2d6ad1e78bec2f80f6b3d2c",
+        "screen": "visual first-pass",
+        "reason": "complete reproduction visually plausible; provenance and duplicate review still required"
+      },
+      {
+        "id": 148655,
+        "original_sha1": "231ae827a6bbb8762ea1f4743551242055d0d6ca",
+        "thumbnail_sha256": "6b96cac23e5636abd0d1fcab950df2d22465361b5cccc1ad3a0544ff99856556",
+        "contact_sheet_position": 227,
+        "contact_sheet_sha256": "7f9dfa361724ccecf91e0d949a241a7fb66dc052d2d6ad1e78bec2f80f6b3d2c",
+        "screen": "visual first-pass",
+        "reason": "complete reproduction visually plausible; provenance and duplicate review still required"
+      },
+      {
+        "id": 18935587,
+        "original_sha1": "26e61e7c9335d54248fc6e4e0eb66571c50ad98a",
+        "thumbnail_sha256": "90579d1c95fe34f2da0351c8371eb2650fd596d239f05183a9f265db97e272cc",
+        "contact_sheet_position": 228,
+        "contact_sheet_sha256": "7f9dfa361724ccecf91e0d949a241a7fb66dc052d2d6ad1e78bec2f80f6b3d2c",
+        "screen": "visual first-pass",
+        "reason": "complete reproduction visually plausible; provenance and duplicate review still required"
+      },
+      {
+        "id": 20262193,
+        "original_sha1": "059695147bfe4b40b6aa13644ae36592066ebade",
+        "thumbnail_sha256": "71a788c752d6ef7ac64f81554289fbe8a57c360854b3c3bcdb98851533487026",
+        "contact_sheet_position": 229,
+        "contact_sheet_sha256": "7f9dfa361724ccecf91e0d949a241a7fb66dc052d2d6ad1e78bec2f80f6b3d2c",
+        "screen": "visual first-pass",
+        "reason": "complete reproduction visually plausible; provenance and duplicate review still required"
+      },
+      {
+        "id": 37885799,
+        "original_sha1": "930111f2600180d984de8701ababec4d57256ba6",
+        "thumbnail_sha256": "fad752453c86b37fcba28a058d9fbe4488b922eaa3f2b596a9ef5ec6ea19c56c",
+        "contact_sheet_position": 230,
+        "contact_sheet_sha256": "7f9dfa361724ccecf91e0d949a241a7fb66dc052d2d6ad1e78bec2f80f6b3d2c",
+        "screen": "visual first-pass",
+        "reason": "complete reproduction visually plausible; provenance and duplicate review still required"
+      },
+      {
+        "id": 61076656,
+        "original_sha1": "8f5206e3db5f618bc871ab59820ecd50f6d8725b",
+        "thumbnail_sha256": "7e5a71dae24c415a686f59393b2b8bf4a3968884bd8f73ded69b36afdf8663f8",
+        "contact_sheet_position": 231,
+        "contact_sheet_sha256": "7f9dfa361724ccecf91e0d949a241a7fb66dc052d2d6ad1e78bec2f80f6b3d2c",
+        "screen": "visual first-pass",
+        "reason": "complete reproduction visually plausible; provenance and duplicate review still required"
+      },
+      {
+        "id": 63564537,
+        "original_sha1": "7dec46dc1042cad96ccca111159247ccf3599fe7",
+        "thumbnail_sha256": "d2a3b0736652979ed1d1417ea49eac2ae96f3022bf0d151156ce843c3d81934b",
+        "contact_sheet_position": 232,
+        "contact_sheet_sha256": "7f9dfa361724ccecf91e0d949a241a7fb66dc052d2d6ad1e78bec2f80f6b3d2c",
+        "screen": "visual first-pass",
+        "reason": "complete reproduction visually plausible; provenance and duplicate review still required"
+      },
+      {
+        "id": 76667233,
+        "original_sha1": "31bffeac0065063b5899babb9f348d476ac93ce2",
+        "thumbnail_sha256": "a07b04cb9c6b17cf6a14571d2ffa67fa782b2f6a9caec1b8ee7659ddece2d5a0",
+        "contact_sheet_position": 233,
+        "contact_sheet_sha256": "7f9dfa361724ccecf91e0d949a241a7fb66dc052d2d6ad1e78bec2f80f6b3d2c",
+        "screen": "visual first-pass",
+        "reason": "complete reproduction visually plausible; provenance and duplicate review still required"
+      },
+      {
+        "id": 101262493,
+        "original_sha1": "8030e4fc427d4a057402adde85bc8c5337ba4d00",
+        "thumbnail_sha256": "6b0a0203875a87f55f7c5dfdc1a7da1b4b38f0b9948141f5e169ea7727091afc",
+        "contact_sheet_position": 234,
+        "contact_sheet_sha256": "7f9dfa361724ccecf91e0d949a241a7fb66dc052d2d6ad1e78bec2f80f6b3d2c",
+        "screen": "visual first-pass",
+        "reason": "complete reproduction visually plausible; provenance and duplicate review still required"
+      },
+      {
+        "id": 800287,
+        "original_sha1": "7fe45dc1a5b5d4ea5d4991503055c9c5fd79af06",
+        "thumbnail_sha256": "c165e96845ff160ebad894091aabe20d2e7c4db513fd1e5a3bb8535dd27c1283",
+        "contact_sheet_position": 235,
+        "contact_sheet_sha256": "7f9dfa361724ccecf91e0d949a241a7fb66dc052d2d6ad1e78bec2f80f6b3d2c",
+        "screen": "deferred",
+        "reason": "visible dark border"
+      },
+      {
+        "id": 15541628,
+        "original_sha1": "98c16da7bd7d1ec6264ce1741137607227fa64e2",
+        "thumbnail_sha256": "be716a26071f8eb670122704c9e419701ddb6066d3a288b6dd2f3f3a75ffd001",
+        "contact_sheet_position": 236,
+        "contact_sheet_sha256": "7f9dfa361724ccecf91e0d949a241a7fb66dc052d2d6ad1e78bec2f80f6b3d2c",
+        "screen": "visual first-pass",
+        "reason": "complete reproduction visually plausible; provenance and duplicate review still required"
+      },
+      {
+        "id": 21174714,
+        "original_sha1": "f02aeb2b221159e9aeaed2ff39e489ae5dbdc6f6",
+        "thumbnail_sha256": "8d945f829d1195ed15d6b4c4ef9e5867ab46fb1c7f21506070aaf028d335e97a",
+        "contact_sheet_position": 237,
+        "contact_sheet_sha256": "7f9dfa361724ccecf91e0d949a241a7fb66dc052d2d6ad1e78bec2f80f6b3d2c",
+        "screen": "visual first-pass",
+        "reason": "complete reproduction visually plausible; provenance and duplicate review still required"
+      },
+      {
+        "id": 34547170,
+        "original_sha1": "9c0cdd8998ea2fe8a2d302d1fcdc0f6b64d04195",
+        "thumbnail_sha256": "340e9dc6eb697ddccb25f62bb3b7d949b234eae2d9fcb15e541e53c292cacb66",
+        "contact_sheet_position": 238,
+        "contact_sheet_sha256": "7f9dfa361724ccecf91e0d949a241a7fb66dc052d2d6ad1e78bec2f80f6b3d2c",
+        "screen": "visual first-pass",
+        "reason": "complete reproduction visually plausible; provenance and duplicate review still required"
+      },
+      {
+        "id": 101181437,
+        "original_sha1": "3a385ce24f11d5064f3ba281f87aca82d0b15370",
+        "thumbnail_sha256": "c6d0bad889f28bf0e00a799020f5e367dc17bfb24827088991695b6c0115cd6c",
+        "contact_sheet_position": 239,
+        "contact_sheet_sha256": "7f9dfa361724ccecf91e0d949a241a7fb66dc052d2d6ad1e78bec2f80f6b3d2c",
+        "screen": "visual first-pass",
+        "reason": "complete reproduction visually plausible; provenance and duplicate review still required"
+      },
+      {
+        "id": 119599451,
+        "original_sha1": "bc63d3451e9707f76c4879bc6b9680a47e1e7234",
+        "thumbnail_sha256": "f2ac426c063e267e767ab702d083ecdee67305f171ffd8e715cc4a697449e769",
+        "contact_sheet_position": 240,
+        "contact_sheet_sha256": "c4839675884339b4b5d4212eb3e1f748e6165890eccbb924060a5281fc8a217b",
+        "screen": "visual first-pass",
+        "reason": "complete reproduction visually plausible; provenance and duplicate review still required"
+      },
+      {
+        "id": 137142542,
+        "original_sha1": "801a95c024419826994294088f1f35207f4b3274",
+        "thumbnail_sha256": "595c8e97f5c4e947b540326e2c96ca582619b1ba097340a81b92dd6fb9dad274",
+        "contact_sheet_position": 241,
+        "contact_sheet_sha256": "c4839675884339b4b5d4212eb3e1f748e6165890eccbb924060a5281fc8a217b",
+        "screen": "visual first-pass",
+        "reason": "complete reproduction visually plausible; provenance and duplicate review still required"
+      },
+      {
+        "id": 139724993,
+        "original_sha1": "d6ca484b123cc27305b64b1aeb84ac43feb4ad83",
+        "thumbnail_sha256": "0cab6ec3034ee3e57aaf197dd29efa1e3872577f724f75f4449e4bdb995dd5f7",
+        "contact_sheet_position": 242,
+        "contact_sheet_sha256": "c4839675884339b4b5d4212eb3e1f748e6165890eccbb924060a5281fc8a217b",
+        "screen": "visual first-pass",
+        "reason": "complete reproduction visually plausible; provenance and duplicate review still required"
+      },
+      {
+        "id": 144926639,
+        "original_sha1": "c2756383a7ba1ed55e71b75a90fec1bdfbc12638",
+        "thumbnail_sha256": "39621e075a0dbde4760a6dca5334b76bc90d59d159b3abbb7b41a9d46dbe9983",
+        "contact_sheet_position": 243,
+        "contact_sheet_sha256": "c4839675884339b4b5d4212eb3e1f748e6165890eccbb924060a5281fc8a217b",
+        "screen": "deferred",
+        "reason": "visible dark border"
+      },
+      {
+        "id": 182084252,
+        "original_sha1": "c055aa441b13ec335f18898ea603dabb0d8badb2",
+        "thumbnail_sha256": "a353d2be5ce989aaf1a6b22b0fd7ac72072087b435bab0d6f11aff6c139a7a75",
+        "contact_sheet_position": 244,
+        "contact_sheet_sha256": "c4839675884339b4b5d4212eb3e1f748e6165890eccbb924060a5281fc8a217b",
+        "screen": "visual first-pass",
+        "reason": "complete reproduction visually plausible; provenance and duplicate review still required"
+      },
+      {
+        "id": 13105985,
+        "original_sha1": "5e829fc4b2c15f1aa1e45e2efe1d79f76b25f5c5",
+        "thumbnail_sha256": "ceb7becf4cc560e08c25628d1f5de04a0d93a9bd484910ffc4e15075bce09909",
+        "contact_sheet_position": 245,
+        "contact_sheet_sha256": "c4839675884339b4b5d4212eb3e1f748e6165890eccbb924060a5281fc8a217b",
+        "screen": "visual first-pass",
+        "reason": "complete reproduction visually plausible; provenance and duplicate review still required"
+      },
+      {
+        "id": 13126969,
+        "original_sha1": "d39f07ca88ee30dfefc8dfc5608a10889e56f173",
+        "thumbnail_sha256": "a33c1d0cfc6752e911cc21f7a02765e2584e4524147650251356e9cba5f409e4",
+        "contact_sheet_position": 246,
+        "contact_sheet_sha256": "c4839675884339b4b5d4212eb3e1f748e6165890eccbb924060a5281fc8a217b",
+        "screen": "visual first-pass",
+        "reason": "complete reproduction visually plausible; provenance and duplicate review still required"
+      },
+      {
+        "id": 51147863,
+        "original_sha1": "6f2061bce94efc6dbb80b98cdb86de36aaa3b3d2",
+        "thumbnail_sha256": "cba5dccfc14e1138bb868bf80ff1f619bcfa6e3ae68f4f26291294386a39e218",
+        "contact_sheet_position": 247,
+        "contact_sheet_sha256": "c4839675884339b4b5d4212eb3e1f748e6165890eccbb924060a5281fc8a217b",
+        "screen": "visual first-pass",
+        "reason": "complete reproduction visually plausible; provenance and duplicate review still required"
+      },
+      {
+        "id": 63564407,
+        "original_sha1": "7fcfa8efcfbe9ec141b1918e45c126bb627b3266",
+        "thumbnail_sha256": "a70c79cde26d35488dc5c4db44e7fa5b4e17facf2759ef7fc82434d9e98b06dc",
+        "contact_sheet_position": 248,
+        "contact_sheet_sha256": "c4839675884339b4b5d4212eb3e1f748e6165890eccbb924060a5281fc8a217b",
+        "screen": "visual first-pass",
+        "reason": "complete reproduction visually plausible; provenance and duplicate review still required"
+      },
+      {
+        "id": 65884316,
+        "original_sha1": "5ca802689c12417c356ce19104d487bb22823a1a",
+        "thumbnail_sha256": "10478456f783577404ed785bd9210f623fe9cc9596b6667593aabb90a94dce20",
+        "contact_sheet_position": 249,
+        "contact_sheet_sha256": "c4839675884339b4b5d4212eb3e1f748e6165890eccbb924060a5281fc8a217b",
+        "screen": "visual first-pass",
+        "reason": "complete reproduction visually plausible; provenance and duplicate review still required"
+      },
+      {
+        "id": 83463167,
+        "original_sha1": "490142c184da8dc444ab8652e6f0a43e3dfcc8fc",
+        "thumbnail_sha256": "8d759d936762eee3b214e98dc0c4fd0447796db8867a39f33600b786cbcaa7a4",
+        "contact_sheet_position": 250,
+        "contact_sheet_sha256": "c4839675884339b4b5d4212eb3e1f748e6165890eccbb924060a5281fc8a217b",
+        "screen": "deferred",
+        "reason": "detail of inscription/print, not complete painting"
+      },
+      {
+        "id": 91185050,
+        "original_sha1": "c91eb79f6d521c3285074e54e78551b8dec6387d",
+        "thumbnail_sha256": "32c8d09c2f611ca19cb6a78bb3b0b466c4c254e0c2c4f6d98abc98da204a3064",
+        "contact_sheet_position": 251,
+        "contact_sheet_sha256": "c4839675884339b4b5d4212eb3e1f748e6165890eccbb924060a5281fc8a217b",
+        "screen": "visual first-pass",
+        "reason": "complete reproduction visually plausible; provenance and duplicate review still required"
+      },
+      {
+        "id": 129802206,
+        "original_sha1": "131b70778825ecea5416d181639edfd39a122ded",
+        "thumbnail_sha256": "0b6e43416797de911ed93037d4317b7d371c98bff39f2ea234cf27c742a99843",
+        "contact_sheet_position": 252,
+        "contact_sheet_sha256": "c4839675884339b4b5d4212eb3e1f748e6165890eccbb924060a5281fc8a217b",
+        "screen": "visual first-pass",
+        "reason": "complete reproduction visually plausible; provenance and duplicate review still required"
+      },
+      {
+        "id": 132763643,
+        "original_sha1": "ec4e75977dd52951dc5d4c378f751b4932630136",
+        "thumbnail_sha256": "8773df9e51f2ebcdab86db1cff53f1a2e2c8665d5aa637b5793ee7574355e2ed",
+        "contact_sheet_position": 253,
+        "contact_sheet_sha256": "c4839675884339b4b5d4212eb3e1f748e6165890eccbb924060a5281fc8a217b",
+        "screen": "visual first-pass",
+        "reason": "complete reproduction visually plausible; provenance and duplicate review still required"
+      },
+      {
+        "id": 156348,
+        "original_sha1": "6b7d3bf223db5e7c38a06b9f1a7d2c1b9d5ab02e",
+        "thumbnail_sha256": "5df82eec29cf75511be61a78274e864a7c387bf768d988183ae0feaf1852d0da",
+        "contact_sheet_position": 254,
+        "contact_sheet_sha256": "c4839675884339b4b5d4212eb3e1f748e6165890eccbb924060a5281fc8a217b",
+        "screen": "visual first-pass",
+        "reason": "complete reproduction visually plausible; provenance and duplicate review still required"
+      },
+      {
+        "id": 74572653,
+        "original_sha1": "11be339433d72b6c284aea0a4373da1c832ac4d5",
+        "thumbnail_sha256": "cfb66cbebc508c88986df908c2511442c473bf657e62afc6d0bd200576337e64",
+        "contact_sheet_position": 255,
+        "contact_sheet_sha256": "c4839675884339b4b5d4212eb3e1f748e6165890eccbb924060a5281fc8a217b",
+        "screen": "visual first-pass",
+        "reason": "complete reproduction visually plausible; provenance and duplicate review still required"
+      },
+      {
+        "id": 74589737,
+        "original_sha1": "26b515556714aec165a2bf7639a9495e5241cfb0",
+        "thumbnail_sha256": "8ffe3525becec92ed1bfcb1145c1bdfd9f5a60a07be836fee27cac70b38c7485",
+        "contact_sheet_position": 256,
+        "contact_sheet_sha256": "07fb80eb17f9f2f97ffa8347ee6081de860e8d92754dc1a508634eefc9a7b333",
+        "screen": "visual first-pass",
+        "reason": "complete reproduction visually plausible; provenance and duplicate review still required"
+      },
+      {
+        "id": 22133858,
+        "original_sha1": "7f27f0d83c470f7355b5f2d689deefbdb1934f02",
+        "thumbnail_sha256": "25e2c49fc1384f113c1d0d751406fa129df00504c8d01aec9b0634c6f695c971",
+        "contact_sheet_position": 257,
+        "contact_sheet_sha256": "07fb80eb17f9f2f97ffa8347ee6081de860e8d92754dc1a508634eefc9a7b333",
+        "screen": "visual first-pass",
+        "reason": "complete reproduction visually plausible; provenance and duplicate review still required"
+      },
+      {
+        "id": 31244975,
+        "original_sha1": "9b9f592c51025621cee834c78690fe49dd757d83",
+        "thumbnail_sha256": "68f02c1faf5504b0e2395e799e8dd0f74c6db58995422e73ae9c22bd8a8e9f99",
+        "contact_sheet_position": 258,
+        "contact_sheet_sha256": "07fb80eb17f9f2f97ffa8347ee6081de860e8d92754dc1a508634eefc9a7b333",
+        "screen": "visual first-pass",
+        "reason": "complete reproduction visually plausible; provenance and duplicate review still required"
+      },
+      {
+        "id": 45603159,
+        "original_sha1": "de642c8a192422b7edab3b8b591809c10bd7950f",
+        "thumbnail_sha256": "186a29a27586193d0688a9a83b7225f246d18c608d677f01a45a09e8f7414759",
+        "contact_sheet_position": 259,
+        "contact_sheet_sha256": "07fb80eb17f9f2f97ffa8347ee6081de860e8d92754dc1a508634eefc9a7b333",
+        "screen": "visual first-pass",
+        "reason": "complete reproduction visually plausible; provenance and duplicate review still required"
+      },
+      {
+        "id": 54407706,
+        "original_sha1": "bb928bcf6fd0c9f02d401523d500bfe03e4d3bb9",
+        "thumbnail_sha256": "cd4211475fb12e766c917f51affa4730675dc01b2a071fddad1633a2a0da92d7",
+        "contact_sheet_position": 260,
+        "contact_sheet_sha256": "07fb80eb17f9f2f97ffa8347ee6081de860e8d92754dc1a508634eefc9a7b333",
+        "screen": "deferred",
+        "reason": "visible surrounding frame"
+      },
+      {
+        "id": 64548547,
+        "original_sha1": "98d812bc72613f8dbe3b6913879e480c2425444e",
+        "thumbnail_sha256": "188efa50817be0c1364d986477e71a2987f11a52aea730295cd16403a4da23e9",
+        "contact_sheet_position": 261,
+        "contact_sheet_sha256": "07fb80eb17f9f2f97ffa8347ee6081de860e8d92754dc1a508634eefc9a7b333",
+        "screen": "deferred",
+        "reason": "nonrectangular decoration in large frame"
+      },
+      {
+        "id": 65099448,
+        "original_sha1": "4e5f8e6a7f3fbc0db069e7b5e23db6fa7318d115",
+        "thumbnail_sha256": "d44d8f6b099756e41d7268fdbe0324d9882bc9da164ec3f86de48184c3e8db87",
+        "contact_sheet_position": 262,
+        "contact_sheet_sha256": "07fb80eb17f9f2f97ffa8347ee6081de860e8d92754dc1a508634eefc9a7b333",
+        "screen": "deferred",
+        "reason": "detail of frame/canvas, not complete painting"
+      },
+      {
+        "id": 76095011,
+        "original_sha1": "e2e5cf806d348f4e06e2e4fedc71e61de95a92f1",
+        "thumbnail_sha256": "990196a948d30e348dd51212027c5039791d35b25e13f864787f2e343322227c",
+        "contact_sheet_position": 263,
+        "contact_sheet_sha256": "07fb80eb17f9f2f97ffa8347ee6081de860e8d92754dc1a508634eefc9a7b333",
+        "screen": "visual first-pass",
+        "reason": "complete reproduction visually plausible; provenance and duplicate review still required"
+      },
+      {
+        "id": 128613942,
+        "original_sha1": "222fd0ac36f12895470b7581320c5eb4762b4496",
+        "thumbnail_sha256": "f080223aef4718b363ca8d9f666eed3b614d9e1e4aa418c75c7ef77ebe08eef1",
+        "contact_sheet_position": 264,
+        "contact_sheet_sha256": "07fb80eb17f9f2f97ffa8347ee6081de860e8d92754dc1a508634eefc9a7b333",
+        "screen": "visual first-pass",
+        "reason": "complete reproduction visually plausible; provenance and duplicate review still required"
+      },
+      {
+        "id": 176607326,
+        "original_sha1": "8e64980adf2a7a797c779c310193a510d71f81c9",
+        "thumbnail_sha256": "1f252eda98879af9fc41c9b6a89281ea0e6905414cb90a2a95ccb3652a84ebb9",
+        "contact_sheet_position": 265,
+        "contact_sheet_sha256": "07fb80eb17f9f2f97ffa8347ee6081de860e8d92754dc1a508634eefc9a7b333",
+        "screen": "visual first-pass",
+        "reason": "complete reproduction visually plausible; provenance and duplicate review still required"
+      },
+      {
+        "id": 10370751,
+        "original_sha1": "2d31cbc88b362b66831d8c61ea77cf2a722489e6",
+        "thumbnail_sha256": "8a87e9975eccf27c0d43091b8053db3e1c7548db019ad53d969b2fa952ac6d9a",
+        "contact_sheet_position": 266,
+        "contact_sheet_sha256": "07fb80eb17f9f2f97ffa8347ee6081de860e8d92754dc1a508634eefc9a7b333",
+        "screen": "visual first-pass",
+        "reason": "complete reproduction visually plausible; provenance and duplicate review still required"
+      },
+      {
+        "id": 18146840,
+        "original_sha1": "cbf47889b8270b13faf4f67dc5b26e3d9a2054c3",
+        "thumbnail_sha256": "7fbd5cb550f353507159ac18313d34ac78f5c52d69383d9188229474a857d66e",
+        "contact_sheet_position": 267,
+        "contact_sheet_sha256": "07fb80eb17f9f2f97ffa8347ee6081de860e8d92754dc1a508634eefc9a7b333",
+        "screen": "deferred",
+        "reason": "visible surrounding frame"
+      },
+      {
+        "id": 141402648,
+        "original_sha1": "23bb3760eb8e6a324be79665d9f4b51663ad34a9",
+        "thumbnail_sha256": "05dff75f4c733babbb5dde5ae05a09d16cd81dc1839a99c01d180bb8e82e5aaa",
+        "contact_sheet_position": 268,
+        "contact_sheet_sha256": "07fb80eb17f9f2f97ffa8347ee6081de860e8d92754dc1a508634eefc9a7b333",
+        "screen": "visual first-pass",
+        "reason": "complete reproduction visually plausible; provenance and duplicate review still required"
+      },
+      {
+        "id": 183818148,
+        "original_sha1": "c9b16dde595fea42c614c7e5a81648dc5a906679",
+        "thumbnail_sha256": "3095726dac5990bbe94d68bfded2cb6def8d6daed6c1fc91a550e534007481aa",
+        "contact_sheet_position": 269,
+        "contact_sheet_sha256": "07fb80eb17f9f2f97ffa8347ee6081de860e8d92754dc1a508634eefc9a7b333",
+        "screen": "deferred",
+        "reason": "visible surrounding frame and reflected exit sign"
+      },
+      {
+        "id": 77914198,
+        "original_sha1": "54e81f2b3a4b9dd608e9cadeb2d5a658be3bff73",
+        "thumbnail_sha256": "94c95e9d514cdc50311483a8817dc0448b3004dbd0d2a790f960633bd86948d6",
+        "contact_sheet_position": 270,
+        "contact_sheet_sha256": "07fb80eb17f9f2f97ffa8347ee6081de860e8d92754dc1a508634eefc9a7b333",
+        "screen": "visual first-pass",
+        "reason": "complete reproduction visually plausible; provenance and duplicate review still required"
+      },
+      {
+        "id": 87955357,
+        "original_sha1": "c5f65899fca24748b2e28cac3a95fd9d98ca2f71",
+        "thumbnail_sha256": "85cf0f87ad3c89c24b4973004703536f87d20bf758c4ed6aefe7d650a36500c7",
+        "contact_sheet_position": 271,
+        "contact_sheet_sha256": "07fb80eb17f9f2f97ffa8347ee6081de860e8d92754dc1a508634eefc9a7b333",
+        "screen": "visual first-pass",
+        "reason": "complete reproduction visually plausible; provenance and duplicate review still required"
+      },
+      {
+        "id": 95000541,
+        "original_sha1": "919bc3420fce8e03783eaf97b039966d4944f8a2",
+        "thumbnail_sha256": "a351cce836149cf2de20f0cae907446884e88581d878ba352db35d9d68c90a08",
+        "contact_sheet_position": 272,
+        "contact_sheet_sha256": "f4aba2c83adca233e12772390415912aac189bee36da14357207f124b50b40aa",
+        "screen": "deferred",
+        "reason": "framed triptych in museum room"
+      },
+      {
+        "id": 156815878,
+        "original_sha1": "a66bf2a3bd1ab66c9a9d427bf74e31838b847913",
+        "thumbnail_sha256": "c700d7875d874052c90464b01f35ef7b81135dfe34367ea5adaafc0d96f1f62c",
+        "contact_sheet_position": 273,
+        "contact_sheet_sha256": "f4aba2c83adca233e12772390415912aac189bee36da14357207f124b50b40aa",
+        "screen": "visual first-pass",
+        "reason": "complete reproduction visually plausible; provenance and duplicate review still required"
+      },
+      {
+        "id": 48327128,
+        "original_sha1": "12a8aee6def6710e23f98525e2cb88a938b3403f",
+        "thumbnail_sha256": "a7c177870c177f5055258c6bf3b1663f8aa2103af0b640a31e0aa4d5fc8a2c09",
+        "contact_sheet_position": 274,
+        "contact_sheet_sha256": "f4aba2c83adca233e12772390415912aac189bee36da14357207f124b50b40aa",
+        "screen": "visual first-pass",
+        "reason": "complete reproduction visually plausible; provenance and duplicate review still required"
+      },
+      {
+        "id": 76621395,
+        "original_sha1": "86e473e71b915c135f0059bf6c65123251aef862",
+        "thumbnail_sha256": "afa0a652202400883a57dfefb3ff6a8e1a332000e5d64387920b071abc1c0899",
+        "contact_sheet_position": 275,
+        "contact_sheet_sha256": "f4aba2c83adca233e12772390415912aac189bee36da14357207f124b50b40aa",
+        "screen": "visual first-pass",
+        "reason": "complete reproduction visually plausible; provenance and duplicate review still required"
+      },
+      {
+        "id": 86490366,
+        "original_sha1": "9367d04131fd24d6dd9a9006c09da480f575f7d8",
+        "thumbnail_sha256": "eed7a48ce967f7a0ea1ff54bdb3bf1d0656cf0711759a8465679e68dc9c973a4",
+        "contact_sheet_position": 276,
+        "contact_sheet_sha256": "f4aba2c83adca233e12772390415912aac189bee36da14357207f124b50b40aa",
+        "screen": "visual first-pass",
+        "reason": "complete reproduction visually plausible; provenance and duplicate review still required"
+      },
+      {
+        "id": 1624092,
+        "original_sha1": "55da7399a91d2bfea2f2ab5853d459ad80492f46",
+        "thumbnail_sha256": "75e21a326748ae21b9e82d213660010ce87d15201b98407eed6ffae1eb39ff5e",
+        "contact_sheet_position": 277,
+        "contact_sheet_sha256": "f4aba2c83adca233e12772390415912aac189bee36da14357207f124b50b40aa",
+        "screen": "visual first-pass",
+        "reason": "complete reproduction visually plausible; provenance and duplicate review still required"
+      },
+      {
+        "id": 3705109,
+        "original_sha1": "196d8b06b6bc6dc4f11bb2e97de6039cdbbe0eb9",
+        "thumbnail_sha256": "fdce399d4d9b19174aeb82834aac25f353bdf7a955dd009016a996e8f6379021",
+        "contact_sheet_position": 278,
+        "contact_sheet_sha256": "f4aba2c83adca233e12772390415912aac189bee36da14357207f124b50b40aa",
+        "screen": "visual first-pass",
+        "reason": "complete reproduction visually plausible; provenance and duplicate review still required"
+      },
+      {
+        "id": 29941270,
+        "original_sha1": "771359d2c5cdd7712e67493a586e11d099bdd2db",
+        "thumbnail_sha256": "ea16ea16de843f0f42ce25e8b21cc67a737974fc68b171470e16400a560c1c59",
+        "contact_sheet_position": 279,
+        "contact_sheet_sha256": "f4aba2c83adca233e12772390415912aac189bee36da14357207f124b50b40aa",
+        "screen": "visual first-pass",
+        "reason": "complete reproduction visually plausible; provenance and duplicate review still required"
+      },
+      {
+        "id": 41474968,
+        "original_sha1": "639688f7e32fb91e6eaa09dc310eb7998254b075",
+        "thumbnail_sha256": "25a202ce9a7b2570f76ec49c99a20170bc16f635567755828e2a1feb0252282e",
+        "contact_sheet_position": 280,
+        "contact_sheet_sha256": "f4aba2c83adca233e12772390415912aac189bee36da14357207f124b50b40aa",
+        "screen": "visual first-pass",
+        "reason": "complete reproduction visually plausible; provenance and duplicate review still required"
+      },
+      {
+        "id": 56771126,
+        "original_sha1": "e50fbaa65f4b8675015a1aead5a22f4585fb4199",
+        "thumbnail_sha256": "ceef5c13dac2a2e2fa80518157320a3b040bec1ef114911e57b108b364861679",
+        "contact_sheet_position": 281,
+        "contact_sheet_sha256": "f4aba2c83adca233e12772390415912aac189bee36da14357207f124b50b40aa",
+        "screen": "visual first-pass",
+        "reason": "complete reproduction visually plausible; provenance and duplicate review still required"
+      },
+      {
+        "id": 156839088,
+        "original_sha1": "5a4cbcfd94e4f13e7854fa8a54e41c056c83dbac",
+        "thumbnail_sha256": "656bd822cac5a78011a3623053fea121d54e800502cdc8a59dd8994403ef81d7",
+        "contact_sheet_position": 282,
+        "contact_sheet_sha256": "f4aba2c83adca233e12772390415912aac189bee36da14357207f124b50b40aa",
+        "screen": "visual first-pass",
+        "reason": "complete reproduction visually plausible; provenance and duplicate review still required"
+      },
+      {
+        "id": 77838547,
+        "original_sha1": "4660d22a8ac87b7e93ab86b9bbf1c0557fe50218",
+        "thumbnail_sha256": "b317a9cfa79916c4f3fa4d95a15963704b354a7d6676a2b5250bb7bb4e83c6cb",
+        "contact_sheet_position": 283,
+        "contact_sheet_sha256": "f4aba2c83adca233e12772390415912aac189bee36da14357207f124b50b40aa",
+        "screen": "visual first-pass",
+        "reason": "complete reproduction visually plausible; provenance and duplicate review still required"
+      },
+      {
+        "id": 158331154,
+        "original_sha1": "ddce29ed1029cfa5f65127bdb41a983d1f24b0bd",
+        "thumbnail_sha256": "286e303e251e594cec4cd55a21407aaa728fd89d3a7a44a3ec37a8d7fb22506c",
+        "contact_sheet_position": 284,
+        "contact_sheet_sha256": "f4aba2c83adca233e12772390415912aac189bee36da14357207f124b50b40aa",
+        "screen": "deferred",
+        "reason": "illustration in book/page, not standalone reproduction"
+      },
+      {
+        "id": 56397303,
+        "original_sha1": "0159b8a2214323cbd0d899e0a3e157465fe0f1d2",
+        "thumbnail_sha256": "95f0dc30df6605d8682b96cf88deeb2580e770181dea9d91bb9582e9c0934d6c",
+        "contact_sheet_position": 285,
+        "contact_sheet_sha256": "f4aba2c83adca233e12772390415912aac189bee36da14357207f124b50b40aa",
+        "screen": "visual first-pass",
+        "reason": "complete reproduction visually plausible; provenance and duplicate review still required"
+      },
+      {
+        "id": 82399205,
+        "original_sha1": "ed7dd8371b56d5818cf19f1ba50a17c0cf181706",
+        "thumbnail_sha256": "864c42077d8f77f4e817ccabd7cd7365d483cfe3e06034444ce309a51b20f62a",
+        "contact_sheet_position": 286,
+        "contact_sheet_sha256": "f4aba2c83adca233e12772390415912aac189bee36da14357207f124b50b40aa",
+        "screen": "visual first-pass",
+        "reason": "complete reproduction visually plausible; provenance and duplicate review still required"
+      },
+      {
+        "id": 9926665,
+        "original_sha1": "c979344eb6471d62a71f8e5f24a16e1e49d768aa",
+        "thumbnail_sha256": "c4191ececcbc31c9cfe5a584865352aa9eda286eea7a57c1affe07e39de1df9e",
+        "contact_sheet_position": 287,
+        "contact_sheet_sha256": "f4aba2c83adca233e12772390415912aac189bee36da14357207f124b50b40aa",
+        "screen": "visual first-pass",
+        "reason": "complete reproduction visually plausible; provenance and duplicate review still required"
+      },
+      {
+        "id": 13405265,
+        "original_sha1": "71f2f1f6255829168f20ee8b88381db97f860df5",
+        "thumbnail_sha256": "eab0e5beeaed44f40f6375d8a8fbb90fb07c332b22a64cf30dd26356a6ea346e",
+        "contact_sheet_position": 288,
+        "contact_sheet_sha256": "44290cb969bb6af9ba32d7c04ca3a7b8be5486876e22e1369a9ed9f6bba9a6e1",
+        "screen": "visual first-pass",
+        "reason": "complete reproduction visually plausible; provenance and duplicate review still required"
+      },
+      {
+        "id": 18426650,
+        "original_sha1": "bb3d23d88d3a5abd714ee41b7040020646873854",
+        "thumbnail_sha256": "ef48acf4e82fb72c5e47fb6ec01753f79522a098a2b646733895c2d49706639e",
+        "contact_sheet_position": 289,
+        "contact_sheet_sha256": "44290cb969bb6af9ba32d7c04ca3a7b8be5486876e22e1369a9ed9f6bba9a6e1",
+        "screen": "visual first-pass",
+        "reason": "complete reproduction visually plausible; provenance and duplicate review still required"
+      },
+      {
+        "id": 29850754,
+        "original_sha1": "9da7490edf69bd052c949ca47aadc43bfbf65c78",
+        "thumbnail_sha256": "292766b54af7402c6da3bc4e429d9cdb17134cf312e943a6f1b53195b67ec4d8",
+        "contact_sheet_position": 290,
+        "contact_sheet_sha256": "44290cb969bb6af9ba32d7c04ca3a7b8be5486876e22e1369a9ed9f6bba9a6e1",
+        "screen": "visual first-pass",
+        "reason": "complete reproduction visually plausible; provenance and duplicate review still required"
+      },
+      {
+        "id": 62034144,
+        "original_sha1": "44453265899409b3521523780c6e6dc3f10fa213",
+        "thumbnail_sha256": "500751d9581186b47d2a4d02028d84ac6b1299fa16f1c4f64717906ed0e34cdf",
+        "contact_sheet_position": 291,
+        "contact_sheet_sha256": "44290cb969bb6af9ba32d7c04ca3a7b8be5486876e22e1369a9ed9f6bba9a6e1",
+        "screen": "visual first-pass",
+        "reason": "complete reproduction visually plausible; provenance and duplicate review still required"
+      },
+      {
+        "id": 189007365,
+        "original_sha1": "315799b7b791ec0759f275d0db3f148cdc5547bf",
+        "thumbnail_sha256": "699b1c1e3d9263b41b89dc77594658f7d1a441def8506df2aac0f9997e9aafdb",
+        "contact_sheet_position": 292,
+        "contact_sheet_sha256": "44290cb969bb6af9ba32d7c04ca3a7b8be5486876e22e1369a9ed9f6bba9a6e1",
+        "screen": "visual first-pass",
+        "reason": "complete reproduction visually plausible; provenance and duplicate review still required"
+      },
+      {
+        "id": 189362292,
+        "original_sha1": "c822c4209bf455545130f10950a187203efd1ea7",
+        "thumbnail_sha256": "8f5328ddb63987f2dd5640719a6f3b9f8ee9d2dce17a0985804b9d4102010d05",
+        "contact_sheet_position": 293,
+        "contact_sheet_sha256": "44290cb969bb6af9ba32d7c04ca3a7b8be5486876e22e1369a9ed9f6bba9a6e1",
+        "screen": "visual first-pass",
+        "reason": "complete reproduction visually plausible; provenance and duplicate review still required"
+      },
+      {
+        "id": 18936471,
+        "original_sha1": "81ad4fcbe76dd132604dca204c49ee6bf2434dc4",
+        "thumbnail_sha256": "6cf303f011c6cb963e64ac48e7555afcc2678de2242353fc8f7d81e1171a6368",
+        "contact_sheet_position": 294,
+        "contact_sheet_sha256": "44290cb969bb6af9ba32d7c04ca3a7b8be5486876e22e1369a9ed9f6bba9a6e1",
+        "screen": "visual first-pass",
+        "reason": "complete reproduction visually plausible; provenance and duplicate review still required"
+      },
+      {
+        "id": 34317511,
+        "original_sha1": "22b10a7734352fb54038d3abab58da3e36a8c209",
+        "thumbnail_sha256": "3981a54ac95f69b86d6286dc856dddc6fdf0090ea1c68976261a06426bd81492",
+        "contact_sheet_position": 295,
+        "contact_sheet_sha256": "44290cb969bb6af9ba32d7c04ca3a7b8be5486876e22e1369a9ed9f6bba9a6e1",
+        "screen": "visual first-pass",
+        "reason": "complete reproduction visually plausible; provenance and duplicate review still required"
+      },
+      {
+        "id": 78391613,
+        "original_sha1": "6ac5afa181050a1ee48df69cbbf269ba37001f11",
+        "thumbnail_sha256": "1ff444976ebe08f66e184747e4c60cc29ea7b29c595ae6f425a9bab2d62bb091",
+        "contact_sheet_position": 296,
+        "contact_sheet_sha256": "44290cb969bb6af9ba32d7c04ca3a7b8be5486876e22e1369a9ed9f6bba9a6e1",
+        "screen": "deferred",
+        "reason": "alternate reproduction of position 288"
+      },
+      {
+        "id": 107823045,
+        "original_sha1": "f02e613810e71ff4a9df9c7d7f71f3f67348b136",
+        "thumbnail_sha256": "50a0e7396caa0cb923b8d389990f2681b00d874a939cd078f9006c4ff4b5778c",
+        "contact_sheet_position": 297,
+        "contact_sheet_sha256": "44290cb969bb6af9ba32d7c04ca3a7b8be5486876e22e1369a9ed9f6bba9a6e1",
+        "screen": "visual first-pass",
+        "reason": "complete reproduction visually plausible; provenance and duplicate review still required"
+      },
+      {
+        "id": 6556974,
+        "original_sha1": "9ba7a437d3e0cbc1e3e81673545431b039882581",
+        "thumbnail_sha256": "35331e6b27ed600f4e66eb217ff6c9e873d7bbd12d28891965d48c48c14e9bbc",
+        "contact_sheet_position": 298,
+        "contact_sheet_sha256": "44290cb969bb6af9ba32d7c04ca3a7b8be5486876e22e1369a9ed9f6bba9a6e1",
+        "screen": "visual first-pass",
+        "reason": "complete reproduction visually plausible; provenance and duplicate review still required"
+      }
+    ]
+  },
+  "duplicate_prompts": [
+    {
+      "candidate": 154506823,
+      "other": 153743085,
+      "other_origin": "baseline",
+      "distance": 6,
+      "other_title": "Environs d’Honfleur, pâturage",
+      "status": "manual artwork-identity check required; not automatic rejection"
+    },
+    {
+      "candidate": 50345997,
+      "other": 81310336,
+      "other_origin": "baseline",
+      "distance": 6,
+      "other_title": "On the Beach",
+      "status": "manual artwork-identity check required; not automatic rejection"
+    },
+    {
+      "candidate": 10770177,
+      "other": 81310338,
+      "other_origin": "baseline",
+      "distance": 22,
+      "other_title": "On the Beach, Trouville",
+      "status": "manual artwork-identity check required; not automatic rejection"
+    },
+    {
+      "candidate": 28205724,
+      "other": 57669998,
+      "other_origin": "baseline",
+      "distance": 32,
+      "other_title": "A Mountainous Landscape with a Waterfall",
+      "status": "manual artwork-identity check required; not automatic rejection"
+    },
+    {
+      "candidate": 32118818,
+      "other": 74897839,
+      "other_origin": "baseline",
+      "distance": 11,
+      "other_title": "The Artist Sketching at Mount Desert, Maine",
+      "status": "manual artwork-identity check required; not automatic rejection"
+    },
+    {
+      "candidate": 9456373,
+      "other": 82931652,
+      "other_origin": "baseline",
+      "distance": 27,
+      "other_title": "Festung Königstein",
+      "status": "manual artwork-identity check required; not automatic rejection"
+    },
+    {
+      "candidate": 25905749,
+      "other": 81307464,
+      "other_origin": "baseline",
+      "distance": 9,
+      "other_title": "Blick auf München",
+      "status": "manual artwork-identity check required; not automatic rejection"
+    },
+    {
+      "candidate": 35117396,
+      "other": 82931652,
+      "other_origin": "baseline",
+      "distance": 5,
+      "other_title": "Festung Königstein",
+      "status": "manual artwork-identity check required; not automatic rejection"
+    },
+    {
+      "candidate": 35117396,
+      "other": 9456373,
+      "other_origin": "candidate",
+      "distance": 26,
+      "other_title": "The Fortress of Königstein label QS:Lde,\"Festung Königstein\" label QS:Len,\"The Fortress of Königstein\"",
+      "status": "manual artwork-identity check required; not automatic rejection"
+    },
+    {
+      "candidate": 76003488,
+      "other": 76004561,
+      "other_origin": "baseline",
+      "distance": 0,
+      "other_title": "Music and Dance and Cupids in Conspiracy",
+      "status": "manual artwork-identity check required; not automatic rejection"
+    },
+    {
+      "candidate": 51087259,
+      "other": 81332363,
+      "other_origin": "baseline",
+      "distance": 4,
+      "other_title": "A Plow Horse in a Field",
+      "status": "manual artwork-identity check required; not automatic rejection"
+    },
+    {
+      "candidate": 37106948,
+      "other": 190237599,
+      "other_origin": "baseline",
+      "distance": 13,
+      "other_title": "Lobster Cove, Manchester, Massachusetts",
+      "status": "manual artwork-identity check required; not automatic rejection"
+    },
+    {
+      "candidate": 80029645,
+      "other": 29456789,
+      "other_origin": "baseline",
+      "distance": 25,
+      "other_title": "Woman bath in Dieppe I",
+      "status": "manual artwork-identity check required; not automatic rejection"
+    },
+    {
+      "candidate": 5785206,
+      "other": 131942228,
+      "other_origin": "baseline",
+      "distance": 10,
+      "other_title": "Fest im Freien",
+      "status": "manual artwork-identity check required; not automatic rejection"
+    },
+    {
+      "candidate": 66183830,
+      "other": 83539260,
+      "other_origin": "baseline",
+      "distance": 8,
+      "other_title": "Landschap in Drenthe",
+      "status": "manual artwork-identity check required; not automatic rejection"
+    },
+    {
+      "candidate": 81307549,
+      "other": 82931652,
+      "other_origin": "baseline",
+      "distance": 2,
+      "other_title": "Festung Königstein",
+      "status": "manual artwork-identity check required; not automatic rejection"
+    },
+    {
+      "candidate": 81307549,
+      "other": 9456373,
+      "other_origin": "candidate",
+      "distance": 29,
+      "other_title": "The Fortress of Königstein label QS:Lde,\"Festung Königstein\" label QS:Len,\"The Fortress of Königstein\"",
+      "status": "manual artwork-identity check required; not automatic rejection"
+    },
+    {
+      "candidate": 81307549,
+      "other": 35117396,
+      "other_origin": "candidate",
+      "distance": 5,
+      "other_title": "The Fortress of Königstein label QS:Lde,\"Festung Königstein\" label QS:Len,\"The Fortress of Königstein\"",
+      "status": "manual artwork-identity check required; not automatic rejection"
+    },
+    {
+      "candidate": 25484564,
+      "other": 25702837,
+      "other_origin": "baseline",
+      "distance": 2,
+      "other_title": "The Icebergs",
+      "status": "manual artwork-identity check required; not automatic rejection"
+    },
+    {
+      "candidate": 36873144,
+      "other": 21938974,
+      "other_origin": "baseline",
+      "distance": 23,
+      "other_title": "Botafogo Beach",
+      "status": "manual artwork-identity check required; not automatic rejection"
+    },
+    {
+      "candidate": 57397629,
+      "other": 57397627,
+      "other_origin": "candidate",
+      "distance": 10,
+      "other_title": "Dance in a Subterranean Roundhouse at Clear Lake, California",
+      "status": "manual artwork-identity check required; not automatic rejection"
+    },
+    {
+      "candidate": 81330419,
+      "other": 50308787,
+      "other_origin": "candidate",
+      "distance": 18,
+      "other_title": "Washerwomen on the Banks of the Durance",
+      "status": "manual artwork-identity check required; not automatic rejection"
+    },
+    {
+      "candidate": 57365326,
+      "other": 10629177,
+      "other_origin": "baseline",
+      "distance": 28,
+      "other_title": "Rainy Day in Camp",
+      "status": "manual artwork-identity check required; not automatic rejection"
+    },
+    {
+      "candidate": 57384637,
+      "other": 18581296,
+      "other_origin": "baseline",
+      "distance": 1,
+      "other_title": "On the Beach at Trouville",
+      "status": "manual artwork-identity check required; not automatic rejection"
+    },
+    {
+      "candidate": 50292591,
+      "other": 81310473,
+      "other_origin": "baseline",
+      "distance": 2,
+      "other_title": "Becalmed off Halfway Rock",
+      "status": "manual artwork-identity check required; not automatic rejection"
+    },
+    {
+      "candidate": 50308774,
+      "other": 81310320,
+      "other_origin": "baseline",
+      "distance": 7,
+      "other_title": "Concert at the Casino of Deauville",
+      "status": "manual artwork-identity check required; not automatic rejection"
+    },
+    {
+      "candidate": 50812731,
+      "other": 57398214,
+      "other_origin": "baseline",
+      "distance": 0,
+      "other_title": "A Woodland Road with Travelers",
+      "status": "manual artwork-identity check required; not automatic rejection"
+    },
+    {
+      "candidate": 50950829,
+      "other": 81309955,
+      "other_origin": "baseline",
+      "distance": 1,
+      "other_title": "The Loge",
+      "status": "manual artwork-identity check required; not automatic rejection"
+    },
+    {
+      "candidate": 81306453,
+      "other": 3418534,
+      "other_origin": "baseline",
+      "distance": 2,
+      "other_title": "Odalisque",
+      "status": "manual artwork-identity check required; not automatic rejection"
+    },
+    {
+      "candidate": 20262193,
+      "other": 20264780,
+      "other_origin": "baseline",
+      "distance": 23,
+      "other_title": "Die Geburt der Venus",
+      "status": "manual artwork-identity check required; not automatic rejection"
+    },
+    {
+      "candidate": 128613942,
+      "other": 140216695,
+      "other_origin": "baseline",
+      "distance": 5,
+      "other_title": "Village Street in the Rain",
+      "status": "manual artwork-identity check required; not automatic rejection"
+    },
+    {
+      "candidate": 78391613,
+      "other": 13405265,
+      "other_origin": "candidate",
+      "distance": 3,
+      "other_title": "Still Life with a Turkey Pie label QS:Lnl,\"Stilleven met kalkoenpastei\" label QS:Len,\"Still Life with a Turkey Pie\"",
+      "status": "manual artwork-identity check required; not automatic rejection"
+    },
+    {
+      "candidate": 66383637,
+      "other": 142202947,
+      "other_origin": "candidate",
+      "distance": 3,
+      "other_title": "Javanese Jungle",
+      "status": "manual artwork-identity check required; not automatic rejection"
+    },
+    {
+      "candidate": 180674552,
+      "other": 6556974,
+      "other_origin": "candidate",
+      "distance": 1,
+      "other_title": "Colbert Presenting the Members of the Royal Academy of Sciences to Louis XIV in 1667",
+      "status": "manual artwork-identity check required; not automatic rejection"
+    },
+    {
+      "candidate": 13353306,
+      "other": 21174714,
+      "other_origin": "candidate",
+      "distance": 28,
+      "other_title": "Venus with the Organ Player",
+      "status": "manual artwork-identity check required; not automatic rejection"
+    },
+    {
+      "candidate": 13405874,
+      "other": 131942228,
+      "other_origin": "baseline",
+      "distance": 7,
+      "other_title": "Fest im Freien",
+      "status": "manual artwork-identity check required; not automatic rejection"
+    },
+    {
+      "candidate": 13405874,
+      "other": 5785206,
+      "other_origin": "candidate",
+      "distance": 11,
+      "other_title": "The Fête champêtre title QS:P1476,en:\"The Fête champêtre \" label QS:Len,\"The Fête champêtre \" label QS:Lit,\"Festo all’aperto\" label QS:Lja,\"野外の宴 (ディルク・ハルスの絵画)\" label QS:Lde,\"Fest im Freien\" label QS:Lfr,\"La Fête champêtre\" label QS:Lnl,\"De buitenpartij\"",
+      "status": "manual artwork-identity check required; not automatic rejection"
+    },
+    {
+      "candidate": 45783234,
+      "other": 142204289,
+      "other_origin": "candidate",
+      "distance": 2,
+      "other_title": "Forest and Native House",
+      "status": "manual artwork-identity check required; not automatic rejection"
+    },
+    {
+      "candidate": 133476928,
+      "other": 133476818,
+      "other_origin": "candidate",
+      "distance": 11,
+      "other_title": "Christ's Apparition to the Disciples (the Rockox Triptych)",
+      "status": "manual artwork-identity check required; not automatic rejection"
+    },
+    {
+      "candidate": 13518092,
+      "other": 156348,
+      "other_origin": "candidate",
+      "distance": 22,
+      "other_title": "Italian: Andromeda liberata da Perseo Andromeda freed by Perseus label QS:Lit,\"Andromeda liberata da Perseo\" label QS:Lde,\"Perseus befreit Andromeda\" label QS:Len,\"Andromeda freed by Perseus\"",
+      "status": "manual artwork-identity check required; not automatic rejection"
+    },
+    {
+      "candidate": 105016227,
+      "other": 150940461,
+      "other_origin": "candidate",
+      "distance": 8,
+      "other_title": "Konstytucja 3 maja 1791.",
+      "status": "manual artwork-identity check required; not automatic rejection"
+    },
+    {
+      "candidate": 7274261,
+      "other": 13105985,
+      "other_origin": "candidate",
+      "distance": 4,
+      "other_title": "View of Pirna from the Sonnenstein Castle",
+      "status": "manual artwork-identity check required; not automatic rejection"
+    },
+    {
+      "candidate": 50994199,
+      "other": 81326189,
+      "other_origin": "candidate",
+      "distance": 7,
+      "other_title": "The Repose",
+      "status": "manual artwork-identity check required; not automatic rejection"
+    },
+    {
+      "candidate": 15494014,
+      "other": 81308465,
+      "other_origin": "baseline",
+      "distance": 7,
+      "other_title": "Die Porta Portello, Padua",
+      "status": "manual artwork-identity check required; not automatic rejection"
+    },
+    {
+      "candidate": 77404695,
+      "other": 71001518,
+      "other_origin": "candidate",
+      "distance": 14,
+      "other_title": "Cleopatra",
+      "status": "manual artwork-identity check required; not automatic rejection"
+    },
+    {
+      "candidate": 9939078,
+      "other": 22605738,
+      "other_origin": "baseline",
+      "distance": 5,
+      "other_title": "Der Garten der Lüste",
+      "status": "manual artwork-identity check required; not automatic rejection"
+    },
+    {
+      "candidate": 65120487,
+      "other": 22605738,
+      "other_origin": "baseline",
+      "distance": 7,
+      "other_title": "Der Garten der Lüste",
+      "status": "manual artwork-identity check required; not automatic rejection"
+    },
+    {
+      "candidate": 65120487,
+      "other": 9939078,
+      "other_origin": "candidate",
+      "distance": 10,
+      "other_title": "The Garden of Earthly Delights title QS:P1476,en:\"The Garden of Earthly Delights \" label QS:Len,\"The Garden of Earthly Delights \" label QS:Les,\"El jardín de las delicias\" label QS:Lhu,\"Gyönyörök kertje\" label QS:Leu,\"Atseginen baratzea\" label QS:Last,\"El xardín de les delicies\" label QS:Lru,\"Сад земных наслаждений\" label QS:Lde,\"Der Garten der Lüste\" label QS:Lbe,\"Сад зямных асалодаў\" label QS:Lfa,\"باغ لذت دنیوی\" label QS:Lbg,\"Градината на земните удоволствия\" label QS:Lda,\"Lysternes have\" label QS:Ltr,\"Zevk Bahçesi\" label QS:Lja,\"快楽の園\" label QS:Lhe,\"גן התענוגות הארציים\" label QS:Lel,\"Ο κήπος των επίγειων απολαύσεων\" label QS:Lsv,\"Lustarnas trädgård\" label QS:Lka,\"ტკბობის ბაღი\" label QS:Luk,\"Сад земних насолод\" label QS:Lla,\"Libidinum horti\" label QS:Lzh-hant,\"人間樂園\" label QS:Lzh-cn,\"人间乐园\" label QS:Lfi,\"Maallisten ilojen puutarha\" label QS:Lca,\"El jardí de les delícies\" label QS:Leo,\"La ĝardeno de la delicoj\" label QS:Lhr,\"Vrt naslade\" label QS:Lit,\"Trittico del Giardino delle delizie\" label QS:Lmk,\"Градина на земските наслади\" label QS:Lfr,\"Le Jardin des délices\" label QS:Larz,\"حديقه المباهج الارضيه\" label QS:Let,\"Maiste naudingute aed\" label QS:Lsh,\"Vrt naslade\" label QS:Lgd,\"An Garradh Thlachdan Talmhaidh\" label QS:Lzh-tw,\"人間樂園\" label QS:Lko,\"세속적인 쾌락의 정원\" label QS:Lvi,\"Khu vườn lạc thú trần tục\" label QS:Lpt,\"O Jardim das Delícias Terrenas\" label QS:Lzh,\"人間樂園\" label QS:Llv,\"Pasaulīgo baudu dārzs\" label QS:Laf,\"Tuin van Wellus\" label QS:Lsr,\"Врт уживања\" label QS:Lsl,\"Vrt zemeljskih naslad\" label QS:Laz,\"Dünyəvi zövqlər bağı\" label QS:Lhy,\"Հաճույքների պարտեզը\" label QS:Lzh-sg,\"人间乐园\" label QS:Lid,\"Taman Kenikmatan Duniawi\" label QS:Lpl,\"Ogród ziemskich rozkoszy\" label QS:Lnb,\"Lystenes hage\" label QS:Lnl,\"De tuin der lusten\" label QS:Lcy,\"Gardd y Pleserau Daearol\" label QS:Lro,\"Grădina deliciilor\" label QS:Lzh-hk,\"人間樂園\" label QS:Lzh-hans,\"人间乐园\" label QS:Lgl,\"O xardín das delicias\" label QS:Lar,\"حديقة المباهج الأرضية\" label QS:Lbr,\"Liorzh ar plijadurezhioù\" label QS:L",
+      "status": "manual artwork-identity check required; not automatic rejection"
+    },
+    {
+      "candidate": 60874741,
+      "other": 29978204,
+      "other_origin": "candidate",
+      "distance": 0,
+      "other_title": "View of Chaillot in Paris",
+      "status": "manual artwork-identity check required; not automatic rejection"
+    },
+    {
+      "candidate": 17851333,
+      "other": 56403724,
+      "other_origin": "baseline",
+      "distance": 3,
+      "other_title": "Wigeon and Teal by the water's edge",
+      "status": "manual artwork-identity check required; not automatic rejection"
+    }
+  ],
+  "required_next_checks": [
+    "remaining visual review and distinct physical artwork identities",
+    "source/proportion/provenance and rights-basis decisions",
+    "600 actual approvals plus complete source-bound colour profiles",
+    "full catalogue/preview/documentation and native release gates"
+  ],
+  "private_cache": "build/commons-1000-research (retain locally; never distribute artwork bytes)"
+}

@@ -39,7 +39,9 @@ from frame_gallery.isolation.in_process import (
 from frame_gallery.isolation.process import Launch
 from frame_gallery.net.identity import commons_identity
 from frame_gallery.net.wire import Resolver, Transport, WireRequest
+from frame_gallery.providers import commons_colours
 from frame_gallery.providers.commons_catalog import CATALOG
+from frame_gallery.providers.commons_colours import matches_colour
 from frame_gallery.randomness import SeededRandomSource
 from frame_gallery.store.layout import StoreLayout
 from frame_gallery.tv.port import Marker
@@ -360,7 +362,16 @@ def test_the_museum_wiring_uses_the_identity_and_the_file_cache(rig: Rig) -> Non
     assert cache["provider"] == "aic"
 
 
-@pytest.mark.parametrize("source_options", [{}, {"source": None}, {"source": "wikimedia_commons"}])
+@pytest.mark.parametrize(
+    "source_options",
+    [
+        {},
+        {"source": None},
+        {"source": "wikimedia_commons"},
+        {"color": "color_blue"},
+        {"color_helper": "input_select.x"},
+    ],
+)
 def test_commons_production_wiring_delivers_two_distinct_works_and_cleans_up(
     rig: Rig, source_options: dict[str, object]
 ) -> None:
@@ -372,14 +383,30 @@ def test_commons_production_wiring_delivers_two_distinct_works_and_cleans_up(
         return site(request)
 
     rig.transport.handler = route
+    if "color_helper" in source_options:
+        rig.helper_state = "Blau"
+        previous_route = rig.transport.handler
+
+        def with_helper(request: WireRequest) -> FakeResponse:
+            return rig.route(request) if request.host == "supervisor" else previous_route(request)
+
+        rig.transport.handler = with_helper
     rig.options(**source_options)
     for _ in range(2):
+        if "color_helper" in source_options:
+            # Production consumes its environment token. Each real app start
+            # receives a fresh Supervisor environment, unlike this reused rig.
+            rig.environ["SUPERVISOR_TOKEN"] = TOKEN
         assert rig.run() == 0
         assert "outcome=delivered " in rig.summary_lines[-1]
     history = json.loads((rig.layout.data / "state" / "history.json").read_text())
     ids = [item["id"] for item in history["entries"]]
     assert len(ids) == len(set(ids)) == 2
     assert all(value.startswith("commons:") for value in ids)
+    if source_options.get("color") == "color_blue" or "color_helper" in source_options:
+        expected = {str(work.page_id) for work in CATALOG if matches_colour(work, "color_blue")}
+        assert all(value.split(":", 1)[1] in expected for value in ids)
+        assert all(set(query["pageids"].split("|")) <= expected for query in site.queries)
     preview = rig.layout.media / "frame_gallery" / "preview" / "latest.jpg"
     assert preview.read_bytes() == rig.tv.payloads[-1]
     assert len(rig.tv.payloads) == 2
@@ -390,10 +417,14 @@ def test_commons_production_wiring_delivers_two_distinct_works_and_cleans_up(
     assert all(
         call.request.headers["User-Agent"] == commons_identity(TEST_IDENTITY.version).user_agent
         for call in rig.transport.calls
+        if call.request.host != "supervisor"
     )
 
 
-def test_commons_landscape_fallback_preserves_edges_and_publishes_caption(rig: Rig) -> None:
+@pytest.mark.parametrize("colour", ["any", "color_blue"])
+def test_commons_landscape_fallback_preserves_edges_and_publishes_caption(
+    rig: Rig, colour: str
+) -> None:
     site = CommonsSite(records={work.page_id: commons_record(work) for work in CATALOG})
     for row in site.records.values():
         assert isinstance(row, dict)
@@ -417,14 +448,22 @@ def test_commons_landscape_fallback_preserves_edges_and_publishes_caption(rig: R
         return site(request)
 
     rig.transport.handler = route
-    rig.options(source="wikimedia_commons", artwork_info_helper="input_text.frame_gallery_artwork")
+    rig.options(
+        source="wikimedia_commons",
+        color=colour,
+        artwork_info_helper="input_text.frame_gallery_artwork",
+    )
     assert rig.run() == 0
     assert "outcome=delivered " in rig.summary_lines[-1]
-    assert len(site.queries) == 10  # finite full search, then existing safe fallback
+    assert len(site.queries) == 10  # existing finite 50-candidate/batch-size-5 bound
     assert len(captions) == 1
     assert captions[0]["museum"] == "Wikimedia Commons"
     current = json.loads((rig.layout.data / "state" / "current.json").read_text())
     work = next(work for work in CATALOG if "commons:" + str(work.page_id) == current["id"])
+    if colour == "color_blue":
+        assert matches_colour(work, colour)
+        expected = {str(w.page_id) for w in CATALOG if matches_colour(w, colour)}
+        assert all(set(query["pageids"].split("|")) <= expected for query in site.queries)
     assert captions[0]["artist"] == work.artist
     assert captions[0]["title"] == work.title
     with Image.open(io.BytesIO(rig.tv.payloads[-1])) as image:
@@ -432,6 +471,53 @@ def test_commons_landscape_fallback_preserves_edges_and_publishes_caption(rig: R
         assert image.getpixel((0, 1080)) == (0, 0, 0)
         assert image.getpixel((3839, 1080)) == (0, 0, 0)
         assert image.getpixel((1920, 1080)) != (0, 0, 0)
+    assert not list((rig.layout.tmp / "frame-gallery").iterdir())
+
+
+def test_empty_colour_keeps_previous_preview_caption_history_and_tv(
+    rig: Rig, monkeypatch: pytest.MonkeyPatch
+) -> None:
+    site = CommonsSite(records={work.page_id: commons_record(work) for work in CATALOG})
+    helper_writes: list[bytes | None] = []
+
+    def route(request: WireRequest) -> FakeResponse:
+        if request.host == "supervisor":
+            if request.method == "GET":
+                return json_response({"state": "old caption", "attributes": {"max": 255}})
+            helper_writes.append(request.body)
+            return FakeResponse(status=200)
+        if request.host in {"upload.wikimedia.org", "thumb.wikimedia.org"}:
+            return image_response(jpeg((3840, 2160)))
+        return site(request)
+
+    rig.transport.handler = route
+    rig.options(source="wikimedia_commons", artwork_info_helper="input_text.frame_gallery_artwork")
+    assert rig.run() == 0
+    kept = [
+        rig.layout.data / "state" / "history.json",
+        rig.layout.data / "state" / "current.json",
+        rig.layout.media / "frame_gallery" / "preview" / "latest.jpg",
+    ]
+    before = {path: path.read_bytes() for path in kept}
+    tv_count, network_count, caption_count = (
+        len(rig.tv.payloads),
+        len(site.queries),
+        len(helper_writes),
+    )
+    monkeypatch.setattr(commons_colours, "COLOUR_PROFILES", {})
+    rig.options(
+        source="wikimedia_commons",
+        color="color_blue",
+        artwork_info_helper="input_text.frame_gallery_artwork",
+    )
+    assert rig.run() == 0
+    assert "outcome=no_match " in rig.summary_lines[-1]
+    assert {path: path.read_bytes() for path in kept} == before
+    assert (len(rig.tv.payloads), len(site.queries), len(helper_writes)) == (
+        tv_count,
+        network_count,
+        caption_count,
+    )
     assert not list((rig.layout.tmp / "frame-gallery").iterdir())
 
 

@@ -79,19 +79,21 @@ def test_the_files_are_what_the_script_writes() -> None:
 
 
 def test_basic_settings_are_short_and_optional_defaults_preserve_existing_behavior() -> None:
-    assert list(OPTIONS) == ["source", "landscape_only", "strict_tv_format", "fit_mode"]
-    assert list(SCHEMA)[:5] == [
+    assert list(OPTIONS) == ["source", "color", "landscape_only", "strict_tv_format", "fit_mode"]
+    assert list(SCHEMA)[:6] == [
         "tv_host",
         "source",
+        "color",
         "landscape_only",
         "strict_tv_format",
         "fit_mode",
     ]
-    for option in ("department", "style", "color", "background_color"):
+    assert OPTIONS["color"] == "any"
+    for option in ("department", "style", "background_color"):
         assert option not in OPTIONS
         assert SCHEMA[option].endswith("?")
     assert _parse(**OPTIONS) == _parse(
-        **OPTIONS, department="any", style="any", color="any", background_color="#000000"
+        **OPTIONS, department="any", style="any", background_color="#000000"
     )
 
 
@@ -212,14 +214,34 @@ def test_commons_is_first_without_removing_or_renaming_existing_choices() -> Non
 )
 def test_the_filter_choices_are_the_vocabulary(option: str, field: FilterField) -> None:
     choices = _choices(SCHEMA[option])
-    assert choices == ["any", *(entry.key for entry in BUILTIN_VOCABULARY.entries_for(field))]
+    entries = BUILTIN_VOCABULARY.entries_for(field)
+    assert choices == [
+        "any",
+        *(entry.label if field is FilterField.COLOR else entry.key for entry in entries),
+    ]
     for choice in choices:
         _parse(**{option: choice})
 
 
-def test_the_colour_offers_only_any() -> None:
-    """Q-25, option (a): no source supports colour in the first beta."""
-    assert _choices(SCHEMA["color"]) == ["any"]
+def test_the_colour_offers_one_family_and_preserves_the_unfiltered_default() -> None:
+    """D-213: one simple colour field; existing missing/null values remain any."""
+    assert _choices(SCHEMA["color"]) == [
+        "any",
+        "Red",
+        "Orange",
+        "Yellow",
+        "Green",
+        "Blue",
+        "Purple",
+        "Pink",
+        "Brown",
+        "Beige",
+        "Gray",
+        "Black",
+        "White",
+    ]
+    assert _parse(color=None) == _parse(color="any") == _parse()
+    assert _parse(color="Blue") == _parse(color="Blau") == _parse(color="color_blue")
 
 
 def test_every_listed_choice_is_accepted_by_the_app() -> None:
@@ -284,7 +306,10 @@ def test_the_filter_texts_name_the_sources_they_apply_to() -> None:
     assert "Art Institute of Chicago and your own images do not support" in department
     assert "both museums" in TEXTS["style"]["name"]
     assert "not to your own images" in TEXTS["style"]["description"]
-    assert "No source supports a colour filter yet" in TEXTS["color"]["description"]
+    colour = TEXTS["color"]["description"]
+    assert "For Commons" in colour
+    assert "Other sources do not apply" in colour
+    assert "another colour is never used as a fallback" in colour
 
 
 def test_the_texts_never_name_the_users_tv_address() -> None:

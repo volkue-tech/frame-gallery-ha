@@ -140,7 +140,30 @@ These are product-level acceptance criteria. Unit and integration test details s
 - [ ] Complete native card/helper instructions need no HACS/SSH/configuration.yaml; the last helper state restores after HA restart with no Initial value (live test required).
 - [ ] New versioned native ARM/Intel images, source/signature gates and an approved Green upgrade/card test pass before the feature is advertised as released.
 
+## J. Commons colour and 1000-work update (draft, D-212/D-213)
+
+- [ ] All 400 baseline identities/pins remain; 600 new distinct artworks have
+  recorded rights, full-reproduction, visual and duplicate decisions, not just
+  eligible search dimensions. Source width/ratio/JPEG limits stay unchanged.
+- [ ] All 1000 works have source-bound profiles with full area distributions,
+  top <=3 distinct families, no invented monochrome colours and retained palette.
+- [ ] Single colour defaults to any, including older missing/null options.
+  Every offered English/German alias resolves correctly; unknown/multiple values
+  are invalid. Other sources visibly ignore unsupported colour wishes.
+- [ ] Commons filters before metadata, with exact source pins; missing/stale
+  profiles cannot match. No extra image analysis/downloads occur on Green.
+- [ ] Tests cover all families, stale sources, empty matches, sent/upload-ledger/
+  quarantine exclusions, metadata failures and shape fallback without colour
+  relaxation. No-match preserves TV/preview/caption/history and finishes bounded.
+- [ ] Research preview and full unchanged quality gates pass; no private artwork
+  bytes are bundled. Native/publication and live installation/testing gates stay
+  separate and must pass before advertising the update as released.
+
 ## Amendment log
+
+- **2026-10-09:** append draft section J for the approved local colour/1000-work
+  update. Historical first-beta colour limitations below remain dated history;
+  existing A–I position-based acceptance IDs do not change.
 
 - **2026-10-04:** append section I for the user-approved optional attribution
   feature. Existing A–H position-based acceptance IDs stay unchanged.

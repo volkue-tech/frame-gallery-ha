@@ -19,6 +19,7 @@ from __future__ import annotations
 from collections.abc import Callable, Iterator
 from dataclasses import dataclass, field
 from pathlib import Path
+from types import MappingProxyType
 
 import pytest
 
@@ -31,6 +32,7 @@ from frame_gallery.domain import SourceKey
 from frame_gallery.isolation.in_process import default_executor
 from frame_gallery.net.gateway import Gateway
 from frame_gallery.net.policy import HostPolicy, validate_url
+from frame_gallery.providers import commons_colours
 from frame_gallery.providers.aic import AicProvider, aic_policy
 from frame_gallery.providers.cache import MemoryMetadataCache
 from frame_gallery.providers.cma import CmaProvider, cma_policy
@@ -63,7 +65,7 @@ FILTER_KEYS = {
     FilterDimension.DEPARTMENT: "cma_prints",
     FilterDimension.STYLE: "style_any_documented_one",
     FilterDimension.PERIOD: "period_1800_1899",
-    FilterDimension.COLOR: "color_any_documented_one",
+    FilterDimension.COLOR: "color_blue",
 }
 
 
@@ -241,8 +243,23 @@ def test_candidates_are_lazy(subject: Subject) -> None:
 @pytest.mark.parametrize("name", list(FACTORIES))
 @pytest.mark.parametrize("dimension", list(FilterDimension))
 def test_the_adapter_agrees_with_the_capability_matrix(
-    name: str, dimension: FilterDimension, tmp_path: Path
+    name: str, dimension: FilterDimension, tmp_path: Path, monkeypatch: pytest.MonkeyPatch
 ) -> None:
+    # Synthetic catalogue records need synthetic, source-pinned observations;
+    # the real colour index deliberately knows nothing about these fixture IDs.
+    monkeypatch.setattr(
+        commons_colours,
+        "COLOUR_PROFILES",
+        MappingProxyType(
+            {
+                work.page_id: (
+                    work.sha1,
+                    frozenset({"color_blue" if index < 3 else "color_yellow"}),
+                )
+                for index, work in enumerate(TEST_CATALOG)
+            }
+        ),
+    )
     base = FACTORIES[name](tmp_path / "base")
     other = FACTORIES[name](tmp_path / "filtered")
     unfiltered = base.run(limit=100)

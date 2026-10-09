@@ -13,8 +13,8 @@ configuration:
     name: 'Period (both museums)'
     description: 'Only works created in this period: before 1400, 1400 to 1599, 1600 to 1799, 1800 to 1899, or 1900 and later; any means no filter. It applies to both museums, not to your own images. Art styles are not offered yet. Wikimedia Commons does not support a period filter either.'
   color:
-    name: 'Colour (not available)'
-    description: 'No source supports a colour filter yet. Leave any; retained for compatibility only.'
+    name: 'Colour wish (Commons)'
+    description: 'any means all colours. For Commons, choose one colour family: it must occupy a noticeable part of the artwork (about 5 %), not necessarily the largest. Warm ochre/gold can match yellow. Other sources do not apply this wish and report it in the log. No match keeps the current artwork; another colour is never used as a fallback.'
   landscape_only:
     name: 'Landscape only'
     description: 'Only choose artworks that are wider than they are tall.'

@@ -1,5 +1,28 @@
 # Product specification
 
+## Draft Commons colour update (2026-10-09, D-212/D-213)
+
+Local next-update scope: 1000 usable Commons works in total, preserving the
+baseline 400 and requiring 600 additional distinct eligible full artworks.
+Discovery records are not accepted works. Width >=3000, JPEG, <=2.5% relative
+16:9 deviation, conservative rights, visual and artwork-duplicate checks remain.
+
+Commons alone supports one colour wish. Default `any` means all colours. Twelve
+project-defined colour families are measured offline from the unpadded preview,
+currently with a provisional meaningful-area threshold of 5%. A matching colour
+need not dominate the artwork. Collect up to three distinct meaningful families
+with shares and representatives, plus the complete distribution and palette,
+bound to exact source/thumbnail hashes and method version for later combinations.
+The first UI has no multiple-colour choice or extra mandatory dashboard helper.
+
+Prefilter the pinned catalogue before network requests, without more Green
+downloads or decoding. Missing/stale colour evidence is not a match. History,
+upload ledger, quarantine and all request/time/cleanup bounds stay in force.
+16:9 fallback may relax shape, never the colour wish. An empty/uncertain result
+ends cleanly without replacing the TV image, preview or caption. Unsupported
+museum/local colour wishes remain visibly reported. Published b5 is unchanged;
+new native images, publication and live testing require separate approvals.
+
 ## Commons catalogue expansion (2026-10-06, D-211; next release)
 
 Prepare 400 distinct near-widescreen works in total: all 166 released b4 pins

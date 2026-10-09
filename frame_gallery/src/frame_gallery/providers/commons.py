@@ -18,6 +18,7 @@ from frame_gallery.net.gateway import ProviderChannel
 from frame_gallery.net.identity import commons_identity
 from frame_gallery.net.policy import HostPolicy, PolicyViolation, https_url, validate_url
 from frame_gallery.providers.commons_catalog import CATALOG, CuratedWork
+from frame_gallery.providers.commons_colours import matches_colour
 from frame_gallery.providers.contract import (
     Attribution,
     Candidate,
@@ -76,6 +77,10 @@ class CommonsProvider:
             raise ValueError("the filters belong to another source")
         self._refs.clear()
         order = list(self._catalog)
+        if filters.color is not None:
+            # Offline, pin-bound metadata before shuffle or network: shape
+            # fallback can never bring another colour back into this sequence.
+            order = [work for work in order if matches_colour(work, filters.color)]
         ctx.random.shuffle(order)
         requests = 0
         for offset in range(0, len(order), BATCH_SIZE):

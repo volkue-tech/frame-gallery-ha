@@ -291,7 +291,7 @@ def _period(key: str, label: str, *aliases: str) -> VocabularyEntry:
 
 
 BUILTIN_VOCABULARY: Final = Vocabulary(
-    version="1",
+    version="2",
     entries=(
         _cleveland("cma_american_painting_sculpture", "American Painting and Sculpture"),
         _cleveland("cma_european_painting_sculpture", "European Painting and Sculpture"),
@@ -312,16 +312,31 @@ BUILTIN_VOCABULARY: Final = Vocabulary(
         _period("period_1600_1799", "1600 to 1799", "1600-1799", "17th and 18th centuries"),
         _period("period_1800_1899", "1800 to 1899", "1800-1899", "19th century"),
         _period("period_1900_and_later", "1900 and later", "since 1900", "20th century and later"),
+        VocabularyEntry("color_red", "Red", FilterDimension.COLOR, aliases=("Rot",)),
+        VocabularyEntry("color_orange", "Orange", FilterDimension.COLOR),
+        VocabularyEntry("color_yellow", "Yellow", FilterDimension.COLOR, aliases=("Gelb",)),
+        VocabularyEntry("color_green", "Green", FilterDimension.COLOR, aliases=("Grün",)),
+        VocabularyEntry("color_blue", "Blue", FilterDimension.COLOR, aliases=("Blau",)),
+        VocabularyEntry(
+            "color_purple", "Purple", FilterDimension.COLOR, aliases=("Violet", "Violett", "Lila")
+        ),
+        VocabularyEntry("color_pink", "Pink", FilterDimension.COLOR, aliases=("Rosa",)),
+        VocabularyEntry("color_brown", "Brown", FilterDimension.COLOR, aliases=("Braun",)),
+        VocabularyEntry("color_beige", "Beige", FilterDimension.COLOR),
+        VocabularyEntry("color_gray", "Gray", FilterDimension.COLOR, aliases=("Grey", "Grau")),
+        VocabularyEntry("color_black", "Black", FilterDimension.COLOR, aliases=("Schwarz",)),
+        VocabularyEntry("color_white", "White", FilterDimension.COLOR, aliases=("Weiß",)),
     ),
 )
-"""The shipped vocabulary, version 1 (Q-14, D-152), built only from values the
-official documentation names (D-146):
+"""The draft vocabulary, version 2 (Q-14, D-152, D-213), combining documented
+museum values (D-146) with project-defined Commons colour families:
 
 - the curated Cleveland departments, whose documented values the Cleveland
   adapter sends (``providers.cma.DEPARTMENTS``);
 - five project-defined periods of the earliest creation year, valid for both
   museums (``providers.periods.PERIOD_RANGES``).
 
-There are no Art Institute departments, no styles, and no colours: their
-values are undocumented (Q-25). The mapping is documented in
+There are no Art Institute departments or styles: their values are undocumented
+(Q-25). Version 2 adds project-defined offline Commons colour groups (D-213),
+not undocumented museum colour values. The mapping is documented in
 ``VOCABULARY.md``; tests keep the two identical."""

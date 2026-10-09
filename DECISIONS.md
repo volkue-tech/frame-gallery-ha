@@ -1,5 +1,120 @@
 # Decision log
 
+## Commons colour research and 1000-work scope (2026-10-09)
+
+### D-213 — draft single-colour Commons prefilter and minimal configuration
+
+Status: **accepted local implementation scope** under the user's current
+autonomous update request. The research palette/threshold remains provisional;
+native/release/live gates are not granted. Implement against the unchanged
+400-work baseline while additional-work curation proceeds separately.
+
+- Offer twelve `color_` vocabulary keys with English/German aliases; keep every
+  existing key, helper and explicit source setting. Version the vocabulary to 2.
+  Only Commons gains COLOR capability; museum/local colour wishes remain visibly
+  ignored, not secretly imposed or fetched through another provider.
+- Promote the existing optional colour option into one basic field immediately
+  after source, default `any` (all colours). Do not add percentage, multi-colour,
+  HEX or extra helper fields. Older absent colour values remain `any`.
+  Native list values display readable English names (e.g. `Blue`), not internal
+  `color_blue` keys; the vocabulary normalizes labels/aliases to the same key.
+- Ship only a small generated immutable ID-to-(upload-pin, search-family) map.
+  Full top-three/distribution/palette/provenance evidence stays in research, not
+  a thousand-JPEG runtime cache. The classifier does not run on Green.
+- Before shuffle or the first metadata request, restrict candidates to the
+  requested family and an exact matching upload pin. Missing profiles and stale
+  pins never become colour matches. Unfiltered selection keeps previous behaviour.
+- Preserve current metadata request caps, rights/hash rechecks, history/ledger/
+  quarantine, deadlines, shape-only fallback and cleanup. Empty colour results
+  must not send another colour or mutate TV/preview/caption/history.
+- Maintain current count claims (400) until 600 additions have actual full-work,
+  provenance and duplicate decisions. This draft is not advertised as released.
+
+### D-212 — locally prepared, source-bound colour profiles before UI implementation
+
+Status: **accepted local research/implementation scope** by the user's request;
+the pilot algorithm and thresholds remain **provisional**, not release-approved.
+Publication, native release builds, Green changes and TV tests require their
+separate approvals. No credentials are needed for the public research.
+
+- Preserve all 400 baseline IDs, titles, artists and upload pins. Target 600
+  additional distinct eligible artworks without relaxing D-211's requirements.
+- Prepare colour metadata on the Mac, not by extra downloads/decoding on Green.
+  Start with 48 baseline works: initial modern works plus a deterministic spread
+  of the catalogue. Research-only tooling is outside the shipped app package.
+- Reuse the existing guarded Commons HTTPS path, five imageinfo records per
+  request, existing pacing/TLS/host/address rules and PD/CC0 checks. This research
+  pass has its own explicit finite budget; it does not increase runtime budgets.
+  Request a 512px JPEG; accept only independently decoded <=1024px axes and a
+  stricter 2 MiB research sink, never the original-file URL. Save private source
+  evidence/thumbnails below ignored build/, not as distributed artwork assets.
+- Decode in a fresh child with no inherited credentials, a 15s parent timeout,
+  10s CPU limit and 512 MiB address-space limit on Linux. No Linux-style memory
+  enforcement is claimed on the Mac. Refuse other formats and ambiguous colour
+  spaces; honour EXIF and ICC/sRGB. Do not crop, trim composition edges or add
+  TV padding. Record actual versus API-reported thumbnail dimensions separately:
+  the first observed JPEG was 960x528 despite a 512px request.
+- Provisional deterministic method: <=256px analysis sample, 128 median-cut
+  palette entries without dithering, HSV/lightness family classification across
+  twelve named groups. Store all palette counts and group distributions, up to
+  three distinct dominant groups, meaningful search groups and representatives.
+  The provisional meaningful-area threshold is 5%; neither it nor the names
+  are final before visual calibration. Never invent three colours for a
+  monochrome work or collapse future combination data to a single label.
+- Bind every profile to original Commons upload SHA1, thumbnail SHA256, actual
+  dimensions, rights observation, timestamp, method version and Pillow version.
+  Unchanged pins remain required when this metadata is later used at runtime.
+- Single-colour UI only, default any; future combination UI is not in scope.
+  Any later colour-prefilter must preserve exclusions, shape-only fallback
+  within the requested colour and clean no-match rather than colour relaxation.
+
+Official Imageinfo and Pillow documentation was rechecked on 2026-10-09.
+This is a research prototype, not an amendment claiming the released adapter
+already supports colour. Released b5 capabilities remain unchanged; D-213 adds
+colour only in the local next-update draft.
+
+Observed local milestone: 48 pilot thumbnails visually inspected, then all 400
+baseline profiles prepared using provisional `commons-colours-pilot-v2`.
+Dark saturated blue is no longer treated as black; ochre is distinguished from
+orange/brown. Separate dominant and chromatic top-three groups preserve neutral
+areas and colourful accents. Full distributions retain minor/non-search colours.
+All source pins and thumbnail hashes pass the audit; 64,316,428 thumbnail bytes,
+maximum actual axis 960px. Metadata-only profiles/audit are under research/;
+private JPEGs/contact sheets and preview remain under ignored build/.
+Thirteen offline research tests pass; the unchanged full production gate passed
+outside the Mac sandbox after its group/setgid tests failed inside the sandbox.
+The private preview's 400-card count and eleven violet matches were browser-tested.
+This initial profile-only milestone preceded D-213's local colour draft; no new
+accepted artwork or public colour capability is claimed.
+
+Discovery candidates remain explicitly unreviewed. A broad query generated many
+irrelevant photos, so documented Artwork/insource-oil filters were added without
+discarding the original evidence. Additional-source checks use five imageinfo
+records plus current revision content per request, private source hashes and
+direct rights-basis declarations; commented/nowiki examples do not count.
+PD-Art alone is not treated as a US rights basis. Automatic evidence screening
+is not curator acceptance or qualified legal clearance. Ambiguous declarations
+remain deferred for manual review. The documented multi-page revisions query
+omits rvlimit; the initial parameter refusal is retained, not silently ignored.
+
+Next local milestone: single-colour draft production gates pass (5,020 tests,
+eleven platform skips, 100% line/branch coverage, strict Mac/Linux mypy).
+Static/default and German helper colour choices deliver distinct matching works
+through the real wiring with synthetic network/TV. Shape fallback preserves the
+colour; an empty match preserves previous TV/preview/caption/history and cleans
+scratch. Full baseline metadata is in frame_gallery/research for host/container
+test consistency; production still copies only the compact 64,385-byte index,
+not full palettes or JPEGs. No native/release/live gate is represented by these tests.
+
+Expansion evidence checkpoint: 2,000 metadata candidates, 614 automatically
+eligible records, 609 private analysed previews and five local decoder/shape
+deferrals. 299 previews were visually screened; 81 remain deferred. Fifty
+fingerprint prompts across candidate/baseline pairs require manual artwork
+identity checks. There are **zero** accepted additions; the runtime catalogue
+still has exactly 400 entries. Raw source revisions, thumbnail hashes, prior
+inspected sheets and all decisions remain private and resumable, not overwritten
+by later preview batches. Further curation and full release scope remain open.
+
 ## 400-work Commons and first-user UX scope (2026-10-06)
 
 ### D-211 — preserve research, target 400 usable works, keep setup minimal
