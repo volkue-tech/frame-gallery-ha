@@ -106,14 +106,31 @@ scratch. Full baseline metadata is in frame_gallery/research for host/container
 test consistency; production still copies only the compact 64,385-byte index,
 not full palettes or JPEGs. No native/release/live gate is represented by these tests.
 
-Expansion evidence checkpoint: 2,000 metadata candidates, 614 automatically
-eligible records, 609 private analysed previews and five local decoder/shape
-deferrals. 299 previews were visually screened; 81 remain deferred. Fifty
-fingerprint prompts across candidate/baseline pairs require manual artwork
-identity checks. There are **zero** accepted additions; the runtime catalogue
-still has exactly 400 entries. Raw source revisions, thumbnail hashes, prior
-inspected sheets and all decisions remain private and resumable, not overwritten
-by later preview batches. Further curation and full release scope remain open.
+Expansion research milestone: 4,000 metadata candidates, 1,067 automatically
+eligible records and all first 667 previews actually screened; 371 first-screen
+deferrals. The second review of sixteen contact sheets plus source/physical
+proportion and artwork-identity checks has yielded **127 locally accepted
+additions**. The 400 baseline upload pins were rechecked and 347 artwork QIDs
+retained; two selected candidates were deferred as already represented. Curator
+receipts and complete provisional colour data are metadata-only under
+frame_gallery/research. The private preview has 527 reviewed works; the runtime
+catalogue still has exactly 400. 473 additions and the full release scope remain.
+
+Source-supported PD-Art-two-auto (explicit old deathyear), PD-old-100-1923 and
+PD-old-70-expired aliases now count as private evidence, not automatic curator
+acceptance or worldwide legal clearance. Bare PD-Art is still insufficient.
+Original physical dimensions that contradict the reproduction and rotated
+portrait previews remain deferred. Missing physical measures are explicitly
+recorded, never invented; complete-image visual review remains required.
+
+Individual thumbnail/network failures are separately retained and not blindly
+retried or counted as permanent artwork rejection. New search/thumbnail tooling
+saves a refusal receipt before ending that finite pass. Two older observed
+failures were transcribed with their evidence limitations, including one missing
+API error detail. Raw source revisions, thumbnail hashes, prior inspected sheets
+and actual decisions remain resumable below ignored build/, not overwritten by
+later preview batches. Research JPEGs are never shipped. Full local production
+gates still pass; native/release/live gates are not implied.
 
 ## 400-work Commons and first-user UX scope (2026-10-06)
 

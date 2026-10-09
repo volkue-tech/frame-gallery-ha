@@ -219,23 +219,39 @@ def checkpoint() -> None:
     review = json.loads(review_path.read_text())
     previews_path = OUTPUT / "profiles.json"
     previews = json.loads(previews_path.read_text())
-    screened_path = OUTPUT / "visual-screen-001.json"
-    screened = json.loads(screened_path.read_text())
+    screened = {
+        "records": [
+            row
+            for path in sorted(OUTPUT.glob("visual-screen-*.json"))
+            for row in json.loads(path.read_text())["records"]
+        ]
+    }
     prompt_path = OUTPUT / "duplicate-prompts.json"
     prompts = json.loads(prompt_path.read_text())
+    curated_path = (
+        ROOT / "frame_gallery/research/commons-expansion-curation-2026-10-09.json"
+    )
+    curated = json.loads(curated_path.read_text()) if curated_path.exists() else {}
+    accepted_count = len(curated.get("included", []))
     snapshot = dict(
         schema=1,
         recorded_at=datetime.now(UTC).isoformat(),
-        status="incomplete private curation; zero new catalogue approvals",
+        status="partial local curation; runtime remains 400; NOT release-approved",
         baseline_count=400,
         target_total=1000,
-        accepted_additions=0,
+        accepted_additions=accepted_count,
+        local_reviewed_total=400 + accepted_count,
+        remaining_additions=600 - accepted_count,
+        accepted_receipt_sha256=hashlib.sha256(curated_path.read_bytes()).hexdigest()
+        if curated_path.exists()
+        else None,
         metadata_checked=len(review["records"]),
         metadata_eligible=sum(not work["reasons"] for work in review["records"]),
         metadata_receipt_sha256=hashlib.sha256(review_path.read_bytes()).hexdigest(),
         preview_count=len(previews["profiles"]),
         preview_receipt_sha256=hashlib.sha256(previews_path.read_bytes()).hexdigest(),
         locally_refused=previews["refused"],
+        network_deferred=previews.get("network_deferred", []),
         visually_screened_count=len(screened["records"]),
         visual_deferrals=sum(
             row["screen"] == "deferred" for row in screened["records"]
@@ -245,7 +261,8 @@ def checkpoint() -> None:
         required_next_checks=[
             "remaining visual review and distinct physical artwork identities",
             "source/proportion/provenance and rights-basis decisions",
-            "600 actual approvals plus complete source-bound colour profiles",
+            f"{600 - accepted_count} additional actual approvals plus complete "
+            "source-bound colour profiles",
             "full catalogue/preview/documentation and native release gates",
         ],
         private_cache=(

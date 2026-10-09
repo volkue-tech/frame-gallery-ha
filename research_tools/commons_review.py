@@ -90,12 +90,12 @@ def plain(raw: object) -> str:
 
 
 def source_markup(wikitext: str) -> str:
-    without_comments = re.sub(r"<!--.*?-->", "", wikitext, flags=re.S)
+    without_comments = re.sub(r"<!--.*?-->", "", wikitext, flags=re.DOTALL)
     return re.sub(
         r"<(nowiki|pre|syntaxhighlight)\b[^>]*>.*?</\1\s*>",
         "",
         without_comments,
-        flags=re.S | re.I,
+        flags=re.DOTALL | re.IGNORECASE,
     )
 
 
@@ -113,17 +113,34 @@ def us_basis(names: set[str], wikitext: str = "") -> list[str]:
     # basis. Record it distinctly; never treat PD-Art alone as US clearance.
     wrappers = re.findall(
         r"\{\{\s*PD-Art(?:-two)?\s*\|\s*(?:1\s*=\s*)?"
-        r"(PD-old-auto-expired|PD-old-100-expired|PD-US-expired)\s*[|}]",
+        r"(PD-old-auto-expired|PD-old-100-expired|PD-old-100-1923|PD-old-70-expired|PD-US-expired)\s*[|}]",
         source_markup(wikitext),
-        flags=re.I,
+        flags=re.IGNORECASE,
+    )
+    # Verified official alias: PD-old-100-1923 redirects to PD-old-100-expired.
+    # PD-Art-two-auto documents a US-expired basis plus an explicit deathyear.
+    # Never infer this from a bare PD-Art or a photographic CC0 declaration.
+    auto = re.findall(
+        r"\{\{\s*PD-Art-two-auto\s*\|\s*(?:deathyear\s*=\s*|1\s*=\s*)?"
+        r"([0-9]{4})\s*[|}]",
+        source_markup(wikitext),
+        flags=re.IGNORECASE,
+    )
+    aliases = (
+        {"pd-art-two-auto"}
+        if any(1000 <= int(year) <= datetime.now(UTC).year - 71 for year in auto)
+        else set()
     )
     return sorted(
         name
-        for name in names | {w.lower() for w in wrappers}
+        for name in names | {w.lower() for w in wrappers} | aliases
         if name
         in {
             "pd-old-auto-expired",
             "pd-old-100-expired",
+            "pd-old-100-1923",
+            "pd-old-70-expired",
+            "pd-art-two-auto",
             "pd-us-expired",
             "pd-us",
             "pd-us-no notice",
@@ -131,6 +148,7 @@ def us_basis(names: set[str], wikitext: str = "") -> list[str]:
             "cc-zero",
             "cc0",
         }
+        and (name != "pd-art-two-auto" or name in aliases)
     )
 
 
@@ -231,6 +249,7 @@ def metadata(limit: int) -> None:
     # Specific Artwork declarations first, broad search as separately retained
     # fallback evidence. No automatic promotion based on these search labels.
     for name in (
+        "discovery-targeted.json",
         "discovery-artists.json",
         "discovery-paintings.json",
         "discovery-artwork.json",
@@ -309,6 +328,7 @@ def metadata(limit: int) -> None:
 def thumbnails(limit: int) -> None:
     from frame_gallery.net.policy import RequestKind
     from frame_gallery.providers.commons import _image_url
+    from frame_gallery.providers.contract import SourceError
 
     if not 1 <= limit <= 600:
         raise ValueError("bounded thumbnail pass")
@@ -324,7 +344,12 @@ def thumbnails(limit: int) -> None:
             refused=[],
         )
     )
-    done = {p["id"] for p in profiles["profiles"] + profiles["refused"]}
+    done = {
+        p["id"]
+        for p in profiles["profiles"]
+        + profiles["refused"]
+        + profiles.get("network_deferred", [])
+    }
     works = [w for w in report["records"] if not w["reasons"] and w["id"] not in done][
         :limit
     ]
@@ -355,7 +380,21 @@ def thumbnails(limit: int) -> None:
         sink = Sink()
         # Network refusals terminate the pass. Only a local decoder refusal is
         # recorded as a candidate deferral; it never triggers another request.
-        channel._request(url, RequestKind.IMAGE, deadline, sink)
+        try:
+            channel._request(url, RequestKind.IMAGE, deadline, sink)
+        except SourceError as error:
+            profiles.setdefault("network_deferred", []).append(
+                dict(
+                    id=work["id"],
+                    original_sha1=work["sha1"],
+                    reason="research network refusal; not permanent artwork rejection",
+                    kind=error.kind.value,
+                    observed_at=datetime.now(UTC).isoformat(),
+                    retry="no automatic retry; future separately reviewed retry only",
+                )
+            )
+            save(path, profiles)
+            raise
         image_path = OUTPUT / f"{work['id']}.jpg"
         image_path.write_bytes(sink.data)
         try:
@@ -389,14 +428,15 @@ def thumbnails(limit: int) -> None:
 
 
 def sheets() -> None:
-    from PIL import Image, ImageDraw
+    from PIL import Image, ImageDraw, ImageOps
 
     profiles = json.loads((OUTPUT / "profiles.json").read_text())["profiles"]
     for start in range(0, len(profiles), 16):
         sheet = Image.new("RGB", (1600, 1120), "#eceae5")
         draw = ImageDraw.Draw(sheet)
         for position, work in enumerate(profiles[start : start + 16]):
-            image = Image.open(OUTPUT / f"{work['id']}.jpg").convert("RGB")
+            with Image.open(OUTPUT / f"{work['id']}.jpg") as opened:
+                image = ImageOps.exif_transpose(opened).convert("RGB")
             image.thumbnail((390, 219))
             x, y = position % 4 * 400, position // 4 * 280
             sheet.paste(image, (x + (400 - image.width) // 2, y))

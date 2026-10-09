@@ -1,6 +1,6 @@
 # Project status
 
-Last updated: 2026-10-09 (400 colour profiles, local single-colour draft and expansion research)
+Last updated: 2026-10-09 (527 locally reviewed works; expansion research continues)
 
 ## Next Commons update scoped — 2026-10-09
 
@@ -22,8 +22,11 @@ blue-and-yellow matches; thresholds and labels are not release approved.
 
 Private thumbnails total 64,316,428 bytes, actual maximum axis 960px despite
 512px requests. They remain under ignored build/, never in runtime/releases.
-The local research preview at `http://127.0.0.1:8881/gallery.html` has 400 cards;
-browser tests verified all-card count and the violet filter's 11 correct matches.
+The local research preview at `http://127.0.0.1:8881/gallery.html` now contains
+the 400 baseline works plus 127 locally curated additions. New works are marked
+unpublished and can be displayed separately. The earlier 400-card/violet check
+passed; at the 513-work intermediate milestone the browser verified 49 blue
+newcomers. The published app and the runtime catalogue still contain 400 works.
 Metadata-only profiles are retained in frame_gallery/research/ and the audit
 in research/commons-colour-audit-2026-10-09.json. Thirteen
 offline research tests and research Ruff/format checks passed. Full production
@@ -40,19 +43,42 @@ no-repeat, empty/changed profiles, shape fallback without colour relaxation and
 no-match preserving preview/caption/history/TV. The draft native metadata and
 optional helper descriptions agree; public b5 has not changed.
 
+The full local gates were repeated after this curation milestone: 5,020 passed,
+eleven platform skips, strict Mac/Linux mypy and 100% line/branch coverage.
+Nineteen offline research tests and research Ruff E/F/I plus formatting checks
+pass. The 527-card browser check verified 127 newcomers and 56 blue newcomers.
+
 New-work discovery is kept separate from acceptance. The broad pass found 2,575
 dimension-eligible candidates (including irrelevant photographs); narrower
 Artwork and oil-declaration passes found 1,213 and 839 candidates respectively.
 These overlap and are NOT summed or counted as accepted works. Source revision,
-PD/CC0 metadata and US-basis evidence checks covered 2,000 distinct candidates;
-614 pass the automatic evidence screen, which is not curator/legal acceptance.
-299 private candidate previews were first-pass inspected; 81 are conservatively
-deferred (frames/details/poor reproduction/duplicates or gallery priority).
-50 fingerprint-distance prompts across the full 609-preview candidate cache
-require manual artwork-identity comparison. Five local decoder/shape deferrals
-are retained separately. Candidate JPEGs total 93,008,860 bytes; none is accepted
-or copied into the runtime. All raw receipts and research remain resumable in
-ignored build/. No new work is accepted yet.
+PD/CC0 metadata and direct rights-basis checks now cover 4,000 distinct candidates;
+1,067 pass the automatic evidence screen, which is not curator/legal acceptance.
+All first 667 private previews have actual visual-screen receipts; 371 are
+conservatively deferred. Original physical dimensions are checked where supplied;
+contradictions and EXIF-rotated portrait renditions remain unresolved, not accepted.
+The official PD-Art-two-auto, PD-old-100-1923 and PD-old-70-expired declarations
+were verified and their explicit evidence recognized without accepting bare PD-Art.
+
+All 400 baseline upload pins passed a separate artwork-identity metadata check;
+347 recorded artwork QIDs supplement title and visual-fingerprint comparisons.
+Sixteen second-view curator sheets were inspected. **127 distinct additions are
+locally accepted**, with upload/source/revision, rights declarations, physical
+evidence limits and inspected-sheet hashes retained in
+`frame_gallery/research/commons-expansion-curation-2026-10-09.json`.
+Their full provisional colour data is retained in the corresponding
+`commons-expansion-colours-2026-10-09.json`. Two selected cases were deferred after
+baseline identity matches. This is a partial research milestone, not release
+approval or worldwide copyright clearance. **473 further additions remain.**
+
+Five decoder/shape refusals and an individual thumbnail timeout are retained
+separately. One targeted search response refusal lacked detail under the older
+tool; its exact query is explicitly deferred, not silently retried. New tools
+save refusal receipts before stopping. Network-deferred works never count as
+accepted. Additional thumbnail collection is in progress; the tracked checkpoint
+records a bounded snapshot, not an assertion that every candidate was reviewed.
+Raw receipts, private JPEGs and inspection archives remain below ignored build/;
+none is copied into the runtime or release. The 400 baseline entries are unchanged.
 
 Next: finish the 600 additional-work review, profile the accepted additions,
 extend the exact runtime index, and complete catalogue/guide/native verification. The detailed

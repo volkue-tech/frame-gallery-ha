@@ -20,8 +20,15 @@ for future combinations. This update exposes only one colour selection.
   Broader visual calibration and the 600 additional works remain incomplete.*
 - [ ] Research and visually verify 600 additional distinct eligible works,
   keeping the existing width, ratio, rights and reproduction requirements.
+  *127 additions locally curated after source/proportion/identity and actual
+  second-view review; 473 remain. All first 667 candidate previews screened,
+  all 400 baseline upload pins checked and 347 artwork QIDs retained. Candidate
+  counts and temporary network deferrals are not accepted-work counts.*
 - [ ] Complete source-bound colour profiles and a reviewable preview for all
   1000 accepted works; preserve baseline IDs/pins and deferred research.
+  *The private preview contains 527 reviewed works, including the 127 unpublished
+  additions with complete provisional palettes/distributions/top groups. Runtime
+  still has 400; extend/freeze it only after 600 genuine additions are complete.*
 - [x] Implement the single Commons colour option, default any, with bounded
   selection, history compatibility and no silent colour fallback.
   *Local 400-work draft: readable names, one basic field, source-pinned offline

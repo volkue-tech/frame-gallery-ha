@@ -13,6 +13,7 @@ import hashlib
 import html
 import json
 import os
+import shutil
 import subprocess
 import sys
 from datetime import UTC, datetime
@@ -166,7 +167,9 @@ def analyse(path: Path) -> dict:
         ):
             raise ValueError("thumbnail format/dimension bound")
         original_size = list(opened.size)
+        orientation = opened.getexif().get(274, 1)
         image = ImageOps.exif_transpose(opened)
+        oriented_size = list(image.size)
         icc = image.info.get("icc_profile")
         if icc:
             if len(icc) > 256 * 1024:
@@ -207,6 +210,8 @@ def analyse(path: Path) -> dict:
         result.update(
             method=METHOD,
             dimensions=original_size,
+            oriented_dimensions=oriented_size,
+            exif_orientation=orientation,
             sample_dimensions=list(image.size),
             thumbnail_sha256=hashlib.sha256(data).hexdigest(),
             bytes=len(data),
@@ -405,8 +410,60 @@ def fetch(count: int) -> None:
 
 def gallery() -> None:
     report = json.loads((OUTPUT / "pilot.json").read_text())
+    profiles = [dict(p, gallery_kind="baseline") for p in report["profiles"]]
+    additions_path = (
+        ROOT / "frame_gallery/research/commons-expansion-curation-2026-10-09.json"
+    )
+    if additions_path.exists():
+        from research_tools.commons_expand import OUTPUT as candidate_output
+
+        additions = json.loads(additions_path.read_text())
+        if (
+            additions["baseline_sha256"]
+            != hashlib.sha256(BASELINE.read_bytes()).hexdigest()
+        ):
+            raise ValueError("preview baseline changed")
+        candidates = {
+            p["id"]: p
+            for p in json.loads((candidate_output / "profiles.json").read_text())[
+                "profiles"
+            ]
+        }
+        selected = []
+        for work in additions["included"]:
+            p = candidates[work["id"]]
+            path = candidate_output / f"{work['id']}.jpg"
+            if (
+                p["original_sha1"] != work["sha1"]
+                or p["thumbnail_sha256"] != work["thumbnail_sha256"]
+                or hashlib.sha256(path.read_bytes()).hexdigest()
+                != p["thumbnail_sha256"]
+                or p["method"] != METHOD
+            ):
+                raise ValueError("accepted preview pin/profile changed")
+            shutil.copyfile(path, OUTPUT / path.name)
+            selected.append(dict(p, gallery_kind="new"))
+        save(
+            ROOT / "frame_gallery/research/commons-expansion-colours-2026-10-09.json",
+            dict(
+                schema=1,
+                method=METHOD,
+                status="partial accepted research only; NOT release-approved",
+                curation_sha256=hashlib.sha256(additions_path.read_bytes()).hexdigest(),
+                count=len(selected),
+                profiles=selected,
+            ),
+        )
+        modern = ("klee", "vuillard", "cézanne", "simberg", "renoir")
+        selected.sort(
+            key=lambda p: (
+                not any(name in p["artist"].lower() for name in modern),
+                p["id"],
+            )
+        )
+        profiles = selected + profiles
     cards = []
-    for profile in report["profiles"]:
+    for profile in profiles:
         chips = " ".join(
             f'<span><i style="background:{colour["representative"]}"></i>'
             f"{LABELS[colour['group']]} {colour['share']:.0%}</span>"
@@ -414,11 +471,17 @@ def gallery() -> None:
         )
         cards.append(
             '<article data-colours="'
-            f'{html.escape(" ".join(profile["search_colours"]))}">'
+            f'{html.escape(" ".join(profile["search_colours"]))}" '
+            f'data-kind="{profile["gallery_kind"]}">'
             f'<img src="{profile["id"]}.jpg" loading="lazy" '
             f'alt="{html.escape(profile["title"])}"><h2>{html.escape(profile["title"])}</h2>'
             f'<p>{html.escape(profile["artist"])}</p><div class="chips">{chips}</div>'
-            "<details><summary>Alle Farbanteile</summary><p>"
+            + (
+                "<p>Neu kuratiert · noch nicht veröffentlicht</p>"
+                if profile["gallery_kind"] == "new"
+                else ""
+            )
+            + "<details><summary>Alle Farbanteile</summary><p>"
             + " · ".join(
                 f"{LABELS[c['group']]} {c['share']:.1%}"
                 for c in profile["distribution"]
@@ -443,20 +506,27 @@ def gallery() -> None:
         "height:15px;border-radius:50%;margin-right:5px}.chips{display:flex;gap:12px;flex-wrap:wrap}"
         "select{padding:10px;margin:12px 0 24px;font:inherit}"
         "a{color:light-dark(#005c92,#8ecdfa)}"
-        "[hidden]{display:none}</style><h1>Farbpilot · "
+        "[hidden]{display:none}</style><h1>Lokale Sammlung · "
         + str(len(cards))
         + " Werke</h1>"
-        "<p>Vorläufige automatische Zuordnung · vollständiges Bild, "
-        "ohne zugesetzte TV-Ränder.</p>"
+        "<p>Geprüfte Auswahl auf dem Weg zu 1000 Werken. Die veröffentlichte App "
+        "enthält weiterhin 400. Ungeprüfte Kandidaten werden hier nicht mitgezählt.</p>"
+        "<p>Vorläufige Farbanalyse · vollständiges Bild ohne zugesetzte TV-Ränder.</p>"
         '<label>Farbwunsch <select id="colour"><option value="any">Alle Farben</option>'
         + choices
-        + '</select></label><p id="count" aria-live="polite"></p><div class="grid">'
+        + '</select></label> <label>Auswahl <select id="kind">'
+        '<option value="any">Gesamte geprüfte Auswahl</option>'
+        '<option value="new">Nur Neuzugänge</option>'
+        '<option value="baseline">400 Bestandswerke</option></select></label>'
+        '<p id="count" aria-live="polite"></p><div class="grid">'
         + "".join(cards)
         + '</div><script>const s=document.getElementById("colour");'
+        'const k=document.getElementById("kind");'
         'function apply(){let n=0;for(const a of document.querySelectorAll("article")){'
-        'a.hidden=s.value!=="any"&&!a.dataset.colours.split(" ").includes(s.value);'
+        'a.hidden=(s.value!=="any"&&!a.dataset.colours.split(" ").includes(s.value))'
+        '||(k.value!=="any"&&a.dataset.kind!==k.value);'
         'if(!a.hidden)n++;}document.getElementById("count").textContent=n+" Treffer";}'
-        's.addEventListener("change",apply);apply();</script></html>'
+        's.addEventListener("change",apply);k.addEventListener("change",apply);apply();</script></html>'
     )
     (OUTPUT / "gallery.html").write_text(markup)
 

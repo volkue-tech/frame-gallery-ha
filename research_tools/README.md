@@ -2,7 +2,8 @@
 
 This tooling is outside the runtime package. No credentials, original-image
 downloads, Home Assistant access or television access are needed. It does not
-approve catalogue additions. The current released catalogue still has 400 works.
+automatically approve catalogue additions. Explicit second-view choices retain
+127 local research acceptances; the current released/runtime catalogue has 400.
 
 The project required reading and the D-212/D-213 boundaries apply. Do not weaken
 the minimum source width, near-16:9 shape, existing PD/CC0 policy, reproduction
@@ -20,6 +21,10 @@ evidence, not worldwide copyright clearance or a substitute for provenance revie
 - `build/commons-1000-research/`: separate discovery passes, raw public metadata
   receipts, saved revisions/hashes, tentative profiles, contact sheets and
   per-ID visual-screen decisions. Never count metadata eligibility as acceptance.
+- `frame_gallery/research/commons-expansion-curation-2026-10-09.json`: explicit
+  local acceptance decisions and inspected-source hashes, not release approval.
+- `frame_gallery/research/commons-expansion-colours-2026-10-09.json`: full
+  provisional colour profiles for those accepted additions, metadata only.
 
 Do not remove the ignored build directories: they are the resumable local
 research requested by the user. None belongs in the app image or artwork assets
@@ -39,6 +44,12 @@ frame_gallery/.venv/bin/python research_tools/commons_review.py thumbnails --lim
 frame_gallery/.venv/bin/python research_tools/commons_review.py sheets
 frame_gallery/.venv/bin/python -m research_tools.commons_curation fingerprints
 frame_gallery/.venv/bin/python -m unittest research_tools.test_commons_colours
+frame_gallery/.venv/bin/python -m unittest research_tools.test_commons_dossiers
+frame_gallery/.venv/bin/python -m research_tools.commons_targeted --limit 150
+frame_gallery/.venv/bin/python -m research_tools.commons_identity_review
+frame_gallery/.venv/bin/python -m research_tools.commons_dossiers
+frame_gallery/.venv/bin/python -m research_tools.commons_dossiers sheets
+frame_gallery/.venv/bin/python -m research_tools.commons_curate
 ```
 
 Each decoded JPEG is byte/header/dimension bounded and processed by a fresh
@@ -59,8 +70,10 @@ metadata dimensions. A wide file containing a cropped detail is not a wide artwo
 
 Official source notes checked on 2026-10-09: [PD-Art-two-auto](https://commons.wikimedia.org/wiki/Template:PD-Art-two-auto)
 documents its combined underlying/US basis, and [PD-old-100-1923](https://commons.wikimedia.org/wiki/Template:PD-old-100-1923)
-redirects to PD-old-100-expired. Those aliases are not yet automatically promoted
-by this research scanner. [Licensed-PD-Art](https://commons.wikimedia.org/wiki/Template:Licensed-PD-Art)
+redirects to PD-old-100-expired. The scanner now records these explicit verified
+aliases plus [PD-old-70-expired](https://commons.wikimedia.org/wiki/Template:PD-old-70-expired);
+this is evidence screening, not automatic curator acceptance.
+[Licensed-PD-Art](https://commons.wikimedia.org/wiki/Template:Licensed-PD-Art)
 separates the original work from the photographic reproduction; a reproduction's
 licence must not be mistaken for clearance of the original. Ambiguous records
 remain manual deferrals, not approvals.

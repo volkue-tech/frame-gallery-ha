@@ -82,6 +82,17 @@ class ColourTests(unittest.TestCase):
             with self.assertRaises(ValueError):
                 run_worker(path)
 
+    def test_child_records_exif_oriented_shape_separately(self):
+        with tempfile.TemporaryDirectory() as folder:
+            path = Path(folder) / "rotated.jpg"
+            exif = Image.Exif()
+            exif[274] = 6
+            Image.new("RGB", (512, 288), (0, 0, 255)).save(path, exif=exif)
+            result = run_worker(path)
+            self.assertEqual(result["dimensions"], [512, 288])
+            self.assertEqual(result["oriented_dimensions"], [288, 512])
+            self.assertEqual(result["exif_orientation"], 6)
+
     def test_palette_neutrals_are_not_discarded(self):
         result = aggregate([(70, (0, 0, 0)), (20, (255, 255, 255)), (10, (0, 0, 255))])
         self.assertEqual(
@@ -138,6 +149,16 @@ class ColourTests(unittest.TestCase):
         self.assertEqual(us_basis(template_names(text), text), ["pd-old-auto-expired"])
         commented = "<!-- {{PD-US-expired}} --><nowiki>{{PD-old-auto-expired}}</nowiki>"
         self.assertEqual(us_basis(template_names(commented), commented), [])
+
+    def test_verified_aliases_do_not_promote_bare_wrappers(self):
+        from research_tools.commons_review import template_names, us_basis
+
+        text = "{{PD-Art|PD-old-100-1923}}"
+        self.assertEqual(us_basis(template_names(text), text), ["pd-old-100-1923"])
+        text = "{{PD-Art-two-auto|deathyear=1900}}"
+        self.assertEqual(us_basis(template_names(text), text), ["pd-art-two-auto"])
+        for text in ("{{PD-Art-two-auto}}", "{{PD-Art-two-auto|deathyear=2020}}"):
+            self.assertEqual(us_basis(template_names(text), text), [])
 
     def test_candidate_evidence_never_accepts_a_work(self):
         from research_tools.commons_review import prepare

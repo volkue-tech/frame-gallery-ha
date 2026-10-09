@@ -23,13 +23,17 @@ Der Bestand ist `frame_gallery/research/commons-400-selection-2026-10-06.json`. 
 
 Der lokale App-Entwurf enthält inzwischen das einzelne Farbfeld und den geprüften Farbfilter. Der Runtime-Katalog bleibt bei 400 Werken; die veröffentlichte Beta ist unverändert. Ein Wochenendziel ist keine garantierte Fertigstellung: Rechte, Bildqualität und bestandene Prüfungen haben Vorrang vor der Zahl und dem Termin.
 
-Lokaler Zwischenstand: 48 Bestandswerke visuell im Farbpilot geprüft und das Verfahren an dunklem Blau und Ockertönen korrigiert. Alle 400 Bestandswerke besitzen nun vorläufige Farbprofile mit vollständiger Verteilung und Quellenbeleg. Die private [Farbvorschau](http://127.0.0.1:8881/gallery.html) lässt sich nach Einzelgruppen filtern. 2000 zusätzliche Kandidaten haben Quellen-/Rechtemetadaten, 614 bestehen die automatische Vorprüfung; 299 Vorschaubilder wurden gesichtet, davon 81 zurückgestellt. Das sind keine akzeptierten neuen Werke. Die [neue Farbanleitung](commons-colour-user-guide-draft.md) ist ebenfalls ein unveröffentlichter Entwurf.
+Lokaler Zwischenstand: 48 Bestandswerke visuell im Farbpilot geprüft und das Verfahren an dunklem Blau und Ockertönen korrigiert. Alle 400 Bestandswerke besitzen vorläufige Farbprofile mit vollständiger Verteilung und Quellenbeleg. Hinzu kommen **127 lokal kuratierte neue Werke**, ebenfalls mit vollständigen Farbprofilen. Die private [Farbvorschau](http://127.0.0.1:8881/gallery.html) enthält somit **527 geprüfte Werke** und lässt sich nach Farbgruppe sowie Bestand oder Neuzugängen filtern. **473 weitere Aufnahmen fehlen noch zum Ziel.** Die [neue Farbanleitung](commons-colour-user-guide-draft.md) bleibt ein unveröffentlichter Entwurf.
 
-609 zusätzliche kleine Vorschauen sind lokal gespeichert und analysiert; fünf
-weitere wurden an den Decoder-/Formgrenzen zurückgestellt. 50 Hinweise auf
-mögliche alternative Aufnahmen müssen manuell abgeglichen werden. Der Prüfstand
-ist in `research/commons-expansion-checkpoint-2026-10-09.json` gesichert; keine
-dieser Zahlen ersetzt 600 echte Aufnahmeentscheidungen.
+4000 zusätzliche Kandidaten haben Quellen-/Rechtemetadaten; 1067 bestehen die
+automatische Vorprüfung. Die ersten 667 Vorschauen wurden tatsächlich gesichtet,
+371 dabei zurückgestellt. Die zweite Sichtung und Quellen-/Maßprüfung hat die
+127 Aufnahmeentscheidungen ergeben; zwei weitere Auswahlen waren bereits im
+Bestand vertreten. 347 Werk-Identitäten aus den Metadaten des Bestands ergänzen
+die Titel- und Bildvergleiche. Weitere kleine Vorschauen werden gesammelt.
+Einzelne Netzwerk-Ausfälle bleiben separat zurückgestellt und zählen nicht mit.
+Prüfstand und Aufnahmebelege sind lokal gesichert; keine Kandidatenzahl ersetzt
+600 echte Aufnahmeentscheidungen oder die spätere Releaseprüfung.
 
 ## Umfang dieses Updates
 
