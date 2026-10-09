@@ -106,25 +106,31 @@ scratch. Full baseline metadata is in frame_gallery/research for host/container
 test consistency; production still copies only the compact 64,385-byte index,
 not full palettes or JPEGs. No native/release/live gate is represented by these tests.
 
-Expansion research milestone: 5,000 metadata candidates, 1,280 automatically
-eligible records and the first 1,268 previews actually screened; 861 first-screen
-deferrals. The second review of 28 contact sheets plus stricter source/physical
-proportion and artwork-identity checks has yielded **144 retained local
+Expansion research milestone: 7,000 metadata candidates, 2,747 automatically
+eligible records and the first 1,783 previews actually screened; 1,243 first-screen
+deferrals. The second review of 39 contact sheets plus stricter source/physical
+proportion and artwork-identity checks has yielded **230 retained local
 additions**. The earlier provisional 127 are superseded: plain dimensions in
 museum/GAP receipts and descriptions expose additional possible crops; neither
 image/sheet scopes nor out-of-band physical ratios are silently ignored. Separate
-Art Photo attribution/share-alike declarations stay deferred. Forty-two choices
+Art Photo attribution/share-alike declarations stay deferred. Forty-three choices
 remain deferred. The 400 baseline upload pins were rechecked and 347 artwork QIDs
 retained. Curator
 receipts and complete provisional colour data are metadata-only under
-frame_gallery/research. The private preview has 544 works; the runtime
-catalogue still has exactly 400. 456 additions and the full release scope remain.
+frame_gallery/research. The private preview has 630 works; the runtime
+catalogue still has exactly 400. 370 additions and the full release scope remain.
 
 The private evidence parser now recognizes explicitly labelled Dutch `h/b`
 museum measurements with repeated/mixed units. All measurement scopes remain
 visible; out-of-band originals are deferred. A Rijksmuseum upload credit is
 separated from the maker explicitly recorded in its source description. If
 that statement is absent, the artist is unidentified, not guessed from a category.
+The explicit `core:format` w/h dimensions are checked too. A contradictory
+previous choice was deferred and 55 different inspected works added; no existing
+runtime entry or upload pin was changed. Official alias revision receipts are in
+research/commons-template-evidence-2026-10-09.json. The narrower discovery query
+remains finite and records network failures without automatic re-query or false
+exhaustion; it retained 2,390 overlapping candidates, not additional acceptances.
 
 Source-supported PD-Art-two-auto (explicit old deathyear), PD-old-100-1923 and
 PD-old-70-expired aliases now count as private evidence, not automatic curator

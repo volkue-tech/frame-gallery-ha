@@ -3,7 +3,7 @@
 This tooling is outside the runtime package. No credentials, original-image
 downloads, Home Assistant access or television access are needed. It does not
 automatically approve catalogue additions. Explicit second-view choices retain
-144 retained local research acceptances; the current released/runtime catalogue
+230 retained local research acceptances; the current released/runtime catalogue
 has 400. The earlier provisional 127 were reduced after plain source measurements
 exposed additional possible crops; subsequent actual visual reviews added other
 works. Use the checkpoint/curation manifest for the current count, not this history.
@@ -50,6 +50,8 @@ frame_gallery/.venv/bin/python -m unittest research_tools.test_commons_colours
 frame_gallery/.venv/bin/python -m unittest research_tools.test_commons_dossiers
 frame_gallery/.venv/bin/python -m research_tools.commons_targeted --limit 150
 frame_gallery/.venv/bin/python -m research_tools.commons_expand --pdart
+frame_gallery/.venv/bin/python -m research_tools.commons_expand --precise
+frame_gallery/.venv/bin/python -m research_tools.commons_expand --artwork-precise
 frame_gallery/.venv/bin/python -m research_tools.commons_identity_review
 frame_gallery/.venv/bin/python -m research_tools.commons_dossiers
 frame_gallery/.venv/bin/python -m research_tools.commons_dossiers sheets
@@ -78,6 +80,16 @@ attribution/share-alike declarations are automatically approved.
 Explicit Dutch `h/b` measurements retain their axes and scopes, even when units
 repeat or differ. Institution upload credits are not used as artist attribution:
 the explicit Rijksmuseum maker field is retained, or the artist is unidentified.
+Explicit `core:format` width/height pairs are checked too; decimal commas and
+mixed units must not hide conflicting original dimensions.
+
+For newly inspected ranges, `commons_resume batch --start N --stop M
+--plausible 'positions'` records the actual first viewing, bound to the saved
+sheet and JPEG hashes. Never call it on an unseen range or use it as a classifier.
+Previously recorded ranges cannot be overwritten. A checkpoint retains the exact
+review/profile bytes in hash-named private files, so later discovery passes do
+not invalidate the checkpoint's evidence hashes. Run fingerprints only after
+the thumbnail writer finishes, because both update `profiles.json`.
 
 Official source notes checked on 2026-10-09: [PD-Art-two-auto](https://commons.wikimedia.org/wiki/Template:PD-Art-two-auto)
 documents its combined underlying/US basis, and [PD-old-100-1923](https://commons.wikimedia.org/wiki/Template:PD-old-100-1923)
@@ -88,6 +100,25 @@ this is evidence screening, not automatic curator acceptance.
 separates the original work from the photographic reproduction; a reproduction's
 licence must not be mistaken for clearance of the original. Ambiguous records
 remain manual deferrals, not approvals.
+
+The public revision API also verified PD-old-auto-1923, PD-old-70-1923 and
+PD-art-old-100-expired against their canonical declarations. Page/revision IDs
+and receipt hashes are in `research/commons-template-evidence-2026-10-09.json`.
+Offline `commons_resume refresh` reparses retained source receipts and verifies
+existing JPEG hashes, but does not repeat decoding or claim a new decode check.
+Narrower discovery windows improve search coverage without changing acceptance.
+Each pass makes at most 140 requests and retains completed requests; a capped
+window is not called exhausted. A saved API refusal blocks an automatic repeat.
+Network transport failures also end the pass and retain the failed request key;
+that window is skipped on later automatic passes, not called exhausted or retried.
+The separate Artwork-declaration narrow pass retains its own receipts. Preview
+priority changes ordering only, never acceptance or permanent exclusion; labelled
+documents/archival drawings remain available for separately recorded inspection.
+Absent artist metadata may use Creator names in the explicit artwork artist
+field. Do not infer attribution from categories, file titles or uploader identity.
+The documented template filter is searched separately: CirrusSearch does not
+combine template parameters with word-style OR semantics. The earlier empty
+multi-template search receipt remains retained, not overwritten.
 
 After curated additions are genuinely accepted, retain their exact page/upload
 identity, full-image/physical-format decision, artist/title provenance and

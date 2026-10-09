@@ -142,7 +142,7 @@ def screen() -> None:
     print(json.dumps(dict(screened=len(rows), plausible=len(SECOND_PLAUSIBLE))))
 
 
-def reparse() -> None:
+def reparse(verify_previews: bool = True) -> None:
     path = OUTPUT / "review.json"
     report = json.loads(path.read_text())
     for index, old in enumerate(report["records"]):
@@ -170,7 +170,17 @@ def reparse() -> None:
     profiles_path = OUTPUT / "profiles.json"
     profiles = json.loads(profiles_path.read_text())
     for work in profiles["profiles"]:
-        old = run_worker(OUTPUT / f"{work['id']}.jpg")
+        image_path = OUTPUT / f"{work['id']}.jpg"
+        if not verify_previews:
+            if (
+                hashlib.sha256(image_path.read_bytes()).hexdigest()
+                != work["thumbnail_sha256"]
+            ):
+                raise ValueError("thumbnail changed offline")
+            for key in ("title", "artist"):
+                work[key] = by_id[work["id"]][key]
+            continue
+        old = run_worker(image_path)
         if old["thumbnail_sha256"] != work["thumbnail_sha256"]:
             raise ValueError("thumbnail changed offline")
         for key in ("distribution", "palette", "search_colours", "dimensions"):
@@ -186,7 +196,9 @@ def reparse() -> None:
             dict(
                 records=len(report["records"]),
                 eligible=sum(not w["reasons"] for w in report["records"]),
-                orientation_verified=len(profiles["profiles"]),
+                orientation_rechecked=len(profiles["profiles"])
+                if verify_previews
+                else 0,
             )
         )
     )
@@ -436,6 +448,64 @@ def fourth_screen() -> None:
     print(json.dumps(dict(fourth_screened=len(rows), plausible=len(plausible))))
 
 
+def validate_screen_range(
+    start: int, stop: int, plausible: set[int], count: int
+) -> None:
+    if not 0 <= start < stop <= count or not plausible <= set(range(start, stop)):
+        raise ValueError("invalid actually inspected range or choice")
+
+
+def inspected_batch(start: int, stop: int, plausible: set[int]) -> None:
+    """Record an explicitly viewed range; never infer choices from metadata."""
+    works = json.loads((OUTPUT / "profiles.json").read_text())["profiles"]
+    validate_screen_range(start, stop, plausible, len(works))
+    prior = sorted(OUTPUT.glob("visual-screen-*.json"))
+    covered = {
+        row["contact_sheet_position"]
+        for path in prior
+        for row in json.loads(path.read_text())["records"]
+    }
+    if covered & set(range(start, stop)):
+        raise ValueError("already inspected range; preserve its existing receipt")
+    number = max((int(p.stem.rsplit("-", 1)[1]) for p in prior), default=0) + 1
+    rows = []
+    for position in range(start, stop):
+        work = works[position]
+        preview = OUTPUT / f"{work['id']}.jpg"
+        if hashlib.sha256(preview.read_bytes()).hexdigest() != work["thumbnail_sha256"]:
+            raise ValueError("inspected thumbnail changed")
+        rows.append(
+            dict(
+                id=work["id"],
+                original_sha1=work["original_sha1"],
+                thumbnail_sha256=work["thumbnail_sha256"],
+                contact_sheet_position=position,
+                contact_sheet_sha256=hashlib.sha256(
+                    (OUTPUT / f"sheet-{position // 16:03}.jpg").read_bytes()
+                ).hexdigest(),
+                screen="visual first-pass" if position in plausible else "deferred",
+                reason=(
+                    "Complete reproduction visually plausible; source, physical "
+                    "proportions and artwork identity require second review"
+                    if position in plausible
+                    else "Observed frame, detail, object, alternative scan, "
+                    "surrounding "
+                    "paper margin or weak/repetitive archival gallery motif; deferred"
+                ),
+            )
+        )
+    save(
+        OUTPUT / f"visual-screen-{number:03}.json",
+        dict(
+            schema=1,
+            inspected_at=datetime.now(UTC).isoformat(),
+            status="Actual first visual screen only; no automatic acceptance",
+            records=rows,
+        ),
+    )
+    print(json.dumps(dict(screened=len(rows), plausible=len(plausible))))
+
+
 def fifth_screen() -> None:
     """Transcribe sheets 066--079 actually viewed; no automatic acceptance."""
     plausible = {
@@ -533,18 +603,35 @@ def fifth_screen() -> None:
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
     parser.add_argument(
-        "mode", choices=("screen", "reparse", "failures", "third", "fourth", "fifth")
+        "mode",
+        choices=(
+            "screen",
+            "reparse",
+            "refresh",
+            "failures",
+            "third",
+            "fourth",
+            "fifth",
+            "batch",
+        ),
     )
+    parser.add_argument("--start", type=int)
+    parser.add_argument("--stop", type=int)
+    parser.add_argument("--plausible", default="")
     args = parser.parse_args()
     if args.mode == "screen":
         screen()
     elif args.mode == "reparse":
         reparse()
+    elif args.mode == "refresh":
+        reparse(verify_previews=False)
     elif args.mode == "failures":
         failures()
     elif args.mode == "third":
         third_screen()
     elif args.mode == "fourth":
         fourth_screen()
-    else:
+    elif args.mode == "fifth":
         fifth_screen()
+    else:
+        inspected_batch(args.start, args.stop, {int(p) for p in args.plausible.split()})

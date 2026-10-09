@@ -1,0 +1,45 @@
+{
+  "schema": 1,
+  "status": "Official public source evidence for private metadata screening; not artwork acceptance or legal clearance",
+  "checked_date": "2026-10-09",
+  "aliases": [
+    {
+      "title": "Template:PD-old-auto-1923",
+      "source": "https://commons.wikimedia.org/wiki/Template:PD-old-auto-1923",
+      "page_id": 75481964,
+      "revision_id": 521070618,
+      "target": "Template:PD-old-auto-expired"
+    },
+    {
+      "title": "Template:PD-old-70-1923",
+      "source": "https://commons.wikimedia.org/wiki/Template:PD-old-70-1923",
+      "page_id": 75481988,
+      "revision_id": 358310570,
+      "target": "Template:PD-old-70-expired"
+    },
+    {
+      "title": "Template:PD-Art-old-100-expired",
+      "source": "https://commons.wikimedia.org/wiki/Template:PD-Art-old-100-expired",
+      "page_id": 113889506,
+      "revision_id": 618240572,
+      "target": "Template:PD-art-old-100-expired"
+    }
+  ],
+  "wrapper": {
+    "title": "Template:PD-art-old-100-expired",
+    "source": "https://commons.wikimedia.org/wiki/Template:PD-art-old-100-expired",
+    "page_id": 107652453,
+    "revision_id": 916087267,
+    "underlying_declaration": "PD-Art with PD-old-100-expired"
+  },
+  "private_receipts": [
+    {
+      "file": "build/commons-1000-research/official-template-alias-revisions.json",
+      "sha256": "d464c19c6604462f43e45a3ccd0a18eb14339929adaceee63512a669e9834019"
+    },
+    {
+      "file": "build/commons-1000-research/official-template-pdart100-source.json",
+      "sha256": "6d99aacffb49571ab5bdd859ad7bb89f761721e178b9bdcaf556f14169bce8ac"
+    }
+  ]
+}

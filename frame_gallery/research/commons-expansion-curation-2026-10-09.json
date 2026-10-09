@@ -1,12 +1,12 @@
 {
   "schema": 1,
-  "updated_at": "2026-10-09T20:01:45.568093+00:00",
+  "updated_at": "2026-10-09T20:44:30.391227+00:00",
   "status": "partial local research milestone, NOT a 1000-work catalogue",
   "baseline_sha256": "582c6abb664d49cc172d208f7bd701b14677e5b31d79b35e5aa4a48fc68af057",
   "baseline_count": 400,
   "target_total": 1000,
-  "added_count": 144,
-  "local_reviewed_total": 544,
+  "added_count": 230,
+  "local_reviewed_total": 630,
   "criteria": {
     "minimum_source_width_px": 3000,
     "relative_16_9_tolerance": 0.025
@@ -108,6 +108,56 @@
       "physical_evidence": "source dimensions agree within 2.5%"
     },
     {
+      "id": 3225070,
+      "file_title": "File:Lebreton engraving-06.jpg",
+      "sha1": "0b87b69d04cff108977fa5f6f67ce628d1fd8623",
+      "title": "Lebreton engraving-06",
+      "artist": "Louis Le Breton",
+      "width": 4226,
+      "height": 2380,
+      "source": "https://commons.wikimedia.org/w/index.php?curid=3225070",
+      "source_revision": 1037654341,
+      "source_page_sha256": "18f923d1e5b3b43e07acd49230ccbd26d90ba1bf964743bf8c542725d8dbd00d",
+      "rights_label_observed": "Public domain",
+      "rights_basis": [
+        "pd-old-auto-expired"
+      ],
+      "artwork_qids": [],
+      "physical_measures": [],
+      "thumbnail_sha256": "ee965aaced8b61299277b7e7aa42efc49c61f00788c6f79f14d0ea20272c4421",
+      "evidence_sha256": "7529e43406048d18b627e19914715471ff45be1428212da0341cbce1ea6bd595",
+      "second_visual_sheet_sha256": "0ef6831fc7569099e14990beadc2d40df5af74cc51865d725526e26bb8abefba",
+      "decision": "accepted local research; not release-approved",
+      "reason": "Complete unframed reproduction visually inspected twice; source/pin/rights declarations and proportions checked; no unresolved artwork-identity flag; selected for gallery variety.",
+      "physical_evidence": "source has no explicit dimensions; full reproduction visually checked, no quantitative physical-ratio claim"
+    },
+    {
+      "id": 4592534,
+      "file_title": "File:Widok Warszawy z ok. 1620 roku.jpg",
+      "sha1": "958a45c961dfb8f4ab30fffa16a0ddba805a9d43",
+      "title": "View of Warsaw from Vistula river, ca. 1625",
+      "artist": "Christian Melich",
+      "width": 4152,
+      "height": 2296,
+      "source": "https://commons.wikimedia.org/w/index.php?curid=4592534",
+      "source_revision": 1229320588,
+      "source_page_sha256": "b65999056985bf23d57fc014eadd4792c186d6422fa03652efd233a8fc6deb07",
+      "rights_label_observed": "Public domain",
+      "rights_basis": [
+        "pd-old-100-expired"
+      ],
+      "artwork_qids": [
+        "Q29952280"
+      ],
+      "physical_measures": [],
+      "thumbnail_sha256": "3d611aca7eb6a7d80f97efbcaa9a1e523fe50dace2ba95313a0c7ab822d55f9f",
+      "evidence_sha256": "161852f91718c46254e46ce5a0055cfdbeb7b5b021239af3dbb67c26d3d7c0bf",
+      "second_visual_sheet_sha256": "0ef6831fc7569099e14990beadc2d40df5af74cc51865d725526e26bb8abefba",
+      "decision": "accepted local research; not release-approved",
+      "reason": "Complete unframed reproduction visually inspected twice; source/pin/rights declarations and proportions checked; no unresolved artwork-identity flag; selected for gallery variety.",
+      "physical_evidence": "source has no explicit dimensions; full reproduction visually checked, no quantitative physical-ratio claim"
+    },
+    {
       "id": 4848754,
       "file_title": "File:Canaletto (I) 064.jpg",
       "sha1": "01e1b7db740e5d959db103d2676c81dfbc55c7cd",
@@ -140,6 +190,30 @@
       "decision": "accepted local research; not release-approved",
       "reason": "Complete unframed reproduction visually inspected twice; source/pin/rights declarations and proportions checked; no unresolved artwork-identity flag; selected for gallery variety.",
       "physical_evidence": "source dimensions agree within 2.5%"
+    },
+    {
+      "id": 5544940,
+      "file_title": "File:View of Ancient Florence by Fabio Borbottoni 1820-1902 (11).jpg",
+      "sha1": "aa9d5a3622d4db0197fcb8e0e0d110e887566fbf",
+      "title": "View of Ancient Florence by Fabio Borbottoni 1820-1902 (11)",
+      "artist": "Fabio Borbottoni",
+      "width": 3475,
+      "height": 1951,
+      "source": "https://commons.wikimedia.org/w/index.php?curid=5544940",
+      "source_revision": 1042586400,
+      "source_page_sha256": "f5457a11de257fe71cde5eb1e87b21fa3b41b10a4fb9162c3db345f4c974cbe9",
+      "rights_label_observed": "Public domain",
+      "rights_basis": [
+        "pd-old-auto-expired"
+      ],
+      "artwork_qids": [],
+      "physical_measures": [],
+      "thumbnail_sha256": "8b4f111f55a891de5e22a49a3f3a4689506b268a417a94a478687844f678b4cc",
+      "evidence_sha256": "4aa89fe7b177c7204793b9c092e09b60e72abba957163e148f8fa26f1df0d85f",
+      "second_visual_sheet_sha256": "934b9eb4e962e06bcdcfab3d7554d23c7861604d5d3c90e1ab4435c858999052",
+      "decision": "accepted local research; not release-approved",
+      "reason": "Complete unframed reproduction visually inspected twice; source/pin/rights declarations and proportions checked; no unresolved artwork-identity flag; selected for gallery variety.",
+      "physical_evidence": "source has no explicit dimensions; full reproduction visually checked, no quantitative physical-ratio claim"
     },
     {
       "id": 6932372,
@@ -196,6 +270,32 @@
       "decision": "accepted local research; not release-approved",
       "reason": "Complete unframed reproduction visually inspected twice; source/pin/rights declarations and proportions checked; no unresolved artwork-identity flag; selected for gallery variety.",
       "physical_evidence": "source dimensions agree within 2.5%"
+    },
+    {
+      "id": 9926665,
+      "file_title": "File:Willaerts Adam The Embarkation of the Elector Palantine Oil Canvas-huge.jpg",
+      "sha1": "c979344eb6471d62a71f8e5f24a16e1e49d768aa",
+      "title": "The embarkation of the Elector Palatinate Frederick V in the 'Prince Royal' at Dover, 25 April 1613",
+      "artist": "Adam Willaerts",
+      "width": 5944,
+      "height": 3268,
+      "source": "https://commons.wikimedia.org/w/index.php?curid=9926665",
+      "source_revision": 1175842000,
+      "source_page_sha256": "7777e59c62bb944998705a1ac2ee42dc793228c6d4d9e54332dda75011ed1ae9",
+      "rights_label_observed": "Public domain",
+      "rights_basis": [
+        "pd-old-auto-expired"
+      ],
+      "artwork_qids": [
+        "Q107287715"
+      ],
+      "physical_measures": [],
+      "thumbnail_sha256": "c4191ececcbc31c9cfe5a584865352aa9eda286eea7a57c1affe07e39de1df9e",
+      "evidence_sha256": "e81f5832682d687ef23c8e8ae6b9979f117d932ad0e487b43aea50e916419d3c",
+      "second_visual_sheet_sha256": "2ca940ccbf38ec01918d9f5663f602857b046ac90354e665ebe335318db689a1",
+      "decision": "accepted local research; not release-approved",
+      "reason": "Complete unframed reproduction visually inspected twice; source/pin/rights declarations and proportions checked; no unresolved artwork-identity flag; selected for gallery variety.",
+      "physical_evidence": "source has no explicit dimensions; full reproduction visually checked, no quantitative physical-ratio claim"
     },
     {
       "id": 9934723,
@@ -302,6 +402,32 @@
       "physical_evidence": "source has no explicit dimensions; full reproduction visually checked, no quantitative physical-ratio claim"
     },
     {
+      "id": 12793786,
+      "file_title": "File:Franz Marc, Moorhütten im Dachauer Moos, 1902.jpg",
+      "sha1": "547af6d2d47dd06628f28d551847308881d60ccd",
+      "title": "Moor huts in the Dachau moss",
+      "artist": "Franz Marc",
+      "width": 3000,
+      "height": 1718,
+      "source": "https://commons.wikimedia.org/w/index.php?curid=12793786",
+      "source_revision": 1086675898,
+      "source_page_sha256": "7c7d24e785ce03ab0e05ea43ab92ccfa66c1649ae9e6d4d831621f455ec09cba",
+      "rights_label_observed": "Public domain",
+      "rights_basis": [
+        "pd-old-100-1923"
+      ],
+      "artwork_qids": [
+        "Q52086946"
+      ],
+      "physical_measures": [],
+      "thumbnail_sha256": "8c6b4f67ff4967a985d0f66e2a1cd0bbb8542b4fd96a28614568fc817a46e668",
+      "evidence_sha256": "bf8c2e1f7a2b2b4821c34c1c4d7fc43efc9a57751657b53110776948adf7f7a6",
+      "second_visual_sheet_sha256": "934b9eb4e962e06bcdcfab3d7554d23c7861604d5d3c90e1ab4435c858999052",
+      "decision": "accepted local research; not release-approved",
+      "reason": "Complete unframed reproduction visually inspected twice; source/pin/rights declarations and proportions checked; no unresolved artwork-identity flag; selected for gallery variety.",
+      "physical_evidence": "source has no explicit dimensions; full reproduction visually checked, no quantitative physical-ratio claim"
+    },
+    {
       "id": 13105985,
       "file_title": "File:Bernardo Bellotto, View of Pirna from the Sonnenstein Castle, c. 1750.jpg",
       "sha1": "5e829fc4b2c15f1aa1e45e2efe1d79f76b25f5c5",
@@ -368,6 +494,32 @@
       "decision": "accepted local research; not release-approved",
       "reason": "Complete unframed reproduction visually inspected twice; source/pin/rights declarations and proportions checked; no unresolved artwork-identity flag; selected for gallery variety.",
       "physical_evidence": "source dimensions agree within 2.5%"
+    },
+    {
+      "id": 13318212,
+      "file_title": "File:Max Liebermann - Flachsscheuer in Laren - Google Art Project.jpg",
+      "sha1": "638edaf02b0877840770e1229e86e1edb365b985",
+      "title": "German: Flachsscheuer in Laren The Flax Barn at Laren",
+      "artist": "Max Liebermann",
+      "width": 3543,
+      "height": 2004,
+      "source": "https://commons.wikimedia.org/w/index.php?curid=13318212",
+      "source_revision": 1010491430,
+      "source_page_sha256": "0bc8bd5f8a7d5129af1e1674432536a2194f944472d0d176bdd42a4a75ff4669",
+      "rights_label_observed": "Public domain",
+      "rights_basis": [
+        "pd-old-auto-expired"
+      ],
+      "artwork_qids": [
+        "Q18688178"
+      ],
+      "physical_measures": [],
+      "thumbnail_sha256": "84b67f7e6a7d21bbf703138e90cb6b74303374af9a6b2a9283e2366970eb1e06",
+      "evidence_sha256": "ed73f7a9cb330680d4e1fe25c4074ff3695322d0d06d562255b97f23d1a77b67",
+      "second_visual_sheet_sha256": "2e64780f42552ed48b5ca4da78beb15c1a51dd5c5a4b1cf2f483d0c8c43eb7eb",
+      "decision": "accepted local research; not release-approved",
+      "reason": "Complete unframed reproduction visually inspected twice; source/pin/rights declarations and proportions checked; no unresolved artwork-identity flag; selected for gallery variety.",
+      "physical_evidence": "source has no explicit dimensions; full reproduction visually checked, no quantitative physical-ratio claim"
     },
     {
       "id": 13405265,
@@ -454,6 +606,72 @@
       "thumbnail_sha256": "516f976650a70ef47f71952def8eb403e78281b11f8c42e01e9163a316b41930",
       "evidence_sha256": "3d041c380794c9d30d829bb3bb6eafc97e7167af36a16d93ae53cb9b61636648",
       "second_visual_sheet_sha256": "ab29dadb3871d55854747d4b9ba55d7a83b649ef3edee278a74f669697c64298",
+      "decision": "accepted local research; not release-approved",
+      "reason": "Complete unframed reproduction visually inspected twice; source/pin/rights declarations and proportions checked; no unresolved artwork-identity flag; selected for gallery variety.",
+      "physical_evidence": "source dimensions agree within 2.5%"
+    },
+    {
+      "id": 15288395,
+      "file_title": "File:Normann Slaget på Rheden den 2. april 1801 1830.jpg",
+      "sha1": "7fc77884171b667e423df4d1c833131fa3bf859c",
+      "title": "The Battle of Copenhagen on the 2nd of April 1801",
+      "artist": "Emil Normann",
+      "width": 3876,
+      "height": 2179,
+      "source": "https://commons.wikimedia.org/w/index.php?curid=15288395",
+      "source_revision": 1170580694,
+      "source_page_sha256": "a5d983debbd067c80b59eb8217ab784801fe9bbd24a71eab22932739f6011a2c",
+      "rights_label_observed": "Public domain",
+      "rights_basis": [
+        "pd-old-auto-expired"
+      ],
+      "artwork_qids": [
+        "Q20473162"
+      ],
+      "physical_measures": [
+        {
+          "raw": "{{Size|cm|43.5|76.5}}",
+          "width": 76.5,
+          "height": 43.5,
+          "ratio": 1.7586206896551724,
+          "interpretation": "unlabelled two axes; landscape orientation observed visually"
+        }
+      ],
+      "thumbnail_sha256": "a407c957e79dbcd8d623253bfd787c36f773c15117f719a9d939c11a2f6de487",
+      "evidence_sha256": "595c79092e7853f69468116d8045af5b19cd83a95e1a6906f7d936cb8b0a8e8f",
+      "second_visual_sheet_sha256": "a06df96ab19415679d6c275b27a720dc8d3c9eaa4e278f02aa7403138eed0720",
+      "decision": "accepted local research; not release-approved",
+      "reason": "Complete unframed reproduction visually inspected twice; source/pin/rights declarations and proportions checked; no unresolved artwork-identity flag; selected for gallery variety.",
+      "physical_evidence": "source dimensions agree within 2.5%"
+    },
+    {
+      "id": 15676619,
+      "file_title": "File:Abraham de Verwer Small vessels on the Zuider Zee.jpg",
+      "sha1": "274942f6d1cba80b883c175258a829ce822c8664",
+      "title": "Small vessels on the Zuider Zee",
+      "artist": "Abraham de Verwer",
+      "width": 4000,
+      "height": 2249,
+      "source": "https://commons.wikimedia.org/w/index.php?curid=15676619",
+      "source_revision": 1111261853,
+      "source_page_sha256": "4874f0e74280b27b183170c336158fa4444992e5321ae52289c6e20a2b0b11ee",
+      "rights_label_observed": "Public domain",
+      "rights_basis": [
+        "pd-old-100-1923"
+      ],
+      "artwork_qids": [],
+      "physical_measures": [
+        {
+          "raw": "{{size|cm|9.6|17.2}}",
+          "width": 17.2,
+          "height": 9.6,
+          "ratio": 1.7916666666666667,
+          "interpretation": "unlabelled two axes; landscape orientation observed visually"
+        }
+      ],
+      "thumbnail_sha256": "a6649c57c63332e59e9050ab03e2125462d94e74aaed08c6daddedefd0bc01ad",
+      "evidence_sha256": "aebe30e14ce1cb274eb9b1a8c17d6406599eefc03dcf8290bbfcc6e6add94732",
+      "second_visual_sheet_sha256": "89b9d5dd4dfc5700efbe6abeceb4282463d94dc1bf9752d3e411ef54e557fa72",
       "decision": "accepted local research; not release-approved",
       "reason": "Complete unframed reproduction visually inspected twice; source/pin/rights declarations and proportions checked; no unresolved artwork-identity flag; selected for gallery variety.",
       "physical_evidence": "source dimensions agree within 2.5%"
@@ -731,6 +949,66 @@
       "physical_evidence": "source has no explicit dimensions; full reproduction visually checked, no quantitative physical-ratio claim"
     },
     {
+      "id": 21170222,
+      "file_title": "File:Emilio Ocón y Rivas Return from the Catch.jpg",
+      "sha1": "eb12961820b73232017ea38fd9063ee441df58d4",
+      "title": "Return from the Catch",
+      "artist": "Emilio Ocón y Rivas",
+      "width": 3212,
+      "height": 1812,
+      "source": "https://commons.wikimedia.org/w/index.php?curid=21170222",
+      "source_revision": 1162757985,
+      "source_page_sha256": "70dcb0fada2c3245bf50d5dd07f68e82d43cef42e34ee99668fc741f521fa4da",
+      "rights_label_observed": "Public domain",
+      "rights_basis": [
+        "pd-old-auto-expired"
+      ],
+      "artwork_qids": [
+        "Q97445471"
+      ],
+      "physical_measures": [],
+      "thumbnail_sha256": "938b20b6740b4a25246ccdfa1ca9a11da3394ae5bc4230815a2e2145295f69e2",
+      "evidence_sha256": "2247163d316f59454768a1c4716babeed5421318d19b4067cfe52208c18b70db",
+      "second_visual_sheet_sha256": "934b9eb4e962e06bcdcfab3d7554d23c7861604d5d3c90e1ab4435c858999052",
+      "decision": "accepted local research; not release-approved",
+      "reason": "Complete unframed reproduction visually inspected twice; source/pin/rights declarations and proportions checked; no unresolved artwork-identity flag; selected for gallery variety.",
+      "physical_evidence": "source has no explicit dimensions; full reproduction visually checked, no quantitative physical-ratio claim"
+    },
+    {
+      "id": 21853937,
+      "file_title": "File:Victor Vasnetsov - Knight at the Crossroads - Google Art Project.jpg",
+      "sha1": "ffb5fcb8cd0b76fbd4fba73be998ffc95542bbf0",
+      "title": "Russian: «Витязь на распутье» Knight at the Crossroads",
+      "artist": "Viktor Vasnetsov",
+      "width": 5527,
+      "height": 3065,
+      "source": "https://commons.wikimedia.org/w/index.php?curid=21853937",
+      "source_revision": 1147251981,
+      "source_page_sha256": "979e59a47df239c172660b71896c66624c8d9142f80f8cbae76060825fc30346",
+      "rights_label_observed": "Public domain",
+      "rights_basis": [
+        "pd-old-auto-1923"
+      ],
+      "artwork_qids": [
+        "Q4112530"
+      ],
+      "physical_measures": [
+        {
+          "raw": "{{Size|cm|167|299}}",
+          "width": 299.0,
+          "height": 167.0,
+          "ratio": 1.7904191616766467,
+          "interpretation": "unlabelled two axes; landscape orientation observed visually"
+        }
+      ],
+      "thumbnail_sha256": "df36af7891e9330b17f76f623c191c46440a9d1259c92af7f5fe6d8b01e65866",
+      "evidence_sha256": "6289cad8bef9ee7f1d2d5777d2e483e9006490fda95bab0ca16757ce143231f9",
+      "second_visual_sheet_sha256": "c5d97997ef75f39d0547efed7f9802fab32d6f31052a8758194ef8416f94455b",
+      "decision": "accepted local research; not release-approved",
+      "reason": "Complete unframed reproduction visually inspected twice; source/pin/rights declarations and proportions checked; no unresolved artwork-identity flag; selected for gallery variety.",
+      "physical_evidence": "source dimensions agree within 2.5%"
+    },
+    {
       "id": 21855719,
       "file_title": "File:Anonymous Cusco School - The Marriage of the Virgin - Google Art Project.jpg",
       "sha1": "d6712ac70df1840f73dbe9345ebbaaa9c4fddb09",
@@ -878,6 +1156,40 @@
         }
       ],
       "thumbnail_sha256": "a107e71cec8a015e471d66fb786882e16dfbdd277642656086e645ace26c8617",
+      "evidence_sha256": "4bdac07a456858bfeef15a720036f572acc8073d7c0159270e8b67beef7ef6f1",
+      "second_visual_sheet_sha256": "2638128647920f49b8978ec66900896653b2bf288f453f23eeaf092051978925",
+      "decision": "accepted local research; not release-approved",
+      "reason": "Complete unframed reproduction visually inspected twice; source/pin/rights declarations and proportions checked; no unresolved artwork-identity flag; selected for gallery variety.",
+      "physical_evidence": "source dimensions agree within 2.5%"
+    },
+    {
+      "id": 21963767,
+      "file_title": "File:Canaletto - View of the Neumarkt in Dresden from the Jüdenhofe - Google Art Project.jpg",
+      "sha1": "48d3cc96204a59fba942a1ea8ea355ea4377b4ac",
+      "title": "View of the Neumarkt in Dresden from the Jüdenhofe",
+      "artist": "Bernardo Bellotto",
+      "width": 4763,
+      "height": 2717,
+      "source": "https://commons.wikimedia.org/w/index.php?curid=21963767",
+      "source_revision": 1199227804,
+      "source_page_sha256": "aeee728d90030084e64c85cf232bac26507a0b0c764eaf626b7a9afcadae9ef7",
+      "rights_label_observed": "Public domain",
+      "rights_basis": [
+        "pd-old-auto-expired"
+      ],
+      "artwork_qids": [
+        "Q19681589"
+      ],
+      "physical_measures": [
+        {
+          "raw": "w2360 x h1360 cm",
+          "width": 2360.0,
+          "height": 1360.0,
+          "ratio": 1.7352941176470589,
+          "interpretation": "explicit w/h plain dimensions"
+        }
+      ],
+      "thumbnail_sha256": "80438c8349c078fa866c661185f21176de69fb245fef92645db6473f66b536b9",
       "evidence_sha256": "4bdac07a456858bfeef15a720036f572acc8073d7c0159270e8b67beef7ef6f1",
       "second_visual_sheet_sha256": "2638128647920f49b8978ec66900896653b2bf288f453f23eeaf092051978925",
       "decision": "accepted local research; not release-approved",
@@ -1121,6 +1433,38 @@
       "physical_evidence": "source has no explicit dimensions; full reproduction visually checked, no quantitative physical-ratio claim"
     },
     {
+      "id": 22232441,
+      "file_title": "File:Peter DeWint - Middleham, Yorkshire - Google Art Project.jpg",
+      "sha1": "6358af0951e6559b691a970ade34737e5da245d5",
+      "title": "Middleham, Yorkshire",
+      "artist": "Peter DeWint (1784 - 1849) – Attributed to (British) Born in Stoke-on-Trent. Died in London. Details on Google Art Project",
+      "width": 6233,
+      "height": 3504,
+      "source": "https://commons.wikimedia.org/w/index.php?curid=22232441",
+      "source_revision": 1173336612,
+      "source_page_sha256": "9f2cb61adcb17825ecfd927e403ed5235ea7d18a0114c868c5ee082fc722da4f",
+      "rights_label_observed": "Public domain",
+      "rights_basis": [
+        "pd-old-100-1923"
+      ],
+      "artwork_qids": [],
+      "physical_measures": [
+        {
+          "raw": "w470 x h264 cm",
+          "width": 470.0,
+          "height": 264.0,
+          "ratio": 1.7803030303030303,
+          "interpretation": "explicit w/h plain dimensions"
+        }
+      ],
+      "thumbnail_sha256": "5b3b539a598d7c9e56c638778bbeb26e9530ccb5c8c36d94e6f9460f78c2548d",
+      "evidence_sha256": "4002abfe031c53dc54517fa74aa2be98897f82dabd3f1382d4f5cadb8d31eaf3",
+      "second_visual_sheet_sha256": "2c10560f83e033d2bbe4241701eb926ab9ce4b65697a066c61b5ed430c9d224d",
+      "decision": "accepted local research; not release-approved",
+      "reason": "Complete unframed reproduction visually inspected twice; source/pin/rights declarations and proportions checked; no unresolved artwork-identity flag; selected for gallery variety.",
+      "physical_evidence": "source dimensions agree within 2.5%"
+    },
+    {
       "id": 22248528,
       "file_title": "File:Thomas Girtin - The New Walk, York - Google Art Project.jpg",
       "sha1": "052a23b5bddb32ffd795027bc184791b2726d6d3",
@@ -1155,6 +1499,38 @@
       "physical_evidence": "source dimensions agree within 2.5%"
     },
     {
+      "id": 22600904,
+      "file_title": "File:Pedro Weingärtner Blumenbekränzte Mädchen in Nuova Veneza 1893 (2).jpg",
+      "sha1": "2acc8cbfcc22b422ebe94fb849a796aca4701a2a",
+      "title": "Pedro Weingärtner Blumenbekränzte Mädchen in Nuova Veneza 1893 (2)",
+      "artist": "Pedro Weingärtner",
+      "width": 3665,
+      "height": 2104,
+      "source": "https://commons.wikimedia.org/w/index.php?curid=22600904",
+      "source_revision": 1053472554,
+      "source_page_sha256": "cb43d72eeb310661c0224c0f89a10dcd5454ab3f4414f5dd387cc11161bc5a45",
+      "rights_label_observed": "Public domain",
+      "rights_basis": [
+        "pd-old-auto-expired"
+      ],
+      "artwork_qids": [],
+      "physical_measures": [
+        {
+          "raw": "{{de|1=Blumenbekränzte Mädchen in Nova Veneza, signiert und datiert »''Weingartner (18)93''«, sowie Ortsangabe »''Nova Veneza (Brasil)''«; Öl auf Holz, 13,3 x 23,5 cm}}",
+          "width": 23.5,
+          "height": 13.3,
+          "ratio": 1.7669172932330826,
+          "interpretation": "plain two axes; measurement scope retained, landscape observed visually"
+        }
+      ],
+      "thumbnail_sha256": "db993c94366040af108ed65417c5c5140c3a3b7809345d084223fe770968fa6a",
+      "evidence_sha256": "4469e21aa6c98b36b50171fbae2d6edc754362a4809e0c0dac2eb778e626b267",
+      "second_visual_sheet_sha256": "08e85e7d9cadb4d491a5e37b34ab9547d01d9f5f3d54c3876cd9b719b68d1e10",
+      "decision": "accepted local research; not release-approved",
+      "reason": "Complete unframed reproduction visually inspected twice; source/pin/rights declarations and proportions checked; no unresolved artwork-identity flag; selected for gallery variety.",
+      "physical_evidence": "source dimensions agree within 2.5%"
+    },
+    {
       "id": 22728217,
       "file_title": "File:Giovanni Agostino Cassana Tauben zwischen Körben.jpg",
       "sha1": "5171cc6689259e9c136278b83e227fbd8ed11413",
@@ -1182,6 +1558,38 @@
       "thumbnail_sha256": "42560bca70d87e7f76cd5cea80d965ed37c0357fb4538e8add20ebd41ab8ab82",
       "evidence_sha256": "bed437bc58e9f9c0571f0299b48776db971a268066731d25dc6f4b7a87bb0d71",
       "second_visual_sheet_sha256": "af0e6bd3a19d3c524573aa6569e309173caf79d088c12e92b7ec0181189580ca",
+      "decision": "accepted local research; not release-approved",
+      "reason": "Complete unframed reproduction visually inspected twice; source/pin/rights declarations and proportions checked; no unresolved artwork-identity flag; selected for gallery variety.",
+      "physical_evidence": "source dimensions agree within 2.5%"
+    },
+    {
+      "id": 23227439,
+      "file_title": "File:Frederick Ferdinand Schafer - Indians on the Warpath.jpg",
+      "sha1": "d26b48a0cbda507e964b8072df121cdc9d262c87",
+      "title": "Indians on the Warpath",
+      "artist": "Frederick Ferdinand Schafer",
+      "width": 3200,
+      "height": 1813,
+      "source": "https://commons.wikimedia.org/w/index.php?curid=23227439",
+      "source_revision": 1189993807,
+      "source_page_sha256": "c241f5a4298a57459d9b18ec80908c46e9227acb28fcb7b8a08d36dfdab23006",
+      "rights_label_observed": "Public domain",
+      "rights_basis": [
+        "pd-old-auto-1923"
+      ],
+      "artwork_qids": [],
+      "physical_measures": [
+        {
+          "raw": "{{Size|in|30|52.5}}",
+          "width": 52.5,
+          "height": 30.0,
+          "ratio": 1.75,
+          "interpretation": "unlabelled two axes; landscape orientation observed visually"
+        }
+      ],
+      "thumbnail_sha256": "4c28676634c08e9bc65ac41bc44294615029bdb76639191ff1d5687fd7f1b588",
+      "evidence_sha256": "349b5055aec305d12669dc961bcb861bf5bc6bd9dbd3945549c017530a294d4d",
+      "second_visual_sheet_sha256": "a04708ab4ed664eb8d65eed2c8d83d0d5804a71c9aeb248e4ba0c3fe3c144af0",
       "decision": "accepted local research; not release-approved",
       "reason": "Complete unframed reproduction visually inspected twice; source/pin/rights declarations and proportions checked; no unresolved artwork-identity flag; selected for gallery variety.",
       "physical_evidence": "source dimensions agree within 2.5%"
@@ -1248,6 +1656,40 @@
       "thumbnail_sha256": "820645a2b84c166e7bba669c10491d36bb4fd290348fb88e0be061e97c6a76b2",
       "evidence_sha256": "24e7efe77cc01c31bb60a473b365bbd2dafb40af046d01810b81f1670e4a5b0b",
       "second_visual_sheet_sha256": "af0e6bd3a19d3c524573aa6569e309173caf79d088c12e92b7ec0181189580ca",
+      "decision": "accepted local research; not release-approved",
+      "reason": "Complete unframed reproduction visually inspected twice; source/pin/rights declarations and proportions checked; no unresolved artwork-identity flag; selected for gallery variety.",
+      "physical_evidence": "source dimensions agree within 2.5%"
+    },
+    {
+      "id": 23821678,
+      "file_title": "File:Charles Courtney Curran - Lotus Lilies.jpg",
+      "sha1": "c8af9e584d0617f1c5e36ed9d7aad48630795570",
+      "title": "Lotus Lilies",
+      "artist": "Charles Courtney Curran",
+      "width": 10000,
+      "height": 5565,
+      "source": "https://commons.wikimedia.org/w/index.php?curid=23821678",
+      "source_revision": 1171908888,
+      "source_page_sha256": "4891020a4a832f82f3d721859c07d769da4dfd31e9b53d680986a382e70c6255",
+      "rights_label_observed": "Public domain",
+      "rights_basis": [
+        "pd-old-auto-1923"
+      ],
+      "artwork_qids": [
+        "Q99322554"
+      ],
+      "physical_measures": [
+        {
+          "raw": "{{size|cm|45.7|81.3}}",
+          "width": 81.3,
+          "height": 45.7,
+          "ratio": 1.7789934354485775,
+          "interpretation": "unlabelled two axes; landscape orientation observed visually"
+        }
+      ],
+      "thumbnail_sha256": "3190a3ca9cdce1a7e3eb4dc21adb72a51d7ef1e08c06d740f210e105d02d9bb0",
+      "evidence_sha256": "6f3b2f7f972e7a8c34868885b14f47c6897a7f01cb5ec1a7224a112130a42e29",
+      "second_visual_sheet_sha256": "44a9ba4ebca7b0c2d3a0a7b20a35757e0f35f2aa8e38ed92996bf984dd6180d8",
       "decision": "accepted local research; not release-approved",
       "reason": "Complete unframed reproduction visually inspected twice; source/pin/rights declarations and proportions checked; no unresolved artwork-identity flag; selected for gallery variety.",
       "physical_evidence": "source dimensions agree within 2.5%"
@@ -1375,6 +1817,38 @@
       "physical_evidence": "source dimensions agree within 2.5%"
     },
     {
+      "id": 26568074,
+      "file_title": "File:Charles James De Lacy - Shipping on the Thames, with the Tower beyond.jpg",
+      "sha1": "c8999068bd0c5b3942532ce315a96f51efb7ab8d",
+      "title": "Shipping on the Thames, with the Tower beyond",
+      "artist": "Charles de Lacy",
+      "width": 3343,
+      "height": 1863,
+      "source": "https://commons.wikimedia.org/w/index.php?curid=26568074",
+      "source_revision": 1120933537,
+      "source_page_sha256": "9e5fd4c04241ff7dbd1cd989dc5a7269847f70424d638d21bfe963eea737b029",
+      "rights_label_observed": "Public domain",
+      "rights_basis": [
+        "pd-old-auto-1923"
+      ],
+      "artwork_qids": [],
+      "physical_measures": [
+        {
+          "raw": "{{Size|cm|60|105.5}}",
+          "width": 105.5,
+          "height": 60.0,
+          "ratio": 1.7583333333333333,
+          "interpretation": "unlabelled two axes; landscape orientation observed visually"
+        }
+      ],
+      "thumbnail_sha256": "38e6e08731d57bb7dd58b22516ffd9cc6f07f4ed06ab2388bd1d6bfaf63b0413",
+      "evidence_sha256": "576816fa1658a2362f00bcfc0df28b8089890e017f2acc10c535d24269288dd9",
+      "second_visual_sheet_sha256": "a04708ab4ed664eb8d65eed2c8d83d0d5804a71c9aeb248e4ba0c3fe3c144af0",
+      "decision": "accepted local research; not release-approved",
+      "reason": "Complete unframed reproduction visually inspected twice; source/pin/rights declarations and proportions checked; no unresolved artwork-identity flag; selected for gallery variety.",
+      "physical_evidence": "source dimensions agree within 2.5%"
+    },
+    {
       "id": 26598752,
       "file_title": "File:1702 Bretschneider Gemaeldegalerie anagoria.JPG",
       "sha1": "3439ad499b1051483a386bf8c9becda4d05c2a34",
@@ -1459,6 +1933,96 @@
       "physical_evidence": "source has no explicit dimensions; full reproduction visually checked, no quantitative physical-ratio claim"
     },
     {
+      "id": 29453631,
+      "file_title": "File:Bonifacio de' Pitati (attrib.) - Ritrovamento di Mosè.jpg",
+      "sha1": "d303bb0af15b3246106cb9233c55154e5e62c079",
+      "title": "The Finding of Moses",
+      "artist": "Attributed to Bonifazio Veronese",
+      "width": 3059,
+      "height": 1742,
+      "source": "https://commons.wikimedia.org/w/index.php?curid=29453631",
+      "source_revision": 1091465451,
+      "source_page_sha256": "f3f6ed3b25405f54c8fa000241faf699b201c0d93671d8199c9a1def98a5d6cc",
+      "rights_label_observed": "Public domain",
+      "rights_basis": [
+        "pd-old-auto-1923"
+      ],
+      "artwork_qids": [],
+      "physical_measures": [
+        {
+          "raw": "{{size|cm|41.3|71.7}}",
+          "width": 71.7,
+          "height": 41.3,
+          "ratio": 1.7360774818401938,
+          "interpretation": "unlabelled two axes; landscape orientation observed visually"
+        }
+      ],
+      "thumbnail_sha256": "b4a8cfce2114a8b5a56a1561035dd9db78edc18f618cba3310f264fd32d4847d",
+      "evidence_sha256": "c1625fffe815da6cc304a94366b76cfe6d64bc2a6491b135b3a4caf27bc7f826",
+      "second_visual_sheet_sha256": "a04708ab4ed664eb8d65eed2c8d83d0d5804a71c9aeb248e4ba0c3fe3c144af0",
+      "decision": "accepted local research; not release-approved",
+      "reason": "Complete unframed reproduction visually inspected twice; source/pin/rights declarations and proportions checked; no unresolved artwork-identity flag; selected for gallery variety.",
+      "physical_evidence": "source dimensions agree within 2.5%"
+    },
+    {
+      "id": 29511761,
+      "file_title": "File:Ettore Forti - Fest der Kentauren.jpg",
+      "sha1": "851f1988f166dea193cb10e8e3f1ccb3d4ee83b3",
+      "title": "Fest der Kentauren",
+      "artist": "Ettore Forti",
+      "width": 3797,
+      "height": 2123,
+      "source": "https://commons.wikimedia.org/w/index.php?curid=29511761",
+      "source_revision": 1160075538,
+      "source_page_sha256": "1c200a5ce9abdf5d99b3420dd12302dc821c685bfc74d039fdc517f204b6b9e2",
+      "rights_label_observed": "Public domain",
+      "rights_basis": [
+        "pd-old-auto-1923"
+      ],
+      "artwork_qids": [],
+      "physical_measures": [],
+      "thumbnail_sha256": "b9bae176fc376a27267dd0553900f00bd70fea791bbec2763201d43923439fad",
+      "evidence_sha256": "037faea2d238bc9459446ff1f997022fce1f86464dd7ddd111a2f719a3db9754",
+      "second_visual_sheet_sha256": "e809e9f37c4e230012ceaa733b6bc914a67e0794e504d957a800a9734feacce6",
+      "decision": "accepted local research; not release-approved",
+      "reason": "Complete unframed reproduction visually inspected twice; source/pin/rights declarations and proportions checked; no unresolved artwork-identity flag; selected for gallery variety.",
+      "physical_evidence": "source has no explicit dimensions; full reproduction visually checked, no quantitative physical-ratio claim"
+    },
+    {
+      "id": 29673142,
+      "file_title": "File:Édouard Vuillard - Children Reading - Google Art Project.jpg",
+      "sha1": "16a50ed9a6a011d7c60ce5e4cde80171a2d8f884",
+      "title": "Children Reading",
+      "artist": "Édouard Vuillard",
+      "width": 3557,
+      "height": 1959,
+      "source": "https://commons.wikimedia.org/w/index.php?curid=29673142",
+      "source_revision": 1263096204,
+      "source_page_sha256": "1c8708e21479c48be966497d0bb07b8dac5f738f93e9278ba249a9a4daa0a467",
+      "rights_label_observed": "Public domain",
+      "rights_basis": [
+        "pd-old-auto-1923"
+      ],
+      "artwork_qids": [
+        "Q75661204"
+      ],
+      "physical_measures": [
+        {
+          "raw": "{{en|1=w26 x h14.5 cm (Without frame)}}",
+          "width": 26.0,
+          "height": 14.5,
+          "ratio": 1.793103448275862,
+          "interpretation": "explicit w/h plain dimensions"
+        }
+      ],
+      "thumbnail_sha256": "ffd08e619ed25f6386eb1b2719bbd0bbe9cad4e08f16690869fa1ae9357d2855",
+      "evidence_sha256": "576816fa1658a2362f00bcfc0df28b8089890e017f2acc10c535d24269288dd9",
+      "second_visual_sheet_sha256": "c5d97997ef75f39d0547efed7f9802fab32d6f31052a8758194ef8416f94455b",
+      "decision": "accepted local research; not release-approved",
+      "reason": "Complete unframed reproduction visually inspected twice; source/pin/rights declarations and proportions checked; no unresolved artwork-identity flag; selected for gallery variety.",
+      "physical_evidence": "source dimensions agree within 2.5%"
+    },
+    {
       "id": 29696188,
       "file_title": "File:Holger Drachmann - The coast south of Hammershus - Google Art Project.jpg",
       "sha1": "eb9994f81e5834298bd81946310f603f34098652",
@@ -1474,37 +2038,21 @@
         "pd-old-100-1923"
       ],
       "artwork_qids": [],
-      "physical_measures": [],
+      "physical_measures": [
+        {
+          "raw": "{{en|1=w62.5 x h35.5 cm (complete)}}",
+          "width": 62.5,
+          "height": 35.5,
+          "ratio": 1.7605633802816902,
+          "interpretation": "explicit w/h plain dimensions"
+        }
+      ],
       "thumbnail_sha256": "098ff04b701f69b8021d19b12055ff705d8673a06261b63c28f646eaf5b03601",
       "evidence_sha256": "1902ddefb1580b088fc437ad1acca65d1d70eb79f7d7b9153d88eb31a051ecb2",
       "second_visual_sheet_sha256": "0611cc75f0d0bbb73d2b9b76eab82ea273304d697f63a04054d96ec9564132d3",
       "decision": "accepted local research; not release-approved",
       "reason": "Complete unframed reproduction visually inspected twice; source/pin/rights declarations and proportions checked; no unresolved artwork-identity flag; selected for gallery variety.",
-      "physical_evidence": "source has no explicit dimensions; full reproduction visually checked, no quantitative physical-ratio claim"
-    },
-    {
-      "id": 29850754,
-      "file_title": "File:Halil Paşa - Çengelköy Vapur İskelesi , Cengelköy Ferry Quay - Google Art Project.jpg",
-      "sha1": "9da7490edf69bd052c949ca47aadc43bfbf65c78",
-      "title": "Çengelköy Vapur İskelesi / Cengelköy Ferry Quay",
-      "artist": "Halil Paşa",
-      "width": 5932,
-      "height": 3417,
-      "source": "https://commons.wikimedia.org/w/index.php?curid=29850754",
-      "source_revision": 1263378098,
-      "source_page_sha256": "e6157d7f1f72777f4a672c83440fa5493a3fc6e4d0d862f87a32a1c93c3b3561",
-      "rights_label_observed": "Public domain",
-      "rights_basis": [
-        "pd-old-100-expired"
-      ],
-      "artwork_qids": [],
-      "physical_measures": [],
-      "thumbnail_sha256": "292766b54af7402c6da3bc4e429d9cdb17134cf312e943a6f1b53195b67ec4d8",
-      "evidence_sha256": "215d5497c89100ec16f41c2b0fc1e0fd9c0b7e060496380dad3e8aed46b1897a",
-      "second_visual_sheet_sha256": "708afc2a3f4d7b664fc4960463edd19c8d4efb04a6354bbd2a32f5dfb10cc06f",
-      "decision": "accepted local research; not release-approved",
-      "reason": "Complete unframed reproduction visually inspected twice; source/pin/rights declarations and proportions checked; no unresolved artwork-identity flag; selected for gallery variety.",
-      "physical_evidence": "source has no explicit dimensions; full reproduction visually checked, no quantitative physical-ratio claim"
+      "physical_evidence": "source dimensions agree within 2.5%"
     },
     {
       "id": 29859009,
@@ -1522,13 +2070,21 @@
         "pd-old-100-1923"
       ],
       "artwork_qids": [],
-      "physical_measures": [],
+      "physical_measures": [
+        {
+          "raw": "{{en|w29.3 x h16.2 cm}}",
+          "width": 29.3,
+          "height": 16.2,
+          "ratio": 1.808641975308642,
+          "interpretation": "explicit w/h plain dimensions"
+        }
+      ],
       "thumbnail_sha256": "4ec7d978972e7525b1c8572c16c85bd5403910a03fd074181ece8dcdb86eed06",
       "evidence_sha256": "cf4245eb994376190ce5c498f1e5be38505a2e2dbaa48f15a8b37313e4ce421e",
       "second_visual_sheet_sha256": "5fc5e3c4c35ef9296720b950f2f32cc5b9283b14b683db65f88dc366554711f9",
       "decision": "accepted local research; not release-approved",
       "reason": "Complete unframed reproduction visually inspected twice; source/pin/rights declarations and proportions checked; no unresolved artwork-identity flag; selected for gallery variety.",
-      "physical_evidence": "source has no explicit dimensions; full reproduction visually checked, no quantitative physical-ratio claim"
+      "physical_evidence": "source dimensions agree within 2.5%"
     },
     {
       "id": 29934901,
@@ -1631,6 +2187,38 @@
       "physical_evidence": "source dimensions agree within 2.5%"
     },
     {
+      "id": 31650532,
+      "file_title": "File:Johannes Hermanus Barend Koekkoek - Ships at dusk (1864).jpg",
+      "sha1": "226562a0f34c774e11fd4847449d93f72e1bf16b",
+      "title": "Ships at dusk",
+      "artist": "Johannes Hermanus Barend Koekkoek",
+      "width": 3978,
+      "height": 2195,
+      "source": "https://commons.wikimedia.org/w/index.php?curid=31650532",
+      "source_revision": 721175120,
+      "source_page_sha256": "1abe62ca439dc5ae2a64572ceef9a5434c22cb03cbfce93d113aad53a9d56942",
+      "rights_label_observed": "Public domain",
+      "rights_basis": [
+        "pd-old-auto-1923"
+      ],
+      "artwork_qids": [],
+      "physical_measures": [
+        {
+          "raw": "{{Size|cm|46|82}}",
+          "width": 82.0,
+          "height": 46.0,
+          "ratio": 1.7826086956521738,
+          "interpretation": "unlabelled two axes; landscape orientation observed visually"
+        }
+      ],
+      "thumbnail_sha256": "622ef7a15efe668bccc0311ced5fbbc526d7ffd38be9ed1ed75cd7ba1d019069",
+      "evidence_sha256": "9277fde5c723914744222206a1450be412ccd4d0fbb00cb89ec438ca48bd313f",
+      "second_visual_sheet_sha256": "c5d97997ef75f39d0547efed7f9802fab32d6f31052a8758194ef8416f94455b",
+      "decision": "accepted local research; not release-approved",
+      "reason": "Complete unframed reproduction visually inspected twice; source/pin/rights declarations and proportions checked; no unresolved artwork-identity flag; selected for gallery variety.",
+      "physical_evidence": "source dimensions agree within 2.5%"
+    },
+    {
       "id": 32079692,
       "file_title": "File:Munsterhjelm, Sunset.jpg",
       "sha1": "7a7a5ff60904220abe0a9a419ff152fd903cd176",
@@ -1661,6 +2249,87 @@
       "decision": "accepted local research; not release-approved",
       "reason": "Complete unframed reproduction visually inspected twice; source/pin/rights declarations and proportions checked; no unresolved artwork-identity flag; selected for gallery variety.",
       "physical_evidence": "source dimensions agree within 2.5%"
+    },
+    {
+      "id": 34249146,
+      "file_title": "File:Rotsachtige kust Rijksmuseum SK-A-2086.jpeg",
+      "sha1": "a3b84936b489b55d8175a8061cef1c8549c8d8b5",
+      "title": "Rotsachtige kust",
+      "artist": "Anonymous",
+      "width": 7360,
+      "height": 4204,
+      "source": "https://commons.wikimedia.org/w/index.php?curid=34249146",
+      "source_revision": 866156927,
+      "source_page_sha256": "5d3283d01d83ec23425b6c558b5f6331d3f30d334ae06707a7a9a81c2038ba85",
+      "rights_label_observed": "Public domain",
+      "rights_basis": [
+        "cc-zero",
+        "pd-us"
+      ],
+      "artwork_qids": [
+        "Q17327322"
+      ],
+      "physical_measures": [],
+      "thumbnail_sha256": "e65c0abf06dc273cc46ed511f982c8ded434fd08735323da144aa2ffd8ab1e18",
+      "evidence_sha256": "a309aa607271f76168c878cb6afc84c4c04a1671ffa16a7206d6a0776c9ec07d",
+      "second_visual_sheet_sha256": "ab29dadb3871d55854747d4b9ba55d7a83b649ef3edee278a74f669697c64298",
+      "decision": "accepted local research; not release-approved",
+      "reason": "Complete unframed reproduction visually inspected twice; source/pin/rights declarations and proportions checked; no unresolved artwork-identity flag; selected for gallery variety.",
+      "physical_evidence": "source has no explicit dimensions; full reproduction visually checked, no quantitative physical-ratio claim"
+    },
+    {
+      "id": 34258055,
+      "file_title": "File:De brug Rijksmuseum SK-A-2988.jpeg",
+      "sha1": "8be07c485b68b6f7f4906661f56a21c32cdc3927",
+      "title": "The Bridge",
+      "artist": "Jacob Maris",
+      "width": 6124,
+      "height": 3400,
+      "source": "https://commons.wikimedia.org/w/index.php?curid=34258055",
+      "source_revision": 1132935264,
+      "source_page_sha256": "be684a3cddfe87662239ef76ca93c7c604f08f9059a7bb4f6bf02cdd3dd3eb01",
+      "rights_label_observed": "Public domain",
+      "rights_basis": [
+        "cc-zero",
+        "pd-us"
+      ],
+      "artwork_qids": [
+        "Q17331309"
+      ],
+      "physical_measures": [],
+      "thumbnail_sha256": "8e2f3d5cd578d6a01cc82a01c0468e66e0cad906cec10b469756dc3c080530b2",
+      "evidence_sha256": "5f6bad8c491513d4bcd389cacae5855aa202f084d8275b9c763f9b95c890df6f",
+      "second_visual_sheet_sha256": "ab29dadb3871d55854747d4b9ba55d7a83b649ef3edee278a74f669697c64298",
+      "decision": "accepted local research; not release-approved",
+      "reason": "Complete unframed reproduction visually inspected twice; source/pin/rights declarations and proportions checked; no unresolved artwork-identity flag; selected for gallery variety.",
+      "physical_evidence": "source has no explicit dimensions; full reproduction visually checked, no quantitative physical-ratio claim"
+    },
+    {
+      "id": 34313785,
+      "file_title": "File:Gezicht op de stad Heusden Rijksmuseum SK-A-2306.jpeg",
+      "sha1": "cd542039dd1aa38e9806418d54cd9f438b8bc4d4",
+      "title": "Gezicht op de stad Heusden",
+      "artist": "Monogrammist FK (Noordelijke Nederlanden) Monogrammist FK (Noordelijke Nederlanden)",
+      "width": 6398,
+      "height": 3668,
+      "source": "https://commons.wikimedia.org/w/index.php?curid=34313785",
+      "source_revision": 1272673331,
+      "source_page_sha256": "751a1132a714a84ee2be9349ab88b57d9c1a996beac14fc6e0bfb8e4cd12f68b",
+      "rights_label_observed": "Public domain",
+      "rights_basis": [
+        "cc-zero",
+        "pd-us"
+      ],
+      "artwork_qids": [
+        "Q17328203"
+      ],
+      "physical_measures": [],
+      "thumbnail_sha256": "6189d680ec47ef68fa3ea827e2de78c168ebef315d2e9afcc957f6961a578f6e",
+      "evidence_sha256": "cec90e7b98cff6743b34c2922bf8c7d780089dffe74d8242cc2f63bd65ee70ee",
+      "second_visual_sheet_sha256": "708afc2a3f4d7b664fc4960463edd19c8d4efb04a6354bbd2a32f5dfb10cc06f",
+      "decision": "accepted local research; not release-approved",
+      "reason": "Complete unframed reproduction visually inspected twice; source/pin/rights declarations and proportions checked; no unresolved artwork-identity flag; selected for gallery variety.",
+      "physical_evidence": "source has no explicit dimensions; full reproduction visually checked, no quantitative physical-ratio claim"
     },
     {
       "id": 34888005,
@@ -1811,6 +2480,56 @@
       "physical_evidence": "source dimensions agree within 2.5%"
     },
     {
+      "id": 40205542,
+      "file_title": "File:14 oct 2014 interior bonnard.jpg",
+      "sha1": "216de4fbf8bdd6094d29eb3da99d031fcdc57df8",
+      "title": "French: Intérieur: Les enfants Terrasse Interior: The Terrasse Children",
+      "artist": "Pierre Bonnard",
+      "width": 9039,
+      "height": 5151,
+      "source": "https://commons.wikimedia.org/w/index.php?curid=40205542",
+      "source_revision": 946803132,
+      "source_page_sha256": "56a16013414ee3884c99e3d8a462320be8c6c0f7a04d2c0b2b0eb440d779d9c9",
+      "rights_label_observed": "Public domain",
+      "rights_basis": [
+        "pd-old-auto-1923"
+      ],
+      "artwork_qids": [
+        "Q79148809"
+      ],
+      "physical_measures": [],
+      "thumbnail_sha256": "ec56d3c8466eac98badd75bf3ddfc0b35c3e301bc577c97fb439d355afd60d28",
+      "evidence_sha256": "24e7efe77cc01c31bb60a473b365bbd2dafb40af046d01810b81f1670e4a5b0b",
+      "second_visual_sheet_sha256": "44a9ba4ebca7b0c2d3a0a7b20a35757e0f35f2aa8e38ed92996bf984dd6180d8",
+      "decision": "accepted local research; not release-approved",
+      "reason": "Complete unframed reproduction visually inspected twice; source/pin/rights declarations and proportions checked; no unresolved artwork-identity flag; selected for gallery variety.",
+      "physical_evidence": "source has no explicit dimensions; full reproduction visually checked, no quantitative physical-ratio claim"
+    },
+    {
+      "id": 40711058,
+      "file_title": "File:Eugène Clary Seine et Château -Gaillard.jpg",
+      "sha1": "8b3928113b641005a49d25259a770f25cc15f216",
+      "title": "Eugène Clary Seine et Château -Gaillard",
+      "artist": "Eugène Clary",
+      "width": 3440,
+      "height": 1902,
+      "source": "https://commons.wikimedia.org/w/index.php?curid=40711058",
+      "source_revision": 1234479169,
+      "source_page_sha256": "9d2f48391a5be3f6591177c48f9dc04d816880031afdf45de8d201e96ad205f7",
+      "rights_label_observed": "Public domain",
+      "rights_basis": [
+        "pd-old-70-1923"
+      ],
+      "artwork_qids": [],
+      "physical_measures": [],
+      "thumbnail_sha256": "71574761db27097abff97f9e0c20130554797b655cc108558eaa47f77fafeea9",
+      "evidence_sha256": "1db21b36045530976604ee97ea9e61b9ef8a643aaedaedd2ca537a775cbbf553",
+      "second_visual_sheet_sha256": "44a9ba4ebca7b0c2d3a0a7b20a35757e0f35f2aa8e38ed92996bf984dd6180d8",
+      "decision": "accepted local research; not release-approved",
+      "reason": "Complete unframed reproduction visually inspected twice; source/pin/rights declarations and proportions checked; no unresolved artwork-identity flag; selected for gallery variety.",
+      "physical_evidence": "source has no explicit dimensions; full reproduction visually checked, no quantitative physical-ratio claim"
+    },
+    {
       "id": 41234621,
       "file_title": "File:Alfred Casile-Lazaret-Musée Marine-Marseille.jpg",
       "sha1": "542df1c0689f4744fe2f60c32a5e3ee39f1d4200",
@@ -1863,6 +2582,162 @@
       "physical_evidence": "source has no explicit dimensions; full reproduction visually checked, no quantitative physical-ratio claim"
     },
     {
+      "id": 41474968,
+      "file_title": "File:Claes Claesz. Wou - Naval Battle between English and Dutch ships (Skoklosters slott).jpg",
+      "sha1": "639688f7e32fb91e6eaa09dc310eb7998254b075",
+      "title": "Naval Battle between English and Dutch ships",
+      "artist": "Claes Claesz. Wou",
+      "width": 5308,
+      "height": 2966,
+      "source": "https://commons.wikimedia.org/w/index.php?curid=41474968",
+      "source_revision": 1126437252,
+      "source_page_sha256": "7f5ce96884a76d171b1540aa6e59ae869611930c520edbf047d8e14d5a328afa",
+      "rights_label_observed": "Public domain",
+      "rights_basis": [
+        "pd-old-auto-expired"
+      ],
+      "artwork_qids": [],
+      "physical_measures": [
+        {
+          "raw": "{{size|unit=cm|width=73|height=41}}",
+          "width": 73.0,
+          "height": 41.0,
+          "ratio": 1.7804878048780488,
+          "interpretation": "named height/width"
+        }
+      ],
+      "thumbnail_sha256": "25a202ce9a7b2570f76ec49c99a20170bc16f635567755828e2a1feb0252282e",
+      "evidence_sha256": "69829fc343d9ccaa69443d7b23e6d266001c2bfedd943e5ac639927878c7e6d7",
+      "second_visual_sheet_sha256": "2ca940ccbf38ec01918d9f5663f602857b046ac90354e665ebe335318db689a1",
+      "decision": "accepted local research; not release-approved",
+      "reason": "Complete unframed reproduction visually inspected twice; source/pin/rights declarations and proportions checked; no unresolved artwork-identity flag; selected for gallery variety.",
+      "physical_evidence": "source dimensions agree within 2.5%"
+    },
+    {
+      "id": 41875599,
+      "file_title": "File:Josef Wopfner - Chiemseekahn.jpg",
+      "sha1": "d679e6f56ed828818cafa4358ceb6aa1ee282278",
+      "title": "Chiemseekahn",
+      "artist": "Josef Wopfner",
+      "width": 3729,
+      "height": 2118,
+      "source": "https://commons.wikimedia.org/w/index.php?curid=41875599",
+      "source_revision": 1148374368,
+      "source_page_sha256": "958e5a42889b3b62dce9e78b7f6143543aa79f98ff18438cb15b97f39af25bbf",
+      "rights_label_observed": "Public domain",
+      "rights_basis": [
+        "pd-old-auto-1923"
+      ],
+      "artwork_qids": [],
+      "physical_measures": [
+        {
+          "raw": "{{Size|cm|18.5|32.5}}",
+          "width": 32.5,
+          "height": 18.5,
+          "ratio": 1.7567567567567568,
+          "interpretation": "unlabelled two axes; landscape orientation observed visually"
+        }
+      ],
+      "thumbnail_sha256": "cf4fe6e7398d5a9af14070af1792cac4e9c3227db077b2c80ddd6f6e4bbeeb4b",
+      "evidence_sha256": "b02874ff11301e28ec88520f8dc7ce3301fe04c404fa619fa9da230c9022ac7f",
+      "second_visual_sheet_sha256": "c5d97997ef75f39d0547efed7f9802fab32d6f31052a8758194ef8416f94455b",
+      "decision": "accepted local research; not release-approved",
+      "reason": "Complete unframed reproduction visually inspected twice; source/pin/rights declarations and proportions checked; no unresolved artwork-identity flag; selected for gallery variety.",
+      "physical_evidence": "source dimensions agree within 2.5%"
+    },
+    {
+      "id": 44024109,
+      "file_title": "File:'The Harbor' by Hans Gude, 1871, Bergen Kunstmuseum.JPG",
+      "sha1": "476aa6e6688aebf6a6c5595e4f0223959aeb744d",
+      "title": "The Harbour",
+      "artist": "Hans Gude",
+      "width": 3060,
+      "height": 1684,
+      "source": "https://commons.wikimedia.org/w/index.php?curid=44024109",
+      "source_revision": 920632971,
+      "source_page_sha256": "f6fab71e12496e1ed1bde0e1ecf9d22dd2cf955c5f028ad19b61621aa1e2b0a3",
+      "rights_label_observed": "Public domain",
+      "rights_basis": [
+        "pd-old-auto-1923"
+      ],
+      "artwork_qids": [
+        "Q116266559"
+      ],
+      "physical_measures": [],
+      "thumbnail_sha256": "74ac354079552c16c8e736d11934532f1470d5dd5f6cd69178a49e93896c2661",
+      "evidence_sha256": "877d78b18d0b4614f2e803398bd673cc756e7af6f98998ddc924e5e728bf2165",
+      "second_visual_sheet_sha256": "a04708ab4ed664eb8d65eed2c8d83d0d5804a71c9aeb248e4ba0c3fe3c144af0",
+      "decision": "accepted local research; not release-approved",
+      "reason": "Complete unframed reproduction visually inspected twice; source/pin/rights declarations and proportions checked; no unresolved artwork-identity flag; selected for gallery variety.",
+      "physical_evidence": "source has no explicit dimensions; full reproduction visually checked, no quantitative physical-ratio claim"
+    },
+    {
+      "id": 44806961,
+      "file_title": "File:Edvard Munch - Workers Returning Home (1920).jpg",
+      "sha1": "987425c4c034d2e9afbaca24f8cc1f8de636a05f",
+      "title": "Workers Returning Home",
+      "artist": "Edvard Munch",
+      "width": 3000,
+      "height": 1718,
+      "source": "https://commons.wikimedia.org/w/index.php?curid=44806961",
+      "source_revision": 1224302224,
+      "source_page_sha256": "e13c1b55f5a3afafe98b32db0cd4000209b7779871417b8aef93932734dbd8ef",
+      "rights_label_observed": "Public domain",
+      "rights_basis": [
+        "pd-old-auto-1923"
+      ],
+      "artwork_qids": [
+        "Q18891505"
+      ],
+      "physical_measures": [
+        {
+          "raw": "{{size|cm|79.5|138.5}}",
+          "width": 138.5,
+          "height": 79.5,
+          "ratio": 1.7421383647798743,
+          "interpretation": "unlabelled two axes; landscape orientation observed visually"
+        }
+      ],
+      "thumbnail_sha256": "3e8c97b9f1dfdb9581c756244177160adc28ab9f0c8aad3ed933bc878c27ea0e",
+      "evidence_sha256": "587823ffcd7aa40fe361bf72be27f898911c439cdd04c71109ca85a2177be457",
+      "second_visual_sheet_sha256": "a04708ab4ed664eb8d65eed2c8d83d0d5804a71c9aeb248e4ba0c3fe3c144af0",
+      "decision": "accepted local research; not release-approved",
+      "reason": "Complete unframed reproduction visually inspected twice; source/pin/rights declarations and proportions checked; no unresolved artwork-identity flag; selected for gallery variety.",
+      "physical_evidence": "source dimensions agree within 2.5%"
+    },
+    {
+      "id": 45254415,
+      "file_title": "File:Paisaje con lago, por Sebastiaan Vrancx.jpg",
+      "sha1": "afe2adfed31d69cf61e9418c9d718b4c5c32b64e",
+      "title": "Paisaje con lago",
+      "artist": "Sebastiaen Vrancx",
+      "width": 3039,
+      "height": 1692,
+      "source": "https://commons.wikimedia.org/w/index.php?curid=45254415",
+      "source_revision": 1039797259,
+      "source_page_sha256": "c357707d4e348e4e63d1b7b2735bed396027f512d32113e73a37d77c5221be86",
+      "rights_label_observed": "Public domain",
+      "rights_basis": [
+        "pd-old-auto-expired"
+      ],
+      "artwork_qids": [],
+      "physical_measures": [
+        {
+          "raw": "{{size|cm|55|98}}",
+          "width": 98.0,
+          "height": 55.0,
+          "ratio": 1.7818181818181817,
+          "interpretation": "unlabelled two axes; landscape orientation observed visually"
+        }
+      ],
+      "thumbnail_sha256": "7d6a035eeb2fe67b89b5950676ecda550c87a77fb65c5eaecc0c24f6811f1c19",
+      "evidence_sha256": "3452102fb9cf5d3fc2ac978f84917a0b653494312716a924c9cac6571b42d236",
+      "second_visual_sheet_sha256": "934b9eb4e962e06bcdcfab3d7554d23c7861604d5d3c90e1ab4435c858999052",
+      "decision": "accepted local research; not release-approved",
+      "reason": "Complete unframed reproduction visually inspected twice; source/pin/rights declarations and proportions checked; no unresolved artwork-identity flag; selected for gallery variety.",
+      "physical_evidence": "source dimensions agree within 2.5%"
+    },
+    {
       "id": 45453768,
       "file_title": "File:Sunlight (Setting Sun) by John Francis Murphy, 1900.jpg",
       "sha1": "e24640c8c55b5d18abceec9b05147eb9f1200def",
@@ -1885,6 +2760,38 @@
       "decision": "accepted local research; not release-approved",
       "reason": "Complete unframed reproduction visually inspected twice; source/pin/rights declarations and proportions checked; no unresolved artwork-identity flag; selected for gallery variety.",
       "physical_evidence": "source has no explicit dimensions; full reproduction visually checked, no quantitative physical-ratio claim"
+    },
+    {
+      "id": 48303061,
+      "file_title": "File:Emma Ciardi Kutschenfahrt vor der Villa Capra 1915.jpg",
+      "sha1": "9654c0c894f9923ffe062883a1964a5f6109b94b",
+      "title": "Emma Ciardi Kutschenfahrt vor der Villa Capra 1915",
+      "artist": "Emma Ciardi",
+      "width": 4974,
+      "height": 2764,
+      "source": "https://commons.wikimedia.org/w/index.php?curid=48303061",
+      "source_revision": 1228798869,
+      "source_page_sha256": "0eacf8eb90cf2a46030e50d2f71a0fad37fc41d73b44bdda6074201db7c780b4",
+      "rights_label_observed": "Public domain",
+      "rights_basis": [
+        "pd-old-auto-1923"
+      ],
+      "artwork_qids": [],
+      "physical_measures": [
+        {
+          "raw": "{{de|1=Kutschenfahrt vor der Villa Capra Bassani, signiert, datiert und bezeichnet Emma Ciardi Venezia 1915, Öl auf Leinwand, 36,5 x 65 cm}}",
+          "width": 65.0,
+          "height": 36.5,
+          "ratio": 1.7808219178082192,
+          "interpretation": "plain two axes; measurement scope retained, landscape observed visually"
+        }
+      ],
+      "thumbnail_sha256": "1f58cecd291e9b3e60783cd12045846e887cd171225613dcef7e1ca6127e2e1a",
+      "evidence_sha256": "dd4dfc658f14eed71bf3d44716426703c91f5707f3ee72b661c11b98c971d2b0",
+      "second_visual_sheet_sha256": "44a9ba4ebca7b0c2d3a0a7b20a35757e0f35f2aa8e38ed92996bf984dd6180d8",
+      "decision": "accepted local research; not release-approved",
+      "reason": "Complete unframed reproduction visually inspected twice; source/pin/rights declarations and proportions checked; no unresolved artwork-identity flag; selected for gallery variety.",
+      "physical_evidence": "source dimensions agree within 2.5%"
     },
     {
       "id": 49057437,
@@ -1911,6 +2818,38 @@
       "physical_evidence": "source has no explicit dimensions; full reproduction visually checked, no quantitative physical-ratio claim"
     },
     {
+      "id": 49345017,
+      "file_title": "File:Alfred Steinacker Begegnung auf der Landstraße.jpg",
+      "sha1": "10ea432571e3334c463fbd541b73ccd97b53bdc3",
+      "title": "Alfred Steinacker Begegnung auf der Landstraße",
+      "artist": "Alfred Steinacker",
+      "width": 3151,
+      "height": 1786,
+      "source": "https://commons.wikimedia.org/w/index.php?curid=49345017",
+      "source_revision": 1045809131,
+      "source_page_sha256": "3eb9f9ecf0331c82a2d4aa97e3bfe03628e899e13af649ef87e09d284fdaf06c",
+      "rights_label_observed": "Public domain",
+      "rights_basis": [
+        "pd-old-auto-expired"
+      ],
+      "artwork_qids": [],
+      "physical_measures": [
+        {
+          "raw": "{{de|Begegnung auf der Landstraße, signiert A. Steinacker, Öl auf Holz, 17,8 x 31,3 cm}}",
+          "width": 31.3,
+          "height": 17.8,
+          "ratio": 1.7584269662921348,
+          "interpretation": "plain two axes; measurement scope retained, landscape observed visually"
+        }
+      ],
+      "thumbnail_sha256": "e2e9a2597b94aade8a3fce26c88cbbc31ecb8b488d30ee819560903e96bd74af",
+      "evidence_sha256": "23a038e8cb9ce73932c2b99a1f221144fa7b0831571cf86dd9600e952257b831",
+      "second_visual_sheet_sha256": "934b9eb4e962e06bcdcfab3d7554d23c7861604d5d3c90e1ab4435c858999052",
+      "decision": "accepted local research; not release-approved",
+      "reason": "Complete unframed reproduction visually inspected twice; source/pin/rights declarations and proportions checked; no unresolved artwork-identity flag; selected for gallery variety.",
+      "physical_evidence": "source dimensions agree within 2.5%"
+    },
+    {
       "id": 49345095,
       "file_title": "File:Alfred Steinacker Ungarisches Marktfuhrwerk.jpg",
       "sha1": "74faa3a7da284260c477e79f35378a1393d24a18",
@@ -1933,6 +2872,38 @@
       "decision": "accepted local research; not release-approved",
       "reason": "Complete unframed reproduction visually inspected twice; source/pin/rights declarations and proportions checked; no unresolved artwork-identity flag; selected for gallery variety.",
       "physical_evidence": "source has no explicit dimensions; full reproduction visually checked, no quantitative physical-ratio claim"
+    },
+    {
+      "id": 49893685,
+      "file_title": "File:Alfred Jensen - Dreimastbark und mehrere Schoner auf bewegter See (1907).jpg",
+      "sha1": "48ba82773467c6c2cf4154e6719a42b726de72ed",
+      "title": "German: Dreimastbark und mehrere Schoner auf bewegter See",
+      "artist": "Alfred Jensen",
+      "width": 4574,
+      "height": 2583,
+      "source": "https://commons.wikimedia.org/w/index.php?curid=49893685",
+      "source_revision": 1045785748,
+      "source_page_sha256": "506c2b16a6d30b61fcb9f0b029368efdb8908ab8f3d04d91a504646d99b9ef79",
+      "rights_label_observed": "Public domain",
+      "rights_basis": [
+        "pd-old-auto-1923"
+      ],
+      "artwork_qids": [],
+      "physical_measures": [
+        {
+          "raw": "{{Size|cm|66.5|119}}",
+          "width": 119.0,
+          "height": 66.5,
+          "ratio": 1.7894736842105263,
+          "interpretation": "unlabelled two axes; landscape orientation observed visually"
+        }
+      ],
+      "thumbnail_sha256": "3d8b319323a0bb81b7bbec106abbba83fde21704dfdcde83be5afa386756ddd3",
+      "evidence_sha256": "e12a9b661cb4d7a47346ef1dc8fe25b7e4911ca4c9b06b6b6be6eb2ba01042b2",
+      "second_visual_sheet_sha256": "c5d97997ef75f39d0547efed7f9802fab32d6f31052a8758194ef8416f94455b",
+      "decision": "accepted local research; not release-approved",
+      "reason": "Complete unframed reproduction visually inspected twice; source/pin/rights declarations and proportions checked; no unresolved artwork-identity flag; selected for gallery variety.",
+      "physical_evidence": "source dimensions agree within 2.5%"
     },
     {
       "id": 50308787,
@@ -1991,6 +2962,112 @@
       "decision": "accepted local research; not release-approved",
       "reason": "Complete unframed reproduction visually inspected twice; source/pin/rights declarations and proportions checked; no unresolved artwork-identity flag; selected for gallery variety.",
       "physical_evidence": "source dimensions agree within 2.5%"
+    },
+    {
+      "id": 50627665,
+      "file_title": "File:Jan Erasmus Quellinus Adoration of the Magi.jpg",
+      "sha1": "94f68bce358472abdb1fc957023b8f51cc93c47a",
+      "title": "French: L'Adoration des mages Adoration of the Magi",
+      "artist": "Jan Erasmus Quellinus",
+      "width": 3338,
+      "height": 1904,
+      "source": "https://commons.wikimedia.org/w/index.php?curid=50627665",
+      "source_revision": 1014760653,
+      "source_page_sha256": "2bfe39b0d2b59cc3f0be05ee1bc7736aafd9f1acb15955bc3dc07083d5773e66",
+      "rights_label_observed": "Public domain",
+      "rights_basis": [
+        "pd-old-70-1923"
+      ],
+      "artwork_qids": [
+        "Q110254391"
+      ],
+      "physical_measures": [],
+      "thumbnail_sha256": "a96f1c9933c50f296a25290d2091f2790125de634f99ba28879aa10c368519ae",
+      "evidence_sha256": "a623302c68ecc9372113073f701df107bac4d1e6869ca2fe1e909c3961409b47",
+      "second_visual_sheet_sha256": "44a9ba4ebca7b0c2d3a0a7b20a35757e0f35f2aa8e38ed92996bf984dd6180d8",
+      "decision": "accepted local research; not release-approved",
+      "reason": "Complete unframed reproduction visually inspected twice; source/pin/rights declarations and proportions checked; no unresolved artwork-identity flag; selected for gallery variety.",
+      "physical_evidence": "source has no explicit dimensions; full reproduction visually checked, no quantitative physical-ratio claim"
+    },
+    {
+      "id": 53280155,
+      "file_title": "File:Frederick Arthur Bridgman, 1891 - Lawn Tennis Club.jpg",
+      "sha1": "358ee489b3da803a91a53bf14c851058b855ae64",
+      "title": "Lawn Tennis Club",
+      "artist": "Frederick Arthur Bridgman",
+      "width": 4400,
+      "height": 2493,
+      "source": "https://commons.wikimedia.org/w/index.php?curid=53280155",
+      "source_revision": 1260539612,
+      "source_page_sha256": "c41421173abe089775bfb56536ad07ea0abd6733e9e32d8736c2360e5d6934c4",
+      "rights_label_observed": "Public domain",
+      "rights_basis": [
+        "pd-old-auto-1923"
+      ],
+      "artwork_qids": [],
+      "physical_measures": [
+        {
+          "raw": "{{Size|unit=cm|height=100.3|width=177.8}}",
+          "width": 177.8,
+          "height": 100.3,
+          "ratio": 1.7726819541375873,
+          "interpretation": "named height/width"
+        }
+      ],
+      "thumbnail_sha256": "658bfbf847411940821b956fc4ba6165fb636c466308d48830d1d84e49123953",
+      "evidence_sha256": "633753605b04295c565a5e868e9e90db8248a4005ad309291c7bd476123d5e3f",
+      "second_visual_sheet_sha256": "c5d97997ef75f39d0547efed7f9802fab32d6f31052a8758194ef8416f94455b",
+      "decision": "accepted local research; not release-approved",
+      "reason": "Complete unframed reproduction visually inspected twice; source/pin/rights declarations and proportions checked; no unresolved artwork-identity flag; selected for gallery variety.",
+      "physical_evidence": "source dimensions agree within 2.5%"
+    },
+    {
+      "id": 54586369,
+      "file_title": "File:Il torneo di Caserta, la sfilata delle dame e dei cavalieri per rientrare nel palazzo - Salvatore Fergola.jpg",
+      "sha1": "a7d66ed76c86910a635606c23ae1d792984ff7fb",
+      "title": "Il torneo di Caserta, la sfilata delle dame e dei cavalieri per rientrare nel palazzo - Salvatore Fergola",
+      "artist": "Salvatore Fergola",
+      "width": 3343,
+      "height": 1858,
+      "source": "https://commons.wikimedia.org/w/index.php?curid=54586369",
+      "source_revision": 1176461498,
+      "source_page_sha256": "4205e64d6470ffd45f413ec6e95c373ac8c6e741e97d9dd631e36ebe50d92258",
+      "rights_label_observed": "Public domain",
+      "rights_basis": [
+        "pd-old-auto-expired"
+      ],
+      "artwork_qids": [],
+      "physical_measures": [],
+      "thumbnail_sha256": "01487970806178d3ffecaf4ebbec37c28304cc3afc2af5254355c218713b5115",
+      "evidence_sha256": "4236cd77d9b275ad6d27f7a1b6079da48d5317388fcbd825d040b6c8cef4a427",
+      "second_visual_sheet_sha256": "08e85e7d9cadb4d491a5e37b34ab9547d01d9f5f3d54c3876cd9b719b68d1e10",
+      "decision": "accepted local research; not release-approved",
+      "reason": "Complete unframed reproduction visually inspected twice; source/pin/rights declarations and proportions checked; no unresolved artwork-identity flag; selected for gallery variety.",
+      "physical_evidence": "source has no explicit dimensions; full reproduction visually checked, no quantitative physical-ratio claim"
+    },
+    {
+      "id": 54586370,
+      "file_title": "File:Facciata principale della Reggia di Caserta - Salvatore Fergola (1828).jpg",
+      "sha1": "ed4f99a9e41bdcb81722fc0b4687b80477a40855",
+      "title": "Facciata principale della Reggia di Caserta - Salvatore Fergola (1828)",
+      "artist": "Salvatore Fergola",
+      "width": 3600,
+      "height": 2013,
+      "source": "https://commons.wikimedia.org/w/index.php?curid=54586370",
+      "source_revision": 1240352100,
+      "source_page_sha256": "2460b70af0dbbaea916ac6bf2d4dd7120130220227b875090f88e10d0ad1b412",
+      "rights_label_observed": "Public domain",
+      "rights_basis": [
+        "pd-old-auto-expired"
+      ],
+      "artwork_qids": [],
+      "physical_measures": [],
+      "thumbnail_sha256": "be5a8270ebecb38dbc6c344fd839af0eee5b78bea5d62761f39e913e701e1ce1",
+      "evidence_sha256": "37cd4bde1a33bea9e017bd61d5e815ed359958ac20bbab8758ce1a6524b8e749",
+      "second_visual_sheet_sha256": "08e85e7d9cadb4d491a5e37b34ab9547d01d9f5f3d54c3876cd9b719b68d1e10",
+      "decision": "accepted local research; not release-approved",
+      "reason": "Complete unframed reproduction visually inspected twice; source/pin/rights declarations and proportions checked; no unresolved artwork-identity flag; selected for gallery variety.",
+      "physical_evidence": "source has no explicit dimensions; full reproduction visually checked, no quantitative physical-ratio claim"
     },
     {
       "id": 54950059,
@@ -2179,7 +3256,8 @@
       "source_page_sha256": "b6b846c45a7bc61a3d53e2b49340eff3f951f59df36cd8438e6a682858b8b0de",
       "rights_label_observed": "Public domain",
       "rights_basis": [
-        "cc-zero"
+        "cc-zero",
+        "pd-old-auto-1923"
       ],
       "artwork_qids": [
         "Q123669388"
@@ -2347,6 +3425,30 @@
       "physical_evidence": "source dimensions agree within 2.5%"
     },
     {
+      "id": 65375635,
+      "file_title": "File:Jessen C.L. Friesischen Gehöft@Sylter Heimatmuseum20171229.jpg",
+      "sha1": "675f6a3f5e9febd712489ebf716e52fa8f5cc70e",
+      "title": "German: Friesisches Gehöft",
+      "artist": "Carl Ludwig Jessen",
+      "width": 3965,
+      "height": 2220,
+      "source": "https://commons.wikimedia.org/w/index.php?curid=65375635",
+      "source_revision": 1132225557,
+      "source_page_sha256": "24f207595f8ac86297c276f6b93a0d9a1731d41b30fb5355b9efeaea630603c4",
+      "rights_label_observed": "Public domain",
+      "rights_basis": [
+        "pd-old-auto-1923"
+      ],
+      "artwork_qids": [],
+      "physical_measures": [],
+      "thumbnail_sha256": "a8a25349ec42a10240e0156b86f69cf5de5769d57e39f5d4256ab5d373089a50",
+      "evidence_sha256": "fa083a600838f6e7e783009331ff1ead0727111706c34d8199f63f45f3df34b1",
+      "second_visual_sheet_sha256": "c5d97997ef75f39d0547efed7f9802fab32d6f31052a8758194ef8416f94455b",
+      "decision": "accepted local research; not release-approved",
+      "reason": "Complete unframed reproduction visually inspected twice; source/pin/rights declarations and proportions checked; no unresolved artwork-identity flag; selected for gallery variety.",
+      "physical_evidence": "source has no explicit dimensions; full reproduction visually checked, no quantitative physical-ratio claim"
+    },
+    {
       "id": 66383635,
       "file_title": "File:Raden Saleh - Javanese Temple in Ruins - 1985.66.328,263 - Smithsonian American Art Museum.jpg",
       "sha1": "dd3aa27cc983a4358d3e81b9fe4e94d50dcb61a5",
@@ -2415,6 +3517,32 @@
       "physical_evidence": "source dimensions agree within 2.5%"
     },
     {
+      "id": 68196720,
+      "file_title": "File:Jaroslav Věšín - Zaťahovanie svadby - O 1865 - Slovak National Gallery.jpg",
+      "sha1": "496a64970850bf7e776b2119ba86b59b33fe76f4",
+      "title": "Zaťahovanie svadby",
+      "artist": "Jaroslav Věšín",
+      "width": 11235,
+      "height": 6438,
+      "source": "https://commons.wikimedia.org/w/index.php?curid=68196720",
+      "source_revision": 1177666421,
+      "source_page_sha256": "e1192d1870e79aed13fa370d2620dc4ecfe55735fc28f1763fc6a3154bf139f8",
+      "rights_label_observed": "Public domain",
+      "rights_basis": [
+        "pd-old-auto-1923"
+      ],
+      "artwork_qids": [
+        "Q51253116"
+      ],
+      "physical_measures": [],
+      "thumbnail_sha256": "81c51f27cef8d1cea2128f710c1b4d7125409ab5d217258a8cd8cdb056418c87",
+      "evidence_sha256": "5bd83706d9e03b754c9ec07d356af0187b767c5619e8163bdba45422ac3e965c",
+      "second_visual_sheet_sha256": "44a9ba4ebca7b0c2d3a0a7b20a35757e0f35f2aa8e38ed92996bf984dd6180d8",
+      "decision": "accepted local research; not release-approved",
+      "reason": "Complete unframed reproduction visually inspected twice; source/pin/rights declarations and proportions checked; no unresolved artwork-identity flag; selected for gallery variety.",
+      "physical_evidence": "source has no explicit dimensions; full reproduction visually checked, no quantitative physical-ratio claim"
+    },
+    {
       "id": 68712674,
       "file_title": "File:Nicola Facchinetti - São Tomé das Letras (2).jpg",
       "sha1": "ccaff7865baf6f2186e7a69be2935a25ab3b9b6a",
@@ -2471,6 +3599,32 @@
       "physical_evidence": "source has no explicit dimensions; full reproduction visually checked, no quantitative physical-ratio claim"
     },
     {
+      "id": 69311040,
+      "file_title": "File:August von Pettenkofen - Ungarisches Bauernfuhrwerk am Wasser.jpg",
+      "sha1": "dd6b7d05308ee747df198932a31c70cf46103138",
+      "title": "German: Ungarisches Bauernfuhrwerk am Wasser Hungarian farmer's wagon on the water",
+      "artist": "August von Pettenkofen",
+      "width": 3508,
+      "height": 1964,
+      "source": "https://commons.wikimedia.org/w/index.php?curid=69311040",
+      "source_revision": 1244576739,
+      "source_page_sha256": "4b10a934a1b75a797fd5c00ff98c366ac3676b1a7454db5fbbe90dec580f5e38",
+      "rights_label_observed": "Public domain",
+      "rights_basis": [
+        "pd-old-auto-1923"
+      ],
+      "artwork_qids": [
+        "Q28006909"
+      ],
+      "physical_measures": [],
+      "thumbnail_sha256": "83b611fbc1b85923fdbf5cc3ec3095bdcb9d6dab1e9f85526607463628dbc9f7",
+      "evidence_sha256": "2f1ec96836139ef18af774f5557ae34a690e3fe08ee82b7719d2d46599db2e9b",
+      "second_visual_sheet_sha256": "c5d97997ef75f39d0547efed7f9802fab32d6f31052a8758194ef8416f94455b",
+      "decision": "accepted local research; not release-approved",
+      "reason": "Complete unframed reproduction visually inspected twice; source/pin/rights declarations and proportions checked; no unresolved artwork-identity flag; selected for gallery variety.",
+      "physical_evidence": "source has no explicit dimensions; full reproduction visually checked, no quantitative physical-ratio claim"
+    },
+    {
       "id": 69367477,
       "file_title": "File:Bernardo Belotto, called Canaletto, 'View of Pirna with the fortress of Sonnenstein', 1768, Pushkin Museum, Moscow.jpg",
       "sha1": "97d9f99d46c269934816d451e71f835a7a20518c",
@@ -2517,6 +3671,38 @@
       "decision": "accepted local research; not release-approved",
       "reason": "Complete unframed reproduction visually inspected twice; source/pin/rights declarations and proportions checked; no unresolved artwork-identity flag; selected for gallery variety.",
       "physical_evidence": "source has no explicit dimensions; full reproduction visually checked, no quantitative physical-ratio claim"
+    },
+    {
+      "id": 69774630,
+      "file_title": "File:Antonietta Brandeis Palazzo Ducale.jpg",
+      "sha1": "2037344463964b496b5c52e1b2a47db1ab2ec3fc",
+      "title": "Antonietta Brandeis Palazzo Ducale",
+      "artist": "Antonietta Brandeis",
+      "width": 3310,
+      "height": 1898,
+      "source": "https://commons.wikimedia.org/w/index.php?curid=69774630",
+      "source_revision": 1055784935,
+      "source_page_sha256": "fd3f33ad5cf8d9116e450f10175955f80e915d7525bb17d27a48de5429c60be9",
+      "rights_label_observed": "Public domain",
+      "rights_basis": [
+        "pd-old-auto-1923"
+      ],
+      "artwork_qids": [],
+      "physical_measures": [
+        {
+          "raw": "{{de|Venedig - Il Palazzo Ducale, signiert A. Brandeis, Öl auf Holz, 12 x 21 cm}}",
+          "width": 21.0,
+          "height": 12.0,
+          "ratio": 1.75,
+          "interpretation": "plain two axes; measurement scope retained, landscape observed visually"
+        }
+      ],
+      "thumbnail_sha256": "132d7b99ba6e670a8cd3f26bb22dd4fb300a5287a48233e08ee132efdd8bf841",
+      "evidence_sha256": "fc7f3d5300c781470d9becbfb624b89171fc52636a9f0a0dbbbd2b581550bc6b",
+      "second_visual_sheet_sha256": "08e85e7d9cadb4d491a5e37b34ab9547d01d9f5f3d54c3876cd9b719b68d1e10",
+      "decision": "accepted local research; not release-approved",
+      "reason": "Complete unframed reproduction visually inspected twice; source/pin/rights declarations and proportions checked; no unresolved artwork-identity flag; selected for gallery variety.",
+      "physical_evidence": "source dimensions agree within 2.5%"
     },
     {
       "id": 70846784,
@@ -2587,6 +3773,150 @@
       "physical_evidence": "source dimensions agree within 2.5%"
     },
     {
+      "id": 73882433,
+      "file_title": "File:Momper Brueghel Frühling@Herzog Anton Ulrich Museum.JPG",
+      "sha1": "e6da14ad657792908f6429fa8b70db1f19cac56e",
+      "title": "Momper Brueghel Frühling@Herzog Anton Ulrich Museum",
+      "artist": "Joost de Momper d. J.; Jan Brueghel (I)",
+      "width": 4180,
+      "height": 2314,
+      "source": "https://commons.wikimedia.org/w/index.php?curid=73882433",
+      "source_revision": 1104214875,
+      "source_page_sha256": "705ef5729db830ee7f27210ee17e2f30b926f7fa2ec562fe0604b51e1069f51a",
+      "rights_label_observed": "Public domain",
+      "rights_basis": [
+        "pd-old-auto-1923"
+      ],
+      "artwork_qids": [
+        "Q131106871"
+      ],
+      "physical_measures": [],
+      "thumbnail_sha256": "7e5a482aef439f51c4301e9f4f62489b71a41629fa04bcba5bfd7c5d5fe3d60f",
+      "evidence_sha256": "093b37c5cc2c585489fb478f90aab6a5b7554799d71d8eefea92ce4ea036ec6c",
+      "second_visual_sheet_sha256": "0ef6831fc7569099e14990beadc2d40df5af74cc51865d725526e26bb8abefba",
+      "decision": "accepted local research; not release-approved",
+      "reason": "Complete unframed reproduction visually inspected twice; source/pin/rights declarations and proportions checked; no unresolved artwork-identity flag; selected for gallery variety.",
+      "physical_evidence": "source has no explicit dimensions; full reproduction visually checked, no quantitative physical-ratio claim"
+    },
+    {
+      "id": 73882502,
+      "file_title": "File:Momper Brueghel Sommer@Herzog Anton Ulrich Museum.JPG",
+      "sha1": "e73f7b3f8b181263a1191f69ed7c2069f9e724d4",
+      "title": "Momper Brueghel Sommer@Herzog Anton Ulrich Museum",
+      "artist": "Joost de Momper d. J.; Jan Brueghel (I)",
+      "width": 4152,
+      "height": 2308,
+      "source": "https://commons.wikimedia.org/w/index.php?curid=73882502",
+      "source_revision": 1257872179,
+      "source_page_sha256": "fa1f2ed821d5fb1ea81653c0ebceef3c71cb50a9191d28802ed4a0384a5c9a8f",
+      "rights_label_observed": "Public domain",
+      "rights_basis": [
+        "pd-old-auto-1923"
+      ],
+      "artwork_qids": [
+        "Q131106873"
+      ],
+      "physical_measures": [],
+      "thumbnail_sha256": "3bae9eabf3c683d0be41b9d9e8c29c0ea7d86c3eaa9af2275753452a5da5472d",
+      "evidence_sha256": "f41e577b8aba219ebc0b106dece400fb44789f92d60d322dc27a1b3b8d24e7a2",
+      "second_visual_sheet_sha256": "e809e9f37c4e230012ceaa733b6bc914a67e0794e504d957a800a9734feacce6",
+      "decision": "accepted local research; not release-approved",
+      "reason": "Complete unframed reproduction visually inspected twice; source/pin/rights declarations and proportions checked; no unresolved artwork-identity flag; selected for gallery variety.",
+      "physical_evidence": "source has no explicit dimensions; full reproduction visually checked, no quantitative physical-ratio claim"
+    },
+    {
+      "id": 73882636,
+      "file_title": "File:Momper Brueghel Herbst@Herzog Anton Ulrich Museum.JPG",
+      "sha1": "4bd6e24a3adba07b324548c663559df73f927c8e",
+      "title": "Momper Brueghel Herbst@Herzog Anton Ulrich Museum",
+      "artist": "Joost de Momper d. J.; Jan Brueghel (I)",
+      "width": 4048,
+      "height": 2258,
+      "source": "https://commons.wikimedia.org/w/index.php?curid=73882636",
+      "source_revision": 1104214878,
+      "source_page_sha256": "f1427a540efb2975bb0595e4872dbce21621b7a97a5b6e035d9c5273b91a62b1",
+      "rights_label_observed": "Public domain",
+      "rights_basis": [
+        "pd-old-auto-1923"
+      ],
+      "artwork_qids": [
+        "Q131106875"
+      ],
+      "physical_measures": [
+        {
+          "raw": "{{Size|unit=cm|width=96.7|height=54.8}}",
+          "width": 96.7,
+          "height": 54.8,
+          "ratio": 1.7645985401459856,
+          "interpretation": "named height/width"
+        }
+      ],
+      "thumbnail_sha256": "eda33302df6fc26a33f17ff1c1e1e70a026ddc77be32b4e8fa3e7909ae4c234f",
+      "evidence_sha256": "654d22a9df4c818558d46d9d87e8ec530dbe817923c4d933f93c0f963a960036",
+      "second_visual_sheet_sha256": "0ef6831fc7569099e14990beadc2d40df5af74cc51865d725526e26bb8abefba",
+      "decision": "accepted local research; not release-approved",
+      "reason": "Complete unframed reproduction visually inspected twice; source/pin/rights declarations and proportions checked; no unresolved artwork-identity flag; selected for gallery variety.",
+      "physical_evidence": "source dimensions agree within 2.5%"
+    },
+    {
+      "id": 74389708,
+      "file_title": "File:Ralph Albert Blakelock - Golden Glow - 65.38 - Museum of Fine Arts.jpg",
+      "sha1": "df6d4a192bdb1062ac0b30476400fedf2d0f3416",
+      "title": "Golden Glow",
+      "artist": "Ralph Albert Blakelock",
+      "width": 3200,
+      "height": 1790,
+      "source": "https://commons.wikimedia.org/w/index.php?curid=74389708",
+      "source_revision": 1246564975,
+      "source_page_sha256": "d1a822fa019fb18206408ba984fbb910dadbe95a4e11699b19e9ba314eb68fca",
+      "rights_label_observed": "Public domain",
+      "rights_basis": [
+        "pd-old-auto-1923"
+      ],
+      "artwork_qids": [
+        "Q28094155"
+      ],
+      "physical_measures": [],
+      "thumbnail_sha256": "7c36c4a33ed83c433f6c5a2507aec2e00ccb58051e0dabd3098382f54982a05d",
+      "evidence_sha256": "82f95b7d9d172b46d90a41a75730e1498041682811c376189000e7e1326db706",
+      "second_visual_sheet_sha256": "934b9eb4e962e06bcdcfab3d7554d23c7861604d5d3c90e1ab4435c858999052",
+      "decision": "accepted local research; not release-approved",
+      "reason": "Complete unframed reproduction visually inspected twice; source/pin/rights declarations and proportions checked; no unresolved artwork-identity flag; selected for gallery variety.",
+      "physical_evidence": "source has no explicit dimensions; full reproduction visually checked, no quantitative physical-ratio claim"
+    },
+    {
+      "id": 74546579,
+      "file_title": "File:Friedrich Thøming - Thunfiskeri ved Kysten af Neapel, Maaneskin (ca. 1850).jpg",
+      "sha1": "dc43c413d21d98001a502aa49e147d4338b0c75f",
+      "title": "Tuna fishing in the bay of Naples by moonlight",
+      "artist": "Christian Frederik Ferdinand Thøming",
+      "width": 3238,
+      "height": 1836,
+      "source": "https://commons.wikimedia.org/w/index.php?curid=74546579",
+      "source_revision": 1261838606,
+      "source_page_sha256": "d96c50112f159f5b4dec088659abf69b33ef57348c87ede2df53f28cad7a4f81",
+      "rights_label_observed": "Public domain",
+      "rights_basis": [
+        "pd-old-auto-1923"
+      ],
+      "artwork_qids": [],
+      "physical_measures": [
+        {
+          "raw": "{{Size|cm|14|25}}",
+          "width": 25.0,
+          "height": 14.0,
+          "ratio": 1.7857142857142858,
+          "interpretation": "unlabelled two axes; landscape orientation observed visually"
+        }
+      ],
+      "thumbnail_sha256": "5251820deee89a2ef258dde150db76dc1a00c47a29ab3c968cfa8be1b3119653",
+      "evidence_sha256": "8087f7aed44afd1d275e78d2c123018bdfb0f0370c51b62ad193c67ac7e491e5",
+      "second_visual_sheet_sha256": "a04708ab4ed664eb8d65eed2c8d83d0d5804a71c9aeb248e4ba0c3fe3c144af0",
+      "decision": "accepted local research; not release-approved",
+      "reason": "Complete unframed reproduction visually inspected twice; source/pin/rights declarations and proportions checked; no unresolved artwork-identity flag; selected for gallery variety.",
+      "physical_evidence": "source dimensions agree within 2.5%"
+    },
+    {
       "id": 74572653,
       "file_title": "File:Enrico Bartezago - Colourful Village Life.jpg",
       "sha1": "11be339433d72b6c284aea0a4373da1c832ac4d5",
@@ -2649,6 +3979,30 @@
       "decision": "accepted local research; not release-approved",
       "reason": "Complete unframed reproduction visually inspected twice; source/pin/rights declarations and proportions checked; no unresolved artwork-identity flag; selected for gallery variety.",
       "physical_evidence": "source dimensions agree within 2.5%"
+    },
+    {
+      "id": 75381504,
+      "file_title": "File:Tischbein Joh. Hr. d. Ä. The Abduction of Briseis@Kunsthalle Hamburg.JPG",
+      "sha1": "81561afa89c7f53d1c848ccfc77b4a0de8bbf42f",
+      "title": "The Abduction of Briseis from the Tent of Achilles",
+      "artist": "Johann Heinrich Tischbein",
+      "width": 3829,
+      "height": 2162,
+      "source": "https://commons.wikimedia.org/w/index.php?curid=75381504",
+      "source_revision": 954504454,
+      "source_page_sha256": "712a2128c87d88ed1afb5e10977916f4f91d598f80a537f3adf3d76c137b82cd",
+      "rights_label_observed": "Public domain",
+      "rights_basis": [
+        "pd-old-auto-1923"
+      ],
+      "artwork_qids": [],
+      "physical_measures": [],
+      "thumbnail_sha256": "e591918af3b188b55e5cd1645f78076779bb085b2c925295f0a782db8bf472e0",
+      "evidence_sha256": "ecb014d32f53ba451b2dfada5e229ab5cb5ad22fb339b2bf78588df7e05bc03d",
+      "second_visual_sheet_sha256": "c5d97997ef75f39d0547efed7f9802fab32d6f31052a8758194ef8416f94455b",
+      "decision": "accepted local research; not release-approved",
+      "reason": "Complete unframed reproduction visually inspected twice; source/pin/rights declarations and proportions checked; no unresolved artwork-identity flag; selected for gallery variety.",
+      "physical_evidence": "source has no explicit dimensions; full reproduction visually checked, no quantitative physical-ratio claim"
     },
     {
       "id": 76297104,
@@ -2834,6 +4188,38 @@
       "physical_evidence": "source dimensions agree within 2.5%"
     },
     {
+      "id": 83529716,
+      "file_title": "File:Karl Mediz - Gestade am Meer mit dem Lindwurm (1891).jpg",
+      "sha1": "04a19d098c843f81bb52482ced7c650bfa6791aa",
+      "title": "The Iguana",
+      "artist": "Karl Mediz",
+      "width": 6479,
+      "height": 3671,
+      "source": "https://commons.wikimedia.org/w/index.php?curid=83529716",
+      "source_revision": 1176836325,
+      "source_page_sha256": "0e24cd05854943f711d72887404e05e9a7910b03ecfd2948706738d1f2c0b740",
+      "rights_label_observed": "Public domain",
+      "rights_basis": [
+        "pd-old-auto-1923"
+      ],
+      "artwork_qids": [],
+      "physical_measures": [
+        {
+          "raw": "{{size|unit=cm|height=73|width=129}}",
+          "width": 129.0,
+          "height": 73.0,
+          "ratio": 1.7671232876712328,
+          "interpretation": "named height/width"
+        }
+      ],
+      "thumbnail_sha256": "478df7e45851bbf2e5d925b7080b3b8c4edc49c666b21cdc68847241c862e8da",
+      "evidence_sha256": "a309aa607271f76168c878cb6afc84c4c04a1671ffa16a7206d6a0776c9ec07d",
+      "second_visual_sheet_sha256": "44a9ba4ebca7b0c2d3a0a7b20a35757e0f35f2aa8e38ed92996bf984dd6180d8",
+      "decision": "accepted local research; not release-approved",
+      "reason": "Complete unframed reproduction visually inspected twice; source/pin/rights declarations and proportions checked; no unresolved artwork-identity flag; selected for gallery variety.",
+      "physical_evidence": "source dimensions agree within 2.5%"
+    },
+    {
       "id": 83593797,
       "file_title": "File:Een oorlogsschip, in 1626 op last van Lodewijk XIII op een Hollandse werf gebouwd, stevent onder geleide van een Hollands schip een Hollandse haven binnen, SK-A-4261.jpg",
       "sha1": "9a64eb1c8e9a19f3d9485b5f250b4022d08827ec",
@@ -2898,6 +4284,70 @@
       "physical_evidence": "source dimensions agree within 2.5%"
     },
     {
+      "id": 84115175,
+      "file_title": "File:Ruïne van Huis te Merwede bij Dordrecht aan de Maas, RP-T-1983-397.jpg",
+      "sha1": "4b07b92df9af698b9235b7bcb99a842638a73665",
+      "title": "Ruïne van Huis te Merwede bij Dordrecht aan de Maas, RP-T-1983-397",
+      "artist": "Hendrik Abraham Klinkhamer",
+      "width": 5542,
+      "height": 3120,
+      "source": "https://commons.wikimedia.org/w/index.php?curid=84115175",
+      "source_revision": 1204660463,
+      "source_page_sha256": "6827f891b8a3c850d89a9a9a6d8e4cdba8701df25381dfac03f0c177de1b6d8d",
+      "rights_label_observed": "CC0",
+      "rights_basis": [
+        "cc-zero"
+      ],
+      "artwork_qids": [],
+      "physical_measures": [
+        {
+          "raw": "{{nl|1=<br><br><big>'''Identificatie'''</big><br>'''Titel(s): '''Ruïne van Huis te Merwede bij Dordrecht aan de Maas<br>'''Objecttype:''' tekening aquarel <br>'''Objectnummer:''' RP-T-1983-397<br><br><big>'''Vervaardiging'''</big><br>'''Vervaardiger:''' tekenaar: Hendrik Abraham Klinkhamer<br>'''Datering:''' 1820 - 1872<br>'''Fysieke kenmerken:''' pen in bruin, penseel in kleuren in waterverf, potlood<br>'''Materiaal:''' papier inkt waterverf potlood <br>'''Techniek:''' penseel / pen<br>'''Afmetingen:''' h 108 mm × b 196 mm<br><br><big>'''Onderwerp'''</big><br>'''Wat: '''ruins of historical buildings, river, landscape with ruin<br>'''Waar:''' Dordrecht, Huis te Merwede, Maas<br><br><big>'''Verwerving en rechten'''</big><br>'''Credit line:''' Schenking van de erven van de heer H.A. Klinkhamer<br>'''Verwerving:''' schenking 1983<br>'''Copyright:''' Publiek domein}}",
+          "width": 196.0,
+          "height": 108.0,
+          "ratio": 1.8148148148148149,
+          "interpretation": "explicit Dutch h/b axes; all measurement scopes retained"
+        }
+      ],
+      "thumbnail_sha256": "8623757495bc57e957c418eb4199a5fc5777f548c5d87badba301147b71ee3a9",
+      "evidence_sha256": "2878361e3a0ca65c7b9a68b05c73d27c9be138192b0c6da547340454d806dd60",
+      "second_visual_sheet_sha256": "2c10560f83e033d2bbe4241701eb926ab9ce4b65697a066c61b5ed430c9d224d",
+      "decision": "accepted local research; not release-approved",
+      "reason": "Complete unframed reproduction visually inspected twice; source/pin/rights declarations and proportions checked; no unresolved artwork-identity flag; selected for gallery variety.",
+      "physical_evidence": "source dimensions agree within 2.5%"
+    },
+    {
+      "id": 84757026,
+      "file_title": "File:Landschap met kudde schapen, RP-T-1920-46.jpg",
+      "sha1": "407e9baa97b7de6ddb088c5e9d744d53a2d6782a",
+      "title": "Landschap met kudde schapen, RP-T-1920-46",
+      "artist": "Cornelis Willem Hoevenaar (II)",
+      "width": 5598,
+      "height": 3182,
+      "source": "https://commons.wikimedia.org/w/index.php?curid=84757026",
+      "source_revision": 1226663243,
+      "source_page_sha256": "20d6bf4e2fe8810d18e3e9cf97dd89c2379b8236c754b65d544a0ec5bcf56de2",
+      "rights_label_observed": "CC0",
+      "rights_basis": [
+        "cc-zero"
+      ],
+      "artwork_qids": [],
+      "physical_measures": [
+        {
+          "raw": "{{nl|1=<br><br><big>'''Identificatie'''</big><br>'''Titel(s): '''Landschap met kudde schapen<br>'''Objecttype:''' tekening aquarel <br>'''Objectnummer:''' RP-T-1920-46<br><br><big>'''Vervaardiging'''</big><br>'''Vervaardiger:''' tekenaar: Cornelis Willem Hoevenaar (II)<br>'''Datering:''' 1857 - 1884<br>'''Fysieke kenmerken:''' penseel in kleuren<br>'''Materiaal:''' papier waterverf <br>'''Techniek:''' penseel<br>'''Afmetingen:''' h 132 mm × b 236 mm<br><br><big>'''Onderwerp'''</big><br>'''Wat: '''herd, flocksheep<br><br><big>'''Verwerving en rechten'''</big><br>'''Credit line:''' Schenking van het Genootschap Kunstliefde<br>'''Verwerving:''' schenking 1920<br>'''Copyright:''' Publiek domein}}",
+          "width": 236.0,
+          "height": 132.0,
+          "ratio": 1.7878787878787878,
+          "interpretation": "explicit Dutch h/b axes; all measurement scopes retained"
+        }
+      ],
+      "thumbnail_sha256": "cea25455a772e4ce1fa562693881d50e5de9285425222334d659df2d3cd01d1b",
+      "evidence_sha256": "f05d5da08cd102e3cb76126b0be81083f65e2ef13b1d0f8333da5c1fc293b268",
+      "second_visual_sheet_sha256": "2c10560f83e033d2bbe4241701eb926ab9ce4b65697a066c61b5ed430c9d224d",
+      "decision": "accepted local research; not release-approved",
+      "reason": "Complete unframed reproduction visually inspected twice; source/pin/rights declarations and proportions checked; no unresolved artwork-identity flag; selected for gallery variety.",
+      "physical_evidence": "source dimensions agree within 2.5%"
+    },
+    {
       "id": 84917041,
       "file_title": "File:Drie bloemen, RP-T-1965-11.jpg",
       "sha1": "579b4ed8c6b6f962c2e4ea3bbb978868febba832",
@@ -2928,6 +4378,30 @@
       "decision": "accepted local research; not release-approved",
       "reason": "Complete unframed reproduction visually inspected twice; source/pin/rights declarations and proportions checked; no unresolved artwork-identity flag; selected for gallery variety.",
       "physical_evidence": "source dimensions agree within 2.5%"
+    },
+    {
+      "id": 86019471,
+      "file_title": "File:Maastricht-Sint Pieter & Maas (Ph v Gulpen, ca 1850).jpg",
+      "sha1": "4495fff5a114978f13559d6122de607012c20bb4",
+      "title": "Maastricht-Sint Pieter & Maas (Ph v Gulpen, ca 1850)",
+      "artist": "Philippe van Gulpen",
+      "width": 4123,
+      "height": 2344,
+      "source": "https://commons.wikimedia.org/w/index.php?curid=86019471",
+      "source_revision": 1224865213,
+      "source_page_sha256": "5fd8988e643c9e3506ad411697dbd0e50d44ac6f5f07afebbbacd4a03cb1c8c7",
+      "rights_label_observed": "Public domain",
+      "rights_basis": [
+        "pd-old-auto-expired"
+      ],
+      "artwork_qids": [],
+      "physical_measures": [],
+      "thumbnail_sha256": "2dc908ff374e97adb3bed70f401afb20061fd076e6b90966014626999a4672c8",
+      "evidence_sha256": "a5200c1f6112c81a4f95674c17f9ca7624e31fb9f168b80958ec73694ac4217f",
+      "second_visual_sheet_sha256": "0ef6831fc7569099e14990beadc2d40df5af74cc51865d725526e26bb8abefba",
+      "decision": "accepted local research; not release-approved",
+      "reason": "Complete unframed reproduction visually inspected twice; source/pin/rights declarations and proportions checked; no unresolved artwork-identity flag; selected for gallery variety.",
+      "physical_evidence": "source has no explicit dimensions; full reproduction visually checked, no quantitative physical-ratio claim"
     },
     {
       "id": 90858339,
@@ -3012,6 +4486,96 @@
       "decision": "accepted local research; not release-approved",
       "reason": "Complete unframed reproduction visually inspected twice; source/pin/rights declarations and proportions checked; no unresolved artwork-identity flag; selected for gallery variety.",
       "physical_evidence": "source has no explicit dimensions; full reproduction visually checked, no quantitative physical-ratio claim"
+    },
+    {
+      "id": 92574811,
+      "file_title": "File:Suur-Kalevala-grafiikkaa D-GKM-671 2 (crop).jpg",
+      "sha1": "4cffffe5842fc843f71c4741b6c4ad3bca630232",
+      "title": "The Great Kalevala, woodcut print of Väinämöinen and the eagle",
+      "artist": "Akseli Gallen-Kallela",
+      "width": 5174,
+      "height": 2904,
+      "source": "https://commons.wikimedia.org/w/index.php?curid=92574811",
+      "source_revision": 1011790998,
+      "source_page_sha256": "d478b13c33a0671ce0474ff8a5b68f0e59753066e2b2a60e85602c5289455ec8",
+      "rights_label_observed": "CC0",
+      "rights_basis": [
+        "cc-zero"
+      ],
+      "artwork_qids": [],
+      "physical_measures": [],
+      "thumbnail_sha256": "04fbd15e293e8b378e988437ad3896a5afeb96ef11a29b3bd03112488f8df67b",
+      "evidence_sha256": "a56ededd207bd5c155e3e2ad9deeacee0f66c0bfca143002696cbecf40d6aff2",
+      "second_visual_sheet_sha256": "44a9ba4ebca7b0c2d3a0a7b20a35757e0f35f2aa8e38ed92996bf984dd6180d8",
+      "decision": "accepted local research; not release-approved",
+      "reason": "Complete unframed reproduction visually inspected twice; source/pin/rights declarations and proportions checked; no unresolved artwork-identity flag; selected for gallery variety.",
+      "physical_evidence": "source has no explicit dimensions; full reproduction visually checked, no quantitative physical-ratio claim"
+    },
+    {
+      "id": 92833209,
+      "file_title": "File:La Porte Saint-Martin, soir d'hiver by Eugène Galien-Laloue.jpg",
+      "sha1": "83710cee25be43d6dbc5425d48a6d4f66c133961",
+      "title": "La Porte Saint-Martin, soir d'hiver by Eugène Galien-Laloue",
+      "artist": "Eugène Galien-Laloue",
+      "width": 3840,
+      "height": 2147,
+      "source": "https://commons.wikimedia.org/w/index.php?curid=92833209",
+      "source_revision": 1220048523,
+      "source_page_sha256": "5956022be8b9f8f740af31fec715887dee9a14129bd2281c83fe161dfd21d660",
+      "rights_label_observed": "Public domain",
+      "rights_basis": [
+        "pd-old-70-1923"
+      ],
+      "artwork_qids": [],
+      "physical_measures": [
+        {
+          "raw": "{{en|1=''La Porte Saint-Martin, soir d'hiver'' (''The Porte Saint-Martin, Winter Evening'') by Eugène Galien-Laloue, gouache on paper, 18 x 32 cm (7 1/8 x 12 5/8 in.)}}",
+          "width": 32.0,
+          "height": 18.0,
+          "ratio": 1.7777777777777777,
+          "interpretation": "plain two axes; measurement scope retained, landscape observed visually"
+        }
+      ],
+      "thumbnail_sha256": "d31cc0fa9b9273a3a57c2a91439cb6bff1b8fe6419c20bb6f79191f5867e074f",
+      "evidence_sha256": "0fa864a24b8a74747d006836d411636acd3a2e37bb00f6e6989958b5ed137dd0",
+      "second_visual_sheet_sha256": "44a9ba4ebca7b0c2d3a0a7b20a35757e0f35f2aa8e38ed92996bf984dd6180d8",
+      "decision": "accepted local research; not release-approved",
+      "reason": "Complete unframed reproduction visually inspected twice; source/pin/rights declarations and proportions checked; no unresolved artwork-identity flag; selected for gallery variety.",
+      "physical_evidence": "source dimensions agree within 2.5%"
+    },
+    {
+      "id": 93097969,
+      "file_title": "File:Alfred Casile - Quai du Rhône à Avignon.jpg",
+      "sha1": "bba9bbc46e66796d2e3d404cc69a1e3f45a4ba01",
+      "title": "French: Quai du Rhône à Avignon",
+      "artist": "Alfred Casile",
+      "width": 4023,
+      "height": 2319,
+      "source": "https://commons.wikimedia.org/w/index.php?curid=93097969",
+      "source_revision": 1045766969,
+      "source_page_sha256": "dfa6e57c67cd97642cd3bbb418614ba09eaffec0a55312123dd7ff6e8936b1f8",
+      "rights_label_observed": "Public domain",
+      "rights_basis": [
+        "pd-old-auto-1923"
+      ],
+      "artwork_qids": [
+        "Q125134755"
+      ],
+      "physical_measures": [
+        {
+          "raw": "{{Size|unit=cm|width=254|height=143}}",
+          "width": 254.0,
+          "height": 143.0,
+          "ratio": 1.7762237762237763,
+          "interpretation": "named height/width"
+        }
+      ],
+      "thumbnail_sha256": "f30d3e846d64151517db22ced0bf889f6f097303176ee26b6b1f9a559295939f",
+      "evidence_sha256": "d81360c0004865b776a11b2ae08d9218cbfad4787b793471ce04978b64e6cc6b",
+      "second_visual_sheet_sha256": "c5d97997ef75f39d0547efed7f9802fab32d6f31052a8758194ef8416f94455b",
+      "decision": "accepted local research; not release-approved",
+      "reason": "Complete unframed reproduction visually inspected twice; source/pin/rights declarations and proportions checked; no unresolved artwork-identity flag; selected for gallery variety.",
+      "physical_evidence": "source dimensions agree within 2.5%"
     },
     {
       "id": 94091272,
@@ -3102,6 +4666,58 @@
       "physical_evidence": "source dimensions agree within 2.5%"
     },
     {
+      "id": 98809146,
+      "file_title": "File:Wincenty Kasprzycki - Demolition of the church St. Clara and the Bernardine nunnery in Warsaw - MP 4919 - National Museum in Warsaw.jpg",
+      "sha1": "f90807042933fd7a2fc1e87077a23c847c6891a1",
+      "title": "Demolition of the church St. Clara and the Bernardine nunnery in Warsaw",
+      "artist": "Wincenty Kasprzycki",
+      "width": 4000,
+      "height": 2269,
+      "source": "https://commons.wikimedia.org/w/index.php?curid=98809146",
+      "source_revision": 1174871449,
+      "source_page_sha256": "adc968a8182c294b8af43117d527f2d99df88e0904b64b97c15e0b9686b8676f",
+      "rights_label_observed": "Public domain",
+      "rights_basis": [
+        "pd-old-auto-expired"
+      ],
+      "artwork_qids": [
+        "Q18433941"
+      ],
+      "physical_measures": [],
+      "thumbnail_sha256": "cdb867619369b4d09da45e89328eb2df276b5f594aa54d7a574924f94948efcc",
+      "evidence_sha256": "f41e577b8aba219ebc0b106dece400fb44789f92d60d322dc27a1b3b8d24e7a2",
+      "second_visual_sheet_sha256": "e809e9f37c4e230012ceaa733b6bc914a67e0794e504d957a800a9734feacce6",
+      "decision": "accepted local research; not release-approved",
+      "reason": "Complete unframed reproduction visually inspected twice; source/pin/rights declarations and proportions checked; no unresolved artwork-identity flag; selected for gallery variety.",
+      "physical_evidence": "source has no explicit dimensions; full reproduction visually checked, no quantitative physical-ratio claim"
+    },
+    {
+      "id": 98814213,
+      "file_title": "File:Abraham de Verwer - Marine view with a port in the background - M.Ob.1025 MNW - National Museum in Warsaw.jpg",
+      "sha1": "463680afbea7d2125b01b57752409c238dba08c4",
+      "title": "Marine view with a port in the background",
+      "artist": "Abraham de Verwer",
+      "width": 4000,
+      "height": 2267,
+      "source": "https://commons.wikimedia.org/w/index.php?curid=98814213",
+      "source_revision": 1111261710,
+      "source_page_sha256": "02165687cc584e1e5b70731949be7b81e1d24eb984d5e8301bc715d99514c09d",
+      "rights_label_observed": "Public domain",
+      "rights_basis": [
+        "pd-old-auto-expired"
+      ],
+      "artwork_qids": [
+        "Q104533981"
+      ],
+      "physical_measures": [],
+      "thumbnail_sha256": "a6fa3db6672307fce03e53ee28a67b3613e8dcceddcf9f22674c1c5cdc0aa3b0",
+      "evidence_sha256": "3f60612c9c50101ac4ff8e95aa79fe4301af0631eb04908871d3fd9ce37a8680",
+      "second_visual_sheet_sha256": "e809e9f37c4e230012ceaa733b6bc914a67e0794e504d957a800a9734feacce6",
+      "decision": "accepted local research; not release-approved",
+      "reason": "Complete unframed reproduction visually inspected twice; source/pin/rights declarations and proportions checked; no unresolved artwork-identity flag; selected for gallery variety.",
+      "physical_evidence": "source has no explicit dimensions; full reproduction visually checked, no quantitative physical-ratio claim"
+    },
+    {
       "id": 99178355,
       "file_title": "File:Floral Still Life with Roses in a Basket by Florine Hyer.jpg",
       "sha1": "64e1ce87f128a82bcca66598eb232ac1c0592556",
@@ -3121,6 +4737,32 @@
       "thumbnail_sha256": "e642517bf9e54bf4d6d432c8c3751ee8f83acde1153ff3342768dec97eb58f0c",
       "evidence_sha256": "bf53c1b8e0e445504a1a57fa56d83050b280d5725479acf2029e32e9463b80ce",
       "second_visual_sheet_sha256": "0611cc75f0d0bbb73d2b9b76eab82ea273304d697f63a04054d96ec9564132d3",
+      "decision": "accepted local research; not release-approved",
+      "reason": "Complete unframed reproduction visually inspected twice; source/pin/rights declarations and proportions checked; no unresolved artwork-identity flag; selected for gallery variety.",
+      "physical_evidence": "source has no explicit dimensions; full reproduction visually checked, no quantitative physical-ratio claim"
+    },
+    {
+      "id": 99878772,
+      "file_title": "File:Yefim Yefimovich Volkov - On the way to pasture - M.Ob.1177 MNW - National Museum in Warsaw.jpg",
+      "sha1": "3136e9d5888026189b54d1654545a5d6bee73ddc",
+      "title": "On the way to pasture",
+      "artist": "Yefim Volkov",
+      "width": 4000,
+      "height": 2280,
+      "source": "https://commons.wikimedia.org/w/index.php?curid=99878772",
+      "source_revision": 1236879859,
+      "source_page_sha256": "0dd9e2316058136b82f135610c05df98753d8e3a5dc2c17b1d424854777804e7",
+      "rights_label_observed": "Public domain",
+      "rights_basis": [
+        "pd-old-auto-expired"
+      ],
+      "artwork_qids": [
+        "Q104595675"
+      ],
+      "physical_measures": [],
+      "thumbnail_sha256": "8185cdf7a14f7ce7d3ded14364f32f4cec3d93e9784decfb8c9da90d9732d20d",
+      "evidence_sha256": "63d49ef2b82a25709422b36a1e2a25d4a7fc41f7e3a0c763905415a023368a63",
+      "second_visual_sheet_sha256": "e809e9f37c4e230012ceaa733b6bc914a67e0794e504d957a800a9734feacce6",
       "decision": "accepted local research; not release-approved",
       "reason": "Complete unframed reproduction visually inspected twice; source/pin/rights declarations and proportions checked; no unresolved artwork-identity flag; selected for gallery variety.",
       "physical_evidence": "source has no explicit dimensions; full reproduction visually checked, no quantitative physical-ratio claim"
@@ -3254,6 +4896,158 @@
       "physical_evidence": "source dimensions agree within 2.5%"
     },
     {
+      "id": 106289300,
+      "file_title": "File:Henry Martin Street in Cornwall.jpg",
+      "sha1": "59168c7b26fee2cc99c137e5f707bb38f1eb2344",
+      "title": "Henry Martin Street in Cornwall",
+      "artist": "Henry Martin",
+      "width": 3000,
+      "height": 1717,
+      "source": "https://commons.wikimedia.org/w/index.php?curid=106289300",
+      "source_revision": 1130515309,
+      "source_page_sha256": "11ebb93c6c2665f6afefa882bfbee3ebd1076ad518ac155bdb277f7859d590d4",
+      "rights_label_observed": "Public domain",
+      "rights_basis": [
+        "pd-old-auto-expired"
+      ],
+      "artwork_qids": [],
+      "physical_measures": [
+        {
+          "raw": "{{de|Landstraße in Cornwall. Öl auf Holz. 12,5 x 22 cm. Signiert unten rechts ‚Henry Martin‘, verso bezeichnet ‚at Burnewhall in Lands End – Cornwall‘.}}",
+          "width": 22.0,
+          "height": 12.5,
+          "ratio": 1.76,
+          "interpretation": "plain two axes; measurement scope retained, landscape observed visually"
+        }
+      ],
+      "thumbnail_sha256": "bdcc501723f56146d396a697c47a85c5c8de9462f679544b226a8f7018f7124b",
+      "evidence_sha256": "075da9d67cffa9132ad9eb683a71957263942c87757cc7187ad91130fd74f98f",
+      "second_visual_sheet_sha256": "934b9eb4e962e06bcdcfab3d7554d23c7861604d5d3c90e1ab4435c858999052",
+      "decision": "accepted local research; not release-approved",
+      "reason": "Complete unframed reproduction visually inspected twice; source/pin/rights declarations and proportions checked; no unresolved artwork-identity flag; selected for gallery variety.",
+      "physical_evidence": "source dimensions agree within 2.5%"
+    },
+    {
+      "id": 109122728,
+      "file_title": "File:August Wilhelm Leu - Italienische Küstenlandschaft bei Neapel (1884).jpg",
+      "sha1": "43280240ea0ea3a6ab01a3a9e343528512d04589",
+      "title": "Italian coastal landscape near Naples",
+      "artist": "August Wilhelm Leu",
+      "width": 3500,
+      "height": 1977,
+      "source": "https://commons.wikimedia.org/w/index.php?curid=109122728",
+      "source_revision": 1250753065,
+      "source_page_sha256": "b1ad17f760ecf80547929c63904a009cc03e1f5d4519bf0e052a0c13f8e52b99",
+      "rights_label_observed": "Public domain",
+      "rights_basis": [
+        "pd-old-auto-1923"
+      ],
+      "artwork_qids": [],
+      "physical_measures": [
+        {
+          "raw": "{{size|unit=cm|height=88|width=155}}",
+          "width": 155.0,
+          "height": 88.0,
+          "ratio": 1.7613636363636365,
+          "interpretation": "named height/width"
+        }
+      ],
+      "thumbnail_sha256": "5a412084ec0b597774fce02a26c6e3191a6832e9d6ed3f1fb5bb0d5975d19d26",
+      "evidence_sha256": "695c6fe6096ce7449bdcf10e2acaa62abd6c7177042c8a6aebf2015d902ccb41",
+      "second_visual_sheet_sha256": "a04708ab4ed664eb8d65eed2c8d83d0d5804a71c9aeb248e4ba0c3fe3c144af0",
+      "decision": "accepted local research; not release-approved",
+      "reason": "Complete unframed reproduction visually inspected twice; source/pin/rights declarations and proportions checked; no unresolved artwork-identity flag; selected for gallery variety.",
+      "physical_evidence": "source dimensions agree within 2.5%"
+    },
+    {
+      "id": 111139063,
+      "file_title": "File:William McDowell - The heavy cruiser H.M.S. Cumberland.jpg",
+      "sha1": "0b5ec47194f6d07fb7d2e89aa8c17026eebae32f",
+      "title": "The heavy cruiser H.M.S. Cumberland",
+      "artist": "William McDowell (1888-1950)",
+      "width": 3200,
+      "height": 1777,
+      "source": "https://commons.wikimedia.org/w/index.php?curid=111139063",
+      "source_revision": 938390658,
+      "source_page_sha256": "0006b69add1abfdc7d08f1e232b1915386ecea6bf242371212a2c62dc2fde8b4",
+      "rights_label_observed": "Public domain",
+      "rights_basis": [
+        "pd-old-auto-1923"
+      ],
+      "artwork_qids": [],
+      "physical_measures": [
+        {
+          "raw": "27 x 48 in. (68.6 x 122 cm.)",
+          "width": 122.0,
+          "height": 68.6,
+          "ratio": 1.7784256559766765,
+          "interpretation": "plain two axes; measurement scope retained, landscape observed visually"
+        }
+      ],
+      "thumbnail_sha256": "a0e61c4f99ed2ef84ad01ec23fde5092c9c26a9aa71aa7515d5f2ba31969b39e",
+      "evidence_sha256": "c93257fffab7b4114e6555e339ca3be498d41c1cb7264f59a01c29a5ec493d31",
+      "second_visual_sheet_sha256": "a04708ab4ed664eb8d65eed2c8d83d0d5804a71c9aeb248e4ba0c3fe3c144af0",
+      "decision": "accepted local research; not release-approved",
+      "reason": "Complete unframed reproduction visually inspected twice; source/pin/rights declarations and proportions checked; no unresolved artwork-identity flag; selected for gallery variety.",
+      "physical_evidence": "source dimensions agree within 2.5%"
+    },
+    {
+      "id": 111622914,
+      "file_title": "File:Thomas Luny - The Sixth Rate H.M.S. Bridgewater in three positions off Kingsgate, the North Foreland CSK 2011.jpg",
+      "sha1": "915c6f9a4458ded6998477de7bf4932a789631b0",
+      "title": "The Sixth Rate H.M.S. Bridgewater in three positions off Kingsgate, the North Foreland",
+      "artist": "Thomas Luny",
+      "width": 3200,
+      "height": 1789,
+      "source": "https://commons.wikimedia.org/w/index.php?curid=111622914",
+      "source_revision": 630086388,
+      "source_page_sha256": "2badd460b68ee2a72b98b91a1f0f4a5214ecc01deb5acaff8edb250663e2c9ea",
+      "rights_label_observed": "Public domain",
+      "rights_basis": [
+        "pd-old-auto-1923"
+      ],
+      "artwork_qids": [],
+      "physical_measures": [
+        {
+          "raw": "32 x 56 in. (81.3 x 142.3 cm.)",
+          "width": 142.3,
+          "height": 81.3,
+          "ratio": 1.750307503075031,
+          "interpretation": "plain two axes; measurement scope retained, landscape observed visually"
+        }
+      ],
+      "thumbnail_sha256": "8834c4740937f24e27df28316eceddcebac913efe2b49e2202662df8905d368f",
+      "evidence_sha256": "877d78b18d0b4614f2e803398bd673cc756e7af6f98998ddc924e5e728bf2165",
+      "second_visual_sheet_sha256": "a04708ab4ed664eb8d65eed2c8d83d0d5804a71c9aeb248e4ba0c3fe3c144af0",
+      "decision": "accepted local research; not release-approved",
+      "reason": "Complete unframed reproduction visually inspected twice; source/pin/rights declarations and proportions checked; no unresolved artwork-identity flag; selected for gallery variety.",
+      "physical_evidence": "source dimensions agree within 2.5%"
+    },
+    {
+      "id": 113174036,
+      "file_title": "File:Descanso del guerrero.jpg",
+      "sha1": "8e1a2369c26d4daf1436dadf7dbccff4f28b7335",
+      "title": "Descanso del guerrero",
+      "artist": "Antonio Fabrés",
+      "width": 3264,
+      "height": 1836,
+      "source": "https://commons.wikimedia.org/w/index.php?curid=113174036",
+      "source_revision": 1277810116,
+      "source_page_sha256": "48d0c1c5c670b58aa8b95d4662a3ada6026faf63b56345b68e78674325f7bc20",
+      "rights_label_observed": "Public domain",
+      "rights_basis": [
+        "pd-old-auto-expired"
+      ],
+      "artwork_qids": [],
+      "physical_measures": [],
+      "thumbnail_sha256": "fff3eda420cc290966dca1871f1f0df4425ac321a0d622311e17e6eb6d7615b2",
+      "evidence_sha256": "7bd16763f51ecd9eacb517efcc3305918300da0bd9f29ceada0941009467e0a7",
+      "second_visual_sheet_sha256": "934b9eb4e962e06bcdcfab3d7554d23c7861604d5d3c90e1ab4435c858999052",
+      "decision": "accepted local research; not release-approved",
+      "reason": "Complete unframed reproduction visually inspected twice; source/pin/rights declarations and proportions checked; no unresolved artwork-identity flag; selected for gallery variety.",
+      "physical_evidence": "source has no explicit dimensions; full reproduction visually checked, no quantitative physical-ratio claim"
+    },
+    {
       "id": 114877885,
       "file_title": "File:Pieter Claesz - A ham, a Bacchus figure, a pewter pitcher, a Wan-Li dish, a knife, a roemer, books, bread, a pocket watch 2014 NYR 02817 0008.jpg",
       "sha1": "511359ba2edaa277ae042dbaa29794cf585cada8",
@@ -3320,6 +5114,120 @@
       "physical_evidence": "source dimensions agree within 2.5%"
     },
     {
+      "id": 118243083,
+      "file_title": "File:Heintz, Joseph d. J. - Einzug des Patriarchen Federico Corner in San Pietro Castello - Museo Correr.jpg",
+      "sha1": "63f7f8b7c3f1eacd2dce1e1bbd59991e341dfe7e",
+      "title": "Entry of Patriarch Federico Corner in San Pietro Castello",
+      "artist": "Joseph Heintz the Younger",
+      "width": 6807,
+      "height": 3840,
+      "source": "https://commons.wikimedia.org/w/index.php?curid=118243083",
+      "source_revision": 1199203679,
+      "source_page_sha256": "104d69c4291f9d196963f00a45038329004b2cfa4b1281d67a420cb94047e75a",
+      "rights_label_observed": "Public domain",
+      "rights_basis": [
+        "pd-old-100-expired"
+      ],
+      "artwork_qids": [
+        "Q139406384"
+      ],
+      "physical_measures": [],
+      "thumbnail_sha256": "004901f8c33ff7363019c386ed40a7d998401cfc1234e6385080882216695359",
+      "evidence_sha256": "9e84c920cdc0fefb124e1e131f91255d83fe3abecd1650bbe2a1f8dffc09e427",
+      "second_visual_sheet_sha256": "ab29dadb3871d55854747d4b9ba55d7a83b649ef3edee278a74f669697c64298",
+      "decision": "accepted local research; not release-approved",
+      "reason": "Complete unframed reproduction visually inspected twice; source/pin/rights declarations and proportions checked; no unresolved artwork-identity flag; selected for gallery variety.",
+      "physical_evidence": "source has no explicit dimensions; full reproduction visually checked, no quantitative physical-ratio claim"
+    },
+    {
+      "id": 119221337,
+      "file_title": "File:Sunrise over a rural landscape.jpg",
+      "sha1": "680bf9877e15a08eb999804fec173dd09d1d0ea9",
+      "title": "Sunrise over a rural landscape",
+      "artist": "James Whittaker",
+      "width": 4368,
+      "height": 2475,
+      "source": "https://commons.wikimedia.org/w/index.php?curid=119221337",
+      "source_revision": 1029765507,
+      "source_page_sha256": "5412c766547c52ef2d073067ed4e6234e783c038d2c721b2ea196e2453ccfc74",
+      "rights_label_observed": "Public domain",
+      "rights_basis": [
+        "pd-old-auto-expired"
+      ],
+      "artwork_qids": [],
+      "physical_measures": [],
+      "thumbnail_sha256": "1cae9509429f2ceaf6a038632c06f7ad463fb5b6a88f772b261fda0b9ba696c6",
+      "evidence_sha256": "5598c21bdf7cda26ac9b702a214f4fc1872067f20a28a849b89355ee2e2ba6e7",
+      "second_visual_sheet_sha256": "0ef6831fc7569099e14990beadc2d40df5af74cc51865d725526e26bb8abefba",
+      "decision": "accepted local research; not release-approved",
+      "reason": "Complete unframed reproduction visually inspected twice; source/pin/rights declarations and proportions checked; no unresolved artwork-identity flag; selected for gallery variety.",
+      "physical_evidence": "source has no explicit dimensions; full reproduction visually checked, no quantitative physical-ratio claim"
+    },
+    {
+      "id": 121412517,
+      "file_title": "File:Charles euphrasie kuwasseg vue de la ville du mans111618).jpg",
+      "sha1": "6c8d48f5c235cef0e9d9044faac5cac935c79c19",
+      "title": "Vue de la ville du Mans",
+      "artist": "Charles Kuwasseg",
+      "width": 3200,
+      "height": 1770,
+      "source": "https://commons.wikimedia.org/w/index.php?curid=121412517",
+      "source_revision": 1121084917,
+      "source_page_sha256": "ecd19d17269aac62652bb16ea0d71dad7bec88d7cbfccec30024187320d4d34e",
+      "rights_label_observed": "Public domain",
+      "rights_basis": [
+        "pd-old-auto-expired"
+      ],
+      "artwork_qids": [],
+      "physical_measures": [
+        {
+          "raw": "57 x 101 cm (22 1⁄2 x 39 3⁄4 in.)",
+          "width": 101.0,
+          "height": 57.0,
+          "ratio": 1.7719298245614035,
+          "interpretation": "plain two axes; measurement scope retained, landscape observed visually"
+        }
+      ],
+      "thumbnail_sha256": "8067eebd96a3a00c6918942fa7fa636ffe35c5d299b13b31dfcdbba7db27283d",
+      "evidence_sha256": "d51659a3b3930a5cae14d1b51d7a4d5869f85575e06b27667fddff4a2c3e8f8b",
+      "second_visual_sheet_sha256": "934b9eb4e962e06bcdcfab3d7554d23c7861604d5d3c90e1ab4435c858999052",
+      "decision": "accepted local research; not release-approved",
+      "reason": "Complete unframed reproduction visually inspected twice; source/pin/rights declarations and proportions checked; no unresolved artwork-identity flag; selected for gallery variety.",
+      "physical_evidence": "source dimensions agree within 2.5%"
+    },
+    {
+      "id": 123170828,
+      "file_title": "File:Charles-francois daubigny troupeau de moutons au bord de la riviere064003).jpg",
+      "sha1": "fb263ad9e0006a664621f818a847a9c67a251843",
+      "title": "Troupeau de moutons au bord de la rivière",
+      "artist": "Charles-François Daubigny",
+      "width": 3200,
+      "height": 1786,
+      "source": "https://commons.wikimedia.org/w/index.php?curid=123170828",
+      "source_revision": 1120845169,
+      "source_page_sha256": "e2e34b86fdbdb4f5fadc955b0d84e895836b36dfbc87900aded3a6187162e42a",
+      "rights_label_observed": "Public domain",
+      "rights_basis": [
+        "pd-old-auto-expired"
+      ],
+      "artwork_qids": [],
+      "physical_measures": [
+        {
+          "raw": "141⁄2 x 261⁄4 in. (36.8 x 66.7 cm.)",
+          "width": 66.7,
+          "height": 36.8,
+          "ratio": 1.8125000000000002,
+          "interpretation": "plain two axes; measurement scope retained, landscape observed visually"
+        }
+      ],
+      "thumbnail_sha256": "2cdeaff5b87008f9b70f14b684bb4afbb361ca52913b94312d522610964f1479",
+      "evidence_sha256": "309a27bdc7cdfd2f3141c567c3145c30d75935694c5c51af7f645b20fb8760e9",
+      "second_visual_sheet_sha256": "1376bf2443b2d812c3a2e4e962a5667a6c686b88aa4b428283fc3d8c9a4da927",
+      "decision": "accepted local research; not release-approved",
+      "reason": "Complete unframed reproduction visually inspected twice; source/pin/rights declarations and proportions checked; no unresolved artwork-identity flag; selected for gallery variety.",
+      "physical_evidence": "source dimensions agree within 2.5%"
+    },
+    {
       "id": 123898742,
       "file_title": "File:Bernardo bellotto view of verona with the ponte delle navi081627).jpg",
       "sha1": "78d3238e564864e64cfe6a834d365fbf567101b4",
@@ -3347,6 +5255,38 @@
       "thumbnail_sha256": "9acafd55bcc78852c4400fc3ce0040dc87401279238ee97a260939f3186b9a46",
       "evidence_sha256": "c93257fffab7b4114e6555e339ca3be498d41c1cb7264f59a01c29a5ec493d31",
       "second_visual_sheet_sha256": "c66591852d2fa95eef736e407c616b9c5fa4e539d11fcf209b1a9df02601118f",
+      "decision": "accepted local research; not release-approved",
+      "reason": "Complete unframed reproduction visually inspected twice; source/pin/rights declarations and proportions checked; no unresolved artwork-identity flag; selected for gallery variety.",
+      "physical_evidence": "source dimensions agree within 2.5%"
+    },
+    {
+      "id": 124646299,
+      "file_title": "File:A pastoral landscape in the Roman campagna (1882), by Giuseppe Laezza.jpg",
+      "sha1": "a2d66cdaaaea0f280c72d370a8ccb98f86dfa307",
+      "title": "A pastoral landscape in the Roman campagna",
+      "artist": "Giuseppe Laezza",
+      "width": 5118,
+      "height": 2880,
+      "source": "https://commons.wikimedia.org/w/index.php?curid=124646299",
+      "source_revision": 1265975803,
+      "source_page_sha256": "3a1e5e7bef59172ee6eb8c2eb849ba6b0310eef06ce6df5fc3e448f4572a194f",
+      "rights_label_observed": "Public domain",
+      "rights_basis": [
+        "pd-old-auto-1923"
+      ],
+      "artwork_qids": [],
+      "physical_measures": [
+        {
+          "raw": "{{Size|unit=cm|height=58.5|width=102.2}}",
+          "width": 102.2,
+          "height": 58.5,
+          "ratio": 1.747008547008547,
+          "interpretation": "named height/width"
+        }
+      ],
+      "thumbnail_sha256": "b555e4689a948c79ac04b987caccdc2a114e9e868f4d4d86c75264b45f0a3b0b",
+      "evidence_sha256": "0e7c91121e414e48c0015821d8d35d89df601a5265b6a3710849c7a66e78e03e",
+      "second_visual_sheet_sha256": "c5d97997ef75f39d0547efed7f9802fab32d6f31052a8758194ef8416f94455b",
       "decision": "accepted local research; not release-approved",
       "reason": "Complete unframed reproduction visually inspected twice; source/pin/rights declarations and proportions checked; no unresolved artwork-identity flag; selected for gallery variety.",
       "physical_evidence": "source dimensions agree within 2.5%"
@@ -3410,6 +5350,126 @@
       "decision": "accepted local research; not release-approved",
       "reason": "Complete unframed reproduction visually inspected twice; source/pin/rights declarations and proportions checked; no unresolved artwork-identity flag; selected for gallery variety.",
       "physical_evidence": "source dimensions agree within 2.5%"
+    },
+    {
+      "id": 128723452,
+      "file_title": "File:Reading by the sea (1910), by Vittorio Matteo Corcos.jpg",
+      "sha1": "dde33eb59967f7e8137b912caa8964b6d78cc277",
+      "title": "Italian: In lettura sul mare Reading by the sea",
+      "artist": "Vittorio Matteo Corcos",
+      "width": 4002,
+      "height": 2286,
+      "source": "https://commons.wikimedia.org/w/index.php?curid=128723452",
+      "source_revision": 1028179859,
+      "source_page_sha256": "1601fc412f9507d9aafa9fc20b99883980878e27ae9b7538f56c1fcb647354fb",
+      "rights_label_observed": "Public domain",
+      "rights_basis": [
+        "pd-old-auto-1923"
+      ],
+      "artwork_qids": [],
+      "physical_measures": [
+        {
+          "raw": "{{Size|unit=cm|height=130|width=228}}",
+          "width": 228.0,
+          "height": 130.0,
+          "ratio": 1.7538461538461538,
+          "interpretation": "named height/width"
+        }
+      ],
+      "thumbnail_sha256": "7f38b864fd8467b41d1759e66806b6b715c3e642f98000cf5964a66c7f026250",
+      "evidence_sha256": "c5eecb44f228a3783aa0cc2a9694474d3d096cf630a1af3e9ab73b7e92237f5b",
+      "second_visual_sheet_sha256": "e809e9f37c4e230012ceaa733b6bc914a67e0794e504d957a800a9734feacce6",
+      "decision": "accepted local research; not release-approved",
+      "reason": "Complete unframed reproduction visually inspected twice; source/pin/rights declarations and proportions checked; no unresolved artwork-identity flag; selected for gallery variety.",
+      "physical_evidence": "source dimensions agree within 2.5%"
+    },
+    {
+      "id": 129480759,
+      "file_title": "File:High mass at a fishing village on the Zuyder Zee, Holland (1876), by George Clausen.jpg",
+      "sha1": "7216fc3ebd3c0245ee99c87b32fa4da31cc90e2c",
+      "title": "High mass at a fishing village on the Zuyder Zee, Holland",
+      "artist": "George Clausen",
+      "width": 5098,
+      "height": 2850,
+      "source": "https://commons.wikimedia.org/w/index.php?curid=129480759",
+      "source_revision": 1271292567,
+      "source_page_sha256": "39ddb08634c2263f747dbe8c0abe3241e91d2636d5a863df66992ba82af03a5b",
+      "rights_label_observed": "Public domain",
+      "rights_basis": [
+        "pd-old-auto-1923"
+      ],
+      "artwork_qids": [],
+      "physical_measures": [
+        {
+          "raw": "{{Size|unit=cm|height=47|width=83.8}}",
+          "width": 83.8,
+          "height": 47.0,
+          "ratio": 1.7829787234042553,
+          "interpretation": "named height/width"
+        }
+      ],
+      "thumbnail_sha256": "bced279f7157310a4f3dc5ded10bc24bf353b19162557d4360194a2fb3b798ca",
+      "evidence_sha256": "85e5b02c357e16a4dd77773e8c1bcafe82fade599415b9323e2fe1f99e9eb333",
+      "second_visual_sheet_sha256": "c5d97997ef75f39d0547efed7f9802fab32d6f31052a8758194ef8416f94455b",
+      "decision": "accepted local research; not release-approved",
+      "reason": "Complete unframed reproduction visually inspected twice; source/pin/rights declarations and proportions checked; no unresolved artwork-identity flag; selected for gallery variety.",
+      "physical_evidence": "source dimensions agree within 2.5%"
+    },
+    {
+      "id": 129942739,
+      "file_title": "File:Party with musicians (unknown date), by Theodor Aman.jpg",
+      "sha1": "eeb6005bd81d6cbbb50fb87abb015f79330b8f9f",
+      "title": "Party with musicians",
+      "artist": "Theodor Aman",
+      "width": 3000,
+      "height": 1672,
+      "source": "https://commons.wikimedia.org/w/index.php?curid=129942739",
+      "source_revision": 1200589655,
+      "source_page_sha256": "f9c9c15e772fe1cc55bc71930fde742776519c738956d47def8f6d5992cc571d",
+      "rights_label_observed": "Public domain",
+      "rights_basis": [
+        "pd-old-auto-1923"
+      ],
+      "artwork_qids": [],
+      "physical_measures": [
+        {
+          "raw": "{{Size|unit=cm|height=51|width=90}}",
+          "width": 90.0,
+          "height": 51.0,
+          "ratio": 1.7647058823529411,
+          "interpretation": "named height/width"
+        }
+      ],
+      "thumbnail_sha256": "9a8606a341dfe58def8d6e0b16375453586a3d2b875a6d74af53d01034ab038c",
+      "evidence_sha256": "05a486672ba8d9df57b9a2abf510bb81b0ee15b2893b0f6de28c2bb15f71f8c6",
+      "second_visual_sheet_sha256": "a04708ab4ed664eb8d65eed2c8d83d0d5804a71c9aeb248e4ba0c3fe3c144af0",
+      "decision": "accepted local research; not release-approved",
+      "reason": "Complete unframed reproduction visually inspected twice; source/pin/rights declarations and proportions checked; no unresolved artwork-identity flag; selected for gallery variety.",
+      "physical_evidence": "source dimensions agree within 2.5%"
+    },
+    {
+      "id": 132538902,
+      "file_title": "File:Loir Colbert protecteur des Arts Southport.jpg",
+      "sha1": "ebc1d5885bca307c6b286420a2b18173bbe896bd",
+      "title": "Loir Colbert protecteur des Arts Southport",
+      "artist": "Nicolas-Pierre Loir",
+      "width": 3127,
+      "height": 1797,
+      "source": "https://commons.wikimedia.org/w/index.php?curid=132538902",
+      "source_revision": 1071954227,
+      "source_page_sha256": "02ed5e288754b3e6c34a842d845a8f4f01a5cd15c7979dc30913bc7e7505aedc",
+      "rights_label_observed": "Public domain",
+      "rights_basis": [
+        "pd-old-auto-expired"
+      ],
+      "artwork_qids": [],
+      "physical_measures": [],
+      "thumbnail_sha256": "3ffbbc146a58f45364b318e45aa47927283360e985134e14170d3f700b28d6ac",
+      "evidence_sha256": "9cdd9d5d520245e71efe0a0106fbc328c17dbaf97fb3053242f9d7ca6d824225",
+      "second_visual_sheet_sha256": "44a9ba4ebca7b0c2d3a0a7b20a35757e0f35f2aa8e38ed92996bf984dd6180d8",
+      "decision": "accepted local research; not release-approved",
+      "reason": "Complete unframed reproduction visually inspected twice; source/pin/rights declarations and proportions checked; no unresolved artwork-identity flag; selected for gallery variety.",
+      "physical_evidence": "source has no explicit dimensions; full reproduction visually checked, no quantitative physical-ratio claim"
     },
     {
       "id": 132599475,
@@ -3502,6 +5562,30 @@
       "physical_evidence": "source dimensions agree within 2.5%"
     },
     {
+      "id": 133949802,
+      "file_title": "File:Anna Boch (1848-1936) Aan de kust, Noordzee Mu.Zee 4-07-2023.jpg",
+      "sha1": "ba632c5169d71f2339b20beb11cf8e9ce5d27cfb",
+      "title": "Anna Boch (1848-1936) Aan de kust, Noordzee Mu.Zee 4-07-2023",
+      "artist": "Anna Boch",
+      "width": 4413,
+      "height": 2495,
+      "source": "https://commons.wikimedia.org/w/index.php?curid=133949802",
+      "source_revision": 1061061833,
+      "source_page_sha256": "806f66ba8cd98ca8ea5781edc66cd78756ab8609f6499c87eb6975958950faa0",
+      "rights_label_observed": "Public domain",
+      "rights_basis": [
+        "pd-old-auto-1923"
+      ],
+      "artwork_qids": [],
+      "physical_measures": [],
+      "thumbnail_sha256": "ca1604d5fda6f71c123bb24bd77948b4d4c672983eb1417e369e82f544d7ec07",
+      "evidence_sha256": "7529e43406048d18b627e19914715471ff45be1428212da0341cbce1ea6bd595",
+      "second_visual_sheet_sha256": "0ef6831fc7569099e14990beadc2d40df5af74cc51865d725526e26bb8abefba",
+      "decision": "accepted local research; not release-approved",
+      "reason": "Complete unframed reproduction visually inspected twice; source/pin/rights declarations and proportions checked; no unresolved artwork-identity flag; selected for gallery variety.",
+      "physical_evidence": "source has no explicit dimensions; full reproduction visually checked, no quantitative physical-ratio claim"
+    },
+    {
       "id": 137142542,
       "file_title": "File:Giovanni Battista Castagneto - Pedras à beira-mar na Praia de Icaraí, Niterói.jpg",
       "sha1": "801a95c024419826994294088f1f35207f4b3274",
@@ -3524,6 +5608,40 @@
       "decision": "accepted local research; not release-approved",
       "reason": "Complete unframed reproduction visually inspected twice; source/pin/rights declarations and proportions checked; no unresolved artwork-identity flag; selected for gallery variety.",
       "physical_evidence": "source has no explicit dimensions; full reproduction visually checked, no quantitative physical-ratio claim"
+    },
+    {
+      "id": 137145458,
+      "file_title": "File:Allaert van Everdingen (after) - Rough Sea (Philadelphia Museum of Art).jpg",
+      "sha1": "85a997a161310466f861b8208fe488c0b24afd92",
+      "title": "Dutch: Schepen op een binnenwater met rechts op de voorgrond twee vissers in een roeibootje Rough Sea",
+      "artist": "After Allaert van Everdingen",
+      "width": 3568,
+      "height": 2034,
+      "source": "https://commons.wikimedia.org/w/index.php?curid=137145458",
+      "source_revision": 1046241184,
+      "source_page_sha256": "4db3bc6fca473c5d8ce186e8a4d7ef9ccd0ee3b4d08390cb765269efa9b6568b",
+      "rights_label_observed": "Public domain",
+      "rights_basis": [
+        "pd-old-100-expired"
+      ],
+      "artwork_qids": [
+        "Q20808947"
+      ],
+      "physical_measures": [
+        {
+          "raw": "{{size|unit=cm|height=33.5|width=58.7}}",
+          "width": 58.7,
+          "height": 33.5,
+          "ratio": 1.7522388059701492,
+          "interpretation": "named height/width"
+        }
+      ],
+      "thumbnail_sha256": "0b47aa06ab603b4cc3a08ec91f828f85deee0ea67d34927df759ecee49c15e6f",
+      "evidence_sha256": "bc6fdef3881d2f69aa6cea449b041331119b567c8d38edb47bf40ef2ead91472",
+      "second_visual_sheet_sha256": "08e85e7d9cadb4d491a5e37b34ab9547d01d9f5f3d54c3876cd9b719b68d1e10",
+      "decision": "accepted local research; not release-approved",
+      "reason": "Complete unframed reproduction visually inspected twice; source/pin/rights declarations and proportions checked; no unresolved artwork-identity flag; selected for gallery variety.",
+      "physical_evidence": "source dimensions agree within 2.5%"
     },
     {
       "id": 138016733,
@@ -3580,6 +5698,82 @@
       "decision": "accepted local research; not release-approved",
       "reason": "Complete unframed reproduction visually inspected twice; source/pin/rights declarations and proportions checked; no unresolved artwork-identity flag; selected for gallery variety.",
       "physical_evidence": "source dimensions agree within 2.5%"
+    },
+    {
+      "id": 140070044,
+      "file_title": "File:Kalorama Cottage-saam 1973.153.jpg",
+      "sha1": "d33ee27310a8791d995c3bd928f96f502b93bd3b",
+      "title": "Kalorama Cottage",
+      "artist": "Weir, John Ferguson",
+      "width": 3000,
+      "height": 1659,
+      "source": "https://commons.wikimedia.org/w/index.php?curid=140070044",
+      "source_revision": 1178365150,
+      "source_page_sha256": "55680bb80f9071a692728bc89e1a736e1093642ce953cf8af36c089bfda5cd6b",
+      "rights_label_observed": "CC0",
+      "rights_basis": [
+        "cc-zero"
+      ],
+      "artwork_qids": [],
+      "physical_measures": [],
+      "thumbnail_sha256": "3df180ad7ecf5b64e8ad995a8b8b82ae2e873566e6ab9c10258bbc9352d340bf",
+      "evidence_sha256": "7e3e79172d8b83fd8a51d806fa8efcebec3aee77acfbea40494663cd82f424d6",
+      "second_visual_sheet_sha256": "c66591852d2fa95eef736e407c616b9c5fa4e539d11fcf209b1a9df02601118f",
+      "decision": "accepted local research; not release-approved",
+      "reason": "Complete unframed reproduction visually inspected twice; source/pin/rights declarations and proportions checked; no unresolved artwork-identity flag; selected for gallery variety.",
+      "physical_evidence": "source has no explicit dimensions; full reproduction visually checked, no quantitative physical-ratio claim"
+    },
+    {
+      "id": 140216454,
+      "file_title": "File:Edouard Agneessens - Drilling a Well (sketch) - 1942-V - Museum of Fine Arts Ghent (MSK).jpg",
+      "sha1": "2e6a391b83927cdeb79e60f08b0f5b0a40c2ec30",
+      "title": "Drilling a Well (sketch)",
+      "artist": "Edouard Agneessens",
+      "width": 3617,
+      "height": 2001,
+      "source": "https://commons.wikimedia.org/w/index.php?curid=140216454",
+      "source_revision": 1028716376,
+      "source_page_sha256": "a56928c1ecb4147a31610c1659b4c66a2795530fbe63810045d1da09c2af3965",
+      "rights_label_observed": "Public domain",
+      "rights_basis": [
+        "pd-old-auto-expired"
+      ],
+      "artwork_qids": [
+        "Q21679250"
+      ],
+      "physical_measures": [],
+      "thumbnail_sha256": "3bd28fc733d8611809ae6c2547aa034c558c6953b3d7359406f74e33d700669c",
+      "evidence_sha256": "cf425b35df0c04a092abba76093b6bca7dcbc89dcfd7c16fcc7919635def27fe",
+      "second_visual_sheet_sha256": "08e85e7d9cadb4d491a5e37b34ab9547d01d9f5f3d54c3876cd9b719b68d1e10",
+      "decision": "accepted local research; not release-approved",
+      "reason": "Complete unframed reproduction visually inspected twice; source/pin/rights declarations and proportions checked; no unresolved artwork-identity flag; selected for gallery variety.",
+      "physical_evidence": "source has no explicit dimensions; full reproduction visually checked, no quantitative physical-ratio claim"
+    },
+    {
+      "id": 140217862,
+      "file_title": "File:Philippe Parrot - Bacchante - 1892-E - Museum of Fine Arts Ghent (MSK).jpg",
+      "sha1": "337f2ac0acf8ba279d199252350934452fef15a9",
+      "title": "Bacchante",
+      "artist": "Philippe Parrot",
+      "width": 3657,
+      "height": 2049,
+      "source": "https://commons.wikimedia.org/w/index.php?curid=140217862",
+      "source_revision": 916261877,
+      "source_page_sha256": "008b2276b8ab9d1734d866be276ce2d9c513c8705aea50d9149c4c01e54180a8",
+      "rights_label_observed": "Public domain",
+      "rights_basis": [
+        "pd-old-auto-expired"
+      ],
+      "artwork_qids": [
+        "Q21674138"
+      ],
+      "physical_measures": [],
+      "thumbnail_sha256": "1c37863f061e77ed58b16f6a7fbf4e4656e11c469523a1aca08aa832155324a2",
+      "evidence_sha256": "cf425b35df0c04a092abba76093b6bca7dcbc89dcfd7c16fcc7919635def27fe",
+      "second_visual_sheet_sha256": "08e85e7d9cadb4d491a5e37b34ab9547d01d9f5f3d54c3876cd9b719b68d1e10",
+      "decision": "accepted local research; not release-approved",
+      "reason": "Complete unframed reproduction visually inspected twice; source/pin/rights declarations and proportions checked; no unresolved artwork-identity flag; selected for gallery variety.",
+      "physical_evidence": "source has no explicit dimensions; full reproduction visually checked, no quantitative physical-ratio claim"
     },
     {
       "id": 141402648,
@@ -3680,6 +5874,38 @@
       "physical_evidence": "source dimensions agree within 2.5%"
     },
     {
+      "id": 141534000,
+      "file_title": "File:Theodore rousseau etang au crepuscule095220).jpg",
+      "sha1": "2fa72946ad2c22314e758dc932aa1708fba80a37",
+      "title": "Étang au crépuscule",
+      "artist": "Théodore Rousseau",
+      "width": 3200,
+      "height": 1802,
+      "source": "https://commons.wikimedia.org/w/index.php?curid=141534000",
+      "source_revision": 1176129442,
+      "source_page_sha256": "4798a60409c4ceef92f063fea582828d4fc5324445aaf699d5c23df26dda034f",
+      "rights_label_observed": "Public domain",
+      "rights_basis": [
+        "pd-old-auto-expired"
+      ],
+      "artwork_qids": [],
+      "physical_measures": [
+        {
+          "raw": "8 ¼ x 14 ½ in. (21 x 37 cm.)",
+          "width": 37.0,
+          "height": 21.0,
+          "ratio": 1.7619047619047619,
+          "interpretation": "plain two axes; measurement scope retained, landscape observed visually"
+        }
+      ],
+      "thumbnail_sha256": "dc25c16de5ba70a4051287306ae9f5e9936d07d406d5e5eabc25bb6a7d1a6f51",
+      "evidence_sha256": "683820dc7a71dbb808cd945c98ab68e6af675ea50fb798ba8fb87d1b54bcb288",
+      "second_visual_sheet_sha256": "2e64780f42552ed48b5ca4da78beb15c1a51dd5c5a4b1cf2f483d0c8c43eb7eb",
+      "decision": "accepted local research; not release-approved",
+      "reason": "Complete unframed reproduction visually inspected twice; source/pin/rights declarations and proportions checked; no unresolved artwork-identity flag; selected for gallery variety.",
+      "physical_evidence": "source dimensions agree within 2.5%"
+    },
+    {
       "id": 141891714,
       "file_title": "File:Julian Falat - Pine forest - MNK III-r.a-484 (325989).jpg",
       "sha1": "19167ced4e3f487bf9fe416bf316cadc8f330536",
@@ -3757,6 +5983,38 @@
       "thumbnail_sha256": "8282d7479dc8476664de16f5330428d85680dbcb136a67f153c60148252729c8",
       "evidence_sha256": "f001533a2412361e66274e66531a7c4192cc01315a2c0398c07f3dd16cb816ec",
       "second_visual_sheet_sha256": "4d51e6b12cae941d687d92a9e214bc5d4bb801be488387796fe56c3e0abb2c10",
+      "decision": "accepted local research; not release-approved",
+      "reason": "Complete unframed reproduction visually inspected twice; source/pin/rights declarations and proportions checked; no unresolved artwork-identity flag; selected for gallery variety.",
+      "physical_evidence": "source dimensions agree within 2.5%"
+    },
+    {
+      "id": 142202947,
+      "file_title": "File:Javanese Jungle SAAM-1985.66.328264 1.jpg",
+      "sha1": "acf894be8e93d1bb17dfd760ee9a8dd6758a97e1",
+      "title": "Javanese Jungle",
+      "artist": "Saleh, Raden",
+      "width": 3000,
+      "height": 1659,
+      "source": "https://commons.wikimedia.org/w/index.php?curid=142202947",
+      "source_revision": 1211669688,
+      "source_page_sha256": "bd2182f1dedc30d8b3f7895e8f3d793750c22927e09adb6795364945525c0c61",
+      "rights_label_observed": "CC0",
+      "rights_basis": [
+        "cc-zero"
+      ],
+      "artwork_qids": [],
+      "physical_measures": [
+        {
+          "raw": "Smithsonian American Art Museum\n\nName: Javanese Jungle\n\nDimensions: 41 3/8 × 73 1/2 in. (105.1 × 186.7 cm)\n\nSmithsonian record ID: saam_1985.66.328_264\n\nRecord link: https://collections.si.edu/search/detail/edanmdm:saam_1985.66.328_264",
+          "width": 186.7,
+          "height": 105.1,
+          "ratio": 1.7764034253092293,
+          "interpretation": "plain two axes; measurement scope retained, landscape observed visually"
+        }
+      ],
+      "thumbnail_sha256": "81e2440b5900361c819157ca4dcf74f7a75bb55301ea00df1f24e046f51bd120",
+      "evidence_sha256": "7e3e79172d8b83fd8a51d806fa8efcebec3aee77acfbea40494663cd82f424d6",
+      "second_visual_sheet_sha256": "c66591852d2fa95eef736e407c616b9c5fa4e539d11fcf209b1a9df02601118f",
       "decision": "accepted local research; not release-approved",
       "reason": "Complete unframed reproduction visually inspected twice; source/pin/rights declarations and proportions checked; no unresolved artwork-identity flag; selected for gallery variety.",
       "physical_evidence": "source dimensions agree within 2.5%"
@@ -4032,6 +6290,64 @@
       "physical_evidence": "source dimensions agree within 2.5%"
     },
     {
+      "id": 156929787,
+      "file_title": "File:Adolphe Monticelli Gesellschaft im Park.jpg",
+      "sha1": "9ad4292eed5605252c89c8342704ae37024ab785",
+      "title": "Adolphe Monticelli Gesellschaft im Park",
+      "artist": "Adolphe Joseph Thomas Monticelli",
+      "width": 3800,
+      "height": 2107,
+      "source": "https://commons.wikimedia.org/w/index.php?curid=156929787",
+      "source_revision": 1034402993,
+      "source_page_sha256": "f6b18865198673bcf3b8960f5cbe44323abb54f8f2ad977cfb79911da1c18bba",
+      "rights_label_observed": "Public domain",
+      "rights_basis": [
+        "pd-old-auto-expired"
+      ],
+      "artwork_qids": [],
+      "physical_measures": [
+        {
+          "raw": "{{de|Elegante Gesellschaft im Park, Öl auf Holz. 34 x 60 cm. Rechts unten signiert „Monticelli“.}}",
+          "width": 60.0,
+          "height": 34.0,
+          "ratio": 1.7647058823529411,
+          "interpretation": "plain two axes; measurement scope retained, landscape observed visually"
+        }
+      ],
+      "thumbnail_sha256": "0cd9ba785cfc761ebcc5648a4f32998c027bfc6841e4e499e4052b05c85b5193",
+      "evidence_sha256": "7f0fdb540541c27bc70f2ab7bbdebede03cee72fff2d92facfb8f7cee4fca870",
+      "second_visual_sheet_sha256": "e809e9f37c4e230012ceaa733b6bc914a67e0794e504d957a800a9734feacce6",
+      "decision": "accepted local research; not release-approved",
+      "reason": "Complete unframed reproduction visually inspected twice; source/pin/rights declarations and proportions checked; no unresolved artwork-identity flag; selected for gallery variety.",
+      "physical_evidence": "source dimensions agree within 2.5%"
+    },
+    {
+      "id": 164274040,
+      "file_title": "File:Sur la plage de Trouville, Eugène Boudin - 3144 (cropped).jpg",
+      "sha1": "06c03bc011b312c825942e3221786cbb8f752aa3",
+      "title": "French: Sur la plage de Trouville",
+      "artist": "Eugène Louis Boudin",
+      "width": 3128,
+      "height": 1767,
+      "source": "https://commons.wikimedia.org/w/index.php?curid=164274040",
+      "source_revision": 1167953403,
+      "source_page_sha256": "77c21a8da2e932c9b47e2d6e5b494d642805d9d94a53adf8e81b3e57f26be5d7",
+      "rights_label_observed": "Public domain",
+      "rights_basis": [
+        "pd-old-auto-expired"
+      ],
+      "artwork_qids": [
+        "Q133584152"
+      ],
+      "physical_measures": [],
+      "thumbnail_sha256": "5800d2d959b5bf452b1ac43b6a07e568869901669125ce8488d498a8871e6567",
+      "evidence_sha256": "33db8de7c9e265ddcaede4d4bdf12283072c5414d098d24f4766ac77ba6ae83c",
+      "second_visual_sheet_sha256": "934b9eb4e962e06bcdcfab3d7554d23c7861604d5d3c90e1ab4435c858999052",
+      "decision": "accepted local research; not release-approved",
+      "reason": "Complete unframed reproduction visually inspected twice; source/pin/rights declarations and proportions checked; no unresolved artwork-identity flag; selected for gallery variety.",
+      "physical_evidence": "source has no explicit dimensions; full reproduction visually checked, no quantitative physical-ratio claim"
+    },
+    {
       "id": 164289029,
       "file_title": "File:Angelo Morbelli - La stazione centrale di Milano nel 1889.jpg",
       "sha1": "53877c30ef04f456656648630591e8af94f92b94",
@@ -4059,6 +6375,94 @@
       "thumbnail_sha256": "0c703d164174f677819a4e42905b08ba7dcb692b7cddc814db9eb20fd1b857c3",
       "evidence_sha256": "8eae332bd314bd0187a5c67db6f115c594e3dfe2e365c392ae92ad72de7c0cd3",
       "second_visual_sheet_sha256": "2638128647920f49b8978ec66900896653b2bf288f453f23eeaf092051978925",
+      "decision": "accepted local research; not release-approved",
+      "reason": "Complete unframed reproduction visually inspected twice; source/pin/rights declarations and proportions checked; no unresolved artwork-identity flag; selected for gallery variety.",
+      "physical_evidence": "source dimensions agree within 2.5%"
+    },
+    {
+      "id": 164574133,
+      "file_title": "File:Claude Lorrain's villa on the Tiber (1891), by Norberto Pazzini.jpg",
+      "sha1": "c228cdd243558e4b5cc54b9d01b4cc856b3b6da8",
+      "title": "Italian: Villa di Claudio di Lorena Claude Lorrain's villa on the Tiber",
+      "artist": "Norberto Pazzini",
+      "width": 6929,
+      "height": 3942,
+      "source": "https://commons.wikimedia.org/w/index.php?curid=164574133",
+      "source_revision": 1126692208,
+      "source_page_sha256": "853a9373596028555521bd97b6d47bdcd242d0de6d0752c715e04bd49883cba8",
+      "rights_label_observed": "Public domain",
+      "rights_basis": [
+        "pd-old-auto-1923"
+      ],
+      "artwork_qids": [],
+      "physical_measures": [],
+      "thumbnail_sha256": "e4584f38bcf82b94ab0a9663dc2cb37f9a4dd1593270aced8cbba32211141dfd",
+      "evidence_sha256": "01714c003dc885a96a1f28d4f8867af2887ac9c8a13d377a002bcec5e4cb6757",
+      "second_visual_sheet_sha256": "44a9ba4ebca7b0c2d3a0a7b20a35757e0f35f2aa8e38ed92996bf984dd6180d8",
+      "decision": "accepted local research; not release-approved",
+      "reason": "Complete unframed reproduction visually inspected twice; source/pin/rights declarations and proportions checked; no unresolved artwork-identity flag; selected for gallery variety.",
+      "physical_evidence": "source has no explicit dimensions; full reproduction visually checked, no quantitative physical-ratio claim"
+    },
+    {
+      "id": 164671265,
+      "file_title": "File:Pontine Marshes (1894), by Giulio Aristide Sartorio.jpg",
+      "sha1": "d7d4b11865d78858ae282c71235ac332f6473cd7",
+      "title": "Italian: Agro Pontino Pontine Marshes",
+      "artist": "Giulio Aristide Sartorio",
+      "width": 3539,
+      "height": 2000,
+      "source": "https://commons.wikimedia.org/w/index.php?curid=164671265",
+      "source_revision": 1042680552,
+      "source_page_sha256": "e14c0d8397e4ca17f7ff8938ca70a8747a54d5ed1a2f4f95e9ad7902ca6fef80",
+      "rights_label_observed": "Public domain",
+      "rights_basis": [
+        "pd-old-auto-1923"
+      ],
+      "artwork_qids": [],
+      "physical_measures": [
+        {
+          "raw": "{{Size|unit=cm|height=28.9|width=50.5}}",
+          "width": 50.5,
+          "height": 28.9,
+          "ratio": 1.7474048442906576,
+          "interpretation": "named height/width"
+        }
+      ],
+      "thumbnail_sha256": "e5c16a6f64f0372fdccbec6f7c46b3374bc1e68ee38886fc744ba282753fd6d9",
+      "evidence_sha256": "4469e21aa6c98b36b50171fbae2d6edc754362a4809e0c0dac2eb778e626b267",
+      "second_visual_sheet_sha256": "08e85e7d9cadb4d491a5e37b34ab9547d01d9f5f3d54c3876cd9b719b68d1e10",
+      "decision": "accepted local research; not release-approved",
+      "reason": "Complete unframed reproduction visually inspected twice; source/pin/rights declarations and proportions checked; no unresolved artwork-identity flag; selected for gallery variety.",
+      "physical_evidence": "source dimensions agree within 2.5%"
+    },
+    {
+      "id": 165339992,
+      "file_title": "File:Market in Porta Capuana, Naples (unknown date), by Franz Theodor Aerni.jpg",
+      "sha1": "70d35975f1789d79e4c4b5b2d8b72d74e54c91e2",
+      "title": "Italian: Mercato a Porta Capuana, Napoli Market in Porta Capuana, Naples",
+      "artist": "Franz Theodor Aerni",
+      "width": 3373,
+      "height": 1866,
+      "source": "https://commons.wikimedia.org/w/index.php?curid=165339992",
+      "source_revision": 1178036450,
+      "source_page_sha256": "97f840992fb8b9cbb0d5801cfc71329b8b344e69f10d733c03b5b27ea43fe0f5",
+      "rights_label_observed": "Public domain",
+      "rights_basis": [
+        "pd-old-auto-1923"
+      ],
+      "artwork_qids": [],
+      "physical_measures": [
+        {
+          "raw": "{{Size|unit=cm|height=62|width=112}}",
+          "width": 112.0,
+          "height": 62.0,
+          "ratio": 1.8064516129032258,
+          "interpretation": "named height/width"
+        }
+      ],
+      "thumbnail_sha256": "b2436e33f7802491814fdff54f79c5b6d7f89edd536026b9f5ec87c5cb03edc8",
+      "evidence_sha256": "33c4ce6382e172fab5045a3bf57fcb2274f6410952b89b84841dbe025d143925",
+      "second_visual_sheet_sha256": "a04708ab4ed664eb8d65eed2c8d83d0d5804a71c9aeb248e4ba0c3fe3c144af0",
       "decision": "accepted local research; not release-approved",
       "reason": "Complete unframed reproduction visually inspected twice; source/pin/rights declarations and proportions checked; no unresolved artwork-identity flag; selected for gallery variety.",
       "physical_evidence": "source dimensions agree within 2.5%"
@@ -4123,6 +6527,64 @@
       "thumbnail_sha256": "1135b3bd729c204d3f8c5ee7bfcee773290ea3533110ed62d3e66c0bfa0826c2",
       "evidence_sha256": "6bcedaa20dabe865c03353b83cad5f46ce0d66e2370b1fd3c64c3931f52caed7",
       "second_visual_sheet_sha256": "2c10560f83e033d2bbe4241701eb926ab9ce4b65697a066c61b5ed430c9d224d",
+      "decision": "accepted local research; not release-approved",
+      "reason": "Complete unframed reproduction visually inspected twice; source/pin/rights declarations and proportions checked; no unresolved artwork-identity flag; selected for gallery variety.",
+      "physical_evidence": "source dimensions agree within 2.5%"
+    },
+    {
+      "id": 168384466,
+      "file_title": "File:Unbekannter Künstler - Mountainous landscape - 2192 - Gemäldegalerie.jpg",
+      "sha1": "16afc5aef89ff3bed15af82e50d783aa8fc0c7ea",
+      "title": "German: Bergige Landschaft Mountainous landscape",
+      "artist": "anonymous",
+      "width": 3017,
+      "height": 1700,
+      "source": "https://commons.wikimedia.org/w/index.php?curid=168384466",
+      "source_revision": 1154194612,
+      "source_page_sha256": "c90d7aa5ff0abb4daa83a1fd9b16d1e55d6a05675f158a75fb02372d1694cd83",
+      "rights_label_observed": "Public domain",
+      "rights_basis": [
+        "pd-old-100-expired"
+      ],
+      "artwork_qids": [
+        "Q107444214"
+      ],
+      "physical_measures": [],
+      "thumbnail_sha256": "598fe0d74c70236f39d7c26504d35a6d16561c90f5760586c14e52b5eabae8c4",
+      "evidence_sha256": "a9aafc71b8e18d4d07a639d37a2f4b463490c74121b9d101329f9f28b84cd272",
+      "second_visual_sheet_sha256": "2638128647920f49b8978ec66900896653b2bf288f453f23eeaf092051978925",
+      "decision": "accepted local research; not release-approved",
+      "reason": "Complete unframed reproduction visually inspected twice; source/pin/rights declarations and proportions checked; no unresolved artwork-identity flag; selected for gallery variety.",
+      "physical_evidence": "source has no explicit dimensions; full reproduction visually checked, no quantitative physical-ratio claim"
+    },
+    {
+      "id": 173720589,
+      "file_title": "File:Scene in the Roman Campagna (1878), by Johann Zahnd.jpg",
+      "sha1": "9fd21a5234b1e6d58d67621249996520616ffcfd",
+      "title": "French: Scènes de la campagne romaine Scene in the Roman Campagna",
+      "artist": "Johann Zahnd",
+      "width": 3000,
+      "height": 1689,
+      "source": "https://commons.wikimedia.org/w/index.php?curid=173720589",
+      "source_revision": 1257347022,
+      "source_page_sha256": "cf2d5bdb8ef528e2fe3f20974ea98d07b4872c6643dab44d096fea1ed4c6df16",
+      "rights_label_observed": "Public domain",
+      "rights_basis": [
+        "pd-old-auto-1923"
+      ],
+      "artwork_qids": [],
+      "physical_measures": [
+        {
+          "raw": "{{Size|unit=cm|height=84|width=146}}",
+          "width": 146.0,
+          "height": 84.0,
+          "ratio": 1.7380952380952381,
+          "interpretation": "named height/width"
+        }
+      ],
+      "thumbnail_sha256": "c8d8c47dbc13da1e68b15c34beb8ab1123b6bb5f2b201495be719ae23553356f",
+      "evidence_sha256": "f001533a2412361e66274e66531a7c4192cc01315a2c0398c07f3dd16cb816ec",
+      "second_visual_sheet_sha256": "a04708ab4ed664eb8d65eed2c8d83d0d5804a71c9aeb248e4ba0c3fe3c144af0",
       "decision": "accepted local research; not release-approved",
       "reason": "Complete unframed reproduction visually inspected twice; source/pin/rights declarations and proportions checked; no unresolved artwork-identity flag; selected for gallery variety.",
       "physical_evidence": "source dimensions agree within 2.5%"
@@ -4352,6 +6814,58 @@
       "decision": "accepted local research; not release-approved",
       "reason": "Complete unframed reproduction visually inspected twice; source/pin/rights declarations and proportions checked; no unresolved artwork-identity flag; selected for gallery variety.",
       "physical_evidence": "source has no explicit dimensions; full reproduction visually checked, no quantitative physical-ratio claim"
+    },
+    {
+      "id": 194918345,
+      "file_title": "File:Bruegel, Pieter (I) - Blind leading the blind Google Art Project.jpeg",
+      "sha1": "5a6245106fe30aca3dd5a32d44e630365de5ced9",
+      "title": "German: Die Blinden The Blind Leading the Blind",
+      "artist": "Pieter Brueghel the Elder",
+      "width": 3663,
+      "height": 2058,
+      "source": "https://commons.wikimedia.org/w/index.php?curid=194918345",
+      "source_revision": 1247781289,
+      "source_page_sha256": "bab131ec3d11b90b9e726d06f68fc6e4e6ee094887acd7afbfacdf06be6637a4",
+      "rights_label_observed": "Public domain",
+      "rights_basis": [
+        "pd-old-auto-expired"
+      ],
+      "artwork_qids": [
+        "Q1192570"
+      ],
+      "physical_measures": [],
+      "thumbnail_sha256": "99611bbdc4c2bb2f2211f31a0ddd7c5a541ce82e59933cf06ac372224677d9c7",
+      "evidence_sha256": "07c62f62b227c898302796b28b808671077eaf31cabd4b64ec914648255442a8",
+      "second_visual_sheet_sha256": "08e85e7d9cadb4d491a5e37b34ab9547d01d9f5f3d54c3876cd9b719b68d1e10",
+      "decision": "accepted local research; not release-approved",
+      "reason": "Complete unframed reproduction visually inspected twice; source/pin/rights declarations and proportions checked; no unresolved artwork-identity flag; selected for gallery variety.",
+      "physical_evidence": "source has no explicit dimensions; full reproduction visually checked, no quantitative physical-ratio claim"
+    },
+    {
+      "id": 198656654,
+      "file_title": "File:Fritz Melbye - A French Bark Entering the Harbour of Havana, the Morro Castle to the Left.jpg",
+      "sha1": "f67c0b4c1028939b564333c71748da5500a184b8",
+      "title": "A French Bark Entering the Harbour of Havana, the Morro Castle to the Left",
+      "artist": "Fritz Melbye",
+      "width": 3200,
+      "height": 1786,
+      "source": "https://commons.wikimedia.org/w/index.php?curid=198656654",
+      "source_revision": 1271040225,
+      "source_page_sha256": "de99e31dfbdb13fda94b91d64bb425d834340d5dbb77af543635fe00b38158bd",
+      "rights_label_observed": "Public domain",
+      "rights_basis": [
+        "pd-art-two-auto"
+      ],
+      "artwork_qids": [
+        "Q141250780"
+      ],
+      "physical_measures": [],
+      "thumbnail_sha256": "b6e32ef3ee9864fd9f12f0a77a3c5cae900df33c5f9f8175fe93614e3bd57f53",
+      "evidence_sha256": "142276cff69a7fbb8692ef50cf8c73aacce943bbfdddad38209892132871a7e5",
+      "second_visual_sheet_sha256": "934b9eb4e962e06bcdcfab3d7554d23c7861604d5d3c90e1ab4435c858999052",
+      "decision": "accepted local research; not release-approved",
+      "reason": "Complete unframed reproduction visually inspected twice; source/pin/rights declarations and proportions checked; no unresolved artwork-identity flag; selected for gallery variety.",
+      "physical_evidence": "source has no explicit dimensions; full reproduction visually checked, no quantitative physical-ratio claim"
     }
   ],
   "selected_but_deferred": [
@@ -4416,6 +6930,13 @@
       "id": 23599371,
       "reasons": [
         "physical dimensions contradict file shape; cropping/distortion unresolved"
+      ]
+    },
+    {
+      "id": 29850754,
+      "reasons": [
+        "physical dimensions contradict file shape; cropping/distortion unresolved",
+        "recorded physical proportions outside requested 2.5% band; measurement scope/crop unresolved"
       ]
     },
     {

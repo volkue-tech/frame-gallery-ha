@@ -216,9 +216,20 @@ def fingerprints() -> None:
 def checkpoint() -> None:
     """Retain a compact tracked receipt; raw pages/JPEGs stay private in build/."""
     review_path = OUTPUT / "review.json"
-    review = json.loads(review_path.read_text())
+    review_bytes = review_path.read_bytes()
+    review = json.loads(review_bytes)
     previews_path = OUTPUT / "profiles.json"
-    previews = json.loads(previews_path.read_text())
+    preview_bytes = previews_path.read_bytes()
+    previews = json.loads(preview_bytes)
+    # Discovery/preview files grow between finite passes. Retain the exact
+    # hashed metadata snapshot too, not a hash of subsequently replaced bytes.
+    for label, payload in (("review", review_bytes), ("profiles", preview_bytes)):
+        digest = hashlib.sha256(payload).hexdigest()
+        archive = OUTPUT / f"checkpoint-{label}-{digest}.json"
+        if archive.exists() and archive.read_bytes() != payload:
+            raise ValueError("retained checkpoint bytes changed")
+        if not archive.exists():
+            archive.write_bytes(payload)
     screened = {
         "records": [
             row
@@ -247,9 +258,9 @@ def checkpoint() -> None:
         else None,
         metadata_checked=len(review["records"]),
         metadata_eligible=sum(not work["reasons"] for work in review["records"]),
-        metadata_receipt_sha256=hashlib.sha256(review_path.read_bytes()).hexdigest(),
+        metadata_receipt_sha256=hashlib.sha256(review_bytes).hexdigest(),
         preview_count=len(previews["profiles"]),
-        preview_receipt_sha256=hashlib.sha256(previews_path.read_bytes()).hexdigest(),
+        preview_receipt_sha256=hashlib.sha256(preview_bytes).hexdigest(),
         locally_refused=previews["refused"],
         network_deferred=previews.get("network_deferred", []),
         visually_screened_count=len(screened["records"]),

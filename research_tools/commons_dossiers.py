@@ -64,6 +64,7 @@ def physical(text: str) -> list[dict]:
     markup = source_markup(text)
     dimensions = re.findall(r"\|\s*(?:commons_)?dimensions\s*=([^\n]*)", markup, re.I)
     dimensions += re.findall(r"\|\s*pretty_dimensions\s*=([^\n]*)", markup, re.I)
+    dimensions += re.findall(r"\|\s*core:format\s*=([^\n]*)", markup, re.I)
     dimensions += re.findall(
         r"\|\s*description\s*=(.*?)(?=\n\s*\||\n\s*}})", markup, re.I | re.S
     )
@@ -113,12 +114,12 @@ def physical(text: str) -> list[dict]:
                     )
                 )
         match = re.search(
-            r"w([0-9]+(?:\.[0-9]+)?)\s*[x×]\s*h([0-9]+(?:\.[0-9]+)?)\s*(cm|mm)\b",
+            r"w([0-9]+(?:[.,][0-9]+)?)\s*[x×]\s*h([0-9]+(?:[.,][0-9]+)?)\s*(cm|mm)\b",
             field,
             re.I,
         )
         if match:
-            a, b = float(match[1]), float(match[2])
+            a, b = float(match[1].replace(",", ".")), float(match[2].replace(",", "."))
             if min(a, b) > 0:
                 result.append(
                     dict(

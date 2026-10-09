@@ -133,7 +133,8 @@ def us_basis(names: set[str], wikitext: str = "") -> list[str]:
     # basis. Record it distinctly; never treat PD-Art alone as US clearance.
     wrappers = re.findall(
         r"\{\{\s*PD-Art(?:-two)?\s*\|\s*(?:1\s*=\s*)?"
-        r"(PD-old-auto-expired|PD-old-100-expired|PD-old-100-1923|PD-old-70-expired|PD-US-expired)\s*[|}]",
+        r"(PD-old-auto-expired|PD-old-auto-1923|PD-old-100-expired|"
+        r"PD-old-100-1923|PD-old-70-expired|PD-old-70-1923|PD-US-expired)\s*[|}]",
         source_markup(wikitext),
         flags=re.IGNORECASE,
     )
@@ -157,9 +158,12 @@ def us_basis(names: set[str], wikitext: str = "") -> list[str]:
         if name
         in {
             "pd-old-auto-expired",
+            "pd-old-auto-1923",
             "pd-old-100-expired",
             "pd-old-100-1923",
             "pd-old-70-expired",
+            "pd-old-70-1923",
+            "pd-art-old-100-expired",
             "pd-art-two-auto",
             "pd-us-expired",
             "pd-us",
@@ -170,6 +174,16 @@ def us_basis(names: set[str], wikitext: str = "") -> list[str]:
         }
         and (name != "pd-art-two-auto" or name in aliases)
     )
+
+
+def declared_creators(wikitext: str) -> str:
+    """Use only an explicit artwork artist field, never categories/uploaders."""
+    field = re.search(
+        r"^\s*\|\s*artist\s*=([^\n]*)", source_markup(wikitext), re.I | re.M
+    )
+    if not field:
+        return ""
+    return "; ".join(re.findall(r"\{\{\s*Creator:([^{}|]+)\}\}", field[1], re.I))
 
 
 def prepare(page: dict, expected: dict) -> dict:
@@ -212,7 +226,8 @@ def prepare(page: dict, expected: dict) -> dict:
     return dict(
         **expected,
         title=plain(values.get("ObjectName")) or expected["file_title"][5:],
-        artist=artwork_artist(values.get("Artist"), values.get("ImageDescription")),
+        artist=artwork_artist(values.get("Artist"), values.get("ImageDescription"))
+        or declared_creators(text),
         date=plain(values.get("DateTimeOriginal")),
         description=plain(values.get("ImageDescription")),
         rights_label=values.get("LicenseShortName"),
@@ -272,6 +287,8 @@ def metadata(limit: int) -> None:
         "discovery-targeted.json",
         "discovery-pdart.json",
         "discovery-pdart-single.json",
+        "discovery-pdart-precise.json",
+        "discovery-artwork-precise.json",
         "discovery-artists.json",
         "discovery-paintings.json",
         "discovery-artwork.json",
@@ -293,9 +310,16 @@ def metadata(limit: int) -> None:
         )
     )
     done = {w["id"] for w in report["records"]}
-    works = [w for w in candidates.values() if w["id"] not in done][:limit]
+    works = sorted(
+        [w for w in candidates.values() if w["id"] not in done], key=preview_priority
+    )[:limit]
     channel, deadline = research_channel(210)
     for offset in range(0, len(works), 5):
+        if deadline.remaining() < 45:
+            print(
+                json.dumps(dict(status="finite time cap; metadata progress retained"))
+            )
+            return
         batch = works[offset : offset + 5]
         query = (
             ("action", "query"),
@@ -347,6 +371,21 @@ def metadata(limit: int) -> None:
         )
 
 
+def preview_priority(work: dict) -> int:
+    """Order research only; never exclude or approve a work by its label."""
+    title = (work.get("title") or work.get("file_title", "")).casefold()
+    if re.search(
+        r"\b(?:frieze|sidewall|album|drawing|sketch|map|atlas|loc|verhandeling)\b",
+        title,
+    ):
+        return 2
+    if not work.get("artist") or work["artist"].casefold().startswith(
+        ("unknown", "made by", "anonymous")
+    ):
+        return 1
+    return 0
+
+
 def thumbnails(limit: int) -> None:
     from frame_gallery.net.policy import RequestKind
     from frame_gallery.providers.commons import _image_url
@@ -372,11 +411,15 @@ def thumbnails(limit: int) -> None:
         + profiles["refused"]
         + profiles.get("network_deferred", [])
     }
-    works = [w for w in report["records"] if not w["reasons"] and w["id"] not in done][
-        :limit
-    ]
+    works = sorted(
+        [w for w in report["records"] if not w["reasons"] and w["id"] not in done],
+        key=preview_priority,
+    )[:limit]
     channel, deadline = research_channel(1)
     for work in works:
+        if deadline.remaining() < 45:
+            print(json.dumps(dict(status="finite time cap; preview progress retained")))
+            return
         url = _image_url(work["thumbnail_url"], channel.policy)
         dimensions = work["reported_thumbnail_dimensions"]
         if (

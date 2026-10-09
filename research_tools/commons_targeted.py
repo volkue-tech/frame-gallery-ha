@@ -250,6 +250,7 @@ def discover(limit: int) -> None:
         "discovery-targeted.json",
         "discovery-pdart.json",
         "discovery-pdart-single.json",
+        "discovery-pdart-precise.json",
     ):
         source = OUTPUT / name
         if source.exists():

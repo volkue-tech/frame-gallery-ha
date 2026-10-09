@@ -3,11 +3,65 @@
 import unittest
 
 from research_tools.commons_dossiers import physical, qids
-from research_tools.commons_review import artwork_artist, template_names, us_basis
+from research_tools.commons_expand import PRECISE_WINDOWS, eligible
+from research_tools.commons_resume import validate_screen_range
+from research_tools.commons_review import (
+    artwork_artist,
+    declared_creators,
+    preview_priority,
+    template_names,
+    us_basis,
+)
 from research_tools.commons_targeted import artist_term
 
 
 class DossierTests(unittest.TestCase):
+    def test_missing_artist_uses_explicit_creators_not_categories(self):
+        text = (
+            "|artist = {{Creator:Joost de Momper d. J.}} "
+            "{{Creator:Jan Brueghel (I)}}\n|title=Summer"
+        )
+        self.assertEqual(
+            declared_creators(text), "Joost de Momper d. J.; Jan Brueghel (I)"
+        )
+        self.assertEqual(
+            declared_creators(
+                "|author={{Creator:Uploader}}\n[[Category:Paintings by someone]]"
+            ),
+            "",
+        )
+        self.assertEqual(declared_creators("<!-- |artist={{Creator:Hidden}} -->"), "")
+
+    def test_preview_order_is_only_a_research_priority(self):
+        self.assertEqual(preview_priority(dict(title="Blue coast", artist="Artist")), 0)
+        self.assertEqual(
+            preview_priority(dict(title="Blue coast", artist="Unknown artist")), 1
+        )
+        self.assertEqual(
+            preview_priority(dict(title="Drawing, a frieze", artist="Artist")), 2
+        )
+
+    def test_inspected_range_never_silently_counts_unseen_choices(self):
+        validate_screen_range(16, 32, {16, 31}, 40)
+        for start, stop, choices, count in (
+            (16, 32, {32}, 40),
+            (16, 16, set(), 40),
+            (-1, 32, {16}, 40),
+            (16, 41, {16}, 40),
+        ):
+            with self.assertRaises(ValueError):
+                validate_screen_range(start, stop, choices, count)
+
+    def test_precise_discovery_windows_do_not_weaken_acceptance(self):
+        self.assertEqual(PRECISE_WINDOWS[0][0], 3000)
+        self.assertEqual(PRECISE_WINDOWS[-1][1], 20000)
+        for previous, current in zip(PRECISE_WINDOWS, PRECISE_WINDOWS[1:]):
+            self.assertEqual(previous[1] + 1, current[0])
+        self.assertTrue(eligible(dict(width=3840, height=2160, mime="image/jpeg")))
+        self.assertFalse(eligible(dict(width=2999, height=1687, mime="image/jpeg")))
+        self.assertFalse(eligible(dict(width=3840, height=2500, mime="image/jpeg")))
+        self.assertFalse(eligible(dict(width=3840, height=2160, mime="image/png")))
+
     def test_search_names_drop_biographies_and_keep_person(self):
         self.assertEqual(
             artist_term(
@@ -53,11 +107,24 @@ class DossierTests(unittest.TestCase):
             physical("|Description={{de|28 × 46,5 cm.}}\n|Source=example")[0]["ratio"],
             46.5 / 28,
         )
+        self.assertAlmostEqual(
+            physical("|core:format={{en|w26 x h14.5 cm (Without frame)}}\n")[0][
+                "ratio"
+            ],
+            26 / 14.5,
+        )
+        self.assertEqual(
+            physical("|core:format={{en|w97,0 x h55,0 mm}}\n")[0]["ratio"],
+            97 / 55,
+        )
 
     def test_verified_aliases_and_explicit_deathyear_only(self):
         for markup in (
             "{{PD-Art|PD-old-100-1923}}",
             "{{PD-Art-two|PD-old-70-expired}}",
+            "{{PD-Art|PD-old-70-1923}}",
+            "{{PD-Art|PD-old-auto-1923|deathyear=1925}}",
+            "{{PD-art-old-100-expired}}",
             "{{PD-Art-two-auto|deathyear=1930}}",
         ):
             self.assertTrue(us_basis(template_names(markup), markup))

@@ -29,6 +29,15 @@ WIDTH_WINDOWS = (
     (12501, 20000),
 )
 MAX_PAGES_PER_WINDOW = 10
+PRECISE_WINDOWS = tuple(
+    (low, min(low + step - 1, stop))
+    for start, stop, step in (
+        (3000, 6000, 100),
+        (6001, 12000, 200),
+        (12001, 20000, 400),
+    )
+    for low in range(start, stop + 1, step)
+)
 
 
 def eligible(info: dict) -> bool:
@@ -44,7 +53,11 @@ def eligible(info: dict) -> bool:
 
 
 def discover(
-    artwork: bool = False, paintings: bool = False, pdart: bool = False
+    artwork: bool = False,
+    paintings: bool = False,
+    pdart: bool = False,
+    precise: bool = False,
+    artwork_precise: bool = False,
 ) -> None:
     sys.path.insert(0, str(ROOT))
     sys.path.insert(0, str(ROOT / "frame_gallery/src"))
@@ -56,13 +69,18 @@ def discover(
     from frame_gallery.net.policy import https_url
     from frame_gallery.net.transport import SystemResolver, Urllib3Transport
     from frame_gallery.providers.commons import commons_policy
+    from frame_gallery.providers.contract import SourceError
     from frame_gallery.randomness import SeededRandomSource
 
     from research_tools.commons_colours import BASELINE, save
 
     OUTPUT.mkdir(parents=True, exist_ok=True)
     name = (
-        "pdart-single"
+        "artwork-precise"
+        if artwork_precise
+        else "pdart-precise"
+        if precise
+        else "pdart-single"
         if pdart
         else "paintings"
         if paintings
@@ -104,18 +122,30 @@ def discover(
     scanned = set(report["scanned_ids"])
     hashes = excluded_hashes | {w["sha1"] for w in report["candidates"]}
     windows = (
-        WIDTH_WINDOWS + ((20001, 35000), (35001, 100000)) if pdart else WIDTH_WINDOWS
+        PRECISE_WINDOWS
+        if precise or artwork_precise
+        else WIDTH_WINDOWS + ((20001, 35000), (35001, 100000))
+        if pdart
+        else WIDTH_WINDOWS
     )
+    completed_requests = set(report.get("completed_requests", []))
+    requests = 0
     for low, high in windows:
         key = f"{low}-{high}"
         if key in report["completed_windows"]:
+            continue
+        if list(OUTPUT.glob(f"search-{name}-{key}-*-network-deferred.json")):
+            # A failed exchange is not an exhausted window. Other independent
+            # windows can proceed, but this one needs separately reviewed retry.
             continue
         # This rectangle is deliberately wider than the exact ratio band;
         # original metadata gets the unchanged exact 2.5% check afterwards.
         bottom, top = int(low / (16 / 9) / 1.025), int(high / (16 / 9) / 0.975) + 1
         subject = (
-            'hastemplate:"PD-Art"'
-            if pdart
+            "hastemplate:Artwork"
+            if artwork_precise
+            else 'hastemplate:"PD-Art"'
+            if pdart or precise
             else 'hastemplate:Artwork insource:"oil"'
             if paintings
             else "hastemplate:Artwork"
@@ -129,6 +159,14 @@ def discover(
             f'filemime:"image/jpeg" filew:{low},{high} fileh:{bottom},{top} {subject}'
         )
         for page_index in range(MAX_PAGES_PER_WINDOW):
+            request_key = f"{key}:{page_index}"
+            if request_key in completed_requests:
+                continue
+            if (OUTPUT / f"search-{name}-{key}-{page_index}-refused.json").exists():
+                raise ValueError("saved refused query needs review; no automatic retry")
+            if requests >= 140 or deadline.remaining() < 45:
+                print(json.dumps(dict(status="finite pass cap; progress retained")))
+                return
             query = (
                 ("action", "query"),
                 ("format", "json"),
@@ -143,9 +181,31 @@ def discover(
                 ("iilimit", "1"),
                 ("maxlag", "5"),
             )
-            response = channel.get_json(
-                https_url("commons.wikimedia.org", "/w/api.php", query), deadline
-            )
+            try:
+                response = channel.get_json(
+                    https_url("commons.wikimedia.org", "/w/api.php", query), deadline
+                )
+            except SourceError as error:
+                save(
+                    OUTPUT / f"search-{name}-{key}-{page_index}-network-deferred.json",
+                    dict(
+                        request_key=request_key,
+                        kind=error.kind.value,
+                        observed_at=clock.utc_now().isoformat(),
+                        status="network exchange failed; window NOT exhausted",
+                        retry="No automatic retry; separately reviewed retry only",
+                    ),
+                )
+                print(
+                    json.dumps(
+                        dict(
+                            status="network deferred; progress retained",
+                            request_key=request_key,
+                            kind=error.kind.value,
+                        )
+                    )
+                )
+                return
             if (
                 not isinstance(response, dict)
                 or "error" in response
@@ -194,6 +254,9 @@ def discover(
                     )
                 )
             report["scanned_ids"] = sorted(scanned)
+            completed_requests.add(request_key)
+            report["completed_requests"] = sorted(completed_requests)
+            requests += 1
             report["updated_at"] = clock.utc_now().isoformat()
             save(path, report)
             print(
@@ -207,7 +270,10 @@ def discover(
                 )
             )
             if "continue" not in response:
+                report.setdefault("exhausted_windows", []).append(key)
                 break
+        if key not in report.get("exhausted_windows", []):
+            report.setdefault("capped_windows", []).append(key)
         report["completed_windows"].append(key)
         save(path, report)
 
@@ -217,7 +283,22 @@ if __name__ == "__main__":
     parser.add_argument("--artwork", action="store_true")
     parser.add_argument("--paintings", action="store_true")
     parser.add_argument("--pdart", action="store_true")
+    parser.add_argument("--precise", action="store_true")
+    parser.add_argument("--artwork-precise", action="store_true")
     args = parser.parse_args()
-    if sum((args.artwork, args.paintings, args.pdart)) > 1:
+    if (
+        sum(
+            (
+                args.artwork,
+                args.paintings,
+                args.pdart,
+                args.precise,
+                args.artwork_precise,
+            )
+        )
+        > 1
+    ):
         parser.error("choose one research search scope")
-    discover(args.artwork, args.paintings, args.pdart)
+    discover(
+        args.artwork, args.paintings, args.pdart, args.precise, args.artwork_precise
+    )
