@@ -1,0 +1,46 @@
+{
+  "schema": 1,
+  "status": "Manual source-scope reviews; baseline IDs/pins/runtime/history unchanged",
+  "records": [
+    {
+      "id": 81314166,
+      "original_sha1": "61b2a9b14df85817418896d2e0fc85b9d5ca4561",
+      "source_revision": 1272886185,
+      "source_markup_sha256": "2506791b621c157d048bdc73aa3fe8e63dad81c45d81eee4bc40743f2a37f51f",
+      "thumbnail_sha256": "eee019be65083def1dbd3419d9842dc09c9e41ebba304edf1af167fe0f2712c0",
+      "decision": "measurement scope resolved after actual preview and source review",
+      "reason": "Source explicitly distinguishes overall 251.5 x 442.2 cm from framed 260.1 x 449.7 cm. Both whole-work metric/inch ratios are within the requested band and within 2.5% of the file ratio. The inspected reproduction has no surrounding frame. Out-of-band frame measurements do not describe the displayed canvas.",
+      "limits": "Small source-bound preview inspection, not a new full-resolution decode or independent museum-image comparison. No source dimensions or pins changed."
+    },
+    {
+      "id": 81325026,
+      "original_sha1": "04294b2e5dbd12dfc941d086efa86d77db34aff4",
+      "source_revision": 1112429416,
+      "source_markup_sha256": "cbfa4ec41b0f53bdaa5e43cc918d17842d13374a8cf345f9dfa9f403d8ecd809",
+      "thumbnail_sha256": "835839b7389faf9c993b0a1e5a8ff682e5578c0c44ea14d8fcb96fd453a973e6",
+      "decision": "measurement scope resolved after actual preview and source review",
+      "reason": "Source explicitly distinguishes overall 75.8 x 133 cm from framed 87.6 x 145.4 cm. Whole-work metric/inch ratios are within the requested band and within 2.5% of the file ratio. The inspected oil-on-canvas reproduction has no surrounding frame. The additional frame ratio is not the canvas ratio.",
+      "limits": "Small source-bound preview inspection, not a new full-resolution decode or independent museum-image comparison. No source dimensions or pins changed."
+    },
+    {
+      "id": 81310338,
+      "original_sha1": "d674696dc80a0756e3096b7d36f6e256abb6ff6a",
+      "source_revision": 1234474372,
+      "source_markup_sha256": "d561e174c4c7867c3babb83ded2d5c575b02f49ed54984678765379cc85a1ea8",
+      "thumbnail_sha256": "f30f1365f5273ec84018a83eb13535790d44511d9ff47df79e81193671019cd5",
+      "decision": "measurement scope resolved after actual preview and source review",
+      "reason": "Source explicitly distinguishes overall 18.4 x 32.7 cm from framed 37.1 x 50.4 cm. Whole-work metric/inch ratios are within the requested band and within 2.5% of the file ratio. The inspected oil-on-wood reproduction is unframed; the out-of-band frame ratio describes a different scope.",
+      "limits": "Small source-bound preview inspection, not a new full-resolution decode or independent museum-image comparison. No source dimensions or pins changed."
+    },
+    {
+      "id": 13318993,
+      "original_sha1": "421dda23b1e382ed826c7a9badc785b239042ce1",
+      "source_revision": 1180728540,
+      "source_markup_sha256": "3536d406e14b7821e2d62490ec8c2a514814988d9baaf93f08ad0d80df190d82",
+      "thumbnail_sha256": "0e8573571c084ae69f72e0c3d1850882ef4cbe2199ef4e1bbe41ee53976d0c0a",
+      "decision": "measurement scope resolved after actual preview and source review",
+      "reason": "Source explicitly gives a 13.50 cm high / 23.40 cm wide oil-on-wood panel. Exact rational arithmetic gives 234/135 divided by 16/9 = 39/40, hence exactly the permitted 2.5% lower boundary; the automatic prompt is a floating-point boundary artefact, not evidence beyond the limit. The actual source-bound preview is an unframed whole panel with visible outer panel edges. No rounding of an out-of-band source and no tolerance expansion were applied.",
+      "limits": "Small source-bound preview and retained source inspection, not a new full-resolution decode or independent museum-image comparison. The original floating-point audit prompt remains recorded; no source dimensions or upload pins changed."
+    }
+  ]
+}

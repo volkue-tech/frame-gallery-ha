@@ -1,11 +1,13 @@
 {
   "schema": 1,
-  "recorded_at": "2026-10-09T22:22:28.546285+00:00",
+  "recorded_at": "2026-10-09T22:46:04.700407+00:00",
   "status": "offline source audit only; baseline/catalogue/history unchanged",
   "baseline_sha256": "582c6abb664d49cc172d208f7bd701b14677e5b31d79b35e5aa4a48fc68af057",
   "source_revisions_checked": 400,
-  "with_physical_measurements": 227,
-  "unresolved_measurement_prompts": 57,
+  "with_physical_measurements": 239,
+  "automatic_measurement_prompts": 60,
+  "resolved_measurement_prompts": 4,
+  "unresolved_measurement_prompts": 56,
   "records": [
     {
       "id": 3817033,
@@ -639,9 +641,19 @@
       "source_receipt": "build/commons-1000-research/baseline-identity-34254029.json",
       "source_receipt_sha256": "d7bc66eaefc62b8a12a34254f117c8003f5e6b2543ddd8cfec1dd1590d455fea",
       "source_markup_sha256": "bd2e533e959e3641f2c19f3971063d0be79dd673e1467c19ea68d2f52522b562",
-      "physical_measurements": [],
-      "review_prompts": [],
-      "status": "no automatic measurement prompt; not a fresh visual approval"
+      "physical_measurements": [
+        {
+          "raw": "drager '''Height:''' {{size|cm|42}} drager '''Width:''' {{size|cm|71.5}}",
+          "width": 715.0,
+          "height": 420.0,
+          "ratio": 1.7023809523809523,
+          "interpretation": "explicit Height/Width single-axis Size templates; measurement scope retained"
+        }
+      ],
+      "review_prompts": [
+        "measurement scope outside original near-16:9 band; review required"
+      ],
+      "status": "unresolved source-measurement prompt"
     },
     {
       "id": 21897036,
@@ -741,7 +753,15 @@
       "source_receipt": "build/commons-1000-research/baseline-identity-13507795.json",
       "source_receipt_sha256": "e6763bd1ddc036fb8a3003970c11d617f97dcbc9a2c549a16ca7cef4b9773bc7",
       "source_markup_sha256": "ebbc096d3c1c76b4ecfe33a81e809475fff0426b0f560452dfbbabbd6efc60a5",
-      "physical_measurements": [],
+      "physical_measurements": [
+        {
+          "raw": "drager '''Height:''' {{size|cm|39.2}} drager '''Width:''' {{size|cm|69.8}} dagmaat '''Height:''' {{size|cm|39.4}} dagmaat '''Width:''' {{size|cm|68.4}}",
+          "width": 698.0,
+          "height": 392.0,
+          "ratio": 1.780612244897959,
+          "interpretation": "explicit Height/Width single-axis Size templates; measurement scope retained"
+        }
+      ],
       "review_prompts": [],
       "status": "no automatic measurement prompt; not a fresh visual approval"
     },
@@ -754,7 +774,15 @@
       "source_receipt": "build/commons-1000-research/baseline-identity-13507795.json",
       "source_receipt_sha256": "e6763bd1ddc036fb8a3003970c11d617f97dcbc9a2c549a16ca7cef4b9773bc7",
       "source_markup_sha256": "74afedf4ea240b94765a862d7c4931ac6e0389918e897fc56e6dc7d3ddc37255",
-      "physical_measurements": [],
+      "physical_measurements": [
+        {
+          "raw": "'''Height:''' {{size|cm|20}} '''Width:''' {{size|cm|35}}",
+          "width": 350.0,
+          "height": 200.0,
+          "ratio": 1.75,
+          "interpretation": "explicit Height/Width single-axis Size templates; measurement scope retained"
+        }
+      ],
       "review_prompts": [],
       "status": "no automatic measurement prompt; not a fresh visual approval"
     },
@@ -1711,7 +1739,17 @@
       "review_prompts": [
         "measurement scope outside original near-16:9 band; review required"
       ],
-      "status": "unresolved source-measurement prompt"
+      "status": "manual measurement-scope review resolved",
+      "manual_resolution": {
+        "id": 81314166,
+        "original_sha1": "61b2a9b14df85817418896d2e0fc85b9d5ca4561",
+        "source_revision": 1272886185,
+        "source_markup_sha256": "2506791b621c157d048bdc73aa3fe8e63dad81c45d81eee4bc40743f2a37f51f",
+        "thumbnail_sha256": "eee019be65083def1dbd3419d9842dc09c9e41ebba304edf1af167fe0f2712c0",
+        "decision": "measurement scope resolved after actual preview and source review",
+        "reason": "Source explicitly distinguishes overall 251.5 x 442.2 cm from framed 260.1 x 449.7 cm. Both whole-work metric/inch ratios are within the requested band and within 2.5% of the file ratio. The inspected reproduction has no surrounding frame. Out-of-band frame measurements do not describe the displayed canvas.",
+        "limits": "Small source-bound preview inspection, not a new full-resolution decode or independent museum-image comparison. No source dimensions or pins changed."
+      }
     },
     {
       "id": 58728087,
@@ -1887,7 +1925,17 @@
       "review_prompts": [
         "measurement scope outside original near-16:9 band; review required"
       ],
-      "status": "unresolved source-measurement prompt"
+      "status": "manual measurement-scope review resolved",
+      "manual_resolution": {
+        "id": 81325026,
+        "original_sha1": "04294b2e5dbd12dfc941d086efa86d77db34aff4",
+        "source_revision": 1112429416,
+        "source_markup_sha256": "cbfa4ec41b0f53bdaa5e43cc918d17842d13374a8cf345f9dfa9f403d8ecd809",
+        "thumbnail_sha256": "835839b7389faf9c993b0a1e5a8ff682e5578c0c44ea14d8fcb96fd453a973e6",
+        "decision": "measurement scope resolved after actual preview and source review",
+        "reason": "Source explicitly distinguishes overall 75.8 x 133 cm from framed 87.6 x 145.4 cm. Whole-work metric/inch ratios are within the requested band and within 2.5% of the file ratio. The inspected oil-on-canvas reproduction has no surrounding frame. The additional frame ratio is not the canvas ratio.",
+        "limits": "Small source-bound preview inspection, not a new full-resolution decode or independent museum-image comparison. No source dimensions or pins changed."
+      }
     },
     {
       "id": 57398214,
@@ -2534,7 +2582,15 @@
       "source_receipt": "build/commons-1000-research/baseline-identity-190237599.json",
       "source_receipt_sha256": "1025fb8ab1180959b69bf906f9d318183a214ba483b4b9071d832ee8473d185c",
       "source_markup_sha256": "a1d5b0af1e955ef1e83bf38128bfb2ac699f6b7f52ba158255a7ffdab485729e",
-      "physical_measurements": [],
+      "physical_measurements": [
+        {
+          "raw": "drager '''Height:''' {{size|cm|77.6}} drager '''Width:''' {{size|cm|135.7}}",
+          "width": 1357.0,
+          "height": 776.0,
+          "ratio": 1.7487113402061856,
+          "interpretation": "explicit Height/Width single-axis Size templates; measurement scope retained"
+        }
+      ],
       "review_prompts": [],
       "status": "no automatic measurement prompt; not a fresh visual approval"
     },
@@ -2547,7 +2603,15 @@
       "source_receipt": "build/commons-1000-research/baseline-identity-34317675.json",
       "source_receipt_sha256": "af14288c30ccbfb3071d2045c8f4b07ad314400ccd9d5347ae0c3977bd89d14b",
       "source_markup_sha256": "a3c2db99ec2925382d0beb916200eaef4377876a4bac8baf2e76f80114dc83e5",
-      "physical_measurements": [],
+      "physical_measurements": [
+        {
+          "raw": "drager '''Height:''' {{size|cm|34.7}} drager '''Width:''' {{size|cm|60.7}}",
+          "width": 607.0,
+          "height": 347.0,
+          "ratio": 1.7492795389048992,
+          "interpretation": "explicit Height/Width single-axis Size templates; measurement scope retained"
+        }
+      ],
       "review_prompts": [],
       "status": "no automatic measurement prompt; not a fresh visual approval"
     },
@@ -2560,7 +2624,15 @@
       "source_receipt": "build/commons-1000-research/baseline-identity-34317675.json",
       "source_receipt_sha256": "af14288c30ccbfb3071d2045c8f4b07ad314400ccd9d5347ae0c3977bd89d14b",
       "source_markup_sha256": "8a605ae266d06572a363acd5edb4f8c544c004d898562fa07933b79984d0700a",
-      "physical_measurements": [],
+      "physical_measurements": [
+        {
+          "raw": "drager ''Height:'' {{size|cm|59}} drager ''Width:'' {{size|cm|104}}",
+          "width": 1040.0,
+          "height": 590.0,
+          "ratio": 1.7627118644067796,
+          "interpretation": "explicit Height/Width single-axis Size templates; measurement scope retained"
+        }
+      ],
       "review_prompts": [],
       "status": "no automatic measurement prompt; not a fresh visual approval"
     },
@@ -2573,7 +2645,15 @@
       "source_receipt": "build/commons-1000-research/baseline-identity-34317675.json",
       "source_receipt_sha256": "af14288c30ccbfb3071d2045c8f4b07ad314400ccd9d5347ae0c3977bd89d14b",
       "source_markup_sha256": "734199aeca7a8a4883db8c86ee85e0f28bb3ed66f4663d795303b91f095ea446",
-      "physical_measurements": [],
+      "physical_measurements": [
+        {
+          "raw": "drager '''Height:''' {{size|cm|39.6}} drager '''Width:''' {{size|cm|71.8}}",
+          "width": 718.0,
+          "height": 396.0,
+          "ratio": 1.8131313131313131,
+          "interpretation": "explicit Height/Width single-axis Size templates; measurement scope retained"
+        }
+      ],
       "review_prompts": [],
       "status": "no automatic measurement prompt; not a fresh visual approval"
     },
@@ -2607,7 +2687,15 @@
       "source_receipt": "build/commons-1000-research/baseline-identity-34317675.json",
       "source_receipt_sha256": "af14288c30ccbfb3071d2045c8f4b07ad314400ccd9d5347ae0c3977bd89d14b",
       "source_markup_sha256": "f7ade85e65f6bbca142920ea1a18b1ff8c8e2e52fd579e6c64a735095c905c1d",
-      "physical_measurements": [],
+      "physical_measurements": [
+        {
+          "raw": "drager '''Height:''' {{size|cm|57}} drager '''Width:''' {{size|cm|101.5}}",
+          "width": 1015.0,
+          "height": 570.0,
+          "ratio": 1.780701754385965,
+          "interpretation": "explicit Height/Width single-axis Size templates; measurement scope retained"
+        }
+      ],
       "review_prompts": [],
       "status": "no automatic measurement prompt; not a fresh visual approval"
     },
@@ -2620,7 +2708,15 @@
       "source_receipt": "build/commons-1000-research/baseline-identity-83529871.json",
       "source_receipt_sha256": "e151a5daa8c4a0350b608bef8a7cdc3e47c52a7d3d1e3cc784656120049e5b7d",
       "source_markup_sha256": "16f89c0230e9363bf4209295b567f75e062b1bc4cd4c98259fe271aacbbd754f",
-      "physical_measurements": [],
+      "physical_measurements": [
+        {
+          "raw": "drager '''Height:''' {{size|cm|98.5}} drager '''Width:''' {{size|cm|171.2}}",
+          "width": 1712.0,
+          "height": 985.0,
+          "ratio": 1.7380710659898477,
+          "interpretation": "explicit Height/Width single-axis Size templates; measurement scope retained"
+        }
+      ],
       "review_prompts": [],
       "status": "no automatic measurement prompt; not a fresh visual approval"
     },
@@ -2633,7 +2729,15 @@
       "source_receipt": "build/commons-1000-research/baseline-identity-83529871.json",
       "source_receipt_sha256": "e151a5daa8c4a0350b608bef8a7cdc3e47c52a7d3d1e3cc784656120049e5b7d",
       "source_markup_sha256": "286acef1504799dc9a27832175e7339d0253ba853b05d62ff5990ae22e96612d",
-      "physical_measurements": [],
+      "physical_measurements": [
+        {
+          "raw": "drager '''Height:''' {{size|cm|63}} drager '''Width:''' {{size|cm|110}}",
+          "width": 1100.0,
+          "height": 630.0,
+          "ratio": 1.746031746031746,
+          "interpretation": "explicit Height/Width single-axis Size templates; measurement scope retained"
+        }
+      ],
       "review_prompts": [],
       "status": "no automatic measurement prompt; not a fresh visual approval"
     },
@@ -2659,9 +2763,19 @@
       "source_receipt": "build/commons-1000-research/baseline-identity-83529871.json",
       "source_receipt_sha256": "e151a5daa8c4a0350b608bef8a7cdc3e47c52a7d3d1e3cc784656120049e5b7d",
       "source_markup_sha256": "670b9fcaf036941d4712469e8c37d3190834b7ba41a45a672b4952a818268473",
-      "physical_measurements": [],
-      "review_prompts": [],
-      "status": "no automatic measurement prompt; not a fresh visual approval"
+      "physical_measurements": [
+        {
+          "raw": "drager '''Height:''' {{size|cm|35.8}} drager '''Width:''' {{size|cm|61.5}}",
+          "width": 615.0,
+          "height": 358.0,
+          "ratio": 1.717877094972067,
+          "interpretation": "explicit Height/Width single-axis Size templates; measurement scope retained"
+        }
+      ],
+      "review_prompts": [
+        "measurement scope outside original near-16:9 band; review required"
+      ],
+      "status": "unresolved source-measurement prompt"
     },
     {
       "id": 159288815,
@@ -3322,7 +3436,17 @@
       "review_prompts": [
         "measurement scope outside original near-16:9 band; review required"
       ],
-      "status": "unresolved source-measurement prompt"
+      "status": "manual measurement-scope review resolved",
+      "manual_resolution": {
+        "id": 81310338,
+        "original_sha1": "d674696dc80a0756e3096b7d36f6e256abb6ff6a",
+        "source_revision": 1234474372,
+        "source_markup_sha256": "d561e174c4c7867c3babb83ded2d5c575b02f49ed54984678765379cc85a1ea8",
+        "thumbnail_sha256": "f30f1365f5273ec84018a83eb13535790d44511d9ff47df79e81193671019cd5",
+        "decision": "measurement scope resolved after actual preview and source review",
+        "reason": "Source explicitly distinguishes overall 18.4 x 32.7 cm from framed 37.1 x 50.4 cm. Whole-work metric/inch ratios are within the requested band and within 2.5% of the file ratio. The inspected oil-on-wood reproduction is unframed; the out-of-band frame ratio describes a different scope.",
+        "limits": "Small source-bound preview inspection, not a new full-resolution decode or independent museum-image comparison. No source dimensions or pins changed."
+      }
     },
     {
       "id": 21894912,
@@ -6352,7 +6476,17 @@
       "review_prompts": [
         "measurement scope outside original near-16:9 band; review required"
       ],
-      "status": "unresolved source-measurement prompt"
+      "status": "manual measurement-scope review resolved",
+      "manual_resolution": {
+        "id": 13318993,
+        "original_sha1": "421dda23b1e382ed826c7a9badc785b239042ce1",
+        "source_revision": 1180728540,
+        "source_markup_sha256": "3536d406e14b7821e2d62490ec8c2a514814988d9baaf93f08ad0d80df190d82",
+        "thumbnail_sha256": "0e8573571c084ae69f72e0c3d1850882ef4cbe2199ef4e1bbe41ee53976d0c0a",
+        "decision": "measurement scope resolved after actual preview and source review",
+        "reason": "Source explicitly gives a 13.50 cm high / 23.40 cm wide oil-on-wood panel. Exact rational arithmetic gives 234/135 divided by 16/9 = 39/40, hence exactly the permitted 2.5% lower boundary; the automatic prompt is a floating-point boundary artefact, not evidence beyond the limit. The actual source-bound preview is an unframed whole panel with visible outer panel edges. No rounding of an out-of-band source and no tolerance expansion were applied.",
+        "limits": "Small source-bound preview and retained source inspection, not a new full-resolution decode or independent museum-image comparison. The original floating-point audit prompt remains recorded; no source dimensions or upload pins changed."
+      }
     },
     {
       "id": 97946973,
@@ -6577,9 +6711,19 @@
       "source_receipt": "build/commons-1000-research/baseline-identity-36994951.json",
       "source_receipt_sha256": "54d58636b6be8c829ba45135c5705b19cff668655ac7655b08b6c8ece71374dc",
       "source_markup_sha256": "3a3370a48ffbf5042dc87585bde5059347f9ee9dddeed8864b5f1177842b5d51",
-      "physical_measurements": [],
-      "review_prompts": [],
-      "status": "no automatic measurement prompt; not a fresh visual approval"
+      "physical_measurements": [
+        {
+          "raw": "drager '''Height:''' {{size|cm|15.6}} drager '''Width:''' {{size|cm|28.5}}",
+          "width": 285.0,
+          "height": 156.0,
+          "ratio": 1.8269230769230769,
+          "interpretation": "explicit Height/Width single-axis Size templates; measurement scope retained"
+        }
+      ],
+      "review_prompts": [
+        "measurement scope outside original near-16:9 band; review required"
+      ],
+      "status": "unresolved source-measurement prompt"
     },
     {
       "id": 98844700,

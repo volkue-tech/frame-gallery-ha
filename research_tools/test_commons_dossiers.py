@@ -2,6 +2,7 @@
 
 import unittest
 
+from research_tools.commons_baseline_audit import verify_decision
 from research_tools.commons_dossiers import physical, qids
 from research_tools.commons_expand import (
     GENRE_SUBJECT,
@@ -18,6 +19,7 @@ from research_tools.commons_review import (
     declared_creators,
     preview_priority,
     source_artist,
+    source_title,
     template_names,
     us_basis,
 )
@@ -25,6 +27,158 @@ from research_tools.commons_targeted import artist_term
 
 
 class DossierTests(unittest.TestCase):
+    def test_explicit_pd_self_is_a_release_declaration_not_artwork_clearance(self):
+        source = "{{Information|source={{Own}}}}\n{{PD-self}}"
+        self.assertEqual(us_basis(template_names(source), source), ["pd-self"])
+        for source in (
+            "<!-- {{PD-self}} -->",
+            "<nowiki>{{PD-self}}</nowiki>",
+            "|author=PD-self",
+            "{{PD-author}}",
+        ):
+            self.assertEqual(us_basis(template_names(source), source), [])
+
+    def test_explicit_art_photo_caption_distinguishes_maker(self):
+        text = "{{Art Photo\n|artist = \n|photographer = [[User:Photo|Photo]]\n}}"
+        caption = (
+            "A coastal painting, by Named Maker, 1864-1865, oil on canvas - Museum."
+        )
+        self.assertEqual(source_artist("Photo", caption, text), "Named Maker")
+        self.assertEqual(source_artist("Other", caption, text), "Other")
+        self.assertEqual(
+            source_artist(
+                "Photo",
+                caption,
+                text.replace("|artist = \n", "|artist = Explicit Maker\n"),
+            ),
+            "Photo",
+        )
+        self.assertEqual(
+            source_artist("Photo", caption, text.replace("Art Photo", "Information")),
+            "Photo",
+        )
+        self.assertEqual(
+            source_artist("Photo", "A painting, maker not supplied", text), "Photo"
+        )
+
+    def test_camera_title_uses_only_short_explicit_caption(self):
+        self.assertEqual(
+            source_title("20050900 DSCN1173a", "sunflowers in a glass", "fallback"),
+            "sunflowers in a glass",
+        )
+        self.assertEqual(
+            source_title("DSC1173.jpg", "Sunflowers", "fallback"), "Sunflowers"
+        )
+        self.assertEqual(
+            source_title("Named Artwork", "a different caption", "fallback"),
+            "Named Artwork",
+        )
+        for caption in (
+            "",
+            "https://example.invalid",
+            "x" * 101,
+            "{{Unresolved}}",
+            "[[Creator:Someone]]",
+        ):
+            self.assertEqual(source_title("IMG1173", caption, "fallback"), "IMG1173")
+        self.assertEqual(
+            source_title(None, "description", "Untitled study"), "Untitled study"
+        )
+
+    def test_named_size_decimal_commas_do_not_hide_portrait_measurements(self):
+        values = physical("{{Size|unit=cm|width=12,4|height=22,9}}")
+        self.assertEqual(len(values), 1)
+        self.assertAlmostEqual(values[0]["ratio"], 12.4 / 22.9)
+
+    def test_explicit_height_width_single_axis_size_templates_are_combined(self):
+        values = physical(
+            "|dimensions=drager '''Height:''' {{size|cm|35}} "
+            "drager '''Width:''' {{size|cm|55}}\n}}"
+        )
+        self.assertEqual(len(values), 1)
+        self.assertAlmostEqual(values[0]["ratio"], 55 / 35)
+        self.assertGreater(abs(values[0]["ratio"] / (16 / 9) - 1), 0.025)
+
+    def test_english_height_width_parenthesized_metric_axes_are_not_lost(self):
+        values = physical(
+            "|dimensions=H. 6 5/8 in. (16.8 cm); W. 12 1/4 in. (31.1 cm)\n"
+            "|institution=Test museum\n}}"
+        )
+        self.assertEqual(len(values), 1)
+        self.assertAlmostEqual(values[0]["ratio"], 31.1 / 16.8)
+        self.assertGreater(abs(values[0]["ratio"] / (16 / 9) - 1), 0.025)
+
+    def test_english_metric_axes_preserve_panel_and_frame_scopes(self):
+        values = physical(
+            "|dimensions=Each Height 389 mm; Width 24.4 cm\n"
+            "Frame H. 40 cm; W. 70 cm\n|institution=Test museum\n}}"
+        )
+        self.assertEqual(len(values), 2)
+        self.assertAlmostEqual(values[0]["ratio"], 244 / 389)
+        self.assertAlmostEqual(values[1]["ratio"], 1.75)
+        self.assertIn("Each", values[0]["raw"])
+        self.assertIn("Frame", values[1]["raw"])
+
+    def test_ambiguous_multiple_metric_values_are_not_picked_to_fit(self):
+        self.assertEqual(physical("|dimensions=H. 10 cm or 20 cm; W. 18 cm\n}}"), [])
+
+    def test_manual_baseline_scope_resolution_is_exact_evidence_bound(self):
+        record = dict(
+            id=1, original_sha1="pin", source_revision=2, source_markup_sha256="raw"
+        )
+        decision = dict(
+            **record,
+            thumbnail_sha256="preview",
+            decision=(
+                "measurement scope resolved after actual preview and source review"
+            ),
+            reason="Explicit frame scope, separately inspected unframed reproduction",
+            limits="Small preview review, not a new full-resolution decode",
+        )
+        self.assertEqual(verify_decision(record, decision, "preview"), decision)
+        for key in record:
+            with self.subTest(key=key), self.assertRaises(ValueError):
+                verify_decision(record, dict(decision, **{key: "changed"}), "preview")
+        with self.assertRaises(ValueError):
+            verify_decision(record, decision, "changed-preview")
+
+    def test_manual_scope_resolution_cannot_be_an_unqualified_auto_approval(self):
+        record = dict(
+            id=1, original_sha1="pin", source_revision=2, source_markup_sha256="raw"
+        )
+        for label in ("accepted", "automatically resolved", ""):
+            with self.subTest(label=label), self.assertRaises(ValueError):
+                verify_decision(
+                    record,
+                    dict(record, thumbnail_sha256="preview", decision=label),
+                    "preview",
+                )
+
+    def test_explicit_self_cc0_license_is_source_evidence_not_photo_clearance(self):
+        for markup in (
+            "{{Self|cc-zero}}",
+            "{{self|1=CC-zero|author=Example}}",
+            "{{Self|cc-by-sa-4.0|cc-zero}}",
+            "{{Self|cc0}}",
+        ):
+            with self.subTest(markup=markup):
+                self.assertIn(
+                    us_basis(template_names(markup), markup)[0], {"cc-zero", "cc0"}
+                )
+
+    def test_self_cc0_requires_exact_license_parameter_not_author_or_example(self):
+        for markup in (
+            "{{Self|cc-by-sa-4.0|author=cc-zero}}",
+            "{{Self|cc-by-sa-4.0|attribution=cc0}}",
+            "{{Self|1=not-cc-zero}}",
+            "{{Self|7=cc-zero}}",
+            "<!-- {{Self|cc-zero}} -->",
+            "<nowiki>{{Self|cc-zero}}</nowiki>",
+            "{{Someone-cc-zero}}",
+        ):
+            with self.subTest(markup=markup):
+                self.assertEqual(us_basis(template_names(markup), markup), [])
+
     def test_single_subjects_do_not_claim_boolean_group_support(self):
         self.assertEqual(SINGLE_SUBJECTS["kusama"], '"Yayoi Kusama"')
         self.assertEqual(SINGLE_SUBJECTS["digital-art"], '"digital art"')
@@ -207,6 +361,46 @@ class DossierTests(unittest.TestCase):
         self.assertEqual(declared_creators("<!-- |artist={{Creator:Hidden}} -->"), "")
 
     def test_preview_order_is_only_a_research_priority(self):
+        self.assertNotEqual(
+            preview_priority(
+                dict(
+                    title="Unrelated old grouped result",
+                    artist="Maker",
+                    query='hastemplate:CC-zero (painting OR "digital art")',
+                )
+            ),
+            -1,
+        )
+        self.assertNotEqual(
+            preview_priority(
+                dict(
+                    title="Unrelated old grouped result",
+                    artist="Maker",
+                    query='hastemplate:Artwork (insource:"huile" OR insource:"oil")',
+                )
+            ),
+            -1,
+        )
+        self.assertEqual(
+            preview_priority(
+                dict(
+                    title="Celestial photomontage",
+                    artist="Maker",
+                    query='"digital art"',
+                )
+            ),
+            -1,
+        )
+        self.assertEqual(
+            preview_priority(
+                dict(
+                    title="Fragment of a digital work",
+                    artist="Maker",
+                    query='"digital art"',
+                )
+            ),
+            4,
+        )
         self.assertEqual(preview_priority(dict(title="Blue coast", artist="Artist")), 0)
         self.assertEqual(
             preview_priority(dict(title="Blue coast", artist="Unknown artist")), 1

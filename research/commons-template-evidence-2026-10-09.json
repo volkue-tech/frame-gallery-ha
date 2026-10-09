@@ -32,7 +32,24 @@
     "revision_id": 916087267,
     "underlying_declaration": "PD-Art with PD-old-100-expired"
   },
+  "author_declarations": [
+    {
+      "title": "Template:PD-self",
+      "source": "https://commons.wikimedia.org/wiki/Template:PD-self",
+      "page_id": 26765,
+      "revision_id": 708258897,
+      "documentation_source": "https://commons.wikimedia.org/wiki/Template:PD-self/doc",
+      "documentation_page_id": 7730835,
+      "documentation_revision_id": 1221671788,
+      "interpretation": "Explicit author public-domain dedication, within the existing PD/CC0 research scope. The documentation limits this declaration to rights held by the declaring author; it is not automatic permission for another artist's work visible in a photograph. Rendered official wording was read separately; the raw template delegates its text to translated messages.",
+      "excluded_inference": "PD-author was read for context but is not recognized by this screening change. No CC BY or CC BY-SA expansion or worldwide legal clearance."
+    }
+  ],
   "private_receipts": [
+    {
+      "file": "build/commons-1000-research/official-pd-self-source.json",
+      "sha256": "7e4e954941d2ba14b4028bec7abce0ee28ca019e37b09063ad75412c37628c74"
+    },
     {
       "file": "build/commons-1000-research/official-template-alias-revisions.json",
       "sha256": "d464c19c6604462f43e45a3ccd0a18eb14339929adaceee63512a669e9834019"

@@ -23,16 +23,17 @@ Der Bestand ist `frame_gallery/research/commons-400-selection-2026-10-06.json`. 
 
 Der lokale App-Entwurf enthält inzwischen das einzelne Farbfeld und den geprüften Farbfilter. Der Runtime-Katalog bleibt bei 400 Werken; die veröffentlichte Beta ist unverändert. Ein Wochenendziel ist keine garantierte Fertigstellung: Rechte, Bildqualität und bestandene Prüfungen haben Vorrang vor der Zahl und dem Termin.
 
-Lokaler Zwischenstand: 48 Bestandswerke visuell im Farbpilot geprüft und das Verfahren an dunklem Blau und Ockertönen korrigiert. Alle 400 Bestandswerke besitzen vorläufige Farbprofile mit vollständiger Verteilung und Quellenbeleg. Hinzu kommen **319 derzeit lokal kuratierte neue Werke**, ebenfalls mit vollständigen Farbprofilen. Die private [Farbvorschau](http://127.0.0.1:8881/gallery.html) enthält somit **719 Werke** und lässt sich nach Farbgruppe sowie Bestand oder Neuzugängen filtern. **281 weitere Aufnahmen fehlen noch zum nominellen Ziel.** Die [neue Farbanleitung](commons-colour-user-guide-draft.md) bleibt ein unveröffentlichter Entwurf.
+Lokaler Zwischenstand: 48 Bestandswerke visuell im Farbpilot geprüft und das Verfahren an dunklem Blau und Ockertönen korrigiert. Alle 400 Bestandswerke besitzen vorläufige Farbprofile mit vollständiger Verteilung und Quellenbeleg. Hinzu kommen **346 derzeit lokal kuratierte neue Werke**, ebenfalls mit vollständigen Farbprofilen. Die private [Farbvorschau](http://127.0.0.1:8881/gallery.html) enthält somit **746 Werke** und lässt sich nach Farbgruppe sowie Bestand oder Neuzugängen filtern. **254 weitere Aufnahmen fehlen noch zum nominellen Ziel.** Die [neue Farbanleitung](commons-colour-user-guide-draft.md) bleibt ein unveröffentlichter Entwurf.
 
-Der jüngste abgeschlossene Metadatenlauf enthält 13000 zusätzliche Kandidaten
-mit Quellen-/Rechtemetadaten; 4744 bestehen die automatische Vorprüfung. Die
-2845 Vorschauen wurden tatsächlich gesichtet, 2125 dabei zunächst
-zurückgestellt. 56 Kontaktbögen wurden ein zweites Mal
+Der jüngste feste Metadaten-Prüfstand enthält 14150 zusätzliche Kandidaten
+mit Quellen-/Rechtemetadaten; nach der quellengebundenen Self-CC0/PD-self-Prüfung bestehen
+6656 die automatische Vorprüfung. Neue Fraktalkunst-Kandidaten werden getrennt
+weiter geprüft. Alle 3446 Vorschauen wurden tatsächlich gesichtet, 2622 dabei zunächst
+zurückgestellt. 66 Kontaktbögen wurden ein zweites Mal
 gesichtet. Zusätzliche Maßangaben im Klartext haben mögliche Ausschnitte sichtbar
 gemacht: Die frühere provisorische 127er-Auswahl wurde entsprechend reduziert
 und durch weitere tatsächlich geprüfte Werke ergänzt. Der aktuelle Stand ist
-319 Aufnahmen, nicht die frühere provisorische Auswahl. 46 ausgewählte Fälle
+346 Aufnahmen, nicht die frühere provisorische Auswahl. 47 ausgewählte Fälle
 bleiben zurückgestellt, darunter
 Duplikate und widersprüchliche Originalmaße. 347 Werk-Identitäten aus den
 Metadaten des Bestands ergänzen die Titel- und Bildvergleiche. Weitere kleine
@@ -42,9 +43,12 @@ Prüfstand und Aufnahmebelege sind lokal gesichert; keine Kandidatenzahl ersetzt
 600 echte Aufnahmeentscheidungen oder die spätere Releaseprüfung.
 
 Eine ergänzende Bestandsprüfung hat alle 400 Quellenrevisionen und Upload-Pins
-abgeglichen. 227 enthalten auswertbare Originalmaßangaben; bei 57 entstehen
-Prüffragen zu Maßumfang oder Proportionen. Das sind keine 57 bestätigten
-Ausschnitte. Diese Fälle müssen vor der abschließenden Behauptung „1000 nutzbare
+abgeglichen. 239 enthalten auswertbare Originalmaßangaben; 60 erzeugten
+Prüffragen zu Maßumfang oder Proportionen. Vier sind nach tatsächlicher
+Quellen- und Bildsichtung geklärt, 56 bleiben offen. Drei betreffen ausdrücklich
+separate Rahmenmaße; Whistlers „Chelsea Shops“ liegt mit den belegten Werkmaßen
+exakt auf der erlaubten 2,5-Prozent-Grenze und wurde nur wegen Fließkomma-Rundung
+markiert. Das sind keine 56 bestätigten Ausschnitte. Die offenen Fälle müssen vor der abschließenden Behauptung „1000 nutzbare
 Werke“ geklärt sein. Die vorhandenen Einträge und der Verlauf bleiben unverändert;
 es gibt weder automatische Entfernung noch heimliche Ersatz-Pins. Der Beleg
 liegt in `research/commons-baseline-format-audit-2026-10-09.json`.
@@ -74,8 +78,23 @@ Sichtungs- und Bildvergleichsbelege; die erneuerte Vorschau zeigt 319 Neuzugäng
 Die neueste Sichtung hat sechs weitere Werke aufgenommen. Eine zusätzliche
 Maßprüfung berücksichtigt jetzt auch nachfolgende Zeilen mit Bild-, Blatt- oder
 Rahmenmaßen. Ein zuvor gezählter Guigou bleibt deshalb mit widersprüchlichen
-Proportionen zurückgestellt. Bei den 57 Bestandsfragen sind drei neue Fälle aus
-dieser ergänzten Prüfung enthalten; sie sind noch nicht abschließend entschieden.
+Proportionen zurückgestellt. Drei damals zusätzlich erkannte Bestandsfragen
+sind inzwischen durch die unten beschriebenen getrennten Rahmenmaße geklärt.
+
+Bei Guardis „Erminia und die Hirten“, Bards „John Birkbeck“ und Boudins
+„On the Beach, Trouville“ trennt die Quelle ausdrücklich Werk- und Rahmenmaße.
+Die Werkmaße passen zum Zielbereich und zur tatsächlich gesichteten ungerahmten
+Reproduktion. Diese drei Entscheidungen sind an Quellenrevision, Upload- und
+Vorschau-Hash gebunden; die ursprünglichen Prüffragen und alle Maßangaben bleiben
+im Audit sichtbar. Eine allgemeine automatische Ausnahme für Rahmen gibt es nicht.
+
+Die folgende Sichtung hat 17 weitere vollständige Werke ausgewählt, darunter
+Dürers Holzschnitt, historische Landschaftsgrafik und einen vollständigen
+dekorativen Bildteppich. Die erweiterte Quellenprüfung behält englische H/W-Maße,
+einzelne beschriftete Size-Achsen und Dezimalkommas bei. Dadurch bleibt ein zuvor
+gezählter Heusden-Scan mit abweichenden Originalmaßen zurückgestellt; netto sind
+335 Neuzugänge enthalten. Ein breites Triptychon und ein Eisen-Druck bleiben
+trotz passender Datei-Proportionen wegen ihrer Originalmaßangaben ungeklärt.
 
 Die Recherche verwendet für zusätzliche Medien und zeitgenössische Kunst
 getrennte Suchbegriffe. [CirrusSearch unterstützt keine Klammergruppen und warnt
@@ -83,6 +102,15 @@ vor ODER in Kombination mit speziellen Suchfeldern](https://www.mediawiki.org/wi
 Die älteren gruppierten Suchläufe bleiben als Belege erhalten, gelten aber nicht
 als vollständige Abdeckung dieser Werkarten. Eine leere oder irrelevante
 Trefferliste belegt daher nicht, dass es keine geeigneten Werke gibt.
+
+Die anschließende Sichtung hat elf Werke aufgenommen, darunter eine eigene
+digitale Fotomontage und eine abstrakte Wasser-/Lichtaufnahme von W.carter,
+CEKeechs Blumenstillleben, ein zeitgenössisches Gemälde von Mironov und fünf
+vollständige historische Grafiken. Ein begrenzter Fraktalkunst-Suchlauf hat 472
+ungeprüfte Kandidaten geliefert; diese zählen erst nach tatsächlicher Sichtung
+und Quellenprüfung. Explizite PD-self-Erklärungen werden anhand der offiziellen
+Vorlagen- und Dokumentationsrevision erkannt, nicht aus bloßen Lizenznamen
+abgeleitet. Die private Vorschau wurde mit 746 Einträgen im Browser geprüft.
 
 ## Umfang dieses Updates
 

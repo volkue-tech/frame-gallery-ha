@@ -1,6 +1,6 @@
 # Project status
 
-Last updated: 2026-10-10 (719 retained local works; research continues toward 1000)
+Last updated: 2026-10-10 (746 retained local works; research continues toward 1000)
 
 ## Next Commons update scoped — 2026-10-09
 
@@ -29,7 +29,7 @@ blue-and-yellow matches; thresholds and labels are not release approved.
 Private thumbnails total 64,316,428 bytes, actual maximum axis 960px despite
 512px requests. They remain under ignored build/, never in runtime/releases.
 The local research preview at `http://127.0.0.1:8881/gallery.html` now contains
-the 400 baseline works plus 319 locally curated additions. New works are marked
+the 400 baseline works plus 346 locally curated additions. New works are marked
 unpublished and can be displayed separately. The earlier 400-card/violet check
 passed; at the 513-work intermediate milestone the browser verified 49 blue
 newcomers. The published app and the runtime catalogue still contain 400 works.
@@ -51,21 +51,21 @@ optional helper descriptions agree; public b5 has not changed.
 
 The full local gates were repeated after this curation milestone: 5,020 passed,
 eleven platform skips, strict Mac/Linux mypy and 100% line/branch coverage.
-Thirty-eight offline research tests and research Ruff E/F/I plus formatting checks
-pass. The earlier 527-card browser check verified 127 provisional newcomers and
+Fifty offline research tests pass. Research Ruff E/F/I and formatting checks
+are repeated before the next checkpoint. The earlier 527-card browser check verified 127 provisional newcomers and
 56 blue newcomers. It is superseded by the stricter source-measure review below;
 the 598-card browser check verified 198 retained newcomers; the following
-616-card check verified 216. The latest browser check verified 719 retained
-entries and 319 newcomers.
+616-card check verified 216. The latest browser check verified 746 retained
+entries; the source-bound manifest contains 346 newcomers.
 
 New-work discovery is kept separate from acceptance. The broad pass found 2,575
 dimension-eligible candidates (including irrelevant photographs); narrower
 Artwork and oil-declaration passes found 1,213 and 839 candidates respectively.
 These overlap and are NOT summed or counted as accepted works. Source revision,
-PD/CC0 metadata and direct rights-basis checks cover 13,000 distinct candidates
-in the latest completed metadata pass; 4,744 pass the automatic evidence screen,
-which is not curator/legal acceptance. All 2,845 private previews have actual
-visual-screen receipts; 2,125 are
+PD/CC0 metadata and direct rights-basis checks cover 14,150 distinct candidates
+in the latest completed metadata checkpoint; 6,656 pass the automatic evidence screen,
+which is not curator/legal acceptance. All 3,446 private previews have actual
+visual-screen receipts; 2,622 are
 conservatively deferred at first view. Original physical dimensions are checked where supplied;
 contradictions and EXIF-rotated portrait renditions remain unresolved, not accepted.
 The official PD-Art-two-auto, PD-old-100-1923 and PD-old-70-expired declarations
@@ -73,22 +73,44 @@ were verified and their explicit evidence recognized without accepting bare PD-A
 
 All 400 baseline upload pins passed a separate artwork-identity metadata check;
 347 recorded artwork QIDs supplement title and visual-fingerprint comparisons.
-Fifty-six second-view curator sheets were inspected. Plain museum/GAP and
+Sixty-six second-view curator sheets were inspected. Plain museum/GAP and
 description measurements now supplement Size templates: image/sheet scopes are
 retained, not cherry-picked. Both source physical proportions and file shape must
 meet the requested band; conflicts remain deferred. Art Photo declarations with
 a separate attribution/share-alike photographic licence also remain outside this
-PD/CC0-only draft. **319 distinct additions are currently locally accepted**,
+PD/CC0-only draft. **346 distinct additions are currently locally accepted**,
 with upload/source/revision, rights declarations, physical
 evidence limits and inspected-sheet hashes retained in
 `frame_gallery/research/commons-expansion-curation-2026-10-09.json`.
 Their full provisional colour data is retained in the corresponding
-`commons-expansion-colours-2026-10-09.json`. Forty-six selected cases are deferred,
+`commons-expansion-colours-2026-10-09.json`. Forty-seven selected cases are deferred,
 including baseline identity matches and newly exposed measurement conflicts.
 The previous 127 provisional additions were not frozen: source rechecks removed
 uncertain cases and subsequent actual visual review added different works. No
 baseline entry was changed. This is a partial research milestone, not release
-approval or worldwide copyright clearance. **281 nominal further additions remain.**
+approval or worldwide copyright clearance. **254 nominal further additions remain.**
+
+The latest actual source/preview review added eleven distinct works, including
+W.carter's original digital photomontage and abstract photographic composition,
+CEKeech's floral still life, Mironov's contemporary painting and five complete
+historical prints/drawings. Contemporary work is not approved merely by a free
+exhibition photo. Direct PD-self declarations now have official revision-bound
+template/documentation evidence; underlying third-party artwork still needs a
+separate basis. Technical camera filenames may use a short literal source caption;
+an explicit Art Photo caption may identify its separately labelled maker without
+guessing from categories or overwriting a nonempty artist field. A bounded
+fractal-art discovery retained 472 unreviewed candidates; metadata review of
+new prospects is separate from this fixed checkpoint. No original downloads,
+release, credentials, GitHub or HA/TV changes occurred.
+
+The thirteenth full local recheck passed: 5,020 tests, eleven platform skips,
+strict mypy over 251 files for each Mac/Linux target, and 100% line/branch
+coverage. The observed log is retained privately as
+`build/commons-1000-research/local-quality-gates-2026-10-10-thirteenth-recheck.log`.
+Fifty offline research tests, research Ruff E/F/I and format checks also passed.
+The 346 addition IDs/pins are unique, have no baseline-ID overlap and satisfy
+the unchanged original file width/shape gates; all 346 colour profiles match the
+exact acceptance IDs. The unchanged baseline selection SHA256 matches its receipt.
 
 Fourteen decoder/shape refusals and an individual thumbnail timeout are retained
 separately. One targeted search response refusal lacked detail under the older
@@ -203,6 +225,29 @@ The eleventh full local quality run passed: 5,020 tests, eleven platform skips,
 strict Mac/Linux mypy and 100% line/branch coverage. The 38 offline research
 tests also pass. There are 27 active explicit manual deferrals and one resolved
 record; no credential or live-system access was used.
+
+The next finite thumbnail pass ended at 3081 retained previews; all were actually
+first-viewed and fingerprinted. Seventeen additional second-view choices were
+recorded, while source parsing exposed a conflicting prior Heusden rendition.
+Net local count is 335 additions / 735 preview entries. The underlying sources
+include complete historical drawings/prints and a full decorative tapestry;
+book pages and contemporary photo-only rights prospects remain unselected.
+Exact positional Self CC0 declarations are now recognized as source evidence,
+not inferred from author names or as underlying-artwork clearance. Independently
+saved Kusama and digital-art searches retain their own bounded public receipts.
+
+English H/W metric values in parentheses, paired single-axis Height/Width Size
+templates and named decimal-comma values now retain their original axes/scopes.
+This exposed three additional baseline prompts: 239 baseline records have parsed
+measurements, 60 automatic prompts were recorded, four have individual
+source/preview-bound resolutions, and 56 remain unresolved. Three distinguish
+frame scope; Whistler's Chelsea Shops is exactly on the permitted 2.5% boundary
+in rational arithmetic, not beyond it. The floating-point prompt is retained.
+No baseline pin, history, runtime catalogue or published b5 was changed.
+The twelfth full local quality run passed: 5020 tests / eleven platform skips,
+strict Mac/Linux mypy and 100% package/mandated line and branch coverage.
+Forty-seven offline research tests also passed. Further bounded research is in
+progress; no claim of 1000 approved works follows from candidate counts.
 
 Next: finish the 600 additional-work review, profile the accepted additions,
 extend the exact runtime index, and complete catalogue/guide/native verification. The detailed

@@ -25,20 +25,22 @@ artwork, not merely the photo. Existing PD/CC0 and format gates remain unchanged
   Broader visual calibration and the 600 additional works remain incomplete.*
 - [ ] Research and visually verify 600 additional distinct eligible works,
   keeping the existing width, ratio, rights and reproduction requirements.
-  *319 additions retained after stricter source-measure checks and actual
-  second-view review; 281 nominal additions remain. All 2845 previews screened,
+  *346 additions retained after stricter source-measure checks and actual
+  second-view review; 254 nominal additions remain. All 3446 previews screened,
   all 400 baseline upload pins checked and 347 artwork QIDs retained. Candidate
   counts and temporary network deferrals are not accepted-work counts.*
 - [ ] Complete source-bound colour profiles and a reviewable preview for all
   1000 accepted works; preserve baseline IDs/pins and deferred research.
-  *The private preview contains 719 works, including the 319 unpublished
+  *The private preview contains 746 works, including the 346 unpublished
   additions with complete provisional palettes/distributions/top groups. Runtime
   still has 400; extend/freeze it only after 600 genuine additions are complete.*
-- [ ] Resolve the 57 baseline physical-measurement scope prompts before claiming
+- [ ] Resolve the 56 remaining baseline physical-measurement scope prompts before claiming
   1000 genuinely usable complete works. Do not silently repin/remove a baseline
   work or treat an automatic prompt as an established crop.
-  *All 400 source revisions/upload pins checked offline; 227 have parsed
-  measurements. Exact source evidence is retained in the baseline format audit.*
+  *All 400 source revisions/upload pins checked offline; 239 have parsed
+  measurements. Four of 60 prompts were individually resolved: three explicitly
+  separate frame dimensions and one exact 2.5% boundary artefact, after actual source/preview review; no baseline
+  pin or file was changed. Exact source-bound decisions are retained in research.*
 - [x] Implement the single Commons colour option, default any, with bounded
   selection, history compatibility and no silent colour fallback.
   *Local 400-work draft: readable names, one basic field, source-pinned offline

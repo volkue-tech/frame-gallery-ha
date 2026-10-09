@@ -3,7 +3,7 @@
 This tooling is outside the runtime package. No credentials, original-image
 downloads, Home Assistant access or television access are needed. It does not
 automatically approve catalogue additions. Explicit second-view choices retain
-283 retained local research acceptances; the current released/runtime catalogue
+346 retained local research acceptances; the current released/runtime catalogue
 has 400. The earlier provisional 127 were reduced after plain source measurements
 exposed additional possible crops; subsequent actual visual reviews added other
 works. Use the checkpoint/curation manifest for the current count, not this history.
@@ -33,7 +33,10 @@ evidence, not worldwide copyright clearance or a substitute for provenance revie
   a new search or a lack of automatic flags must not silently approve them.
 - `research/commons-baseline-format-audit-2026-10-09.json`: all 400 unchanged
   baseline source revisions and upload pins; 57 physical-measurement scope
-  prompts need resolution. This report does not declare 57 crops or approve,
+  prompts were originally recorded; later explicit English/Size-axis checks exposed
+  three more (60 total). Three explicit frame scopes and one exact boundary
+  artefact were resolved by source/preview-bound manual decisions, leaving 56.
+  This does not declare crops or approve,
   remove, replace or modify an existing work.
 
 Do not remove the ignored build directories: they are the resumable local
@@ -61,6 +64,12 @@ frame_gallery/.venv/bin/python -m research_tools.commons_expand --precise
 frame_gallery/.venv/bin/python -m research_tools.commons_expand --artwork-precise
 frame_gallery/.venv/bin/python -m research_tools.commons_expand --paintings-precise
 frame_gallery/.venv/bin/python -m research_tools.commons_expand --cc0-art-precise
+frame_gallery/.venv/bin/python -m research_tools.commons_expand --single-subject huile
+frame_gallery/.venv/bin/python -m research_tools.commons_expand --single-subject digital-art
+frame_gallery/.venv/bin/python -m research_tools.commons_expand --single-subject kusama
+frame_gallery/.venv/bin/python -m research_tools.commons_expand --single-subject fractal-art
+frame_gallery/.venv/bin/python -m research_tools.commons_expand --single-subject generative-art
+frame_gallery/.venv/bin/python -m research_tools.commons_expand --single-subject abstract-photography
 frame_gallery/.venv/bin/python -m research_tools.commons_identity_review
 frame_gallery/.venv/bin/python -m research_tools.commons_baseline_audit
 frame_gallery/.venv/bin/python -m research_tools.commons_dossiers
@@ -113,6 +122,12 @@ separates the original work from the photographic reproduction; a reproduction's
 licence must not be mistaken for clearance of the original. Ambiguous records
 remain manual deferrals, not approvals.
 
+Official PD-self template/documentation revisions are retained in the template
+evidence manifest. Recognition of that explicit author dedication stays within
+PD/CC0 screening; it neither recognizes PD-author nor clears someone else's
+artwork in a photograph. Source-caption title and maker improvements retain the
+original raw credit and are covered by the 50 offline research tests.
+
 The public revision API also verified PD-old-auto-1923, PD-old-70-1923 and
 PD-art-old-100-expired against their canonical declarations. Page/revision IDs
 and receipt hashes are in `research/commons-template-evidence-2026-10-09.json`.
@@ -138,6 +153,21 @@ field. Do not infer attribution from categories, file titles or uploader identit
 The documented template filter is searched separately: CirrusSearch does not
 combine template parameters with word-style OR semantics. The earlier empty
 multi-template search receipt remains retained, not overwritten.
+
+The broader grouped genre/media/CC0 queries do not establish subject coverage.
+[CirrusSearch](https://www.mediawiki.org/wiki/Help:CirrusSearch/Logical_operators)
+does not support parentheses and warns against combining OR with special fields.
+Use independently saved single-subject passes for new medium/digital/contemporary
+research. They do not relax JPEG, width, shape, artwork scope, rights or actual
+visual-review requirements. A Kusama search result is not an accepted Kusama work.
+Multiline measurement fields retain Sheet/Plate/Image/Frame scopes, including a
+plain measurement following a Size template in the same field.
+English H/W labels with parenthesized metric values, paired single-axis
+Height/Width Size templates and named decimal-comma axes are also retained.
+Do not assume a triptych's per-panel dimensions describe its combined image.
+The documented Self wrapper's exact positional CC0 declarations are also recorded;
+author names, comments and examples are never licence declarations. This does not
+clear a contemporary artwork merely because its photo has a CC0 declaration.
 
 After curated additions are genuinely accepted, retain their exact page/upload
 identity, full-image/physical-format decision, artist/title provenance and

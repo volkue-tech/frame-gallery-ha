@@ -60,7 +60,7 @@ def physical(text: str) -> list[dict]:
             width, height = axes
             meaning = "unlabelled two axes; landscape orientation observed visually"
         try:
-            a, b = float(width), float(height)
+            a, b = float(width.replace(",", ".")), float(height.replace(",", "."))
         except ValueError:
             continue
         if min(a, b) <= 0 or max(a, b) > 100000:
@@ -95,6 +95,32 @@ def physical(text: str) -> list[dict]:
         r"\|\s*description\s*=(.*?)(?=\n\s*\||\n\s*}}|\Z)", markup, re.I | re.S
     )
     for field in dimensions:
+        labelled = field.replace("'''", "").replace("''", "")
+        for match in re.finditer(
+            r"\bHeight:\s*\{\{size\s*\|\s*(cm|mm)\s*\|\s*"
+            r"([0-9]+(?:[.,][0-9]+)?)\s*}}\s*(?:drager\s+)?"
+            r"Width:\s*\{\{size\s*\|\s*(cm|mm)\s*\|\s*"
+            r"([0-9]+(?:[.,][0-9]+)?)\s*}}",
+            labelled,
+            re.I,
+        ):
+            height = float(match[2].replace(",", ".")) * (
+                10 if match[1].lower() == "cm" else 1
+            )
+            width = float(match[4].replace(",", ".")) * (
+                10 if match[3].lower() == "cm" else 1
+            )
+            if min(height, width) > 0:
+                result.append(
+                    dict(
+                        raw=field.strip(),
+                        width=width,
+                        height=height,
+                        ratio=width / height,
+                        interpretation="explicit Height/Width single-axis Size "
+                        "templates; measurement scope retained",
+                    )
+                )
         # Size templates were read above. Remove just those tokens, not the
         # entire field: a later plain Sheet/Plate/Frame line still matters.
         field = re.sub(r"\{\{size\s*\|[^{}]*\}\}", "", field, flags=re.I)
@@ -159,6 +185,37 @@ def physical(text: str) -> list[dict]:
                         height=height,
                         ratio=width / height,
                         interpretation="explicit Dutch h/b axes; "
+                        "all measurement scopes retained",
+                    )
+                )
+        for match in re.finditer(
+            r"\b(?:H|Height)\.?\s+([^;|\n]+);\s*"
+            r"(?:W|Width)\.?\s+([^;|\n]+)",
+            field,
+            re.I,
+        ):
+            # Museum descriptions often put inches first and metric values
+            # in parentheses. Read each explicitly labelled metric axis,
+            # rather than silently losing the original-work dimensions.
+            axes = [
+                re.findall(r"([0-9]+(?:[.,][0-9]+)?)\s*(cm|mm)\b", part, re.I)
+                for part in match.groups()
+            ]
+            if any(len(axis) != 1 for axis in axes):
+                continue
+            height, width = (
+                float(axis[0][0].replace(",", "."))
+                * (10 if axis[0][1].lower() == "cm" else 1)
+                for axis in axes
+            )
+            if min(height, width) > 0:
+                result.append(
+                    dict(
+                        raw=field.strip(),
+                        width=width,
+                        height=height,
+                        ratio=width / height,
+                        interpretation="explicit English H/W metric axes; "
                         "all measurement scopes retained",
                     )
                 )

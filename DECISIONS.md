@@ -35,6 +35,55 @@ refusal receipts and are neither retried automatically nor labelled exhausted.
 Source-measure parsing also retains a plain measurement following a Size template
 in the same field; neither multiline nor mixed-template scope may be hidden.
 
+The documented [Self wrapper](https://commons.wikimedia.org/wiki/Template:Self/doc)
+can contain explicit CC0 licence tags in its positional parameters. The source
+scanner now records those exact declarations; author/attribution strings,
+comments and literal examples do not become licence evidence. This does not
+approve the underlying artwork or widen the PD/CC0 policy. The recorded Kusama
+prospect has self CC0 plus FoP-India for a photograph of a 2019 sculpture;
+underlying-artwork admission remains unresolved and explicitly deferred.
+Wider geographic artist searches are discovery prospects, never licence claims.
+
+Three baseline measurement-scope prompts were individually resolved by actual
+source/preview review: 81314166, 81325026 and 81310338 explicitly distinguish
+overall artwork measurements from additional frame measurements. Manual decisions
+are source-revision/upload/preview-hash bound and retain both the original prompts
+and evidence limits. No generic frame exception, baseline repin/removal or count
+increase follows. There are 54 unresolved prompts out of 57 recorded prompts.
+
+The following source recheck retains English H/W metric values in parentheses,
+explicit paired single-axis Height/Width Size templates, and decimal-comma named
+axes. Source axes are never swapped to fit the file. This exposed three more
+baseline prompts (60 total, three individually resolved, 57 unresolved) and
+returned one prior Heusden choice to unresolved status. Seventeen actually
+second-viewed complete artworks were selected in the following review: net
+335 additions / 735 local entries, not a 1000-work release. Raw panel dimensions
+on an Eisho triptych and a separate Eisen H/W pair are kept as explicit deferrals;
+a near-16:9 file alone never overrides the physical-work scope.
+
+An actual preview/source review of baseline Whistler 13318993 resolves another
+prompt: the declared 23.40/13.50 panel ratio has exact relative deviation 1/40
+from 16/9, precisely the existing permitted lower boundary. The binary-floating
+prompt remains recorded alongside an upload/source/preview-bound manual decision;
+no ratio tolerance is widened. Current baseline audit: 60 automatic prompts,
+four individual resolutions, 56 unresolved.
+
+The next actual two-stage visual/source review added eleven works, bringing the
+fixed local checkpoint to 346 additions / 746 entries, with 254 nominal additions
+remaining. It includes original digital and photographic compositions, not
+automatically cleared photos of third-party contemporary art. Direct
+[PD-self](https://commons.wikimedia.org/wiki/Template:PD-self) declarations now
+have official template/doc revision and receipt hashes in the evidence manifest.
+Their own-author limit remains; PD-author is not recognized by this change and
+CC BY/CC BY-SA admission remains a separate unresolved decision. Technical
+camera-file titles may use an explicit short source caption. A separately
+labelled Art Photo maker may be taken from a precise source-caption shape only
+when its artist field is empty and the observed credit is the photographer;
+no filename/category inference or nonempty-field overwrite. Fifty offline
+research tests cover these guards, measurement scopes and retained colour data.
+The bounded single-subject fractal-art pass retained 472 unreviewed candidates;
+search counts do not assert recognizability, originality, rights or acceptance.
+
 ### D-213 — draft single-colour Commons prefilter and minimal configuration
 
 Status: **accepted local implementation scope** under the user's current

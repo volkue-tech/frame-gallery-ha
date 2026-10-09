@@ -1,6 +1,6 @@
 """Explicit human-inspected first-batch choices, never threshold auto-selection.
 
-The IDs were selected after viewing curator sheets 000--054 on 2026-10-09.
+The IDs were selected after viewing curator sheets 000--065 on 2026-10-09/10.
 Any subsequent source, identity, preview or dossier flag blocks that choice.
 Research acceptance is not release approval or worldwide legal clearance.
 """
@@ -71,6 +71,13 @@ CHOICES = frozenset(
 140224565 67537617 52873819 67541234 127069165 163968085 95831369
 131734965 160495779 21931368 194996256 74877410
 257770 48450338 21938680 128007967 167374053 164564883
+60858890 60846775 58715901 60891665 60846790 60177902
+61133701 60877408 60285249 60877405 60302523 60880761 60892433
+60841565 60858321 60875395 83575479
+17585184
+156834343 170487788 88194558
+81441670 164777061
+81559052 60870581 60874760 60880685 81519913
 """.split(),
     )
 )
@@ -133,7 +140,8 @@ def curate() -> None:
                 evidence_sha256=row["evidence_sha256"],
                 second_visual_sheet_sha256=sheet_hash,
                 decision="accepted local research; not release-approved",
-                reason="Complete unframed reproduction visually inspected twice; "
+                reason="Complete unframed work or original photographic/digital "
+                "composition visually inspected twice; "
                 "source/pin/rights declarations and proportions checked; "
                 "no unresolved artwork-identity flag; selected for gallery variety.",
                 physical_evidence="source dimensions agree within 2.5%"

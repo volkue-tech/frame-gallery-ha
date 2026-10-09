@@ -129,6 +129,22 @@ def artwork_artist(observed: object, description: object) -> str:
 
 
 def us_basis(names: set[str], wikitext: str = "") -> list[str]:
+    # Commons' documented Self wrapper takes explicit licence tags as positional
+    # parameters. Recognize CC0 there, not merely in rendered metadata, an author
+    # name, comments, examples, or a vaguely named template. This still says
+    # nothing about rights to a separately depicted contemporary artwork.
+    self_cc0 = set()
+    for fields in re.findall(
+        r"\{\{\s*self\s*\|([^{}]+)\}\}", source_markup(wikitext), re.I
+    ):
+        for field in fields.split("|"):
+            if "=" in field:
+                key, field = field.split("=", 1)
+                if not key.strip().isdigit() or not 1 <= int(key.strip()) <= 6:
+                    continue
+            tag = field.strip().lower().replace("_", " ")
+            if tag in {"cc-zero", "cc0"}:
+                self_cc0.add(tag)
     # PD-Art's documented first parameter names the underlying public-domain
     # basis. Record it distinctly; never treat PD-Art alone as US clearance.
     wrappers = re.findall(
@@ -154,7 +170,7 @@ def us_basis(names: set[str], wikitext: str = "") -> list[str]:
     )
     return sorted(
         name
-        for name in names | {w.lower() for w in wrappers} | aliases
+        for name in names | {w.lower() for w in wrappers} | aliases | self_cc0
         if name
         in {
             "pd-old-auto-expired",
@@ -169,6 +185,7 @@ def us_basis(names: set[str], wikitext: str = "") -> list[str]:
             "pd-us",
             "pd-us-no notice",
             "pd-us-not renewed",
+            "pd-self",
             "cc-zero",
             "cc0",
         }
@@ -198,6 +215,31 @@ def source_artist(observed: object, description: object, wikitext: str) -> str:
         "art photo" in template_names(wikitext) or artist.startswith("Creator:")
     ):
         return stated
+    markup = source_markup(wikitext)
+    if "art photo" in template_names(wikitext) and re.search(
+        r"^\s*\|\s*artist\s*=\s*\n", markup, re.I | re.M
+    ):
+        # One explicit caption shape names the original maker independently
+        # of the separately labelled photographer. Never guess from a file
+        # title/category or overwrite a nonempty artwork artist field.
+        photographer = re.search(
+            r"^\s*\|\s*photographer\s*=\s*\[\[User:([^]|]+)"
+            r"(?:\|([^]]+))?\]\]",
+            markup,
+            re.I | re.M,
+        )
+        caption = re.match(
+            r"^.+?, by ([^,;]{2,120}), [0-9]{4}(?:[-–][0-9]{4})?, "
+            r"(?:oil on (?:canvas|panel)|watercolou?r|pastel|tempera)\b",
+            plain(description),
+            re.I,
+        )
+        if (
+            photographer
+            and caption
+            and artist in {photographer[1].strip(), (photographer[2] or "").strip()}
+        ):
+            return caption[1].strip()
     # An unresolved Creator link is rendered literally by Commons. Remove
     # that namespace only when the non-Art-Photo source explicitly supplies
     # the exact same Creator in its Author field. Never infer from a filename.
@@ -210,6 +252,24 @@ def source_artist(observed: object, description: object, wikitext: str) -> str:
         if author and artist == "Creator:" + author[1]:
             return author[1]
     return artist or stated
+
+
+def source_title(observed: object, description: object, fallback: str) -> str:
+    """A short explicit caption may replace only a technical camera filename."""
+    title = plain(observed) or fallback
+    caption = plain(description)
+    if (
+        re.fullmatch(
+            r"(?:[0-9]{6,12}\s*)?(?:DSCN?|IMG|PXL)[-_ ]?[0-9]{3,12}[a-z]?"
+            r"(?:\.jpe?g)?",
+            title,
+            re.I,
+        )
+        and 3 <= len(caption) <= 100
+        and not re.search(r"https?://|\{\{|\[\[", caption)
+    ):
+        return caption
+    return title
 
 
 def prepare(page: dict, expected: dict) -> dict:
@@ -251,7 +311,11 @@ def prepare(page: dict, expected: dict) -> dict:
     }
     return dict(
         **expected,
-        title=plain(values.get("ObjectName")) or expected["file_title"][5:],
+        title=source_title(
+            values.get("ObjectName"),
+            values.get("ImageDescription"),
+            expected["file_title"][5:],
+        ),
         artist=source_artist(
             values.get("Artist"), values.get("ImageDescription"), text
         ),
@@ -424,6 +488,27 @@ def preview_priority(work: dict) -> int:
         return 4
     query = work.get("query", "").lower()
     names = work.get("direct_templates", [])
+    if any(
+        query.endswith(f'"{subject}"')
+        for subject in (
+            "digital art",
+            "fractal art",
+            "generative art",
+            "fine art photography",
+            "abstract photography",
+        )
+    ) or any(
+        query.endswith(f'hastemplate:artwork insource:"{medium}"')
+        for medium in (
+            "huile",
+            "olieverf",
+            "gouache",
+            "tempera",
+            "watercolour",
+            "watercolor",
+        )
+    ):
+        return -1
     if 'insource:"oil"' in query or any(name.startswith("pd-art") for name in names):
         return 0
     if "hastemplate:cc-zero" in query:
