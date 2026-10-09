@@ -1,6 +1,6 @@
 {
   "schema": 1,
-  "recorded_at": "2026-10-09T21:19:12.912629+00:00",
+  "recorded_at": "2026-10-09T22:22:28.546285+00:00",
   "status": "offline source audit only; baseline/catalogue/history unchanged",
   "baseline_sha256": "582c6abb664d49cc172d208f7bd701b14677e5b31d79b35e5aa4a48fc68af057",
   "source_revisions_checked": 400,
@@ -65,11 +65,18 @@
       "source_markup_sha256": "ae79821890310acb2f036c24700675905b11fb2b5b0ddce1cf8566d9e19e52f5",
       "physical_measurements": [
         {
-          "raw": "13 3/4 x 24 1/4 in.",
+          "raw": "13 3/4 x 24 1/4 in. \n\n(35 x 61.7 cm.)",
           "width": 24.25,
           "height": 13.75,
           "ratio": 1.7636363636363637,
           "interpretation": "plain two axes in inches; original measurement scope retained"
+        },
+        {
+          "raw": "13 3/4 x 24 1/4 in. \n\n(35 x 61.7 cm.)",
+          "width": 61.7,
+          "height": 35.0,
+          "ratio": 1.762857142857143,
+          "interpretation": "plain two axes; measurement scope retained, landscape observed visually"
         }
       ],
       "review_prompts": [],
@@ -312,14 +319,14 @@
       "source_markup_sha256": "aa62843d239141ebb2546d16f2c966cfe421328cf88991dea81b0822551f38c8",
       "physical_measurements": [
         {
-          "raw": "Unframed: 48 × 85 in. (121.9 × 215.9 cm)",
+          "raw": "Unframed: 48 × 85 in. (121.9 × 215.9 cm)\nFramed: 66 5/8 in. × 103 in. × 6 1/4 in. (169.2 × 261.6 × 15.9 cm)",
           "width": 85.0,
           "height": 48.0,
           "ratio": 1.7708333333333333,
           "interpretation": "plain two axes in inches; original measurement scope retained"
         },
         {
-          "raw": "Unframed: 48 × 85 in. (121.9 × 215.9 cm)",
+          "raw": "Unframed: 48 × 85 in. (121.9 × 215.9 cm)\nFramed: 66 5/8 in. × 103 in. × 6 1/4 in. (169.2 × 261.6 × 15.9 cm)",
           "width": 215.9,
           "height": 121.9,
           "ratio": 1.771123872026251,
@@ -869,14 +876,14 @@
       "source_markup_sha256": "993eb67597b529397783d211734abb559d0c1ea2cbe2729048c2b482945222a4",
       "physical_measurements": [
         {
-          "raw": "overall: 12.6 x 21.9 cm (4 15/16 x 8 5/8 in.)",
+          "raw": "overall: 12.6 x 21.9 cm (4 15/16 x 8 5/8 in.)\nframed: 36.2 x 45.4 x 4.4 cm (14 1/4 x 17 7/8 x 1 3/4 in.)",
           "width": 8.625,
           "height": 4.9375,
           "ratio": 1.7468354430379747,
           "interpretation": "plain two axes in inches; original measurement scope retained"
         },
         {
-          "raw": "overall: 12.6 x 21.9 cm (4 15/16 x 8 5/8 in.)",
+          "raw": "overall: 12.6 x 21.9 cm (4 15/16 x 8 5/8 in.)\nframed: 36.2 x 45.4 x 4.4 cm (14 1/4 x 17 7/8 x 1 3/4 in.)",
           "width": 21.9,
           "height": 12.6,
           "ratio": 1.7380952380952381,
@@ -1178,14 +1185,14 @@
       "source_markup_sha256": "9212cc4e0ed7487b0d986f4819cf1e142a41b773bf95bf4afdbd6f04b92f4e42",
       "physical_measurements": [
         {
-          "raw": "overall: 67.8 x 119 cm (26 11/16 x 46 7/8 in.)",
+          "raw": "overall: 67.8 x 119 cm (26 11/16 x 46 7/8 in.)\nframed: 80.6 x 131.4 x 5 cm (31 3/4 x 51 3/4 x 1 15/16 in.)",
           "width": 46.875,
           "height": 26.6875,
           "ratio": 1.756440281030445,
           "interpretation": "plain two axes in inches; original measurement scope retained"
         },
         {
-          "raw": "overall: 67.8 x 119 cm (26 11/16 x 46 7/8 in.)",
+          "raw": "overall: 67.8 x 119 cm (26 11/16 x 46 7/8 in.)\nframed: 80.6 x 131.4 x 5 cm (31 3/4 x 51 3/4 x 1 15/16 in.)",
           "width": 119.0,
           "height": 67.8,
           "ratio": 1.7551622418879056,
@@ -1274,14 +1281,14 @@
       "source_markup_sha256": "bc36c2d87a2d53196d884ab0d4266bdcc09e474bff125f7a7a1b5a8740ef3a53",
       "physical_measurements": [
         {
-          "raw": "overall: 69.2 x 119.8 cm (27 1/4 x 47 3/16 in.)",
+          "raw": "overall: 69.2 x 119.8 cm (27 1/4 x 47 3/16 in.)\nframed: 86.4 x 137.2 x 8.9 cm (34 x 54 x 3 1/2 in.)",
           "width": 47.1875,
           "height": 27.25,
           "ratio": 1.731651376146789,
           "interpretation": "plain two axes in inches; original measurement scope retained"
         },
         {
-          "raw": "overall: 69.2 x 119.8 cm (27 1/4 x 47 3/16 in.)",
+          "raw": "overall: 69.2 x 119.8 cm (27 1/4 x 47 3/16 in.)\nframed: 86.4 x 137.2 x 8.9 cm (34 x 54 x 3 1/2 in.)",
           "width": 119.8,
           "height": 69.2,
           "ratio": 1.7312138728323698,
@@ -1330,14 +1337,14 @@
       "source_markup_sha256": "8f16fee938607b74db23acc332ff478c11fe79ee33bc22ee1bdcc30f8d5e882a",
       "physical_measurements": [
         {
-          "raw": "overall: 62 x 109 cm (24 7/16 x 42 15/16 in.)",
+          "raw": "overall: 62 x 109 cm (24 7/16 x 42 15/16 in.)\nframed: 123.8 x 77.5 x 5.4 cm (48 3/4 x 30 1/2 x 2 1/8 in.)",
           "width": 42.9375,
           "height": 24.4375,
           "ratio": 1.7570332480818414,
           "interpretation": "plain two axes in inches; original measurement scope retained"
         },
         {
-          "raw": "overall: 62 x 109 cm (24 7/16 x 42 15/16 in.)",
+          "raw": "overall: 62 x 109 cm (24 7/16 x 42 15/16 in.)\nframed: 123.8 x 77.5 x 5.4 cm (48 3/4 x 30 1/2 x 2 1/8 in.)",
           "width": 109.0,
           "height": 62.0,
           "ratio": 1.7580645161290323,
@@ -1462,17 +1469,31 @@
       "source_markup_sha256": "c754bf8b253e9d627ef1d5a2bad5e3a15c7b8f2e8016c69d81af780271ce93db",
       "physical_measurements": [
         {
-          "raw": "Image (six leaves): 12 13/16 x 22 9/16 in. (32.5 x 57.3 cm)",
+          "raw": "Image (six leaves): 12 13/16 x 22 9/16 in. (32.5 x 57.3 cm)\nImage (ten leaves): 13 1/8 x 22 3/4 in. (33.3 x 57.8 cm)",
           "width": 22.5625,
           "height": 12.8125,
           "ratio": 1.7609756097560976,
           "interpretation": "plain two axes in inches; original measurement scope retained"
         },
         {
-          "raw": "Image (six leaves): 12 13/16 x 22 9/16 in. (32.5 x 57.3 cm)",
+          "raw": "Image (six leaves): 12 13/16 x 22 9/16 in. (32.5 x 57.3 cm)\nImage (ten leaves): 13 1/8 x 22 3/4 in. (33.3 x 57.8 cm)",
+          "width": 22.75,
+          "height": 13.125,
+          "ratio": 1.7333333333333334,
+          "interpretation": "plain two axes in inches; original measurement scope retained"
+        },
+        {
+          "raw": "Image (six leaves): 12 13/16 x 22 9/16 in. (32.5 x 57.3 cm)\nImage (ten leaves): 13 1/8 x 22 3/4 in. (33.3 x 57.8 cm)",
           "width": 57.3,
           "height": 32.5,
           "ratio": 1.763076923076923,
+          "interpretation": "plain two axes; measurement scope retained, landscape observed visually"
+        },
+        {
+          "raw": "Image (six leaves): 12 13/16 x 22 9/16 in. (32.5 x 57.3 cm)\nImage (ten leaves): 13 1/8 x 22 3/4 in. (33.3 x 57.8 cm)",
+          "width": 57.8,
+          "height": 33.3,
+          "ratio": 1.7357357357357357,
           "interpretation": "plain two axes; measurement scope retained, landscape observed visually"
         }
       ],
@@ -1608,14 +1629,14 @@
       "source_markup_sha256": "3890f7c208f4adea1f673c2cad1845bb9fae1fcbbd354cdc254b784b4d24238c",
       "physical_measurements": [
         {
-          "raw": "design size: 70.4 x 120.5 cm (27 11/16 x 47 7/16 in.)",
+          "raw": "design size: 70.4 x 120.5 cm (27 11/16 x 47 7/16 in.)\nframed: 90.2 x 140 x 6.4 cm (35 1/2 x 55 1/8 x 2 1/2 in.)",
           "width": 47.4375,
           "height": 27.6875,
           "ratio": 1.7133182844243793,
           "interpretation": "plain two axes in inches; original measurement scope retained"
         },
         {
-          "raw": "design size: 70.4 x 120.5 cm (27 11/16 x 47 7/16 in.)",
+          "raw": "design size: 70.4 x 120.5 cm (27 11/16 x 47 7/16 in.)\nframed: 90.2 x 140 x 6.4 cm (35 1/2 x 55 1/8 x 2 1/2 in.)",
           "width": 120.5,
           "height": 70.4,
           "ratio": 1.711647727272727,
@@ -1659,22 +1680,38 @@
       "source_markup_sha256": "2506791b621c157d048bdc73aa3fe8e63dad81c45d81eee4bc40743f2a37f51f",
       "physical_measurements": [
         {
-          "raw": "overall: 251.5 x 442.2 cm (99 x 174 1/8 in.)",
+          "raw": "overall: 251.5 x 442.2 cm (99 x 174 1/8 in.)\nframed: 260.1 x 449.7 cm (102 3/8 x 177 1/16 in.)",
           "width": 174.125,
           "height": 99.0,
           "ratio": 1.7588383838383839,
           "interpretation": "plain two axes in inches; original measurement scope retained"
         },
         {
-          "raw": "overall: 251.5 x 442.2 cm (99 x 174 1/8 in.)",
+          "raw": "overall: 251.5 x 442.2 cm (99 x 174 1/8 in.)\nframed: 260.1 x 449.7 cm (102 3/8 x 177 1/16 in.)",
+          "width": 177.0625,
+          "height": 102.375,
+          "ratio": 1.7295482295482296,
+          "interpretation": "plain two axes in inches; original measurement scope retained"
+        },
+        {
+          "raw": "overall: 251.5 x 442.2 cm (99 x 174 1/8 in.)\nframed: 260.1 x 449.7 cm (102 3/8 x 177 1/16 in.)",
           "width": 442.2,
           "height": 251.5,
           "ratio": 1.7582504970178925,
           "interpretation": "plain two axes; measurement scope retained, landscape observed visually"
+        },
+        {
+          "raw": "overall: 251.5 x 442.2 cm (99 x 174 1/8 in.)\nframed: 260.1 x 449.7 cm (102 3/8 x 177 1/16 in.)",
+          "width": 449.7,
+          "height": 260.1,
+          "ratio": 1.7289504036908878,
+          "interpretation": "plain two axes; measurement scope retained, landscape observed visually"
         }
       ],
-      "review_prompts": [],
-      "status": "no automatic measurement prompt; not a fresh visual approval"
+      "review_prompts": [
+        "measurement scope outside original near-16:9 band; review required"
+      ],
+      "status": "unresolved source-measurement prompt"
     },
     {
       "id": 58728087,
@@ -1819,22 +1856,38 @@
       "source_markup_sha256": "cbfa4ec41b0f53bdaa5e43cc918d17842d13374a8cf345f9dfa9f403d8ecd809",
       "physical_measurements": [
         {
-          "raw": "overall: 75.8 x 133 cm (29 13/16 x 52 3/8 in.)",
+          "raw": "overall: 75.8 x 133 cm (29 13/16 x 52 3/8 in.)\nframed: 87.6 x 145.4 cm (34 1/2 x 57 1/4 in.)",
           "width": 52.375,
           "height": 29.8125,
           "ratio": 1.7568134171907757,
           "interpretation": "plain two axes in inches; original measurement scope retained"
         },
         {
-          "raw": "overall: 75.8 x 133 cm (29 13/16 x 52 3/8 in.)",
+          "raw": "overall: 75.8 x 133 cm (29 13/16 x 52 3/8 in.)\nframed: 87.6 x 145.4 cm (34 1/2 x 57 1/4 in.)",
+          "width": 57.25,
+          "height": 34.5,
+          "ratio": 1.6594202898550725,
+          "interpretation": "plain two axes in inches; original measurement scope retained"
+        },
+        {
+          "raw": "overall: 75.8 x 133 cm (29 13/16 x 52 3/8 in.)\nframed: 87.6 x 145.4 cm (34 1/2 x 57 1/4 in.)",
           "width": 133.0,
           "height": 75.8,
           "ratio": 1.754617414248021,
           "interpretation": "plain two axes; measurement scope retained, landscape observed visually"
+        },
+        {
+          "raw": "overall: 75.8 x 133 cm (29 13/16 x 52 3/8 in.)\nframed: 87.6 x 145.4 cm (34 1/2 x 57 1/4 in.)",
+          "width": 145.4,
+          "height": 87.6,
+          "ratio": 1.6598173515981738,
+          "interpretation": "plain two axes; measurement scope retained, landscape observed visually"
         }
       ],
-      "review_prompts": [],
-      "status": "no automatic measurement prompt; not a fresh visual approval"
+      "review_prompts": [
+        "measurement scope outside original near-16:9 band; review required"
+      ],
+      "status": "unresolved source-measurement prompt"
     },
     {
       "id": 57398214,
@@ -2267,14 +2320,14 @@
       "source_markup_sha256": "afa0cff4ba03113d347f3b4701095ed5dd596bc628edc7f3fea5672333646398",
       "physical_measurements": [
         {
-          "raw": "overall: 18.9 x 32.9 cm (7 7/16 x 12 15/16 in.)",
+          "raw": "overall: 18.9 x 32.9 cm (7 7/16 x 12 15/16 in.)\nframed: 25.6 x 40.6 x 3.2 cm (10 1/16 x 16 x 1 1/4 in.)",
           "width": 12.9375,
           "height": 7.4375,
           "ratio": 1.7394957983193278,
           "interpretation": "plain two axes in inches; original measurement scope retained"
         },
         {
-          "raw": "overall: 18.9 x 32.9 cm (7 7/16 x 12 15/16 in.)",
+          "raw": "overall: 18.9 x 32.9 cm (7 7/16 x 12 15/16 in.)\nframed: 25.6 x 40.6 x 3.2 cm (10 1/16 x 16 x 1 1/4 in.)",
           "width": 32.9,
           "height": 18.9,
           "ratio": 1.7407407407407407,
@@ -2390,14 +2443,14 @@
       "source_markup_sha256": "762035190475a27bff1c8563e3d4c0577310ad525b2d6e7f0398afa5ecd91912",
       "physical_measurements": [
         {
-          "raw": "overall: 114.1 x 195.2 cm (44 15/16 x 76 7/8 in.)",
+          "raw": "overall: 114.1 x 195.2 cm (44 15/16 x 76 7/8 in.)\nframed: 129.8 x 210.8 x 6.9 cm (51 1/8 x 83 x 2 11/16 in.)",
           "width": 76.875,
           "height": 44.9375,
           "ratio": 1.7107093184979139,
           "interpretation": "plain two axes in inches; original measurement scope retained"
         },
         {
-          "raw": "overall: 114.1 x 195.2 cm (44 15/16 x 76 7/8 in.)",
+          "raw": "overall: 114.1 x 195.2 cm (44 15/16 x 76 7/8 in.)\nframed: 129.8 x 210.8 x 6.9 cm (51 1/8 x 83 x 2 11/16 in.)",
           "width": 195.2,
           "height": 114.1,
           "ratio": 1.7107800175284837,
@@ -2686,14 +2739,14 @@
       "source_markup_sha256": "dfea99717ecae4127683c1a98f04b13078a80ed2a1b96e7d72e9a3965b26aa0a",
       "physical_measurements": [
         {
-          "raw": "overall: 41.7 x 73 cm (16 7/16 x 28 3/4 in.)",
+          "raw": "overall: 41.7 x 73 cm (16 7/16 x 28 3/4 in.)\nframed: 63.2 x 95.2 x 7.6 cm (24 7/8 x 37 1/2 x 3 in.)",
           "width": 28.75,
           "height": 16.4375,
           "ratio": 1.7490494296577948,
           "interpretation": "plain two axes in inches; original measurement scope retained"
         },
         {
-          "raw": "overall: 41.7 x 73 cm (16 7/16 x 28 3/4 in.)",
+          "raw": "overall: 41.7 x 73 cm (16 7/16 x 28 3/4 in.)\nframed: 63.2 x 95.2 x 7.6 cm (24 7/8 x 37 1/2 x 3 in.)",
           "width": 73.0,
           "height": 41.7,
           "ratio": 1.7505995203836928,
@@ -2714,17 +2767,31 @@
       "source_markup_sha256": "5842eefd0cdc81bbe730391bd656b9ea4545a7a6802dd8375adbe548556bf5da",
       "physical_measurements": [
         {
-          "raw": "support: 12.7 x 21.9 cm (5 x 8 5/8 in.)",
+          "raw": "support: 12.7 x 21.9 cm (5 x 8 5/8 in.)\noverall (support and wooden collar): 14 x 22.8 cm (5 1/2 x 9 in.)",
           "width": 8.625,
           "height": 5.0,
           "ratio": 1.725,
           "interpretation": "plain two axes in inches; original measurement scope retained"
         },
         {
-          "raw": "support: 12.7 x 21.9 cm (5 x 8 5/8 in.)",
+          "raw": "support: 12.7 x 21.9 cm (5 x 8 5/8 in.)\noverall (support and wooden collar): 14 x 22.8 cm (5 1/2 x 9 in.)",
+          "width": 9.0,
+          "height": 5.5,
+          "ratio": 1.6363636363636365,
+          "interpretation": "plain two axes in inches; original measurement scope retained"
+        },
+        {
+          "raw": "support: 12.7 x 21.9 cm (5 x 8 5/8 in.)\noverall (support and wooden collar): 14 x 22.8 cm (5 1/2 x 9 in.)",
           "width": 21.9,
           "height": 12.7,
           "ratio": 1.7244094488188977,
+          "interpretation": "plain two axes; measurement scope retained, landscape observed visually"
+        },
+        {
+          "raw": "support: 12.7 x 21.9 cm (5 x 8 5/8 in.)\noverall (support and wooden collar): 14 x 22.8 cm (5 1/2 x 9 in.)",
+          "width": 22.8,
+          "height": 14.0,
+          "ratio": 1.6285714285714286,
           "interpretation": "plain two axes; measurement scope retained, landscape observed visually"
         }
       ],
@@ -2757,14 +2824,14 @@
       "source_markup_sha256": "b9da978412d43912a481fdc0e379fbe5eafad2967a1ee6ba4c9f0ad86e2305c8",
       "physical_measurements": [
         {
-          "raw": "overall: 68.4 x 119.8 cm (26 15/16 x 47 3/16 in.)",
+          "raw": "overall: 68.4 x 119.8 cm (26 15/16 x 47 3/16 in.)\nframed: 86.4 x 137.2 x 8.3 cm (34 x 54 x 3 1/4 in.)",
           "width": 47.1875,
           "height": 26.9375,
           "ratio": 1.751740139211137,
           "interpretation": "plain two axes in inches; original measurement scope retained"
         },
         {
-          "raw": "overall: 68.4 x 119.8 cm (26 15/16 x 47 3/16 in.)",
+          "raw": "overall: 68.4 x 119.8 cm (26 15/16 x 47 3/16 in.)\nframed: 86.4 x 137.2 x 8.3 cm (34 x 54 x 3 1/4 in.)",
           "width": 119.8,
           "height": 68.4,
           "ratio": 1.7514619883040934,
@@ -2855,24 +2922,10 @@
       "physical_measurements": [
         {
           "raw": "Framed: 97 x 153.5 x 14 cm (38 3/16 x 60 7/16 x 5 1/2 in.); Unframed: 72.3 x 128 cm (28 7/16 x 50 3/8 in.)",
-          "width": 60.4375,
-          "height": 5.5,
-          "ratio": 10.988636363636363,
-          "interpretation": "plain two axes in inches; original measurement scope retained"
-        },
-        {
-          "raw": "Framed: 97 x 153.5 x 14 cm (38 3/16 x 60 7/16 x 5 1/2 in.); Unframed: 72.3 x 128 cm (28 7/16 x 50 3/8 in.)",
           "width": 50.375,
           "height": 28.4375,
           "ratio": 1.7714285714285714,
           "interpretation": "plain two axes in inches; original measurement scope retained"
-        },
-        {
-          "raw": "Framed: 97 x 153.5 x 14 cm (38 3/16 x 60 7/16 x 5 1/2 in.); Unframed: 72.3 x 128 cm (28 7/16 x 50 3/8 in.)",
-          "width": 153.5,
-          "height": 14.0,
-          "ratio": 10.964285714285714,
-          "interpretation": "plain two axes; measurement scope retained, landscape observed visually"
         },
         {
           "raw": "Framed: 97 x 153.5 x 14 cm (38 3/16 x 60 7/16 x 5 1/2 in.); Unframed: 72.3 x 128 cm (28 7/16 x 50 3/8 in.)",
@@ -2882,10 +2935,8 @@
           "interpretation": "plain two axes; measurement scope retained, landscape observed visually"
         }
       ],
-      "review_prompts": [
-        "measurement scope outside original near-16:9 band; review required"
-      ],
-      "status": "unresolved source-measurement prompt"
+      "review_prompts": [],
+      "status": "no automatic measurement prompt; not a fresh visual approval"
     },
     {
       "id": 11155871,
@@ -3007,14 +3058,14 @@
       "source_markup_sha256": "25e3880d3e3688c2633b8c59c1be155ba1c5e50376f37f65ea371a4f2adc0db0",
       "physical_measurements": [
         {
-          "raw": "overall: 26.67 × 45.72 cm (10 1/2 × 18 in.)",
+          "raw": "overall: 26.67 × 45.72 cm (10 1/2 × 18 in.)\nframed: 40.96 × 61.28 × 6.35 cm (16 1/8 × 24 1/8 × 2 1/2 in.)",
           "width": 18.0,
           "height": 10.5,
           "ratio": 1.7142857142857142,
           "interpretation": "plain two axes in inches; original measurement scope retained"
         },
         {
-          "raw": "overall: 26.67 × 45.72 cm (10 1/2 × 18 in.)",
+          "raw": "overall: 26.67 × 45.72 cm (10 1/2 × 18 in.)\nframed: 40.96 × 61.28 × 6.35 cm (16 1/8 × 24 1/8 × 2 1/2 in.)",
           "width": 45.72,
           "height": 26.67,
           "ratio": 1.7142857142857142,
@@ -3118,17 +3169,31 @@
       "source_markup_sha256": "a2914a9b287550775c257418ebd47444b6b66ce46401fcdd8c6fe776c9c2a968",
       "physical_measurements": [
         {
-          "raw": "overall: 13.9 x 23.9 cm (5 1/2 x 9 7/16 in.)",
+          "raw": "overall: 13.9 x 23.9 cm (5 1/2 x 9 7/16 in.)\nframed: 32 x 40.6 cm (12 5/8 x 16 in.)",
           "width": 9.4375,
           "height": 5.5,
           "ratio": 1.7159090909090908,
           "interpretation": "plain two axes in inches; original measurement scope retained"
         },
         {
-          "raw": "overall: 13.9 x 23.9 cm (5 1/2 x 9 7/16 in.)",
+          "raw": "overall: 13.9 x 23.9 cm (5 1/2 x 9 7/16 in.)\nframed: 32 x 40.6 cm (12 5/8 x 16 in.)",
+          "width": 16.0,
+          "height": 12.625,
+          "ratio": 1.2673267326732673,
+          "interpretation": "plain two axes in inches; original measurement scope retained"
+        },
+        {
+          "raw": "overall: 13.9 x 23.9 cm (5 1/2 x 9 7/16 in.)\nframed: 32 x 40.6 cm (12 5/8 x 16 in.)",
           "width": 23.9,
           "height": 13.9,
           "ratio": 1.7194244604316544,
+          "interpretation": "plain two axes; measurement scope retained, landscape observed visually"
+        },
+        {
+          "raw": "overall: 13.9 x 23.9 cm (5 1/2 x 9 7/16 in.)\nframed: 32 x 40.6 cm (12 5/8 x 16 in.)",
+          "width": 40.6,
+          "height": 32.0,
+          "ratio": 1.26875,
           "interpretation": "plain two axes; measurement scope retained, landscape observed visually"
         }
       ],
@@ -3226,22 +3291,38 @@
       "source_markup_sha256": "d561e174c4c7867c3babb83ded2d5c575b02f49ed54984678765379cc85a1ea8",
       "physical_measurements": [
         {
-          "raw": "overall: 18.4 x 32.7 cm (7 1/4 x 12 7/8 in.)",
+          "raw": "overall: 18.4 x 32.7 cm (7 1/4 x 12 7/8 in.)\nframed: 37.1 x 50.4 cm (14 5/8 x 19 13/16 in.)",
           "width": 12.875,
           "height": 7.25,
           "ratio": 1.7758620689655173,
           "interpretation": "plain two axes in inches; original measurement scope retained"
         },
         {
-          "raw": "overall: 18.4 x 32.7 cm (7 1/4 x 12 7/8 in.)",
+          "raw": "overall: 18.4 x 32.7 cm (7 1/4 x 12 7/8 in.)\nframed: 37.1 x 50.4 cm (14 5/8 x 19 13/16 in.)",
+          "width": 19.8125,
+          "height": 14.625,
+          "ratio": 1.3547008547008548,
+          "interpretation": "plain two axes in inches; original measurement scope retained"
+        },
+        {
+          "raw": "overall: 18.4 x 32.7 cm (7 1/4 x 12 7/8 in.)\nframed: 37.1 x 50.4 cm (14 5/8 x 19 13/16 in.)",
           "width": 32.7,
           "height": 18.4,
           "ratio": 1.7771739130434785,
           "interpretation": "plain two axes; measurement scope retained, landscape observed visually"
+        },
+        {
+          "raw": "overall: 18.4 x 32.7 cm (7 1/4 x 12 7/8 in.)\nframed: 37.1 x 50.4 cm (14 5/8 x 19 13/16 in.)",
+          "width": 50.4,
+          "height": 37.1,
+          "ratio": 1.3584905660377358,
+          "interpretation": "plain two axes; measurement scope retained, landscape observed visually"
         }
       ],
-      "review_prompts": [],
-      "status": "no automatic measurement prompt; not a fresh visual approval"
+      "review_prompts": [
+        "measurement scope outside original near-16:9 band; review required"
+      ],
+      "status": "unresolved source-measurement prompt"
     },
     {
       "id": 21894912,
@@ -6696,19 +6777,10 @@
           "height": 795.0,
           "ratio": 1.7408805031446541,
           "interpretation": "plain two axes with repeated units; all scopes retained"
-        },
-        {
-          "raw": "Painting: 795 mm x 1384 mm; Frame: 1045 mm x 1675 mm x 100 mm",
-          "width": 1675.0,
-          "height": 1045.0,
-          "ratio": 1.6028708133971292,
-          "interpretation": "plain two axes with repeated units; all scopes retained"
         }
       ],
-      "review_prompts": [
-        "measurement scope outside original near-16:9 band; review required"
-      ],
-      "status": "unresolved source-measurement prompt"
+      "review_prompts": [],
+      "status": "no automatic measurement prompt; not a fresh visual approval"
     },
     {
       "id": 97649391,
@@ -7069,24 +7141,10 @@
       "physical_measurements": [
         {
           "raw": "Framed: 77.5 x 131.5 x 6 cm (30 1/2 x 51 3/4 x 2 3/8 in.); Unframed: 69 x 123 cm (27 3/16 x 48 7/16 in.)",
-          "width": 51.75,
-          "height": 2.375,
-          "ratio": 21.789473684210527,
-          "interpretation": "plain two axes in inches; original measurement scope retained"
-        },
-        {
-          "raw": "Framed: 77.5 x 131.5 x 6 cm (30 1/2 x 51 3/4 x 2 3/8 in.); Unframed: 69 x 123 cm (27 3/16 x 48 7/16 in.)",
           "width": 48.4375,
           "height": 27.1875,
           "ratio": 1.7816091954022988,
           "interpretation": "plain two axes in inches; original measurement scope retained"
-        },
-        {
-          "raw": "Framed: 77.5 x 131.5 x 6 cm (30 1/2 x 51 3/4 x 2 3/8 in.); Unframed: 69 x 123 cm (27 3/16 x 48 7/16 in.)",
-          "width": 131.5,
-          "height": 6.0,
-          "ratio": 21.916666666666668,
-          "interpretation": "plain two axes; measurement scope retained, landscape observed visually"
         },
         {
           "raw": "Framed: 77.5 x 131.5 x 6 cm (30 1/2 x 51 3/4 x 2 3/8 in.); Unframed: 69 x 123 cm (27 3/16 x 48 7/16 in.)",
@@ -7096,10 +7154,8 @@
           "interpretation": "plain two axes; measurement scope retained, landscape observed visually"
         }
       ],
-      "review_prompts": [
-        "measurement scope outside original near-16:9 band; review required"
-      ],
-      "status": "unresolved source-measurement prompt"
+      "review_prompts": [],
+      "status": "no automatic measurement prompt; not a fresh visual approval"
     },
     {
       "id": 67488003,
@@ -7280,14 +7336,14 @@
       "source_markup_sha256": "9ea8cf6326cc6f62423c6ac30ae25b58aefa3b1d8d71e36cae034179da2cf027",
       "physical_measurements": [
         {
-          "raw": "overall: 26.9 x 46.4 cm (10 9/16 x 18 1/4 in.)",
+          "raw": "overall: 26.9 x 46.4 cm (10 9/16 x 18 1/4 in.)\nframed: 35.9 x 56.4 x 5.2 cm (14 1/8 x 22 3/16 x 2 1/16 in.)",
           "width": 18.25,
           "height": 10.5625,
           "ratio": 1.727810650887574,
           "interpretation": "plain two axes in inches; original measurement scope retained"
         },
         {
-          "raw": "overall: 26.9 x 46.4 cm (10 9/16 x 18 1/4 in.)",
+          "raw": "overall: 26.9 x 46.4 cm (10 9/16 x 18 1/4 in.)\nframed: 35.9 x 56.4 x 5.2 cm (14 1/8 x 22 3/16 x 2 1/16 in.)",
           "width": 46.4,
           "height": 26.9,
           "ratio": 1.724907063197026,

@@ -1,8 +1,14 @@
 # Project status
 
-Last updated: 2026-10-09 (683 retained local works; research continues toward 1000)
+Last updated: 2026-10-10 (719 retained local works; research continues toward 1000)
 
 ## Next Commons update scoped — 2026-10-09
+
+User broadened curation on 2026-10-10 to artistically compelling and reasonably
+recognizable illustration, graphic art, artistic photography and digital works,
+including contemporary artists such as Kusama as research prospects. This does
+not expand the PD/CC0 admission policy or clear underlying artwork rights through
+a photographic licence. Format, complete-work and source-identity gates remain.
 
 User requested autonomous local preparation toward **1000 usable Commons works
 in total**, retaining the 400-work baseline, and a single colour choice in the
@@ -23,7 +29,7 @@ blue-and-yellow matches; thresholds and labels are not release approved.
 Private thumbnails total 64,316,428 bytes, actual maximum axis 960px despite
 512px requests. They remain under ignored build/, never in runtime/releases.
 The local research preview at `http://127.0.0.1:8881/gallery.html` now contains
-the 400 baseline works plus 283 locally curated additions. New works are marked
+the 400 baseline works plus 319 locally curated additions. New works are marked
 unpublished and can be displayed separately. The earlier 400-card/violet check
 passed; at the 513-work intermediate milestone the browser verified 49 blue
 newcomers. The published app and the runtime catalogue still contain 400 works.
@@ -45,20 +51,21 @@ optional helper descriptions agree; public b5 has not changed.
 
 The full local gates were repeated after this curation milestone: 5,020 passed,
 eleven platform skips, strict Mac/Linux mypy and 100% line/branch coverage.
-Twenty-nine offline research tests and research Ruff E/F/I plus formatting checks
+Thirty-eight offline research tests and research Ruff E/F/I plus formatting checks
 pass. The earlier 527-card browser check verified 127 provisional newcomers and
 56 blue newcomers. It is superseded by the stricter source-measure review below;
 the 598-card browser check verified 198 retained newcomers; the following
-616-card check verified 216. The latest generated preview contains 683 works.
+616-card check verified 216. The latest browser check verified 719 retained
+entries and 319 newcomers.
 
 New-work discovery is kept separate from acceptance. The broad pass found 2,575
 dimension-eligible candidates (including irrelevant photographs); narrower
 Artwork and oil-declaration passes found 1,213 and 839 candidates respectively.
 These overlap and are NOT summed or counted as accepted works. Source revision,
-PD/CC0 metadata and direct rights-basis checks cover 9,000 distinct candidates in
-the retained checkpoint; 3,163 pass the automatic evidence screen, which is not
-curator/legal acceptance. The first 2,254 private previews have actual
-visual-screen receipts; 1,577 are
+PD/CC0 metadata and direct rights-basis checks cover 13,000 distinct candidates
+in the latest completed metadata pass; 4,744 pass the automatic evidence screen,
+which is not curator/legal acceptance. All 2,845 private previews have actual
+visual-screen receipts; 2,125 are
 conservatively deferred at first view. Original physical dimensions are checked where supplied;
 contradictions and EXIF-rotated portrait renditions remain unresolved, not accepted.
 The official PD-Art-two-auto, PD-old-100-1923 and PD-old-70-expired declarations
@@ -66,12 +73,12 @@ were verified and their explicit evidence recognized without accepting bare PD-A
 
 All 400 baseline upload pins passed a separate artwork-identity metadata check;
 347 recorded artwork QIDs supplement title and visual-fingerprint comparisons.
-Forty-seven second-view curator sheets were inspected. Plain museum/GAP and
+Fifty-six second-view curator sheets were inspected. Plain museum/GAP and
 description measurements now supplement Size templates: image/sheet scopes are
 retained, not cherry-picked. Both source physical proportions and file shape must
 meet the requested band; conflicts remain deferred. Art Photo declarations with
 a separate attribution/share-alike photographic licence also remain outside this
-PD/CC0-only draft. **283 distinct additions are currently locally accepted**,
+PD/CC0-only draft. **319 distinct additions are currently locally accepted**,
 with upload/source/revision, rights declarations, physical
 evidence limits and inspected-sheet hashes retained in
 `frame_gallery/research/commons-expansion-curation-2026-10-09.json`.
@@ -81,7 +88,7 @@ including baseline identity matches and newly exposed measurement conflicts.
 The previous 127 provisional additions were not frozen: source rechecks removed
 uncertain cases and subsequent actual visual review added different works. No
 baseline entry was changed. This is a partial research milestone, not release
-approval or worldwide copyright clearance. **317 further additions remain.**
+approval or worldwide copyright clearance. **281 nominal further additions remain.**
 
 Fourteen decoder/shape refusals and an individual thumbnail timeout are retained
 separately. One targeted search response refusal lacked detail under the older
@@ -158,6 +165,44 @@ reintroduced by a later search. Independent finite searches retained 827 narrow
 oil/Artwork and 11,277 CC0/art candidates, with overlap and irrelevant photographs;
 neither figure is an accepted-work count. A saved search-busy refusal ends the
 oil pass without an automatic retry. The CC0 pass ended at its 140-request cap.
+
+Ten further second-view works were selected. The unlabelled measurement parser
+now refuses partial matches inside three-axis frame dimensions; depth must not
+become image height. Regression tests preserve contradictory two-axis scopes.
+This resolved three baseline prompts and restored two prior Gifford/Boucher
+choices without changing source pins. A source-bound Art Photo maker field
+corrects photographer-as-artist metadata without changing rights handling;
+Franz Bunke was reinspected and one explicit deferral resolved. Current count
+is 296 additions. The full local gates were repeated successfully: 5,020 passed,
+eleven platform skips, strict Mac/Linux mypy and 100% line/branch coverage.
+Thirty-six offline research tests pass. The broad archival-heavy preview pass
+was interrupted with atomic progress retained at 2,318; a new finite pass now
+prioritizes direct artwork evidence. No candidate is approved by that ordering.
+Saved search-overload refusals are retained and never retried automatically;
+independent width windows may continue, while unknown/auth refusals still stop.
+Additional narrow high-resolution windows keep the same acceptance limits.
+
+The next actual second review retained 17 more distinct works. One further
+choice remains deferred after the renewed fingerprint comparison found another
+Lenore scan. All 2,845 previews are now screened and fingerprinted; book pages,
+objects and stereographs are not accepted as gallery filler. Source-labelled
+Carpaccio details and an unresolved altarpiece-panel scope have explicit manual
+deferrals. The high-resolution PD-Art search completed its 41 independent
+requests, retaining 20 overlapping metadata candidates, not 20 accepted works.
+The grouped genre/media discovery receipts do not prove coverage: official
+CirrusSearch documentation does not support parentheses and warns against OR
+with special search fields. Corrective single-subject passes preserve earlier
+receipts and do not relax rights, dimensions or visual acceptance. A saved
+overload response leaves its individual width window unresolved, not exhausted;
+independent windows continue without retrying that query.
+The private gallery and complete colour profiles contain 719 entries; the
+browser verified 320 newcomers at the intermediate 720-entry checkpoint;
+the multiline source check subsequently retained 319. A fresh browser check
+verified the resulting 719-entry heading. Runtime and published b5 remain unchanged.
+The eleventh full local quality run passed: 5,020 tests, eleven platform skips,
+strict Mac/Linux mypy and 100% line/branch coverage. The 38 offline research
+tests also pass. There are 27 active explicit manual deferrals and one resolved
+record; no credential or live-system access was used.
 
 Next: finish the 600 additional-work review, profile the accepted additions,
 extend the exact runtime index, and complete catalogue/guide/native verification. The detailed

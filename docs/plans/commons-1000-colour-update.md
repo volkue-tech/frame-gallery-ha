@@ -1,6 +1,6 @@
 # Commons Update mit 1000 Werken und Farbauswahl
 
-Stand: 9. Oktober 2026. Arbeitsumfang für das Wochenende am 10. und 11. Oktober 2026, beauftragt von Alexander. Ziel sind 1000 nutzbare Commons-Werke insgesamt und ein einfaches Farbfeld in der App. Die Farbdaten sollen spätere Kombinationen wie Blau und Gelb ermöglichen, ohne sie bereits in diesem Update in die Oberfläche aufzunehmen.
+Stand: 10. Oktober 2026. Arbeitsumfang für das Wochenende am 10. und 11. Oktober 2026, beauftragt von Alexander. Ziel sind 1000 nutzbare Commons-Werke insgesamt und ein einfaches Farbfeld in der App. Die Farbdaten sollen spätere Kombinationen wie Blau und Gelb ermöglichen, ohne sie bereits in diesem Update in die Oberfläche aufzunehmen.
 
 ## Ausgangspunkt und Fortschritt
 
@@ -23,16 +23,16 @@ Der Bestand ist `frame_gallery/research/commons-400-selection-2026-10-06.json`. 
 
 Der lokale App-Entwurf enthält inzwischen das einzelne Farbfeld und den geprüften Farbfilter. Der Runtime-Katalog bleibt bei 400 Werken; die veröffentlichte Beta ist unverändert. Ein Wochenendziel ist keine garantierte Fertigstellung: Rechte, Bildqualität und bestandene Prüfungen haben Vorrang vor der Zahl und dem Termin.
 
-Lokaler Zwischenstand: 48 Bestandswerke visuell im Farbpilot geprüft und das Verfahren an dunklem Blau und Ockertönen korrigiert. Alle 400 Bestandswerke besitzen vorläufige Farbprofile mit vollständiger Verteilung und Quellenbeleg. Hinzu kommen **283 derzeit lokal kuratierte neue Werke**, ebenfalls mit vollständigen Farbprofilen. Die private [Farbvorschau](http://127.0.0.1:8881/gallery.html) enthält somit **683 Werke** und lässt sich nach Farbgruppe sowie Bestand oder Neuzugängen filtern. **317 weitere Aufnahmen fehlen noch zum Ziel.** Die [neue Farbanleitung](commons-colour-user-guide-draft.md) bleibt ein unveröffentlichter Entwurf.
+Lokaler Zwischenstand: 48 Bestandswerke visuell im Farbpilot geprüft und das Verfahren an dunklem Blau und Ockertönen korrigiert. Alle 400 Bestandswerke besitzen vorläufige Farbprofile mit vollständiger Verteilung und Quellenbeleg. Hinzu kommen **319 derzeit lokal kuratierte neue Werke**, ebenfalls mit vollständigen Farbprofilen. Die private [Farbvorschau](http://127.0.0.1:8881/gallery.html) enthält somit **719 Werke** und lässt sich nach Farbgruppe sowie Bestand oder Neuzugängen filtern. **281 weitere Aufnahmen fehlen noch zum nominellen Ziel.** Die [neue Farbanleitung](commons-colour-user-guide-draft.md) bleibt ein unveröffentlichter Entwurf.
 
-Der gesicherte Prüfstand enthält 9000 zusätzliche Kandidaten mit Quellen-/
-Rechtemetadaten; 3163 bestehen die automatische Vorprüfung. Die ersten 2254
-Vorschauen wurden tatsächlich gesichtet, 1577 dabei zunächst zurückgestellt.
-47 Kontaktbögen wurden ein zweites Mal
+Der jüngste abgeschlossene Metadatenlauf enthält 13000 zusätzliche Kandidaten
+mit Quellen-/Rechtemetadaten; 4744 bestehen die automatische Vorprüfung. Die
+2845 Vorschauen wurden tatsächlich gesichtet, 2125 dabei zunächst
+zurückgestellt. 56 Kontaktbögen wurden ein zweites Mal
 gesichtet. Zusätzliche Maßangaben im Klartext haben mögliche Ausschnitte sichtbar
 gemacht: Die frühere provisorische 127er-Auswahl wurde entsprechend reduziert
 und durch weitere tatsächlich geprüfte Werke ergänzt. Der aktuelle Stand ist
-283 Aufnahmen, nicht die frühere provisorische Auswahl. 46 ausgewählte Fälle
+319 Aufnahmen, nicht die frühere provisorische Auswahl. 46 ausgewählte Fälle
 bleiben zurückgestellt, darunter
 Duplikate und widersprüchliche Originalmaße. 347 Werk-Identitäten aus den
 Metadaten des Bestands ergänzen die Titel- und Bildvergleiche. Weitere kleine
@@ -55,6 +55,35 @@ frühere Neuzugänge zurückgestellt. Quellen, Farbprofile und Vorschau wurden
 entsprechend neu abgeglichen. Fotografennamen werden nicht als Künstlernamen
 übernommen; ungeklärte Zuschreibungen, Bildfragmente und Rahmen bleiben draußen.
 
+Die anschließende Sichtung hat zehn Werke aufgenommen. Eine Korrektur im
+Recherchewerkzeug verhindert, dass die Tiefe eines dreidimensionalen Rahmens
+als Bildhöhe gelesen wird; dadurch sind zwei zuvor zurückgestellte Neuzugänge
+wieder geklärt. Bei Franz Bunke belegt das ausdrückliche Künstlerfeld der
+Quelle den Namen, getrennt vom Fotografen. Nach erneuter Bildsichtung ist auch
+dieser Fall aufgenommen. Rechte- und Maßgrenzen bleiben unverändert. Weitere
+Vorschauen werden in begrenzten Chargen gesammelt; direkte Kunstwerk-Belege
+haben Vorrang vor Archivmaterial. Engere Suchfenster oberhalb von 20000 Pixeln
+erschließen hochaufgelöste Quellen, ohne Originalbilder herunterzuladen.
+
+Eine weitere zweite Sichtung hat 17 unterschiedliche Werke aufgenommen. Ein
+zusätzlicher Lenore-Scan bleibt nach dem erneuten Bildvergleich zurückgestellt.
+Explizite Detail-Aufnahmen, ungeklärte Altartafel-Teile und Fotografennamen als
+Künstler werden nicht mitgezählt. Alle 2845 Vorschauen haben inzwischen
+Sichtungs- und Bildvergleichsbelege; die erneuerte Vorschau zeigt 319 Neuzugänge.
+
+Die neueste Sichtung hat sechs weitere Werke aufgenommen. Eine zusätzliche
+Maßprüfung berücksichtigt jetzt auch nachfolgende Zeilen mit Bild-, Blatt- oder
+Rahmenmaßen. Ein zuvor gezählter Guigou bleibt deshalb mit widersprüchlichen
+Proportionen zurückgestellt. Bei den 57 Bestandsfragen sind drei neue Fälle aus
+dieser ergänzten Prüfung enthalten; sie sind noch nicht abschließend entschieden.
+
+Die Recherche verwendet für zusätzliche Medien und zeitgenössische Kunst
+getrennte Suchbegriffe. [CirrusSearch unterstützt keine Klammergruppen und warnt
+vor ODER in Kombination mit speziellen Suchfeldern](https://www.mediawiki.org/wiki/Help:CirrusSearch/Logical_operators).
+Die älteren gruppierten Suchläufe bleiben als Belege erhalten, gelten aber nicht
+als vollständige Abdeckung dieser Werkarten. Eine leere oder irrelevante
+Trefferliste belegt daher nicht, dass es keine geeigneten Werke gibt.
+
 ## Umfang dieses Updates
 
 ### 1000 tatsächlich unterschiedliche Werke
@@ -66,6 +95,22 @@ Für neue Werke gelten die bisherigen Grenzen: JPEG, mindestens 3000 Pixel breit
 Jedes neue Werk erhält eine überprüfbare Quellenreferenz, Künstler und Titel soweit belegbar, Abmessungen, Upload-Identität und dokumentierte visuelle Entscheidung. Rahmen, Papierumrandungen, schlechte Reproduktionen, fotografierte Ausstellungsansichten, Details und bereits bekannte Werkduplikate werden geprüft und gegebenenfalls zurückgestellt. Gleiche Upload-Hashes zu erkennen reicht nicht aus, um verschiedene Scans desselben Werks auszuschließen.
 
 Die strengere App-Präferenz für ungefähr 1 Prozent Abweichung bleibt unverändert. `contain` und der bekannte Querformat-Fallback bleiben erhalten. Auch ein geeignetes Werk kann kleine Ränder haben; dieses Update verspricht weder Randfreiheit noch native 4K-Details für jede Quelle.
+
+### Breite künstlerische Auswahl
+
+Alexanders Ergänzung vom 10. Oktober öffnet die Recherche auch für Illustration,
+Grafik, Fotokunst und digitale Werke. Entscheidend sind künstlerischer Anspruch,
+erkennbare Werk- oder Künstlerbekanntheit und eine abwechslungsreiche Auswahl;
+reines Archivmaterial zählt nicht als Füllmaterial. Zeitgenössische Künstlerinnen
+wie Yayoi Kusama sind ausdrücklich als Recherchewunsch aufgenommen, nicht als
+bereits verfügbare oder rechtegeklärte Katalogeinträge.
+
+Die bestehenden PD/CC0-Aufnahmeregeln und Formatgrenzen bleiben bestehen.
+Bei fotografierten Kunstwerken müssen die Rechte am abgebildeten Werk und an
+der Aufnahme getrennt geprüft werden. Eine freie Fotolizenz ist nicht automatisch
+eine Freigabe des Kunstwerks ([Commons-Richtlinie zu abgeleiteten Werken](https://commons.wikimedia.org/wiki/Commons:Derivative_works)).
+Eine Erweiterung auf andere Lizenzen wäre eine eigene technische und rechtliche
+Entscheidung, keine stillschweigende Änderung dieses Updates.
 
 ### Ein Farbfeld für den Nutzer
 

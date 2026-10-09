@@ -186,6 +186,32 @@ def declared_creators(wikitext: str) -> str:
     return "; ".join(re.findall(r"\{\{\s*Creator:([^{}|]+)\}\}", field[1], re.I))
 
 
+def source_artist(observed: object, description: object, wikitext: str) -> str:
+    """Prefer an explicit Art Photo artwork maker over its photographic credit.
+
+    This does not change rights handling or guess artists from filenames. The
+    raw source receipt retains the photographer and both licensing scopes.
+    """
+    stated = declared_creators(wikitext)
+    artist = artwork_artist(observed, description)
+    if stated and (
+        "art photo" in template_names(wikitext) or artist.startswith("Creator:")
+    ):
+        return stated
+    # An unresolved Creator link is rendered literally by Commons. Remove
+    # that namespace only when the non-Art-Photo source explicitly supplies
+    # the exact same Creator in its Author field. Never infer from a filename.
+    if artist.startswith("Creator:") and "art photo" not in template_names(wikitext):
+        author = re.search(
+            r"^\s*\|\s*author\s*=\s*\{\{\s*Creator:([^{}|]+)\}\}\s*$",
+            source_markup(wikitext),
+            re.I | re.M,
+        )
+        if author and artist == "Creator:" + author[1]:
+            return author[1]
+    return artist or stated
+
+
 def prepare(page: dict, expected: dict) -> dict:
     sys.path.insert(0, str(ROOT / "frame_gallery/src"))
     from frame_gallery.providers.commons import _rights
@@ -226,8 +252,9 @@ def prepare(page: dict, expected: dict) -> dict:
     return dict(
         **expected,
         title=plain(values.get("ObjectName")) or expected["file_title"][5:],
-        artist=artwork_artist(values.get("Artist"), values.get("ImageDescription"))
-        or declared_creators(text),
+        artist=source_artist(
+            values.get("Artist"), values.get("ImageDescription"), text
+        ),
         date=plain(values.get("DateTimeOriginal")),
         description=plain(values.get("ImageDescription")),
         rights_label=values.get("LicenseShortName"),
@@ -281,16 +308,21 @@ def metadata(limit: int) -> None:
     baseline = json.loads(BASELINE.read_text())
     excluded = {w["id"] for w in baseline["included"] + baseline["previously_deferred"]}
     candidates = {}
-    # Specific Artwork declarations first, broad search as separately retained
-    # fallback evidence. No automatic promotion based on these search labels.
-    for name in (
-        "discovery-cc0-art-precise.json",
+    # Direct PD-Art discovery first, then Artwork/CC0 and broad retained
+    # fallback evidence. Order never approves a work or excludes another pool.
+    for name in tuple(
+        p.name for p in sorted(OUTPUT.glob("discovery-subject-*.json"))
+    ) + (
+        "discovery-pdart-highres.json",
+        "discovery-media-precise.json",
+        "discovery-genre-precise.json",
+        "discovery-pdart-precise.json",
         "discovery-paintings-precise.json",
+        "discovery-artwork-precise.json",
+        "discovery-cc0-art-precise.json",
         "discovery-targeted.json",
         "discovery-pdart.json",
         "discovery-pdart-single.json",
-        "discovery-pdart-precise.json",
-        "discovery-artwork-precise.json",
         "discovery-artists.json",
         "discovery-paintings.json",
         "discovery-artwork.json",
@@ -377,10 +409,27 @@ def preview_priority(work: dict) -> int:
     """Order research only; never exclude or approve a work by its label."""
     title = (work.get("title") or work.get("file_title", "")).casefold()
     if re.search(
-        r"\b(?:frieze|sidewall|album|drawing|sketch|map|atlas|loc|verhandeling)\b",
+        r"\b(?:frieze|sidewall|album|drawing|sketch|map|atlas|loc|verhandeling|"
+        r"receipt|manuscript|lettre|papiers|missa|banknote|fragment|"
+        r"stereoscopic|stereograph|correspondance|correspondence|"
+        r"dancing master|permit number|korte verhandeling|ku-?[0-9]+)\b",
         title,
+    ) or re.search(
+        r"\b(?:department|office|archives|records administration|"
+        r"gouvernement|compositeur|auteur du texte|éditeur scientifique|"
+        r"editeur scientifique|photographe|photographer)\b",
+        work.get("artist", ""),
+        re.I,
     ):
-        return 2
+        return 4
+    query = work.get("query", "").lower()
+    names = work.get("direct_templates", [])
+    if 'insource:"oil"' in query or any(name.startswith("pd-art") for name in names):
+        return 0
+    if "hastemplate:cc-zero" in query:
+        # This broad discovery pool contains many archival/object photographs.
+        # Give retained direct artwork evidence priority without approving it.
+        return 3
     if not work.get("artist") or work["artist"].casefold().startswith(
         ("unknown", "made by", "anonymous")
     ):

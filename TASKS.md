@@ -8,6 +8,11 @@ User authorized planning, research and autonomous local work, then clarified
 that up to three meaningful colour groups and their shares should be collected
 for future combinations. This update exposes only one colour selection.
 
+The 2026-10-10 clarification opens research to illustration, graphic art,
+artistic photography and digital works, with artistic merit and recognizable
+works/makers prioritized. Contemporary-art prospects need rights to the actual
+artwork, not merely the photo. Existing PD/CC0 and format gates remain unchanged.
+
 - [x] Verify the 400-work baseline and document product scope and acceptance.
   *400 distinct IDs, 299 artist labels, zero colour profiles in the selection
   manifest; no runtime, release or HA/TV change.*
@@ -20,13 +25,13 @@ for future combinations. This update exposes only one colour selection.
   Broader visual calibration and the 600 additional works remain incomplete.*
 - [ ] Research and visually verify 600 additional distinct eligible works,
   keeping the existing width, ratio, rights and reproduction requirements.
-  *283 additions retained after stricter source-measure checks and actual
-  second-view review; 317 remain. All 2254 candidate previews screened,
+  *319 additions retained after stricter source-measure checks and actual
+  second-view review; 281 nominal additions remain. All 2845 previews screened,
   all 400 baseline upload pins checked and 347 artwork QIDs retained. Candidate
   counts and temporary network deferrals are not accepted-work counts.*
 - [ ] Complete source-bound colour profiles and a reviewable preview for all
   1000 accepted works; preserve baseline IDs/pins and deferred research.
-  *The private preview contains 683 works, including the 283 unpublished
+  *The private preview contains 719 works, including the 319 unpublished
   additions with complete provisional palettes/distributions/top groups. Runtime
   still has 400; extend/freeze it only after 600 genuine additions are complete.*
 - [ ] Resolve the 57 baseline physical-measurement scope prompts before claiming

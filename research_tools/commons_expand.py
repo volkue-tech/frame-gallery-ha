@@ -38,6 +38,33 @@ PRECISE_WINDOWS = tuple(
     )
     for low in range(start, stop + 1, step)
 )
+HIGH_RES_WINDOWS = tuple((low, low + 1999) for low in range(20001, 100001, 2000))
+MEDIA_SUBJECT = (
+    'hastemplate:Artwork (insource:"huile" OR insource:"Öl" OR '
+    'insource:"tempera" OR insource:"gouache" OR insource:"watercolour" OR '
+    'insource:"watercolor" OR insource:"olieverf")'
+)
+GENRE_SUBJECT = (
+    '("digital art" OR illustration OR engraving OR lithograph OR '
+    '"art photography" OR "fine art photography" OR Kusama)'
+)
+# Keep earlier grouped-query receipts as evidence, not a claim of genre/media
+# coverage. CirrusSearch explicitly does not support parentheses and warns that
+# OR interacts unpredictably with special keywords. New passes use exactly one
+# documented subject predicate instead of a Boolean group.
+SINGLE_SUBJECTS = {
+    "huile": 'hastemplate:Artwork insource:"huile"',
+    "olieverf": 'hastemplate:Artwork insource:"olieverf"',
+    "gouache": 'hastemplate:Artwork insource:"gouache"',
+    "tempera": 'hastemplate:Artwork insource:"tempera"',
+    "watercolour": 'hastemplate:Artwork insource:"watercolour"',
+    "watercolor": 'hastemplate:Artwork insource:"watercolor"',
+    "digital-art": '"digital art"',
+    "fine-art-photography": '"fine art photography"',
+    "kusama": '"Yayoi Kusama"',
+    "engraving": 'hastemplate:Artwork insource:"engraving"',
+    "lithograph": 'hastemplate:Artwork insource:"lithograph"',
+}
 
 
 def eligible(info: dict) -> bool:
@@ -52,6 +79,19 @@ def eligible(info: dict) -> bool:
     )
 
 
+def busy_refusal(response: object) -> bool:
+    """Only the retained public search-overload response is scoped deferrable.
+
+    No auth failure or unknown refusal permits continuation, and this never
+    authorizes repeating the failed query.
+    """
+    return (
+        isinstance(response, dict)
+        and isinstance(response.get("error"), dict)
+        and response["error"].get("code") == "cirrussearch-too-busy-error"
+    )
+
+
 def discover(
     artwork: bool = False,
     paintings: bool = False,
@@ -60,7 +100,13 @@ def discover(
     artwork_precise: bool = False,
     paintings_precise: bool = False,
     cc0_art_precise: bool = False,
+    highres_pdart: bool = False,
+    media_precise: bool = False,
+    genre_precise: bool = False,
+    single_subject: str | None = None,
 ) -> None:
+    if single_subject is not None and single_subject not in SINGLE_SUBJECTS:
+        raise ValueError("unknown independently scoped discovery subject")
     sys.path.insert(0, str(ROOT))
     sys.path.insert(0, str(ROOT / "frame_gallery/src"))
     from frame_gallery.budget.allowance import Allowance
@@ -78,7 +124,15 @@ def discover(
 
     OUTPUT.mkdir(parents=True, exist_ok=True)
     name = (
-        "cc0-art-precise"
+        f"subject-{single_subject}"
+        if single_subject is not None
+        else "genre-precise"
+        if genre_precise
+        else "media-precise"
+        if media_precise
+        else "pdart-highres"
+        if highres_pdart
+        else "cc0-art-precise"
         if cc0_art_precise
         else "paintings-precise"
         if paintings_precise
@@ -128,8 +182,16 @@ def discover(
     scanned = set(report["scanned_ids"])
     hashes = excluded_hashes | {w["sha1"] for w in report["candidates"]}
     windows = (
-        PRECISE_WINDOWS
-        if precise or artwork_precise or paintings_precise or cc0_art_precise
+        HIGH_RES_WINDOWS
+        if highres_pdart
+        else PRECISE_WINDOWS
+        if precise
+        or artwork_precise
+        or paintings_precise
+        or cc0_art_precise
+        or media_precise
+        or genre_precise
+        or single_subject is not None
         else WIDTH_WINDOWS + ((20001, 35000), (35001, 100000))
         if pdart
         else WIDTH_WINDOWS
@@ -144,11 +206,25 @@ def discover(
             # A failed exchange is not an exhausted window. Other independent
             # windows can proceed, but this one needs separately reviewed retry.
             continue
+        refusals = list(OUTPUT.glob(f"search-{name}-{key}-*-refused.json"))
+        if refusals and all(busy_refusal(json.loads(p.read_text())) for p in refusals):
+            # Retain the overloaded rectangle, then work on independent windows.
+            # It is not exhausted or retried, even on a later invocation.
+            if key not in report.setdefault("busy_deferred_windows", []):
+                report["busy_deferred_windows"].append(key)
+                save(path, report)
+            continue
         # This rectangle is deliberately wider than the exact ratio band;
         # original metadata gets the unchanged exact 2.5% check afterwards.
         bottom, top = int(low / (16 / 9) / 1.025), int(high / (16 / 9) / 0.975) + 1
         subject = (
-            "hastemplate:CC-zero (painting OR watercolor OR gouache "
+            SINGLE_SUBJECTS[single_subject]
+            if single_subject is not None
+            else GENRE_SUBJECT
+            if genre_precise
+            else MEDIA_SUBJECT
+            if media_precise
+            else "hastemplate:CC-zero (painting OR watercolor OR gouache "
             'OR "digital art" OR abstract)'
             if cc0_art_precise
             else 'hastemplate:Artwork insource:"oil"'
@@ -156,7 +232,7 @@ def discover(
             else "hastemplate:Artwork"
             if artwork_precise
             else 'hastemplate:"PD-Art"'
-            if pdart or precise
+            if pdart or precise or highres_pdart
             else 'hastemplate:Artwork insource:"oil"'
             if paintings
             else "hastemplate:Artwork"
@@ -298,6 +374,10 @@ if __name__ == "__main__":
     parser.add_argument("--artwork-precise", action="store_true")
     parser.add_argument("--paintings-precise", action="store_true")
     parser.add_argument("--cc0-art-precise", action="store_true")
+    parser.add_argument("--highres-pdart", action="store_true")
+    parser.add_argument("--media-precise", action="store_true")
+    parser.add_argument("--genre-precise", action="store_true")
+    parser.add_argument("--single-subject", choices=tuple(SINGLE_SUBJECTS))
     args = parser.parse_args()
     if (
         sum(
@@ -309,6 +389,10 @@ if __name__ == "__main__":
                 args.artwork_precise,
                 args.paintings_precise,
                 args.cc0_art_precise,
+                args.highres_pdart,
+                args.media_precise,
+                args.genre_precise,
+                args.single_subject is not None,
             )
         )
         > 1
@@ -322,4 +406,8 @@ if __name__ == "__main__":
         args.artwork_precise,
         args.paintings_precise,
         args.cc0_art_precise,
+        args.highres_pdart,
+        args.media_precise,
+        args.genre_precise,
+        args.single_subject,
     )

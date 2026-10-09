@@ -16,8 +16,7 @@
     {"id": 99879854, "reason": "Second visual inspection shows an enclosing gold frame. Leave this source unselected."},
     {"id": 71981001, "reason": "Visible enclosing frame and photographer credited as artist in current parsed metadata; an unframed, correctly attributed source needs separate review."},
     {"id": 7478701, "reason": "Current parsed artist is photographer Rama; the original maker is only in the source description. Resolve source-bound artist attribution before acceptance."},
-    {"id": 124453918, "reason": "Current parsed artist is photographer Ruthven although Art Photo has Creator:Alceste Campriani. Confirm full reproduction and correct source-bound attribution before acceptance."},
-    {"id": 125972883, "reason": "Current parsed artist is photographer Wolf1949H although the source artist field names Franz Bunke. Resolve source-bound attribution before acceptance."},
+    {"id": 124453918, "reason": "Source-bound Art Photo artist is now resolved as Alceste Campriani, distinct from photographer Ruthven. The extracted rendition's full-original scope still needs comparison with its framed source before acceptance."},
     {"id": 143983811, "reason": "Information author is photographer Paradise Chronicle, not Niko Pirosmani. A separate CC-BY-SA photo declaration and original dimensions need scope review."},
     {"id": 126112812, "reason": "Source title describes part of a folding screen. The complete original-work scope is not established; do not count as an additional whole artwork."},
     {"id": 113203902, "reason": "Ceiling/mural photograph has visible intrusion at upper right; original full-work scope and framing need separate review."},
@@ -26,6 +25,13 @@
     {"id": 34565671, "reason": "Retained source declares both a separate self CC-BY-SA photograph and PD-Art. Keep photographic and underlying-work scopes unresolved rather than broadening the current catalogue policy."},
     {"id": 122601882, "reason": "Retained source declares both a separate self CC-BY-SA photograph and PD-Art. Reproduction licence scope needs separate review before acceptance."},
     {"id": 190261152, "reason": "Retained source declares both a separate self CC-BY-SA photograph and PD-Art. Reproduction licence scope needs separate review before acceptance."},
-    {"id": 159441213, "reason": "The deathyear=1882 declaration repeats the signed work date and needs verification against the named creator. Do not silently correct or assume the rights evidence."}
+    {"id": 159441213, "reason": "The deathyear=1882 declaration repeats the signed work date and needs verification against the named creator. Do not silently correct or assume the rights evidence."},
+    {"id": 148884, "reason": "The retained source explicitly categorizes this file as Details of Saint Stephen is Consecrated Deacon by Carpaccio. The wide preview is not the complete painting; leave it unselected."},
+    {"id": 23980176, "reason": "The source identifies this panel as part of the St Lawrence altarpiece. Complete original-work versus standalone panel scope is unresolved; do not count a component as a new whole artwork."},
+    {"id": 166009876, "reason": "Art Photo does not supply an artist field; the parsed maker is photographer Gleb Simonov. Source-bound attribution and complete original-work scope require review. Do not infer the maker solely from the category."},
+    {"id": 153249521, "reason": "The retained title/description say London, Thames and Whitehall Court, but the actually inspected preview depicts a Renaissance castle, gardens and period-costumed figures. Source-to-image identification is unresolved despite the explicit Houbron credit and in-band recorded dimensions. Leave it unselected; do not invent a replacement title."}
+  ],
+  "resolved_records": [
+    {"id": 125972883, "previous_reason": "Photographer Wolf1949H was incorrectly displayed as artist.", "resolution": "The retained Art Photo explicitly names Creator:Franz Bunke. Source-bound reparse uses that artwork field; underlying PD-old-auto-expired and photographic CC0 declarations remain separately retained. The full preview was reinspected on 2026-10-09; no surrounding frame or apparent detail scope. Quantitative original dimensions are not supplied and are not invented."}
   ]
 }

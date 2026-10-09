@@ -31,6 +31,16 @@ def qids(markup: str) -> set[str]:
 
 def physical(text: str) -> list[dict]:
     result = []
+
+    def two_unlabelled_axes(field: str, match: re.Match) -> bool:
+        # A regex can find the last two numbers of a three-axis frame/object
+        # measurement. Depth must never become a painting's height. Explicit
+        # h/b or w/h axes below are different: their labels retain meaning.
+        before, after = field[: match.start()].rstrip(), field[match.end() :].lstrip()
+        return not before.endswith(("x", "X", "×")) and not after.startswith(
+            ("x", "X", "×")
+        )
+
     for raw in re.findall(
         r"\{\{size\s*\|[^{}]*\}\}", source_markup(text), re.IGNORECASE
     ):
@@ -63,15 +73,31 @@ def physical(text: str) -> list[dict]:
     # Some museum/GAP receipts expose plain image/sheet measurements instead
     # of {{Size}}. Keep every scope; never pick just the one matching our target.
     markup = source_markup(text)
-    dimensions = re.findall(r"\|\s*(?:commons_)?dimensions\s*=([^\n]*)", markup, re.I)
-    dimensions += re.findall(r"\|\s*pretty_dimensions\s*=([^\n]*)", markup, re.I)
-    dimensions += re.findall(r"\|\s*core:format\s*=([^\n]*)", markup, re.I)
+    # A dimensions field may list Sheet, Plate and Image on separate lines.
+    # Preserve all scopes: reading only the first line can hide a different
+    # print/image ratio beneath an apparently matching paper-sheet measurement.
+    dimensions = re.findall(
+        r"\|\s*(?:commons_)?dimensions\s*=(.*?)(?=\n\s*\||\n\s*}}|\Z)",
+        markup,
+        re.I | re.S,
+    )
+    dimensions += re.findall(
+        r"\|\s*pretty_dimensions\s*=(.*?)(?=\n\s*\||\n\s*}}|\Z)",
+        markup,
+        re.I | re.S,
+    )
+    dimensions += re.findall(
+        r"\|\s*core:format\s*=(.*?)(?=\n\s*\||\n\s*}}|\Z)",
+        markup,
+        re.I | re.S,
+    )
     dimensions += re.findall(
         r"\|\s*description\s*=(.*?)(?=\n\s*\||\n\s*}}|\Z)", markup, re.I | re.S
     )
     for field in dimensions:
-        if "{{size" in field.lower():
-            continue
+        # Size templates were read above. Remove just those tokens, not the
+        # entire field: a later plain Sheet/Plate/Frame line still matters.
+        field = re.sub(r"\{\{size\s*\|[^{}]*\}\}", "", field, flags=re.I)
         # Auction sources also use mixed-number inches. Ignoring these would
         # let a wide file hide a substantially different original proportion.
         inch_number = r"[0-9]+(?:[.,][0-9]+|\s+[0-9]+/[0-9]+|\s*[¼½¾⅛⅜⅝⅞])?"
@@ -80,6 +106,8 @@ def physical(text: str) -> list[dict]:
             field,
             re.I,
         ):
+            if not two_unlabelled_axes(field, match):
+                continue
 
             def inches(value: str) -> float:
                 fractions = dict(
@@ -157,7 +185,10 @@ def physical(text: str) -> list[dict]:
             r"([0-9]+(?:[.,][0-9]+)?)\s*(cm|mm)\s*[x×]\s*"
             r"([0-9]+(?:[.,][0-9]+)?)\s*(cm|mm)\b",
             field,
+            re.I,
         ):
+            if not two_unlabelled_axes(field, match):
+                continue
             a = float(match[1].replace(",", ".")) * (
                 10 if match[2].lower() == "cm" else 1
             )
@@ -178,7 +209,10 @@ def physical(text: str) -> list[dict]:
         for match in re.finditer(
             r"([0-9]+(?:[.,][0-9]+)?)\s*[x×]\s*([0-9]+(?:[.,][0-9]+)?)\s*(cm|mm)\b",
             field,
+            re.I,
         ):
+            if not two_unlabelled_axes(field, match):
+                continue
             a, b = float(match[1].replace(",", ".")), float(match[2].replace(",", "."))
             if min(a, b) > 0:
                 result.append(

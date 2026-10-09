@@ -2,6 +2,39 @@
 
 ## Commons colour research and 1000-work scope (2026-10-09)
 
+### D-214 — broader artistic curation without a silent licence expansion
+
+Status: accepted product clarification from Alexander, 2026-10-10; research only.
+
+Research may include illustration, graphic art, artistic photography and digital
+works, prioritizing artistic merit, recognizable works/makers and visual variety.
+Kusama and other contemporary artists are research prospects, not presumed usable
+catalogue entries. The current Commons PD/CC0 admission policy is unchanged.
+Photographic licensing does not substitute for rights to the depicted artwork;
+see the official [Commons derivative-work guideline](https://commons.wikimedia.org/wiki/Commons:Derivative_works).
+Other licence families would require a separate design/licensing decision.
+JPEG, source width, ratio, full-work, pin, identity and actual visual gates remain.
+
+The bounded genre search retains raw receipts separately from existing discovery;
+its candidates are never counted as accepted works. A multilingual media query
+returned no pages; this is not an assertion of catalogue exhaustion. Private
+preview ordering deprioritizes music/text/archive pages without deleting them or
+changing any admission rule. The source-measure parser now retains multiline
+Sheet/Plate/Image fields. This returned Guigou candidate 50308787 to unresolved
+status and exposed three more baseline scope prompts: 319 additions / 719 local
+entries, 281 nominal additions remaining and 57 baseline prompts. The baseline
+IDs, pins, published app and runtime catalogue remain unchanged.
+
+Official [CirrusSearch logical-operator documentation](https://www.mediawiki.org/wiki/Help:CirrusSearch/Logical_operators)
+states that parentheses are not supported and OR is unreliable with special
+keywords. Earlier grouped genre/media/CC0 receipts therefore do not demonstrate
+coverage or absence of suitable artworks. New bounded searches use one explicit
+subject predicate per retained query. Unknown subjects are rejected locally;
+source, licence and shape checks remain separate. Overloaded windows retain their
+refusal receipts and are neither retried automatically nor labelled exhausted.
+Source-measure parsing also retains a plain measurement following a Size template
+in the same field; neither multiline nor mixed-template scope may be hidden.
+
 ### D-213 — draft single-colour Commons prefilter and minimal configuration
 
 Status: **accepted local implementation scope** under the user's current
@@ -106,10 +139,10 @@ scratch. Full baseline metadata is in frame_gallery/research for host/container
 test consistency; production still copies only the compact 64,385-byte index,
 not full palettes or JPEGs. No native/release/live gate is represented by these tests.
 
-Expansion research milestone: 9,000 metadata candidates, 3,163 automatically
-eligible records and the first 2,254 previews actually screened; 1,577 first-screen
-deferrals. The second review of 47 contact sheets plus stricter source/physical
-proportion and artwork-identity checks has yielded **283 retained local
+Expansion research milestone: 12,000 metadata candidates, 4,300 automatically
+eligible records and all 2,845 previews actually screened; 2,125 first-screen
+deferrals. The second review of 56 contact sheets plus stricter source/physical
+proportion and artwork-identity checks has yielded **319 retained local
 additions**. The earlier provisional 127 are superseded: plain dimensions in
 museum/GAP receipts and descriptions expose additional possible crops; neither
 image/sheet scopes nor out-of-band physical ratios are silently ignored. Separate
@@ -117,8 +150,8 @@ Art Photo attribution/share-alike declarations stay deferred. Forty-six choices
 remain deferred. The 400 baseline upload pins were rechecked and 347 artwork QIDs
 retained. Curator
 receipts and complete provisional colour data are metadata-only under
-frame_gallery/research. The private preview has 683 works; the runtime
-catalogue still has exactly 400. 317 additions and the full release scope remain.
+frame_gallery/research. The private preview has 719 works; the runtime
+catalogue still has exactly 400. 281 nominal additions and the full release scope remain.
 
 The private measurement parser also retains fractional inches, repeated-unit
 pairs and explicit H/B axes. This added 56 second-view works and deferred three
@@ -127,6 +160,29 @@ The baseline format audit keeps all 400 pins unchanged: 227 measured sources,
 57 unresolved measurement-scope prompts, not 57 proven crops or removals.
 These must be resolved before a final 1000-usable-work claim. No active catalogue,
 history or external system was changed.
+
+A subsequent parser correction refuses unlabelled two-axis matches embedded
+inside three-axis frame dimensions: depth is not original image height. It
+resolved three baseline prompts and two prior Gifford/Boucher choices. Every
+actual two-axis scope, including inconvenient frame/image ratios, is still
+retained. Ten additional second-view works and one source-artist resolution
+bring the count to 296. Explicit Art Photo artist Creator fields may override
+photographic metadata credits; no category, filename or uploader inference.
+Franz Bunke was reinspected; its photographic CC0 and underlying PD declaration
+stay separate in the raw evidence. Other attribution/full-original issues
+remain deferred. Subsequent source checks add explicit detail/panel/credit
+deferrals: 26 active manual deferrals and one resolved record are retained.
+
+Private preview ordering now prioritizes direct artwork evidence over archival
+documents and institutional records, without excluding or accepting anything.
+The interrupted broad pass retains atomic progress and all actual screen
+receipts; a new finite pass continues with that ordering. Independent width
+windows can proceed around a saved, specifically identified search-overload
+refusal without repeating or marking the failed window exhausted; unknown and
+authentication refusals still stop. Additional windows at 20001–100000 pixels
+split previously coarse discovery ranges. Only bounded previews are downloaded;
+the same JPEG/width/ratio/source/rights gates apply. Thirty-six offline research
+tests pass; no runtime, credential, HA/TV or public change.
 
 The private evidence parser now recognizes explicitly labelled Dutch `h/b`
 museum measurements with repeated/mixed units. All measurement scopes remain
