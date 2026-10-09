@@ -70,6 +70,32 @@ def physical(text: str) -> list[dict]:
     for field in dimensions:
         if "{{size" in field.lower():
             continue
+        # Rijksmuseum's retained source description labels h/b explicitly and
+        # often repeats units: "h 138 mm × b 254 mm". Keep axes and all scopes;
+        # a support/frame measurement is not silently treated as the image.
+        for match in re.finditer(
+            r"\bh\s+([0-9]+(?:[.,][0-9]+)?)\s*(cm|mm)\.?\s*[x×]\s*"
+            r"b\s+([0-9]+(?:[.,][0-9]+)?)\s*(cm|mm)\b",
+            field,
+            re.I,
+        ):
+            height = float(match[1].replace(",", ".")) * (
+                10 if match[2].lower() == "cm" else 1
+            )
+            width = float(match[3].replace(",", ".")) * (
+                10 if match[4].lower() == "cm" else 1
+            )
+            if min(height, width) > 0:
+                result.append(
+                    dict(
+                        raw=field.strip(),
+                        width=width,
+                        height=height,
+                        ratio=width / height,
+                        interpretation="explicit Dutch h/b axes; "
+                        "all measurement scopes retained",
+                    )
+                )
         for match in re.finditer(
             r"([0-9]+(?:[.,][0-9]+)?)\s*[x×]\s*([0-9]+(?:[.,][0-9]+)?)\s*(cm|mm)\b",
             field,
@@ -241,7 +267,7 @@ def dossiers() -> None:
     )
 
 
-def sheets() -> None:
+def sheets(reserve: bool = False) -> None:
     """Render only unresolved low-flag dossiers for a second human inspection."""
     from PIL import Image, ImageDraw, ImageOps
 
@@ -250,6 +276,13 @@ def sheets() -> None:
     rendered = {
         row["id"] for path in prior for row in json.loads(path.read_text())["records"]
     }
+    if reserve:
+        accepted_path = (
+            ROOT / "frame_gallery/research/commons-expansion-curation-2026-10-09.json"
+        )
+        selected = {r["id"] for r in json.loads(accepted_path.read_text())["included"]}
+        rows = [row for row in rows if row["id"] not in selected]
+        rendered = set()
     first = max((int(p.stem.rsplit("-", 1)[1]) for p in prior), default=-1) + 1
     rows = [row for row in rows if not row["flags"] and row["id"] not in rendered]
     for offset in range(0, len(rows), 12):

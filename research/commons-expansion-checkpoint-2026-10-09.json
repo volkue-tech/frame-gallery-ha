@@ -1,18 +1,18 @@
 {
   "schema": 1,
-  "recorded_at": "2026-10-09T19:50:05.797202+00:00",
+  "recorded_at": "2026-10-09T20:02:11.360848+00:00",
   "status": "partial local curation; runtime remains 400; NOT release-approved",
   "baseline_count": 400,
   "target_total": 1000,
-  "accepted_additions": 115,
-  "local_reviewed_total": 515,
-  "remaining_additions": 485,
-  "accepted_receipt_sha256": "2cd350bd742ecc45af62948b539f0595f659d79cd2feda2419a54910279a59dd",
+  "accepted_additions": 144,
+  "local_reviewed_total": 544,
+  "remaining_additions": 456,
+  "accepted_receipt_sha256": "33595b982ba8966db12e9fb66cfb5fbc0407a12fc8a3b30678d104ad3e2002d2",
   "metadata_checked": 5000,
   "metadata_eligible": 1280,
-  "metadata_receipt_sha256": "4dc2911791cfa58a13545129d698692e00a3d213752d1b577dc915cd1219dca2",
-  "preview_count": 1056,
-  "preview_receipt_sha256": "2ca25576a84f21af8f8c97241aca2a4f1552aa0a256c62065ee8c9691cd2950b",
+  "metadata_receipt_sha256": "3f253b8615585c92e732044e20ecba53949e65824c41afda3252db02809a5f10",
+  "preview_count": 1268,
+  "preview_receipt_sha256": "49db98e8490157ed1913b641d44a2a6e7da1aee19b41947c74a307b3b3ef1426",
   "locally_refused": [
     {
       "id": 61155923,
@@ -53,6 +53,10 @@
     {
       "id": 61143109,
       "reason": "local decoder/shape bound"
+    },
+    {
+      "id": 60842607,
+      "reason": "local decoder/shape bound"
     }
   ],
   "network_deferred": [
@@ -64,8 +68,8 @@
       "retry": "no automatic retry; future separately reviewed retry only"
     }
   ],
-  "visually_screened_count": 1056,
-  "visual_deferrals": 691,
+  "visually_screened_count": 1268,
+  "visual_deferrals": 861,
   "visual_screen": {
     "records": [
       {
@@ -9571,6 +9575,1914 @@
         "contact_sheet_sha256": "ba8f1820b8b407afff649ac854c1caaa5fa6803c0f2a7557d2d17acbddcdd390",
         "screen": "visual first-pass",
         "reason": "Complete reproduction visually plausible; physical proportions, source and artwork identity need second review"
+      },
+      {
+        "id": 58997298,
+        "original_sha1": "472c03e6170038af0d5f2a31252584f7babaa256",
+        "thumbnail_sha256": "884a68752f278aac06f0de68ed4e3dbdc7a9476c8e379b9498cd8d52631b9ad2",
+        "contact_sheet_position": 1056,
+        "contact_sheet_sha256": "3d51d63fc8a061bd8b31e829812427d2838bfd69be729df5b97f5332500454c6",
+        "screen": "deferred",
+        "reason": "Observed object/frame/chart/book page, detail or alternative scan; or muted/repetitive archival motif, not colourful-gallery priority"
+      },
+      {
+        "id": 177151470,
+        "original_sha1": "5d226064f3ebad853d3c92d608c5663c3c501b03",
+        "thumbnail_sha256": "f8b6526b0711ab00f876dae4ea9df159044b5567ba6d4958a12fd8509a2b039e",
+        "contact_sheet_position": 1057,
+        "contact_sheet_sha256": "3d51d63fc8a061bd8b31e829812427d2838bfd69be729df5b97f5332500454c6",
+        "screen": "deferred",
+        "reason": "Observed object/frame/chart/book page, detail or alternative scan; or muted/repetitive archival motif, not colourful-gallery priority"
+      },
+      {
+        "id": 198830406,
+        "original_sha1": "a6c2408751ea63fb7f89469615a88189ff732b3b",
+        "thumbnail_sha256": "fa15c52a7f6c2e7ae85f24811989dffca800ef515569c140eecf4d7f9d3a8cc6",
+        "contact_sheet_position": 1058,
+        "contact_sheet_sha256": "3d51d63fc8a061bd8b31e829812427d2838bfd69be729df5b97f5332500454c6",
+        "screen": "deferred",
+        "reason": "Observed object/frame/chart/book page, detail or alternative scan; or muted/repetitive archival motif, not colourful-gallery priority"
+      },
+      {
+        "id": 60271810,
+        "original_sha1": "711ff5dbb466d8c5e07eea89ca37650297b1392d",
+        "thumbnail_sha256": "b1513dcc008231ab29a45068cbbd690eeeb0c3a3a886d12bb982427cb1d8ebe4",
+        "contact_sheet_position": 1059,
+        "contact_sheet_sha256": "3d51d63fc8a061bd8b31e829812427d2838bfd69be729df5b97f5332500454c6",
+        "screen": "deferred",
+        "reason": "Observed object/frame/chart/book page, detail or alternative scan; or muted/repetitive archival motif, not colourful-gallery priority"
+      },
+      {
+        "id": 60845950,
+        "original_sha1": "ad818c35140c85672eafb23c03000194d8fec189",
+        "thumbnail_sha256": "93f9bca0e7aa7b1557a804ba90082dc0cc667417e21e0b2f2fbe135249d45bdf",
+        "contact_sheet_position": 1060,
+        "contact_sheet_sha256": "3d51d63fc8a061bd8b31e829812427d2838bfd69be729df5b97f5332500454c6",
+        "screen": "deferred",
+        "reason": "Observed object/frame/chart/book page, detail or alternative scan; or muted/repetitive archival motif, not colourful-gallery priority"
+      },
+      {
+        "id": 60866588,
+        "original_sha1": "8d50ecac5f0b6ad9a6e7b86bb6ff5ec8bef0ff96",
+        "thumbnail_sha256": "76074c43230a81f04e273c9d4533930207c7fef274a854ef93c71c05e2c118dd",
+        "contact_sheet_position": 1061,
+        "contact_sheet_sha256": "3d51d63fc8a061bd8b31e829812427d2838bfd69be729df5b97f5332500454c6",
+        "screen": "deferred",
+        "reason": "Observed object/frame/chart/book page, detail or alternative scan; or muted/repetitive archival motif, not colourful-gallery priority"
+      },
+      {
+        "id": 84534349,
+        "original_sha1": "1a24a8ff09d4804c9f09f0486e77ff3e5c59c93c",
+        "thumbnail_sha256": "bb54cd329965020a72a32a1c4f107628e28bf21b9018f923cddd1d8619ad2fe9",
+        "contact_sheet_position": 1062,
+        "contact_sheet_sha256": "3d51d63fc8a061bd8b31e829812427d2838bfd69be729df5b97f5332500454c6",
+        "screen": "deferred",
+        "reason": "Observed object/frame/chart/book page, detail or alternative scan; or muted/repetitive archival motif, not colourful-gallery priority"
+      },
+      {
+        "id": 22900406,
+        "original_sha1": "b48a104fb1912685ce3fd37e5f4723f48dace5cf",
+        "thumbnail_sha256": "42fbd560376551a7704259d36073c07909de397dc60ba5a089b7b1d2587b4fbc",
+        "contact_sheet_position": 1063,
+        "contact_sheet_sha256": "3d51d63fc8a061bd8b31e829812427d2838bfd69be729df5b97f5332500454c6",
+        "screen": "deferred",
+        "reason": "Observed object/frame/chart/book page, detail or alternative scan; or muted/repetitive archival motif, not colourful-gallery priority"
+      },
+      {
+        "id": 60879708,
+        "original_sha1": "f2634bd114d09d19ec37f5b1f9100f4f13ef9cbc",
+        "thumbnail_sha256": "c567e51df05ecff689e913eff8c21a85f4df83250ce6f7a150040027a6259c06",
+        "contact_sheet_position": 1064,
+        "contact_sheet_sha256": "3d51d63fc8a061bd8b31e829812427d2838bfd69be729df5b97f5332500454c6",
+        "screen": "deferred",
+        "reason": "Observed object/frame/chart/book page, detail or alternative scan; or muted/repetitive archival motif, not colourful-gallery priority"
+      },
+      {
+        "id": 84542181,
+        "original_sha1": "203a730f7bbcda5563f4d2feaa6ee52c1d8ed237",
+        "thumbnail_sha256": "50f88d40b2c17c4a69743348164b35ffaa36ef11fb0ab02b313a68660f91e9f0",
+        "contact_sheet_position": 1065,
+        "contact_sheet_sha256": "3d51d63fc8a061bd8b31e829812427d2838bfd69be729df5b97f5332500454c6",
+        "screen": "deferred",
+        "reason": "Observed object/frame/chart/book page, detail or alternative scan; or muted/repetitive archival motif, not colourful-gallery priority"
+      },
+      {
+        "id": 64690401,
+        "original_sha1": "19540c20b60463a8c24102e88092a35f67dbbfb1",
+        "thumbnail_sha256": "7611654fb592113416fa7d52e0d62318b821f968cf0989c7a7e5bc95d6ce44ed",
+        "contact_sheet_position": 1066,
+        "contact_sheet_sha256": "3d51d63fc8a061bd8b31e829812427d2838bfd69be729df5b97f5332500454c6",
+        "screen": "deferred",
+        "reason": "Observed object/frame/chart/book page, detail or alternative scan; or muted/repetitive archival motif, not colourful-gallery priority"
+      },
+      {
+        "id": 76135230,
+        "original_sha1": "6b0dd7dc8da0b78ca596af1a800f2a3e13c7985c",
+        "thumbnail_sha256": "ac11a0c0a677389f1cc8623a11394be4387ddfc2f52a3ea150d3803d03ab8366",
+        "contact_sheet_position": 1067,
+        "contact_sheet_sha256": "3d51d63fc8a061bd8b31e829812427d2838bfd69be729df5b97f5332500454c6",
+        "screen": "deferred",
+        "reason": "Observed object/frame/chart/book page, detail or alternative scan; or muted/repetitive archival motif, not colourful-gallery priority"
+      },
+      {
+        "id": 182537047,
+        "original_sha1": "7c980f96eb7600b4871553922ae6c0b3706112f3",
+        "thumbnail_sha256": "41830b574e17a57b1717cefa055e717646984a27bbacde27bd557163e626e615",
+        "contact_sheet_position": 1068,
+        "contact_sheet_sha256": "3d51d63fc8a061bd8b31e829812427d2838bfd69be729df5b97f5332500454c6",
+        "screen": "deferred",
+        "reason": "Observed object/frame/chart/book page, detail or alternative scan; or muted/repetitive archival motif, not colourful-gallery priority"
+      },
+      {
+        "id": 141503301,
+        "original_sha1": "ec11b98fd98fee424a904a2661d3e94c100499b4",
+        "thumbnail_sha256": "fe0c2309b7361c944e2eeb1fd4eb4c7f96f0ec7b4af27a24c55150cfc1edd83b",
+        "contact_sheet_position": 1069,
+        "contact_sheet_sha256": "3d51d63fc8a061bd8b31e829812427d2838bfd69be729df5b97f5332500454c6",
+        "screen": "visual first-pass",
+        "reason": "Complete reproduction visually plausible; source, physical proportions and artwork identity require second review"
+      },
+      {
+        "id": 146960839,
+        "original_sha1": "99c01533929d20cf549f18f8a69269e8ffc165e1",
+        "thumbnail_sha256": "997e6f2bb86c3cb6e15d5096306c76f01e28b63dbebd1928be4b767aed193e8f",
+        "contact_sheet_position": 1070,
+        "contact_sheet_sha256": "3d51d63fc8a061bd8b31e829812427d2838bfd69be729df5b97f5332500454c6",
+        "screen": "visual first-pass",
+        "reason": "Complete reproduction visually plausible; source, physical proportions and artwork identity require second review"
+      },
+      {
+        "id": 146945249,
+        "original_sha1": "f4827ec3b7e9904455a80603b4e0260dfe3e1107",
+        "thumbnail_sha256": "ddd5a22715574cd991294e06fa2dd89c17ffed154160716507526a087bca446b",
+        "contact_sheet_position": 1071,
+        "contact_sheet_sha256": "3d51d63fc8a061bd8b31e829812427d2838bfd69be729df5b97f5332500454c6",
+        "screen": "visual first-pass",
+        "reason": "Complete reproduction visually plausible; source, physical proportions and artwork identity require second review"
+      },
+      {
+        "id": 31582691,
+        "original_sha1": "1c98f797fafa9bcfa09d824e78848331773e9736",
+        "thumbnail_sha256": "11602d21a05d2c27e0826896a5ca9f5bb333a016ade5e29a065afa588955e1c9",
+        "contact_sheet_position": 1072,
+        "contact_sheet_sha256": "29545286e95ff2d21612a858c1e016da42f9744f05cfaa9146fa6216fb206c01",
+        "screen": "deferred",
+        "reason": "Observed object/frame/chart/book page, detail or alternative scan; or muted/repetitive archival motif, not colourful-gallery priority"
+      },
+      {
+        "id": 123610673,
+        "original_sha1": "8abed7f65d01e9d591a3909c1561d15cf4d69d87",
+        "thumbnail_sha256": "6fb5601599bbe9766b8c02f9414dcdca8b042564827c790299818ba94efab4dc",
+        "contact_sheet_position": 1073,
+        "contact_sheet_sha256": "29545286e95ff2d21612a858c1e016da42f9744f05cfaa9146fa6216fb206c01",
+        "screen": "deferred",
+        "reason": "Observed object/frame/chart/book page, detail or alternative scan; or muted/repetitive archival motif, not colourful-gallery priority"
+      },
+      {
+        "id": 60840447,
+        "original_sha1": "d8c25d06315aa577ba0e125d6360a89a9d000251",
+        "thumbnail_sha256": "cb5b5eec676d1be2f06de7fc7ced278cc9363270f797325d0837da3c196da2a6",
+        "contact_sheet_position": 1074,
+        "contact_sheet_sha256": "29545286e95ff2d21612a858c1e016da42f9744f05cfaa9146fa6216fb206c01",
+        "screen": "deferred",
+        "reason": "Observed object/frame/chart/book page, detail or alternative scan; or muted/repetitive archival motif, not colourful-gallery priority"
+      },
+      {
+        "id": 29827774,
+        "original_sha1": "302aa6051246b5a57ccf71b40544260fd72181a3",
+        "thumbnail_sha256": "35ee2d37e6d510a366d46c0e72628d7d53e313153baa6facaf3745feb5eab1f9",
+        "contact_sheet_position": 1075,
+        "contact_sheet_sha256": "29545286e95ff2d21612a858c1e016da42f9744f05cfaa9146fa6216fb206c01",
+        "screen": "visual first-pass",
+        "reason": "Complete reproduction visually plausible; source, physical proportions and artwork identity require second review"
+      },
+      {
+        "id": 27479246,
+        "original_sha1": "24f9fd1193ed1a24fc8ae2f896a5c701bb22fc29",
+        "thumbnail_sha256": "69a50e79450dc185f6935213048e9a4e7778e893a6950a46f88e0376e6c7ba2a",
+        "contact_sheet_position": 1076,
+        "contact_sheet_sha256": "29545286e95ff2d21612a858c1e016da42f9744f05cfaa9146fa6216fb206c01",
+        "screen": "deferred",
+        "reason": "Observed object/frame/chart/book page, detail or alternative scan; or muted/repetitive archival motif, not colourful-gallery priority"
+      },
+      {
+        "id": 177597787,
+        "original_sha1": "7df23639d2aee1660f2b5a6358b8609a85357536",
+        "thumbnail_sha256": "e38beb07a05aba78fd0011a38516a9a1560c48a6833a81c9e7beee2d1768ff6d",
+        "contact_sheet_position": 1077,
+        "contact_sheet_sha256": "29545286e95ff2d21612a858c1e016da42f9744f05cfaa9146fa6216fb206c01",
+        "screen": "deferred",
+        "reason": "Observed object/frame/chart/book page, detail or alternative scan; or muted/repetitive archival motif, not colourful-gallery priority"
+      },
+      {
+        "id": 177276937,
+        "original_sha1": "a757d9a5eaaf42dc9a740891b43ae8bd51e4579d",
+        "thumbnail_sha256": "e2043cc67d6d747e5ab0713ba98b9cd615d0602095dca52482051ddbed8bc5ed",
+        "contact_sheet_position": 1078,
+        "contact_sheet_sha256": "29545286e95ff2d21612a858c1e016da42f9744f05cfaa9146fa6216fb206c01",
+        "screen": "deferred",
+        "reason": "Observed object/frame/chart/book page, detail or alternative scan; or muted/repetitive archival motif, not colourful-gallery priority"
+      },
+      {
+        "id": 148659,
+        "original_sha1": "0f53d0073cc542049923263561b4fc8d42d2ff9e",
+        "thumbnail_sha256": "2f506803cea065a442bc4467592cc10f458c83b83300a711dbeeecc7f012aa1f",
+        "contact_sheet_position": 1079,
+        "contact_sheet_sha256": "29545286e95ff2d21612a858c1e016da42f9744f05cfaa9146fa6216fb206c01",
+        "screen": "visual first-pass",
+        "reason": "Complete reproduction visually plausible; source, physical proportions and artwork identity require second review"
+      },
+      {
+        "id": 187535020,
+        "original_sha1": "d178de42cdbbdd6290015dbb2795b4b4a19d6b0a",
+        "thumbnail_sha256": "20fd1a508322f4684ee081535cc0d1ff9864d5c08cd1883fa8ddaf612fe1aa27",
+        "contact_sheet_position": 1080,
+        "contact_sheet_sha256": "29545286e95ff2d21612a858c1e016da42f9744f05cfaa9146fa6216fb206c01",
+        "screen": "visual first-pass",
+        "reason": "Complete reproduction visually plausible; source, physical proportions and artwork identity require second review"
+      },
+      {
+        "id": 69367476,
+        "original_sha1": "e384e268cc78182ce3ee2dd9edad39ae1dca00f5",
+        "thumbnail_sha256": "a0a1f80dc98638c641654de9146694191f35d6dcb0da11583a574226f470539c",
+        "contact_sheet_position": 1081,
+        "contact_sheet_sha256": "29545286e95ff2d21612a858c1e016da42f9744f05cfaa9146fa6216fb206c01",
+        "screen": "deferred",
+        "reason": "Observed object/frame/chart/book page, detail or alternative scan; or muted/repetitive archival motif, not colourful-gallery priority"
+      },
+      {
+        "id": 69367477,
+        "original_sha1": "97d9f99d46c269934816d451e71f835a7a20518c",
+        "thumbnail_sha256": "073f19415d41d3f96f9d889a4928578e3e6542634208f23886ba17695be8b712",
+        "contact_sheet_position": 1082,
+        "contact_sheet_sha256": "29545286e95ff2d21612a858c1e016da42f9744f05cfaa9146fa6216fb206c01",
+        "screen": "visual first-pass",
+        "reason": "Complete reproduction visually plausible; source, physical proportions and artwork identity require second review"
+      },
+      {
+        "id": 69367478,
+        "original_sha1": "71703a173c7bd0771f55274d768425c6f3e040df",
+        "thumbnail_sha256": "f47eaba9bf84437d911fa697cdd992f67dd5f57a0202226b2c214b97d6691cc6",
+        "contact_sheet_position": 1083,
+        "contact_sheet_sha256": "29545286e95ff2d21612a858c1e016da42f9744f05cfaa9146fa6216fb206c01",
+        "screen": "visual first-pass",
+        "reason": "Complete reproduction visually plausible; source, physical proportions and artwork identity require second review"
+      },
+      {
+        "id": 163237228,
+        "original_sha1": "85408e23e35aab2374f8a88b4c508ba562fc8597",
+        "thumbnail_sha256": "8cc8a40b9fd802dbd28a97924cf571b4b8ed72df7de105477429378715511ee4",
+        "contact_sheet_position": 1084,
+        "contact_sheet_sha256": "29545286e95ff2d21612a858c1e016da42f9744f05cfaa9146fa6216fb206c01",
+        "screen": "deferred",
+        "reason": "Observed object/frame/chart/book page, detail or alternative scan; or muted/repetitive archival motif, not colourful-gallery priority"
+      },
+      {
+        "id": 57856500,
+        "original_sha1": "833c08fbacd2928fb3e52cd094fe546bf6fb2a06",
+        "thumbnail_sha256": "d2fce7018a7e36e6fd321415fb586d1e8de28104895d22c029301daeef16a4c4",
+        "contact_sheet_position": 1085,
+        "contact_sheet_sha256": "29545286e95ff2d21612a858c1e016da42f9744f05cfaa9146fa6216fb206c01",
+        "screen": "deferred",
+        "reason": "Observed object/frame/chart/book page, detail or alternative scan; or muted/repetitive archival motif, not colourful-gallery priority"
+      },
+      {
+        "id": 57856504,
+        "original_sha1": "74e5c252454efa5388ca807f8c22edc76d9bdb12",
+        "thumbnail_sha256": "0c8fd04cca22e2d873af5729162d009c8076f48cd1c78c4da00c27a41fcf5053",
+        "contact_sheet_position": 1086,
+        "contact_sheet_sha256": "29545286e95ff2d21612a858c1e016da42f9744f05cfaa9146fa6216fb206c01",
+        "screen": "deferred",
+        "reason": "Observed object/frame/chart/book page, detail or alternative scan; or muted/repetitive archival motif, not colourful-gallery priority"
+      },
+      {
+        "id": 129527227,
+        "original_sha1": "60dd1877503afc4a81f501632d76a47ecd2296d9",
+        "thumbnail_sha256": "e573422d8beb81cc7cfcbefad457fd5e1fe29b39f603e7f291d3c620a5791093",
+        "contact_sheet_position": 1087,
+        "contact_sheet_sha256": "29545286e95ff2d21612a858c1e016da42f9744f05cfaa9146fa6216fb206c01",
+        "screen": "deferred",
+        "reason": "Observed object/frame/chart/book page, detail or alternative scan; or muted/repetitive archival motif, not colourful-gallery priority"
+      },
+      {
+        "id": 60846795,
+        "original_sha1": "5ff33fcefaf3dacffc37a531c5728aaa10101ce3",
+        "thumbnail_sha256": "1fc06543209f19a06ba185546d9d410993213fea9186f2494e90fa84dd3f65e1",
+        "contact_sheet_position": 1088,
+        "contact_sheet_sha256": "a0929e6db42fd538cc02302e462b07f5ea15f149cfd13824202b418be54fb9fa",
+        "screen": "deferred",
+        "reason": "Observed object/frame/chart/book page, detail or alternative scan; or muted/repetitive archival motif, not colourful-gallery priority"
+      },
+      {
+        "id": 149994747,
+        "original_sha1": "bf7e3a22e81dbff1631a6373712f521754c26e2f",
+        "thumbnail_sha256": "27acf21ca3f1599a5413fd8abaa64ee649b2a78018d9790cec3129cd81c39fac",
+        "contact_sheet_position": 1089,
+        "contact_sheet_sha256": "a0929e6db42fd538cc02302e462b07f5ea15f149cfd13824202b418be54fb9fa",
+        "screen": "visual first-pass",
+        "reason": "Complete reproduction visually plausible; source, physical proportions and artwork identity require second review"
+      },
+      {
+        "id": 129109478,
+        "original_sha1": "da4a7a2b250598fa7647cec31ef9f493ace75c82",
+        "thumbnail_sha256": "deb6fbbdbfeadbb786144360db7e8578966e55f59b443a367c9073878a046572",
+        "contact_sheet_position": 1090,
+        "contact_sheet_sha256": "a0929e6db42fd538cc02302e462b07f5ea15f149cfd13824202b418be54fb9fa",
+        "screen": "deferred",
+        "reason": "Observed object/frame/chart/book page, detail or alternative scan; or muted/repetitive archival motif, not colourful-gallery priority"
+      },
+      {
+        "id": 143964065,
+        "original_sha1": "820ff8e33239ae0898081d7dad1111a6cc151a23",
+        "thumbnail_sha256": "8b0323e145dc8bc5abe6eb40412b396531f2308566a0029e77185f06e2d0d36b",
+        "contact_sheet_position": 1091,
+        "contact_sheet_sha256": "a0929e6db42fd538cc02302e462b07f5ea15f149cfd13824202b418be54fb9fa",
+        "screen": "deferred",
+        "reason": "Observed object/frame/chart/book page, detail or alternative scan; or muted/repetitive archival motif, not colourful-gallery priority"
+      },
+      {
+        "id": 198654727,
+        "original_sha1": "baa79020fe391586b106b05f99b09b0719a73e43",
+        "thumbnail_sha256": "068963bff78ddcd8ad4d45b6576d61bba81d644d5c6c49ba1ff8e253deb492d3",
+        "contact_sheet_position": 1092,
+        "contact_sheet_sha256": "a0929e6db42fd538cc02302e462b07f5ea15f149cfd13824202b418be54fb9fa",
+        "screen": "deferred",
+        "reason": "Observed object/frame/chart/book page, detail or alternative scan; or muted/repetitive archival motif, not colourful-gallery priority"
+      },
+      {
+        "id": 74875819,
+        "original_sha1": "86ac68c04c7ce91b1a7578300f838e57df758c42",
+        "thumbnail_sha256": "fd624c2646f8ce416da0163e68c1992e4f7231a0b76ed1696ad5ca8d447b7558",
+        "contact_sheet_position": 1093,
+        "contact_sheet_sha256": "a0929e6db42fd538cc02302e462b07f5ea15f149cfd13824202b418be54fb9fa",
+        "screen": "deferred",
+        "reason": "Observed object/frame/chart/book page, detail or alternative scan; or muted/repetitive archival motif, not colourful-gallery priority"
+      },
+      {
+        "id": 194144549,
+        "original_sha1": "842ee7c770318e6c896cefedf5480ad4643a9581",
+        "thumbnail_sha256": "d6d868ad360f950a5aba93b5f902e5d74702f4c0f5ecbee1ff2067b1eea2e923",
+        "contact_sheet_position": 1094,
+        "contact_sheet_sha256": "a0929e6db42fd538cc02302e462b07f5ea15f149cfd13824202b418be54fb9fa",
+        "screen": "deferred",
+        "reason": "Observed object/frame/chart/book page, detail or alternative scan; or muted/repetitive archival motif, not colourful-gallery priority"
+      },
+      {
+        "id": 194557045,
+        "original_sha1": "86ad5439746270b51f0aa4b05ea2332f4bf07f27",
+        "thumbnail_sha256": "6d37c67299ff05ad1669e6a5c731b90bd2794ea1534e849ba11a6e583529877a",
+        "contact_sheet_position": 1095,
+        "contact_sheet_sha256": "a0929e6db42fd538cc02302e462b07f5ea15f149cfd13824202b418be54fb9fa",
+        "screen": "deferred",
+        "reason": "Observed object/frame/chart/book page, detail or alternative scan; or muted/repetitive archival motif, not colourful-gallery priority"
+      },
+      {
+        "id": 165662058,
+        "original_sha1": "6a1c8cbf33f21c76ac87be36464712e3b2624f3f",
+        "thumbnail_sha256": "1e059c180cd22112e0caa807fb7ccb5bb78e5580a73928822f06871d4fb522e7",
+        "contact_sheet_position": 1096,
+        "contact_sheet_sha256": "a0929e6db42fd538cc02302e462b07f5ea15f149cfd13824202b418be54fb9fa",
+        "screen": "deferred",
+        "reason": "Observed object/frame/chart/book page, detail or alternative scan; or muted/repetitive archival motif, not colourful-gallery priority"
+      },
+      {
+        "id": 121851169,
+        "original_sha1": "bf4dc67b818122e8568abebbe16e65c654a484e2",
+        "thumbnail_sha256": "c6775a8db9b4ba9c1a90b28f221a78baeeaad14788262e46384cf04494ee7ad5",
+        "contact_sheet_position": 1097,
+        "contact_sheet_sha256": "a0929e6db42fd538cc02302e462b07f5ea15f149cfd13824202b418be54fb9fa",
+        "screen": "deferred",
+        "reason": "Observed object/frame/chart/book page, detail or alternative scan; or muted/repetitive archival motif, not colourful-gallery priority"
+      },
+      {
+        "id": 122077181,
+        "original_sha1": "5dc420ebb5f00078e35f80f670c9df73e58a31f4",
+        "thumbnail_sha256": "3c49ab6e1dd130220d9b18a64600c686598d73eaca96bb97709428d7c15663d9",
+        "contact_sheet_position": 1098,
+        "contact_sheet_sha256": "a0929e6db42fd538cc02302e462b07f5ea15f149cfd13824202b418be54fb9fa",
+        "screen": "deferred",
+        "reason": "Observed object/frame/chart/book page, detail or alternative scan; or muted/repetitive archival motif, not colourful-gallery priority"
+      },
+      {
+        "id": 76029923,
+        "original_sha1": "3c1dd78cc13a505762b26234ac5344d9b2c5bcd1",
+        "thumbnail_sha256": "cedf2cfdd8ebf1fc6c5817154eb62215ee212f0476cc1ee83679a124be137792",
+        "contact_sheet_position": 1099,
+        "contact_sheet_sha256": "a0929e6db42fd538cc02302e462b07f5ea15f149cfd13824202b418be54fb9fa",
+        "screen": "deferred",
+        "reason": "Observed object/frame/chart/book page, detail or alternative scan; or muted/repetitive archival motif, not colourful-gallery priority"
+      },
+      {
+        "id": 113022938,
+        "original_sha1": "3ab9801048af85df48483dbb27920e0540d9683d",
+        "thumbnail_sha256": "b38f286c96f5ffc4a3b7f3296a122b6e251592b8485ea87d6298bcafa4296646",
+        "contact_sheet_position": 1100,
+        "contact_sheet_sha256": "a0929e6db42fd538cc02302e462b07f5ea15f149cfd13824202b418be54fb9fa",
+        "screen": "deferred",
+        "reason": "Observed object/frame/chart/book page, detail or alternative scan; or muted/repetitive archival motif, not colourful-gallery priority"
+      },
+      {
+        "id": 186468055,
+        "original_sha1": "ce70c2fe5ff7cd88241670c3afd84c6ed6fd20d1",
+        "thumbnail_sha256": "6bfd2b6bd9702075571f5967e21ede989fbf24f26e4e8ef8229d8e6dd7770689",
+        "contact_sheet_position": 1101,
+        "contact_sheet_sha256": "a0929e6db42fd538cc02302e462b07f5ea15f149cfd13824202b418be54fb9fa",
+        "screen": "deferred",
+        "reason": "Observed object/frame/chart/book page, detail or alternative scan; or muted/repetitive archival motif, not colourful-gallery priority"
+      },
+      {
+        "id": 166265763,
+        "original_sha1": "a258e432d7ebd6ce53b1ba04dc43e4843a09dab5",
+        "thumbnail_sha256": "1135b3bd729c204d3f8c5ee7bfcee773290ea3533110ed62d3e66c0bfa0826c2",
+        "contact_sheet_position": 1102,
+        "contact_sheet_sha256": "a0929e6db42fd538cc02302e462b07f5ea15f149cfd13824202b418be54fb9fa",
+        "screen": "visual first-pass",
+        "reason": "Complete reproduction visually plausible; source, physical proportions and artwork identity require second review"
+      },
+      {
+        "id": 83775989,
+        "original_sha1": "928de0b636bf4158bf87563dae35f9d3e7df67fa",
+        "thumbnail_sha256": "03228cbd4f09da0e90cb2af6332d15ddd627576b64fc6eddee1c00c46e7bef45",
+        "contact_sheet_position": 1103,
+        "contact_sheet_sha256": "a0929e6db42fd538cc02302e462b07f5ea15f149cfd13824202b418be54fb9fa",
+        "screen": "visual first-pass",
+        "reason": "Complete reproduction visually plausible; source, physical proportions and artwork identity require second review"
+      },
+      {
+        "id": 83838591,
+        "original_sha1": "137264405bfb5c41aacae6fcd16137e95e81ac78",
+        "thumbnail_sha256": "807afe224717ea8fe5d81b72d577a927df0027069a81ef3f66c28947ace3c806",
+        "contact_sheet_position": 1104,
+        "contact_sheet_sha256": "199321ad89b943fad5f07f6f68ae4323a77fdf1aeae2569eae45c3a422d8e7f9",
+        "screen": "deferred",
+        "reason": "Observed object/frame/chart/book page, detail or alternative scan; or muted/repetitive archival motif, not colourful-gallery priority"
+      },
+      {
+        "id": 84497094,
+        "original_sha1": "e29ece4a317895d0c128e2e9ca4d6c35880f6137",
+        "thumbnail_sha256": "996a08127cda0b7e1e15e087f9eb768fa3d91d8b2d442883e8983025fb540d5d",
+        "contact_sheet_position": 1105,
+        "contact_sheet_sha256": "199321ad89b943fad5f07f6f68ae4323a77fdf1aeae2569eae45c3a422d8e7f9",
+        "screen": "deferred",
+        "reason": "Observed object/frame/chart/book page, detail or alternative scan; or muted/repetitive archival motif, not colourful-gallery priority"
+      },
+      {
+        "id": 84595524,
+        "original_sha1": "3bd496b7cc7c2a32c5713a3ab38f58ec8d397983",
+        "thumbnail_sha256": "f3aeec0519a8caa5c70828d2aa035d60cd8bcdd00688eb1d738559c99a2c619f",
+        "contact_sheet_position": 1106,
+        "contact_sheet_sha256": "199321ad89b943fad5f07f6f68ae4323a77fdf1aeae2569eae45c3a422d8e7f9",
+        "screen": "deferred",
+        "reason": "Observed object/frame/chart/book page, detail or alternative scan; or muted/repetitive archival motif, not colourful-gallery priority"
+      },
+      {
+        "id": 84625273,
+        "original_sha1": "d2a90fdb747ee368ced3f6146ca4115cd713ea6f",
+        "thumbnail_sha256": "1abc073a9b58a56dc34542145d3b757c02d459e63e1577b1479480a16a0cd787",
+        "contact_sheet_position": 1107,
+        "contact_sheet_sha256": "199321ad89b943fad5f07f6f68ae4323a77fdf1aeae2569eae45c3a422d8e7f9",
+        "screen": "deferred",
+        "reason": "Observed object/frame/chart/book page, detail or alternative scan; or muted/repetitive archival motif, not colourful-gallery priority"
+      },
+      {
+        "id": 84697278,
+        "original_sha1": "8fe50f190a2106ec0023b3307f7e42932e8e315c",
+        "thumbnail_sha256": "930ec3e68b76ae3b829f10ff93605e8a7ba5fb43ff64613e2cf3a4b0909240b8",
+        "contact_sheet_position": 1108,
+        "contact_sheet_sha256": "199321ad89b943fad5f07f6f68ae4323a77fdf1aeae2569eae45c3a422d8e7f9",
+        "screen": "deferred",
+        "reason": "Observed object/frame/chart/book page, detail or alternative scan; or muted/repetitive archival motif, not colourful-gallery priority"
+      },
+      {
+        "id": 84757026,
+        "original_sha1": "407e9baa97b7de6ddb088c5e9d744d53a2d6782a",
+        "thumbnail_sha256": "cea25455a772e4ce1fa562693881d50e5de9285425222334d659df2d3cd01d1b",
+        "contact_sheet_position": 1109,
+        "contact_sheet_sha256": "199321ad89b943fad5f07f6f68ae4323a77fdf1aeae2569eae45c3a422d8e7f9",
+        "screen": "visual first-pass",
+        "reason": "Complete reproduction visually plausible; source, physical proportions and artwork identity require second review"
+      },
+      {
+        "id": 85172897,
+        "original_sha1": "c85b37cc2bc4097f371cd4a6968ffd1c8e83f15e",
+        "thumbnail_sha256": "deaabe03dd55fd72da5be87a9fd2675cce8b940d815ae2d784df1c29c1fddbd1",
+        "contact_sheet_position": 1110,
+        "contact_sheet_sha256": "199321ad89b943fad5f07f6f68ae4323a77fdf1aeae2569eae45c3a422d8e7f9",
+        "screen": "deferred",
+        "reason": "Observed object/frame/chart/book page, detail or alternative scan; or muted/repetitive archival motif, not colourful-gallery priority"
+      },
+      {
+        "id": 147516100,
+        "original_sha1": "f6132f517ac01d4f3d99f8bda27f079b984a0b70",
+        "thumbnail_sha256": "44a5080ce9102023e34b63c74345b9c72fda2ef10d791f220bee4f90115b63ae",
+        "contact_sheet_position": 1111,
+        "contact_sheet_sha256": "199321ad89b943fad5f07f6f68ae4323a77fdf1aeae2569eae45c3a422d8e7f9",
+        "screen": "deferred",
+        "reason": "Observed object/frame/chart/book page, detail or alternative scan; or muted/repetitive archival motif, not colourful-gallery priority"
+      },
+      {
+        "id": 147534150,
+        "original_sha1": "5e1a075c5f4b4fb5719222fd028a539aa63b8578",
+        "thumbnail_sha256": "ff7977517304f810a50b26f92c13e6dbaadfbb066d9fc253c0474b4c82a52395",
+        "contact_sheet_position": 1112,
+        "contact_sheet_sha256": "199321ad89b943fad5f07f6f68ae4323a77fdf1aeae2569eae45c3a422d8e7f9",
+        "screen": "deferred",
+        "reason": "Observed object/frame/chart/book page, detail or alternative scan; or muted/repetitive archival motif, not colourful-gallery priority"
+      },
+      {
+        "id": 147534320,
+        "original_sha1": "4777350c95d1fedea1a8d661cbb0ceecf58ca953",
+        "thumbnail_sha256": "cf76cf7f345d5af9960abc5dd200de40152e08a3e818cc11f20308147a3390a1",
+        "contact_sheet_position": 1113,
+        "contact_sheet_sha256": "199321ad89b943fad5f07f6f68ae4323a77fdf1aeae2569eae45c3a422d8e7f9",
+        "screen": "deferred",
+        "reason": "Observed object/frame/chart/book page, detail or alternative scan; or muted/repetitive archival motif, not colourful-gallery priority"
+      },
+      {
+        "id": 147534756,
+        "original_sha1": "f73c1b657f7532e82f1b17bbc8642eb97d218175",
+        "thumbnail_sha256": "1c6990a2dbd3cc594cf4b5fc4d3768c8e7e731a257722a60062761d58f44ad91",
+        "contact_sheet_position": 1114,
+        "contact_sheet_sha256": "199321ad89b943fad5f07f6f68ae4323a77fdf1aeae2569eae45c3a422d8e7f9",
+        "screen": "deferred",
+        "reason": "Observed object/frame/chart/book page, detail or alternative scan; or muted/repetitive archival motif, not colourful-gallery priority"
+      },
+      {
+        "id": 147535009,
+        "original_sha1": "e86e9a075ea96ba68b87fee8417a5d6c0f6a8986",
+        "thumbnail_sha256": "9dd1714202ee753c32ada26fc7f400b95d3bd9e1e2dc9e0842579df6c9ecb667",
+        "contact_sheet_position": 1115,
+        "contact_sheet_sha256": "199321ad89b943fad5f07f6f68ae4323a77fdf1aeae2569eae45c3a422d8e7f9",
+        "screen": "deferred",
+        "reason": "Observed object/frame/chart/book page, detail or alternative scan; or muted/repetitive archival motif, not colourful-gallery priority"
+      },
+      {
+        "id": 147535363,
+        "original_sha1": "280f75a42e3b3c264ba4a7c9d3c57aab81596363",
+        "thumbnail_sha256": "75cd36218b622494553c8e35f11886892d18bf634c8551a4f0fe5a4483024d53",
+        "contact_sheet_position": 1116,
+        "contact_sheet_sha256": "199321ad89b943fad5f07f6f68ae4323a77fdf1aeae2569eae45c3a422d8e7f9",
+        "screen": "deferred",
+        "reason": "Observed object/frame/chart/book page, detail or alternative scan; or muted/repetitive archival motif, not colourful-gallery priority"
+      },
+      {
+        "id": 147535397,
+        "original_sha1": "f2d403444e5143d3e7ed00923fd6820ac2841b3c",
+        "thumbnail_sha256": "75cd36218b622494553c8e35f11886892d18bf634c8551a4f0fe5a4483024d53",
+        "contact_sheet_position": 1117,
+        "contact_sheet_sha256": "199321ad89b943fad5f07f6f68ae4323a77fdf1aeae2569eae45c3a422d8e7f9",
+        "screen": "deferred",
+        "reason": "Observed object/frame/chart/book page, detail or alternative scan; or muted/repetitive archival motif, not colourful-gallery priority"
+      },
+      {
+        "id": 147535452,
+        "original_sha1": "0842afb073495aaa11440d97547f6f4091ac16fe",
+        "thumbnail_sha256": "e3d72c6a47436e9dd20210c8a177f182fb79e29bd7640475ac71618d655b659e",
+        "contact_sheet_position": 1118,
+        "contact_sheet_sha256": "199321ad89b943fad5f07f6f68ae4323a77fdf1aeae2569eae45c3a422d8e7f9",
+        "screen": "deferred",
+        "reason": "Observed object/frame/chart/book page, detail or alternative scan; or muted/repetitive archival motif, not colourful-gallery priority"
+      },
+      {
+        "id": 147535500,
+        "original_sha1": "20f2b01984368776fe8a88915eeb4cf9fd03e99a",
+        "thumbnail_sha256": "e3d72c6a47436e9dd20210c8a177f182fb79e29bd7640475ac71618d655b659e",
+        "contact_sheet_position": 1119,
+        "contact_sheet_sha256": "199321ad89b943fad5f07f6f68ae4323a77fdf1aeae2569eae45c3a422d8e7f9",
+        "screen": "deferred",
+        "reason": "Observed object/frame/chart/book page, detail or alternative scan; or muted/repetitive archival motif, not colourful-gallery priority"
+      },
+      {
+        "id": 147535594,
+        "original_sha1": "dee87066433b43f4873a7aa89be6b1dce3117744",
+        "thumbnail_sha256": "d481c82c7f35155eb6287f3ff285f4cfc1f65c73a6b08b672ad8a34af77ec9ac",
+        "contact_sheet_position": 1120,
+        "contact_sheet_sha256": "446cb41287e99ef3dccb5cae3a6db7e9210fa534b25ddb20500a2448fe5853d9",
+        "screen": "deferred",
+        "reason": "Observed object/frame/chart/book page, detail or alternative scan; or muted/repetitive archival motif, not colourful-gallery priority"
+      },
+      {
+        "id": 147535655,
+        "original_sha1": "9835e1a6fce450f0ad182d0811a22cf52c6b8ecc",
+        "thumbnail_sha256": "648178d15dcb5e5477bc79dd9cc6aec6a82a9b94f8516d7899472af0b8f90460",
+        "contact_sheet_position": 1121,
+        "contact_sheet_sha256": "446cb41287e99ef3dccb5cae3a6db7e9210fa534b25ddb20500a2448fe5853d9",
+        "screen": "deferred",
+        "reason": "Observed object/frame/chart/book page, detail or alternative scan; or muted/repetitive archival motif, not colourful-gallery priority"
+      },
+      {
+        "id": 147535703,
+        "original_sha1": "c9d21dac9afbd0ea58291d619828017b9b81d2ae",
+        "thumbnail_sha256": "648178d15dcb5e5477bc79dd9cc6aec6a82a9b94f8516d7899472af0b8f90460",
+        "contact_sheet_position": 1122,
+        "contact_sheet_sha256": "446cb41287e99ef3dccb5cae3a6db7e9210fa534b25ddb20500a2448fe5853d9",
+        "screen": "deferred",
+        "reason": "Observed object/frame/chart/book page, detail or alternative scan; or muted/repetitive archival motif, not colourful-gallery priority"
+      },
+      {
+        "id": 147535742,
+        "original_sha1": "290306a08ff79c6c9dd5638cc136bfa5b510f022",
+        "thumbnail_sha256": "8ea05f2b965c858ce1ead4b16208891a6fb36fc246c436d7ce037aec6719c115",
+        "contact_sheet_position": 1123,
+        "contact_sheet_sha256": "446cb41287e99ef3dccb5cae3a6db7e9210fa534b25ddb20500a2448fe5853d9",
+        "screen": "deferred",
+        "reason": "Observed object/frame/chart/book page, detail or alternative scan; or muted/repetitive archival motif, not colourful-gallery priority"
+      },
+      {
+        "id": 147536037,
+        "original_sha1": "388a46d97a373e1b570144b274c5456671a2da34",
+        "thumbnail_sha256": "8ea05f2b965c858ce1ead4b16208891a6fb36fc246c436d7ce037aec6719c115",
+        "contact_sheet_position": 1124,
+        "contact_sheet_sha256": "446cb41287e99ef3dccb5cae3a6db7e9210fa534b25ddb20500a2448fe5853d9",
+        "screen": "deferred",
+        "reason": "Observed object/frame/chart/book page, detail or alternative scan; or muted/repetitive archival motif, not colourful-gallery priority"
+      },
+      {
+        "id": 147536107,
+        "original_sha1": "817fa3f2c316961ce69234c0b1ff8750a53d3efe",
+        "thumbnail_sha256": "b61184764798b1b39563136fd4688c4edb66b4ce656f365a8365e042e04b0498",
+        "contact_sheet_position": 1125,
+        "contact_sheet_sha256": "446cb41287e99ef3dccb5cae3a6db7e9210fa534b25ddb20500a2448fe5853d9",
+        "screen": "deferred",
+        "reason": "Observed object/frame/chart/book page, detail or alternative scan; or muted/repetitive archival motif, not colourful-gallery priority"
+      },
+      {
+        "id": 147536207,
+        "original_sha1": "9dcdc381c23986fee8acdbe4db00821d12eeefd8",
+        "thumbnail_sha256": "8e9769222fc6da3d4601c0bb3919abcf2bc72ac6b6c20a37a7217d26cb914ac0",
+        "contact_sheet_position": 1126,
+        "contact_sheet_sha256": "446cb41287e99ef3dccb5cae3a6db7e9210fa534b25ddb20500a2448fe5853d9",
+        "screen": "deferred",
+        "reason": "Observed object/frame/chart/book page, detail or alternative scan; or muted/repetitive archival motif, not colourful-gallery priority"
+      },
+      {
+        "id": 147536344,
+        "original_sha1": "812ca90bcf0866b7825367741c8d163ac2f436d8",
+        "thumbnail_sha256": "2e1f0f5f8f8fbb756ca0d45a6120574d4cafc99bbd959b25c540e4e9ca53dc2b",
+        "contact_sheet_position": 1127,
+        "contact_sheet_sha256": "446cb41287e99ef3dccb5cae3a6db7e9210fa534b25ddb20500a2448fe5853d9",
+        "screen": "deferred",
+        "reason": "Observed object/frame/chart/book page, detail or alternative scan; or muted/repetitive archival motif, not colourful-gallery priority"
+      },
+      {
+        "id": 147536474,
+        "original_sha1": "5956990cb76c1a4554da5788374c3f843cd88fa3",
+        "thumbnail_sha256": "7819ad10235e1181efae86b04b606b811c020b7068baf345dba44124fa036f81",
+        "contact_sheet_position": 1128,
+        "contact_sheet_sha256": "446cb41287e99ef3dccb5cae3a6db7e9210fa534b25ddb20500a2448fe5853d9",
+        "screen": "deferred",
+        "reason": "Observed object/frame/chart/book page, detail or alternative scan; or muted/repetitive archival motif, not colourful-gallery priority"
+      },
+      {
+        "id": 147537128,
+        "original_sha1": "12534d7b69793798730a47df2c0945c447b99755",
+        "thumbnail_sha256": "afc350e528ddf66527b053b2bfef8f8ce3e38aed43453a68cb139640e73c11b5",
+        "contact_sheet_position": 1129,
+        "contact_sheet_sha256": "446cb41287e99ef3dccb5cae3a6db7e9210fa534b25ddb20500a2448fe5853d9",
+        "screen": "deferred",
+        "reason": "Observed object/frame/chart/book page, detail or alternative scan; or muted/repetitive archival motif, not colourful-gallery priority"
+      },
+      {
+        "id": 21971240,
+        "original_sha1": "140370f11ed1098e8a5f40a9d46f3b7a0a2f6d5e",
+        "thumbnail_sha256": "1c35890153b2004dd69e49b4821a5989a1acc8e9890dead3d37131c73a0a3556",
+        "contact_sheet_position": 1130,
+        "contact_sheet_sha256": "446cb41287e99ef3dccb5cae3a6db7e9210fa534b25ddb20500a2448fe5853d9",
+        "screen": "deferred",
+        "reason": "Observed object/frame/chart/book page, detail or alternative scan; or muted/repetitive archival motif, not colourful-gallery priority"
+      },
+      {
+        "id": 22213418,
+        "original_sha1": "7bf04cab847cd8050aebbfb8939262041fc0ae84",
+        "thumbnail_sha256": "4d5c97dd2afe15a5a5ccabe6a94fcd8864bf5f80442bccb27b4e59e57dc712c6",
+        "contact_sheet_position": 1131,
+        "contact_sheet_sha256": "446cb41287e99ef3dccb5cae3a6db7e9210fa534b25ddb20500a2448fe5853d9",
+        "screen": "deferred",
+        "reason": "Observed object/frame/chart/book page, detail or alternative scan; or muted/repetitive archival motif, not colourful-gallery priority"
+      },
+      {
+        "id": 84012713,
+        "original_sha1": "49f6d66c7826cded70f3bb8102a3e85c6f727dff",
+        "thumbnail_sha256": "168c303e7d7d56ded7d128a21486b9c17a30011c6340fbab65afadaf48487018",
+        "contact_sheet_position": 1132,
+        "contact_sheet_sha256": "446cb41287e99ef3dccb5cae3a6db7e9210fa534b25ddb20500a2448fe5853d9",
+        "screen": "deferred",
+        "reason": "Observed object/frame/chart/book page, detail or alternative scan; or muted/repetitive archival motif, not colourful-gallery priority"
+      },
+      {
+        "id": 84115175,
+        "original_sha1": "4b07b92df9af698b9235b7bcb99a842638a73665",
+        "thumbnail_sha256": "8623757495bc57e957c418eb4199a5fc5777f548c5d87badba301147b71ee3a9",
+        "contact_sheet_position": 1133,
+        "contact_sheet_sha256": "446cb41287e99ef3dccb5cae3a6db7e9210fa534b25ddb20500a2448fe5853d9",
+        "screen": "visual first-pass",
+        "reason": "Complete reproduction visually plausible; source, physical proportions and artwork identity require second review"
+      },
+      {
+        "id": 84175619,
+        "original_sha1": "634576feb732e416d5b5b75c4a4f53155352f29b",
+        "thumbnail_sha256": "b703de37276decd855479b99337b44809a3b8339629d48e470ca84c918caadcf",
+        "contact_sheet_position": 1134,
+        "contact_sheet_sha256": "446cb41287e99ef3dccb5cae3a6db7e9210fa534b25ddb20500a2448fe5853d9",
+        "screen": "deferred",
+        "reason": "Observed object/frame/chart/book page, detail or alternative scan; or muted/repetitive archival motif, not colourful-gallery priority"
+      },
+      {
+        "id": 84269865,
+        "original_sha1": "687a5280aca47bbdbbc4eda5a7caa09c36310e52",
+        "thumbnail_sha256": "7c479ae811add89800aa28c88175789bf68a73de5c1ab0f6678a549c00529753",
+        "contact_sheet_position": 1135,
+        "contact_sheet_sha256": "446cb41287e99ef3dccb5cae3a6db7e9210fa534b25ddb20500a2448fe5853d9",
+        "screen": "deferred",
+        "reason": "Observed object/frame/chart/book page, detail or alternative scan; or muted/repetitive archival motif, not colourful-gallery priority"
+      },
+      {
+        "id": 84366912,
+        "original_sha1": "54de5b2740a4c83ee3c53d78df58c1b138e4baf1",
+        "thumbnail_sha256": "a79397caa6b8d7bfa4b0806ad965877590ebee6b847881f6b9a3c4d1411554c4",
+        "contact_sheet_position": 1136,
+        "contact_sheet_sha256": "db991fa1fe2e6435f547c927710dedf26a9f280fd6be90ede47c7b1607c32fee",
+        "screen": "deferred",
+        "reason": "Observed object/frame/chart/book page, detail or alternative scan; or muted/repetitive archival motif, not colourful-gallery priority"
+      },
+      {
+        "id": 84459025,
+        "original_sha1": "208cd39f43f91b66ddc4b161cee2c2bf3cc4946c",
+        "thumbnail_sha256": "f10df0584e27dd89063305dbdec42b1bdf22cd903836001338c8f609fe75a106",
+        "contact_sheet_position": 1137,
+        "contact_sheet_sha256": "db991fa1fe2e6435f547c927710dedf26a9f280fd6be90ede47c7b1607c32fee",
+        "screen": "deferred",
+        "reason": "Observed object/frame/chart/book page, detail or alternative scan; or muted/repetitive archival motif, not colourful-gallery priority"
+      },
+      {
+        "id": 84527532,
+        "original_sha1": "f12efad1438b00fcff15bc0d7208f4bc16fbd883",
+        "thumbnail_sha256": "8a920205748b250b9cfaa7ee749c917c49918367218b3e2c0c71be653ea1d3ba",
+        "contact_sheet_position": 1138,
+        "contact_sheet_sha256": "db991fa1fe2e6435f547c927710dedf26a9f280fd6be90ede47c7b1607c32fee",
+        "screen": "deferred",
+        "reason": "Observed object/frame/chart/book page, detail or alternative scan; or muted/repetitive archival motif, not colourful-gallery priority"
+      },
+      {
+        "id": 84527609,
+        "original_sha1": "be6eaa779c81173ef37e2140680efe4fddac057e",
+        "thumbnail_sha256": "bd1554f74fde7ee54410d5b0da078d23acec385f589c2c7b6c8de7aa17bafe66",
+        "contact_sheet_position": 1139,
+        "contact_sheet_sha256": "db991fa1fe2e6435f547c927710dedf26a9f280fd6be90ede47c7b1607c32fee",
+        "screen": "deferred",
+        "reason": "Observed object/frame/chart/book page, detail or alternative scan; or muted/repetitive archival motif, not colourful-gallery priority"
+      },
+      {
+        "id": 84579703,
+        "original_sha1": "99d3e408ccf72a37734b0dc7999e825aac97b3ee",
+        "thumbnail_sha256": "200c7642adec809aeaae49604d584429aea5897c20c1a25c0d1d56bffdc197f6",
+        "contact_sheet_position": 1140,
+        "contact_sheet_sha256": "db991fa1fe2e6435f547c927710dedf26a9f280fd6be90ede47c7b1607c32fee",
+        "screen": "deferred",
+        "reason": "Observed object/frame/chart/book page, detail or alternative scan; or muted/repetitive archival motif, not colourful-gallery priority"
+      },
+      {
+        "id": 84625235,
+        "original_sha1": "7db7e01ab5096eb191a5ee627463fa719926f6d7",
+        "thumbnail_sha256": "3ca1790175733c416160daa8036df57a9c401facbf5b387f6fb55011c0046c32",
+        "contact_sheet_position": 1141,
+        "contact_sheet_sha256": "db991fa1fe2e6435f547c927710dedf26a9f280fd6be90ede47c7b1607c32fee",
+        "screen": "deferred",
+        "reason": "Observed object/frame/chart/book page, detail or alternative scan; or muted/repetitive archival motif, not colourful-gallery priority"
+      },
+      {
+        "id": 84625296,
+        "original_sha1": "8b736747babde55a28695013ea2e35292860c1ca",
+        "thumbnail_sha256": "df650d94aa4302f4ba488064be1f54402116ef99ed7ad299cf3afd7249005960",
+        "contact_sheet_position": 1142,
+        "contact_sheet_sha256": "db991fa1fe2e6435f547c927710dedf26a9f280fd6be90ede47c7b1607c32fee",
+        "screen": "deferred",
+        "reason": "Observed object/frame/chart/book page, detail or alternative scan; or muted/repetitive archival motif, not colourful-gallery priority"
+      },
+      {
+        "id": 84783240,
+        "original_sha1": "b3393775513784178ee2923ff0296e899a58c59f",
+        "thumbnail_sha256": "586439618a6722a9a00fe8b31b1f7d207b52e3fcc715f2a2713e2fa3870dc4d8",
+        "contact_sheet_position": 1143,
+        "contact_sheet_sha256": "db991fa1fe2e6435f547c927710dedf26a9f280fd6be90ede47c7b1607c32fee",
+        "screen": "deferred",
+        "reason": "Observed object/frame/chart/book page, detail or alternative scan; or muted/repetitive archival motif, not colourful-gallery priority"
+      },
+      {
+        "id": 84835886,
+        "original_sha1": "28a541f6090f1d482b11de4af429e95e550d8335",
+        "thumbnail_sha256": "ebeb35a681367fc3fcbea5fd76fe905a1a137b16c43074448f51f78f56cfbfc4",
+        "contact_sheet_position": 1144,
+        "contact_sheet_sha256": "db991fa1fe2e6435f547c927710dedf26a9f280fd6be90ede47c7b1607c32fee",
+        "screen": "deferred",
+        "reason": "Observed object/frame/chart/book page, detail or alternative scan; or muted/repetitive archival motif, not colourful-gallery priority"
+      },
+      {
+        "id": 84900749,
+        "original_sha1": "cfc015c0c45110283d510477ce282177a7e9460a",
+        "thumbnail_sha256": "6dc8c6458832de083a316e86fee58a47c3285db88fc20912265e9384f2967c71",
+        "contact_sheet_position": 1145,
+        "contact_sheet_sha256": "db991fa1fe2e6435f547c927710dedf26a9f280fd6be90ede47c7b1607c32fee",
+        "screen": "deferred",
+        "reason": "Observed object/frame/chart/book page, detail or alternative scan; or muted/repetitive archival motif, not colourful-gallery priority"
+      },
+      {
+        "id": 84911183,
+        "original_sha1": "d3cb6cf04eb046bd236da9fc0727acd5fe39900f",
+        "thumbnail_sha256": "39985a5b6bf970533f91b4193a4927c7410a50ecef517e0698b1466c9af92992",
+        "contact_sheet_position": 1146,
+        "contact_sheet_sha256": "db991fa1fe2e6435f547c927710dedf26a9f280fd6be90ede47c7b1607c32fee",
+        "screen": "deferred",
+        "reason": "Observed object/frame/chart/book page, detail or alternative scan; or muted/repetitive archival motif, not colourful-gallery priority"
+      },
+      {
+        "id": 84963350,
+        "original_sha1": "ec74fb9593b369f4795f425bbf1f8127df2b2933",
+        "thumbnail_sha256": "a18219acd4cd969f7d16530bfdba41c7bd6bd0e2fb7e76a3b723196d8a29b336",
+        "contact_sheet_position": 1147,
+        "contact_sheet_sha256": "db991fa1fe2e6435f547c927710dedf26a9f280fd6be90ede47c7b1607c32fee",
+        "screen": "deferred",
+        "reason": "Observed object/frame/chart/book page, detail or alternative scan; or muted/repetitive archival motif, not colourful-gallery priority"
+      },
+      {
+        "id": 89973312,
+        "original_sha1": "3b6c2339e09bc4fbd7e280154ba69c61fc75d7f5",
+        "thumbnail_sha256": "e665a5f4e27d45b8eab4b28651d46e6f345c857e27df3af157e9c165904aa51b",
+        "contact_sheet_position": 1148,
+        "contact_sheet_sha256": "db991fa1fe2e6435f547c927710dedf26a9f280fd6be90ede47c7b1607c32fee",
+        "screen": "deferred",
+        "reason": "Observed object/frame/chart/book page, detail or alternative scan; or muted/repetitive archival motif, not colourful-gallery priority"
+      },
+      {
+        "id": 147516268,
+        "original_sha1": "ac12c678f20f6c0c311f2cc6c881c1ff4b751fa6",
+        "thumbnail_sha256": "e695d8dc501d9489d88d98eb1b7544b51925e9bbf51d967cec53d11a8da1d7af",
+        "contact_sheet_position": 1149,
+        "contact_sheet_sha256": "db991fa1fe2e6435f547c927710dedf26a9f280fd6be90ede47c7b1607c32fee",
+        "screen": "deferred",
+        "reason": "Observed object/frame/chart/book page, detail or alternative scan; or muted/repetitive archival motif, not colourful-gallery priority"
+      },
+      {
+        "id": 147534930,
+        "original_sha1": "0256a03af8afc03bcb04031c682eceaded0dc486",
+        "thumbnail_sha256": "632b2eb6583ff9878994459ad596db96177cbbc9b1d81d72805692b5ad184b86",
+        "contact_sheet_position": 1150,
+        "contact_sheet_sha256": "db991fa1fe2e6435f547c927710dedf26a9f280fd6be90ede47c7b1607c32fee",
+        "screen": "deferred",
+        "reason": "Observed object/frame/chart/book page, detail or alternative scan; or muted/repetitive archival motif, not colourful-gallery priority"
+      },
+      {
+        "id": 20836951,
+        "original_sha1": "b1a78bafa726db9850df65a50509b96d46dc051b",
+        "thumbnail_sha256": "639fd631efefd41cf6e1b62f04e22321ccbfae67691e0cb27b6842d3611ed6e9",
+        "contact_sheet_position": 1151,
+        "contact_sheet_sha256": "db991fa1fe2e6435f547c927710dedf26a9f280fd6be90ede47c7b1607c32fee",
+        "screen": "visual first-pass",
+        "reason": "Complete reproduction visually plausible; source, physical proportions and artwork identity require second review"
+      },
+      {
+        "id": 22207181,
+        "original_sha1": "d1503d2a942700bcd41230a0bf8441cf5ea1f79b",
+        "thumbnail_sha256": "783bf3ea44e2a9134fb70ffc2fa2942fe92aac51911d8cae0dad4162e2d84464",
+        "contact_sheet_position": 1152,
+        "contact_sheet_sha256": "a786010b49b5b84fd67e599d4588194715a77e719fd6f5898d9f1a7e3c791998",
+        "screen": "deferred",
+        "reason": "Observed object/frame/chart/book page, detail or alternative scan; or muted/repetitive archival motif, not colourful-gallery priority"
+      },
+      {
+        "id": 22232441,
+        "original_sha1": "6358af0951e6559b691a970ade34737e5da245d5",
+        "thumbnail_sha256": "5b3b539a598d7c9e56c638778bbeb26e9530ccb5c8c36d94e6f9460f78c2548d",
+        "contact_sheet_position": 1153,
+        "contact_sheet_sha256": "a786010b49b5b84fd67e599d4588194715a77e719fd6f5898d9f1a7e3c791998",
+        "screen": "visual first-pass",
+        "reason": "Complete reproduction visually plausible; source, physical proportions and artwork identity require second review"
+      },
+      {
+        "id": 84366428,
+        "original_sha1": "adefa3338d58fbde1be67443699834c3fe7ccbdc",
+        "thumbnail_sha256": "e225aa966ccfc08108fe3d2f05d56d5875b01172655c5334c19aa8ea9bc33989",
+        "contact_sheet_position": 1154,
+        "contact_sheet_sha256": "a786010b49b5b84fd67e599d4588194715a77e719fd6f5898d9f1a7e3c791998",
+        "screen": "deferred",
+        "reason": "Observed object/frame/chart/book page, detail or alternative scan; or muted/repetitive archival motif, not colourful-gallery priority"
+      },
+      {
+        "id": 84457810,
+        "original_sha1": "0df90ab14d0840c60ab702fad9b6891bed73b522",
+        "thumbnail_sha256": "ebfa8e347a492609f5e6a0f17b0e6023fbb3eef7436eaf8c28da7e40ceceda9b",
+        "contact_sheet_position": 1155,
+        "contact_sheet_sha256": "a786010b49b5b84fd67e599d4588194715a77e719fd6f5898d9f1a7e3c791998",
+        "screen": "deferred",
+        "reason": "Observed object/frame/chart/book page, detail or alternative scan; or muted/repetitive archival motif, not colourful-gallery priority"
+      },
+      {
+        "id": 84497569,
+        "original_sha1": "42a35cf91a1730d83e9affe5dc15d1d7666fcf8a",
+        "thumbnail_sha256": "f470e3d0340ef328111b24c28f30c615460e910a0324e2d59e4505045ee69969",
+        "contact_sheet_position": 1156,
+        "contact_sheet_sha256": "a786010b49b5b84fd67e599d4588194715a77e719fd6f5898d9f1a7e3c791998",
+        "screen": "deferred",
+        "reason": "Observed object/frame/chart/book page, detail or alternative scan; or muted/repetitive archival motif, not colourful-gallery priority"
+      },
+      {
+        "id": 84849239,
+        "original_sha1": "32f66bc5304f8eed21118e1353c86dde457e4cd1",
+        "thumbnail_sha256": "47d160699b802136178e484e8a2ea9ae8cc08f43843a09c764fada42d6cbc1fa",
+        "contact_sheet_position": 1157,
+        "contact_sheet_sha256": "a786010b49b5b84fd67e599d4588194715a77e719fd6f5898d9f1a7e3c791998",
+        "screen": "deferred",
+        "reason": "Observed object/frame/chart/book page, detail or alternative scan; or muted/repetitive archival motif, not colourful-gallery priority"
+      },
+      {
+        "id": 84884550,
+        "original_sha1": "5f51180a2b3f13fac293e61db10d4d3ab2e82508",
+        "thumbnail_sha256": "1036502e9912708cb3bf10e64b0aab24fcf1eb6d96eee4650c8cafbc296efa38",
+        "contact_sheet_position": 1158,
+        "contact_sheet_sha256": "a786010b49b5b84fd67e599d4588194715a77e719fd6f5898d9f1a7e3c791998",
+        "screen": "deferred",
+        "reason": "Observed object/frame/chart/book page, detail or alternative scan; or muted/repetitive archival motif, not colourful-gallery priority"
+      },
+      {
+        "id": 112854806,
+        "original_sha1": "f0d66532b0bf1b8c0ee6830f3c6fe7d6c4e54cb8",
+        "thumbnail_sha256": "6e78f4ab0c910febcbf340919cc05cef84abbfc1c5793e172841fff75d7d5713",
+        "contact_sheet_position": 1159,
+        "contact_sheet_sha256": "a786010b49b5b84fd67e599d4588194715a77e719fd6f5898d9f1a7e3c791998",
+        "screen": "deferred",
+        "reason": "Observed object/frame/chart/book page, detail or alternative scan; or muted/repetitive archival motif, not colourful-gallery priority"
+      },
+      {
+        "id": 163968344,
+        "original_sha1": "36ff03dc17b6085d33a1f21faa0184b69bdc28eb",
+        "thumbnail_sha256": "923028885ac93f752b2ede800e771e43f7542a2431d68dd461b5c206223e1164",
+        "contact_sheet_position": 1160,
+        "contact_sheet_sha256": "a786010b49b5b84fd67e599d4588194715a77e719fd6f5898d9f1a7e3c791998",
+        "screen": "visual first-pass",
+        "reason": "Complete reproduction visually plausible; source, physical proportions and artwork identity require second review"
+      },
+      {
+        "id": 22213658,
+        "original_sha1": "f2601bab1075027c2b6093737120ded74465062e",
+        "thumbnail_sha256": "e57ec4aae204ec6b8d4b82a40895106f09d0f42f1e06031f1c02bf455b322ea8",
+        "contact_sheet_position": 1161,
+        "contact_sheet_sha256": "a786010b49b5b84fd67e599d4588194715a77e719fd6f5898d9f1a7e3c791998",
+        "screen": "deferred",
+        "reason": "Observed object/frame/chart/book page, detail or alternative scan; or muted/repetitive archival motif, not colourful-gallery priority"
+      },
+      {
+        "id": 83644179,
+        "original_sha1": "3b820180ee94b2e1641b3539f39a7d623fda4e0f",
+        "thumbnail_sha256": "aec547c31d271006e2cd3e985d31715ce273ddbf4aa4e98d7a8a0fe1c1e17590",
+        "contact_sheet_position": 1162,
+        "contact_sheet_sha256": "a786010b49b5b84fd67e599d4588194715a77e719fd6f5898d9f1a7e3c791998",
+        "screen": "deferred",
+        "reason": "Observed object/frame/chart/book page, detail or alternative scan; or muted/repetitive archival motif, not colourful-gallery priority"
+      },
+      {
+        "id": 84917041,
+        "original_sha1": "579b4ed8c6b6f962c2e4ea3bbb978868febba832",
+        "thumbnail_sha256": "7031ad62e442cf5e9c62d56d7f70f8ea41d9ffe0418d6206803d4ea9bea9ee92",
+        "contact_sheet_position": 1163,
+        "contact_sheet_sha256": "a786010b49b5b84fd67e599d4588194715a77e719fd6f5898d9f1a7e3c791998",
+        "screen": "visual first-pass",
+        "reason": "Complete reproduction visually plausible; source, physical proportions and artwork identity require second review"
+      },
+      {
+        "id": 85592097,
+        "original_sha1": "02fd55ba85fa8508e59c352b04149bef58a73a28",
+        "thumbnail_sha256": "0000e1b3bcbddd39dfbd2e39c1f64fad7eb556b6d650154cbb81f84342fa4333",
+        "contact_sheet_position": 1164,
+        "contact_sheet_sha256": "a786010b49b5b84fd67e599d4588194715a77e719fd6f5898d9f1a7e3c791998",
+        "screen": "deferred",
+        "reason": "Observed object/frame/chart/book page, detail or alternative scan; or muted/repetitive archival motif, not colourful-gallery priority"
+      },
+      {
+        "id": 85699750,
+        "original_sha1": "f81b666b21e1e4efb8cbe33fc3c4397abfe751d4",
+        "thumbnail_sha256": "05e05806f100b59eaec8a539ea191f1e4e145dcebe8fcf3f499f6957be4a502b",
+        "contact_sheet_position": 1165,
+        "contact_sheet_sha256": "a786010b49b5b84fd67e599d4588194715a77e719fd6f5898d9f1a7e3c791998",
+        "screen": "visual first-pass",
+        "reason": "Complete reproduction visually plausible; source, physical proportions and artwork identity require second review"
+      },
+      {
+        "id": 21116675,
+        "original_sha1": "cc72dba514e9e53342baf08a941909df5240b0f1",
+        "thumbnail_sha256": "ff6fa18af4ff39dd1a43de14543cb892fec7f95049f48749079130279d660d69",
+        "contact_sheet_position": 1166,
+        "contact_sheet_sha256": "a786010b49b5b84fd67e599d4588194715a77e719fd6f5898d9f1a7e3c791998",
+        "screen": "visual first-pass",
+        "reason": "Complete reproduction visually plausible; source, physical proportions and artwork identity require second review"
+      },
+      {
+        "id": 76297104,
+        "original_sha1": "b4235e3fc754ab3f8d3a1079a8ddef000ba20fa0",
+        "thumbnail_sha256": "513de73208ab2878bd91a9bcf1e60a1599deddc2b33109c4e90515fa4f41197d",
+        "contact_sheet_position": 1167,
+        "contact_sheet_sha256": "a786010b49b5b84fd67e599d4588194715a77e719fd6f5898d9f1a7e3c791998",
+        "screen": "visual first-pass",
+        "reason": "Complete reproduction visually plausible; source, physical proportions and artwork identity require second review"
+      },
+      {
+        "id": 83499160,
+        "original_sha1": "1ec8f9eee86782eba8f6dafea6104884f6a13fc5",
+        "thumbnail_sha256": "e18f05e3aad2f6c971b458df875efa0a13c183b65e1de9972f6104d6f3ef8c8a",
+        "contact_sheet_position": 1168,
+        "contact_sheet_sha256": "76335d0aa3fab1a36e4d959e0d2e8a6ec247ca5251b6753efaee01d9ffaedbed",
+        "screen": "deferred",
+        "reason": "Observed object/frame/chart/book page, detail or alternative scan; or muted/repetitive archival motif, not colourful-gallery priority"
+      },
+      {
+        "id": 182164902,
+        "original_sha1": "1104265169c493dc21bc3932beb6921214b6591f",
+        "thumbnail_sha256": "92b2c4f32f30d69f30266b5ce8f20cdb15a2ee93ccfb2005d1191527802523d4",
+        "contact_sheet_position": 1169,
+        "contact_sheet_sha256": "76335d0aa3fab1a36e4d959e0d2e8a6ec247ca5251b6753efaee01d9ffaedbed",
+        "screen": "deferred",
+        "reason": "Observed object/frame/chart/book page, detail or alternative scan; or muted/repetitive archival motif, not colourful-gallery priority"
+      },
+      {
+        "id": 3431479,
+        "original_sha1": "00a7eecb1d553de6c20ab03b2c3c0044dd975b91",
+        "thumbnail_sha256": "6745578ecd0deaa5d5bafac2b7462a13f5269b9ab4c31e01f88a2c7ef26ebcb7",
+        "contact_sheet_position": 1170,
+        "contact_sheet_sha256": "76335d0aa3fab1a36e4d959e0d2e8a6ec247ca5251b6753efaee01d9ffaedbed",
+        "screen": "deferred",
+        "reason": "Observed object/frame/chart/book page, detail or alternative scan; or muted/repetitive archival motif, not colourful-gallery priority"
+      },
+      {
+        "id": 83503832,
+        "original_sha1": "7a7bdbde01f4b1d92663b309f50a2a06e93bb89d",
+        "thumbnail_sha256": "d6905aa3f94fcc1eae4e00d7a6141ddbf55c04580581680d00fd5b48119b0579",
+        "contact_sheet_position": 1171,
+        "contact_sheet_sha256": "76335d0aa3fab1a36e4d959e0d2e8a6ec247ca5251b6753efaee01d9ffaedbed",
+        "screen": "deferred",
+        "reason": "Observed object/frame/chart/book page, detail or alternative scan; or muted/repetitive archival motif, not colourful-gallery priority"
+      },
+      {
+        "id": 124912223,
+        "original_sha1": "ad041848c3989bffb1e98a43855bfab615a2529e",
+        "thumbnail_sha256": "1c7746d671c1fe783be2d2ee108fcea4f0b0e7c4f7a763cda77ce1f95ce394f0",
+        "contact_sheet_position": 1172,
+        "contact_sheet_sha256": "76335d0aa3fab1a36e4d959e0d2e8a6ec247ca5251b6753efaee01d9ffaedbed",
+        "screen": "visual first-pass",
+        "reason": "Complete reproduction visually plausible; source, physical proportions and artwork identity require second review"
+      },
+      {
+        "id": 132599475,
+        "original_sha1": "fff96c1d6efedabd25c4a9df472c4cad0ab83efb",
+        "thumbnail_sha256": "eb688a7ae5d1ec11a8192ab8f771726490ea380aae58f999042d3d60c50d6863",
+        "contact_sheet_position": 1173,
+        "contact_sheet_sha256": "76335d0aa3fab1a36e4d959e0d2e8a6ec247ca5251b6753efaee01d9ffaedbed",
+        "screen": "visual first-pass",
+        "reason": "Complete reproduction visually plausible; source, physical proportions and artwork identity require second review"
+      },
+      {
+        "id": 83540459,
+        "original_sha1": "ec1cc0507745d7e0a150894b7caf1560b067547c",
+        "thumbnail_sha256": "7f843c784f2e560dfdc168e7173e84d108f93d0678d8fe203a2c406f8b287d8d",
+        "contact_sheet_position": 1174,
+        "contact_sheet_sha256": "76335d0aa3fab1a36e4d959e0d2e8a6ec247ca5251b6753efaee01d9ffaedbed",
+        "screen": "deferred",
+        "reason": "Observed object/frame/chart/book page, detail or alternative scan; or muted/repetitive archival motif, not colourful-gallery priority"
+      },
+      {
+        "id": 84783932,
+        "original_sha1": "57a9bcf4aca550adeae32c1845ae7222ae618a75",
+        "thumbnail_sha256": "80bf6800eee5b56a4d2399e1145d3b2233945db83abc3bddf80870f77f048df0",
+        "contact_sheet_position": 1175,
+        "contact_sheet_sha256": "76335d0aa3fab1a36e4d959e0d2e8a6ec247ca5251b6753efaee01d9ffaedbed",
+        "screen": "deferred",
+        "reason": "Observed object/frame/chart/book page, detail or alternative scan; or muted/repetitive archival motif, not colourful-gallery priority"
+      },
+      {
+        "id": 11376427,
+        "original_sha1": "8131835357b3c41d016582ac2fdd9625491c5ea1",
+        "thumbnail_sha256": "8c77191383cb4e5567452939c966badbc78c84d0c983664c46c7b002621cc2ed",
+        "contact_sheet_position": 1176,
+        "contact_sheet_sha256": "76335d0aa3fab1a36e4d959e0d2e8a6ec247ca5251b6753efaee01d9ffaedbed",
+        "screen": "visual first-pass",
+        "reason": "Complete reproduction visually plausible; source, physical proportions and artwork identity require second review"
+      },
+      {
+        "id": 21972322,
+        "original_sha1": "1b8683fc10f32e661492e80bd825ae43269512c8",
+        "thumbnail_sha256": "7017949d976a46b8e2332d09c10edaad093a124eb469274cff65c5a85b19b3c2",
+        "contact_sheet_position": 1177,
+        "contact_sheet_sha256": "76335d0aa3fab1a36e4d959e0d2e8a6ec247ca5251b6753efaee01d9ffaedbed",
+        "screen": "deferred",
+        "reason": "Observed object/frame/chart/book page, detail or alternative scan; or muted/repetitive archival motif, not colourful-gallery priority"
+      },
+      {
+        "id": 84078527,
+        "original_sha1": "62058254abd39f54b5062a2a1cf6bc1ca656cf4d",
+        "thumbnail_sha256": "6896a573f02050c4f8d53863cd25ad0181a8fac8625b9b512402f628e57f6c07",
+        "contact_sheet_position": 1178,
+        "contact_sheet_sha256": "76335d0aa3fab1a36e4d959e0d2e8a6ec247ca5251b6753efaee01d9ffaedbed",
+        "screen": "deferred",
+        "reason": "Observed object/frame/chart/book page, detail or alternative scan; or muted/repetitive archival motif, not colourful-gallery priority"
+      },
+      {
+        "id": 84127953,
+        "original_sha1": "027cb2f74f52466989917d0e7426498585688e7b",
+        "thumbnail_sha256": "227dddda2c1d0eb83e736ffa78d409bef076099091cab7773ae6945526c21a77",
+        "contact_sheet_position": 1179,
+        "contact_sheet_sha256": "76335d0aa3fab1a36e4d959e0d2e8a6ec247ca5251b6753efaee01d9ffaedbed",
+        "screen": "deferred",
+        "reason": "Observed object/frame/chart/book page, detail or alternative scan; or muted/repetitive archival motif, not colourful-gallery priority"
+      },
+      {
+        "id": 84665429,
+        "original_sha1": "e82a36ad292034e85d7e41824b28c79ae16b3356",
+        "thumbnail_sha256": "6ce8f3c53532d3ad9f2436f93664611897b2a0eac473c48a989b63c2c3bf84d3",
+        "contact_sheet_position": 1180,
+        "contact_sheet_sha256": "76335d0aa3fab1a36e4d959e0d2e8a6ec247ca5251b6753efaee01d9ffaedbed",
+        "screen": "deferred",
+        "reason": "Observed object/frame/chart/book page, detail or alternative scan; or muted/repetitive archival motif, not colourful-gallery priority"
+      },
+      {
+        "id": 84727349,
+        "original_sha1": "b318665bd4e14cafad1833fdd3b812087da3912f",
+        "thumbnail_sha256": "db2c8f370bc48a634bd90120144bbe544af3bf1862a45f896d6b8f430021fa09",
+        "contact_sheet_position": 1181,
+        "contact_sheet_sha256": "76335d0aa3fab1a36e4d959e0d2e8a6ec247ca5251b6753efaee01d9ffaedbed",
+        "screen": "deferred",
+        "reason": "Observed object/frame/chart/book page, detail or alternative scan; or muted/repetitive archival motif, not colourful-gallery priority"
+      },
+      {
+        "id": 84070423,
+        "original_sha1": "ae037166d660304255ce685dd04f72914a2193ec",
+        "thumbnail_sha256": "4d818b2051bbece3740fa98a7f1911588784692fd60ee1c9ea205054df2f3f32",
+        "contact_sheet_position": 1182,
+        "contact_sheet_sha256": "76335d0aa3fab1a36e4d959e0d2e8a6ec247ca5251b6753efaee01d9ffaedbed",
+        "screen": "deferred",
+        "reason": "Observed object/frame/chart/book page, detail or alternative scan; or muted/repetitive archival motif, not colourful-gallery priority"
+      },
+      {
+        "id": 84181508,
+        "original_sha1": "673dc76f6b7ad87de75d4436be2864907e0b2e02",
+        "thumbnail_sha256": "40a3964de783d7bb7865b5f2227b53dd5e51999fe5eaf38ef5c0c54b7648cc29",
+        "contact_sheet_position": 1183,
+        "contact_sheet_sha256": "76335d0aa3fab1a36e4d959e0d2e8a6ec247ca5251b6753efaee01d9ffaedbed",
+        "screen": "deferred",
+        "reason": "Observed object/frame/chart/book page, detail or alternative scan; or muted/repetitive archival motif, not colourful-gallery priority"
+      },
+      {
+        "id": 84496663,
+        "original_sha1": "ae3d92e44a91b371e1baf3444448f31e7d4d87f6",
+        "thumbnail_sha256": "612af1c5922659904b0af7f6d48962243029f980d9d6615cf62e1227bd77591b",
+        "contact_sheet_position": 1184,
+        "contact_sheet_sha256": "fd73563732a147b21b189b6faee26711018522d5727c54aae20d45b2180796e8",
+        "screen": "deferred",
+        "reason": "Observed object/frame/chart/book page, detail or alternative scan; or muted/repetitive archival motif, not colourful-gallery priority"
+      },
+      {
+        "id": 84699178,
+        "original_sha1": "1c3738c322de552ca594a1a45ba83eff015b1a27",
+        "thumbnail_sha256": "907f067791d7d1454645fbf4de3c60a731aef4dbf90e7b781ec7efbdd8e67469",
+        "contact_sheet_position": 1185,
+        "contact_sheet_sha256": "fd73563732a147b21b189b6faee26711018522d5727c54aae20d45b2180796e8",
+        "screen": "deferred",
+        "reason": "Observed object/frame/chart/book page, detail or alternative scan; or muted/repetitive archival motif, not colourful-gallery priority"
+      },
+      {
+        "id": 84701000,
+        "original_sha1": "12b0fc63a5c4d79c0091c23d0ad1da680d7c03be",
+        "thumbnail_sha256": "fc8cc80f25428a3840ef2d61a25ffbf64f4b065a391fe4bd1cf494466fef0a95",
+        "contact_sheet_position": 1186,
+        "contact_sheet_sha256": "fd73563732a147b21b189b6faee26711018522d5727c54aae20d45b2180796e8",
+        "screen": "deferred",
+        "reason": "Observed object/frame/chart/book page, detail or alternative scan; or muted/repetitive archival motif, not colourful-gallery priority"
+      },
+      {
+        "id": 85172696,
+        "original_sha1": "05db4474da28fca77222bdb4a66f50f0bc901eee",
+        "thumbnail_sha256": "eb5ef090e0634d38def1c87e5d47dff6201503001b7a6c67f194f7c18525c362",
+        "contact_sheet_position": 1187,
+        "contact_sheet_sha256": "fd73563732a147b21b189b6faee26711018522d5727c54aae20d45b2180796e8",
+        "screen": "deferred",
+        "reason": "Observed object/frame/chart/book page, detail or alternative scan; or muted/repetitive archival motif, not colourful-gallery priority"
+      },
+      {
+        "id": 85710528,
+        "original_sha1": "3b6c7b84857c7a6a4c78ee7817d63bf7fc5a0622",
+        "thumbnail_sha256": "24bca619ac5c2ad0a7a9b66bacdc75c82debc03bf4f2adbf03913c50b8983d08",
+        "contact_sheet_position": 1188,
+        "contact_sheet_sha256": "fd73563732a147b21b189b6faee26711018522d5727c54aae20d45b2180796e8",
+        "screen": "deferred",
+        "reason": "Observed object/frame/chart/book page, detail or alternative scan; or muted/repetitive archival motif, not colourful-gallery priority"
+      },
+      {
+        "id": 118954946,
+        "original_sha1": "015925157adbe88fca475733bcfb727cd1436716",
+        "thumbnail_sha256": "7e55f56c7755c234947c47f9dc8d941ac41dec24045be039d17fff15731c3da0",
+        "contact_sheet_position": 1189,
+        "contact_sheet_sha256": "fd73563732a147b21b189b6faee26711018522d5727c54aae20d45b2180796e8",
+        "screen": "visual first-pass",
+        "reason": "Complete reproduction visually plausible; source, physical proportions and artwork identity require second review"
+      },
+      {
+        "id": 146835410,
+        "original_sha1": "ca8f91d386ce8f0227a0c1fddb6ccd0bc2ef7e5c",
+        "thumbnail_sha256": "a75c8db919cb3ddb795138a0e93a95f47a1fe40fd8a044a68353c71cd647234a",
+        "contact_sheet_position": 1190,
+        "contact_sheet_sha256": "fd73563732a147b21b189b6faee26711018522d5727c54aae20d45b2180796e8",
+        "screen": "deferred",
+        "reason": "Observed object/frame/chart/book page, detail or alternative scan; or muted/repetitive archival motif, not colourful-gallery priority"
+      },
+      {
+        "id": 22207016,
+        "original_sha1": "4766cf7a4e1b6d0b3648b494a83c2fe07b426954",
+        "thumbnail_sha256": "7958a128e7bf536f4c11cbf0a3e50faad5c0b644427310a3be5f525df8152cfe",
+        "contact_sheet_position": 1191,
+        "contact_sheet_sha256": "fd73563732a147b21b189b6faee26711018522d5727c54aae20d45b2180796e8",
+        "screen": "deferred",
+        "reason": "Observed object/frame/chart/book page, detail or alternative scan; or muted/repetitive archival motif, not colourful-gallery priority"
+      },
+      {
+        "id": 22248390,
+        "original_sha1": "1e67b1a9c7b9151bc9182355567a2f9ed6b20eea",
+        "thumbnail_sha256": "06fa7f65efe18a041179766feb55348ac25dd5c8c5fd2f252146aedb3cadb61a",
+        "contact_sheet_position": 1192,
+        "contact_sheet_sha256": "fd73563732a147b21b189b6faee26711018522d5727c54aae20d45b2180796e8",
+        "screen": "deferred",
+        "reason": "Observed object/frame/chart/book page, detail or alternative scan; or muted/repetitive archival motif, not colourful-gallery priority"
+      },
+      {
+        "id": 67636094,
+        "original_sha1": "2eac38fd3959d9d3ca51eee535f67259c05392f0",
+        "thumbnail_sha256": "7157f9667b40ab9c7c185db67ad05e84454f226de9a326fff9ac91da7e612c31",
+        "contact_sheet_position": 1193,
+        "contact_sheet_sha256": "fd73563732a147b21b189b6faee26711018522d5727c54aae20d45b2180796e8",
+        "screen": "visual first-pass",
+        "reason": "Complete reproduction visually plausible; source, physical proportions and artwork identity require second review"
+      },
+      {
+        "id": 83843177,
+        "original_sha1": "02fdde90ee62b08c44fd3e6202992496b4db9348",
+        "thumbnail_sha256": "4458ed7d86fc0297250364b02a93fc5c49e58da60a8f949bb01e564c33bfd629",
+        "contact_sheet_position": 1194,
+        "contact_sheet_sha256": "fd73563732a147b21b189b6faee26711018522d5727c54aae20d45b2180796e8",
+        "screen": "deferred",
+        "reason": "Observed object/frame/chart/book page, detail or alternative scan; or muted/repetitive archival motif, not colourful-gallery priority"
+      },
+      {
+        "id": 84141014,
+        "original_sha1": "4935f612b8bcf97f8e1c735fd113bf82795fa075",
+        "thumbnail_sha256": "918985639654ce97240bf2646108de2091fb55385cb9c74a48bdef6abfc69a53",
+        "contact_sheet_position": 1195,
+        "contact_sheet_sha256": "fd73563732a147b21b189b6faee26711018522d5727c54aae20d45b2180796e8",
+        "screen": "deferred",
+        "reason": "Observed object/frame/chart/book page, detail or alternative scan; or muted/repetitive archival motif, not colourful-gallery priority"
+      },
+      {
+        "id": 84287755,
+        "original_sha1": "de72174d0eb4e0169dcacc80fadbdd361dd3d81e",
+        "thumbnail_sha256": "4c910f324a7a33a7c79f6a702806ffae9d45a832e2b5fb5be4a9b934edc881ce",
+        "contact_sheet_position": 1196,
+        "contact_sheet_sha256": "fd73563732a147b21b189b6faee26711018522d5727c54aae20d45b2180796e8",
+        "screen": "deferred",
+        "reason": "Observed object/frame/chart/book page, detail or alternative scan; or muted/repetitive archival motif, not colourful-gallery priority"
+      },
+      {
+        "id": 84400108,
+        "original_sha1": "db644df3afd47396759d991b303c2ac8dab737c8",
+        "thumbnail_sha256": "e1af906ebf36a5bbe84e1f019a6012359ebe9749485a725d9f8922211f01e0da",
+        "contact_sheet_position": 1197,
+        "contact_sheet_sha256": "fd73563732a147b21b189b6faee26711018522d5727c54aae20d45b2180796e8",
+        "screen": "deferred",
+        "reason": "Observed object/frame/chart/book page, detail or alternative scan; or muted/repetitive archival motif, not colourful-gallery priority"
+      },
+      {
+        "id": 84746203,
+        "original_sha1": "b88e125f09f6729676b90551150798ed24758dd6",
+        "thumbnail_sha256": "b0fa1c2eb635eea1e8ec316a5b6b568e58944d005ca103ceaee2a17ea7df4c63",
+        "contact_sheet_position": 1198,
+        "contact_sheet_sha256": "fd73563732a147b21b189b6faee26711018522d5727c54aae20d45b2180796e8",
+        "screen": "deferred",
+        "reason": "Observed object/frame/chart/book page, detail or alternative scan; or muted/repetitive archival motif, not colourful-gallery priority"
+      },
+      {
+        "id": 84840948,
+        "original_sha1": "381866190bdaa21d1c261045c2e79b14abb2b2a7",
+        "thumbnail_sha256": "aceb40e7813ed4de7cc7af3c11296e84db6ca67600ef7cc9c6866ced625f6ce1",
+        "contact_sheet_position": 1199,
+        "contact_sheet_sha256": "fd73563732a147b21b189b6faee26711018522d5727c54aae20d45b2180796e8",
+        "screen": "deferred",
+        "reason": "Observed object/frame/chart/book page, detail or alternative scan; or muted/repetitive archival motif, not colourful-gallery priority"
+      },
+      {
+        "id": 84841004,
+        "original_sha1": "e5629f5017e09ff74f481349fb4c4e6bfdd2d912",
+        "thumbnail_sha256": "82748021ad98a9b6b64e1cd908645c442ab1fbcb9babe7924251c4a416e928d0",
+        "contact_sheet_position": 1200,
+        "contact_sheet_sha256": "17f561fb1460c6c65488e554ff9ba9dee5732388a74218f2c781b8c68a412ab5",
+        "screen": "deferred",
+        "reason": "Observed object/frame/chart/book page, detail or alternative scan; or muted/repetitive archival motif, not colourful-gallery priority"
+      },
+      {
+        "id": 84847801,
+        "original_sha1": "65e56b62d07d9de10b0f4a33d5ddd06bacbf67af",
+        "thumbnail_sha256": "da416d3fd5d027e1c5dd9957b27102cd3f2510f41d48897c20a7e4fb702547d6",
+        "contact_sheet_position": 1201,
+        "contact_sheet_sha256": "17f561fb1460c6c65488e554ff9ba9dee5732388a74218f2c781b8c68a412ab5",
+        "screen": "deferred",
+        "reason": "Observed object/frame/chart/book page, detail or alternative scan; or muted/repetitive archival motif, not colourful-gallery priority"
+      },
+      {
+        "id": 84849262,
+        "original_sha1": "ed743320463eeeeee01db57fe827e8d98790bf0b",
+        "thumbnail_sha256": "e5d3b6d2b17f34d8da26597bea4274acb07c74c6be9aff5d121f2046cebd164b",
+        "contact_sheet_position": 1202,
+        "contact_sheet_sha256": "17f561fb1460c6c65488e554ff9ba9dee5732388a74218f2c781b8c68a412ab5",
+        "screen": "deferred",
+        "reason": "Observed object/frame/chart/book page, detail or alternative scan; or muted/repetitive archival motif, not colourful-gallery priority"
+      },
+      {
+        "id": 84879166,
+        "original_sha1": "9164ef3a66099bf3497ae713415ccffa3185e5b6",
+        "thumbnail_sha256": "730dd91888a7ccadc98ad4f7cc1597876587a9b226cbfb737dce5ddfc0e4cbc1",
+        "contact_sheet_position": 1203,
+        "contact_sheet_sha256": "17f561fb1460c6c65488e554ff9ba9dee5732388a74218f2c781b8c68a412ab5",
+        "screen": "deferred",
+        "reason": "Observed object/frame/chart/book page, detail or alternative scan; or muted/repetitive archival motif, not colourful-gallery priority"
+      },
+      {
+        "id": 147616299,
+        "original_sha1": "959cfc22452debd210d82e6c98f92417be8264aa",
+        "thumbnail_sha256": "95d1dbfaffafacefc2b0cc4761dc44a337f3515ac297b9035de5c9f2c8345da2",
+        "contact_sheet_position": 1204,
+        "contact_sheet_sha256": "17f561fb1460c6c65488e554ff9ba9dee5732388a74218f2c781b8c68a412ab5",
+        "screen": "deferred",
+        "reason": "Observed object/frame/chart/book page, detail or alternative scan; or muted/repetitive archival motif, not colourful-gallery priority"
+      },
+      {
+        "id": 67054565,
+        "original_sha1": "dcd3f7c1738ff6fb220fea2509f97461e4e26495",
+        "thumbnail_sha256": "2b301ed4b6a97b2d5ab25d5d216470b4c804d5bc88f6a2f8b426930a4ec63905",
+        "contact_sheet_position": 1205,
+        "contact_sheet_sha256": "17f561fb1460c6c65488e554ff9ba9dee5732388a74218f2c781b8c68a412ab5",
+        "screen": "deferred",
+        "reason": "Observed object/frame/chart/book page, detail or alternative scan; or muted/repetitive archival motif, not colourful-gallery priority"
+      },
+      {
+        "id": 68398439,
+        "original_sha1": "7daf2d9cc186f130403c7d3a91d1e36d4b9a1870",
+        "thumbnail_sha256": "173ef02d40af2dd4921122bbbe5098930f2d371c538b1225a15fb1edf9fa6133",
+        "contact_sheet_position": 1206,
+        "contact_sheet_sha256": "17f561fb1460c6c65488e554ff9ba9dee5732388a74218f2c781b8c68a412ab5",
+        "screen": "deferred",
+        "reason": "Observed object/frame/chart/book page, detail or alternative scan; or muted/repetitive archival motif, not colourful-gallery priority"
+      },
+      {
+        "id": 109339375,
+        "original_sha1": "dec994a6c178519fcd3c0dfcf0024897cf29df03",
+        "thumbnail_sha256": "a27e8ee9d5ea092a7a05ff8fc3bbae773e885a258312c917236c92b281328474",
+        "contact_sheet_position": 1207,
+        "contact_sheet_sha256": "17f561fb1460c6c65488e554ff9ba9dee5732388a74218f2c781b8c68a412ab5",
+        "screen": "deferred",
+        "reason": "Observed object/frame/chart/book page, detail or alternative scan; or muted/repetitive archival motif, not colourful-gallery priority"
+      },
+      {
+        "id": 109341437,
+        "original_sha1": "2380811a197431acc396eb5475f70f2807acd8f2",
+        "thumbnail_sha256": "b3ff9e0cf07be34eaf8b6cf04e3e0a15553e359f11ae8c008aac99f5f1534a0e",
+        "contact_sheet_position": 1208,
+        "contact_sheet_sha256": "17f561fb1460c6c65488e554ff9ba9dee5732388a74218f2c781b8c68a412ab5",
+        "screen": "deferred",
+        "reason": "Observed object/frame/chart/book page, detail or alternative scan; or muted/repetitive archival motif, not colourful-gallery priority"
+      },
+      {
+        "id": 178372378,
+        "original_sha1": "45a92799145f2e3109e3b8427cda2421540c926a",
+        "thumbnail_sha256": "dace9af4214d231ae1488d6d94964da34bffec204c432f8099189ec1e3166c25",
+        "contact_sheet_position": 1209,
+        "contact_sheet_sha256": "17f561fb1460c6c65488e554ff9ba9dee5732388a74218f2c781b8c68a412ab5",
+        "screen": "deferred",
+        "reason": "Observed object/frame/chart/book page, detail or alternative scan; or muted/repetitive archival motif, not colourful-gallery priority"
+      },
+      {
+        "id": 83595158,
+        "original_sha1": "19b27cee7fcf557c84d1d20ddf3b3517a0a0ec91",
+        "thumbnail_sha256": "e0729b6bd2432852327883cddeea970ba5fc08cbc343c61b8655063b616243f9",
+        "contact_sheet_position": 1210,
+        "contact_sheet_sha256": "17f561fb1460c6c65488e554ff9ba9dee5732388a74218f2c781b8c68a412ab5",
+        "screen": "deferred",
+        "reason": "Observed object/frame/chart/book page, detail or alternative scan; or muted/repetitive archival motif, not colourful-gallery priority"
+      },
+      {
+        "id": 87563861,
+        "original_sha1": "819c7baca4c54c0921fe5b3b5ed9cc6ddcfbdfcf",
+        "thumbnail_sha256": "6668799c68ae6f2231d2c44a70fe09425363e0ebb4bb0e8d12a9df1cecf0d447",
+        "contact_sheet_position": 1211,
+        "contact_sheet_sha256": "17f561fb1460c6c65488e554ff9ba9dee5732388a74218f2c781b8c68a412ab5",
+        "screen": "deferred",
+        "reason": "Observed object/frame/chart/book page, detail or alternative scan; or muted/repetitive archival motif, not colourful-gallery priority"
+      },
+      {
+        "id": 149596397,
+        "original_sha1": "9fb1179ee5df2a4ad99f25c3538556c3eb8d52ee",
+        "thumbnail_sha256": "33ebf2e3136712bcb6c62bdad71eebc59f5d8dc6bc0aa7886071da6d3bb858f0",
+        "contact_sheet_position": 1212,
+        "contact_sheet_sha256": "17f561fb1460c6c65488e554ff9ba9dee5732388a74218f2c781b8c68a412ab5",
+        "screen": "deferred",
+        "reason": "Observed object/frame/chart/book page, detail or alternative scan; or muted/repetitive archival motif, not colourful-gallery priority"
+      },
+      {
+        "id": 158519716,
+        "original_sha1": "6763dbcbfeced1e1a6794c38f752fba8a6600040",
+        "thumbnail_sha256": "e8c014ae8b5a2db885dcb0a348f74efd83aa460ae144feeafed3d6586cbd3150",
+        "contact_sheet_position": 1213,
+        "contact_sheet_sha256": "17f561fb1460c6c65488e554ff9ba9dee5732388a74218f2c781b8c68a412ab5",
+        "screen": "deferred",
+        "reason": "Observed object/frame/chart/book page, detail or alternative scan; or muted/repetitive archival motif, not colourful-gallery priority"
+      },
+      {
+        "id": 170499363,
+        "original_sha1": "1019afa7549878d7b90d9f66f16a28129e8f3ac3",
+        "thumbnail_sha256": "8d68c4755d8a189b2a7e47207c44582a9c1c14166f93060f3ceff2a501653ab1",
+        "contact_sheet_position": 1214,
+        "contact_sheet_sha256": "17f561fb1460c6c65488e554ff9ba9dee5732388a74218f2c781b8c68a412ab5",
+        "screen": "deferred",
+        "reason": "Observed object/frame/chart/book page, detail or alternative scan; or muted/repetitive archival motif, not colourful-gallery priority"
+      },
+      {
+        "id": 10180762,
+        "original_sha1": "2e0169759835abb2a262c3cba0d434ee430630b7",
+        "thumbnail_sha256": "5da14aae0dee5ac9fe21ce1d3bc2be075a42bdc59aebd31586320036c9047246",
+        "contact_sheet_position": 1215,
+        "contact_sheet_sha256": "17f561fb1460c6c65488e554ff9ba9dee5732388a74218f2c781b8c68a412ab5",
+        "screen": "deferred",
+        "reason": "Observed object/frame/chart/book page, detail or alternative scan; or muted/repetitive archival motif, not colourful-gallery priority"
+      },
+      {
+        "id": 72393119,
+        "original_sha1": "b7503946d80aeae10a388d1252fd8e01647de3ba",
+        "thumbnail_sha256": "feb06d73a8013909ea2a383e8e8c9f331e7c3f44e8746269faf64d97b244e07f",
+        "contact_sheet_position": 1216,
+        "contact_sheet_sha256": "0a3e78dc3947e8dbb24e932f215b591a8d750fbf98f0fcd3bcfa6868fa863468",
+        "screen": "deferred",
+        "reason": "Observed object/frame/chart/book page, detail or alternative scan; or muted/repetitive archival motif, not colourful-gallery priority"
+      },
+      {
+        "id": 84430006,
+        "original_sha1": "6dfea601ed7962afedb5b3233ac63c911f526fd6",
+        "thumbnail_sha256": "3054bc4f7076290bccce25ce6ef004c20977f12d65f51ca76b4e9189949c2773",
+        "contact_sheet_position": 1217,
+        "contact_sheet_sha256": "0a3e78dc3947e8dbb24e932f215b591a8d750fbf98f0fcd3bcfa6868fa863468",
+        "screen": "deferred",
+        "reason": "Observed object/frame/chart/book page, detail or alternative scan; or muted/repetitive archival motif, not colourful-gallery priority"
+      },
+      {
+        "id": 85305198,
+        "original_sha1": "4fa5c034b254958b16d4cb70c390f0ae8912a52f",
+        "thumbnail_sha256": "232c7e58eafe397ce9afe887f98df8c01897a9f417bb6c2f7b6bfb80925298bd",
+        "contact_sheet_position": 1218,
+        "contact_sheet_sha256": "0a3e78dc3947e8dbb24e932f215b591a8d750fbf98f0fcd3bcfa6868fa863468",
+        "screen": "deferred",
+        "reason": "Observed object/frame/chart/book page, detail or alternative scan; or muted/repetitive archival motif, not colourful-gallery priority"
+      },
+      {
+        "id": 106214810,
+        "original_sha1": "ab6de388785ce79125d302f3d0150e9a064f79a8",
+        "thumbnail_sha256": "a337c5fa36a43bfc70ac0ae93166c596a40ae2e60ebd639b286436cc98c445aa",
+        "contact_sheet_position": 1219,
+        "contact_sheet_sha256": "0a3e78dc3947e8dbb24e932f215b591a8d750fbf98f0fcd3bcfa6868fa863468",
+        "screen": "deferred",
+        "reason": "Observed object/frame/chart/book page, detail or alternative scan; or muted/repetitive archival motif, not colourful-gallery priority"
+      },
+      {
+        "id": 83571441,
+        "original_sha1": "8657b2df6f6d765434d3fe0793bd12ebc17d6a97",
+        "thumbnail_sha256": "929344a1e98581874c1fa8d40b905a4bd72c72cf75c56dafe70f87c569c654f2",
+        "contact_sheet_position": 1220,
+        "contact_sheet_sha256": "0a3e78dc3947e8dbb24e932f215b591a8d750fbf98f0fcd3bcfa6868fa863468",
+        "screen": "visual first-pass",
+        "reason": "Complete reproduction visually plausible; source, physical proportions and artwork identity require second review"
+      },
+      {
+        "id": 146906749,
+        "original_sha1": "ad918318f45f5f9e6955bd617b0b8fddd2ab3a09",
+        "thumbnail_sha256": "43ba162f86d5f9e37ae929fa0452d5c072300bf1017b14df4f3cb1a00140f4b7",
+        "contact_sheet_position": 1221,
+        "contact_sheet_sha256": "0a3e78dc3947e8dbb24e932f215b591a8d750fbf98f0fcd3bcfa6868fa863468",
+        "screen": "visual first-pass",
+        "reason": "Complete reproduction visually plausible; source, physical proportions and artwork identity require second review"
+      },
+      {
+        "id": 21975713,
+        "original_sha1": "b9ffdb5ec9eb9b220558d2c9ef97b2dd8c035a82",
+        "thumbnail_sha256": "ef02558b81b6934d7ab144a87c50857b3a19ee87c504cab1b8f14ac0a5486254",
+        "contact_sheet_position": 1222,
+        "contact_sheet_sha256": "0a3e78dc3947e8dbb24e932f215b591a8d750fbf98f0fcd3bcfa6868fa863468",
+        "screen": "deferred",
+        "reason": "Observed object/frame/chart/book page, detail or alternative scan; or muted/repetitive archival motif, not colourful-gallery priority"
+      },
+      {
+        "id": 34254215,
+        "original_sha1": "17c591ac6ca3d0c9a1b9be5f3eb666d8047a238b",
+        "thumbnail_sha256": "acbd2124ab5a84829cd51fa7000642b0bb2c328cf17f726c29348e048f11f55a",
+        "contact_sheet_position": 1223,
+        "contact_sheet_sha256": "0a3e78dc3947e8dbb24e932f215b591a8d750fbf98f0fcd3bcfa6868fa863468",
+        "screen": "deferred",
+        "reason": "Observed object/frame/chart/book page, detail or alternative scan; or muted/repetitive archival motif, not colourful-gallery priority"
+      },
+      {
+        "id": 117494345,
+        "original_sha1": "eb8fb4e2b412a75ae4e054c0ed439563bc69d551",
+        "thumbnail_sha256": "479c72b180a0380a14e6e1fb99f9dd549b476d1cc48bd142ffde4d4ed2d7b852",
+        "contact_sheet_position": 1224,
+        "contact_sheet_sha256": "0a3e78dc3947e8dbb24e932f215b591a8d750fbf98f0fcd3bcfa6868fa863468",
+        "screen": "visual first-pass",
+        "reason": "Complete reproduction visually plausible; source, physical proportions and artwork identity require second review"
+      },
+      {
+        "id": 9694102,
+        "original_sha1": "d79ceca608b0ef20d832dec388fbf694786c3556",
+        "thumbnail_sha256": "5678c415d7c24d80167d892473d712a98a409f29b5f29244919948b7292728df",
+        "contact_sheet_position": 1225,
+        "contact_sheet_sha256": "0a3e78dc3947e8dbb24e932f215b591a8d750fbf98f0fcd3bcfa6868fa863468",
+        "screen": "visual first-pass",
+        "reason": "Complete reproduction visually plausible; source, physical proportions and artwork identity require second review"
+      },
+      {
+        "id": 83829624,
+        "original_sha1": "9d08e15a3592d93c5a9980b21d9569cffaeceb05",
+        "thumbnail_sha256": "d07a9c9e3985af0d7aec15762664903d538c272fd28ab091fa4f064be88c03c5",
+        "contact_sheet_position": 1226,
+        "contact_sheet_sha256": "0a3e78dc3947e8dbb24e932f215b591a8d750fbf98f0fcd3bcfa6868fa863468",
+        "screen": "deferred",
+        "reason": "Observed object/frame/chart/book page, detail or alternative scan; or muted/repetitive archival motif, not colourful-gallery priority"
+      },
+      {
+        "id": 84113551,
+        "original_sha1": "e2231e816b55e3937da17f7f28e4314b60e0c4c2",
+        "thumbnail_sha256": "6dd736a4d0a20e2593fd8069db7be1a4f754bd7eeea9b00b3745144be699146a",
+        "contact_sheet_position": 1227,
+        "contact_sheet_sha256": "0a3e78dc3947e8dbb24e932f215b591a8d750fbf98f0fcd3bcfa6868fa863468",
+        "screen": "deferred",
+        "reason": "Observed object/frame/chart/book page, detail or alternative scan; or muted/repetitive archival motif, not colourful-gallery priority"
+      },
+      {
+        "id": 84725414,
+        "original_sha1": "ebd7741162b5482d42dc0ea1d5ab4bd14cebdd1d",
+        "thumbnail_sha256": "9bc5fa636606327d60562903a4ce9abeda46cd5a18b97364f087df7126a3bfae",
+        "contact_sheet_position": 1228,
+        "contact_sheet_sha256": "0a3e78dc3947e8dbb24e932f215b591a8d750fbf98f0fcd3bcfa6868fa863468",
+        "screen": "deferred",
+        "reason": "Observed object/frame/chart/book page, detail or alternative scan; or muted/repetitive archival motif, not colourful-gallery priority"
+      },
+      {
+        "id": 84820415,
+        "original_sha1": "2dea94ec884e7b25dcbe252d004839989826fb37",
+        "thumbnail_sha256": "657629d11223a756f066425483da6218621580ae39103ac336fbf4132597a6f7",
+        "contact_sheet_position": 1229,
+        "contact_sheet_sha256": "0a3e78dc3947e8dbb24e932f215b591a8d750fbf98f0fcd3bcfa6868fa863468",
+        "screen": "deferred",
+        "reason": "Observed object/frame/chart/book page, detail or alternative scan; or muted/repetitive archival motif, not colourful-gallery priority"
+      },
+      {
+        "id": 84871585,
+        "original_sha1": "c140737cb664f2ec7c32f593aafb4ed83915e9e6",
+        "thumbnail_sha256": "c201a71031162409fbd073d4be3f56b4635119cd0454c6b5028963d91a47e879",
+        "contact_sheet_position": 1230,
+        "contact_sheet_sha256": "0a3e78dc3947e8dbb24e932f215b591a8d750fbf98f0fcd3bcfa6868fa863468",
+        "screen": "deferred",
+        "reason": "Observed object/frame/chart/book page, detail or alternative scan; or muted/repetitive archival motif, not colourful-gallery priority"
+      },
+      {
+        "id": 85239386,
+        "original_sha1": "fc1bfef2c102b07ef0e5c208bba1447da52e75f8",
+        "thumbnail_sha256": "df756b3903b406cf1f87b2aa62c3d6d75c9d90fb8386c3bc34d274400a253a44",
+        "contact_sheet_position": 1231,
+        "contact_sheet_sha256": "0a3e78dc3947e8dbb24e932f215b591a8d750fbf98f0fcd3bcfa6868fa863468",
+        "screen": "deferred",
+        "reason": "Observed object/frame/chart/book page, detail or alternative scan; or muted/repetitive archival motif, not colourful-gallery priority"
+      },
+      {
+        "id": 85697281,
+        "original_sha1": "e04f9187d94cf9154d85bed59f27013fe1e65fa5",
+        "thumbnail_sha256": "fa907adbd432bbd1b674eb3d36c974f4d7d45a1af4d799241c1fd9e904b5ba0d",
+        "contact_sheet_position": 1232,
+        "contact_sheet_sha256": "c716c756e31e68c66ec6196a610e4fb990ad31c77e5472c80002c29ef0157cec",
+        "screen": "deferred",
+        "reason": "Observed object/frame/chart/book page, detail or alternative scan; or muted/repetitive archival motif, not colourful-gallery priority"
+      },
+      {
+        "id": 85938911,
+        "original_sha1": "971653ab73b4f9b62cdf9ae31f7c12acb9bf5261",
+        "thumbnail_sha256": "14a142b192a9388db5cbe1eb68161730e96a0018feca3cb6bf98458ec66baeee",
+        "contact_sheet_position": 1233,
+        "contact_sheet_sha256": "c716c756e31e68c66ec6196a610e4fb990ad31c77e5472c80002c29ef0157cec",
+        "screen": "deferred",
+        "reason": "Observed object/frame/chart/book page, detail or alternative scan; or muted/repetitive archival motif, not colourful-gallery priority"
+      },
+      {
+        "id": 146818616,
+        "original_sha1": "0044d87be0a77739533096e19eb72c565bc1f5ae",
+        "thumbnail_sha256": "5c254ba2e4d7ba73321bbf4a07b400cc36bcc2509cef921186fdafe314c421ab",
+        "contact_sheet_position": 1234,
+        "contact_sheet_sha256": "c716c756e31e68c66ec6196a610e4fb990ad31c77e5472c80002c29ef0157cec",
+        "screen": "deferred",
+        "reason": "Observed object/frame/chart/book page, detail or alternative scan; or muted/repetitive archival motif, not colourful-gallery priority"
+      },
+      {
+        "id": 22248528,
+        "original_sha1": "052a23b5bddb32ffd795027bc184791b2726d6d3",
+        "thumbnail_sha256": "f88c23c2335f3d206c448a70967062fa049d1164f28ba8301692d35c676039af",
+        "contact_sheet_position": 1235,
+        "contact_sheet_sha256": "c716c756e31e68c66ec6196a610e4fb990ad31c77e5472c80002c29ef0157cec",
+        "screen": "visual first-pass",
+        "reason": "Complete reproduction visually plausible; source, physical proportions and artwork identity require second review"
+      },
+      {
+        "id": 109339521,
+        "original_sha1": "4819212dd8792b84e1bfab5b55f73d270e4d3ef3",
+        "thumbnail_sha256": "4a18505a242b0fc698c9b2e4635d46e98416ea59ef2535ba94de5c3370ab59ae",
+        "contact_sheet_position": 1236,
+        "contact_sheet_sha256": "c716c756e31e68c66ec6196a610e4fb990ad31c77e5472c80002c29ef0157cec",
+        "screen": "deferred",
+        "reason": "Observed object/frame/chart/book page, detail or alternative scan; or muted/repetitive archival motif, not colourful-gallery priority"
+      },
+      {
+        "id": 144414840,
+        "original_sha1": "029bfeef879496db56f91c13d7410bfd972d2df3",
+        "thumbnail_sha256": "327c8ec6c4cf4156d41edf987519a3a33228718508c7eac45696a4efe212f222",
+        "contact_sheet_position": 1237,
+        "contact_sheet_sha256": "c716c756e31e68c66ec6196a610e4fb990ad31c77e5472c80002c29ef0157cec",
+        "screen": "deferred",
+        "reason": "Observed object/frame/chart/book page, detail or alternative scan; or muted/repetitive archival motif, not colourful-gallery priority"
+      },
+      {
+        "id": 178372344,
+        "original_sha1": "2afb6a9d1e663203c882b0b2130566044b11e5a0",
+        "thumbnail_sha256": "3563920ad17bde9543f017c6f6fbb9e6d7bc55d77c48be5c656e600b996f7636",
+        "contact_sheet_position": 1238,
+        "contact_sheet_sha256": "c716c756e31e68c66ec6196a610e4fb990ad31c77e5472c80002c29ef0157cec",
+        "screen": "deferred",
+        "reason": "Observed object/frame/chart/book page, detail or alternative scan; or muted/repetitive archival motif, not colourful-gallery priority"
+      },
+      {
+        "id": 78355222,
+        "original_sha1": "27f9d1cdf128ffb54b859fe723cc0bb67de92e5b",
+        "thumbnail_sha256": "af356729ef7e2e97bb8e15c2765ba14209e4275810a8c512499138133d929326",
+        "contact_sheet_position": 1239,
+        "contact_sheet_sha256": "c716c756e31e68c66ec6196a610e4fb990ad31c77e5472c80002c29ef0157cec",
+        "screen": "visual first-pass",
+        "reason": "Complete reproduction visually plausible; source, physical proportions and artwork identity require second review"
+      },
+      {
+        "id": 112502236,
+        "original_sha1": "2744e2e5fed4298f0a8c382dabf12b73a7d7f1e9",
+        "thumbnail_sha256": "b232dfe98afb01805ebe6e252f5ad6233634dd698f04e54066cb7bf9e9533980",
+        "contact_sheet_position": 1240,
+        "contact_sheet_sha256": "c716c756e31e68c66ec6196a610e4fb990ad31c77e5472c80002c29ef0157cec",
+        "screen": "visual first-pass",
+        "reason": "Complete reproduction visually plausible; source, physical proportions and artwork identity require second review"
+      },
+      {
+        "id": 84703149,
+        "original_sha1": "fb18a627cbd7b4becbc7f27acdc8f121e4b9984e",
+        "thumbnail_sha256": "7b2289f44a2461564adca4fe6d6c0a450fdf14d95378ed70d65893bcc03f3550",
+        "contact_sheet_position": 1241,
+        "contact_sheet_sha256": "c716c756e31e68c66ec6196a610e4fb990ad31c77e5472c80002c29ef0157cec",
+        "screen": "deferred",
+        "reason": "Observed object/frame/chart/book page, detail or alternative scan; or muted/repetitive archival motif, not colourful-gallery priority"
+      },
+      {
+        "id": 56283143,
+        "original_sha1": "f037f798727041d1cf23c5b9e054abb62b779ee3",
+        "thumbnail_sha256": "d8b75e13a9974ee7345feac172e6c0c3cdb769c949a474ec2c6906e2b6329b96",
+        "contact_sheet_position": 1242,
+        "contact_sheet_sha256": "c716c756e31e68c66ec6196a610e4fb990ad31c77e5472c80002c29ef0157cec",
+        "screen": "visual first-pass",
+        "reason": "Complete reproduction visually plausible; source, physical proportions and artwork identity require second review"
+      },
+      {
+        "id": 83593797,
+        "original_sha1": "9a64eb1c8e9a19f3d9485b5f250b4022d08827ec",
+        "thumbnail_sha256": "50589cee03c35c60ebd5026acdcb924cb5a7a85170d5ee00c0ef993ebae0eeeb",
+        "contact_sheet_position": 1243,
+        "contact_sheet_sha256": "c716c756e31e68c66ec6196a610e4fb990ad31c77e5472c80002c29ef0157cec",
+        "screen": "visual first-pass",
+        "reason": "Complete reproduction visually plausible; source, physical proportions and artwork identity require second review"
+      },
+      {
+        "id": 176662289,
+        "original_sha1": "08dd97f435b62637fa8c8c1d0324735d612dc798",
+        "thumbnail_sha256": "108568834b1bdd0e94a95195346179200f7da6b2f8d794606ad0adb21d785c9d",
+        "contact_sheet_position": 1244,
+        "contact_sheet_sha256": "c716c756e31e68c66ec6196a610e4fb990ad31c77e5472c80002c29ef0157cec",
+        "screen": "visual first-pass",
+        "reason": "Complete reproduction visually plausible; source, physical proportions and artwork identity require second review"
+      },
+      {
+        "id": 39850386,
+        "original_sha1": "8440f5c559cd6babb7c31436cdfeabb23b552234",
+        "thumbnail_sha256": "841c08593e0d3ee877fede541cf5b85dadb968d0a7db9ba40f410cb932438ec4",
+        "contact_sheet_position": 1245,
+        "contact_sheet_sha256": "c716c756e31e68c66ec6196a610e4fb990ad31c77e5472c80002c29ef0157cec",
+        "screen": "visual first-pass",
+        "reason": "Complete reproduction visually plausible; source, physical proportions and artwork identity require second review"
+      },
+      {
+        "id": 146948572,
+        "original_sha1": "9eba86ce1bea71f3b03878dbb9be4f6c5c9ffe1c",
+        "thumbnail_sha256": "243e2c6469d27e6e01c29b730e964515c577238d19439dd25a5824c3945e8484",
+        "contact_sheet_position": 1246,
+        "contact_sheet_sha256": "c716c756e31e68c66ec6196a610e4fb990ad31c77e5472c80002c29ef0157cec",
+        "screen": "deferred",
+        "reason": "Observed object/frame/chart/book page, detail or alternative scan; or muted/repetitive archival motif, not colourful-gallery priority"
+      },
+      {
+        "id": 68399703,
+        "original_sha1": "f31e467a8eec21988c36aacccce91a08c10244f2",
+        "thumbnail_sha256": "21ac3fd8fe805368b64733ea2645c4e5d454f5bf7165b0c1932613d456b5fe71",
+        "contact_sheet_position": 1247,
+        "contact_sheet_sha256": "c716c756e31e68c66ec6196a610e4fb990ad31c77e5472c80002c29ef0157cec",
+        "screen": "deferred",
+        "reason": "Observed object/frame/chart/book page, detail or alternative scan; or muted/repetitive archival motif, not colourful-gallery priority"
+      },
+      {
+        "id": 85495265,
+        "original_sha1": "21c73cc527e79381d2edc6651840c272b216ce98",
+        "thumbnail_sha256": "dae6cfebc32d43fccd4dd7e5d951d25af89412f1a775adccb026d209aef5b607",
+        "contact_sheet_position": 1248,
+        "contact_sheet_sha256": "43df3277011068f5c79c911ae59d4492bf1e13eca53dce87e5968cdd1ea8f8ed",
+        "screen": "deferred",
+        "reason": "Observed object/frame/chart/book page, detail or alternative scan; or muted/repetitive archival motif, not colourful-gallery priority"
+      },
+      {
+        "id": 132704252,
+        "original_sha1": "fca1ef52bf84eacf8179f56affd624434871e956",
+        "thumbnail_sha256": "22c4dded2cbba17d9cda8150afa480bf91fb5c1a908d47c5b524a00c7eaf9cfc",
+        "contact_sheet_position": 1249,
+        "contact_sheet_sha256": "43df3277011068f5c79c911ae59d4492bf1e13eca53dce87e5968cdd1ea8f8ed",
+        "screen": "visual first-pass",
+        "reason": "Complete reproduction visually plausible; source, physical proportions and artwork identity require second review"
+      },
+      {
+        "id": 125233515,
+        "original_sha1": "5c517b5cbe274a578a9295f8df0209acf8ad9b1c",
+        "thumbnail_sha256": "37d5a6320b79ca9d54c63ca69adc9a7eb0beca0b40d2ed73d411c756d2d78a54",
+        "contact_sheet_position": 1250,
+        "contact_sheet_sha256": "43df3277011068f5c79c911ae59d4492bf1e13eca53dce87e5968cdd1ea8f8ed",
+        "screen": "deferred",
+        "reason": "Observed object/frame/chart/book page, detail or alternative scan; or muted/repetitive archival motif, not colourful-gallery priority"
+      },
+      {
+        "id": 186311052,
+        "original_sha1": "17f07b5cb47c766682f851f3bfec2e8a0c26dc2d",
+        "thumbnail_sha256": "b85c538a553071923a5a8c3e236b01623e010a150dff83a5743fa7fab3b72432",
+        "contact_sheet_position": 1251,
+        "contact_sheet_sha256": "43df3277011068f5c79c911ae59d4492bf1e13eca53dce87e5968cdd1ea8f8ed",
+        "screen": "visual first-pass",
+        "reason": "Complete reproduction visually plausible; source, physical proportions and artwork identity require second review"
+      },
+      {
+        "id": 103597767,
+        "original_sha1": "400423d6c1cb7cd16a984c7fe4c2f29498eba726",
+        "thumbnail_sha256": "66ba9bcf4a84d2129ad3286aa8628681dcfaae33e972053f0fd68ba4025dacfa",
+        "contact_sheet_position": 1252,
+        "contact_sheet_sha256": "43df3277011068f5c79c911ae59d4492bf1e13eca53dce87e5968cdd1ea8f8ed",
+        "screen": "deferred",
+        "reason": "Observed object/frame/chart/book page, detail or alternative scan; or muted/repetitive archival motif, not colourful-gallery priority"
+      },
+      {
+        "id": 144046089,
+        "original_sha1": "37b5639bf8662d4b0f0e7c589ef5015ebe412a8c",
+        "thumbnail_sha256": "553403e3e9e12f70db6be63c3d123ec1a4aff9e11fafeed92dd24de845877a07",
+        "contact_sheet_position": 1253,
+        "contact_sheet_sha256": "43df3277011068f5c79c911ae59d4492bf1e13eca53dce87e5968cdd1ea8f8ed",
+        "screen": "deferred",
+        "reason": "Observed object/frame/chart/book page, detail or alternative scan; or muted/repetitive archival motif, not colourful-gallery priority"
+      },
+      {
+        "id": 177344081,
+        "original_sha1": "04e1ed4ae7056c043b8a13d44cc0a0e683e23362",
+        "thumbnail_sha256": "55d604defa8d0464af2ebba0cf9b5def6899dcdb96854524d3b968d44ca34fae",
+        "contact_sheet_position": 1254,
+        "contact_sheet_sha256": "43df3277011068f5c79c911ae59d4492bf1e13eca53dce87e5968cdd1ea8f8ed",
+        "screen": "deferred",
+        "reason": "Observed object/frame/chart/book page, detail or alternative scan; or muted/repetitive archival motif, not colourful-gallery priority"
+      },
+      {
+        "id": 177348656,
+        "original_sha1": "bc509079b22aff89919a3363e3f19610651cde1f",
+        "thumbnail_sha256": "e48675737c8e11c52e8410ba3b35899e5b995a7436b35125af3d46e98fea580c",
+        "contact_sheet_position": 1255,
+        "contact_sheet_sha256": "43df3277011068f5c79c911ae59d4492bf1e13eca53dce87e5968cdd1ea8f8ed",
+        "screen": "deferred",
+        "reason": "Observed object/frame/chart/book page, detail or alternative scan; or muted/repetitive archival motif, not colourful-gallery priority"
+      },
+      {
+        "id": 191191137,
+        "original_sha1": "9c1cdb5ad5244f7f7ef3b7d5fb8cf7c1469f4692",
+        "thumbnail_sha256": "d9edf4ab9f85fc277f1d13d819664e72f533015576868855b6ec60426260f28a",
+        "contact_sheet_position": 1256,
+        "contact_sheet_sha256": "43df3277011068f5c79c911ae59d4492bf1e13eca53dce87e5968cdd1ea8f8ed",
+        "screen": "visual first-pass",
+        "reason": "Complete reproduction visually plausible; source, physical proportions and artwork identity require second review"
+      },
+      {
+        "id": 191256679,
+        "original_sha1": "6c40845c3aeb1e580f020e474a5c3405180f68cc",
+        "thumbnail_sha256": "17f096bacc4970db45aeb1587e2ee57264ad1d09e4364b1a12b4e163b2f02ce6",
+        "contact_sheet_position": 1257,
+        "contact_sheet_sha256": "43df3277011068f5c79c911ae59d4492bf1e13eca53dce87e5968cdd1ea8f8ed",
+        "screen": "deferred",
+        "reason": "Observed object/frame/chart/book page, detail or alternative scan; or muted/repetitive archival motif, not colourful-gallery priority"
+      },
+      {
+        "id": 21932258,
+        "original_sha1": "6840796b44040c8901257007c499d8d058f90d93",
+        "thumbnail_sha256": "3b6e8725a41ece7c322ecdc518d948a3073bcf86135cfcf7fe009ca58a12b230",
+        "contact_sheet_position": 1258,
+        "contact_sheet_sha256": "43df3277011068f5c79c911ae59d4492bf1e13eca53dce87e5968cdd1ea8f8ed",
+        "screen": "visual first-pass",
+        "reason": "Complete reproduction visually plausible; source, physical proportions and artwork identity require second review"
+      },
+      {
+        "id": 71001698,
+        "original_sha1": "dab3dbe8938ebc14a228365c2e056759f0bc54c5",
+        "thumbnail_sha256": "fea4821624f836690b4c4b04011ebe09a2803ebe35c1d419653d20a3bbca4a5e",
+        "contact_sheet_position": 1259,
+        "contact_sheet_sha256": "43df3277011068f5c79c911ae59d4492bf1e13eca53dce87e5968cdd1ea8f8ed",
+        "screen": "deferred",
+        "reason": "Observed object/frame/chart/book page, detail or alternative scan; or muted/repetitive archival motif, not colourful-gallery priority"
+      },
+      {
+        "id": 189613984,
+        "original_sha1": "5a9d3c6c30dd24172928473d7273216ecd12c74b",
+        "thumbnail_sha256": "9574f60829a14a281a14d717d50a8258aea90f7186b15829494021df29feeba8",
+        "contact_sheet_position": 1260,
+        "contact_sheet_sha256": "43df3277011068f5c79c911ae59d4492bf1e13eca53dce87e5968cdd1ea8f8ed",
+        "screen": "visual first-pass",
+        "reason": "Complete reproduction visually plausible; source, physical proportions and artwork identity require second review"
+      },
+      {
+        "id": 66458488,
+        "original_sha1": "edf42ab58d033901526c26708b45342c08045a42",
+        "thumbnail_sha256": "874cbac9ec78a19e5da1fc79ac22aa0b7e7d1cb471017dc515733d4ed1349595",
+        "contact_sheet_position": 1261,
+        "contact_sheet_sha256": "43df3277011068f5c79c911ae59d4492bf1e13eca53dce87e5968cdd1ea8f8ed",
+        "screen": "deferred",
+        "reason": "Observed object/frame/chart/book page, detail or alternative scan; or muted/repetitive archival motif, not colourful-gallery priority"
+      },
+      {
+        "id": 68763294,
+        "original_sha1": "7bb1d3c2ce984721dda2911760afede8a209948c",
+        "thumbnail_sha256": "e760d90ba22c12a4425c035a3744e58b061bfa2223cf732d828332c17f317247",
+        "contact_sheet_position": 1262,
+        "contact_sheet_sha256": "43df3277011068f5c79c911ae59d4492bf1e13eca53dce87e5968cdd1ea8f8ed",
+        "screen": "deferred",
+        "reason": "Observed object/frame/chart/book page, detail or alternative scan; or muted/repetitive archival motif, not colourful-gallery priority"
+      },
+      {
+        "id": 68068242,
+        "original_sha1": "29f768155121e4cce716767fafb2f430e6c0194f",
+        "thumbnail_sha256": "2ee8260eb299b06541dc72af76faf89435c2e970926d12231473656c3d650c6a",
+        "contact_sheet_position": 1263,
+        "contact_sheet_sha256": "43df3277011068f5c79c911ae59d4492bf1e13eca53dce87e5968cdd1ea8f8ed",
+        "screen": "deferred",
+        "reason": "Observed object/frame/chart/book page, detail or alternative scan; or muted/repetitive archival motif, not colourful-gallery priority"
+      },
+      {
+        "id": 194114953,
+        "original_sha1": "56fa9e00f8b20605ce065113d9683456a93699fc",
+        "thumbnail_sha256": "7adbdee1f9d7f5b7b85235f96b2843886916c6adda9bc84aa35d2bb23dccf9cc",
+        "contact_sheet_position": 1264,
+        "contact_sheet_sha256": "5fe77bbbb53144704b362039d91c9e944eac209c0928a9be59ee7a456f450587",
+        "screen": "deferred",
+        "reason": "Observed object/frame/chart/book page, detail or alternative scan; or muted/repetitive archival motif, not colourful-gallery priority"
+      },
+      {
+        "id": 194115630,
+        "original_sha1": "82f0b88cf00726336a8f3a0e1b07a902e88a9064",
+        "thumbnail_sha256": "1927257a0418066d5b316fcc010a73a76860b88fe1c1126fcce35c77aac75a04",
+        "contact_sheet_position": 1265,
+        "contact_sheet_sha256": "5fe77bbbb53144704b362039d91c9e944eac209c0928a9be59ee7a456f450587",
+        "screen": "deferred",
+        "reason": "Observed object/frame/chart/book page, detail or alternative scan; or muted/repetitive archival motif, not colourful-gallery priority"
+      },
+      {
+        "id": 194428429,
+        "original_sha1": "158934c7f1c12205a643f2bd17c97c68ce09f3d5",
+        "thumbnail_sha256": "067ac978ec260ffc0e59cb87c04596d6ef719100d537577d2649ea4051daf659",
+        "contact_sheet_position": 1266,
+        "contact_sheet_sha256": "5fe77bbbb53144704b362039d91c9e944eac209c0928a9be59ee7a456f450587",
+        "screen": "deferred",
+        "reason": "Observed object/frame/chart/book page, detail or alternative scan; or muted/repetitive archival motif, not colourful-gallery priority"
+      },
+      {
+        "id": 51575331,
+        "original_sha1": "291360cd944946d6183ee048e20f43c87b56da89",
+        "thumbnail_sha256": "7761d7ed2c6c6d65d08bcd1f60b9aaf80fccb8dd87e80f92e974c44bde49f28c",
+        "contact_sheet_position": 1267,
+        "contact_sheet_sha256": "5fe77bbbb53144704b362039d91c9e944eac209c0928a9be59ee7a456f450587",
+        "screen": "visual first-pass",
+        "reason": "Complete reproduction visually plausible; source, physical proportions and artwork identity require second review"
       }
     ]
   },
@@ -10190,12 +12102,124 @@
       "distance": 0,
       "other_title": "Anthropoid coffin with remains of a painted decoration",
       "status": "manual artwork-identity check required; not automatic rejection"
+    },
+    {
+      "candidate": 146960839,
+      "other": 34313529,
+      "other_origin": "baseline",
+      "distance": 4,
+      "other_title": "Still Life with Fruits and Flowers",
+      "status": "manual artwork-identity check required; not automatic rejection"
+    },
+    {
+      "candidate": 146945249,
+      "other": 34321133,
+      "other_origin": "baseline",
+      "distance": 5,
+      "other_title": "Tulip Fields",
+      "status": "manual artwork-identity check required; not automatic rejection"
+    },
+    {
+      "candidate": 187535020,
+      "other": 76000401,
+      "other_origin": "candidate",
+      "distance": 29,
+      "other_title": "Piazza San Marco, Venice",
+      "status": "manual artwork-identity check required; not automatic rejection"
+    },
+    {
+      "candidate": 147535397,
+      "other": 147535363,
+      "other_origin": "candidate",
+      "distance": 0,
+      "other_title": "Gezicht op de Barentszzee met ijsschotsen en een ijsberg, RP-T-1971-216-8(R)",
+      "status": "manual artwork-identity check required; not automatic rejection"
+    },
+    {
+      "candidate": 147535500,
+      "other": 147535452,
+      "other_origin": "candidate",
+      "distance": 0,
+      "other_title": "Gezicht op de Barentszzee en ijsbergen, RP-T-1971-216-7(R)",
+      "status": "manual artwork-identity check required; not automatic rejection"
+    },
+    {
+      "candidate": 147535703,
+      "other": 147535655,
+      "other_origin": "candidate",
+      "distance": 0,
+      "other_title": "IJsschotsen, RP-T-1971-216-5(R)",
+      "status": "manual artwork-identity check required; not automatic rejection"
+    },
+    {
+      "candidate": 147536037,
+      "other": 147535742,
+      "other_origin": "candidate",
+      "distance": 0,
+      "other_title": "Gezicht op de Barentszzee, RP-T-1971-216-4(R)",
+      "status": "manual artwork-identity check required; not automatic rejection"
+    },
+    {
+      "candidate": 124912223,
+      "other": 189362292,
+      "other_origin": "candidate",
+      "distance": 6,
+      "other_title": "German: Schafherde mit Schäfer Flock of Sheep with Shepherd",
+      "status": "manual artwork-identity check required; not automatic rejection"
+    },
+    {
+      "candidate": 178372378,
+      "other": 147616299,
+      "other_origin": "candidate",
+      "distance": 1,
+      "other_title": "Wall painting: Iti with two bowmen",
+      "status": "manual artwork-identity check required; not automatic rejection"
+    },
+    {
+      "candidate": 146906749,
+      "other": 34319635,
+      "other_origin": "baseline",
+      "distance": 2,
+      "other_title": "Flusslandschaft mit Reitern",
+      "status": "manual artwork-identity check required; not automatic rejection"
+    },
+    {
+      "candidate": 178372344,
+      "other": 144414840,
+      "other_origin": "candidate",
+      "distance": 0,
+      "other_title": "Wall painting: two fragmentary figures",
+      "status": "manual artwork-identity check required; not automatic rejection"
+    },
+    {
+      "candidate": 39850386,
+      "other": 128008817,
+      "other_origin": "baseline",
+      "distance": 11,
+      "other_title": "Sunset at Villerville",
+      "status": "manual artwork-identity check required; not automatic rejection"
+    },
+    {
+      "candidate": 51575331,
+      "other": 21878879,
+      "other_origin": "baseline",
+      "distance": 1,
+      "other_title": "Echo und Narcissus",
+      "status": "manual artwork-identity check required; not automatic rejection"
+    },
+    {
+      "candidate": 51575331,
+      "other": 79404035,
+      "other_origin": "candidate",
+      "distance": 3,
+      "other_title": "Echo and Narcissus",
+      "status": "manual artwork-identity check required; not automatic rejection"
     }
   ],
   "required_next_checks": [
     "remaining visual review and distinct physical artwork identities",
     "source/proportion/provenance and rights-basis decisions",
-    "485 additional actual approvals plus complete source-bound colour profiles",
+    "456 additional actual approvals plus complete source-bound colour profiles",
     "full catalogue/preview/documentation and native release gates"
   ],
   "private_cache": "build/commons-1000-research (retain locally; never distribute artwork bytes)"

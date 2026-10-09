@@ -43,7 +43,9 @@ def eligible(info: dict) -> bool:
     )
 
 
-def discover(artwork: bool = False, paintings: bool = False) -> None:
+def discover(
+    artwork: bool = False, paintings: bool = False, pdart: bool = False
+) -> None:
     sys.path.insert(0, str(ROOT))
     sys.path.insert(0, str(ROOT / "frame_gallery/src"))
     from frame_gallery.budget.allowance import Allowance
@@ -59,7 +61,15 @@ def discover(artwork: bool = False, paintings: bool = False) -> None:
     from research_tools.commons_colours import BASELINE, save
 
     OUTPUT.mkdir(parents=True, exist_ok=True)
-    name = "paintings" if paintings else "artwork" if artwork else "broad"
+    name = (
+        "pdart-single"
+        if pdart
+        else "paintings"
+        if paintings
+        else "artwork"
+        if artwork
+        else "broad"
+    )
     path = OUTPUT / (f"discovery-{name}.json" if name != "broad" else "discovery.json")
     baseline = json.loads(BASELINE.read_text())["included"]
     excluded_ids = {w["id"] for w in baseline}
@@ -93,7 +103,10 @@ def discover(artwork: bool = False, paintings: bool = False) -> None:
     deadline = Deadline.after(clock, 900, "finite Commons discovery")
     scanned = set(report["scanned_ids"])
     hashes = excluded_hashes | {w["sha1"] for w in report["candidates"]}
-    for low, high in WIDTH_WINDOWS:
+    windows = (
+        WIDTH_WINDOWS + ((20001, 35000), (35001, 100000)) if pdart else WIDTH_WINDOWS
+    )
+    for low, high in windows:
         key = f"{low}-{high}"
         if key in report["completed_windows"]:
             continue
@@ -101,7 +114,9 @@ def discover(artwork: bool = False, paintings: bool = False) -> None:
         # original metadata gets the unchanged exact 2.5% check afterwards.
         bottom, top = int(low / (16 / 9) / 1.025), int(high / (16 / 9) / 0.975) + 1
         subject = (
-            'hastemplate:Artwork insource:"oil"'
+            'hastemplate:"PD-Art"'
+            if pdart
+            else 'hastemplate:Artwork insource:"oil"'
             if paintings
             else "hastemplate:Artwork"
             if artwork
@@ -136,6 +151,9 @@ def discover(artwork: bool = False, paintings: bool = False) -> None:
                 or "error" in response
                 or "warnings" in response
             ):
+                save(
+                    OUTPUT / f"search-{name}-{key}-{page_index}-refused.json", response
+                )
                 raise ValueError("discovery query refused")
             save(OUTPUT / f"search-{name}-{key}-{page_index}.json", response)
             report["pages_scanned"] += 1
@@ -198,5 +216,8 @@ if __name__ == "__main__":
     parser = argparse.ArgumentParser()
     parser.add_argument("--artwork", action="store_true")
     parser.add_argument("--paintings", action="store_true")
+    parser.add_argument("--pdart", action="store_true")
     args = parser.parse_args()
-    discover(args.artwork, args.paintings)
+    if sum((args.artwork, args.paintings, args.pdart)) > 1:
+        parser.error("choose one research search scope")
+    discover(args.artwork, args.paintings, args.pdart)

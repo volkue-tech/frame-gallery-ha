@@ -436,10 +436,104 @@ def fourth_screen() -> None:
     print(json.dumps(dict(fourth_screened=len(rows), plausible=len(plausible))))
 
 
+def fifth_screen() -> None:
+    """Transcribe sheets 066--079 actually viewed; no automatic acceptance."""
+    plausible = {
+        1069,
+        1070,
+        1071,
+        1075,
+        1079,
+        1080,
+        1082,
+        1083,
+        1089,
+        1102,
+        1103,
+        1109,
+        1133,
+        1151,
+        1153,
+        1160,
+        1163,
+        1165,
+        1166,
+        1167,
+        1172,
+        1173,
+        1176,
+        1189,
+        1193,
+        1220,
+        1221,
+        1224,
+        1225,
+        1235,
+        1239,
+        1240,
+        1242,
+        1243,
+        1244,
+        1245,
+        1249,
+        1251,
+        1256,
+        1258,
+        1260,
+        1267,
+    }
+    works = json.loads((OUTPUT / "profiles.json").read_text())["profiles"]
+    path = OUTPUT / "visual-screen-005.json"
+    if path.exists():
+        saved = json.loads(path.read_text())["records"]
+        for row, work in zip(saved, works[1056:1268], strict=True):
+            if (
+                row["id"] != work["id"]
+                or row["thumbnail_sha256"] != work["thumbnail_sha256"]
+            ):
+                raise ValueError("fifth inspected preview changed")
+        return
+    rows = []
+    for position in range(1056, 1268):
+        work = works[position]
+        rows.append(
+            dict(
+                id=work["id"],
+                original_sha1=work["original_sha1"],
+                thumbnail_sha256=work["thumbnail_sha256"],
+                contact_sheet_position=position,
+                contact_sheet_sha256=hashlib.sha256(
+                    (OUTPUT / f"sheet-{position // 16:03}.jpg").read_bytes()
+                ).hexdigest(),
+                screen="visual first-pass" if position in plausible else "deferred",
+                reason=(
+                    "Complete reproduction visually plausible; source, physical "
+                    "proportions and artwork identity require second review"
+                )
+                if position in plausible
+                else (
+                    "Observed object/frame/chart/book page, detail or alternative "
+                    "scan; "
+                    "or muted/repetitive archival motif, not colourful-gallery priority"
+                ),
+            )
+        )
+    save(
+        path,
+        dict(
+            schema=1,
+            inspected_at=datetime.now(UTC).isoformat(),
+            status="Actual first visual screen only; no automatic acceptance",
+            records=rows,
+        ),
+    )
+    print(json.dumps(dict(fifth_screened=len(rows), plausible=len(plausible))))
+
+
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
     parser.add_argument(
-        "mode", choices=("screen", "reparse", "failures", "third", "fourth")
+        "mode", choices=("screen", "reparse", "failures", "third", "fourth", "fifth")
     )
     args = parser.parse_args()
     if args.mode == "screen":
@@ -450,5 +544,7 @@ if __name__ == "__main__":
         failures()
     elif args.mode == "third":
         third_screen()
-    else:
+    elif args.mode == "fourth":
         fourth_screen()
+    else:
+        fifth_screen()

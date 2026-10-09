@@ -3,7 +3,7 @@
 import unittest
 
 from research_tools.commons_dossiers import physical, qids
-from research_tools.commons_review import template_names, us_basis
+from research_tools.commons_review import artwork_artist, template_names, us_basis
 from research_tools.commons_targeted import artist_term
 
 
@@ -68,6 +68,29 @@ class DossierTests(unittest.TestCase):
             "<!-- {{PD-Art|PD-old-100-1923}} -->",
         ):
             self.assertEqual(us_basis(template_names(markup), markup), [])
+
+    def test_dutch_museum_axes_are_not_ignored_or_reversed(self):
+        values = physical("|Description=Afmetingen: h 138 mm × b 254 mm\n|Date=1880")
+        self.assertEqual(values[0]["ratio"], 254 / 138)
+        values = physical(
+            "|Description=drager: h 54,7 cm. × b 976 mm × d 1,9 cm\n|Date=1626"
+        )
+        self.assertAlmostEqual(values[0]["ratio"], 976 / 547)
+        self.assertEqual(physical("|Description=h 0 mm × b 100 mm\n|Date=1626"), [])
+
+    def test_museum_upload_credit_is_not_artwork_artist(self):
+        description = (
+            "<b>Vervaardiger:</b> tekenaar: Henri Joseph Harpignies<br>"
+            "<b>Datering:</b> 1861"
+        )
+        self.assertEqual(
+            artwork_artist("Rijksmuseum", description), "Henri Joseph Harpignies"
+        )
+        self.assertEqual(
+            artwork_artist("Rijksmuseum", "no explicit maker"),
+            "Artist not identified (Rijksmuseum source)",
+        )
+        self.assertEqual(artwork_artist("Other museum", description), "Other museum")
 
 
 if __name__ == "__main__":

@@ -108,6 +108,26 @@ def template_names(wikitext: str) -> set[str]:
     }
 
 
+def artwork_artist(observed: object, description: object) -> str:
+    """An institution upload credit is not the maker of the original artwork.
+
+    Only this explicit Rijksmuseum source format is resolved; no category/name
+    guessing. Unknown/attributed maker statements remain qualified as recorded.
+    """
+    artist = plain(observed)
+    if artist != "Rijksmuseum" or not isinstance(description, str):
+        return artist
+    text = plain(description)
+    match = re.search(
+        r"Vervaardiger:\s*(?:tekenaar|schilder|ontwerper):\s*(.*?)\s+Datering:", text
+    )
+    return (
+        match[1].strip()
+        if match and match[1].strip()
+        else "Artist not identified (Rijksmuseum source)"
+    )
+
+
 def us_basis(names: set[str], wikitext: str = "") -> list[str]:
     # PD-Art's documented first parameter names the underlying public-domain
     # basis. Record it distinctly; never treat PD-Art alone as US clearance.
@@ -192,7 +212,7 @@ def prepare(page: dict, expected: dict) -> dict:
     return dict(
         **expected,
         title=plain(values.get("ObjectName")) or expected["file_title"][5:],
-        artist=plain(values.get("Artist")),
+        artist=artwork_artist(values.get("Artist"), values.get("ImageDescription")),
         date=plain(values.get("DateTimeOriginal")),
         description=plain(values.get("ImageDescription")),
         rights_label=values.get("LicenseShortName"),
@@ -250,6 +270,8 @@ def metadata(limit: int) -> None:
     # fallback evidence. No automatic promotion based on these search labels.
     for name in (
         "discovery-targeted.json",
+        "discovery-pdart.json",
+        "discovery-pdart-single.json",
         "discovery-artists.json",
         "discovery-paintings.json",
         "discovery-artwork.json",

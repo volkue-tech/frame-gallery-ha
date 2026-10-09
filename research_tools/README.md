@@ -3,7 +3,7 @@
 This tooling is outside the runtime package. No credentials, original-image
 downloads, Home Assistant access or television access are needed. It does not
 automatically approve catalogue additions. Explicit second-view choices retain
-115 retained local research acceptances; the current released/runtime catalogue
+144 retained local research acceptances; the current released/runtime catalogue
 has 400. The earlier provisional 127 were reduced after plain source measurements
 exposed additional possible crops; subsequent actual visual reviews added other
 works. Use the checkpoint/curation manifest for the current count, not this history.
@@ -49,6 +49,7 @@ frame_gallery/.venv/bin/python -m research_tools.commons_curation fingerprints
 frame_gallery/.venv/bin/python -m unittest research_tools.test_commons_colours
 frame_gallery/.venv/bin/python -m unittest research_tools.test_commons_dossiers
 frame_gallery/.venv/bin/python -m research_tools.commons_targeted --limit 150
+frame_gallery/.venv/bin/python -m research_tools.commons_expand --pdart
 frame_gallery/.venv/bin/python -m research_tools.commons_identity_review
 frame_gallery/.venv/bin/python -m research_tools.commons_dossiers
 frame_gallery/.venv/bin/python -m research_tools.commons_dossiers sheets
@@ -74,6 +75,9 @@ Plain museum/GAP measurements and description dimensions supplement Size
 templates. Preserve image/sheet scopes and conflicting measurements for review;
 neither physical proportions outside the target band nor separate Art Photo
 attribution/share-alike declarations are automatically approved.
+Explicit Dutch `h/b` measurements retain their axes and scopes, even when units
+repeat or differ. Institution upload credits are not used as artist attribution:
+the explicit Rijksmuseum maker field is retained, or the artist is unidentified.
 
 Official source notes checked on 2026-10-09: [PD-Art-two-auto](https://commons.wikimedia.org/wiki/Template:PD-Art-two-auto)
 documents its combined underlying/US basis, and [PD-old-100-1923](https://commons.wikimedia.org/wiki/Template:PD-old-100-1923)
