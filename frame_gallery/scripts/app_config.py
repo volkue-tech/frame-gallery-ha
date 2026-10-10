@@ -141,7 +141,7 @@ def translations(language: str = "en") -> dict[str, Value]:
         "source": (
             "Artwork source",
             (
-                "wikimedia_commons (default for new installations): 400 curated "
+                "wikimedia_commons (default for new installations): 1000 curated "
                 "near-widescreen artworks; no API key. "
                 "art_institute_chicago: Art Institute of Chicago. cleveland_museum_of_art: "
                 "Cleveland Museum of Art. local_media: your JPEG/PNG files in "
@@ -254,7 +254,7 @@ def translations(language: str = "en") -> dict[str, Value]:
             "source": (
                 "Bildquelle",
                 (
-                    "wikimedia_commons (Standard bei Neuinstallation): 400 ausgewählte "
+                    "wikimedia_commons (Standard bei Neuinstallation): 1000 ausgewählte "
                     "Werke im breiten Querformat, "
                     "ohne API-Key. art_institute_chicago: Art Institute of Chicago. "
                     "cleveland_museum_of_art: Cleveland Museum of Art. local_media: eigene "

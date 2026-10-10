@@ -67,14 +67,9 @@ def group(rgb: tuple[int, int, int]) -> str:
     h, s, v = colorsys.rgb_to_hsv(r, g, b)
     h *= 360
     # Perceptual lightness, rather than a bright channel masking darkness.
-    linear = [
-        x / 12.92 if x <= 0.04045 else ((x + 0.055) / 1.055) ** 2.4 for x in (r, g, b)
-    ]
+    linear = [x / 12.92 if x <= 0.04045 else ((x + 0.055) / 1.055) ** 2.4 for x in (r, g, b)]
     y = sum(x * w for x, w in zip(linear, (0.2126, 0.7152, 0.0722)))
-    light = (
-        116 * (y ** (1 / 3) if y > 216 / 24389 else y * 24389 / 27 / 116 + 16 / 116)
-        - 16
-    )
+    light = 116 * (y ** (1 / 3) if y > 216 / 24389 else y * 24389 / 27 / 116 + 16 / 116) - 16
     if light < 16 and (s < 0.45 or v < 0.22):
         return "black"
     if s < 0.085:
@@ -128,9 +123,7 @@ def aggregate(palette: list[tuple[int, tuple[int, int, int]]]) -> dict:
         distribution=distribution,
         top_colours=meaningful[:3],
         top_chromatic_colours=[
-            item
-            for item in meaningful
-            if item["group"] not in ("black", "white", "gray")
+            item for item in meaningful if item["group"] not in ("black", "white", "gray")
         ][:3],
         search_colours=[item["group"] for item in meaningful],
         palette=[
@@ -160,11 +153,7 @@ def analyse(path: Path) -> dict:
         raise ValueError("thumbnail byte bound")
     scan_source(io.BytesIO(data))
     with Image.open(io.BytesIO(data)) as opened:
-        if (
-            opened.format != "JPEG"
-            or max(opened.size) > MAX_AXIS
-            or min(opened.size) < 1
-        ):
+        if opened.format != "JPEG" or max(opened.size) > MAX_AXIS or min(opened.size) < 1:
             raise ValueError("thumbnail format/dimension bound")
         original_size = list(opened.size)
         orientation = opened.getexif().get(274, 1)
@@ -188,9 +177,7 @@ def analyse(path: Path) -> dict:
             colour_space = "untagged JPEG assumed sRGB"
         # No border trimming, crop, TV padding or removal of neutral composition.
         image.thumbnail((256, 256), Image.Resampling.LANCZOS)
-        fingerprint_image = image.convert("L").resize(
-            (17, 16), Image.Resampling.LANCZOS
-        )
+        fingerprint_image = image.convert("L").resize((17, 16), Image.Resampling.LANCZOS)
         samples = list(fingerprint_image.getdata())
         fingerprint = 0
         for y in range(16):
@@ -300,13 +287,9 @@ def fetch(count: int) -> None:
         random=SeededRandomSource(20261009),
         identity=commons_identity(),
     )
-    channel = gateway.channel(
-        commons_policy(), metadata_allowance=Allowance("pilot metadata", 90)
-    )
+    channel = gateway.channel(commons_policy(), metadata_allowance=Allowance("pilot metadata", 90))
     deadline = Deadline.after(clock, 900, "private colour pilot")
-    remaining = [
-        w for w in works if w["id"] not in {p["id"] for p in report["profiles"]}
-    ]
+    remaining = [w for w in works if w["id"] not in {p["id"] for p in report["profiles"]}]
     for offset in range(0, len(remaining), 5):
         batch = remaining[offset : offset + 5]
         query = (
@@ -324,11 +307,7 @@ def fetch(count: int) -> None:
         document = channel.get_json(
             https_url("commons.wikimedia.org", "/w/api.php", query), deadline
         )
-        if (
-            not isinstance(document, dict)
-            or "warnings" in document
-            or "error" in document
-        ):
+        if not isinstance(document, dict) or "warnings" in document or "error" in document:
             raise ValueError("metadata refused")
         pages = {page["pageid"]: page for page in document["query"]["pages"]}
         save(OUTPUT / f"metadata-{batch[0]['id']}.json", document)
@@ -411,23 +390,16 @@ def fetch(count: int) -> None:
 def gallery() -> None:
     report = json.loads((OUTPUT / "pilot.json").read_text())
     profiles = [dict(p, gallery_kind="baseline") for p in report["profiles"]]
-    additions_path = (
-        ROOT / "frame_gallery/research/commons-expansion-curation-2026-10-09.json"
-    )
+    additions_path = ROOT / "frame_gallery/research/commons-expansion-curation-2026-10-09.json"
     if additions_path.exists():
         from research_tools.commons_expand import OUTPUT as candidate_output
 
         additions = json.loads(additions_path.read_text())
-        if (
-            additions["baseline_sha256"]
-            != hashlib.sha256(BASELINE.read_bytes()).hexdigest()
-        ):
+        if additions["baseline_sha256"] != hashlib.sha256(BASELINE.read_bytes()).hexdigest():
             raise ValueError("preview baseline changed")
         candidates = {
             p["id"]: p
-            for p in json.loads((candidate_output / "profiles.json").read_text())[
-                "profiles"
-            ]
+            for p in json.loads((candidate_output / "profiles.json").read_text())["profiles"]
         }
         selected = []
         for work in additions["included"]:
@@ -436,8 +408,7 @@ def gallery() -> None:
             if (
                 p["original_sha1"] != work["sha1"]
                 or p["thumbnail_sha256"] != work["thumbnail_sha256"]
-                or hashlib.sha256(path.read_bytes()).hexdigest()
-                != p["thumbnail_sha256"]
+                or hashlib.sha256(path.read_bytes()).hexdigest() != p["thumbnail_sha256"]
                 or p["method"] != METHOD
             ):
                 raise ValueError("accepted preview pin/profile changed")
@@ -462,8 +433,32 @@ def gallery() -> None:
             )
         )
         profiles = selected + profiles
+    selection_path = ROOT / "frame_gallery/research/commons-1000-selection-2026-10-10.json"
+    active, held, reserves = set(), set(), set()
+    if selection_path.exists():
+        selection = json.loads(selection_path.read_text())
+        active = {w["id"] for w in selection["included"]}
+        held = set(selection["held_ids"])
+        reserves = {w["id"] for w in selection["reserve"]}
+        if (
+            len(active) != 1000
+            or len(held) != 56
+            or len(reserves) != 7
+            or active & held
+            or active & reserves
+            or held & reserves
+            or active | held | reserves != {p["id"] for p in profiles}
+        ):
+            raise ValueError("preview selection partition changed")
     cards = []
     for profile in profiles:
+        status = (
+            "held"
+            if profile["id"] in held
+            else "reserve"
+            if profile["id"] in reserves
+            else "active"
+        )
         chips = " ".join(
             f'<span><i style="background:{colour["representative"]}"></i>'
             f"{LABELS[colour['group']]} {colour['share']:.0%}</span>"
@@ -472,10 +467,17 @@ def gallery() -> None:
         cards.append(
             '<article data-colours="'
             f'{html.escape(" ".join(profile["search_colours"]))}" '
-            f'data-kind="{profile["gallery_kind"]}">'
+            f'data-kind="{profile["gallery_kind"]}" data-status="{status}">'
             f'<img src="{profile["id"]}.jpg" loading="lazy" '
             f'alt="{html.escape(profile["title"])}"><h2>{html.escape(profile["title"])}</h2>'
             f'<p>{html.escape(profile["artist"])}</p><div class="chips">{chips}</div>'
+            + (
+                "<p>Vorläufig zurückgestellt · nicht in der Zufallsauswahl</p>"
+                if status == "held"
+                else "<p>Geprüfte Reserve · nicht in der Zufallsauswahl</p>"
+                if status == "reserve"
+                else ""
+            )
             + (
                 "<p>Neu kuratiert · noch nicht veröffentlicht</p>"
                 if profile["gallery_kind"] == "new"
@@ -507,12 +509,17 @@ def gallery() -> None:
         "select{padding:10px;margin:12px 0 24px;font:inherit}"
         "a{color:light-dark(#005c92,#8ecdfa)}"
         "[hidden]{display:none}</style><h1>Lokale Sammlung · "
-        + str(len(cards))
-        + " Werke</h1>"
-        "<p>Bestand und lokal kuratierte Neuzugänge auf dem Weg zu 1000 Werken. "
-        "Die veröffentlichte App enthält weiterhin 400. Ungeprüfte Kandidaten "
-        "werden hier nicht mitgezählt. Einzelne Originalmaßangaben des Bestands "
-        "werden noch nachgeprüft; dies ist kein fertiger 1000-Werke-Katalog.</p>"
+        + str(len(active) if active else len(cards))
+        + " aktive Werke</h1>"
+        + (
+            "<p>1000 Werke im lokalen Update-Katalog: 344 aus dem Bestand und 656 "
+            "Neuzugänge. 56 Bestandsfälle sind mit deiner Freigabe vorläufig "
+            "zurückgestellt; sieben geprüfte Neuzugänge bleiben Reserve. "
+            "Quellen, IDs und Farbprofile sind weiterhin separat sichtbar. "
+            "Noch nicht veröffentlicht; die öffentliche App enthält weiterhin 400.</p>"
+            if active
+            else "<p>Lokale Recherche, noch keine abschließende Auswahl oder Veröffentlichung.</p>"
+        )
         + (
             '<p><a href="cc-gallery.html">Moderne CC-Motive · '
             "separate Recherchevorschau"
@@ -527,16 +534,23 @@ def gallery() -> None:
         + '</select></label> <label>Auswahl <select id="kind">'
         '<option value="any">Bestand und Neuzugänge</option>'
         '<option value="new">Nur Neuzugänge</option>'
-        '<option value="baseline">400 Bestandswerke</option></select></label>'
+        '<option value="baseline">Nur Bestandswerke</option></select></label>'
+        ' <label>Katalog <select id="status"><option value="active">1000 aktive Werke</option>'
+        '<option value="held">56 zurückgestellte Bestandsfälle</option>'
+        '<option value="reserve">7 geprüfte Reserven</option>'
+        '<option value="any">Alle 1063 Rechercheeinträge</option></select></label>'
         '<p id="count" aria-live="polite"></p><div class="grid">'
         + "".join(cards)
         + '</div><script>const s=document.getElementById("colour");'
         'const k=document.getElementById("kind");'
+        'const t=document.getElementById("status");'
         'function apply(){let n=0;for(const a of document.querySelectorAll("article")){'
         'a.hidden=(s.value!=="any"&&!a.dataset.colours.split(" ").includes(s.value))'
-        '||(k.value!=="any"&&a.dataset.kind!==k.value);'
+        '||(k.value!=="any"&&a.dataset.kind!==k.value)'
+        '||(t.value!=="any"&&a.dataset.status!==t.value);'
         'if(!a.hidden)n++;}document.getElementById("count").textContent=n+" Treffer";}'
-        's.addEventListener("change",apply);k.addEventListener("change",apply);apply();</script></html>'
+        's.addEventListener("change",apply);k.addEventListener("change",apply);'
+        't.addEventListener("change",apply);apply();</script></html>'
     )
     (OUTPUT / "gallery.html").write_text(markup)
 
@@ -557,9 +571,7 @@ def sheets() -> None:
                 image.thumbnail((390, 215))
                 canvas.paste(image, (x, y))
             draw.text((x + 3, y + 217), profile["title"][:43], font=font, fill="black")
-            caption = " / ".join(
-                f"{c['group']} {c['share']:.0%}" for c in profile["top_colours"]
-            )
+            caption = " / ".join(f"{c['group']} {c['share']:.0%}" for c in profile["top_colours"])
             draw.text((x + 3, y + 239), caption, font=font, fill="black")
         canvas.save(OUTPUT / f"sheet-{offset // 16 + 1}.jpg", quality=90)
 
@@ -651,8 +663,7 @@ def audit() -> None:
         ),
         thumbnail_bytes=sum(p["bytes"] for p in report["profiles"]),
         group_counts={
-            key: sum(key in p["search_colours"] for p in report["profiles"])
-            for key in GROUPS
+            key: sum(key in p["search_colours"] for p in report["profiles"]) for key in GROUPS
         },
         blue_yellow_count=sum(
             {"blue", "yellow"}.issubset(p["search_colours"]) for p in report["profiles"]
@@ -668,9 +679,7 @@ def audit() -> None:
     )
     save(OUTPUT / "audit.json", summary)
     save(ROOT / "research/commons-colour-audit-2026-10-09.json", summary)
-    save(
-        ROOT / "frame_gallery/research/commons-colour-profiles-2026-10-09.json", report
-    )
+    save(ROOT / "frame_gallery/research/commons-colour-profiles-2026-10-09.json", report)
     print(json.dumps(summary, ensure_ascii=False))
 
 

@@ -1,5 +1,5 @@
 """Generated offline colour search metadata (D-213), not artwork bytes.
-Research SHA256: 0f3da49220d8831b900bbe9d855c74c95d27db4f001f65f8c3a7822a5d0191f7
+Research SHA256: 62a04fc3af607393eea20d6454f2acaeb7f873b1e5a09ba88b51eb10224ce8e2
 Full palettes/provenance are retained separately under research/."""
 
 from typing import Final
@@ -9,6 +9,32 @@ COLOUR_DATA: Final[tuple[tuple[int, str, tuple[str, ...]], ...]] = (
         67711,
         "2f677567eabb7802454a784437142e85a252d29c",
         ("color_brown", "color_black", "color_red"),
+    ),
+    (
+        148659,
+        "0f53d0073cc542049923263561b4fc8d42d2ff9e",
+        (
+            "color_red",
+            "color_white",
+            "color_brown",
+            "color_orange",
+            "color_gray",
+            "color_beige",
+            "color_blue",
+        ),
+    ),
+    (
+        148676,
+        "b7b45d381c62f3dbe2fedcf7f545513ceb4e5e2b",
+        (
+            "color_yellow",
+            "color_blue",
+            "color_white",
+            "color_brown",
+            "color_gray",
+            "color_black",
+            "color_green",
+        ),
     ),
     (
         149144,
@@ -34,9 +60,19 @@ COLOUR_DATA: Final[tuple[tuple[int, str, tuple[str, ...]], ...]] = (
         ("color_yellow", "color_brown", "color_green", "color_black", "color_beige"),
     ),
     (
+        156348,
+        "6b7d3bf223db5e7c38a06b9f1a7d2c1b9d5ab02e",
+        ("color_blue", "color_yellow", "color_brown", "color_green", "color_black"),
+    ),
+    (
         199676,
         "c706617245b3e35e3a452da11071217edef298da",
         ("color_black", "color_beige", "color_brown", "color_red", "color_gray", "color_orange"),
+    ),
+    (
+        257770,
+        "068d0a8827ee7344eede8f94e91146e27abbd7c1",
+        ("color_brown", "color_black", "color_red"),
     ),
     (
         327727,
@@ -44,14 +80,25 @@ COLOUR_DATA: Final[tuple[tuple[int, str, tuple[str, ...]], ...]] = (
         ("color_brown", "color_gray", "color_black", "color_blue", "color_yellow"),
     ),
     (
+        689813,
+        "972122d32a037e723133cf9f7e1eb76fe65c669b",
+        ("color_blue", "color_brown", "color_yellow", "color_white", "color_green"),
+    ),
+    (
         795544,
         "2ba8a8d2be98d8a2c40b8e95f241a50183051298",
         ("color_yellow", "color_brown", "color_black", "color_beige", "color_gray", "color_orange"),
     ),
+    (1624092, "55da7399a91d2bfea2f2ab5853d459ad80492f46", ("color_yellow", "color_brown")),
     (
         2152784,
         "4fdd2dcefeffd443eb2fd74da8d26d4230338a66",
         ("color_yellow", "color_green", "color_brown", "color_black"),
+    ),
+    (
+        3225070,
+        "0b87b69d04cff108977fa5f6f67ce628d1fd8623",
+        ("color_blue", "color_purple", "color_gray", "color_black", "color_white"),
     ),
     (
         3418534,
@@ -70,24 +117,39 @@ COLOUR_DATA: Final[tuple[tuple[int, str, tuple[str, ...]], ...]] = (
         ("color_brown", "color_yellow", "color_black", "color_orange"),
     ),
     (
+        4379560,
+        "766d061dda40385838d3a2a1c835290233b76857",
+        ("color_blue", "color_green", "color_brown", "color_orange", "color_black"),
+    ),
+    (
+        4592534,
+        "958a45c961dfb8f4ab30fffa16a0ddba805a9d43",
+        ("color_yellow", "color_brown", "color_orange", "color_beige"),
+    ),
+    (
         4766414,
         "f21a82279effd4ca39ce506cbf585d2730a9c39b",
         ("color_brown", "color_orange", "color_beige", "color_gray"),
     ),
-    (5635463, "cb908b4e936c46e4a72f6dcf43196dd8d9b5fe1b", ("color_brown", "color_yellow")),
     (
-        5702693,
-        "0aff71828ca489df569dcdbd22014e3fa45b059d",
+        4848754,
+        "01e1b7db740e5d959db103d2676c81dfbc55c7cd",
         (
-            "color_brown",
-            "color_black",
-            "color_beige",
-            "color_gray",
-            "color_yellow",
             "color_blue",
-            "color_orange",
+            "color_brown",
+            "color_yellow",
+            "color_white",
+            "color_green",
+            "color_gray",
+            "color_black",
         ),
     ),
+    (
+        5544940,
+        "aa9d5a3622d4db0197fcb8e0e0d110e887566fbf",
+        ("color_yellow", "color_orange", "color_brown", "color_beige", "color_white"),
+    ),
+    (5635463, "cb908b4e936c46e4a72f6dcf43196dd8d9b5fe1b", ("color_brown", "color_yellow")),
     (
         5703012,
         "5bed0b35c9976b5ab35664becf443f1f4711608d",
@@ -99,9 +161,60 @@ COLOUR_DATA: Final[tuple[tuple[int, str, tuple[str, ...]], ...]] = (
         ("color_brown", "color_beige", "color_white", "color_yellow", "color_orange"),
     ),
     (
+        7478744,
+        "19397371c8277853019f84d305dc2a1e49cd0f51",
+        ("color_black", "color_beige", "color_blue", "color_gray", "color_brown", "color_white"),
+    ),
+    (
+        7745117,
+        "a07aa9467189733b34a5ca5aa68a623f628c07c0",
+        ("color_brown", "color_black", "color_orange", "color_beige"),
+    ),
+    (
         8825940,
         "8fbc018b5b2d559546f4c68a36152c6415fd81e1",
         ("color_gray", "color_black", "color_brown", "color_blue"),
+    ),
+    (
+        9694102,
+        "d79ceca608b0ef20d832dec388fbf694786c3556",
+        ("color_beige", "color_yellow", "color_green", "color_brown"),
+    ),
+    (9855671, "9eb759d648725028e16f1a372daba670a3587ead", ("color_brown",)),
+    (
+        9926665,
+        "c979344eb6471d62a71f8e5f24a16e1e49d768aa",
+        ("color_gray", "color_green", "color_blue", "color_brown", "color_black", "color_yellow"),
+    ),
+    (
+        9934723,
+        "dca1243b0b4d161eea77b4ada62b8c3ce1b3bd50",
+        ("color_blue", "color_gray", "color_pink", "color_red", "color_orange", "color_beige"),
+    ),
+    (
+        10123703,
+        "23cfe5c61b653c08e18347a38e07438a6565cab9",
+        ("color_beige", "color_yellow", "color_brown", "color_green", "color_blue"),
+    ),
+    (
+        10345644,
+        "9ad1b8058da8fa8acfbfa7fff5de782a4b6f0cea",
+        ("color_brown", "color_yellow", "color_green", "color_orange", "color_gray", "color_black"),
+    ),
+    (10361041, "fff0b7d1091219bfbfe23e2baa2ab6745d902773", ("color_blue", "color_green")),
+    (
+        10370751,
+        "2d31cbc88b362b66831d8c61ea77cf2a722489e6",
+        (
+            "color_brown",
+            "color_yellow",
+            "color_black",
+            "color_gray",
+            "color_green",
+            "color_orange",
+            "color_beige",
+            "color_blue",
+        ),
     ),
     (
         10629177,
@@ -114,24 +227,64 @@ COLOUR_DATA: Final[tuple[tuple[int, str, tuple[str, ...]], ...]] = (
         ("color_brown", "color_yellow", "color_beige", "color_gray", "color_orange"),
     ),
     (
+        11376427,
+        "8131835357b3c41d016582ac2fdd9625491c5ea1",
+        ("color_gray", "color_beige", "color_blue", "color_black", "color_white"),
+    ),
+    (
+        11583593,
+        "9d3bf60d69eb8c01e14c769271e4d644e705d980",
+        ("color_yellow", "color_gray", "color_beige", "color_brown"),
+    ),
+    (
+        12664633,
+        "228ac2d2a27ef7e8c493a24f056f805095676ad7",
+        ("color_yellow", "color_gray", "color_brown", "color_beige"),
+    ),
+    (
+        12793786,
+        "547af6d2d47dd06628f28d551847308881d60ccd",
+        ("color_green", "color_yellow", "color_beige"),
+    ),
+    (
+        13105985,
+        "5e829fc4b2c15f1aa1e45e2efe1d79f76b25f5c5",
+        ("color_green", "color_blue", "color_yellow", "color_black", "color_brown"),
+    ),
+    (
+        13126969,
+        "d39f07ca88ee30dfefc8dfc5608a10889e56f173",
+        ("color_beige", "color_yellow", "color_brown", "color_black"),
+    ),
+    (
+        13301088,
+        "3fbb031130cc65173902f192f4a748ce80522321",
+        ("color_gray", "color_brown", "color_yellow", "color_beige", "color_white"),
+    ),
+    (
+        13318212,
+        "638edaf02b0877840770e1229e86e1edb365b985",
+        ("color_brown", "color_black", "color_gray", "color_yellow"),
+    ),
+    (
         13318993,
         "421dda23b1e382ed826c7a9badc785b239042ce1",
         ("color_brown", "color_yellow", "color_black"),
     ),
     (
-        13496330,
-        "8ca553c06091897c8233ca06a7dd3c971cbdecdd",
-        ("color_green", "color_yellow", "color_brown", "color_blue", "color_black"),
+        13405265,
+        "71f2f1f6255829168f20ee8b88381db97f860df5",
+        ("color_brown", "color_yellow", "color_black", "color_beige"),
+    ),
+    (
+        13460862,
+        "e9261e111c4b6c7c4744d76f27a98457fe858edb",
+        ("color_brown", "color_yellow", "color_orange", "color_beige"),
     ),
     (
         13502218,
         "7c38fbdddcc924f63d37dc1be7ba414d2c60e8b3",
         ("color_brown", "color_gray", "color_yellow", "color_beige", "color_blue"),
-    ),
-    (
-        13502594,
-        "0c0f48f670000ed05aa97e387fa89e5355eda36b",
-        ("color_brown", "color_black", "color_white", "color_gray", "color_blue", "color_green"),
     ),
     (
         13507795,
@@ -152,9 +305,37 @@ COLOUR_DATA: Final[tuple[tuple[int, str, tuple[str, ...]], ...]] = (
         ("color_gray", "color_white", "color_red"),
     ),
     (
+        14945368,
+        "a45eacef804c7bb5b6bc0b29dcd6bf4502ad8197",
+        ("color_beige", "color_gray", "color_red", "color_purple", "color_blue", "color_orange"),
+    ),
+    (
+        15208000,
+        "5969850f5f9e2d26b528395b701da6b019b3b872",
+        (
+            "color_brown",
+            "color_blue",
+            "color_orange",
+            "color_black",
+            "color_gray",
+            "color_red",
+            "color_beige",
+        ),
+    ),
+    (
+        15288395,
+        "7fc77884171b667e423df4d1c833131fa3bf859c",
+        ("color_gray", "color_blue", "color_beige", "color_red", "color_pink"),
+    ),
+    (
         15417145,
         "8b893dd8bc2cc618ef436f3c3039ffe685584615",
         ("color_brown", "color_yellow", "color_black", "color_blue", "color_white"),
+    ),
+    (
+        15676619,
+        "274942f6d1cba80b883c175258a829ce822c8664",
+        ("color_gray", "color_brown", "color_beige", "color_yellow", "color_blue"),
     ),
     (
         15696680,
@@ -167,6 +348,52 @@ COLOUR_DATA: Final[tuple[tuple[int, str, tuple[str, ...]], ...]] = (
         ("color_brown", "color_green", "color_blue", "color_yellow"),
     ),
     (
+        15957034,
+        "618e3c4d497e17ba858176bb1117590d65b73e57",
+        ("color_gray", "color_yellow", "color_green", "color_brown", "color_beige"),
+    ),
+    (
+        16084852,
+        "664ebbd7023aa341452d7a80ea066f6ed7f6eb13",
+        ("color_brown", "color_gray", "color_yellow", "color_orange"),
+    ),
+    (
+        16156601,
+        "e10455e62d2b0cad651735fb86af5bb7a077e5a1",
+        (
+            "color_yellow",
+            "color_brown",
+            "color_green",
+            "color_black",
+            "color_beige",
+            "color_orange",
+        ),
+    ),
+    (
+        16311569,
+        "6e3159af94e420ebf9c1aafaefe286f3dc2a8a43",
+        ("color_blue", "color_brown", "color_orange", "color_gray", "color_black"),
+    ),
+    (
+        16728284,
+        "d785aed5b6bfa132708405d74636121af69968e2",
+        (
+            "color_brown",
+            "color_white",
+            "color_gray",
+            "color_red",
+            "color_green",
+            "color_orange",
+            "color_beige",
+            "color_blue",
+        ),
+    ),
+    (
+        17132228,
+        "0c2c3ee0c88bced02a6141fbeef38394e710f5bd",
+        ("color_brown", "color_gray", "color_red", "color_orange", "color_beige"),
+    ),
+    (
         17224019,
         "524b50e16896770ecd841c3d28aba5924d980c49",
         ("color_orange", "color_beige", "color_brown"),
@@ -177,25 +404,49 @@ COLOUR_DATA: Final[tuple[tuple[int, str, tuple[str, ...]], ...]] = (
         ("color_gray", "color_yellow", "color_beige", "color_brown"),
     ),
     (
-        17486199,
-        "4652aef061e7903861399448724c500032192a68",
-        ("color_blue", "color_black", "color_brown"),
-    ),
-    (
         17528965,
         "3072864f0da104c5285ebe8f4590dc53dc7ebd15",
         ("color_brown", "color_yellow", "color_black"),
     ),
     (
+        17585184,
+        "b99e4fc0dc26b03d8be0943969a3d489046e6df6",
+        (
+            "color_blue",
+            "color_green",
+            "color_gray",
+            "color_yellow",
+            "color_black",
+            "color_brown",
+            "color_beige",
+        ),
+    ),
+    (18069131, "302c4aaf3a98a039709bcbaf3d639c3b7396fe52", ("color_blue", "color_black")),
+    (
         18160885,
         "6d9ba2b0725e13e7cab5220f38ba589f4e6100e8",
         ("color_green", "color_blue", "color_gray"),
+    ),
+    (
+        18224641,
+        "8a4c167280a58f5846133a936f1f722213e2a39f",
+        ("color_blue", "color_brown", "color_black", "color_gray", "color_beige"),
     ),
     (18399258, "d2685c0a064267273188229de4536267e8696a6c", ("color_green",)),
     (
         18410668,
         "9a1fecc815974c86bee9a4d8ae82c710308ed338",
         ("color_beige", "color_gray", "color_brown", "color_yellow", "color_orange"),
+    ),
+    (
+        18426650,
+        "bb3d23d88d3a5abd714ee41b7040020646873854",
+        ("color_brown", "color_blue", "color_gray", "color_black", "color_beige"),
+    ),
+    (
+        18430183,
+        "cd6181501e9cfd89633f3d08fe97ea102f526bbb",
+        ("color_yellow", "color_brown", "color_blue"),
     ),
     (
         18532915,
@@ -213,14 +464,49 @@ COLOUR_DATA: Final[tuple[tuple[int, str, tuple[str, ...]], ...]] = (
         ("color_brown", "color_yellow", "color_black", "color_beige"),
     ),
     (
+        18652908,
+        "30f98374b57f6cf4c7b036735d957a5f106e04a8",
+        ("color_brown", "color_yellow", "color_beige", "color_black"),
+    ),
+    (
+        18774412,
+        "212e01738962a0feba2c42662b73d08c56aa9196",
+        ("color_black", "color_red", "color_green", "color_blue", "color_purple", "color_yellow"),
+    ),
+    (
+        18835854,
+        "af60135752b6051dfb87ac7ea09a5ded97767291",
+        ("color_yellow", "color_brown", "color_blue", "color_beige"),
+    ),
+    (
+        18935587,
+        "26e61e7c9335d54248fc6e4e0eb66571c50ad98a",
+        ("color_blue", "color_gray", "color_yellow", "color_brown"),
+    ),
+    (
+        18936207,
+        "0e70b1a95f0a07b75fca491c7b0fff43c21ddc48",
+        ("color_yellow", "color_brown", "color_gray", "color_orange", "color_beige"),
+    ),
+    (
+        18936216,
+        "b796258fcc4da3f8dbcbbf2963a3b61b7dc37ef1",
+        ("color_yellow", "color_beige", "color_brown", "color_gray", "color_orange"),
+    ),
+    (
+        18936330,
+        "c09188dbbfd8141a454f1c3d25348c0ce365a3e2",
+        ("color_yellow", "color_brown", "color_gray", "color_beige", "color_orange"),
+    ),
+    (
         19456667,
         "995fb527775270f5b484c57f18355e173c25d8da",
         ("color_gray", "color_yellow", "color_green", "color_blue", "color_brown"),
     ),
     (
-        20264780,
-        "cdbe3474820ef7426938a078de3bc9edc374b71e",
-        ("color_blue", "color_gray", "color_beige", "color_orange"),
+        20005027,
+        "ccde616ecfae811888806e6bf22b1b2a89e7fc48",
+        ("color_yellow", "color_orange", "color_gray", "color_brown", "color_beige"),
     ),
     (
         20279913,
@@ -228,32 +514,59 @@ COLOUR_DATA: Final[tuple[tuple[int, str, tuple[str, ...]], ...]] = (
         ("color_brown", "color_black", "color_yellow", "color_gray"),
     ),
     (
-        20972263,
-        "a679b75537ec8333f19bc155ca1e6f64f9b723d5",
-        ("color_beige", "color_yellow", "color_brown", "color_white"),
+        20518159,
+        "2e0829d5e5c7aaeb93a18429845271085c2a7ff9",
+        ("color_brown", "color_orange", "color_black", "color_gray", "color_red"),
     ),
     (
-        21276801,
-        "e28e7e66fe76fb005c3fc4a357d74659c0b8be49",
-        ("color_gray", "color_blue", "color_brown", "color_yellow"),
+        20836951,
+        "b1a78bafa726db9850df65a50509b96d46dc051b",
+        ("color_black", "color_red", "color_brown", "color_orange", "color_beige"),
+    ),
+    (
+        21116675,
+        "cc72dba514e9e53342baf08a941909df5240b0f1",
+        ("color_green", "color_blue", "color_gray", "color_black", "color_white"),
+    ),
+    (
+        21170222,
+        "eb12961820b73232017ea38fd9063ee441df58d4",
+        ("color_beige", "color_gray", "color_brown", "color_yellow", "color_green"),
+    ),
+    (
+        21170851,
+        "fed99af02ea5cc40674d5a627a3bfd346acc4be4",
+        ("color_brown", "color_yellow", "color_black", "color_green"),
     ),
     (
         21793150,
         "366d95dc96735cdd87da26425d1f5aa04a75afd8",
         ("color_white", "color_blue", "color_brown", "color_yellow", "color_beige"),
     ),
+    (
+        21853937,
+        "ffb5fcb8cd0b76fbd4fba73be998ffc95542bbf0",
+        (
+            "color_brown",
+            "color_black",
+            "color_red",
+            "color_beige",
+            "color_purple",
+            "color_orange",
+            "color_pink",
+        ),
+    ),
+    (
+        21855719,
+        "d6712ac70df1840f73dbe9345ebbaaa9c4fddb09",
+        ("color_brown", "color_black", "color_orange", "color_yellow"),
+    ),
+    (
+        21865440,
+        "36ac8bcbc476c6d20f4f16b49dac3477dd00a03d",
+        ("color_brown", "color_yellow", "color_black", "color_green"),
+    ),
     (21878594, "a35b3cb4142f180bc3c0453a77a8aa3e5b1ab4e1", ("color_brown", "color_black")),
-    (21878850, "8e96c8f602eb5574b88e0cc10384f502cdf25443", ("color_yellow", "color_brown")),
-    (
-        21878879,
-        "a69838b0b5ca93948713ee69cce129294302bb64",
-        ("color_brown", "color_yellow", "color_orange"),
-    ),
-    (
-        21880968,
-        "1f1ff685126e16ab00cfcdd946ad03a4b69acfcf",
-        ("color_yellow", "color_brown", "color_green"),
-    ),
     (
         21881964,
         "09ddf80d145fc5877e0edeebd2482ece9b155c2c",
@@ -278,6 +591,11 @@ COLOUR_DATA: Final[tuple[tuple[int, str, tuple[str, ...]], ...]] = (
         21897337,
         "77e197d97bcf67e80be33997737f42c842ec2a61",
         ("color_yellow", "color_beige", "color_gray", "color_green", "color_orange"),
+    ),
+    (
+        21897870,
+        "155a5f038f62a50d49af9efc3b589419459883e7",
+        ("color_beige", "color_brown", "color_orange", "color_black"),
     ),
     (
         21909482,
@@ -305,6 +623,21 @@ COLOUR_DATA: Final[tuple[tuple[int, str, tuple[str, ...]], ...]] = (
         ("color_brown", "color_black", "color_green", "color_yellow", "color_gray", "color_blue"),
     ),
     (
+        21931368,
+        "235a85660057e55ca74cff17fea6f0612319b9b2",
+        ("color_yellow", "color_green", "color_brown", "color_beige"),
+    ),
+    (
+        21932258,
+        "6840796b44040c8901257007c499d8d058f90d93",
+        ("color_beige", "color_yellow", "color_brown", "color_black", "color_blue"),
+    ),
+    (
+        21938680,
+        "4cdca352494d8ac9eb77bf94b9a5b24a4731e364",
+        ("color_beige", "color_brown", "color_yellow", "color_green"),
+    ),
+    (
         21938974,
         "f43e12b81e0dba2f95254f988969d6ef2882d82a",
         ("color_yellow", "color_brown", "color_black", "color_green"),
@@ -315,19 +648,25 @@ COLOUR_DATA: Final[tuple[tuple[int, str, tuple[str, ...]], ...]] = (
         ("color_brown", "color_gray", "color_black", "color_beige"),
     ),
     (
-        21956171,
-        "fa3ab3b5591dfdf225a2a59fb692445812f582a4",
-        ("color_brown", "color_yellow", "color_beige", "color_black"),
-    ),
-    (
         21959590,
         "894b61a43c3563cf3b2e18f5a859265d32b0595a",
         ("color_brown", "color_black", "color_yellow", "color_green", "color_beige"),
+    ),
+    (21963257, "14df7910e0be9ce4d62ed61185cb8be5f449d8af", ("color_blue", "color_gray")),
+    (
+        21963767,
+        "48d3cc96204a59fba942a1ea8ea355ea4377b4ac",
+        ("color_green", "color_brown", "color_yellow", "color_black"),
     ),
     (
         21974819,
         "2c7ccf02c7a1cc4590e1cc8c50ccf69af67f6fef",
         ("color_yellow", "color_brown", "color_gray", "color_beige"),
+    ),
+    (
+        21983403,
+        "5dc6e421bcedb567cd3337256591d07f44db7cf9",
+        ("color_brown", "color_yellow", "color_black"),
     ),
     (
         21987965,
@@ -340,9 +679,19 @@ COLOUR_DATA: Final[tuple[tuple[int, str, tuple[str, ...]], ...]] = (
         ("color_green", "color_yellow", "color_brown", "color_orange"),
     ),
     (
+        21995421,
+        "256382881dbf65afe708294719746296392e38e3",
+        ("color_brown", "color_yellow", "color_black", "color_green"),
+    ),
+    (
         21997566,
         "d71262bdae51fdfc40245d582359ede24d0479f9",
         ("color_green", "color_brown", "color_blue", "color_black", "color_yellow"),
+    ),
+    (
+        21998429,
+        "38ff53b7cc3cddf2b7027efdc9778709b8b6c4b2",
+        ("color_orange", "color_brown", "color_black", "color_yellow"),
     ),
     (
         22000304,
@@ -365,9 +714,19 @@ COLOUR_DATA: Final[tuple[tuple[int, str, tuple[str, ...]], ...]] = (
         ("color_gray", "color_black", "color_green", "color_blue", "color_brown"),
     ),
     (
+        22008005,
+        "4db2ea090cd57ece5478831e8cbc37ca7ae36699",
+        ("color_black", "color_brown", "color_yellow", "color_gray"),
+    ),
+    (
         22008059,
         "b33977175d058928727d940bb55cd6ded90ad885",
         ("color_yellow", "color_brown", "color_beige", "color_gray"),
+    ),
+    (
+        22026123,
+        "0f90b152b9b1a7c8b9edf03ed6b019eec4b5c39b",
+        ("color_blue", "color_purple", "color_red"),
     ),
     (
         22029214,
@@ -380,14 +739,14 @@ COLOUR_DATA: Final[tuple[tuple[int, str, tuple[str, ...]], ...]] = (
         ("color_black", "color_brown", "color_green", "color_gray"),
     ),
     (
-        22080926,
-        "34c4783fd2ae9116d257a5d546f5560d83cfed6c",
-        ("color_yellow", "color_gray", "color_beige", "color_brown"),
-    ),
-    (
         22131271,
         "ee87dbc039dd7c68fc4b2cf5664286f7e2b6d582",
         ("color_brown", "color_black", "color_yellow", "color_gray"),
+    ),
+    (
+        22134074,
+        "d9999a62dc18d85e74510e2a7b4097db8db28454",
+        ("color_gray", "color_blue", "color_yellow", "color_beige", "color_brown", "color_white"),
     ),
     (
         22135067,
@@ -400,6 +759,16 @@ COLOUR_DATA: Final[tuple[tuple[int, str, tuple[str, ...]], ...]] = (
         ("color_brown", "color_yellow", "color_black"),
     ),
     (
+        22147995,
+        "105daf29e5a3d564965d5bb9ceefc0e989e1114a",
+        ("color_beige", "color_yellow", "color_brown", "color_orange", "color_green", "color_gray"),
+    ),
+    (
+        22148178,
+        "206ae8b3d4ca7a2e3599a9461990be72d4d71f10",
+        ("color_brown", "color_yellow", "color_gray", "color_green", "color_orange"),
+    ),
+    (
         22153299,
         "8a8077b8302a744d4c3c353c407adcf9e2fcaafe",
         ("color_yellow", "color_brown", "color_gray", "color_beige"),
@@ -410,20 +779,30 @@ COLOUR_DATA: Final[tuple[tuple[int, str, tuple[str, ...]], ...]] = (
         ("color_brown", "color_yellow", "color_gray", "color_black", "color_orange"),
     ),
     (
+        22162546,
+        "abcf07d275109c3a56e358770b975da048d3b24c",
+        ("color_gray", "color_brown", "color_beige", "color_green", "color_yellow"),
+    ),
+    (
         22199619,
         "4721355e9a1c796395bb23731b49068fe8ea8792",
         ("color_brown", "color_beige", "color_white", "color_blue", "color_orange", "color_gray"),
     ),
     (22204845, "b9933e0a72561f2435e968aaaad8d7ac756f3a5a", ("color_orange", "color_beige")),
     (
-        22205181,
-        "54ed8f94a62ad27b716d3ccd0d2745357416aa34",
-        ("color_orange", "color_beige", "color_gray", "color_brown", "color_white"),
+        22205024,
+        "852ed4fe219d1614a12fd7506d1d4dd6c1105db1",
+        ("color_yellow", "color_beige", "color_orange", "color_gray", "color_brown"),
     ),
     (
-        22213382,
-        "05085ac79d0d54485e3eeae0da5d26aebaacae6a",
-        ("color_beige", "color_orange", "color_yellow", "color_brown", "color_gray"),
+        22232441,
+        "6358af0951e6559b691a970ade34737e5da245d5",
+        ("color_beige", "color_yellow", "color_brown"),
+    ),
+    (
+        22248528,
+        "052a23b5bddb32ffd795027bc184791b2726d6d3",
+        ("color_gray", "color_brown", "color_beige", "color_yellow", "color_orange"),
     ),
     (
         22250995,
@@ -446,9 +825,20 @@ COLOUR_DATA: Final[tuple[tuple[int, str, tuple[str, ...]], ...]] = (
         ("color_blue", "color_gray", "color_black"),
     ),
     (
+        22600904,
+        "2acc8cbfcc22b422ebe94fb849a796aca4701a2a",
+        ("color_brown", "color_orange", "color_yellow", "color_green"),
+    ),
+    (
         22605738,
         "ba84458a07641d1f5514b3507382411f0854cb31",
         ("color_yellow", "color_brown", "color_black", "color_green", "color_blue", "color_beige"),
+    ),
+    (22728217, "5171cc6689259e9c136278b83e227fbd8ed11413", ("color_black", "color_brown")),
+    (
+        23227439,
+        "d26b48a0cbda507e964b8072df121cdc9d262c87",
+        ("color_yellow", "color_brown", "color_black"),
     ),
     (23595716, "f4c4da3397399232b808760dbede4c85902ee32a", ("color_black", "color_brown")),
     (
@@ -457,9 +847,9 @@ COLOUR_DATA: Final[tuple[tuple[int, str, tuple[str, ...]], ...]] = (
         ("color_green", "color_gray", "color_yellow", "color_blue", "color_black"),
     ),
     (
-        23600762,
-        "7c100fde79adb9a5632c530b4acd82d8c1462616",
-        ("color_gray", "color_black", "color_brown", "color_beige"),
+        23600099,
+        "c5d543975d0354c452faa3fad8ce43a756e69e75",
+        ("color_beige", "color_brown", "color_gray", "color_orange"),
     ),
     (
         23603036,
@@ -470,6 +860,16 @@ COLOUR_DATA: Final[tuple[tuple[int, str, tuple[str, ...]], ...]] = (
         23604298,
         "a817aa01abdc3311c1f1df61c55f0d3583484bba",
         ("color_brown", "color_black", "color_blue"),
+    ),
+    (
+        23611297,
+        "36745369a0cf9385602e85d9881af8870ea03a08",
+        ("color_brown", "color_black", "color_blue", "color_yellow", "color_gray"),
+    ),
+    (
+        23821678,
+        "c8af9e584d0617f1c5e36ed9d7aad48630795570",
+        ("color_yellow", "color_brown", "color_beige", "color_black", "color_green"),
     ),
     (
         23855425,
@@ -500,15 +900,40 @@ COLOUR_DATA: Final[tuple[tuple[int, str, tuple[str, ...]], ...]] = (
         ("color_gray", "color_beige", "color_blue", "color_brown", "color_yellow", "color_orange"),
     ),
     (
-        25031017,
-        "dddbb36b1fc29f044262e32a31f9e4ed114f302b",
-        ("color_brown", "color_yellow", "color_black"),
+        24986087,
+        "0ce242624e17b4a33e2380afa844f7194549f61a",
+        ("color_blue", "color_green", "color_brown", "color_yellow"),
+    ),
+    (
+        25027786,
+        "a1e377ac4700d3693e0622a4e6adde93dec717f8",
+        ("color_blue", "color_gray", "color_purple", "color_yellow", "color_brown", "color_green"),
     ),
     (25149244, "9fbbd276d2b353d300106174d114f67cb432bd91", ("color_blue", "color_gray")),
     (
         25702837,
         "2a15af6ccaa6d12400b7f8b51c68e253ed9a026e",
         ("color_brown", "color_gray", "color_blue", "color_orange", "color_beige", "color_black"),
+    ),
+    (
+        25893538,
+        "baa83b6925bdb65c148a1756aefd2648419682f1",
+        ("color_yellow", "color_brown", "color_black"),
+    ),
+    (
+        26043364,
+        "01c92fe085b3fda96a7cbbf2490caa4549c50d03",
+        ("color_blue", "color_beige", "color_gray", "color_brown"),
+    ),
+    (
+        26043772,
+        "84f575095d18c5c75bb14902209895f88709129f",
+        ("color_blue", "color_white", "color_green"),
+    ),
+    (
+        26210769,
+        "0d1c18edcb454cfa8ee8826fb121ebe1c67811ba",
+        ("color_blue", "color_brown", "color_green"),
     ),
     (
         26373125,
@@ -521,14 +946,19 @@ COLOUR_DATA: Final[tuple[tuple[int, str, tuple[str, ...]], ...]] = (
         ("color_brown", "color_yellow", "color_black", "color_gray"),
     ),
     (
+        26568074,
+        "c8999068bd0c5b3942532ce315a96f51efb7ab8d",
+        ("color_gray", "color_black", "color_brown", "color_beige"),
+    ),
+    (
+        26598752,
+        "3439ad499b1051483a386bf8c9becda4d05c2a34",
+        ("color_brown", "color_blue", "color_gray", "color_black"),
+    ),
+    (
         26814547,
         "de0581da59d01d40d0c660069409807c7953b074",
         ("color_blue", "color_brown", "color_yellow", "color_black", "color_gray"),
-    ),
-    (
-        27216200,
-        "a89b39388e5e23b95e45b98354df28cddcfe9794",
-        ("color_beige", "color_yellow", "color_brown"),
     ),
     (
         27367362,
@@ -536,9 +966,24 @@ COLOUR_DATA: Final[tuple[tuple[int, str, tuple[str, ...]], ...]] = (
         ("color_brown", "color_yellow", "color_green"),
     ),
     (
+        27683876,
+        "6039bdd819f0db675a435925ea64eddfadc44912",
+        ("color_brown", "color_white", "color_yellow", "color_gray"),
+    ),
+    (
         28939444,
         "2403e76415b16c2fb85fa5e734d4f12ae499f189",
         ("color_brown", "color_green", "color_yellow", "color_black", "color_beige", "color_gray"),
+    ),
+    (
+        29010353,
+        "b9f7c3647161c2b46b27b4e6902683ca006d1f28",
+        ("color_yellow", "color_brown", "color_beige", "color_green"),
+    ),
+    (
+        29453631,
+        "d303bb0af15b3246106cb9233c55154e5e62c079",
+        ("color_brown", "color_black", "color_green", "color_yellow"),
     ),
     (
         29456789,
@@ -546,19 +991,77 @@ COLOUR_DATA: Final[tuple[tuple[int, str, tuple[str, ...]], ...]] = (
         ("color_blue", "color_yellow", "color_brown", "color_black", "color_beige"),
     ),
     (
+        29511761,
+        "851f1988f166dea193cb10e8e3f1ccb3d4ee83b3",
+        ("color_brown", "color_yellow", "color_green"),
+    ),
+    (
         29660609,
         "6aff051909b466fe78411c043fc6a90178cf0cab",
         ("color_blue", "color_brown", "color_purple", "color_gray", "color_pink"),
     ),
     (
-        29864826,
-        "7d0ba80ab82633c3d4c01413afea8b49c315c9d2",
-        ("color_yellow", "color_brown", "color_orange", "color_black", "color_beige"),
+        29673142,
+        "16a50ed9a6a011d7c60ce5e4cde80171a2d8f884",
+        ("color_brown", "color_red", "color_black"),
+    ),
+    (
+        29696188,
+        "eb9994f81e5834298bd81946310f603f34098652",
+        ("color_gray", "color_brown", "color_yellow", "color_blue", "color_beige"),
+    ),
+    (
+        29859009,
+        "0da1e7945a8477665bc78e5349a1281ce855d0ae",
+        ("color_black", "color_brown", "color_orange"),
+    ),
+    (
+        29859368,
+        "f035f3b16d7018fd5723ba72a633c2665f3f2035",
+        (
+            "color_gray",
+            "color_black",
+            "color_brown",
+            "color_blue",
+            "color_orange",
+            "color_beige",
+            "color_green",
+        ),
+    ),
+    (
+        29934901,
+        "b9b0c0d9f15038f6d3f9faadfbc40d9f5181edde",
+        ("color_brown", "color_orange", "color_black", "color_gray", "color_beige"),
+    ),
+    (
+        30394000,
+        "ae00ae4306cbe824f229a4f46d4a1e5505e60a47",
+        ("color_blue", "color_black", "color_gray", "color_red", "color_orange"),
+    ),
+    (
+        30479115,
+        "cd3473aee0b79b07e988a17b2e72b08c90f6b666",
+        ("color_green", "color_blue", "color_yellow", "color_brown", "color_gray", "color_beige"),
     ),
     (
         30489671,
         "800fd0b22718a5d07c74967265183ad3548fb411",
         ("color_brown", "color_yellow", "color_beige", "color_orange"),
+    ),
+    (
+        30503943,
+        "e3a175966cb56da52bc8630152f84acdda2c4caf",
+        (
+            "color_white",
+            "color_gray",
+            "color_beige",
+            "color_orange",
+            "color_red",
+            "color_blue",
+            "color_brown",
+            "color_green",
+            "color_yellow",
+        ),
     ),
     (
         30592536,
@@ -571,20 +1074,52 @@ COLOUR_DATA: Final[tuple[tuple[int, str, tuple[str, ...]], ...]] = (
         ("color_gray", "color_black", "color_brown", "color_yellow", "color_beige"),
     ),
     (
+        31244975,
+        "9b9f592c51025621cee834c78690fe49dd757d83",
+        ("color_yellow", "color_beige", "color_brown", "color_blue", "color_gray"),
+    ),
+    (
+        31548457,
+        "a274d7029fed4cdb6839feca33e7dc05f22105a8",
+        ("color_green", "color_gray", "color_brown", "color_yellow", "color_beige"),
+    ),
+    (
         31585705,
         "cc753a9191a81608aa969a57ea3ab1f276632a86",
         ("color_brown", "color_black", "color_yellow"),
+    ),
+    (
+        31650532,
+        "226562a0f34c774e11fd4847449d93f72e1bf16b",
+        ("color_beige", "color_brown", "color_white", "color_orange", "color_yellow"),
+    ),
+    (
+        31796751,
+        "9db9e73fc1559eb1d091167074066b2511b58067",
+        ("color_beige", "color_orange", "color_brown"),
+    ),
+    (
+        31888585,
+        "62826098fc15f2768d60a0651fb2b8cdbb1ed889",
+        ("color_orange", "color_brown", "color_beige", "color_red"),
+    ),
+    (
+        32079692,
+        "7a7a5ff60904220abe0a9a419ff152fd903cd176",
+        ("color_brown", "color_black", "color_orange", "color_beige"),
+    ),
+    (
+        32359208,
+        "31e75119e15518b56ee9658bb629a4e4d0c3e174",
+        ("color_orange", "color_brown", "color_beige"),
     ),
     (
         32777215,
         "796e9a82dba33d3d0fa4799caaac5bfbc1ce0c82",
         ("color_brown", "color_yellow", "color_black"),
     ),
-    (
-        34249308,
-        "95cf2a6773c9debfbedc204618ffcb6aa4f25d71",
-        ("color_brown", "color_orange", "color_yellow", "color_gray"),
-    ),
+    (33135240, "cbec76eae763733c28d5af2577955f0b34534974", ("color_gray", "color_brown")),
+    (34249146, "a3b84936b489b55d8175a8061cef1c8549c8d8b5", ("color_yellow", "color_brown")),
     (
         34249872,
         "bef98d8685a2266291d5fb04e436deb1772a4b58",
@@ -596,14 +1131,9 @@ COLOUR_DATA: Final[tuple[tuple[int, str, tuple[str, ...]], ...]] = (
         ("color_black", "color_brown", "color_yellow"),
     ),
     (
-        34254029,
-        "1318f99da2201fcc1144be3841577e90c5cf8508",
-        ("color_yellow", "color_beige", "color_gray", "color_green"),
-    ),
-    (
-        34258147,
-        "8e7b2391d370c1d322277233da27a1ac71f67f1e",
-        ("color_yellow", "color_brown", "color_green"),
+        34258055,
+        "8be07c485b68b6f7f4906661f56a21c32cdc3927",
+        ("color_brown", "color_yellow", "color_beige"),
     ),
     (
         34313529,
@@ -656,9 +1186,37 @@ COLOUR_DATA: Final[tuple[tuple[int, str, tuple[str, ...]], ...]] = (
         ("color_black", "color_brown", "color_beige", "color_yellow"),
     ),
     (
+        34888005,
+        "dec727c1221ca6603a82f9e125290aeb8315881a",
+        (
+            "color_green",
+            "color_blue",
+            "color_brown",
+            "color_yellow",
+            "color_black",
+            "color_white",
+            "color_beige",
+        ),
+    ),
+    (
         35102868,
         "de5782c033d3f994fcfefe8c63cc419225cda105",
         ("color_brown", "color_orange", "color_gray", "color_yellow", "color_red"),
+    ),
+    (
+        36187271,
+        "7dc2230af8cf68064a078689a68c6f6fe349c8e1",
+        ("color_brown", "color_gray", "color_beige", "color_white", "color_orange"),
+    ),
+    (
+        36322343,
+        "fc383f816b8fe920d2714e86576737fd1d9c4799",
+        ("color_yellow", "color_beige", "color_gray", "color_green"),
+    ),
+    (
+        36652938,
+        "295fecfe9f210e6e7b2dcf56463c7d3cc0751a94",
+        ("color_gray", "color_yellow", "color_beige", "color_orange", "color_green"),
     ),
     (
         36687919,
@@ -670,7 +1228,17 @@ COLOUR_DATA: Final[tuple[tuple[int, str, tuple[str, ...]], ...]] = (
         "25f83f285d92a72790f243cf8410f64903ebf0e3",
         ("color_black", "color_brown", "color_beige", "color_yellow", "color_green"),
     ),
+    (
+        37031741,
+        "68368bf95b64f2953af76c97be1d435cd08a8a94",
+        ("color_brown", "color_yellow", "color_orange"),
+    ),
     (37948976, "65322378679783f7bd0f5e097145319481f37b7b", ("color_brown", "color_yellow")),
+    (
+        38150775,
+        "b163d64ddd926b2e2854349f850c087f6ce08adf",
+        ("color_green", "color_white", "color_gray", "color_yellow", "color_brown", "color_blue"),
+    ),
     (
         38212701,
         "d98fbfcf5cb5f7ac1a427e722ff0c0625e426507",
@@ -678,14 +1246,19 @@ COLOUR_DATA: Final[tuple[tuple[int, str, tuple[str, ...]], ...]] = (
     ),
     (38305052, "0c28fc8bdf63abd018f1a6505505af44bcc61f23", ("color_gray", "color_yellow")),
     (
+        38363034,
+        "7c0f0395940166c0ec611befb224820e02cebf42",
+        ("color_blue", "color_brown", "color_yellow", "color_green", "color_gray"),
+    ),
+    (
         38429749,
         "4a81ab0f18a682c581836e34298b6ec91f513ed1",
         ("color_gray", "color_white", "color_blue", "color_beige"),
     ),
     (
-        38742234,
-        "235fcb098716401194ef5cacb806ea37b7939ff9",
-        ("color_brown", "color_black", "color_yellow", "color_gray", "color_blue"),
+        38794836,
+        "bc62028e69700a39f1d1b4305fab3ff68c4d4899",
+        ("color_gray", "color_yellow", "color_brown", "color_white"),
     ),
     (
         38800278,
@@ -708,19 +1281,35 @@ COLOUR_DATA: Final[tuple[tuple[int, str, tuple[str, ...]], ...]] = (
         ("color_blue", "color_green", "color_gray", "color_beige"),
     ),
     (
+        39389812,
+        "08031d291690d14ff5fcd8b7ee066cde15e39da2",
+        ("color_black", "color_beige", "color_brown", "color_blue", "color_white", "color_yellow"),
+    ),
+    (
         39655981,
         "e243e8b342c7df3a6e6edaf57e3cf3dae018269b",
         ("color_red", "color_orange", "color_brown", "color_gray", "color_beige"),
     ),
     (
-        39680145,
-        "41adf1fc261aeed061ff1a10997e67053164e1a3",
-        ("color_yellow", "color_gray", "color_blue", "color_green", "color_brown", "color_beige"),
-    ),
-    (
         39846917,
         "0336841ee751a179863e49acc447e9f5c819393d",
         ("color_gray", "color_blue", "color_green", "color_beige", "color_yellow"),
+    ),
+    (40205542, "216de4fbf8bdd6094d29eb3da99d031fcdc57df8", ("color_black", "color_brown")),
+    (
+        40454710,
+        "86522276940dc16e416eceb85a43babb5e6217ee",
+        ("color_gray", "color_yellow", "color_brown", "color_blue"),
+    ),
+    (
+        40628156,
+        "83a715376e186d6ef23d55ad17e440b6c54fd554",
+        ("color_brown", "color_green", "color_black", "color_gray", "color_yellow"),
+    ),
+    (
+        40711058,
+        "8b3928113b641005a49d25259a770f25cc15f216",
+        ("color_green", "color_blue", "color_yellow", "color_brown", "color_white"),
     ),
     (40937667, "ca8a66f64d5e1b4bdd9692ab74dfa527bf18a36c", ("color_brown", "color_yellow")),
     (
@@ -728,10 +1317,31 @@ COLOUR_DATA: Final[tuple[tuple[int, str, tuple[str, ...]], ...]] = (
         "6961fc87627ad1d0093c20429b124319fc392d34",
         ("color_blue", "color_gray", "color_green", "color_yellow", "color_orange", "color_brown"),
     ),
+    (41087846, "0b29cf675c099d61c11abf6fc7642c775987cad8", ("color_blue", "color_brown")),
     (
-        41242543,
-        "0712b476f6a32e7437e9a95686aca0c770e20cac",
-        ("color_beige", "color_brown", "color_yellow"),
+        41474968,
+        "639688f7e32fb91e6eaa09dc310eb7998254b075",
+        ("color_yellow", "color_brown", "color_black", "color_gray"),
+    ),
+    (
+        41875599,
+        "d679e6f56ed828818cafa4358ceb6aa1ee282278",
+        ("color_brown", "color_yellow", "color_green", "color_orange", "color_red", "color_beige"),
+    ),
+    (
+        42000428,
+        "029624bdc9e47f8f378abbe6b7d584d11be01e1c",
+        ("color_yellow", "color_white", "color_brown", "color_gray", "color_blue"),
+    ),
+    (
+        42193661,
+        "e8286c5787328b2e0dc4736922910638febd3633",
+        ("color_beige", "color_yellow", "color_brown"),
+    ),
+    (
+        42838057,
+        "a5db4dbc75af13680c24fee4a65cd823d9b762e7",
+        ("color_beige", "color_white", "color_gray", "color_brown", "color_orange"),
     ),
     (
         43317016,
@@ -739,9 +1349,14 @@ COLOUR_DATA: Final[tuple[tuple[int, str, tuple[str, ...]], ...]] = (
         ("color_gray", "color_brown", "color_beige", "color_yellow"),
     ),
     (
-        44569993,
-        "580d468c1779e68c2b578d81d991314f24a8c14a",
-        ("color_white", "color_gray", "color_brown", "color_beige", "color_red"),
+        44024109,
+        "476aa6e6688aebf6a6c5595e4f0223959aeb744d",
+        ("color_gray", "color_beige", "color_brown", "color_white", "color_yellow", "color_red"),
+    ),
+    (
+        44696930,
+        "591b8843abe7b114d5cae90129fc83e478736fd5",
+        ("color_blue", "color_gray", "color_green", "color_black", "color_white"),
     ),
     (
         44719383,
@@ -757,9 +1372,19 @@ COLOUR_DATA: Final[tuple[tuple[int, str, tuple[str, ...]], ...]] = (
         ),
     ),
     (
-        45326162,
-        "a943f73803d02d95a3fc3c58218cb6be9a87fdb8",
-        ("color_yellow", "color_brown", "color_beige"),
+        44806961,
+        "987425c4c034d2e9afbaca24f8cc1f8de636a05f",
+        ("color_gray", "color_beige", "color_brown", "color_yellow", "color_blue"),
+    ),
+    (
+        45254415,
+        "afe2adfed31d69cf61e9418c9d718b4c5c32b64e",
+        ("color_brown", "color_black", "color_yellow", "color_beige", "color_gray"),
+    ),
+    (
+        45453768,
+        "e24640c8c55b5d18abceec9b05147eb9f1200def",
+        ("color_green", "color_beige", "color_blue", "color_white"),
     ),
     (
         45559316,
@@ -777,6 +1402,16 @@ COLOUR_DATA: Final[tuple[tuple[int, str, tuple[str, ...]], ...]] = (
         ("color_brown", "color_gray", "color_yellow", "color_black"),
     ),
     (
+        47139064,
+        "24218f30f1b9adc9539653ff2499b60323915432",
+        ("color_brown", "color_white", "color_orange", "color_beige", "color_black", "color_gray"),
+    ),
+    (
+        47726567,
+        "d0f5fd26a09c6c62327f1b2d7164a1a1bfc9fe2b",
+        ("color_yellow", "color_green", "color_brown"),
+    ),
+    (
         47820766,
         "1f85437b9ae8aa9b954cf240956be4310b94d01e",
         ("color_brown", "color_yellow", "color_black", "color_beige"),
@@ -792,16 +1427,99 @@ COLOUR_DATA: Final[tuple[tuple[int, str, tuple[str, ...]], ...]] = (
         ("color_orange", "color_brown", "color_blue", "color_gray", "color_beige"),
     ),
     (
+        48303061,
+        "9654c0c894f9923ffe062883a1964a5f6109b94b",
+        ("color_yellow", "color_green", "color_gray", "color_blue", "color_brown", "color_beige"),
+    ),
+    (
+        48330814,
+        "36ffee6d0039eb9e77bb7f579b62d0494201e798",
+        ("color_blue", "color_brown", "color_black", "color_gray"),
+    ),
+    (
+        48450222,
+        "063eb278e9ef913ad81a5212dfd3ebfdc995a7e3",
+        ("color_yellow", "color_beige", "color_brown", "color_orange"),
+    ),
+    (
+        48450338,
+        "172a62322b1b02be9e1ff888224e8ef5935121a1",
+        ("color_yellow", "color_brown", "color_beige", "color_orange"),
+    ),
+    (
+        48775571,
+        "6ba58c5c880079338cba42d9a1de08adea2d107d",
+        ("color_brown", "color_orange", "color_gray", "color_beige"),
+    ),
+    (
         48912323,
         "df01b190b40558e87ef32a23fb8e50c2f00b1ff5",
         ("color_brown", "color_black", "color_green", "color_yellow", "color_blue"),
     ),
+    (
+        48986314,
+        "8c20b07e53fe2cea3c864c529acb3dbddaf657ca",
+        ("color_brown", "color_yellow", "color_orange"),
+    ),
+    (
+        49345017,
+        "10ea432571e3334c463fbd541b73ccd97b53bdc3",
+        ("color_beige", "color_gray", "color_brown", "color_yellow", "color_orange"),
+    ),
+    (
+        49345095,
+        "74faa3a7da284260c477e79f35378a1393d24a18",
+        ("color_gray", "color_beige", "color_orange", "color_brown", "color_white"),
+    ),
+    (
+        49650356,
+        "e8faf42ae68e29ee951dc67b7aeecf1563fee5b9",
+        ("color_beige", "color_yellow", "color_brown", "color_orange"),
+    ),
+    (
+        49893685,
+        "48ba82773467c6c2cf4154e6719a42b726de72ed",
+        ("color_brown", "color_yellow", "color_beige", "color_green"),
+    ),
     (49911139, "c64893abefdaa397e8144c3f22078778e46d5f8d", ("color_yellow", "color_brown")),
+    (
+        50442208,
+        "e82ad8c5c26de8fba2cd958df538028dd2d19850",
+        (
+            "color_blue",
+            "color_gray",
+            "color_beige",
+            "color_brown",
+            "color_green",
+            "color_black",
+            "color_yellow",
+        ),
+    ),
     (50496417, "ce3c09e54bf3617a188a4986c0260f13f89e374c", ("color_black", "color_blue")),
+    (
+        50627665,
+        "94f68bce358472abdb1fc957023b8f51cc93c47a",
+        ("color_blue", "color_gray", "color_brown", "color_red"),
+    ),
     (
         50712491,
         "755be064f94526a67de78030145b67576b6fbc00",
         ("color_black", "color_yellow", "color_brown", "color_beige"),
+    ),
+    (
+        52873819,
+        "da524a96177c7b49f45ca4d790943f36035b9c1e",
+        ("color_gray", "color_beige", "color_yellow", "color_brown", "color_blue", "color_green"),
+    ),
+    (
+        53280155,
+        "358ee489b3da803a91a53bf14c851058b855ae64",
+        ("color_orange", "color_brown", "color_beige", "color_green", "color_yellow"),
+    ),
+    (
+        53567635,
+        "d85e52db972fdb3df8948ffb03ba888684d95465",
+        ("color_blue", "color_brown", "color_yellow"),
     ),
     (
         53997339,
@@ -809,14 +1527,59 @@ COLOUR_DATA: Final[tuple[tuple[int, str, tuple[str, ...]], ...]] = (
         ("color_beige", "color_brown", "color_white"),
     ),
     (
-        56396968,
-        "a7fdd29b245c7f335c1030bda26e64da2c0f2d33",
-        ("color_blue", "color_yellow", "color_brown", "color_gray", "color_green"),
+        54586369,
+        "a7d66ed76c86910a635606c23ae1d792984ff7fb",
+        (
+            "color_black",
+            "color_brown",
+            "color_beige",
+            "color_blue",
+            "color_white",
+            "color_gray",
+            "color_orange",
+        ),
     ),
     (
-        56403724,
-        "61ab52e37855cb66097028f3b0b54258b6e894e7",
-        ("color_gray", "color_beige", "color_yellow"),
+        54586370,
+        "ed4f99a9e41bdcb81722fc0b4687b80477a40855",
+        ("color_gray", "color_yellow", "color_beige", "color_brown", "color_black", "color_orange"),
+    ),
+    (
+        54950059,
+        "04e3bdae839dbf64dc12437b3dc440794052f0cb",
+        (
+            "color_brown",
+            "color_beige",
+            "color_yellow",
+            "color_green",
+            "color_black",
+            "color_orange",
+        ),
+    ),
+    (
+        55955732,
+        "4974e5333a76cda789891ca8b4e17f77e6a5aace",
+        ("color_gray", "color_blue", "color_brown", "color_yellow"),
+    ),
+    (
+        56283143,
+        "f037f798727041d1cf23c5b9e054abb62b779ee3",
+        ("color_yellow", "color_brown", "color_green"),
+    ),
+    (
+        56397303,
+        "0159b8a2214323cbd0d899e0a3e157465fe0f1d2",
+        ("color_brown", "color_yellow", "color_black"),
+    ),
+    (
+        56771126,
+        "e50fbaa65f4b8675015a1aead5a22f4585fb4199",
+        ("color_brown", "color_red", "color_blue", "color_gray"),
+    ),
+    (
+        57054087,
+        "6eb1859664e1c66987f4fee71b2acd800c067771",
+        ("color_blue", "color_white", "color_black", "color_brown", "color_green"),
     ),
     (
         57364471,
@@ -849,6 +1612,11 @@ COLOUR_DATA: Final[tuple[tuple[int, str, tuple[str, ...]], ...]] = (
         "53e78740509b175e5a94e1fedcc6dbc135fe59db",
         ("color_yellow", "color_black", "color_beige", "color_brown", "color_green"),
     ),
+    (
+        57393854,
+        "8e2726e69000b6315c159110cbd564b575011da7",
+        ("color_brown", "color_black", "color_yellow", "color_beige"),
+    ),
     (57398214, "00726031334da5aff086ef3f92ebcc1f350efb69", ("color_black", "color_brown")),
     (
         57669562,
@@ -879,57 +1647,260 @@ COLOUR_DATA: Final[tuple[tuple[int, str, tuple[str, ...]], ...]] = (
         ),
     ),
     (
-        57672440,
-        "3a6d2bc9e60f94cdb54a02e51ba14d47cf94857b",
-        ("color_blue", "color_brown", "color_green", "color_yellow", "color_gray", "color_black"),
-    ),
-    (
-        57673092,
-        "f057734d41f401209756809db052303fc5c633d3",
-        ("color_brown", "color_yellow", "color_black", "color_green"),
-    ),
-    (
         57673290,
         "d218d81078165ee74a86f78e8f9b6762aacb4c12",
         ("color_brown", "color_yellow", "color_green", "color_black", "color_blue"),
     ),
+    (58259511, "02f2d40ee1d9aa2fdb728bf19f27cad1c0f45eb4", ("color_gray",)),
+    (
+        58259512,
+        "0205d5311e510d4f320fe716506827688b5ae912",
+        ("color_gray", "color_white", "color_black"),
+    ),
+    (58376597, "a2de891ebef75ec1a68ca877b6fc41cf5216659d", ("color_blue", "color_brown")),
+    (58715901, "bae5dceecfb3afef8a4957d5dd4b37634f8afd13", ("color_blue",)),
     (
         58728087,
         "32f6bcb6c8e9ef8a670c623a8853557a549e9e5f",
         ("color_yellow", "color_white", "color_gray", "color_green", "color_beige"),
     ),
+    (58774610, "0dff464880ccc27368a8eeb128a54e6a46abf2a7", ("color_beige", "color_orange")),
     (
-        60278301,
-        "34998c2fab2d198557fddce9054b90d6cb128379",
-        (
-            "color_gray",
-            "color_brown",
-            "color_yellow",
-            "color_orange",
-            "color_blue",
-            "color_beige",
-            "color_white",
-        ),
+        58978012,
+        "cf6ed2d536b69eabb3378e2c031ab7b870495eee",
+        ("color_brown", "color_green", "color_black", "color_yellow", "color_gray"),
+    ),
+    (59157180, "af67ca20b8c7b9b2483b2d0fc96119889be80d1a", ("color_green",)),
+    (
+        59158197,
+        "7ab7a8d6cec556c353a75d2f341bbff13cdcde22",
+        ("color_green", "color_brown", "color_yellow", "color_gray"),
+    ),
+    (
+        59236992,
+        "48ddff7b9a2be1af8f4eef1f37e724110f2f3590",
+        ("color_green", "color_black", "color_brown"),
+    ),
+    (
+        59356850,
+        "a80e3b677424c83343d90e884743691021fd3db1",
+        ("color_brown", "color_orange", "color_black"),
+    ),
+    (59393191, "8294a91021db4522355356df27a9c2de41a358b9", ("color_gray",)),
+    (
+        60177902,
+        "88f88237270b57999c945f0f83bd7527fc6dc538",
+        ("color_brown", "color_yellow", "color_orange", "color_black"),
+    ),
+    (
+        60285249,
+        "82882ae3c57d47101f9c2c6fec535570e85c092e",
+        ("color_beige", "color_yellow", "color_brown"),
+    ),
+    (
+        60302523,
+        "cd97d9bb90274ec0770e1062a633f567da67aef6",
+        ("color_gray", "color_beige", "color_yellow", "color_blue", "color_brown"),
+    ),
+    (
+        60340295,
+        "6151bb72d45e73a826484e0408e68088248ffa48",
+        ("color_brown", "color_black", "color_orange"),
+    ),
+    (
+        60770876,
+        "fa0c4c456f5bd3685ea32605d8a7949bc828eed0",
+        ("color_blue", "color_brown", "color_yellow"),
+    ),
+    (
+        60841565,
+        "16b3322217f24a562ccbc65ebfd79c9cac8ed4d9",
+        ("color_brown", "color_beige", "color_orange"),
+    ),
+    (
+        60846775,
+        "b1d00dd18ad5c3b1aaef13c21d8cee5c7244836d",
+        ("color_beige", "color_orange", "color_yellow"),
     ),
     (
         60846777,
         "9d199181c677d0b49cef4ebd5491a383f71169d8",
         ("color_beige", "color_yellow", "color_brown"),
     ),
+    (60846790, "ecebfd918c8ebd147ba2d654021a62a8f4fb54f7", ("color_beige",)),
     (
         60854281,
         "a594211cdba8e704ccdd8f4ae5e5906c2674be51",
         ("color_beige", "color_yellow", "color_gray", "color_brown", "color_orange"),
     ),
     (
-        60909660,
-        "fb8821ac7b2a3bc9a474468899c06fb3827c90c8",
-        ("color_beige", "color_orange", "color_yellow", "color_gray"),
+        60855303,
+        "09ac1f858701f2ac0869253cc6e1df2c2d2329dc",
+        ("color_beige", "color_white", "color_yellow", "color_brown"),
+    ),
+    (
+        60858321,
+        "af88bc207225e8aac35a68a9f4818e44fa168ff8",
+        ("color_beige", "color_yellow", "color_orange", "color_brown"),
+    ),
+    (
+        60858890,
+        "a6e2f952f9263fd2372923e15578562e38b147d8",
+        ("color_beige", "color_yellow", "color_brown"),
+    ),
+    (
+        60870581,
+        "80aa3f10a8b7f1651124e49cf68db654fe0bed3a",
+        ("color_beige", "color_brown", "color_yellow", "color_orange"),
+    ),
+    (
+        60870999,
+        "ed8b578273d23e63dc6acc974ebd1108dfb643b0",
+        ("color_beige", "color_yellow", "color_orange"),
+    ),
+    (
+        60874760,
+        "682f6dc5627371172d3e495f8972fa6c37717bc5",
+        ("color_beige", "color_yellow", "color_brown", "color_orange"),
+    ),
+    (
+        60875395,
+        "df01c221d8da4061ac713847ebfb2d9ff4284b1e",
+        ("color_beige", "color_yellow", "color_gray"),
+    ),
+    (
+        60877405,
+        "8700cb9bdb96df08b81c5feddce09a26d7504dd2",
+        ("color_beige", "color_brown", "color_orange", "color_yellow"),
+    ),
+    (
+        60877408,
+        "b74838222d2a781432e49af49dbf5b3f648d7e63",
+        ("color_beige", "color_brown", "color_orange"),
+    ),
+    (60880685, "e4d93745bcab0d830e54ab2f5f16113e756067e2", ("color_beige", "color_orange")),
+    (
+        60880761,
+        "b39e2374d406cb36073eb0e94cfb000626c4d497",
+        ("color_beige", "color_yellow", "color_brown", "color_orange"),
+    ),
+    (
+        60891665,
+        "2b8f6ccb653cbbf50674634be4fbcbdb4eb75b5e",
+        ("color_beige", "color_yellow", "color_brown"),
+    ),
+    (
+        60892433,
+        "9ae87c41cc43b1b29c39dcc037eba64651b2d667",
+        ("color_beige", "color_yellow", "color_orange", "color_brown"),
     ),
     (
         60939098,
         "d3e40f80c87b9a04c03ba09fd81c4ea38033583c",
         ("color_beige", "color_yellow", "color_green", "color_brown"),
+    ),
+    (
+        60975719,
+        "75de50a3985466ab281bbe882fb812f0ff6e8806",
+        (
+            "color_white",
+            "color_blue",
+            "color_green",
+            "color_gray",
+            "color_red",
+            "color_purple",
+            "color_yellow",
+        ),
+    ),
+    (
+        61116230,
+        "88989c45377eb9b05dc600a1ca8ff8455a5ce401",
+        ("color_yellow", "color_green", "color_black"),
+    ),
+    (
+        61133701,
+        "3bfad77c6699857be48e693a34ac5e44dbb5d384",
+        ("color_yellow", "color_brown", "color_beige", "color_orange"),
+    ),
+    (
+        61302527,
+        "ddc7e1f7a2f9da7750d9d64e3fe3f6c80bd8bf11",
+        (
+            "color_red",
+            "color_blue",
+            "color_black",
+            "color_yellow",
+            "color_orange",
+            "color_brown",
+            "color_beige",
+        ),
+    ),
+    (
+        61316880,
+        "40483700439219a76fde438c8697e45d0aa32d89",
+        ("color_green", "color_beige", "color_yellow", "color_blue"),
+    ),
+    (
+        61321177,
+        "aecffbda0e4d0cf96f31012a8da95d16d08ccb81",
+        ("color_brown", "color_black", "color_beige", "color_orange"),
+    ),
+    (
+        61338018,
+        "c5c1973266a504ef877f4d9188e47d97f4a0a5e0",
+        ("color_blue", "color_brown", "color_gray", "color_black"),
+    ),
+    (
+        61368544,
+        "3d33795953f01dbdb06b708e48b87262005ec083",
+        ("color_yellow", "color_blue", "color_brown", "color_gray"),
+    ),
+    (61370172, "c6ff5aafaaac86d5921b375d4486e0d96220f1e4", ("color_blue",)),
+    (
+        62025574,
+        "737cfc8d37e3cfc359754ba99603adbb89698768",
+        ("color_brown", "color_gray", "color_orange", "color_beige", "color_yellow"),
+    ),
+    (
+        62034144,
+        "44453265899409b3521523780c6e6dc3f10fa213",
+        ("color_blue", "color_gray", "color_green", "color_black", "color_beige"),
+    ),
+    (
+        62264804,
+        "df75763f92a480268a22251dc285cd80d442d315",
+        ("color_gray", "color_blue", "color_white", "color_black", "color_beige"),
+    ),
+    (
+        62578650,
+        "fe9deffc2b7494d1049e0cd88d7b96c64237845e",
+        ("color_gray", "color_blue", "color_white", "color_black"),
+    ),
+    (
+        63111025,
+        "93de2bd706176b8a67bf935e356d09929129032c",
+        ("color_white", "color_green", "color_blue", "color_gray"),
+    ),
+    (63113986, "7c6d089b32064028b75699e154d57b1da0fb2c06", ("color_blue",)),
+    (
+        63236571,
+        "0241891e34bd17bbc0d7d42731a71e50729b5b48",
+        ("color_blue", "color_brown", "color_yellow", "color_orange", "color_black"),
+    ),
+    (
+        63236967,
+        "c8e28a17ac7c1d7c9dbd32cbf823da55e66bc24a",
+        ("color_gray", "color_blue", "color_brown", "color_black", "color_green"),
+    ),
+    (
+        63332950,
+        "5ec913f45daf2a3713454c49b97f0b18ea914df2",
+        ("color_blue", "color_gray", "color_beige"),
+    ),
+    (
+        63564407,
+        "7fcfa8efcfbe9ec141b1918e45c126bb627b3266",
+        ("color_beige", "color_brown", "color_yellow", "color_blue", "color_gray"),
     ),
     (
         63935711,
@@ -947,14 +1918,9 @@ COLOUR_DATA: Final[tuple[tuple[int, str, tuple[str, ...]], ...]] = (
         ("color_brown", "color_yellow", "color_black"),
     ),
     (
-        64501070,
-        "01e4b81dceade9d0c2ebf1e9b55922c72078acd3",
-        ("color_beige", "color_orange", "color_brown"),
-    ),
-    (
-        64525652,
-        "cca659e399684c9ebaa2bee94add89f25b2d0269",
-        ("color_blue", "color_brown", "color_purple", "color_black", "color_yellow", "color_gray"),
+        64903116,
+        "7bbd3529bbf39a432603332a112102ab3ebf64a5",
+        ("color_brown", "color_gray", "color_blue", "color_black", "color_white"),
     ),
     (
         65096460,
@@ -967,9 +1933,51 @@ COLOUR_DATA: Final[tuple[tuple[int, str, tuple[str, ...]], ...]] = (
         ("color_beige", "color_yellow", "color_green", "color_brown"),
     ),
     (
+        65230621,
+        "b3ca963aae25e54d4826daa6d7863a94b3150eee",
+        ("color_blue", "color_gray", "color_beige", "color_orange"),
+    ),
+    (
+        65230624,
+        "70025c5fc34253b1910f0b32b82594c5cb5b3fc5",
+        ("color_gray", "color_orange", "color_black", "color_beige", "color_brown"),
+    ),
+    (
         65236294,
         "235825ccde19e31648123354d0148a34d40af41d",
         ("color_green", "color_blue", "color_yellow", "color_brown"),
+    ),
+    (65254447, "26e7717af4b5789a45bac9e03e30f89b9f2566f1", ("color_blue",)),
+    (
+        65256135,
+        "fb4ec4206315959158e13b0fbd5972e627cf675f",
+        ("color_brown", "color_orange", "color_yellow", "color_red"),
+    ),
+    (65256137, "1ba48235a5aeea1dbfc3c878754c9206242a473c", ("color_green", "color_blue")),
+    (
+        65258992,
+        "aa6574839a61f3963744021312864cd4948a5174",
+        ("color_brown", "color_gray", "color_blue", "color_white", "color_black"),
+    ),
+    (
+        65259541,
+        "32436961d0d1ae6dfb326601554c367867e5f8bd",
+        ("color_gray", "color_blue", "color_beige", "color_black", "color_yellow"),
+    ),
+    (
+        65303664,
+        "cdd3aac2a8fe72373c8fbe63b81688994115a2d5",
+        ("color_blue", "color_brown", "color_gray", "color_yellow", "color_green"),
+    ),
+    (
+        65303668,
+        "c96beb37f92d26a00e8f2973e9607a625e2a054c",
+        ("color_yellow", "color_brown", "color_blue"),
+    ),
+    (
+        65334925,
+        "6a34948e652f9beec297969b7a7a5f639e42e521",
+        ("color_yellow", "color_brown", "color_green", "color_black"),
     ),
     (
         65361933,
@@ -977,9 +1985,42 @@ COLOUR_DATA: Final[tuple[tuple[int, str, tuple[str, ...]], ...]] = (
         ("color_blue", "color_beige", "color_pink", "color_gray"),
     ),
     (
+        65367225,
+        "d88aafb9a8e3b27cffdf26559237c0f7935e31cc",
+        (
+            "color_blue",
+            "color_pink",
+            "color_yellow",
+            "color_gray",
+            "color_brown",
+            "color_orange",
+            "color_purple",
+        ),
+    ),
+    (
+        65375635,
+        "675f6a3f5e9febd712489ebf716e52fa8f5cc70e",
+        ("color_blue", "color_brown", "color_yellow", "color_green", "color_orange"),
+    ),
+    (
+        65457424,
+        "05e2b8d8fd12b87143e2d72cd86b32e633a2ea9c",
+        ("color_brown", "color_yellow", "color_orange", "color_beige"),
+    ),
+    (
         65673517,
         "1b58669dbd805ea104ec453ae83c98d8ddf862a5",
         ("color_brown", "color_black", "color_orange"),
+    ),
+    (
+        65765476,
+        "648a4e8ce8b284f125c6be948eecfd7e5dcf2d81",
+        ("color_beige", "color_gray", "color_brown"),
+    ),
+    (
+        65958509,
+        "acf80f0d4adf650402000866065ce469beb1d88c",
+        ("color_black", "color_gray", "color_blue"),
     ),
     (
         66313896,
@@ -1038,9 +2079,69 @@ COLOUR_DATA: Final[tuple[tuple[int, str, tuple[str, ...]], ...]] = (
         ("color_beige", "color_yellow", "color_brown"),
     ),
     (
+        66372744,
+        "675569322a7335e11cf094720c116503c9a2a923",
+        ("color_brown", "color_yellow", "color_white", "color_beige", "color_gray"),
+    ),
+    (
+        66383635,
+        "dd3aa27cc983a4358d3e81b9fe4e94d50dcb61a5",
+        ("color_brown", "color_black", "color_beige", "color_yellow", "color_gray"),
+    ),
+    (66655292, "aa396949bec2b1ecad60edec92eaae365436c86b", ("color_blue", "color_gray")),
+    (
+        66656081,
+        "954324ab3d9f595985b33c34380c876b9a468aa7",
+        ("color_white", "color_red", "color_black", "color_gray"),
+    ),
+    (
+        66656294,
+        "346bafe92e60437c41661586c925ae2704f08dc1",
+        ("color_black", "color_brown", "color_orange"),
+    ),
+    (
+        66660021,
+        "420752aea5921cb73567811bc1c3b2abb5e9538d",
+        ("color_black", "color_gray", "color_blue"),
+    ),
+    (
+        66676306,
+        "12f43eb65438488a49dcc7dc2adb6509aa685f1b",
+        ("color_orange", "color_gray", "color_brown", "color_beige"),
+    ),
+    (
+        66868934,
+        "55df84e239b567aa275c03b7c5582c274aff2a14",
+        ("color_blue", "color_black", "color_white"),
+    ),
+    (66868935, "4384bab78cec6c484861ee3150b3cb91d5838647", ("color_blue",)),
+    (66912736, "b9d7d362951de0bf0a7d92cf3b4d2b4e2b42a707", ("color_blue", "color_gray")),
+    (66913799, "7908d116d925d8fe20b7b3afa2a75a9dce268403", ("color_gray", "color_white")),
+    (67017090, "53340e2aa2c95e26287f98d26cc54fcf5022739c", ("color_gray", "color_blue")),
+    (
+        67017529,
+        "cacaa61e796cdbf4cd4f03dac4cd2bb4d233bdb4",
+        ("color_blue", "color_black", "color_gray"),
+    ),
+    (
+        67142211,
+        "6e54785393054fb3235a87ba5a12ae0aae50ff33",
+        ("color_gray", "color_white", "color_red", "color_brown", "color_black"),
+    ),
+    (
+        67143257,
+        "3bbe0eba27d4198ce535193732422449057d97af",
+        ("color_white", "color_gray", "color_brown"),
+    ),
+    (
         67488003,
         "ddeccc6960243aa9b7443bdee49cbd30ae600b1f",
         ("color_yellow", "color_beige", "color_gray", "color_green", "color_brown"),
+    ),
+    (
+        67537617,
+        "2396ba7eebfac83a7caa08a815fc7042f005fa22",
+        ("color_brown", "color_yellow", "color_beige"),
     ),
     (67540168, "ec567b8f0454d12553193c23f665cda1c20063b8", ("color_brown", "color_orange")),
     (
@@ -1074,6 +2175,16 @@ COLOUR_DATA: Final[tuple[tuple[int, str, tuple[str, ...]], ...]] = (
         ("color_gray", "color_brown", "color_yellow"),
     ),
     (
+        67621780,
+        "183e252f1b965a96b8346a83bc0ca588ba99ab9a",
+        ("color_beige", "color_yellow", "color_white", "color_brown"),
+    ),
+    (
+        67636094,
+        "2eac38fd3959d9d3ca51eee535f67259c05392f0",
+        ("color_black", "color_orange", "color_brown", "color_yellow"),
+    ),
+    (
         67893332,
         "38c9f07ac390942bcb463b5c06b6f8f5bb34b67b",
         ("color_yellow", "color_beige", "color_brown"),
@@ -1084,20 +2195,267 @@ COLOUR_DATA: Final[tuple[tuple[int, str, tuple[str, ...]], ...]] = (
         ("color_yellow", "color_green", "color_gray", "color_brown"),
     ),
     (
+        67922703,
+        "9fb4bb7352f7bb6e51187295483f1f8293415638",
+        ("color_white", "color_gray", "color_blue"),
+    ),
+    (
+        67997190,
+        "0b2e66c0b64d1b5f245003214d94ae5828c84fff",
+        ("color_yellow", "color_beige", "color_brown"),
+    ),
+    (
         68010997,
         "8b1780cd047ab3a2c5bf70f2d79669193ae131d2",
         ("color_blue", "color_gray", "color_brown", "color_beige"),
     ),
+    (
+        68196720,
+        "496a64970850bf7e776b2119ba86b59b33fe76f4",
+        ("color_brown", "color_black", "color_yellow", "color_beige"),
+    ),
+    (
+        68665023,
+        "8ff035c71cdaa7038c3b378cb70481a7a1f4b838",
+        ("color_white", "color_gray", "color_brown", "color_black"),
+    ),
+    (
+        68712674,
+        "ccaff7865baf6f2186e7a69be2935a25ab3b9b6a",
+        ("color_beige", "color_brown", "color_gray", "color_black", "color_orange", "color_blue"),
+    ),
+    (
+        68734285,
+        "80e4d559c32daa5eae00442c0fc327d3e2b6c22f",
+        (
+            "color_brown",
+            "color_beige",
+            "color_white",
+            "color_black",
+            "color_gray",
+            "color_orange",
+            "color_yellow",
+        ),
+    ),
+    (
+        68866805,
+        "21234d927ca22a7d59e1f413bf52c12095ada6ef",
+        ("color_brown", "color_orange", "color_red", "color_beige"),
+    ),
+    (
+        69056356,
+        "f940ca2ff2e011d96cd2611ecf22b7ce29337fc2",
+        ("color_yellow", "color_green", "color_black", "color_brown"),
+    ),
+    (
+        69073204,
+        "53a5d1b6d5210c630d17acf5ed16148d8fb97ac4",
+        ("color_black", "color_brown", "color_green", "color_yellow"),
+    ),
+    (
+        69311040,
+        "dd6b7d05308ee747df198932a31c70cf46103138",
+        (
+            "color_brown",
+            "color_black",
+            "color_gray",
+            "color_yellow",
+            "color_blue",
+            "color_beige",
+            "color_green",
+        ),
+    ),
+    (
+        69367477,
+        "97d9f99d46c269934816d451e71f835a7a20518c",
+        ("color_gray", "color_brown", "color_black", "color_beige"),
+    ),
+    (
+        69367478,
+        "71703a173c7bd0771f55274d768425c6f3e040df",
+        ("color_gray", "color_black", "color_brown", "color_blue", "color_yellow"),
+    ),
+    (
+        69632505,
+        "d9c3b0c11907f068b1f982dd9b8c682ad29576a9",
+        ("color_blue", "color_orange", "color_brown", "color_beige"),
+    ),
+    (
+        69633237,
+        "f47e96d00f3c75df3e4dd5c8ab8509f7d1f57d0e",
+        ("color_blue", "color_brown", "color_orange", "color_green", "color_gray"),
+    ),
+    (
+        69634137,
+        "27696f2c65e7ba8e1779082f05d725131de2ce01",
+        ("color_orange", "color_yellow", "color_brown", "color_green"),
+    ),
+    (
+        69774630,
+        "2037344463964b496b5c52e1b2a47db1ab2ec3fc",
+        ("color_blue", "color_beige", "color_orange", "color_brown", "color_white", "color_yellow"),
+    ),
+    (
+        69807159,
+        "156863e5a837f0f527ef1c10dc4eb4890f5ebaad",
+        ("color_blue", "color_gray", "color_black"),
+    ),
+    (
+        69809725,
+        "c6ec420cb4ebfe216eaa10181fbbc4eef41bdb21",
+        (
+            "color_blue",
+            "color_brown",
+            "color_black",
+            "color_red",
+            "color_white",
+            "color_yellow",
+            "color_gray",
+        ),
+    ),
+    (
+        69809805,
+        "653c064af325abc56e1ba7ab5e723cb9a0e6c9ea",
+        ("color_beige", "color_gray", "color_orange", "color_brown", "color_red", "color_black"),
+    ),
+    (
+        70356746,
+        "b78311a12c6926b81be3d80af28166e70553e006",
+        ("color_blue", "color_brown", "color_green", "color_black"),
+    ),
+    (70419905, "62247af3abc0870f367db2127b880e0ff778d028", ("color_blue", "color_brown")),
+    (
+        70846784,
+        "0dea67022c1dd0ed9ba34af1751a07107ac0696f",
+        ("color_green", "color_brown", "color_yellow", "color_gray", "color_blue"),
+    ),
+    (
+        71001518,
+        "07703ab48298607b5ef847184ef4d72a8b4dc342",
+        ("color_brown", "color_yellow", "color_orange", "color_black"),
+    ),
+    (
+        71053008,
+        "f6b8e3633c162386ed77bc5f9012506f3fe7df92",
+        ("color_blue", "color_yellow", "color_gray", "color_brown"),
+    ),
+    (
+        71182840,
+        "98b8f49843740a0be4bf40d50374a835eaceea73",
+        ("color_brown", "color_orange", "color_beige"),
+    ),
+    (
+        71183183,
+        "49e77aeff774509d6950920bd8a328153f6d57d9",
+        ("color_gray", "color_blue", "color_brown", "color_black", "color_orange", "color_beige"),
+    ),
+    (
+        71183589,
+        "a7124a55c3ec64d0f16af94176b2150faf385f52",
+        ("color_yellow", "color_gray", "color_blue", "color_brown"),
+    ),
+    (
+        71525255,
+        "d0c1f9ebb31628485fba7c15011833f64a23e244",
+        ("color_green", "color_brown", "color_black", "color_yellow", "color_pink"),
+    ),
+    (
+        71560316,
+        "c32435b0e4bb7cba86072ea82ba66ec659bd7814",
+        ("color_blue", "color_orange", "color_brown", "color_beige"),
+    ),
     (72020929, "15983dcec594032a605262609937e4f26f6cd9b0", ("color_yellow", "color_brown")),
+    (
+        72115442,
+        "99aa37c7506d6cfe6cc426af047beeac3928ca4e",
+        ("color_green", "color_white", "color_brown", "color_gray", "color_yellow"),
+    ),
     (
         72118951,
         "5034579586f9ce58d3ce763ac2c6ed4d110285e2",
         ("color_beige", "color_gray", "color_blue", "color_pink"),
     ),
     (
-        73882709,
-        "cde54e7c525db8a7d7b88f8e4d956dfb94e62f5d",
-        ("color_green", "color_yellow", "color_brown", "color_blue"),
+        72616510,
+        "73a5c6a0fb73a00fe42b198ff5d079fc0d9353ba",
+        (
+            "color_brown",
+            "color_yellow",
+            "color_beige",
+            "color_orange",
+            "color_black",
+            "color_red",
+            "color_gray",
+        ),
+    ),
+    (
+        72990653,
+        "2f4516150a0359971869544c5bd3507bc404f750",
+        ("color_black", "color_brown", "color_yellow"),
+    ),
+    (
+        73329015,
+        "4fcb3371f93ac32571d7f13c956b095487d20cf6",
+        ("color_yellow", "color_brown", "color_orange"),
+    ),
+    (
+        73331349,
+        "a9f79762c4f25a3da120fc6b5689a814e63c051e",
+        ("color_blue", "color_red", "color_black", "color_orange", "color_purple"),
+    ),
+    (
+        73806631,
+        "2082ec506338b63f54a354431d0c9071051ab8b3",
+        ("color_blue", "color_green", "color_yellow", "color_black"),
+    ),
+    (
+        73823463,
+        "b9964d9b054f4752eb4d98e0b1453c0ac032e287",
+        ("color_blue", "color_red", "color_pink", "color_purple"),
+    ),
+    (
+        73827251,
+        "ed49e7830805d8a62edcbf67279d13efebe6b351",
+        ("color_black", "color_gray", "color_brown", "color_yellow", "color_orange", "color_green"),
+    ),
+    (
+        73882433,
+        "e6da14ad657792908f6429fa8b70db1f19cac56e",
+        ("color_brown", "color_gray", "color_yellow", "color_blue", "color_green", "color_beige"),
+    ),
+    (
+        73882502,
+        "e73f7b3f8b181263a1191f69ed7c2069f9e724d4",
+        ("color_brown", "color_green", "color_beige", "color_gray", "color_yellow", "color_black"),
+    ),
+    (
+        73882636,
+        "4bd6e24a3adba07b324548c663559df73f927c8e",
+        (
+            "color_brown",
+            "color_yellow",
+            "color_beige",
+            "color_gray",
+            "color_blue",
+            "color_red",
+            "color_green",
+            "color_orange",
+        ),
+    ),
+    (
+        73994246,
+        "37bc7a87e2a1f7e75131c22658c509f531a1efd6",
+        ("color_blue", "color_brown", "color_black"),
+    ),
+    (
+        74019822,
+        "4c0175ebb026b0d1bd6964b8881f7d728b5c08fd",
+        ("color_yellow", "color_brown", "color_black"),
+    ),
+    (
+        74046952,
+        "3053d2324107041cc3f78ec82b1c29748a7ce3ef",
+        ("color_gray", "color_black", "color_blue"),
     ),
     (
         74092705,
@@ -1110,6 +2468,11 @@ COLOUR_DATA: Final[tuple[tuple[int, str, tuple[str, ...]], ...]] = (
         ("color_gray", "color_yellow", "color_brown", "color_beige"),
     ),
     (
+        74264136,
+        "9e52f90877f886d091bd6881b63891a5e80d2620",
+        ("color_yellow", "color_green", "color_brown", "color_black"),
+    ),
+    (
         74317600,
         "73dc61641c5a6a02ae88a6aa8062e1e4fe666123",
         ("color_brown", "color_yellow", "color_orange", "color_black"),
@@ -1120,9 +2483,19 @@ COLOUR_DATA: Final[tuple[tuple[int, str, tuple[str, ...]], ...]] = (
         ("color_black", "color_green", "color_brown", "color_yellow"),
     ),
     (
+        74389708,
+        "df6d4a192bdb1062ac0b30476400fedf2d0f3416",
+        ("color_brown", "color_black", "color_yellow"),
+    ),
+    (
         74389941,
         "d71c8e426a578bebe1fea6c131891a1561603314",
         ("color_beige", "color_brown", "color_black", "color_yellow", "color_gray"),
+    ),
+    (
+        74447233,
+        "ea72c6f3e75b2ec090a7c0a7ee713c15d4af2ce3",
+        ("color_yellow", "color_blue", "color_green", "color_black"),
     ),
     (
         74546310,
@@ -1130,14 +2503,47 @@ COLOUR_DATA: Final[tuple[tuple[int, str, tuple[str, ...]], ...]] = (
         ("color_black", "color_green", "color_brown", "color_yellow"),
     ),
     (
-        74897839,
-        "ff2bfc516d1ed45e345b76c859573994fc230182",
-        ("color_brown", "color_yellow", "color_beige", "color_black"),
+        74546579,
+        "dc43c413d21d98001a502aa49e147d4338b0c75f",
+        ("color_brown", "color_gray", "color_black"),
+    ),
+    (
+        74572653,
+        "11be339433d72b6c284aea0a4373da1c832ac4d5",
+        (
+            "color_yellow",
+            "color_blue",
+            "color_gray",
+            "color_white",
+            "color_beige",
+            "color_green",
+            "color_brown",
+        ),
+    ),
+    (
+        74726012,
+        "02f3e8216a48e54d33d9ccbaeb91703b6d9084ed",
+        ("color_gray", "color_yellow", "color_brown", "color_beige", "color_green"),
+    ),
+    (
+        74877410,
+        "7cc3ffa2b251b2ecb4129b0ded8d8c1fbc166021",
+        ("color_yellow", "color_brown", "color_black", "color_green"),
     ),
     (
         74945568,
         "586b46e20a229bcc14b674d446ceccbd779b2c7b",
         ("color_brown", "color_blue", "color_yellow", "color_gray"),
+    ),
+    (
+        74955529,
+        "30dc29f067bbcd4efd26d6ad6a31caed14e62628",
+        ("color_yellow", "color_brown", "color_green", "color_black"),
+    ),
+    (
+        74956038,
+        "f194e4088d77e4a887647fc1d9082c28b3e33f4e",
+        ("color_green", "color_yellow", "color_beige", "color_black"),
     ),
     (
         75030787,
@@ -1150,14 +2556,87 @@ COLOUR_DATA: Final[tuple[tuple[int, str, tuple[str, ...]], ...]] = (
         ("color_white", "color_gray", "color_blue", "color_beige"),
     ),
     (
+        75169597,
+        "6add5c4980d6f88d660493a1f1e511ddb66d890d",
+        ("color_black", "color_brown", "color_gray"),
+    ),
+    (
+        75284831,
+        "72b8e048b2da1f1e643b6753b52b623a648f559b",
+        ("color_yellow", "color_brown", "color_beige", "color_black"),
+    ),
+    (
+        75368271,
+        "8179112e07fb51809f7ed3550a7e208cc9b95e30",
+        ("color_green", "color_blue", "color_yellow", "color_beige"),
+    ),
+    (
+        75381504,
+        "81561afa89c7f53d1c848ccfc77b4a0de8bbf42f",
+        ("color_black", "color_brown", "color_yellow", "color_beige", "color_white"),
+    ),
+    (75418402, "bfef9a070f078d678ddd396cc4c7031bc4a7ef63", ("color_blue", "color_black")),
+    (
+        75441096,
+        "acd5f911b3bf97ce7b4063dd13d52ae9c9a6178b",
+        ("color_black", "color_brown", "color_yellow"),
+    ),
+    (
+        75492701,
+        "aafb2c8d02de15f1093ba9f0304d65088918a27a",
+        ("color_blue", "color_yellow", "color_gray", "color_green"),
+    ),
+    (
+        75721979,
+        "d4fbd5d80abb34ade02fce7ea0f2b7cb6b9a74f2",
+        ("color_green", "color_yellow", "color_blue", "color_brown"),
+    ),
+    (
+        75916619,
+        "b6c94c3a2e782d43f028a546388df8b477c59a84",
+        ("color_blue", "color_yellow", "color_black", "color_brown", "color_beige", "color_gray"),
+    ),
+    (
+        75996159,
+        "68416d5b83564965255d57fac9c61c5b8128c7ce",
+        ("color_gray", "color_brown", "color_black", "color_blue", "color_beige", "color_white"),
+    ),
+    (
+        75996231,
+        "61b5ab4e17e69e7c4daf23e82d1292479792a5a9",
+        ("color_blue", "color_gray", "color_beige", "color_white", "color_yellow"),
+    ),
+    (75996398, "219c558a4a2f2145cbc01b971bbc5ba7336582b0", ("color_gray", "color_blue")),
+    (
+        76000748,
+        "2bb8725a0b7c8f89e199450d50535b4aeb749082",
+        ("color_brown", "color_green", "color_yellow", "color_orange"),
+    ),
+    (
         76001413,
         "fc226933480aed33ef55c236e2a2a3c1a63a4054",
         ("color_gray", "color_brown", "color_yellow", "color_black"),
     ),
     (
+        76001995,
+        "d218f16616ce4c5f3feadd3d5ac816b05f4827f9",
+        ("color_brown", "color_orange", "color_gray"),
+    ),
+    (
         76004561,
         "984ab51422eaae8ab2824d21c84faae03985f418",
         ("color_brown", "color_green", "color_yellow", "color_gray", "color_orange"),
+    ),
+    (76097838, "7c510666de8bdbb8496c0834672652220c11b860", ("color_blue", "color_white")),
+    (
+        76148672,
+        "0687c04395e65ae39f08f386b4f3b74673f2d4fa",
+        ("color_brown", "color_gray", "color_beige", "color_orange", "color_yellow"),
+    ),
+    (
+        76297104,
+        "b4235e3fc754ab3f8d3a1079a8ddef000ba20fa0",
+        ("color_blue", "color_green", "color_gray"),
     ),
     (
         76362098,
@@ -1208,9 +2687,37 @@ COLOUR_DATA: Final[tuple[tuple[int, str, tuple[str, ...]], ...]] = (
         ("color_brown", "color_yellow", "color_gray", "color_beige", "color_blue", "color_black"),
     ),
     (
-        76696020,
-        "ebbb1c111bff8b612b216bbe21b27eb887786b49",
-        ("color_beige", "color_brown", "color_gray", "color_yellow", "color_green", "color_blue"),
+        76613575,
+        "871198443827130b8429c7f8c6b36d6e279ef072",
+        ("color_green", "color_yellow", "color_beige", "color_gray", "color_brown"),
+    ),
+    (
+        76782339,
+        "d838ce5201aac566e64b8d6640ba9d3cf4bad9b4",
+        ("color_blue", "color_gray", "color_beige", "color_red", "color_orange", "color_purple"),
+    ),
+    (
+        77050821,
+        "5eff0a10065d2dd23e3047f8ad27f47cd4efb29f",
+        (
+            "color_gray",
+            "color_brown",
+            "color_yellow",
+            "color_beige",
+            "color_white",
+            "color_orange",
+            "color_blue",
+        ),
+    ),
+    (
+        77510606,
+        "f141fcb99188244b2c6b96f63d3bb52a2889794e",
+        ("color_yellow", "color_blue", "color_green", "color_black"),
+    ),
+    (
+        77510887,
+        "8860456ede7229d031c4b37bde1ffafdacb62548",
+        ("color_blue", "color_yellow", "color_brown", "color_green", "color_black"),
     ),
     (
         77663284,
@@ -1223,9 +2730,94 @@ COLOUR_DATA: Final[tuple[tuple[int, str, tuple[str, ...]], ...]] = (
         ("color_brown", "color_blue", "color_green", "color_yellow", "color_orange"),
     ),
     (
+        77838547,
+        "4660d22a8ac87b7e93ab86b9bbf1c0557fe50218",
+        ("color_gray", "color_white", "color_yellow", "color_brown", "color_beige", "color_blue"),
+    ),
+    (
         77904320,
         "d1b47c6cb250c7c700be2a62e1c58cc7c7aeaf33",
         ("color_brown", "color_orange", "color_beige", "color_yellow"),
+    ),
+    (78031762, "ff6d2254798730472fad1476ae155844244f5dc6", ("color_blue", "color_black")),
+    (
+        78238384,
+        "8229fe631819718e91dcde81cddf38c0b898d4a6",
+        ("color_green", "color_black", "color_brown"),
+    ),
+    (
+        79066095,
+        "7d6b2cc02196b6729a6a587db79786cf8eb1b0a1",
+        ("color_blue", "color_gray", "color_beige", "color_brown", "color_orange", "color_white"),
+    ),
+    (
+        79077030,
+        "eccf8410814038198400a1711bb07ef3324a2863",
+        ("color_blue", "color_brown", "color_gray", "color_yellow", "color_beige", "color_red"),
+    ),
+    (79399438, "a0a70fe48d8a18c7353fbd67f7e188227a728c13", ("color_blue",)),
+    (
+        79400359,
+        "f1901ac5c0d4274646da5be295e08bfedc883bef",
+        ("color_blue", "color_black", "color_beige"),
+    ),
+    (
+        79400796,
+        "9258861935135c712d5aa50445fb728e4349174c",
+        ("color_yellow", "color_blue", "color_brown", "color_black", "color_red", "color_gray"),
+    ),
+    (79403799, "cc52d67cc786b54292f0e9b08a72758d6f9dae48", ("color_blue",)),
+    (
+        79403804,
+        "dccc6a3f028dd5589b26aea61fbcfde5508ee9ca",
+        (
+            "color_blue",
+            "color_brown",
+            "color_orange",
+            "color_beige",
+            "color_gray",
+            "color_yellow",
+            "color_black",
+        ),
+    ),
+    (
+        79403979,
+        "119a16f87e1d18c4f6db89ffc1236e77b0c9b15a",
+        ("color_brown", "color_blue", "color_black", "color_beige"),
+    ),
+    (
+        79404866,
+        "9290c466ce8f4790f8ba3b83ce00e9b15ada3c02",
+        ("color_gray", "color_black", "color_brown"),
+    ),
+    (
+        79411990,
+        "9550d326a0ccf1998528bfb87f81ea4acbe8a5de",
+        (
+            "color_orange",
+            "color_blue",
+            "color_beige",
+            "color_brown",
+            "color_yellow",
+            "color_gray",
+            "color_black",
+        ),
+    ),
+    (79412162, "40f5d6c0fa6732de0fbf40bc44079e9ea68e14fd", ("color_green", "color_yellow")),
+    (
+        79487056,
+        "161dbdecb808be60b82060b1f5405d130034aec2",
+        ("color_yellow", "color_beige", "color_brown"),
+    ),
+    (
+        79624126,
+        "838650a029ef2dbdd28ce103d8fc2fa2dc0a024c",
+        ("color_brown", "color_gray", "color_red", "color_blue"),
+    ),
+    (
+        79631155,
+        "a9163e24293669edadafe77fbc4daecf64121a3b",
+        ("color_green", "color_brown", "color_yellow", "color_black", "color_red"),
     ),
     (
         79951735,
@@ -1233,9 +2825,38 @@ COLOUR_DATA: Final[tuple[tuple[int, str, tuple[str, ...]], ...]] = (
         ("color_yellow", "color_brown", "color_gray", "color_beige", "color_red"),
     ),
     (
+        80003505,
+        "15a446bb057591a08cec4602817c526821348245",
+        (
+            "color_brown",
+            "color_beige",
+            "color_black",
+            "color_gray",
+            "color_orange",
+            "color_yellow",
+            "color_blue",
+        ),
+    ),
+    (
+        80015361,
+        "b4b98a1e82ddfe4f8e09903df9dba08b133b7ee5",
+        ("color_blue", "color_black", "color_gray"),
+    ),
+    (
+        80015362,
+        "0ae981f4196312600430271dfbfd20b60045fbd3",
+        ("color_blue", "color_gray", "color_black", "color_red"),
+    ),
+    (80051008, "f9db09942fb70f28197ae3b308dd65403fed8b0d", ("color_gray", "color_blue")),
+    (
         80335575,
         "2dc2f539358d622f3218d401f477d9658b08f81f",
         ("color_gray", "color_yellow", "color_beige", "color_brown", "color_white"),
+    ),
+    (
+        80393453,
+        "21069a1fb84d312cb321cbe1360237eeb0aa7afc",
+        ("color_pink", "color_red", "color_brown", "color_black"),
     ),
     (
         80486236,
@@ -1248,9 +2869,15 @@ COLOUR_DATA: Final[tuple[tuple[int, str, tuple[str, ...]], ...]] = (
         ("color_yellow", "color_gray", "color_beige", "color_orange"),
     ),
     (
-        81302575,
-        "dabde4b262242fd616607d7389ed85a61d8c817a",
-        ("color_yellow", "color_brown", "color_white", "color_gray"),
+        80581509,
+        "f74b4706c8ee1dceb30cf55988b67e7118e170c8",
+        ("color_green", "color_yellow", "color_blue", "color_black", "color_brown"),
+    ),
+    (81175141, "72d63fd45426f720ddc4bba766f43d4997faa248", ("color_orange", "color_brown")),
+    (
+        81175470,
+        "30b5d51e656223c2ee01b3b8f652c17e9a798f9c",
+        ("color_orange", "color_beige", "color_brown", "color_blue", "color_black"),
     ),
     (
         81304229,
@@ -1263,19 +2890,9 @@ COLOUR_DATA: Final[tuple[tuple[int, str, tuple[str, ...]], ...]] = (
         ("color_green", "color_gray", "color_yellow", "color_brown", "color_beige", "color_white"),
     ),
     (
-        81307464,
-        "2420319c2830155d5bf3fccbb2ea9edad5e72544",
-        ("color_white", "color_yellow", "color_brown", "color_beige", "color_green"),
-    ),
-    (
         81308465,
         "c6e88c07fc6987e32693b3089f0609372ed73332",
         ("color_gray", "color_brown", "color_yellow"),
-    ),
-    (
-        81309955,
-        "a2000fb469fe0b0211d673a9a31aa1878be30f5b",
-        ("color_brown", "color_yellow", "color_green", "color_black"),
     ),
     (
         81309991,
@@ -1288,24 +2905,9 @@ COLOUR_DATA: Final[tuple[tuple[int, str, tuple[str, ...]], ...]] = (
         ("color_gray", "color_yellow", "color_blue", "color_brown"),
     ),
     (
-        81310326,
-        "f10ef0790d8a00e0473d92936f480197f870a490",
-        ("color_yellow", "color_gray", "color_brown", "color_green", "color_beige"),
-    ),
-    (
-        81310336,
-        "9a8618d083ba081754e34e8635196985ce5d01d6",
-        ("color_gray", "color_yellow", "color_brown"),
-    ),
-    (
         81310338,
         "d674696dc80a0756e3096b7d36f6e256abb6ff6a",
         ("color_yellow", "color_white", "color_gray", "color_beige", "color_brown"),
-    ),
-    (
-        81310473,
-        "8ff506e4cc2d6e1d574830e9b6386b9923e5a317",
-        ("color_beige", "color_gray", "color_yellow", "color_brown", "color_orange"),
     ),
     (
         81314166,
@@ -1313,14 +2915,24 @@ COLOUR_DATA: Final[tuple[tuple[int, str, tuple[str, ...]], ...]] = (
         ("color_green", "color_brown", "color_yellow", "color_blue"),
     ),
     (
-        81323136,
-        "78b4765fd4e217993e894eef9318fc240374c6ee",
-        ("color_brown", "color_yellow", "color_blue", "color_beige"),
-    ),
-    (
         81325026,
         "04294b2e5dbd12dfc941d086efa86d77db34aff4",
         ("color_blue", "color_gray", "color_beige"),
+    ),
+    (
+        81326189,
+        "cb9ea7d61c892c84329165983fd7942c6190aaf2",
+        ("color_brown", "color_gray", "color_yellow"),
+    ),
+    (
+        81330007,
+        "76b0d2bd1d131fe1d41e3e8cc1a946f7e63aabcb",
+        ("color_gray", "color_black", "color_beige", "color_blue"),
+    ),
+    (
+        81330009,
+        "e13cb0ccf4c548a5d57493429a730158f650a077",
+        ("color_blue", "color_gray", "color_white"),
     ),
     (
         81332363,
@@ -1333,6 +2945,11 @@ COLOUR_DATA: Final[tuple[tuple[int, str, tuple[str, ...]], ...]] = (
         ("color_brown", "color_yellow", "color_green"),
     ),
     (
+        81417885,
+        "671e9499908ab0859391b59a221298ab47b0b8d0",
+        ("color_beige", "color_orange", "color_brown"),
+    ),
+    (
         81434273,
         "33036ddb8554c1a13a15c7f1f92d5b239ca3f906",
         ("color_beige", "color_gray", "color_yellow"),
@@ -1343,9 +2960,53 @@ COLOUR_DATA: Final[tuple[tuple[int, str, tuple[str, ...]], ...]] = (
         ("color_yellow", "color_beige", "color_brown", "color_gray"),
     ),
     (
+        81434665,
+        "1341be37f86cf4ed48613f713eec82f96177ad72",
+        (
+            "color_yellow",
+            "color_brown",
+            "color_beige",
+            "color_gray",
+            "color_orange",
+            "color_blue",
+            "color_white",
+        ),
+    ),
+    (81441670, "a984b1fb5d95ecdc6d3f46d597f3311359302d35", ("color_blue", "color_black")),
+    (
+        81441676,
+        "9cb8fd68f9c270600d0e8113eb3ba7cb9fcf2c51",
+        ("color_black", "color_green", "color_white", "color_gray"),
+    ),
+    (
         81494329,
         "60460b1b46620c41c7df27fc43b8e3ec1a7605c4",
         ("color_beige", "color_gray", "color_white", "color_brown", "color_green"),
+    ),
+    (
+        81519913,
+        "41beddcecf0c6ad04137c4fedce32766e3c8093c",
+        ("color_beige", "color_orange", "color_brown", "color_yellow"),
+    ),
+    (
+        81540470,
+        "ceb08e2c85c9ffe15bb812a54dcfd9016d53c3f2",
+        ("color_beige", "color_yellow", "color_brown"),
+    ),
+    (
+        81559052,
+        "db26726b41d5aabf26c52b65b85a709e7b9c3422",
+        ("color_brown", "color_beige", "color_orange", "color_yellow"),
+    ),
+    (
+        81612080,
+        "7822083de8fa7dbd01b3b0f095eea7b1f1ea8875",
+        ("color_black", "color_green", "color_yellow"),
+    ),
+    (
+        81829663,
+        "249548b311bbfdbb30577029b9b3519876ae92dd",
+        ("color_beige", "color_white", "color_orange"),
     ),
     (
         82042536,
@@ -1353,9 +3014,54 @@ COLOUR_DATA: Final[tuple[tuple[int, str, tuple[str, ...]], ...]] = (
         ("color_purple", "color_gray", "color_black", "color_brown", "color_red"),
     ),
     (
+        82047570,
+        "9c69b57faa862f6a502d4aa57c2176570fabd211",
+        ("color_beige", "color_brown", "color_orange"),
+    ),
+    (
+        82050397,
+        "12f3dd06f45d340c7d623ca81782634c8fb35b25",
+        ("color_gray", "color_white", "color_brown", "color_green", "color_yellow", "color_blue"),
+    ),
+    (
+        82069789,
+        "e9f1dc9a464b39e74b5a50eec6a401e01a189492",
+        ("color_beige", "color_orange", "color_brown"),
+    ),
+    (
+        82069884,
+        "04d01e0eef3d790cdfde0750c87ebbef99c9fe86",
+        ("color_yellow", "color_brown", "color_beige"),
+    ),
+    (
         82345341,
         "eec50dcc53d5e16f965bf2f2c8f9410669b191cb",
         ("color_brown", "color_yellow", "color_blue", "color_black", "color_green"),
+    ),
+    (
+        82430865,
+        "fcf9424c55ffeb8cd3fd37ae86a4c4f4b1533822",
+        ("color_blue", "color_gray", "color_brown", "color_white", "color_black"),
+    ),
+    (
+        82505005,
+        "c5d9d61dda258486839a99dbc66e76025d92126a",
+        ("color_blue", "color_brown", "color_yellow", "color_green", "color_white"),
+    ),
+    (
+        82616908,
+        "aa819eaa6dde994e87c6f21d5697b163dc52ed96",
+        ("color_green", "color_black", "color_yellow", "color_brown"),
+    ),
+    (
+        82741202,
+        "b576485b6b92329517de672cb2c6cc4e1803b340",
+        ("color_brown", "color_yellow", "color_orange", "color_green", "color_black"),
+    ),
+    (
+        82879624,
+        "19d320acde5287d2cdb9c3c232b215424d2a867e",
+        ("color_blue", "color_green", "color_brown", "color_gray"),
     ),
     (
         82931652,
@@ -1367,10 +3073,21 @@ COLOUR_DATA: Final[tuple[tuple[int, str, tuple[str, ...]], ...]] = (
         "64acb1a74870510954d39cea74345c40499d88bb",
         ("color_blue", "color_black", "color_brown", "color_pink"),
     ),
+    (82990376, "6a3668a05292bccb2741fd07d96ffc042acf87d0", ("color_blue", "color_gray")),
     (
-        83488675,
-        "8a6f97145b6e8a3a26dfc89b6f5a2c895ed5b913",
-        ("color_yellow", "color_brown", "color_green", "color_beige"),
+        82990666,
+        "e1b2f0ad23daff3d1d1553deb2b36e9ac32f5866",
+        ("color_blue", "color_white", "color_gray", "color_black", "color_orange"),
+    ),
+    (
+        83173312,
+        "0fb778a052af8f3c67e89395274beb69ea403af8",
+        ("color_black", "color_brown", "color_yellow"),
+    ),
+    (
+        83402919,
+        "4da47bf143cd2674bb2002a18256e7b500e16390",
+        ("color_green", "color_black", "color_yellow"),
     ),
     (
         83508719,
@@ -1390,9 +3107,19 @@ COLOUR_DATA: Final[tuple[tuple[int, str, tuple[str, ...]], ...]] = (
         ("color_brown", "color_gray", "color_black", "color_yellow"),
     ),
     (
+        83529716,
+        "04a19d098c843f81bb52482ced7c650bfa6791aa",
+        ("color_brown", "color_beige", "color_orange", "color_gray", "color_blue"),
+    ),
+    (
         83529871,
         "162dabda21f92b6aa8945a2c13c4965ec7d26678",
         ("color_yellow", "color_brown", "color_beige", "color_green"),
+    ),
+    (
+        83536678,
+        "8370fad35c3c88b61494e91317dd26d999ea3de2",
+        ("color_brown", "color_black", "color_yellow", "color_gray"),
     ),
     (
         83539260,
@@ -1400,9 +3127,86 @@ COLOUR_DATA: Final[tuple[tuple[int, str, tuple[str, ...]], ...]] = (
         ("color_brown", "color_white", "color_black", "color_yellow"),
     ),
     (
+        83575479,
+        "c51d35eb0c1e9a36d5b809317ece5ce959889a2b",
+        ("color_brown", "color_beige", "color_gray", "color_green", "color_black"),
+    ),
+    (
+        83587116,
+        "cb905447c8bdb141c8fdd64f36ca03d6c778f6f6",
+        ("color_beige", "color_yellow", "color_brown"),
+    ),
+    (
+        83593797,
+        "9a64eb1c8e9a19f3d9485b5f250b4022d08827ec",
+        ("color_beige", "color_brown", "color_orange", "color_gray"),
+    ),
+    (
+        83705864,
+        "6b6395e32e4498266fabdf5aec4bbd523995692a",
+        ("color_green", "color_black", "color_yellow", "color_blue", "color_brown"),
+    ),
+    (
+        83746514,
+        "8b3fc5094135268fdc258f522596c47243a09f92",
+        ("color_green", "color_blue", "color_yellow", "color_brown", "color_beige"),
+    ),
+    (
+        83775989,
+        "928de0b636bf4158bf87563dae35f9d3e7df67fa",
+        ("color_white", "color_yellow", "color_gray", "color_green", "color_beige"),
+    ),
+    (
+        83781233,
+        "9cc57210411721966675ff1a7d565ae6f7deef08",
+        ("color_green", "color_white", "color_blue", "color_gray"),
+    ),
+    (
+        84115175,
+        "4b07b92df9af698b9235b7bcb99a842638a73665",
+        ("color_beige", "color_white", "color_yellow", "color_gray"),
+    ),
+    (
+        84152901,
+        "400a22b83943dfbed5d04610617e9ffa15a1bd9f",
+        ("color_green", "color_black", "color_purple"),
+    ),
+    (84152902, "5ba14637405837abad6218148a3c98810ce54745", ("color_green", "color_black")),
+    (
+        84250403,
+        "1a383a18e32cd14b4a48ccb7656fd417e1654ba2",
+        ("color_gray", "color_white", "color_blue", "color_brown", "color_green"),
+    ),
+    (84532936, "7a4a0059abc0eeb6ba996dc07c2017de3cb012c7", ("color_blue", "color_gray")),
+    (
         84632826,
         "485470519a0fbeac2b941da57aad4b5b2c314f74",
         ("color_green", "color_yellow", "color_beige"),
+    ),
+    (
+        84675924,
+        "4a70c946bb350a0f7bfcff91ee29df247723618f",
+        ("color_beige", "color_gray", "color_white"),
+    ),
+    (
+        84676414,
+        "957b0754460649144a4be8c06dbca315346f1aee",
+        ("color_yellow", "color_gray", "color_beige"),
+    ),
+    (
+        84723971,
+        "9514aebf1dfc6096e240c960fd1f4a881320cb53",
+        ("color_yellow", "color_gray", "color_blue", "color_beige", "color_brown"),
+    ),
+    (
+        84757026,
+        "407e9baa97b7de6ddb088c5e9d744d53a2d6782a",
+        ("color_yellow", "color_beige", "color_brown"),
+    ),
+    (
+        84917041,
+        "579b4ed8c6b6f962c2e4ea3bbb978868febba832",
+        ("color_brown", "color_orange", "color_yellow", "color_beige"),
     ),
     (
         84964046,
@@ -1419,10 +3223,115 @@ COLOUR_DATA: Final[tuple[tuple[int, str, tuple[str, ...]], ...]] = (
         "9ece3532f4f3632f82b9d4229a0b881141b1528b",
         ("color_yellow", "color_brown", "color_black"),
     ),
+    (85575441, "b087e77a10f21d8dcec83dcf1685884abce2a6da", ("color_green",)),
+    (85684504, "15e13788d0bb8c882a43d638b7314392f74b9e2a", ("color_beige", "color_yellow")),
+    (
+        86008698,
+        "d95dd1e623227b59bb6dde9fff77abedfbd8ec7f",
+        ("color_white", "color_green", "color_gray", "color_beige"),
+    ),
+    (
+        86019471,
+        "4495fff5a114978f13559d6122de607012c20bb4",
+        (
+            "color_blue",
+            "color_green",
+            "color_black",
+            "color_white",
+            "color_yellow",
+            "color_brown",
+            "color_beige",
+        ),
+    ),
+    (
+        86040410,
+        "700b1ffbdd92a931375a0dd6f50081b9df28016c",
+        ("color_green", "color_yellow", "color_black"),
+    ),
+    (
+        86040429,
+        "a7264129ab277d671c015ce0dde8b91990858b9f",
+        ("color_green", "color_black", "color_yellow"),
+    ),
+    (
+        86152402,
+        "4d0ee384ea9516ee078729b65398414cce2caefc",
+        ("color_black", "color_blue", "color_brown", "color_red", "color_gray"),
+    ),
+    (
+        86223208,
+        "06533dd2b294ed191cd646851fe364c4b1e9eb2c",
+        ("color_yellow", "color_brown", "color_black", "color_green"),
+    ),
+    (
+        86340389,
+        "6959d56a47640aa0dc879115b2cd6ef2f857d459",
+        ("color_yellow", "color_brown", "color_gray"),
+    ),
+    (
+        86393464,
+        "55064e31f26a30c9d314197d96370308f3519386",
+        ("color_black", "color_brown", "color_yellow", "color_green"),
+    ),
+    (
+        86393921,
+        "0b371c8d11693d4e9dc810bd8083d15c346a2a53",
+        ("color_green", "color_yellow", "color_black"),
+    ),
+    (
+        86394355,
+        "4fbfd69b030bab8aed0d3c3ee7f0e3a9e3661d78",
+        ("color_brown", "color_yellow", "color_black", "color_orange"),
+    ),
+    (
+        86490366,
+        "9367d04131fd24d6dd9a9006c09da480f575f7d8",
+        (
+            "color_beige",
+            "color_gray",
+            "color_brown",
+            "color_black",
+            "color_orange",
+            "color_red",
+            "color_purple",
+        ),
+    ),
+    (
+        86493473,
+        "b23bed95e83ae3897dd749cdbd7fa6e9a27778cb",
+        ("color_brown", "color_black", "color_yellow", "color_green"),
+    ),
+    (
+        86770550,
+        "9218d787eb945da8a8bf6ed9de5620d07a703b78",
+        ("color_yellow", "color_brown", "color_green", "color_black"),
+    ),
+    (87086385, "b054a31bc36c7f107686049152294ade660354e8", ("color_blue", "color_red")),
     (
         87218467,
         "8e509f5b7566ee6edbbfcbde37244208f5f38bd6",
         ("color_brown", "color_black", "color_orange", "color_blue", "color_yellow", "color_green"),
+    ),
+    (
+        87361860,
+        "9cd8015a8c7a9fa87dd8abd26dbefac71560d0d2",
+        ("color_black", "color_brown", "color_gray", "color_red"),
+    ),
+    (
+        87362253,
+        "8fb03157cd5a21d790c98244554ddfadfb589b84",
+        ("color_yellow", "color_green", "color_brown", "color_black"),
+    ),
+    (87363465, "683411a13f5289bacb5e4c45ec4dec65c37ee95b", ("color_blue", "color_green")),
+    (
+        87511593,
+        "1675daadee43dd3210f1be63514ed78e971018dc",
+        ("color_gray", "color_blue", "color_black", "color_green", "color_white"),
+    ),
+    (
+        87530351,
+        "155ac9590df3a219573f3c3a7de99be81b3b7d68",
+        ("color_gray", "color_white", "color_black", "color_brown"),
     ),
     (
         87535883,
@@ -1430,9 +3339,198 @@ COLOUR_DATA: Final[tuple[tuple[int, str, tuple[str, ...]], ...]] = (
         ("color_blue", "color_gray", "color_white", "color_black"),
     ),
     (
+        87628346,
+        "00b7544e70ebbaeffcee8bdabede96ccab841838",
+        ("color_brown", "color_orange", "color_beige"),
+    ),
+    (
+        87670080,
+        "e4dd0976ca84f30f84f6c4499a6dcaa57881d726",
+        ("color_brown", "color_black", "color_yellow"),
+    ),
+    (
+        87670164,
+        "8eeba577140a3c16d8b58271a32428d096a1b23f",
+        ("color_red", "color_purple", "color_blue", "color_black", "color_gray"),
+    ),
+    (
+        87983015,
+        "c451ead9c944e93a145e84160dc708841b5eec10",
+        ("color_blue", "color_yellow", "color_green", "color_white"),
+    ),
+    (
+        88012207,
+        "37473a006b677b8d1e2eefa70d1121274204759c",
+        ("color_gray", "color_white", "color_black"),
+    ),
+    (88187357, "22dc7a9415ec68f322d637829a353c62e75c4a06", ("color_black", "color_brown")),
+    (88187368, "db9d37906f4fe1ade7a44f23fc666c6b2d23fef6", ("color_blue", "color_black")),
+    (88194558, "fa0787958c461d2199cbaedf0a6d08002953a1f7", ("color_blue", "color_black")),
+    (
+        88363565,
+        "8bc7ca6c8b84d9486777cb0ab1a1c2ebcb033a38",
+        ("color_blue", "color_black", "color_orange"),
+    ),
+    (88364156, "70e1e4316c5cc59cebce843ff2d6e7254c391937", ("color_black", "color_brown")),
+    (88416747, "dd17c94d8526ff1d4a4ec66273c2f6d270a8b8fc", ("color_blue",)),
+    (
+        88417195,
+        "cd84f92afc5c9958f03bcc816557ea78b36e0865",
+        ("color_blue", "color_orange", "color_brown"),
+    ),
+    (
+        88475229,
+        "2843c3bf90caae77e74a379df14e3d8242a07603",
+        ("color_yellow", "color_brown", "color_green", "color_black"),
+    ),
+    (
+        88476293,
+        "fd0330d33483a99575725d2caf60eb6c61be51f3",
+        ("color_black", "color_brown", "color_green", "color_yellow"),
+    ),
+    (
+        88494705,
+        "1e1213df391984f6ceac004312112df0f30e44f3",
+        ("color_gray", "color_beige", "color_orange", "color_blue", "color_brown"),
+    ),
+    (
+        88511734,
+        "dc3521315410e9b529ba60d0bfcef54ce003f954",
+        ("color_blue", "color_black", "color_purple"),
+    ),
+    (88511742, "ccdbbd1cdbe06dabd0b876e17b42f31791935457", ("color_blue",)),
+    (88511744, "904219dc499cf787cee63df90391f1cbdd99efc4", ("color_blue", "color_black")),
+    (88563308, "aa09058f2811b0c9dc4642df77cd4800313152fe", ("color_blue", "color_brown")),
+    (
+        88675737,
+        "6b508e2e9005b2ae35d41c26031443fb611b9ae6",
+        ("color_blue", "color_brown", "color_yellow"),
+    ),
+    (88684008, "e9fb23cfaadd95753d438f0228b8e7998202b4fa", ("color_gray", "color_white")),
+    (
+        88721155,
+        "208627e6ebdafb3183c1cd06c05ccf1e89683e95",
+        ("color_brown", "color_gray", "color_white", "color_blue", "color_yellow"),
+    ),
+    (
         88804323,
         "9cc260fb2b69e3561b73c7a196185cec582f55d2",
         ("color_brown", "color_yellow", "color_black", "color_beige"),
+    ),
+    (
+        88886425,
+        "f6a01723968ec1ab5fbd6579cfc947e5b36a3ae9",
+        (
+            "color_gray",
+            "color_black",
+            "color_brown",
+            "color_green",
+            "color_yellow",
+            "color_blue",
+            "color_beige",
+        ),
+    ),
+    (
+        88886512,
+        "9bbd78aad799364e8a14ebcc226b78783b1a9b0a",
+        ("color_yellow", "color_green", "color_brown", "color_gray"),
+    ),
+    (
+        89084258,
+        "f13c40e04f8ca50350511ecace828c5edf1b233e",
+        ("color_yellow", "color_green", "color_brown", "color_black"),
+    ),
+    (
+        89085632,
+        "04d159bad9ba49e4df7206aa8a3314feca0b8112",
+        ("color_blue", "color_green", "color_orange", "color_black"),
+    ),
+    (
+        89087453,
+        "9f14310f0933d160dac936a991f6a5c5bfc51639",
+        ("color_blue", "color_green", "color_gray", "color_brown", "color_yellow"),
+    ),
+    (
+        89087457,
+        "0eef252087d5b368a0534430338ef1c1e8972332",
+        ("color_blue", "color_brown", "color_gray"),
+    ),
+    (
+        89343393,
+        "53a59181d60e5ae859c824b6bee775d2a4472819",
+        ("color_black", "color_blue", "color_brown"),
+    ),
+    (89403633, "21ec18d0802f17ee732bcc48863f6f69a2a48b54", ("color_blue", "color_black")),
+    (
+        89467671,
+        "7a80fd9cb9e0e77afd680676236dba981030cc91",
+        ("color_yellow", "color_brown", "color_black", "color_orange"),
+    ),
+    (
+        89468931,
+        "8af690ebbe7a4325e6a6303ca2ce3bba641119db",
+        ("color_black", "color_gray", "color_blue", "color_beige"),
+    ),
+    (
+        89468935,
+        "1c84c92d8e6887155170e063dfa961302dd5fb0f",
+        ("color_black", "color_beige", "color_gray", "color_blue"),
+    ),
+    (
+        89558496,
+        "616dbc8a2c0d8a88b04da743dbe22dc97beb5195",
+        ("color_yellow", "color_brown", "color_blue", "color_black"),
+    ),
+    (89619360, "bef3b19c8deb084d6e89c73bd8ce2c614b6c2d6a", ("color_red", "color_black")),
+    (
+        89796716,
+        "e1612ea9e881e99d0d4e96e3247c2d91c2db2191",
+        ("color_brown", "color_black", "color_yellow", "color_gray", "color_orange"),
+    ),
+    (90430549, "46c042b3d2814da874dc4665e266d1ea98ee3b81", ("color_blue", "color_brown")),
+    (90459403, "4ca1f8bb7b188501af704c68fa0f8abe67f3213f", ("color_blue",)),
+    (
+        90459708,
+        "32b4591bc587c8cd55ffe782bda64064da9dcc49",
+        ("color_brown", "color_orange", "color_yellow", "color_red"),
+    ),
+    (
+        90490805,
+        "b2402105808e5b3b1ed9e581379670e62b87b808",
+        ("color_yellow", "color_brown", "color_blue", "color_black", "color_gray"),
+    ),
+    (90509741, "128677e7e9f99343f814cd01aa686207c711f9a4", ("color_green", "color_black")),
+    (
+        90578864,
+        "3f92c623a337c8118cc7aa59fbe75723becccff4",
+        ("color_green", "color_white", "color_gray", "color_blue"),
+    ),
+    (
+        90612494,
+        "fc3f3dbeedcf2534c3127681100449a3c6176148",
+        ("color_black", "color_brown", "color_yellow", "color_blue"),
+    ),
+    (90823135, "4af7befbb91ba7a86ffc1a93be0903d86ccea196", ("color_brown", "color_orange")),
+    (90858339, "fbbdd614142f6c4dafea26135a8dd73bc5573430", ("color_blue", "color_brown")),
+    (
+        91018309,
+        "9f9368a1328bdde74cbdf16b35e60e88d3af0d95",
+        ("color_gray", "color_green", "color_white"),
+    ),
+    (
+        91185050,
+        "c91eb79f6d521c3285074e54e78551b8dec6387d",
+        ("color_brown", "color_green", "color_yellow", "color_beige"),
+    ),
+    (
+        91211522,
+        "0c26c6085747955ca15332906fff3eb2200770d4",
+        ("color_gray", "color_green", "color_blue", "color_white"),
+    ),
+    (
+        91718478,
+        "04aaab9004e4c2cab43c84c2ead9eb2e3b2d1e15",
+        ("color_gray", "color_brown", "color_red", "color_black", "color_blue"),
     ),
     (
         91895724,
@@ -1448,14 +3546,39 @@ COLOUR_DATA: Final[tuple[tuple[int, str, tuple[str, ...]], ...]] = (
         ),
     ),
     (
+        91957917,
+        "5f0ef035d8bebd457ca8f4f96aff0d1bdf7c088d",
+        ("color_brown", "color_yellow", "color_beige", "color_gray"),
+    ),
+    (
         91996431,
         "0d95f727de562c60b67f1ccd8a694deed785e792",
         ("color_black", "color_brown", "color_yellow", "color_green", "color_beige"),
     ),
     (
+        92248527,
+        "a3bae5bbebd8873c6cac2c03b275b15671836625",
+        ("color_blue", "color_yellow", "color_gray"),
+    ),
+    (
+        92266654,
+        "da5d06e7924fb2b714d2d3ea4c5cc204af85a992",
+        ("color_yellow", "color_brown", "color_beige", "color_orange"),
+    ),
+    (
         92531946,
         "ea4a643812da3c43b8815fdde349ee24e910d4ce",
         ("color_yellow", "color_brown", "color_beige", "color_orange"),
+    ),
+    (
+        92574811,
+        "4cffffe5842fc843f71c4741b6c4ad3bca630232",
+        ("color_beige", "color_yellow", "color_brown", "color_orange"),
+    ),
+    (
+        92833209,
+        "83710cee25be43d6dbc5425d48a6d4f66c133961",
+        ("color_gray", "color_brown", "color_white", "color_beige", "color_red"),
     ),
     (
         93161707,
@@ -1467,6 +3590,7 @@ COLOUR_DATA: Final[tuple[tuple[int, str, tuple[str, ...]], ...]] = (
         "fe381d293b71de91dae2c14efb9186230dffa095",
         ("color_brown", "color_yellow", "color_beige", "color_gray", "color_black", "color_blue"),
     ),
+    (93431086, "490b6c437ef732af7663d76a56a5ffe82a5a8ae5", ("color_black",)),
     (
         93485233,
         "71ea64331ee81b569db37b528d699905356bb3f9",
@@ -1478,19 +3602,52 @@ COLOUR_DATA: Final[tuple[tuple[int, str, tuple[str, ...]], ...]] = (
         ("color_yellow", "color_beige", "color_brown", "color_green"),
     ),
     (
+        93597976,
+        "51b6fa801f7879767fae8eaf4004cb753ab57eef",
+        ("color_blue", "color_brown", "color_beige", "color_black"),
+    ),
+    (
+        94091272,
+        "52ac4f96bf63cd9d607acdb3f7fbffc748f7187e",
+        ("color_yellow", "color_brown", "color_black", "color_orange"),
+    ),
+    (
         94228640,
         "bb23aea9fbacd61410dc1ff06662936e757e1267",
         ("color_gray", "color_yellow", "color_black", "color_brown", "color_green", "color_beige"),
     ),
     (
-        95149294,
-        "ff274f2e5956efef5e31faf0d894d814c673ce3a",
-        ("color_brown", "color_beige", "color_green", "color_gray", "color_blue"),
+        95306820,
+        "05bb9d62fd0a063a028d323aee1a588091fde1cc",
+        ("color_blue", "color_green", "color_yellow", "color_gray", "color_brown", "color_beige"),
+    ),
+    (
+        95306977,
+        "15d1c2df0d873a22cf8e997a66beee6a443d054d",
+        (
+            "color_green",
+            "color_gray",
+            "color_blue",
+            "color_beige",
+            "color_yellow",
+            "color_brown",
+            "color_white",
+        ),
     ),
     (
         95308144,
         "58bb8e3ab612c4a2d60f1a637f706314f714af08",
         ("color_beige", "color_brown", "color_yellow", "color_gray"),
+    ),
+    (
+        95695617,
+        "1078bf14f5264011cd106f70821121633970d8c7",
+        ("color_brown", "color_blue", "color_gray", "color_beige", "color_orange"),
+    ),
+    (
+        95831369,
+        "3ec25573fd87a0594f47b5db5b6988ed32ef4f1d",
+        ("color_blue", "color_black", "color_brown"),
     ),
     (
         97110464,
@@ -1529,9 +3686,24 @@ COLOUR_DATA: Final[tuple[tuple[int, str, tuple[str, ...]], ...]] = (
         ("color_yellow", "color_brown", "color_black", "color_beige"),
     ),
     (
+        97906665,
+        "bb2c43e5a5e8d7bf6a4517a52115ddbca859ea45",
+        ("color_brown", "color_yellow", "color_orange"),
+    ),
+    (
         97946973,
         "3c341228968f8a466c35c88044a4c898a048c56e",
         ("color_brown", "color_red", "color_black"),
+    ),
+    (
+        98034987,
+        "839edc9658fec81c5c9e269c1b0c842b1a5fb4b2",
+        ("color_beige", "color_orange", "color_brown", "color_yellow"),
+    ),
+    (
+        98093779,
+        "295c8baf6505204a348e7a016a4ba70143beb7ff",
+        ("color_beige", "color_brown", "color_orange"),
     ),
     (
         98110746,
@@ -1577,9 +3749,19 @@ COLOUR_DATA: Final[tuple[tuple[int, str, tuple[str, ...]], ...]] = (
         ("color_beige", "color_yellow", "color_brown", "color_black"),
     ),
     (
+        98809146,
+        "f90807042933fd7a2fc1e87077a23c847c6891a1",
+        ("color_brown", "color_yellow", "color_green"),
+    ),
+    (
         98812941,
         "54323da9885898abf6cb8173dc060f0035f8f0c0",
         ("color_brown", "color_black", "color_yellow"),
+    ),
+    (
+        98814213,
+        "463680afbea7d2125b01b57752409c238dba08c4",
+        ("color_yellow", "color_green", "color_brown"),
     ),
     (
         98843700,
@@ -1608,9 +3790,9 @@ COLOUR_DATA: Final[tuple[tuple[int, str, tuple[str, ...]], ...]] = (
     ),
     (98925019, "94c119c6c810f83dd31d5b552191ccb83008db19", ("color_green", "color_yellow")),
     (
-        99178392,
-        "6802cc037e831651dd3ca3e9c16747eeb77d5e97",
-        ("color_brown", "color_red", "color_orange", "color_gray", "color_yellow", "color_blue"),
+        99878772,
+        "3136e9d5888026189b54d1654545a5d6bee73ddc",
+        ("color_beige", "color_brown", "color_yellow", "color_orange"),
     ),
     (
         99879445,
@@ -1628,6 +3810,21 @@ COLOUR_DATA: Final[tuple[tuple[int, str, tuple[str, ...]], ...]] = (
         ("color_yellow", "color_brown", "color_beige", "color_green"),
     ),
     (
+        101145460,
+        "b9f04ec753abc66c736a8577e4176b3121e5f058",
+        ("color_blue", "color_green", "color_beige", "color_yellow", "color_brown"),
+    ),
+    (
+        101180635,
+        "67164610c5a3f810d70609d7262aec9b3dd167c1",
+        ("color_brown", "color_blue", "color_yellow", "color_gray", "color_green", "color_white"),
+    ),
+    (
+        101181437,
+        "3a385ce24f11d5064f3ba281f87aca82d0b15370",
+        ("color_gray", "color_blue", "color_brown", "color_yellow", "color_orange", "color_white"),
+    ),
+    (
         101282268,
         "7eed57b5296dc4c0a1e1a989d976d7e56bc9aff0",
         ("color_gray", "color_brown", "color_black", "color_blue", "color_red"),
@@ -1643,9 +3840,40 @@ COLOUR_DATA: Final[tuple[tuple[int, str, tuple[str, ...]], ...]] = (
         ("color_blue", "color_green", "color_yellow", "color_brown", "color_black"),
     ),
     (
+        103694347,
+        "9054e752253c5399d73f8737460e262073eded04",
+        ("color_beige", "color_orange", "color_brown", "color_gray"),
+    ),
+    (104137593, "b7cebc9d5ae433e2c243e92d5dba72bf51da2fbb", ("color_blue", "color_black")),
+    (
+        104225780,
+        "ad3e4326b5124580adb02e26c6c7f36df637decd",
+        ("color_gray", "color_black", "color_blue", "color_brown"),
+    ),
+    (
+        106289300,
+        "59168c7b26fee2cc99c137e5f707bb38f1eb2344",
+        ("color_yellow", "color_brown", "color_beige", "color_orange"),
+    ),
+    (
         107396060,
         "a02e61d20fe637790f61a418b2f1636bc4b1373b",
         ("color_gray", "color_yellow", "color_brown", "color_green"),
+    ),
+    (
+        109122728,
+        "43280240ea0ea3a6ab01a3a9e343528512d04589",
+        ("color_yellow", "color_brown", "color_green"),
+    ),
+    (
+        109976279,
+        "9a8e85084edf12b9f997ee1bc2f0193f81d53fed",
+        ("color_blue", "color_green", "color_gray", "color_yellow"),
+    ),
+    (
+        111139063,
+        "0b5ec47194f6d07fb7d2e89aa8c17026eebae32f",
+        ("color_blue", "color_gray", "color_orange"),
     ),
     (
         111254556,
@@ -1653,14 +3881,40 @@ COLOUR_DATA: Final[tuple[tuple[int, str, tuple[str, ...]], ...]] = (
         ("color_beige", "color_brown", "color_orange"),
     ),
     (
+        111622914,
+        "915c6f9a4458ded6998477de7bf4932a789631b0",
+        ("color_beige", "color_yellow", "color_green", "color_brown"),
+    ),
+    (
+        112375669,
+        "5d2f14338b9e2a45929f1aa673cbf2368f0ba57f",
+        ("color_brown", "color_green", "color_yellow", "color_black"),
+    ),
+    (112418669, "6fe0c04b8ebb6e21054bbb2ed53a65d5b5a43485", ("color_blue", "color_brown")),
+    (
+        113174036,
+        "8e1a2369c26d4daf1436dadf7dbccff4f28b7335",
+        ("color_brown", "color_yellow", "color_black", "color_orange"),
+    ),
+    (
+        113436658,
+        "2fbb938c401812f69a3e0c01341082193b568341",
+        ("color_brown", "color_orange", "color_yellow", "color_green"),
+    ),
+    (
+        113760526,
+        "add082e3399faafe24d318de0b0b63355f43ba23",
+        ("color_brown", "color_red", "color_gray", "color_yellow", "color_orange"),
+    ),
+    (
         114234017,
         "d532eb1f08310fee30c5ab441f91c31a5e797342",
         ("color_green", "color_beige", "color_yellow", "color_brown"),
     ),
     (
-        114833882,
-        "e1c42d3a832623b243fd589fe3b5101aa5217a51",
-        ("color_yellow", "color_green", "color_brown", "color_white", "color_gray", "color_orange"),
+        114877885,
+        "511359ba2edaa277ae042dbaa29794cf585cada8",
+        ("color_brown", "color_yellow", "color_black", "color_beige"),
     ),
     (
         115423103,
@@ -1683,6 +3937,11 @@ COLOUR_DATA: Final[tuple[tuple[int, str, tuple[str, ...]], ...]] = (
         ("color_beige", "color_brown", "color_yellow", "color_orange"),
     ),
     (
+        116206004,
+        "462520d1ce665cbec5f335f28738455a77640233",
+        ("color_gray", "color_yellow", "color_brown", "color_beige", "color_blue"),
+    ),
+    (
         116223919,
         "cf6d256399cfbc74ffec6b6a4ac1a088b88085d3",
         ("color_brown", "color_yellow", "color_green", "color_black"),
@@ -1693,22 +3952,39 @@ COLOUR_DATA: Final[tuple[tuple[int, str, tuple[str, ...]], ...]] = (
         ("color_black", "color_brown", "color_yellow", "color_green", "color_beige"),
     ),
     (
+        117001445,
+        "ea85e5d0ed2ca0041070073fd46357558c7f91a8",
+        ("color_gray", "color_green", "color_brown", "color_white"),
+    ),
+    (
+        117288307,
+        "0f61a5a0992e8aef50475f5ad2e97fcb5e1f1e16",
+        ("color_gray", "color_blue", "color_yellow", "color_brown"),
+    ),
+    (
+        117494345,
+        "eb8fb4e2b412a75ae4e054c0ed439563bc69d551",
+        ("color_brown", "color_orange", "color_black", "color_blue", "color_yellow", "color_green"),
+    ),
+    (
+        118243083,
+        "63f7f8b7c3f1eacd2dce1e1bbd59991e341dfe7e",
+        ("color_brown", "color_orange", "color_yellow", "color_black"),
+    ),
+    (
         118446129,
         "c7aaea1124028b4d077c9806b7a89e09bbd59763",
         ("color_yellow", "color_green", "color_gray", "color_white", "color_black"),
     ),
     (
-        118810806,
-        "5d0fa0518edf8eaecde5d886aa90084b25d0267b",
-        (
-            "color_gray",
-            "color_white",
-            "color_beige",
-            "color_brown",
-            "color_black",
-            "color_red",
-            "color_orange",
-        ),
+        119119721,
+        "955182dad7c44ea2af89b71adbbc91ed583e00eb",
+        ("color_brown", "color_black", "color_yellow"),
+    ),
+    (
+        119221337,
+        "680bf9877e15a08eb999804fec173dd09d1d0ea9",
+        ("color_brown", "color_beige", "color_orange", "color_yellow"),
     ),
     (
         119873988,
@@ -1721,6 +3997,24 @@ COLOUR_DATA: Final[tuple[tuple[int, str, tuple[str, ...]], ...]] = (
         ("color_yellow", "color_brown", "color_green", "color_black"),
     ),
     (
+        121146844,
+        "65e4c986656fbe2a3501e5c0805a267d9998e2df",
+        (
+            "color_blue",
+            "color_green",
+            "color_purple",
+            "color_black",
+            "color_yellow",
+            "color_gray",
+            "color_brown",
+        ),
+    ),
+    (
+        121412517,
+        "6c8d48f5c235cef0e9d9044faac5cac935c79c19",
+        ("color_brown", "color_yellow", "color_blue", "color_green", "color_black"),
+    ),
+    (
         121561562,
         "cd4ae8a1b01c9418d670bfa994762040191bc37e",
         ("color_yellow", "color_brown", "color_beige", "color_orange", "color_gray"),
@@ -1731,9 +4025,14 @@ COLOUR_DATA: Final[tuple[tuple[int, str, tuple[str, ...]], ...]] = (
         ("color_blue", "color_gray", "color_beige"),
     ),
     (
-        123889433,
-        "2b7834c54e1424860b620bf5125622ffc2a1c302",
-        ("color_green", "color_blue", "color_yellow", "color_brown"),
+        123170828,
+        "fb263ad9e0006a664621f818a847a9c67a251843",
+        ("color_yellow", "color_brown", "color_black", "color_green"),
+    ),
+    (
+        123898742,
+        "78d3238e564864e64cfe6a834d365fbf567101b4",
+        ("color_brown", "color_blue", "color_gray", "color_yellow", "color_green"),
     ),
     (
         124030464,
@@ -1741,14 +4040,62 @@ COLOUR_DATA: Final[tuple[tuple[int, str, tuple[str, ...]], ...]] = (
         ("color_blue", "color_black", "color_purple", "color_red"),
     ),
     (
+        124521020,
+        "2716956baacb988e7f8f14e46caec1b840f88b4e",
+        ("color_blue", "color_green", "color_beige", "color_white"),
+    ),
+    (
+        124646299,
+        "a2d66cdaaaea0f280c72d370a8ccb98f86dfa307",
+        ("color_brown", "color_green", "color_blue", "color_black", "color_yellow"),
+    ),
+    (
         124914944,
         "edc50dd8b654565987f05fa6accf30955e74f0d8",
         ("color_brown", "color_green", "color_yellow", "color_gray", "color_blue"),
     ),
     (
+        124915272,
+        "2a3ae7d1a214aa2c9d809a247c3e684c15f8eeb0",
+        (
+            "color_brown",
+            "color_green",
+            "color_black",
+            "color_beige",
+            "color_orange",
+            "color_yellow",
+            "color_blue",
+        ),
+    ),
+    (
+        125972883,
+        "cdabcd1066714ba99c43c95dbf51d237d203933f",
+        ("color_beige", "color_brown", "color_yellow", "color_gray", "color_orange", "color_blue"),
+    ),
+    (
         126454056,
         "93e2b9fa6e5b632970a3d3527b85671158298ecb",
         ("color_brown", "color_yellow", "color_orange", "color_beige"),
+    ),
+    (
+        126454720,
+        "35fc3860b853526e4be9487990e83d5300996c70",
+        ("color_brown", "color_black", "color_yellow"),
+    ),
+    (
+        126722150,
+        "0f75c8fc1ff663d785c84b4155e9837c3b50e75a",
+        ("color_yellow", "color_orange", "color_white", "color_brown", "color_gray", "color_beige"),
+    ),
+    (
+        127069165,
+        "554928fa4c1a8eba69083a883a4ee9ed1ff28fda",
+        ("color_brown", "color_yellow", "color_orange", "color_black"),
+    ),
+    (
+        127759558,
+        "b5dbc550cf32b19068987e94ffc97a3c3c045644",
+        ("color_gray", "color_beige", "color_brown", "color_black"),
     ),
     (
         127787179,
@@ -1761,9 +4108,19 @@ COLOUR_DATA: Final[tuple[tuple[int, str, tuple[str, ...]], ...]] = (
         ("color_brown", "color_black", "color_yellow"),
     ),
     (
+        128007967,
+        "41b822c3813c8b11c2c5e3ef060a67ad5c025a8d",
+        ("color_brown", "color_black", "color_yellow"),
+    ),
+    (
         128008817,
         "243558c5883009d3496db3f5718538906ce51176",
         ("color_yellow", "color_brown", "color_orange"),
+    ),
+    (
+        128432667,
+        "bbf82e41e2456d9f8cf466309b79265ff8b47e54",
+        ("color_beige", "color_brown", "color_orange", "color_gray", "color_yellow"),
     ),
     (
         128454257,
@@ -1771,9 +4128,57 @@ COLOUR_DATA: Final[tuple[tuple[int, str, tuple[str, ...]], ...]] = (
         ("color_beige", "color_brown", "color_yellow", "color_gray"),
     ),
     (
-        130381235,
-        "d8cf1f451c4aa6e93e7f3a8bea05faddd3a86548",
-        ("color_brown", "color_gray", "color_black"),
+        128612500,
+        "0a357703b656b99628358a9b7073ce5ad5afb9ed",
+        ("color_brown", "color_yellow", "color_black"),
+    ),
+    (
+        128723452,
+        "dde33eb59967f7e8137b912caa8964b6d78cc277",
+        ("color_green", "color_yellow", "color_brown", "color_blue", "color_beige", "color_gray"),
+    ),
+    (
+        128989871,
+        "df4a31c4e658c8cd54d026f0c1f6e944dc965ce8",
+        ("color_beige", "color_yellow", "color_brown"),
+    ),
+    (
+        129325051,
+        "4c90f5fb3b48ab4ebd85f416809daa1491626348",
+        ("color_brown", "color_yellow", "color_beige", "color_orange", "color_black"),
+    ),
+    (
+        129480759,
+        "7216fc3ebd3c0245ee99c87b32fa4da31cc90e2c",
+        ("color_brown", "color_yellow", "color_black"),
+    ),
+    (
+        129942739,
+        "eeb6005bd81d6cbbb50fb87abb015f79330b8f9f",
+        (
+            "color_brown",
+            "color_black",
+            "color_yellow",
+            "color_green",
+            "color_beige",
+            "color_blue",
+            "color_gray",
+        ),
+    ),
+    (
+        130576005,
+        "ee9e40a99b4e3b8a86d6c2f6bde44fdebc7f46f7",
+        ("color_white", "color_blue", "color_gray", "color_brown"),
+    ),
+    (
+        130697950,
+        "73835fc44eedc2ac9bd5324ebd867134d2a67026",
+        ("color_orange", "color_blue", "color_brown", "color_gray", "color_beige", "color_yellow"),
+    ),
+    (
+        131734965,
+        "45b94ee93649350b80c465b182256fa3b626a1a2",
+        ("color_yellow", "color_brown", "color_green", "color_beige"),
     ),
     (
         131942228,
@@ -1781,11 +4186,56 @@ COLOUR_DATA: Final[tuple[tuple[int, str, tuple[str, ...]], ...]] = (
         ("color_brown", "color_blue", "color_black", "color_green", "color_yellow", "color_orange"),
     ),
     (
+        132538902,
+        "ebc1d5885bca307c6b286420a2b18173bbe896bd",
+        ("color_black", "color_brown", "color_red", "color_orange"),
+    ),
+    (
+        132599475,
+        "fff96c1d6efedabd25c4a9df472c4cad0ab83efb",
+        ("color_brown", "color_yellow", "color_orange", "color_beige"),
+    ),
+    (
+        132704252,
+        "fca1ef52bf84eacf8179f56affd624434871e956",
+        ("color_beige", "color_yellow", "color_green", "color_white"),
+    ),
+    (
+        132763643,
+        "ec4e75977dd52951dc5d4c378f751b4932630136",
+        ("color_brown", "color_gray", "color_beige"),
+    ),
+    (
         134181389,
         "39a0c935a5cbb7792d6755b6add082d36cdcb670",
         ("color_beige", "color_yellow", "color_green", "color_orange", "color_white"),
     ),
+    (
+        136178267,
+        "71017fbfdd821dfb1ab142d39b6f1b2d3da70a8d",
+        ("color_beige", "color_yellow", "color_brown", "color_orange"),
+    ),
+    (
+        137142542,
+        "801a95c024419826994294088f1f35207f4b3274",
+        ("color_beige", "color_yellow", "color_black", "color_brown"),
+    ),
+    (
+        137145458,
+        "85a997a161310466f861b8208fe488c0b24afd92",
+        ("color_brown", "color_yellow", "color_beige", "color_black", "color_gray"),
+    ),
     (138007676, "d842ad82ac2e9fb90777ef0e88f388c4cf88dfac", ("color_yellow", "color_brown")),
+    (
+        138016733,
+        "d8147e8ec2c7a60cc8abd56371aa962c2453aca2",
+        ("color_green", "color_yellow", "color_blue"),
+    ),
+    (
+        138667986,
+        "bfb538ff919720ca4c0145e84b513399ad01b7e1",
+        ("color_beige", "color_brown", "color_orange", "color_yellow"),
+    ),
     (
         138748673,
         "9e102bb369d2878d8e0dc1c8aba786fa82240cb7",
@@ -1805,6 +4255,27 @@ COLOUR_DATA: Final[tuple[tuple[int, str, tuple[str, ...]], ...]] = (
         ("color_black", "color_brown", "color_yellow"),
     ),
     (
+        139276550,
+        "cde5a872565e50a04860089ff47d8b9eecf929cd",
+        ("color_brown", "color_gray", "color_yellow", "color_blue", "color_orange", "color_black"),
+    ),
+    (
+        140060554,
+        "aa4602a4de76dd064aa193bdf33b1b910218648b",
+        ("color_beige", "color_yellow", "color_brown"),
+    ),
+    (140070044, "d33ee27310a8791d995c3bd928f96f502b93bd3b", ("color_brown", "color_black")),
+    (
+        140172938,
+        "9ffe77f3fd0dd81ec061254ab598bc6ffbb02c19",
+        ("color_white", "color_blue", "color_gray"),
+    ),
+    (
+        140172939,
+        "5f6ec10ef90bdd90d848cbc9d21cda4e61e125c6",
+        ("color_white", "color_blue", "color_yellow", "color_black", "color_gray", "color_brown"),
+    ),
+    (
         140184404,
         "7c320e1e7f66b4c3bf358dc287f9a1145b8d3793",
         ("color_brown", "color_orange", "color_beige", "color_black", "color_red", "color_gray"),
@@ -1815,9 +4286,19 @@ COLOUR_DATA: Final[tuple[tuple[int, str, tuple[str, ...]], ...]] = (
         ("color_brown", "color_yellow", "color_black", "color_green"),
     ),
     (
+        140216454,
+        "2e6a391b83927cdeb79e60f08b0f5b0a40c2ec30",
+        ("color_brown", "color_yellow", "color_beige", "color_gray", "color_orange"),
+    ),
+    (
         140216695,
         "ce7a8831406758682416803191b5ac55e52b091b",
         ("color_brown", "color_orange", "color_black", "color_beige", "color_yellow"),
+    ),
+    (
+        140217862,
+        "337f2ac0acf8ba279d199252350934452fef15a9",
+        ("color_black", "color_brown", "color_gray", "color_beige", "color_red"),
     ),
     (
         140222439,
@@ -1825,14 +4306,14 @@ COLOUR_DATA: Final[tuple[tuple[int, str, tuple[str, ...]], ...]] = (
         ("color_brown", "color_black", "color_yellow", "color_orange", "color_beige"),
     ),
     (
+        140224565,
+        "15051de1d7840f8fe1b34bc68bbd8fad325575b0",
+        ("color_brown", "color_yellow", "color_red"),
+    ),
+    (
         140453043,
         "ddae9fc24033e2914c346d7c9a735c21149ec504",
         ("color_brown", "color_beige", "color_gray", "color_black"),
-    ),
-    (
-        141281704,
-        "ef009f0de668a30071cfa1d4080a43bf701a711c",
-        ("color_beige", "color_orange", "color_brown"),
     ),
     (
         141394807,
@@ -1840,9 +4321,44 @@ COLOUR_DATA: Final[tuple[tuple[int, str, tuple[str, ...]], ...]] = (
         ("color_brown", "color_blue", "color_beige", "color_yellow", "color_gray"),
     ),
     (
-        141802237,
-        "048980a6db4ebbbd4cd063c4a65b2a7d19d3dd6a",
-        ("color_beige", "color_brown", "color_yellow", "color_black"),
+        141402648,
+        "23bb3760eb8e6a324be79665d9f4b51663ad34a9",
+        ("color_yellow", "color_beige", "color_white", "color_brown"),
+    ),
+    (
+        141503301,
+        "ec11b98fd98fee424a904a2661d3e94c100499b4",
+        ("color_beige", "color_white", "color_orange", "color_yellow", "color_brown"),
+    ),
+    (
+        141525210,
+        "a84f3b4d1a767738dc8e789fde85450156d904a3",
+        ("color_brown", "color_black", "color_yellow", "color_beige", "color_green"),
+    ),
+    (
+        141534000,
+        "2fa72946ad2c22314e758dc932aa1708fba80a37",
+        ("color_brown", "color_orange", "color_black"),
+    ),
+    (
+        141891714,
+        "19167ced4e3f487bf9fe416bf316cadc8f330536",
+        ("color_yellow", "color_brown", "color_orange", "color_beige"),
+    ),
+    (
+        142071813,
+        "31990361a528c6f6a98b017997f93c372cc604a3",
+        ("color_brown", "color_yellow", "color_white", "color_black", "color_gray"),
+    ),
+    (
+        142165490,
+        "5c4d24ebcf163878e6b51216e87e9d5bae684d70",
+        ("color_blue", "color_beige", "color_brown", "color_orange"),
+    ),
+    (
+        142200844,
+        "9e1a17daf44a9c96e7d98f382b385472e19e5f83",
+        ("color_beige", "color_brown", "color_yellow"),
     ),
     (
         142201718,
@@ -1850,14 +4366,79 @@ COLOUR_DATA: Final[tuple[tuple[int, str, tuple[str, ...]], ...]] = (
         ("color_brown", "color_gray", "color_beige", "color_yellow", "color_blue", "color_purple"),
     ),
     (
+        142202947,
+        "acf894be8e93d1bb17dfd760ee9a8dd6758a97e1",
+        ("color_black", "color_brown", "color_green", "color_gray"),
+    ),
+    (
+        142204289,
+        "e81b316dd252fd7a5c40c7cfcac8ca9484297504",
+        (
+            "color_brown",
+            "color_orange",
+            "color_black",
+            "color_yellow",
+            "color_beige",
+            "color_green",
+        ),
+    ),
+    (
+        142859687,
+        "17dc5a67b0e232f7a8ed68592da5a9437a97305a",
+        (
+            "color_orange",
+            "color_brown",
+            "color_beige",
+            "color_yellow",
+            "color_purple",
+            "color_black",
+        ),
+    ),
+    (
+        142979841,
+        "4424c650a4fea75f63b3fbd04fb53fe02d46b573",
+        ("color_orange", "color_white", "color_yellow", "color_blue"),
+    ),
+    (
+        143020517,
+        "ff4f5f119dc83fea08d067081362675866ae21c3",
+        ("color_orange", "color_beige", "color_yellow", "color_blue", "color_brown", "color_white"),
+    ),
+    (
+        143435922,
+        "6fbce4f955f26d642e45e80b3be64cbc6fdd9ffe",
+        ("color_brown", "color_blue", "color_white", "color_green"),
+    ),
+    (
+        144373811,
+        "6f4113245fbc497d2c1ffa62bee087fa02fa2b35",
+        ("color_gray", "color_blue", "color_white", "color_brown", "color_red"),
+    ),
+    (
         144713672,
         "c69133b7bb34ef4c27af6d4fdb8666460b16c12c",
         ("color_gray", "color_beige", "color_blue", "color_green", "color_yellow"),
     ),
     (
-        145712376,
-        "3600f45b211cbefede4b88694763db6476709c1c",
-        ("color_blue", "color_brown", "color_black", "color_orange", "color_red"),
+        145194329,
+        "b157be15074233e4697fa0b65d6ecdd234d4d5e7",
+        ("color_brown", "color_black", "color_green", "color_beige", "color_yellow"),
+    ),
+    (
+        145983958,
+        "f36f13e112a22434a233a2bf03e058bd684c0f27",
+        ("color_brown", "color_orange", "color_beige", "color_yellow", "color_blue"),
+    ),
+    (
+        145986829,
+        "4c917946125c10b8b2e010367f1f8e2080dacff2",
+        ("color_blue", "color_yellow", "color_orange", "color_white", "color_gray", "color_brown"),
+    ),
+    (146005234, "c072d543fefe5e983a46d2566758a0ce8356d79e", ("color_gray", "color_white")),
+    (
+        146030403,
+        "acac3d56708cfcbf4560ef2f970d358ca5fa2b99",
+        ("color_brown", "color_black", "color_yellow", "color_orange"),
     ),
     (
         146082144,
@@ -1865,9 +4446,25 @@ COLOUR_DATA: Final[tuple[tuple[int, str, tuple[str, ...]], ...]] = (
         ("color_blue", "color_orange", "color_yellow", "color_gray"),
     ),
     (
+        146199918,
+        "e767c98834d93e744ece3ee236ca9735a327d580",
+        ("color_orange", "color_blue", "color_brown"),
+    ),
+    (
+        146258085,
+        "decd318596cd49ec12bc847e48494e1aa7d0c80b",
+        ("color_blue", "color_orange", "color_brown", "color_beige", "color_gray"),
+    ),
+    (
         146757712,
         "023bee8f3f82a6e1c9dbb31d3a8797a3dd0f6231",
         ("color_brown", "color_white", "color_gray", "color_pink", "color_purple"),
+    ),
+    (146925571, "039b9d3c982cdc826a0b2d1ce6a4114b22865b9f", ("color_yellow", "color_brown")),
+    (
+        146989622,
+        "1eafa578edcb7207abd2e26870454dfd2de9a00d",
+        ("color_brown", "color_orange", "color_gray"),
     ),
     (
         147230027,
@@ -1923,15 +4520,21 @@ COLOUR_DATA: Final[tuple[tuple[int, str, tuple[str, ...]], ...]] = (
         "a84d258bb714dc169ff4f0ec7f72a180ab7efd05",
         ("color_yellow", "color_beige", "color_brown", "color_orange", "color_green"),
     ),
-    (
-        149657860,
-        "6e479a8419f0a9a4cd6ed841aa8c0574415052b8",
-        ("color_yellow", "color_blue", "color_brown", "color_beige", "color_gray", "color_purple"),
-    ),
+    (149234565, "9da79f5678ebb4239a3c8db32541fe4dbac36cb3", ("color_black", "color_brown")),
     (
         149827428,
         "1999f9697da18f798bb688054e2d6df8c7b1f498",
         ("color_brown", "color_green", "color_yellow", "color_beige"),
+    ),
+    (
+        149994747,
+        "bf7e3a22e81dbff1631a6373712f521754c26e2f",
+        ("color_gray", "color_brown", "color_orange", "color_blue", "color_yellow"),
+    ),
+    (
+        150940461,
+        "4b72bca1bb7ea5acee3f08d7e6d412450bfa7c79",
+        ("color_brown", "color_black", "color_yellow"),
     ),
     (
         153743085,
@@ -1949,9 +4552,58 @@ COLOUR_DATA: Final[tuple[tuple[int, str, tuple[str, ...]], ...]] = (
         ("color_beige", "color_brown", "color_orange", "color_yellow"),
     ),
     (
+        156449301,
+        "4259e9b9458b06bf09ebbbaf18620d805116d5a6",
+        ("color_green", "color_yellow", "color_brown"),
+    ),
+    (
+        156815878,
+        "a66bf2a3bd1ab66c9a9d427bf74e31838b847913",
+        ("color_brown", "color_beige", "color_black", "color_orange"),
+    ),
+    (156834343, "aedc5dd4d75a861890f7eb85562be7fa52bee6c3", ("color_yellow", "color_brown")),
+    (
+        156850328,
+        "04098450a974be86915732967e97ebedbdff788f",
+        (
+            "color_orange",
+            "color_black",
+            "color_yellow",
+            "color_brown",
+            "color_gray",
+            "color_blue",
+            "color_beige",
+        ),
+    ),
+    (
+        156862749,
+        "9d990af75a1c9bdc558b0ba066a34463b60c4190",
+        ("color_gray", "color_brown", "color_yellow"),
+    ),
+    (
+        156882066,
+        "766fe4d33375c6f7e38f3c5fd527f27ab55eda01",
+        ("color_blue", "color_beige", "color_brown", "color_yellow", "color_gray", "color_white"),
+    ),
+    (
+        156929787,
+        "9ad4292eed5605252c89c8342704ae37024ab785",
+        ("color_black", "color_brown", "color_yellow"),
+    ),
+    (
+        158919042,
+        "ada4b42e6bced48df4b465e28585e23b8ce75a28",
+        ("color_yellow", "color_brown", "color_green", "color_beige"),
+    ),
+    (
         159288815,
         "78218410245a7383ece7bb4115b1c169e7d549e4",
         ("color_brown", "color_yellow", "color_gray", "color_green", "color_beige", "color_black"),
+    ),
+    (
+        160495779,
+        "62d50968b70c61b82f7beb5f0157cd9627833b10",
+        ("color_brown", "color_beige", "color_yellow", "color_black"),
     ),
     (
         162395660,
@@ -1967,15 +4619,46 @@ COLOUR_DATA: Final[tuple[tuple[int, str, tuple[str, ...]], ...]] = (
         ),
     ),
     (
+        163318479,
+        "249b2c93792572931d9822a1b90cc8c509845c25",
+        ("color_gray", "color_blue", "color_brown", "color_orange", "color_beige"),
+    ),
+    (
         163461953,
         "4c9877dacb6ecb3716a88dcf263e9b27a111f27e",
         ("color_gray", "color_blue", "color_green", "color_beige", "color_orange", "color_yellow"),
+    ),
+    (
+        163968044,
+        "2031687bd694a0201526f8ec6e6c36e287a2c9c0",
+        ("color_brown", "color_yellow", "color_green"),
+    ),
+    (
+        163968085,
+        "6f3411f51a0c3c7edf4acc4e5ba623aba3730b4b",
+        ("color_yellow", "color_brown", "color_orange"),
     ),
     (
         164265708,
         "050cc4d9fb63d0346737460f84c1a46376774f88",
         ("color_orange", "color_gray", "color_brown", "color_blue", "color_yellow", "color_beige"),
     ),
+    (
+        164274040,
+        "06c03bc011b312c825942e3221786cbb8f752aa3",
+        ("color_blue", "color_white", "color_gray", "color_beige", "color_red"),
+    ),
+    (
+        164289029,
+        "53877c30ef04f456656648630591e8af94f92b94",
+        ("color_black", "color_brown", "color_gray", "color_beige"),
+    ),
+    (
+        164564105,
+        "cb4c2e17ac50868f9b40d44e8b1b58d805602bab",
+        ("color_blue", "color_green", "color_beige", "color_yellow", "color_white"),
+    ),
+    (164564883, "1484304689349fa801c013ae913f9047cc9f8daf", ("color_brown", "color_yellow")),
     (
         164565576,
         "ce257a6543d5826fe4d056a0b26adb39524334dd",
@@ -1987,15 +4670,212 @@ COLOUR_DATA: Final[tuple[tuple[int, str, tuple[str, ...]], ...]] = (
         ("color_green", "color_gray", "color_black", "color_yellow", "color_brown"),
     ),
     (
-        164784050,
-        "7c0292992075f4ca8db1f4685fa75bb7b7182fb1",
-        ("color_beige", "color_brown", "color_yellow", "color_orange", "color_gray"),
+        164574133,
+        "c228cdd243558e4b5cc54b9d01b4cc856b3b6da8",
+        ("color_green", "color_beige", "color_yellow", "color_blue"),
+    ),
+    (
+        164671265,
+        "d7d4b11865d78858ae282c71235ac332f6473cd7",
+        ("color_brown", "color_blue", "color_yellow", "color_orange", "color_pink"),
+    ),
+    (164777061, "5b0777e394450a6e946db5b628e3a385231a88c0", ("color_black", "color_yellow")),
+    (164845111, "f5ceabbacbf459205a0b92b15c38d19698b926f0", ("color_blue", "color_green")),
+    (164845697, "acac4066a7b51934e4b04a1f258adb922b842a74", ("color_black",)),
+    (
+        164847402,
+        "5e29a5048197969f8229b423a3e1841339311f18",
+        ("color_green", "color_gray", "color_blue"),
+    ),
+    (
+        164888645,
+        "7757af4e0b5bd8350e4b83ffaae3b8e0b61f8cdb",
+        ("color_blue", "color_gray", "color_orange", "color_brown"),
+    ),
+    (
+        164940965,
+        "2da396016a3ff71560c12adaf80c177c7b273df8",
+        ("color_brown", "color_yellow", "color_black", "color_green"),
+    ),
+    (
+        164944158,
+        "48bcf346b7be9631848bc1e96c272554271502a6",
+        ("color_gray", "color_red", "color_pink", "color_black"),
+    ),
+    (164945301, "4487c8bfdad1f6d8f1ca652d2eb8336aa01a1e78", ("color_black", "color_beige")),
+    (
+        164980660,
+        "21eb407ee505c96281fedc40637c23d8034cfd57",
+        ("color_green", "color_black", "color_gray", "color_brown"),
+    ),
+    (164984726, "ade8b9570ad5df6230e48c35d9076317c15fc6de", ("color_green", "color_purple")),
+    (
+        164988225,
+        "c3c3b32ae217a09305eb1d64df6feb60b2848d3c",
+        (
+            "color_green",
+            "color_yellow",
+            "color_gray",
+            "color_red",
+            "color_black",
+            "color_brown",
+            "color_beige",
+        ),
     ),
     (165011548, "9935c8e2cf1d8c0ae85af5159d46caca84eb8623", ("color_yellow", "color_beige")),
+    (
+        165027490,
+        "f78b0e7f9923683a00ce71630607c9f94adb3695",
+        ("color_red", "color_black", "color_pink", "color_purple", "color_brown"),
+    ),
+    (
+        165036187,
+        "cab1efefd98b9974e7a32862d39c966f901e60a8",
+        ("color_green", "color_yellow", "color_black", "color_beige"),
+    ),
+    (
+        165126777,
+        "d69201436fc1f5e858758fd2a0607486ffef8457",
+        ("color_yellow", "color_gray", "color_brown", "color_blue"),
+    ),
+    (
+        165127131,
+        "6c4867f373944b0e84b9d7cebe853cfea48cea3c",
+        ("color_black", "color_green", "color_blue", "color_gray"),
+    ),
+    (
+        165128542,
+        "d9c5d0f17c60f9a1f93afe0f9577020a80009b1c",
+        ("color_green", "color_yellow", "color_black"),
+    ),
+    (
+        165339992,
+        "70d35975f1789d79e4c4b5b2d8b72d74e54c91e2",
+        ("color_brown", "color_yellow", "color_beige"),
+    ),
+    (
+        165554435,
+        "00dd07ec9d4a5ab887c0d23aaa17a1a682b76654",
+        ("color_yellow", "color_brown", "color_orange", "color_black", "color_beige"),
+    ),
+    (165555147, "5146eb1bbf6727f44962038ac97b7e5c7512e5f4", ("color_black",)),
+    (
+        165615966,
+        "af9beb927607b623210aa2e32356caaaab5aba2a",
+        ("color_brown", "color_green", "color_black", "color_yellow"),
+    ),
+    (
+        165619763,
+        "24cbe7308b05a2d665511c55af3927e87e5f1997",
+        ("color_green", "color_black", "color_gray", "color_white"),
+    ),
+    (
+        165620105,
+        "1994a7874fe844aa612d738e1413d452e7482a19",
+        ("color_green", "color_blue", "color_gray"),
+    ),
+    (
+        165816174,
+        "eb2cb188a212c1ee91aa9e7995f78cf0f063efc7",
+        ("color_yellow", "color_green", "color_black"),
+    ),
+    (
+        165816587,
+        "75cb3a7c0acffde42bd159ec775c5259afc9f664",
+        ("color_black", "color_blue", "color_gray", "color_beige", "color_white", "color_yellow"),
+    ),
+    (165822544, "10f417f88edce4cab7fedfe1a790138368bc7329", ("color_green",)),
+    (
+        165878149,
+        "164af6cfdd2af2e05ebef3b9c83d5e69970fcac8",
+        ("color_blue", "color_black", "color_brown", "color_green"),
+    ),
+    (165935976, "f9070d9f713ba3574db43318897776ea49b58d39", ("color_yellow", "color_brown")),
+    (
+        165937656,
+        "fae46fbf0fbffa92800a486e3eb8c1269767779e",
+        ("color_green", "color_yellow", "color_gray", "color_beige", "color_white"),
+    ),
+    (
+        165938353,
+        "52920c9a4350c184b5bb92ba47fd43f7d3cb476a",
+        ("color_yellow", "color_brown", "color_blue", "color_orange", "color_gray", "color_beige"),
+    ),
+    (
+        165940823,
+        "02cc7b094387e8b5f4de2663f920d59dedf021c2",
+        ("color_orange", "color_green", "color_red", "color_pink", "color_purple"),
+    ),
+    (
+        166265763,
+        "a258e432d7ebd6ce53b1ba04dc43e4843a09dab5",
+        ("color_brown", "color_green", "color_yellow", "color_beige"),
+    ),
+    (
+        166459292,
+        "381bce7453778073d9cd25819dacb95f8c171749",
+        ("color_brown", "color_yellow", "color_black"),
+    ),
+    (166532513, "0534bf29e9010c123aa863f68ca21171cdfa5232", ("color_yellow", "color_green")),
+    (
+        166904217,
+        "2fc6dba0aeb7eda8f71787262462524dff287ab8",
+        ("color_orange", "color_yellow", "color_beige"),
+    ),
+    (166905786, "f5d8cdea87c3529e4c4bb5a0cb606c836cf3ac98", ("color_green", "color_yellow")),
+    (
+        166906504,
+        "fe4e81450d1fe23ebb9fd6731ad5ec088dacfcdb",
+        ("color_black", "color_green", "color_blue", "color_brown", "color_yellow"),
+    ),
+    (
+        166908235,
+        "bd30b57ccccc9f1091ef5ab21f04c10d7d01cbf9",
+        ("color_green", "color_gray", "color_blue", "color_yellow"),
+    ),
+    (
+        166910840,
+        "755107783e4aefc930648fb13aa1a434714ad2c9",
+        ("color_beige", "color_yellow", "color_blue", "color_gray"),
+    ),
+    (167336553, "4913db8d54dd226f88ad3795177757f05aa3c440", ("color_blue",)),
+    (167337201, "7cee76072bc042a6d0ebfce61d56609a3f74b991", ("color_blue",)),
+    (
+        167337981,
+        "65d30b33ab71b3bc8754053cf51a8ed7e5e8efe6",
+        ("color_yellow", "color_green", "color_beige", "color_gray"),
+    ),
+    (167374053, "c55892b5283edad93001b115952373e8933d6a11", ("color_brown", "color_yellow")),
+    (
+        167746391,
+        "06b9af210a620460b0ab2dceaa3def7322d7d8cd",
+        ("color_green", "color_yellow", "color_brown"),
+    ),
+    (167746703, "9cf4f876df6c80703f2500e6179ec5a6c3fb06fb", ("color_blue", "color_red")),
     (
         168187155,
         "f5aec1141a9aba7dda264f18837045f8311d193e",
         ("color_gray", "color_brown", "color_beige"),
+    ),
+    (
+        168384466,
+        "16afc5aef89ff3bed15af82e50d783aa8fc0c7ea",
+        ("color_brown", "color_yellow", "color_black"),
+    ),
+    (
+        169640367,
+        "84a606301f8a0e49e8d3fd8e6849179c32970bd7",
+        ("color_brown", "color_black", "color_orange"),
+    ),
+    (
+        170487788,
+        "11d36c63073b87df03c446a5712a1f7113773b83",
+        ("color_black", "color_gray", "color_blue", "color_brown"),
+    ),
+    (
+        171251262,
+        "1862bf93e9a26ef07d0bbca25121b3f7a01ade45",
+        ("color_gray", "color_beige", "color_yellow", "color_brown", "color_black"),
     ),
     (
         173692244,
@@ -2011,9 +4891,24 @@ COLOUR_DATA: Final[tuple[tuple[int, str, tuple[str, ...]], ...]] = (
         ),
     ),
     (
+        173720589,
+        "9fd21a5234b1e6d58d67621249996520616ffcfd",
+        ("color_brown", "color_blue", "color_beige", "color_gray", "color_orange", "color_black"),
+    ),
+    (
+        176662289,
+        "08dd97f435b62637fa8c8c1d0324735d612dc798",
+        ("color_beige", "color_brown", "color_yellow", "color_orange"),
+    ),
+    (
         176674544,
         "5d6415d4bda00d07f18c5d894386dd991e853248",
         ("color_orange", "color_brown", "color_yellow"),
+    ),
+    (
+        178217854,
+        "a8de1c4d846d2b1e7b12a4fa2f57a3bbd3cb4a45",
+        ("color_brown", "color_gray", "color_yellow", "color_blue", "color_beige"),
     ),
     (
         178668227,
@@ -2044,10 +4939,84 @@ COLOUR_DATA: Final[tuple[tuple[int, str, tuple[str, ...]], ...]] = (
             "color_gray",
         ),
     ),
+    (
+        181003142,
+        "83c9c89e57a78ea851aa64f6f6eb0bb25eaec989",
+        ("color_brown", "color_yellow", "color_purple", "color_beige", "color_gray"),
+    ),
+    (
+        181134110,
+        "3c50f32bf7c92f801b805f10fd8c64d174d9c5e3",
+        ("color_orange", "color_brown", "color_beige"),
+    ),
+    (
+        182610819,
+        "59ba8fb2e406364661005bd628bdd2378e49501b",
+        ("color_brown", "color_black", "color_yellow", "color_green", "color_orange"),
+    ),
     (185171326, "6612e84f49b6e665401b84ffa3e3b918945b439c", ("color_brown", "color_yellow")),
+    (185920882, "17d0e5c73a74430b19ab9386fc407088f4f98ef9", ("color_brown", "color_black")),
+    (
+        186311052,
+        "17f07b5cb47c766682f851f3bfec2e8a0c26dc2d",
+        (
+            "color_brown",
+            "color_black",
+            "color_gray",
+            "color_beige",
+            "color_white",
+            "color_blue",
+            "color_yellow",
+        ),
+    ),
+    (
+        186729481,
+        "153f664a11489f5105b902fc6b9382178c3aabbf",
+        ("color_gray", "color_brown", "color_yellow", "color_beige", "color_black", "color_blue"),
+    ),
+    (
+        187965047,
+        "357f19cef29e79bbbd7bb5987ba9be3594ea0a82",
+        ("color_brown", "color_yellow", "color_orange", "color_black"),
+    ),
+    (
+        189362292,
+        "c822c4209bf455545130f10950a187203efd1ea7",
+        ("color_brown", "color_beige", "color_yellow", "color_black"),
+    ),
+    (
+        189613984,
+        "5a9d3c6c30dd24172928473d7273216ecd12c74b",
+        ("color_green", "color_blue", "color_black"),
+    ),
+    (
+        189725849,
+        "d7332b73df9cb703f47480e1e943cfe08312cc3b",
+        ("color_brown", "color_black", "color_yellow"),
+    ),
     (
         190237599,
         "878e27899c5f41dc05318815d898bd6e2d6b7c22",
         ("color_brown", "color_yellow", "color_black"),
+    ),
+    (
+        194918345,
+        "5a6245106fe30aca3dd5a32d44e630365de5ced9",
+        ("color_brown", "color_yellow", "color_beige", "color_orange"),
+    ),
+    (
+        194996256,
+        "57f4400120882556de2e74be2cb71933413875bf",
+        ("color_brown", "color_black", "color_gray", "color_yellow", "color_orange"),
+    ),
+    (
+        195274822,
+        "46602dbec5a015e56261916b0cec98640bf8b0aa",
+        ("color_beige", "color_yellow", "color_orange"),
+    ),
+    (
+        198656654,
+        "f67c0b4c1028939b564333c71748da5500a184b8",
+        ("color_green", "color_yellow", "color_gray", "color_beige", "color_brown"),
     ),
 )

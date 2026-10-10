@@ -465,7 +465,11 @@ def test_commons_landscape_fallback_preserves_edges_and_publishes_caption(
         expected = {str(w.page_id) for w in CATALOG if matches_colour(w, colour)}
         assert all(set(query["pageids"].split("|")) <= expected for query in site.queries)
     assert captions[0]["artist"] == work.artist
-    assert captions[0]["title"] == work.title
+    # The real 1000-work catalogue includes long titles. The existing helper
+    # contract deliberately shortens each field to 100 characters; do not
+    # mistake that bounded display value for a mismatched work identity.
+    expected_title = work.title if len(work.title) <= 100 else work.title[:99] + "…"
+    assert captions[0]["title"] == expected_title
     with Image.open(io.BytesIO(rig.tv.payloads[-1])) as image:
         assert image.size == (3840, 2160)
         assert image.getpixel((0, 1080)) == (0, 0, 0)

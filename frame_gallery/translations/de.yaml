@@ -5,7 +5,7 @@ configuration:
     description: 'Die feste private IPv4-Adresse deines Frame TV, z. B. 192.168.1.20. Reserviere sie im Router; Gerätenamen werden nicht unterstützt.'
   source:
     name: Bildquelle
-    description: 'wikimedia_commons (Standard bei Neuinstallation): 400 ausgewählte Werke im breiten Querformat, ohne API-Key. art_institute_chicago: Art Institute of Chicago. cleveland_museum_of_art: Cleveland Museum of Art. local_media: eigene JPEG/PNG-Dateien unter frame_gallery/library im HA-Medienordner.'
+    description: 'wikimedia_commons (Standard bei Neuinstallation): 1000 ausgewählte Werke im breiten Querformat, ohne API-Key. art_institute_chicago: Art Institute of Chicago. cleveland_museum_of_art: Cleveland Museum of Art. local_media: eigene JPEG/PNG-Dateien unter frame_gallery/library im HA-Medienordner.'
   landscape_only:
     name: 'Nur Querformat'
     description: 'Wählt ausschließlich Bilder aus, die breiter als hoch sind. Für einen waagerechten Fernseher empfohlen.'

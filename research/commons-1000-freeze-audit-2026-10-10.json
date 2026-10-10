@@ -1,0 +1,42 @@
+{
+  "schema": 1,
+  "recorded_on": "2026-10-10",
+  "scope": "Offline local freeze/runtime consistency; no native or live test",
+  "active": 1000,
+  "held": 56,
+  "reserve": 7,
+  "retained_research": 1063,
+  "input_sha256": {
+    "baseline": "582c6abb664d49cc172d208f7bd701b14677e5b31d79b35e5aa4a48fc68af057",
+    "curation": "977aef8d814ad3926c93a86f81f4432901b66c64a96418d01ab8adea6ed62246",
+    "proposal": "c31f6ebece26c515ebe7b6c1f7e51bc84e5c8f42a3532ec735bdc72614726257",
+    "approval": "63dba0ad4c2dd99e84441035b570be00f38c46b71351cc95d6ffe3d1cf298fc0",
+    "old_colours": "0f3da49220d8831b900bbe9d855c74c95d27db4f001f65f8c3a7822a5d0191f7",
+    "new_colours": "7807042b027012511e48f542020c159e1ca83af32c7c3d9f53b78175b881cc11"
+  },
+  "selection_sha256": "e604488cf6bf2039568a547792734a9f0bc3ddd8b194e5877055d809aea4a331",
+  "full_colours_sha256": "62a04fc3af607393eea20d6454f2acaeb7f873b1e5a09ba88b51eb10224ce8e2",
+  "runtime_catalogue_sha256": "1aca635fdae5e83ef91c22640e188e845defe39c0887f8c328e92ae71c65969e",
+  "runtime_colour_data_sha256": "47bfab552e0094fbd4e379161a4486db96168b00318947473141063d77da35c1",
+  "unchanged_ids_pins_and_full_profile_evidence": true,
+  "actual_runtime_matches": true,
+  "artist_label_count": 560,
+  "colour_matches": {
+    "gray": 453,
+    "black": 439,
+    "blue": 385,
+    "white": 152,
+    "yellow": 656,
+    "red": 101,
+    "green": 321,
+    "beige": 480,
+    "orange": 313,
+    "brown": 785,
+    "pink": 17,
+    "purple": 30
+  },
+  "rights_labels": {
+    "Public domain": 629,
+    "CC0": 371
+  }
+}

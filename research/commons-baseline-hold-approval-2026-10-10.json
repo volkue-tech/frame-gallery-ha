@@ -1,0 +1,237 @@
+{
+  "schema": 1,
+  "recorded_on": "2026-10-10",
+  "authority": "Direct human reply in this chat",
+  "question_item_id": "[\"request_user_input_async\",\"call_057dfcd1b5b4428d867e0a6b5af6ef98\",0]",
+  "question": "Sollen wir die 56 ungeklärten Bestandswerke für das Update vorläufig aus der Zufallsauswahl nehmen und durch neu geprüfte Werke ersetzen? IDs, Quellen und Sendeverlauf bleiben erhalten; auf HA ändere ich jetzt nichts. Es sind bereits genug zusätzliche Werke für 1.000 verfügbar.",
+  "answer": "Ja, vorläufig zurückstellen und ersetzen",
+  "scope": "Local future-runtime selection hold only; retain identities, source evidence and send history. No HA/TV mutation or publication authorized by this reply.",
+  "proposal_sha256": "c31f6ebece26c515ebe7b6c1f7e51bc84e5c8f42a3532ec735bdc72614726257",
+  "baseline_sha256": "582c6abb664d49cc172d208f7bd701b14677e5b31d79b35e5aa4a48fc68af057",
+  "held_pins": [
+    {
+      "id": 118810806,
+      "sha1": "5d0fa0518edf8eaecde5d886aa90084b25d0267b"
+    },
+    {
+      "id": 149657860,
+      "sha1": "6e479a8419f0a9a4cd6ed841aa8c0574415052b8"
+    },
+    {
+      "id": 34254029,
+      "sha1": "1318f99da2201fcc1144be3841577e90c5cf8508"
+    },
+    {
+      "id": 95149294,
+      "sha1": "ff274f2e5956efef5e31faf0d894d814c673ce3a"
+    },
+    {
+      "id": 20264780,
+      "sha1": "cdbe3474820ef7426938a078de3bc9edc374b71e"
+    },
+    {
+      "id": 81307464,
+      "sha1": "2420319c2830155d5bf3fccbb2ea9edad5e72544"
+    },
+    {
+      "id": 81310473,
+      "sha1": "8ff506e4cc2d6e1d574830e9b6386b9923e5a317"
+    },
+    {
+      "id": 114833882,
+      "sha1": "e1c42d3a832623b243fd589fe3b5101aa5217a51"
+    },
+    {
+      "id": 21878879,
+      "sha1": "a69838b0b5ca93948713ee69cce129294302bb64"
+    },
+    {
+      "id": 57673092,
+      "sha1": "f057734d41f401209756809db052303fc5c633d3"
+    },
+    {
+      "id": 27216200,
+      "sha1": "a89b39388e5e23b95e45b98354df28cddcfe9794"
+    },
+    {
+      "id": 44569993,
+      "sha1": "580d468c1779e68c2b578d81d991314f24a8c14a"
+    },
+    {
+      "id": 60909660,
+      "sha1": "fb8821ac7b2a3bc9a474468899c06fb3827c90c8"
+    },
+    {
+      "id": 57672440,
+      "sha1": "3a6d2bc9e60f94cdb54a02e51ba14d47cf94857b"
+    },
+    {
+      "id": 13496330,
+      "sha1": "8ca553c06091897c8233ca06a7dd3c971cbdecdd"
+    },
+    {
+      "id": 25031017,
+      "sha1": "dddbb36b1fc29f044262e32a31f9e4ed114f302b"
+    },
+    {
+      "id": 21276801,
+      "sha1": "e28e7e66fe76fb005c3fc4a357d74659c0b8be49"
+    },
+    {
+      "id": 81302575,
+      "sha1": "dabde4b262242fd616607d7389ed85a61d8c817a"
+    },
+    {
+      "id": 34258147,
+      "sha1": "8e7b2391d370c1d322277233da27a1ac71f67f1e"
+    },
+    {
+      "id": 141281704,
+      "sha1": "ef009f0de668a30071cfa1d4080a43bf701a711c"
+    },
+    {
+      "id": 81309955,
+      "sha1": "a2000fb469fe0b0211d673a9a31aa1878be30f5b"
+    },
+    {
+      "id": 81310326,
+      "sha1": "f10ef0790d8a00e0473d92936f480197f870a490"
+    },
+    {
+      "id": 81310336,
+      "sha1": "9a8618d083ba081754e34e8635196985ce5d01d6"
+    },
+    {
+      "id": 74897839,
+      "sha1": "ff2bfc516d1ed45e345b76c859573994fc230182"
+    },
+    {
+      "id": 64525652,
+      "sha1": "cca659e399684c9ebaa2bee94add89f25b2d0269"
+    },
+    {
+      "id": 21878850,
+      "sha1": "8e96c8f602eb5574b88e0cc10384f502cdf25443"
+    },
+    {
+      "id": 64501070,
+      "sha1": "01e4b81dceade9d0c2ebf1e9b55922c72078acd3"
+    },
+    {
+      "id": 20972263,
+      "sha1": "a679b75537ec8333f19bc155ca1e6f64f9b723d5"
+    },
+    {
+      "id": 76696020,
+      "sha1": "ebbb1c111bff8b612b216bbe21b27eb887786b49"
+    },
+    {
+      "id": 123889433,
+      "sha1": "2b7834c54e1424860b620bf5125622ffc2a1c302"
+    },
+    {
+      "id": 60278301,
+      "sha1": "34998c2fab2d198557fddce9054b90d6cb128379"
+    },
+    {
+      "id": 21956171,
+      "sha1": "fa3ab3b5591dfdf225a2a59fb692445812f582a4"
+    },
+    {
+      "id": 22205181,
+      "sha1": "54ed8f94a62ad27b716d3ccd0d2745357416aa34"
+    },
+    {
+      "id": 73882709,
+      "sha1": "cde54e7c525db8a7d7b88f8e4d956dfb94e62f5d"
+    },
+    {
+      "id": 39680145,
+      "sha1": "41adf1fc261aeed061ff1a10997e67053164e1a3"
+    },
+    {
+      "id": 164784050,
+      "sha1": "7c0292992075f4ca8db1f4685fa75bb7b7182fb1"
+    },
+    {
+      "id": 21880968,
+      "sha1": "1f1ff685126e16ab00cfcdd946ad03a4b69acfcf"
+    },
+    {
+      "id": 45326162,
+      "sha1": "a943f73803d02d95a3fc3c58218cb6be9a87fdb8"
+    },
+    {
+      "id": 41242543,
+      "sha1": "0712b476f6a32e7437e9a95686aca0c770e20cac"
+    },
+    {
+      "id": 29864826,
+      "sha1": "7d0ba80ab82633c3d4c01413afea8b49c315c9d2"
+    },
+    {
+      "id": 130381235,
+      "sha1": "d8cf1f451c4aa6e93e7f3a8bea05faddd3a86548"
+    },
+    {
+      "id": 13502594,
+      "sha1": "0c0f48f670000ed05aa97e387fa89e5355eda36b"
+    },
+    {
+      "id": 141802237,
+      "sha1": "048980a6db4ebbbd4cd063c4a65b2a7d19d3dd6a"
+    },
+    {
+      "id": 83488675,
+      "sha1": "8a6f97145b6e8a3a26dfc89b6f5a2c895ed5b913"
+    },
+    {
+      "id": 5702693,
+      "sha1": "0aff71828ca489df569dcdbd22014e3fa45b059d"
+    },
+    {
+      "id": 34249308,
+      "sha1": "95cf2a6773c9debfbedc204618ffcb6aa4f25d71"
+    },
+    {
+      "id": 56403724,
+      "sha1": "61ab52e37855cb66097028f3b0b54258b6e894e7"
+    },
+    {
+      "id": 38742234,
+      "sha1": "235fcb098716401194ef5cacb806ea37b7939ff9"
+    },
+    {
+      "id": 22080926,
+      "sha1": "34c4783fd2ae9116d257a5d546f5560d83cfed6c"
+    },
+    {
+      "id": 99178392,
+      "sha1": "6802cc037e831651dd3ca3e9c16747eeb77d5e97"
+    },
+    {
+      "id": 17486199,
+      "sha1": "4652aef061e7903861399448724c500032192a68"
+    },
+    {
+      "id": 23600762,
+      "sha1": "7c100fde79adb9a5632c530b4acd82d8c1462616"
+    },
+    {
+      "id": 56396968,
+      "sha1": "a7fdd29b245c7f335c1030bda26e64da2c0f2d33"
+    },
+    {
+      "id": 145712376,
+      "sha1": "3600f45b211cbefede4b88694763db6476709c1c"
+    },
+    {
+      "id": 81323136,
+      "sha1": "78b4765fd4e217993e894eef9318fc240374c6ee"
+    },
+    {
+      "id": 22213382,
+      "sha1": "05085ac79d0d54485e3eeae0da5d26aebaacae6a"
+    }
+  ]
+}

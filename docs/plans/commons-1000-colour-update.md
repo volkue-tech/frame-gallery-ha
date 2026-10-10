@@ -4,6 +4,29 @@ Stand: 10. Oktober 2026. Arbeitsumfang für das Wochenende am 10. und 11. Oktobe
 
 ## Ausgangspunkt und Fortschritt
 
+**Aktueller Abschlussstand der lokalen Auswahl (10. Oktober):** Mit Alexanders
+ausdrücklicher Freigabe sind die 56 ungeklärten Bestandsfälle vorläufig aus der
+zukünftigen Zufallsauswahl genommen und ersetzt. Der lokale Runtime-Katalog
+enthält genau **1000 aktive Werke: 344 Bestand + 656 Neuzugänge**. Sieben weitere
+geprüfte Neuzugänge bleiben Reserve. Alle 1063 ursprünglichen Rechercheprofile,
+400 Bestandsidentitäten und Quellenbelege bleiben erhalten; kein Sendeverlauf
+wird zurückgesetzt. Die Vorschau zeigt aktive Werke, zurückgestellte Fälle und
+Reserven getrennt. Die Bestandsfragen gelten nicht plötzlich als bewiesener Crop.
+
+Die zusätzliche Scope-Freigabe umfasst die **vollständige native Dashboardkarte
+mit optionalem Farbwähler** und eine Prüfung weiterer Selektoren anhand der
+vorhandenen Daten. Beides steht in der [neuen Anleitung](commons-colour-user-guide-draft.md).
+Die Karte kennzeichnet Farbe als Commons-only, benötigt keine Dashboard-Erweiterung
+und verwendet das vorhandene Script und den Timer. Die anderen Bildquellen
+bleiben erhalten; inkompatible Filter werden ausdrücklich als ignoriert gemeldet.
+Eine künftige Karten-Quellenauswahl müsste die irrelevanten Selektoren ausblenden.
+Künstler und spätere Farbkombinationen sind die stärksten nächsten Kandidaten;
+Epoche, Motiv und Sammlung brauchen zunächst vollständigere Metadaten.
+
+Die folgenden Zwischenstände dokumentieren die **Recherchehistorie vor dieser
+Freigabe**, nicht den aktuellen Runtime-Umfang. Die öffentliche Beta b5 bleibt
+bei 400 Werken; native Veröffentlichung und Green-/TV-Test brauchen separate Freigaben.
+
 **Freigabe vom 10. Oktober:** Zusätzlich dürfen CC BY und CC BY-SA recherchiert
 werden. Urheber, Titel, Quelle, genaue Lizenz samt Link und Versionsnummer sowie
 Hinweise zu Änderungen werden getrennt gesammelt. Rechte am Kunstwerk selbst
@@ -23,9 +46,13 @@ Der Bestand ist `frame_gallery/research/commons-400-selection-2026-10-06.json`. 
 - [x] Vollständige Repository-Pflichtlektüre und anschließender technischer Änderungsentwurf.
 - [x] Farbprofil-Pilot mit visuellem Abgleich.
 - [x] Mindestens 600 zusätzliche Werke recherchiert und geprüft.
-- [ ] Farbprofile und lokale Vorschau für alle 1000 Werke vollständig.
-- [x] Farbauswahl lokal am 400-Werke-Bestand umgesetzt und getestet.
-- [ ] Dokumentation und Releasekandidat geprüft.
+- [x] Farbprofile und lokale Vorschau für alle 1000 Werke vollständig.
+- [x] Farbauswahl lokal umgesetzt; auf 1000 Werke erweitert.
+- [x] Vollständige optionale Dashboardkarte mit Farbwähler dokumentiert.
+- [x] Weitere mögliche Selektoren und Grenzen nach tatsächlicher Datenlage bewertet.
+- [x] Lokale Dokumentation, Katalog und Farbauswahl geprüft (5.027 Tests,
+  105 Recherchetests; 100 % Line-/Branch-Coverage).
+- [ ] Native Release-Images nach gesonderter Freigabe prüfen.
 - [ ] Veröffentlichung gesondert freigegeben und abgeschlossen.
 - [ ] Green-Update und TV-Test gesondert freigegeben und durchgeführt.
 
@@ -181,6 +208,13 @@ Zuschreibungsqualifikationen bleiben erhalten. 59 Offline-Recherchetests bestehe
 
 ## Umfang dieses Updates
 
+Der oben dokumentierte aktuelle Freeze und D-215/D-216 haben Vorrang vor den
+folgenden historischen Recherchezwischenständen. Der vorbereitete
+[Info-Text](commons-next-info.md) und die vollständige
+[Farbkarten-Anleitung](commons-colour-user-guide-draft.md) werden erst nach
+Freigabe der neuen Version in die öffentliche Anleitung übernommen. Aktuelle
+b5-Releasebelege werden nicht mit neuen, noch nicht durchgeführten Tests vermischt.
+
 Die nächste Zweitsichtung nimmt weitere vollständige Gemälde, Grafik und
 architektonische Zeichnungen auf, darunter Nevinsons „Harvest of Battle“,
 Shinsais vollständigen Surimono-Druck, Breitner/Maris und Rummells Princeton.
@@ -204,7 +238,12 @@ ist deshalb nicht als abgeschlossene Commons-Recherche oder 1000er-Katalog marki
 
 ### 1000 tatsächlich unterschiedliche Werke
 
-Die bestehenden 400 Werke bleiben mit ihren IDs und Upload-Pins erhalten. Hinzu kommen 600 unterschiedliche Werke, nicht 600 alternative Scans oder Ausschnitte bestehender Bilder. Der gespeicherte Verlauf bleibt kompatibel; ein Update macht gesendete Bilder nicht erneut auswählbar.
+Die bestehenden 400 Werke bleiben mit ihren IDs und Upload-Pins im Archiv erhalten.
+Gemäß der ausdrücklichen Freigabe zählen künftig 344 davon zur aktiven Auswahl;
+56 bleiben vorläufig zurückgestellt. 656 unterschiedliche Neuzugänge ergänzen
+auf 1000 aktive Werke, sieben weitere bleiben Reserve. Alternative Scans oder
+Ausschnitte bestehender Bilder zählen nicht als neue Werke. Der gespeicherte
+Verlauf bleibt kompatibel; ein Update macht gesendete Bilder nicht erneut auswählbar.
 
 Für neue Werke gelten die bisherigen Grenzen: JPEG, mindestens 3000 Pixel breit, maximal 2,5 Prozent relative Abweichung von 16:9, geeignete vollständige Reproduktion und nachvollziehbare Rechte innerhalb der bestehenden Auswahlregeln. Farbigkeit, modernere Wirkung und eine breite Auswahl bleiben kuratorische Prioritäten. Die Sammlung wird nicht mit dunklen Wiederholungen eines einzigen Motivs oder ungeeigneten Bildern aufgefüllt, nur um 1000 zu erreichen.
 

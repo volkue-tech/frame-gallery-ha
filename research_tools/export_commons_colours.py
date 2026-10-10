@@ -7,12 +7,23 @@ import json
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
-SOURCE = ROOT / "frame_gallery/research/commons-colour-profiles-2026-10-09.json"
+SOURCE = ROOT / "frame_gallery/research/commons-1000-colours-2026-10-10.json"
+SELECTION = ROOT / "frame_gallery/research/commons-1000-selection-2026-10-10.json"
 DESTINATION = ROOT / "frame_gallery/src/frame_gallery/providers/commons_colour_data.py"
 
 
 def render() -> str:
     document = json.loads(SOURCE.read_text())
+    selection = json.loads(SELECTION.read_text())
+    expected = {w["id"]: w["sha1"] for w in selection["included"]}
+    observed = {p["id"]: p["original_sha1"] for p in document["profiles"]}
+    if (
+        document["selection_sha256"] != hashlib.sha256(SELECTION.read_bytes()).hexdigest()
+        or len(expected) != 1000
+        or len(document["profiles"]) != 1000
+        or observed != expected
+    ):
+        raise ValueError("active colour profile identity/pin/selection changed")
     rows = []
     for profile in sorted(document["profiles"], key=lambda p: p["id"]):
         keys = tuple("color_" + value for value in profile["search_colours"])

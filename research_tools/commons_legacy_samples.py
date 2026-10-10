@@ -21,8 +21,7 @@ SAMPLES = (
         21878879,
         0,
         "Quelle: w1892 × h1092 cm",
-        "Die Einheit ist auffällig; Verhältnis unverändert. "
-        "Keine korrigierten Maße erfunden.",
+        "Die Einheit ist auffällig; Verhältnis unverändert. Keine korrigierten Maße erfunden.",
     ),
     (
         60909660,
@@ -34,8 +33,7 @@ SAMPLES = (
         81309955,
         2,
         "Bildträger: 21,9 × 12,7 cm",
-        "Hier sind die Bildträgermaße gemeint, "
-        "nicht der ebenfalls genannte Holzkragen.",
+        "Hier sind die Bildträgermaße gemeint, nicht der ebenfalls genannte Holzkragen.",
     ),
     (
         118810806,
@@ -53,8 +51,7 @@ SAMPLES = (
         38742234,
         0,
         "Maßangabe: 248 × 147 cm",
-        "Deutlichere Abweichung; kein direkter Vergleich "
-        "mit einem Museumoriginal erfolgt.",
+        "Deutlichere Abweichung; kein direkter Vergleich mit einem Museumoriginal erfolgt.",
     ),
     (
         29864826,
@@ -74,10 +71,7 @@ def render() -> None:
     for number, (page_id, measure_index, label, note) in enumerate(SAMPLES, 1):
         row = records[page_id]
         thumbnail = OUTPUT / f"{page_id}.jpg"
-        if (
-            hashlib.sha256(thumbnail.read_bytes()).hexdigest()
-            != row["thumbnail_sha256"]
-        ):
+        if hashlib.sha256(thumbnail.read_bytes()).hexdigest() != row["thumbnail_sha256"]:
             raise ValueError("sample thumbnail differs from retained review")
         work = row["retained_catalogue_entry"]
         file_ratio = work["width"] / work["height"]
@@ -153,7 +147,10 @@ def render() -> None:
         "unterschiedlichen "
         "Messumfängen, Reproduktionsrändern oder Verzerrung entstehen. Diese Vorschau "
         "beweist weder einen Crop noch dessen Ursache. Ich habe keinen dieser Einträge "
-        "aus deiner App entfernt oder umgepinnt. Die Entscheidung steht noch aus.</div>"
+        "aus deiner installierten App entfernt oder umgepinnt. "
+        "Mit deiner ausdrücklichen Freigabe vom 10. Oktober werden diese 56 Fälle "
+        "im lokalen Update-Katalog vorläufig zurückgestellt und ersetzt; "
+        "IDs, Quellen und Sendeverlauf bleiben erhalten.</div>"
         '</header><main class="grid">' + "".join(cards) + "</main>"
         "<footer>Zur Einordnung: 16:9 = 1,778:1. Mit ±2,5 % liegt das Band bei "
         "ungefähr 1,733–1,822:1. Der Prozentwert bezieht sich auf den Unterschied "
@@ -176,8 +173,7 @@ def render() -> None:
         json.dumps(
             dict(
                 schema=1,
-                purpose="Ten explicit examples for user decision; "
-                "no selection mutation",
+                purpose="Ten explicit examples for user decision; no selection mutation",
                 source_receipt_sha256=hashlib.sha256(receipt_bytes).hexdigest(),
                 html_sha256=hashlib.sha256(markup.encode()).hexdigest(),
                 samples=samples,
@@ -186,9 +182,7 @@ def render() -> None:
         )
         + "\n"
     )
-    print(
-        json.dumps(dict(samples=len(samples), html=str(OUTPUT / "legacy-samples.html")))
-    )
+    print(json.dumps(dict(samples=len(samples), html=str(OUTPUT / "legacy-samples.html"))))
 
 
 if __name__ == "__main__":

@@ -1,6 +1,72 @@
 # Project status
 
-Last updated: 2026-10-10 (1063 nominal local entries; legacy review remains open)
+Last updated: 2026-10-10 (1000 active local works; D-215/D-216)
+
+## Current milestone — local 1000-work candidate prepared
+
+The human explicitly approved temporarily holding and replacing the exact 56
+unresolved baseline cases after viewing ten examples. The separate approval
+receipt binds the proposal hash, baseline hash and unchanged identity/upload
+pins. This does not prove cropping, rewrite source evidence, reset send history,
+authorize publication or change the installed HA app.
+
+**Active local runtime: 1000 = 344 retained baseline + 656 additions.** The
+historical 400 manifest remains byte-identical; all 663 accepted additions and
+1063 full profiles remain available. Seven actually reviewed additions are a
+separate curatorial reserve. The generated runtime catalogue/colour labels omit
+the held 56 and reserve 7 without changing any `commons:{page_id}` identity.
+All active sources meet the 3000px width and 2.5% ratio selection gates and the
+existing PD/CC0 policy. 566 fall within the unchanged stricter approximately 1%
+preference. Rights/source rechecking at run time remains mandatory; no guarantee
+of worldwide legal clearance or work-by-work physical TV testing is claimed.
+
+The preview `http://127.0.0.1:8881/gallery.html` defaults to exactly 1000 active
+works. Browser checks observed 1000 active, 56 held, 7 reserve, and 385 blue
+matches with zero wrong-colour/status inclusions. The source/full-palette audit
+recomputed all 1063 profiles; every active profile matches its upload pin.
+Screenshot: `build/commons-1000-research/gallery-1000-active-browser-2026-10-10.png`
+(blue proof beside it). All thumbnails, raw research and earlier sample receipts
+remain retained locally; none is added to the runtime image.
+
+The local app has one readable colour field after source, default `any`.
+Commons-only capability, helper precedence, exclusions, fixed request budgets,
+shape-only fallback and no-match retention remain tested. Other providers remain
+available; unsupported colour is recorded as ignored. No new provider, IP-Detect,
+multi-colour UI or configuration.yaml edit was introduced.
+
+Alexander additionally requested the complete documented card with a colour
+picker and assessment of further selectors. D-216 adds the native optional
+Dropdown helper/card, reusing the existing camera/script/timer and explicitly
+labelling colour as Commons-only. The guide and standalone YAML match exactly.
+No source picker or additional dashboard extension was added. A later source
+picker must hide irrelevant filters, not infer the source from the preview.
+The guide assesses artist search (560 labels), combinations, lightness and
+incomplete year/motif/museum metadata (299 retained work Q-IDs); no extra filters
+were implemented. Draft user guide and next Info text are under `docs/plans/`.
+Public b5 documentation/version remain unchanged until a new release is approved.
+
+**Observed final production gates:** Ruff passed, strict mypy passed on host and
+Linux configurations (252 files); **5027 passed / 11 unchanged Linux/root-only
+skips**. Whole-package **100%** coverage: **9440 statements / 2056 branches**;
+mandatory-package gate **7748 / 1712**, also 100%. Terminal completion exit 0.
+Evidence: `build/commons-1000-research/local-quality-gates-2026-10-10-1000-final.log`.
+The **105 offline research tests** pass; changed research tools pass isolated
+E/F/I lint at the project's 100-character line length. The frozen input/full-
+profile/actual-runtime comparison passes and is retained at
+`research/commons-1000-freeze-audit-2026-10-10.json` (629 PD / 371 CC0 records).
+The first freeze run found one incorrect historical test assumption: captions
+were compared against an unshortened title. It now checks the existing 100-char
+field contract; production caption behavior was not changed. The earlier failing
+log remains retained, not presented as a pass.
+
+Remaining gate: separately authorize native builds/publication and later Green/
+TV validation. No credentials were loaded and no external system was contacted
+during this offline freeze. Unrelated `docs/community/` remains untouched.
+
+## Historical checkpoints before D-215/D-216
+
+The entries below retain earlier research states, pending questions and observed
+counts. They are superseded by the current milestone above, not current blockers.
 
 ## Next Commons update scoped — 2026-10-09
 

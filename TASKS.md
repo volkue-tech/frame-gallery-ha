@@ -39,36 +39,47 @@ artwork, not merely the photo. Existing runtime PD/CC0 and format gates remain u
   second-view review. All 5432 checkpoint previews screened,
   all 400 baseline upload pins checked and 307 scoped artwork QIDs retained. Candidate
   counts and temporary network deferrals are not accepted-work counts.*
-- [ ] Complete source-bound colour profiles and a reviewable preview for all
+- [x] Complete source-bound colour profiles and a reviewable preview for all
   1000 accepted works; preserve baseline IDs/pins and deferred research.
-  *The private preview contains 1063 nominal entries, including the 663 unpublished
-  additions with complete provisional palettes/distributions/top groups. Runtime
-  still has 400; the final accepted selection/export remains pending the explicit
-  baseline decision. Profiles exist for every provisional entry.*
-- [ ] Resolve the 56 remaining baseline physical-measurement scope prompts before claiming
+  *D-215: exactly 1000 active entries (344 baseline + 656 additions), all with
+  source-bound full palettes/distributions/top groups and compact runtime labels.
+  Preview defaults to these 1000; held 56 and reserve 7 are separately filterable.
+  All 1063 research profiles and the historical 400 manifest are retained.*
+- [x] Resolve the selection treatment of the 56 remaining baseline physical-measurement scope prompts before claiming
   1000 genuinely usable complete works. Do not silently repin/remove a baseline
   work or treat an automatic prompt as an established crop.
   *All 400 source revisions/upload pins checked offline; 239 have parsed
   measurements. Four of 60 prompts were individually resolved: three explicitly
   separate frame dimensions and one exact 2.5% boundary artefact, after actual source/preview review; no baseline
   pin or file was changed. Exact source-bound decisions are retained in research.*
-  *User requested ten examples before deciding on the proposed hold. They are
-  browser-verified at /legacy-samples.html; no hold/removal is authorized yet.
-  Excluding unresolved prompts from the research count gives 1007, so no further
-  acceptances are numerically necessary to reach 1000. This does not authorize
-  a hold/removal, change the runtime selection or close the final quality gate.*
+  *User reviewed ten examples and explicitly approved temporary local selection
+  holds and replacement on 2026-10-10. The exact approval, proposal hash and 56
+  identity/pin pairs are retained. No prompt is relabelled a proven crop; no
+  baseline source, pin or history entry is removed. Seven accepted additions
+  stay reserve; the frozen active runtime data contain exactly 1000.*
 - [x] Implement the single Commons colour option, default any, with bounded
   selection, history compatibility and no silent colour fallback.
-  *Local 400-work draft: readable names, one basic field, source-pinned offline
+  *Local 1000-work candidate: readable names, one basic field, source-pinned offline
   prefilter and vocabulary v2. Static/helper production wiring and shape-only
-  fallback/no-match preservation tested. Not a 1000-work or released update.*
+  fallback/no-match preservation tested. Not released or installed.*
+- [x] Add the requested complete native dashboard card with an optional colour
+  dropdown helper, source-specific instructions and existing script/timer reuse.
+  *D-216: guide/example identity tests; no new extension or mandatory helper.
+  Card explicitly labels colour as Commons-only. Existing sources stay available;
+  unsupported colour is reported rather than silently claimed to apply.*
+- [x] Assess further selectors against actual available metadata, without
+  implementing unapproved filters or removing existing providers.
+  *560 artist labels across 1000 works; only 299 records have a retained work
+  Q-ID. Artist search and future colour combinations are the strongest next
+  candidates; period/motif/museum need normalized metadata first. See draft guide.*
 - [x] Test and document the local draft's upgrade/no-match/unsupported-source behaviour and run
   the unchanged quality gates; record observed results in STATUS.
-  *5,020 passed, eleven platform skips, strict mypy for Mac/Linux, 100% line/branch
-  coverage; 99 current offline research tests. Full-palette recomputation and
-  source-pin audit pass for all 1063 provisional profiles. Draft guide is local,
-  published b5 unchanged.
-  Repeat catalogue-specific checks after the genuine 1000-work freeze.*
+  *Final 1000-work gates: 5,027 passed, eleven platform skips, strict mypy for
+  Mac/Linux (252 files), 100% line/branch coverage; 105 offline research tests.
+  Full-palette recomputation passes for all 1063 research profiles; actual frozen
+  runtime matches its 1000-work source/profile manifests. Browser observed
+  1000/56/7 separate sets and 385 active blue matches. Draft guide and next Info
+  text are local; published b5 unchanged. Native/release/live checks remain gated.*
 - [ ] Obtain separate approval for native release builds/publication and
   separately for a Green update/TV test; do not infer either from local work.
 

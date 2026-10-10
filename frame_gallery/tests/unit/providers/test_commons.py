@@ -22,7 +22,7 @@ from frame_gallery.net.gateway import Gateway
 from frame_gallery.net.identity import commons_identity
 from frame_gallery.net.policy import HostPolicy
 from frame_gallery.providers.commons import CommonsProvider, commons_policy
-from frame_gallery.providers.commons_catalog import CATALOG
+from frame_gallery.providers.commons_catalog import CATALOG, CuratedWork
 from frame_gallery.providers.contract import (
     Candidate,
     DiscoveryContext,
@@ -81,15 +81,19 @@ class Rig:
         return list(self.provider.iter_candidates(filters(), self.context()))
 
 
-def test_curated_manifest_is_pinned_widescreen_and_matches_retained_research() -> None:
-    assert len(CATALOG) == len({work.page_id for work in CATALOG}) == 400
-    assert len({work.sha1 for work in CATALOG}) == 400
-    assert len({(work.title.casefold(), work.artist.casefold()) for work in CATALOG}) == 400
-    assert len({work.artist for work in CATALOG}) == 299
+def test_historical_400_manifest_remains_pinned_and_retained() -> None:
     root = Path(__file__).resolve().parents[3]
     baseline_path = root / "research/commons-wide-selection-2026-10-06.json"
     baseline = json.loads(baseline_path.read_text())
     manifest = json.loads((root / "research/commons-400-selection-2026-10-06.json").read_text())
+    old_catalog = tuple(
+        CuratedWork(row["id"], row["file_title"], row["sha1"], row["title"], row["artist"])
+        for row in manifest["included"]
+    )
+    assert len(old_catalog) == len({work.page_id for work in old_catalog}) == 400
+    assert len({work.sha1 for work in old_catalog}) == 400
+    assert len({(work.title.casefold(), work.artist.casefold()) for work in old_catalog}) == 400
+    assert len({work.artist for work in old_catalog}) == 299
     assert (
         manifest["baseline_manifest_sha256"]
         == hashlib.sha256(baseline_path.read_bytes()).hexdigest()
@@ -115,14 +119,16 @@ def test_curated_manifest_is_pinned_widescreen_and_matches_retained_research() -
         assert re.fullmatch("[0-9a-f]{64}", row["source_page_sha256"])
         assert row["rights_label_observed"] in {"Public domain", "CC0"}
         assert not row["physical_check"]["dimension_review"]
-    assert [work.page_id for work in CATALOG] == [row["id"] for row in rows]
-    assert {row["id"] for row in baseline["deferred"]}.isdisjoint(work.page_id for work in CATALOG)
-    assert set(manifest["visually_reviewed_reserve_ids"]).isdisjoint(
-        work.page_id for work in CATALOG
+    assert [work.page_id for work in old_catalog] == [row["id"] for row in rows]
+    assert {row["id"] for row in baseline["deferred"]}.isdisjoint(
+        work.page_id for work in old_catalog
     )
-    assert 98722784 not in {work.page_id for work in CATALOG}
-    assert 3817033 in {work.page_id for work in CATALOG}
-    for work, row in zip(CATALOG, rows, strict=True):
+    assert set(manifest["visually_reviewed_reserve_ids"]).isdisjoint(
+        work.page_id for work in old_catalog
+    )
+    assert 98722784 not in {work.page_id for work in old_catalog}
+    assert 3817033 in {work.page_id for work in old_catalog}
+    for work, row in zip(old_catalog, rows, strict=True):
         assert (work.file_title, work.sha1, work.title, work.artist) == (
             row["file_title"],
             row["sha1"],
@@ -139,12 +145,48 @@ def test_curated_manifest_is_pinned_widescreen_and_matches_retained_research() -
         == manifest["within_app_strict_ratio"]
         == 152
     )
-    for work in CATALOG:
+    for work in old_catalog:
         assert work.page_id > 0
         assert work.file_title.startswith("File:")
         assert re.fullmatch("[0-9a-f]{40}", work.sha1)
         assert work.title
         assert work.artist
+
+
+def test_1000_runtime_matches_approved_partition_without_rekeying_history() -> None:
+    root = Path(__file__).resolve().parents[3]
+    path = root / "research/commons-1000-selection-2026-10-10.json"
+    manifest = json.loads(path.read_text())
+    rows = manifest["included"]
+    baseline_path = root / "research/commons-400-selection-2026-10-06.json"
+    baseline = json.loads(baseline_path.read_text())["included"]
+    assert (
+        manifest["input_sha256"]["baseline"]
+        == hashlib.sha256(baseline_path.read_bytes()).hexdigest()
+    )
+    assert len(CATALOG) == len(rows) == len({w.page_id for w in CATALOG}) == 1000
+    assert len({w.sha1 for w in CATALOG}) == 1000
+    assert len({(w.title.casefold(), w.artist.casefold()) for w in CATALOG}) == 1000
+    held = set(manifest["held_ids"])
+    reserves = {w["id"] for w in manifest["reserve"]}
+    active = {w.page_id for w in CATALOG}
+    assert len(held) == 56
+    assert len(reserves) == 7
+    assert active.isdisjoint(held | reserves)
+    assert rows[:344] == [w for w in baseline if w["id"] not in held]
+    assert {w["id"] for w in baseline} == {w["id"] for w in rows[:344]} | held
+    assert manifest["added_count"] == 656
+    for work, row in zip(CATALOG, rows, strict=True):
+        assert (work.page_id, work.file_title, work.sha1, work.title, work.artist) == (
+            row["id"],
+            row["file_title"],
+            row["sha1"],
+            row["title"],
+            row["artist"],
+        )
+        assert row["width"] >= 3000
+        assert abs(row["width"] * 9 - row["height"] * 16) * 40 <= row["height"] * 16
+        assert row["rights_label_observed"] in {"Public domain", "CC0"}
 
 
 def test_identity_policy_caption_and_lazy_paced_batched_discovery() -> None:
@@ -402,7 +444,7 @@ def large_catalog(rig: Rig, count: int) -> None:
     rig.site.records = {work.page_id: record(work) for work in catalog}
 
 
-@pytest.mark.parametrize("count", [200, 400])
+@pytest.mark.parametrize("count", [200, 400, 1000])
 def test_large_catalog_has_ten_request_cap_not_an_unbounded_full_scan(count: int) -> None:
     rig = Rig()
     large_catalog(rig, count)
@@ -413,7 +455,7 @@ def test_large_catalog_has_ten_request_cap_not_an_unbounded_full_scan(count: int
     assert rig.clock.monotonic() - started < 30
 
 
-@pytest.mark.parametrize("count", [200, 400])
+@pytest.mark.parametrize("count", [200, 400, 1000])
 def test_large_catalog_last_unsent_work_is_found_without_requerying_sent_works(count: int) -> None:
     rig = Rig()
     large_catalog(rig, count)
@@ -424,7 +466,7 @@ def test_large_catalog_last_unsent_work_is_found_without_requerying_sent_works(c
     assert ctx.notes.pages_skipped == count // 5 - 1
 
 
-@pytest.mark.parametrize("count", [200, 400])
+@pytest.mark.parametrize("count", [200, 400, 1000])
 def test_large_catalog_exhaustion_is_request_free_and_does_not_recycle(count: int) -> None:
     rig = Rig()
     large_catalog(rig, count)
@@ -434,7 +476,7 @@ def test_large_catalog_exhaustion_is_request_free_and_does_not_recycle(count: in
     assert not rig.transport.calls
 
 
-@pytest.mark.parametrize("count", [200, 400])
+@pytest.mark.parametrize("count", [200, 400, 1000])
 def test_large_catalog_rejected_rights_stops_at_the_same_request_limit(count: int) -> None:
     rig = Rig()
     large_catalog(rig, count)

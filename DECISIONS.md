@@ -1,5 +1,59 @@
 # Decision log
 
+## Local 1000-work freeze and dashboard scope (2026-10-10)
+
+### D-215 — approved temporary baseline holds, exact 1000 active works
+
+Status: accepted by the human for local update preparation, not publication.
+After reviewing the ten examples, Alexander explicitly answered **“Ja,
+vorläufig zurückstellen und ersetzen”** to the exact 56-case hold/replacement
+question. The separate approval receipt binds the original proposal and baseline
+SHA256 plus all 56 unchanged identity/upload pins. The original proposal is not
+rewritten into evidence of authority. Measurement disagreement is not proof of
+cropping. No installed HA app or television is changed.
+
+The active local catalogue is **344 baseline + 656 additions = 1000**. Seven
+actually viewed, accepted additions remain curatorial reserves; they are not
+rights failures. The historical 400 manifest, all 663 accepted additions,
+deferred evidence, 1063 full colour profiles and all source pins remain retained.
+No permanent `commons:{page_id}` history identity is changed, migrated or reset.
+Held records do not enter future random selection, but their send history stays.
+The runtime ships metadata and compact pinned colour labels, never preview
+JPEGs or complete RGB palettes. Current-rights/pin validation at download time,
+the ten metadata-request bound, no-match handling and strict-ratio rule remain.
+
+The offline freezer refuses an altered approval/proposal/baseline binding,
+scope change, missing reserve, duplicate ID/upload/title-artist, missing or
+inconsistent colour evidence, reduced source-width/ratio gate, or non-PD/CC0
+admission. Full palettes are recomputed against original/source/preview pins.
+The preview starts with the 1000 active works and offers separate held/reserve
+views. Historical source discrepancies stay unresolved, not silently corrected.
+Reproduction rights are based on the retained Commons declarations and source
+review, not a new independent legal opinion or guarantee for every jurisdiction.
+
+### D-216 — optional Commons colour card; retain other sources
+
+Status: accepted local scope addition from Alexander, 2026-10-10.
+The documented card includes a native Dropdown helper (`input_select`), the
+existing preview, script and timer. It is a complete copy-and-paste block; no
+custom dashboard extension, new script, configuration.yaml edit or compulsory
+helper is introduced. Changing the dropdown applies at the next manual start,
+not through a new automatic trigger. Its explicit label is **Commons-only**.
+
+Commons supports colour; Chicago/Cleveland/local media do not. The existing
+capability matrix discards unsupported colour and records the ignored filter.
+Other providers stay installed/available; the user's conditional suggestion to
+remove them is not an instruction to delete them. This card offers no source
+picker. A later source-picker variant must conditionally hide irrelevant
+selectors using the configured source/helper, not the last displayed image.
+
+Further-selector assessment belongs to this update's documentation, not extra
+runtime implementation: artist search and colour combinations have the strongest
+retained data; normalized period, medium/motif and museum metadata are incomplete.
+The 1000 active records have 560 artist labels; 299 have a retained work Q-ID.
+Full RGB palettes permit later lightness features but need visual calibration.
+Future selectors need explicit scope and source-capability handling.
+
 ## Commons colour research and 1000-work scope (2026-10-09)
 
 ### D-214 — broader artistic curation without a silent licence expansion

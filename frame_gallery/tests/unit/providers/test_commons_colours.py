@@ -18,11 +18,11 @@ from tests.support.commons import TEST_CATALOG
 from tests.unit.providers.test_commons import Rig, filters
 
 
-def test_compact_profiles_match_full_research_and_all_baseline_pins() -> None:
+def test_compact_profiles_match_full_1000_research_and_active_pins() -> None:
     root = Path(__file__).resolve().parents[3]
-    document = json.loads((root / "research/commons-colour-profiles-2026-10-09.json").read_text())
+    document = json.loads((root / "research/commons-1000-colours-2026-10-10.json").read_text())
     research = {p["id"]: p for p in document["profiles"]}
-    assert len(research) == len(COLOUR_PROFILES) == len(CATALOG) == 400
+    assert len(research) == len(COLOUR_PROFILES) == len(CATALOG) == 1000
     offered = {e.key for e in BUILTIN_VOCABULARY.entries_for(FilterField.COLOR)}
     for work in CATALOG:
         pin, colours = COLOUR_PROFILES[work.page_id]
