@@ -21,9 +21,19 @@ Mac/Linux (252 files), 5031 tests passed / eleven platform skips, whole-package
 100% coverage (9440 statements / 2056 branches) and mandatory-package 100%
 (7748 / 1712). Observed exit 0; log:
 build/commons-1000-release/check-bilingual-colour-docs-final.log. The first gate
-stopped on import ordering; it was corrected before this passing run. Personal
-Store-main push/readback is still pending. The signed b6 runtime/source release are not rebuilt or
-overwritten; HA, Green, TV and configuration.yaml remain untouched.
+stopped on import ordering; it was corrected before this passing run. The final
+pre-commit gate also passed with the same counts and observed exit 0
+(check-bilingual-colour-docs-commit.log).
+
+The personal credential session verified volkue-tech; the documentation commit
+ff67f1164b1b488038db747902c9da67ccfc8138 fast-forwarded public Store main.
+Authenticated exact-ref readback and an independent anonymous comparison of all
+changed files passed. Both public guides have reciprocal language links and
+match the reviewed local bytes. The public b6 app release, runtime target and
+corresponding source asset are unchanged. Receipt:
+build/commons-1000-release/bilingual-public-readback-ff67f11.json.
+This final status/task closure is documentation-only. HA, Green, TV and
+configuration.yaml remain untouched; no new image/version is introduced.
 
 ## Current release phase — b6 published, Store handoff complete
 

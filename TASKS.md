@@ -11,8 +11,11 @@
   English/German maintenance choice without copying third-party guide text.
 - [x] Complete unchanged quality gates: 5031 passed, eleven platform skips,
   strict mypy (252 files) and 100% line/branch coverage.
-- [ ] Publish the user-authorized documentation-only follow-up to personal
+- [x] Publish the user-authorized documentation-only follow-up to personal
   Store main, with exact readback.
+  *ff67f11 pushed to main; authenticated exact-ref and anonymous byte-for-byte
+  readback passed for all changed files and both reciprocal language links.
+  Existing b6 runtime and corresponding source asset remain unchanged.*
   No new beta image, app version, HA update or TV test is included.
 
 ## 1000 Commons works and single-colour selection (user request, 2026-10-09)
