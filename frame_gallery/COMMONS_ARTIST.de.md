@@ -1,8 +1,8 @@
-# Künstlerauswahl — noch unveröffentlichter Update-Kandidat
+# Künstlerauswahl — ab Beta 0.1.0b7
 
 [English](COMMONS_ARTIST.md) | **Deutsch** | [Français](COMMONS_ARTIST.fr.md) | [Español](COMMONS_ARTIST.es.md) | [Italiano](COMMONS_ARTIST.it.md)
 
-In der öffentlichen 0.1.0b6 noch nicht verfügbar. Dort keine Künstleroptionen einrichten. Der Kandidat ergänzt einen optionalen Künstlerwunsch für Commons. Kein neuer Pflicht-Helfer und kein Kartenaustausch: Die Standardkarte bleibt nutzbar. Andere Quellen melden den Wunsch als nicht unterstützt.
+Benötigt 0.1.0b7 oder neuer; unter 0.1.0b6 keine Künstleroptionen einrichten. Wähle optional einen Künstlerwunsch für Commons. Kein neuer Pflicht-Helfer und kein Kartenaustausch: Die Standardkarte bleibt nutzbar. Andere Quellen melden den Wunsch als nicht unterstützt.
 
 Ohne Dashboard-Auswahl: Nicht verwendete optionale Optionen in Frame Gallery → Konfiguration einblenden. Bei **Künstlerwunsch (Commons, optional)** (`artist`) einen vollständigen angebotenen Namen aus der [Auswahlliste](ARTIST_CHOICES.md) eintragen, z. B. `Wassily Kandinsky`. Leer oder `All artists` bedeutet ohne Einschränkung. Speichern und die App wie gewohnt starten.
 

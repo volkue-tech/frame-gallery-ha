@@ -1,8 +1,8 @@
-# Sélection d'artiste — mise à jour candidate non publiée
+# Sélection d'artiste — à partir de la bêta 0.1.0b7
 
 [English](COMMONS_ARTIST.md) | [Deutsch](COMMONS_ARTIST.de.md) | **Français** | [Español](COMMONS_ARTIST.es.md) | [Italiano](COMMONS_ARTIST.it.md)
 
-Pas encore disponible dans la version publique 0.1.0b6. Ne configurez pas ces options sur b6. Le candidat ajoute un souhait d'artiste facultatif pour Commons. Aucun nouvel assistant obligatoire ni remplacement de la carte : la carte standard reste utilisable. Les autres sources signalent ce filtre comme non pris en charge.
+Nécessite 0.1.0b7 ou une version plus récente ; ne configurez pas ces options sur 0.1.0b6. Choisissez un artiste facultatif pour Commons. Aucun nouvel assistant obligatoire ni remplacement de la carte : la carte standard reste utilisable. Les autres sources signalent ce filtre comme non pris en charge.
 
 Sans sélecteur sur le tableau de bord : affichez les options facultatives inutilisées dans Frame Gallery → Configuration. Dans **Artiste souhaité (Commons, facultatif)** (`artist`), copiez un nom complet proposé dans la [liste](ARTIST_CHOICES.md), par exemple `Wassily Kandinsky`. Vide ou `All artists` signifie sans restriction. Enregistrez puis démarrez l'app normalement.
 

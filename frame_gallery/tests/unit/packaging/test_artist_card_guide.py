@@ -74,7 +74,8 @@ def test_artist_guides_keep_both_complete_native_cards_and_all_language_links(
         assert isinstance(field_name, str)
         assert field_name in guide
         assert f"`{field}`" in guide
-    assert "0.1.0b6" in guide  # Explicit public-version warning, not availability.
+    assert "0.1.0b7" in guide  # First supported runtime version.
+    assert "0.1.0b6" in guide  # Explicit older-version incompatibility warning.
     assert "(ARTIST_CHOICES.md)" in guide
     assert f"(COMMONS_COLOUR{suffix}.md)" in guide
     offered = re.findall(r"```text\n(.*?)\n```", guide, re.DOTALL)

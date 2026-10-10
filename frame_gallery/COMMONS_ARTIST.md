@@ -1,8 +1,8 @@
-# Artist selection — unreleased update candidate
+# Artist selection — from Beta 0.1.0b7
 
 **English** | [Deutsch](COMMONS_ARTIST.de.md) | [Français](COMMONS_ARTIST.fr.md) | [Español](COMMONS_ARTIST.es.md) | [Italiano](COMMONS_ARTIST.it.md)
 
-Not available in public 0.1.0b6 yet. Do not configure these artist options on b6. This candidate adds one optional artist wish for Commons. No new mandatory helper or dashboard replacement: the standard card keeps working. Other providers report this wish as unsupported.
+Requires 0.1.0b7 or newer; do not configure these artist options on 0.1.0b6. Choose one optional artist wish for Commons. No new mandatory helper or dashboard replacement: the standard card keeps working. Other providers report this wish as unsupported.
 
 Without a dashboard selector: show unused optional options in Frame Gallery → Configuration and fill **Artist wish (Commons, optional)** (`artist`) with an exact name from the [choice list](ARTIST_CHOICES.md), for example `Wassily Kandinsky`. Empty or `All artists` means unrestricted. Save, then start the app as usual.
 

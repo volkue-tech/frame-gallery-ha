@@ -1,8 +1,35 @@
 # Project status
 
-Last updated: 2026-10-10 (b6 public; artist/five-language candidate locally checked)
+Last updated: 2026-10-11 (b7 publication authorized; credential intake pending)
 
-## Current candidate — artist selection and five-language configuration
+## Authorized b7 publication — in progress
+
+The user explicitly authorized building and publishing the artist/five-language
+beta under volkue-tech/frame-gallery-ha, autonomously. Candidate metadata is
+numbered 0.1.0b7 and regenerated; the b6 Store remains unchanged until native
+validation, corresponding-source checks and independent image/signature checks
+pass. No HA/Green/TV changes or live tests are authorized in this step.
+
+The user requested preparing the personal credential before leaving. The exact
+Mac Passwords item was found and copied without revealing its value. A new
+fixed-repository release broker is open in Terminal, capped at four hours with
+the token held only in process memory. Terminal UI control is unavailable to
+the agent: user hidden paste/Enter and verified personal account readiness are
+still required. No secret is stored in a file, log or this document.
+
+Unrelated untracked docs/community/ remains untouched. The numbered candidate
+must pass the unchanged complete gates before a personal commit and publication.
+The first numbered-candidate run found stale own-project b6 versions in
+pyproject.toml and uv.lock (5115 passes, one failure, eleven platform skips;
+100% package coverage). Both own-version fields were synchronized without
+changing any dependency, test gate or skip. The complete rerun passed with
+observed exit 0: Ruff/format, strict host/Linux mypy over 255 files, 5116 tests
+passed / eleven unchanged platform skips, whole-package 100% line/branch coverage
+(9468 statements / 2068 branches) and mandatory-package 100% (7751 / 1714).
+Log: build/artist-b7-release/local-quality-numbered-rerun.log. These are local
+checks only; no native Linux/image/signature or new hardware result is inferred.
+
+## Implementation gate snapshot — artist selection and five-language configuration
 
 Local implementation is human-approved (D-221/D-222), not yet built/published or
 installed. Public Store main remains the b6 documentation closure c995ff5; the
@@ -45,7 +72,7 @@ and passed outside it; the full passing run also used real Mac file permissions.
 No gates were relaxed or new skips introduced. This is local evidence, not native
 Linux/root/RLIMIT_AS, actual-image, signature or hardware validation.
 
-Next gate: explicit native-build/publication approval, exact source/image version
+Historical next gate at implementation completion: native-build/publication approval, exact source/image version
 and ARM/Intel release checks before Store main changes. Live update/helper/card/TV
 checks need their own confirmation. No credentials were loaded and no live
 HA/Green/TV or publication systems were used. Unrelated untracked docs/community/

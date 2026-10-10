@@ -1,5 +1,19 @@
 # Changelog
 
+## 0.1.0b7 (beta candidate)
+
+- Optional Commons artist selection, alone or combined with colour. Exact
+  catalogue artist names or offered keys are accepted; other sources report
+  this filter as ignored. No match preserves the previous image and caption.
+- Complete optional native artist-only and artist-plus-colour dashboard cards,
+  with a favourites dropdown. No custom card or new mandatory helper.
+- Configuration names and help in English, German, French, Spanish and Italian,
+  selected by the Home Assistant interface language. Technical values remain
+  English. Setup, colour and artist guides have manual five-language links.
+- Keep all 1000 catalogue entries, source pins, history IDs, defaults, limits,
+  dependencies and existing cards unchanged. No history-reset control or
+  new Green/TV live validation is included.
+
 ## 0.1.0b6 (public beta)
 
 - 1000 curated near-widescreen Commons works: 344 unchanged baseline entries

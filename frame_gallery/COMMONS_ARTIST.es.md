@@ -1,8 +1,8 @@
-# Selección de artista — actualización candidata sin publicar
+# Selección de artista — desde la beta 0.1.0b7
 
 [English](COMMONS_ARTIST.md) | [Deutsch](COMMONS_ARTIST.de.md) | [Français](COMMONS_ARTIST.fr.md) | **Español** | [Italiano](COMMONS_ARTIST.it.md)
 
-Todavía no está disponible en la versión pública 0.1.0b6. No configures estas opciones en b6. El candidato añade un artista opcional para Commons. Ningún ayudante obligatorio nuevo ni sustitución de la tarjeta: la tarjeta estándar sigue funcionando. Las otras fuentes indican que no admiten este filtro.
+Requiere 0.1.0b7 o posterior; no configures estas opciones en 0.1.0b6. Elige un artista opcional para Commons. Ningún ayudante obligatorio nuevo ni sustitución de la tarjeta: la tarjeta estándar sigue funcionando. Las otras fuentes indican que no admiten este filtro.
 
 Sin selector en el panel: muestra las opciones opcionales sin usar en Frame Gallery → Configuración. En **Artista deseado (Commons, opcional)** (`artist`), copia un nombre completo de la [lista](ARTIST_CHOICES.md), por ejemplo `Wassily Kandinsky`. Vacío o `All artists` significa sin restricción. Guarda e inicia la app como siempre.
 

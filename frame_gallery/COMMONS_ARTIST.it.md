@@ -1,8 +1,8 @@
-# Selezione dell'artista — aggiornamento candidato non pubblicato
+# Selezione dell'artista — dalla beta 0.1.0b7
 
 [English](COMMONS_ARTIST.md) | [Deutsch](COMMONS_ARTIST.de.md) | [Français](COMMONS_ARTIST.fr.md) | [Español](COMMONS_ARTIST.es.md) | **Italiano**
 
-Non ancora disponibile nella versione pubblica 0.1.0b6. Non configurare queste opzioni su b6. Il candidato aggiunge un artista facoltativo per Commons. Nessun nuovo helper obbligatorio o sostituzione della scheda: quella standard continua a funzionare. Le altre fonti segnalano che il filtro non è supportato.
+Richiede 0.1.0b7 o una versione successiva; non configurare queste opzioni su 0.1.0b6. Scegli un artista facoltativo per Commons. Nessun nuovo helper obbligatorio o sostituzione della scheda: quella standard continua a funzionare. Le altre fonti segnalano che il filtro non è supportato.
 
 Senza selettore nella dashboard: mostra le opzioni facoltative non utilizzate in Frame Gallery → Configurazione. In **Artista desiderato (Commons, facoltativo)** (`artist`), copia un nome completo dalla [lista](ARTIST_CHOICES.md), ad esempio `Wassily Kandinsky`. Vuoto o `All artists` significa nessuna restrizione. Salva e avvia l'app normalmente.
 

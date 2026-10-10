@@ -1,5 +1,21 @@
 # Implementation plan and approval gates
 
+## Authorized artist/five-language beta 0.1.0b7 — 2026-10-11
+
+- [x] Receive explicit autonomous native-build and personal-repository publication approval.
+- [x] Assign 0.1.0b7 and regenerate matching Supervisor version/image metadata.
+- [ ] Verify the personal memory-only release session after the user's hidden paste.
+- [ ] Run unchanged full quality gates for the numbered candidate and commit personally.
+  *Numbered b7 full rerun passed: 5116 tests, eleven unchanged platform skips,
+  strict host/Linux mypy over 255 files and 100% line/branch coverage. No native
+  or live result is inferred; the final documentation recheck/commit remains.*
+- [ ] Publish and independently verify matching corresponding sources.
+- [ ] Run native ARM/Intel validation and publishers; verify actual images and signatures.
+- [ ] Publish the beta announcement and Store metadata only after the release checks pass.
+- [ ] Disable both one-time release approvals and close the memory-only credential session.
+
+No HA/Green/TV modification or live-language validation is authorized here.
+
 ## Next candidate: artist selection and five languages (D-221/D-222)
 
 Scope: [artist update plan](docs/plans/commons-artist-update.md). Local work is
