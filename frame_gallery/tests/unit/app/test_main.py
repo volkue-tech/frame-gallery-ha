@@ -29,6 +29,7 @@ from frame_gallery import __main__ as entry
 from frame_gallery.app.networks import ContainerNetworks
 from frame_gallery.app.signals import CancellationController
 from frame_gallery.budget.clock import Clock
+from frame_gallery.config.vocabulary import artist_key
 from frame_gallery.isolation.apparmor import ProfileError
 from frame_gallery.isolation.executor import EventSink, JsonObject, StopCheck
 from frame_gallery.isolation.in_process import (
@@ -370,6 +371,9 @@ def test_the_museum_wiring_uses_the_identity_and_the_file_cache(rig: Rig) -> Non
         {"source": "wikimedia_commons"},
         {"color": "color_blue"},
         {"color_helper": "input_select.x"},
+        {"artist": "W.carter"},
+        {"artist": "W.carter", "color": "color_blue"},
+        {"artist_helper": "input_select.x", "color": "color_blue"},
     ],
 )
 def test_commons_production_wiring_delivers_two_distinct_works_and_cleans_up(
@@ -383,8 +387,8 @@ def test_commons_production_wiring_delivers_two_distinct_works_and_cleans_up(
         return site(request)
 
     rig.transport.handler = route
-    if "color_helper" in source_options:
-        rig.helper_state = "Blau"
+    if "color_helper" in source_options or "artist_helper" in source_options:
+        rig.helper_state = "W.carter" if "artist_helper" in source_options else "Blau"
         previous_route = rig.transport.handler
 
         def with_helper(request: WireRequest) -> FakeResponse:
@@ -393,7 +397,7 @@ def test_commons_production_wiring_delivers_two_distinct_works_and_cleans_up(
         rig.transport.handler = with_helper
     rig.options(**source_options)
     for _ in range(2):
-        if "color_helper" in source_options:
+        if "color_helper" in source_options or "artist_helper" in source_options:
             # Production consumes its environment token. Each real app start
             # receives a fresh Supervisor environment, unlike this reused rig.
             rig.environ["SUPERVISOR_TOKEN"] = TOKEN
@@ -407,6 +411,12 @@ def test_commons_production_wiring_delivers_two_distinct_works_and_cleans_up(
         expected = {str(work.page_id) for work in CATALOG if matches_colour(work, "color_blue")}
         assert all(value.split(":", 1)[1] in expected for value in ids)
         assert all(set(query["pageids"].split("|")) <= expected for query in site.queries)
+    if "artist" in source_options or "artist_helper" in source_options:
+        expected_artists = {str(w.page_id) for w in CATALOG if w.artist == "W.carter"}
+        assert all(value.split(":", 1)[1] in expected_artists for value in ids)
+        assert all(set(query["pageids"].split("|")) <= expected_artists for query in site.queries)
+        last = json.loads((rig.layout.data / "state" / "last_run.json").read_text())
+        assert last["filters"]["applied"]["artist"] == artist_key("W.carter")
     preview = rig.layout.media / "frame_gallery" / "preview" / "latest.jpg"
     assert preview.read_bytes() == rig.tv.payloads[-1]
     assert len(rig.tv.payloads) == 2
@@ -422,8 +432,9 @@ def test_commons_production_wiring_delivers_two_distinct_works_and_cleans_up(
 
 
 @pytest.mark.parametrize("colour", ["any", "color_blue"])
+@pytest.mark.parametrize("artist", ["All artists", "W.carter"])
 def test_commons_landscape_fallback_preserves_edges_and_publishes_caption(
-    rig: Rig, colour: str
+    rig: Rig, colour: str, artist: str
 ) -> None:
     site = CommonsSite(records={work.page_id: commons_record(work) for work in CATALOG})
     for row in site.records.values():
@@ -451,6 +462,7 @@ def test_commons_landscape_fallback_preserves_edges_and_publishes_caption(
     rig.options(
         source="wikimedia_commons",
         color=colour,
+        artist=artist,
         artwork_info_helper="input_text.frame_gallery_artwork",
     )
     assert rig.run() == 0
@@ -465,6 +477,10 @@ def test_commons_landscape_fallback_preserves_edges_and_publishes_caption(
         expected = {str(w.page_id) for w in CATALOG if matches_colour(w, colour)}
         assert all(set(query["pageids"].split("|")) <= expected for query in site.queries)
     assert captions[0]["artist"] == work.artist
+    if artist != "All artists":
+        assert work.artist == artist
+        expected_artists = {str(w.page_id) for w in CATALOG if w.artist == artist}
+        assert all(set(query["pageids"].split("|")) <= expected_artists for query in site.queries)
     # The real 1000-work catalogue includes long titles. The existing helper
     # contract deliberately shortens each field to 100 characters; do not
     # mistake that bounded display value for a mismatched work identity.
@@ -478,8 +494,9 @@ def test_commons_landscape_fallback_preserves_edges_and_publishes_caption(
     assert not list((rig.layout.tmp / "frame-gallery").iterdir())
 
 
+@pytest.mark.parametrize("empty_artist", [False, True])
 def test_empty_colour_keeps_previous_preview_caption_history_and_tv(
-    rig: Rig, monkeypatch: pytest.MonkeyPatch
+    rig: Rig, monkeypatch: pytest.MonkeyPatch, empty_artist: bool
 ) -> None:
     site = CommonsSite(records={work.page_id: commons_record(work) for work in CATALOG})
     helper_writes: list[bytes | None] = []
@@ -512,6 +529,7 @@ def test_empty_colour_keeps_previous_preview_caption_history_and_tv(
     rig.options(
         source="wikimedia_commons",
         color="color_blue",
+        artist="W.carter" if empty_artist else "All artists",
         artwork_info_helper="input_text.frame_gallery_artwork",
     )
     assert rig.run() == 0
@@ -522,6 +540,52 @@ def test_empty_colour_keeps_previous_preview_caption_history_and_tv(
         network_count,
         caption_count,
     )
+    assert not list((rig.layout.tmp / "frame-gallery").iterdir())
+
+
+def test_exhausted_single_artist_keeps_history_preview_caption_and_tv(rig: Rig) -> None:
+    """A genuine sent-artwork exclusion, without emptying colour fixtures."""
+    works = [work for work in CATALOG if work.artist == "Wassily Kandinsky"]
+    assert len(works) == 1
+    site = CommonsSite(records={work.page_id: commons_record(work) for work in CATALOG})
+    caption_writes: list[bytes | None] = []
+
+    def route(request: WireRequest) -> FakeResponse:
+        if request.host == "supervisor":
+            if request.method == "GET":
+                return json_response({"state": "", "attributes": {"max": 255}})
+            caption_writes.append(request.body)
+            return FakeResponse(status=200)
+        if request.host in {"upload.wikimedia.org", "thumb.wikimedia.org"}:
+            return image_response(jpeg((3840, 2160)))
+        return site(request)
+
+    rig.transport.handler = route
+    rig.options(
+        source="wikimedia_commons",
+        artist="Wassily Kandinsky",
+        strict_tv_format=False,
+        artwork_info_helper="input_text.frame_gallery_artwork",
+    )
+    assert rig.run() == 0
+    assert "outcome=delivered " in rig.summary_lines[-1]
+    kept = [
+        rig.layout.data / "state" / "history.json",
+        rig.layout.data / "state" / "current.json",
+        rig.layout.media / "frame_gallery" / "preview" / "latest.jpg",
+    ]
+    before = {path: path.read_bytes() for path in kept}
+    history = json.loads(before[kept[0]])
+    assert [item["id"] for item in history["entries"]] == [f"commons:{works[0].page_id}"]
+    counts = len(rig.tv.payloads), len(site.queries), len(caption_writes)
+    # A second start receives a fresh environment, just as it would on Green.
+    rig.environ["SUPERVISOR_TOKEN"] = TOKEN
+    assert rig.run() == 0
+    assert "outcome=no_match " in rig.summary_lines[-1]
+    assert {path: path.read_bytes() for path in kept} == before
+    assert (len(rig.tv.payloads), len(site.queries), len(caption_writes)) == counts
+    last = json.loads((rig.layout.data / "state" / "last_run.json").read_text())
+    assert last["filters"]["applied"]["artist"] == artist_key("Wassily Kandinsky")
     assert not list((rig.layout.tmp / "frame-gallery").iterdir())
 
 

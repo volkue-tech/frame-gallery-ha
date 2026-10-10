@@ -10,6 +10,7 @@ keys (§15.3).
 from __future__ import annotations
 
 import enum
+import hashlib
 import re
 import unicodedata
 from collections.abc import Iterable, Mapping
@@ -19,6 +20,7 @@ from typing import Final
 
 from frame_gallery.config.filters import FilterDimension, FilterField
 from frame_gallery.domain import SourceKey
+from frame_gallery.providers.commons_catalog import CATALOG
 
 KEY_MAX_LENGTH: Final = 64
 LABEL_MAX_LENGTH: Final = 100
@@ -46,6 +48,7 @@ _FIELD_OF: Final[Mapping[FilterDimension, FilterField]] = MappingProxyType(
         FilterDimension.STYLE: FilterField.STYLE,
         FilterDimension.PERIOD: FilterField.STYLE,
         FilterDimension.COLOR: FilterField.COLOR,
+        FilterDimension.ARTIST: FilterField.ARTIST,
     }
 )
 
@@ -54,6 +57,7 @@ FIELD_DIMENSIONS: Final[Mapping[FilterField, frozenset[FilterDimension]]] = Mapp
         FilterField.DEPARTMENT: frozenset({FilterDimension.DEPARTMENT}),
         FilterField.STYLE: frozenset({FilterDimension.STYLE, FilterDimension.PERIOD}),
         FilterField.COLOR: frozenset({FilterDimension.COLOR}),
+        FilterField.ARTIST: frozenset({FilterDimension.ARTIST}),
     }
 )
 """The dimensions each option field carries; ``style`` also carries periods (§9.2)."""
@@ -70,6 +74,7 @@ _PREFIXES: Final[Mapping[FilterDimension, str]] = MappingProxyType(
         FilterDimension.STYLE: "style_",
         FilterDimension.PERIOD: "period_",
         FilterDimension.COLOR: "color_",
+        FilterDimension.ARTIST: "artist_",
     }
 )
 
@@ -248,6 +253,13 @@ class Vocabulary:
         if len(value) > LOOKUP_MAX_LENGTH:
             return _INVALID
         term = normalize_term(value)
+        if field is FilterField.ARTIST and term in {
+            "all_artists",
+            "alle_kunstler",
+            "tous_les_artistes",
+            "todos_los_artistas",
+        }:
+            return _ANY
         if _means_no_filter(value, term):
             return _ANY
         key = field_terms.get(term)
@@ -290,8 +302,50 @@ def _period(key: str, label: str, *aliases: str) -> VocabularyEntry:
     return VocabularyEntry(key=key, label=label, dimension=FilterDimension.PERIOD, aliases=aliases)
 
 
+def artist_key(name: str) -> str:
+    """Stable bounded identity for one exact normalized catalogue attribution.
+
+    Case, accents and punctuation follow existing vocabulary normalization;
+    no surname, substring or guessed identity matching is performed.
+    """
+    term = normalize_term(name)
+    if not term:
+        return "artist_unspecified"
+    if len(term) <= KEY_MAX_LENGTH - len("artist_"):
+        return "artist_" + term
+    digest = hashlib.sha256(term.encode()).hexdigest()[:12]
+    return "artist_" + term[:44].rstrip("_") + "_" + digest
+
+
+def _artist_entries() -> tuple[VocabularyEntry, ...]:
+    """Names from our pinned catalogue, not claims of canonical art identities.
+
+    Four unwieldy source labels get transparent display abbreviations; their
+    full original attribution is retained in the catalogue and caption.
+    """
+    shortened = {
+        "John Warwick Smith (1749 - 1831) \u2013 Artist (British) Born in Cumberland. "
+        "Died in London. Details on Google Art Project": "John Warwick Smith (1749-1831)",
+        "Peter DeWint (1784 - 1849) \u2013 Attributed to (British) Born in Stoke-on-Trent. "
+        "Died in London. Details on Google Art Project": "Attributed to Peter DeWint (1784-1849)",
+        "S. T. GILL (1818 - 1880) (Australia) Born in Perriton, Somerset, Britain. "
+        "Died in Melbourne. Details on Google Art Project": "S. T. Gill (1818-1880)",
+        (
+            "Jean Bérain the Elder / Guy Louis Vernansal I / Philippe Behagle / "
+            "Jean-Baptiste Monnoyer / Beauvais Tapestry Manufactory / Jean-Baptiste Monnoyer"
+        ): "Beauvais tapestry: Jean Bérain and multiple contributors",
+    }
+    labels: dict[str, str] = {}
+    for name in sorted({work.artist for work in CATALOG}, key=lambda name: (name.casefold(), name)):
+        labels.setdefault(artist_key(name), shortened.get(name, name) or "Unspecified artist")
+    return tuple(
+        VocabularyEntry(key, label, FilterDimension.ARTIST)
+        for key, label in sorted(labels.items(), key=lambda pair: pair[1].casefold())
+    )
+
+
 BUILTIN_VOCABULARY: Final = Vocabulary(
-    version="2",
+    version="3",
     entries=(
         _cleveland("cma_american_painting_sculpture", "American Painting and Sculpture"),
         _cleveland("cma_european_painting_sculpture", "European Painting and Sculpture"),
@@ -326,9 +380,10 @@ BUILTIN_VOCABULARY: Final = Vocabulary(
         VocabularyEntry("color_gray", "Gray", FilterDimension.COLOR, aliases=("Grey", "Grau")),
         VocabularyEntry("color_black", "Black", FilterDimension.COLOR, aliases=("Schwarz",)),
         VocabularyEntry("color_white", "White", FilterDimension.COLOR, aliases=("Weiß",)),
+        *_artist_entries(),
     ),
 )
-"""The draft vocabulary, version 2 (Q-14, D-152, D-213), combining documented
+"""The candidate vocabulary, version 3 (D-221), combining documented
 museum values (D-146) with project-defined Commons colour families:
 
 - the curated Cleveland departments, whose documented values the Cleveland
@@ -339,4 +394,5 @@ museum values (D-146) with project-defined Commons colour families:
 There are no Art Institute departments or styles: their values are undocumented
 (Q-25). Version 2 adds project-defined offline Commons colour groups (D-213),
 not undocumented museum colour values. The mapping is documented in
-``VOCABULARY.md``; tests keep the two identical."""
+``VOCABULARY.md``; tests keep the two identical. Version 3 adds the Commons
+catalogue's artist labels, not a museum's undocumented artist API values."""

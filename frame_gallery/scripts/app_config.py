@@ -1,14 +1,15 @@
 """Write the app's metadata for the Supervisor: ``config.yaml`` and
-``translations/en.yaml`` (ARCHITECTURE.md §15.1, §17.1, §17.4; D-123, D-129).
+``translations/{en,de,fr,es,it}.yaml`` (ARCHITECTURE.md §15.1, §17.1, §17.4;
+D-123, D-129, D-222).
 
 The options, their schema, and the option texts are defined here, next to
 the code that validates them (``frame_gallery.config``), so that the files
 the Supervisor reads cannot drift from what the app accepts: the department
 and period choices come from the built-in vocabulary, and the patterns from
-``config.options``. A test keeps both files identical to this output and
+``config.options``. A test keeps all generated files identical to this output and
 checks every offered value against the app's own parser.
 
-    .venv/bin/python scripts/app_config.py           # write both files
+    .venv/bin/python scripts/app_config.py           # write metadata and five locales
     .venv/bin/python scripts/app_config.py --check   # exit 1 if they differ
 """
 
@@ -78,6 +79,7 @@ def schema() -> dict[str, Value]:
         "landscape_only": "bool",
         "strict_tv_format": "bool",
         "fit_mode": "list(contain|cover)",
+        "artist": "str(0,255)?",
         "department": f"list({'|'.join(_choices(FilterField.DEPARTMENT))})?",
         "style": f"list({'|'.join(_choices(FilterField.STYLE))})?",
         "background_color": BACKGROUND_SCHEMA + "?",
@@ -85,6 +87,7 @@ def schema() -> dict[str, Value]:
         "department_helper": HELPER_SCHEMA,
         "style_helper": HELPER_SCHEMA,
         "color_helper": HELPER_SCHEMA,
+        "artist_helper": HELPER_SCHEMA,
         "log_level": "list(info|debug)?",
         "loading_timer": r"match(^timer\.[a-z0-9_]{1,64}$)?",
         "artwork_info_helper": r"match(^input_text\.[a-z0-9_]{1,64}$)?",
@@ -126,8 +129,496 @@ HELPER_TEXT: Final = (
 )
 
 
+LOCALIZED_TEXTS: Final[dict[str, dict[str, tuple[str, str]]]] = {
+    "fr": {
+        "tv_host": (
+            "Adresse du téléviseur",
+            (
+                "Adresse IPv4 privée de votre Frame TV, par exemple 192.168.1.20. Réservez "
+                "cette adresse dans votre routeur. Les noms de machine et les adresses "
+                "publiques ne sont pas acceptés."
+            ),
+        ),
+        "source": (
+            "Source des œuvres",
+            (
+                "wikimedia_commons (par défaut lors d'une nouvelle installation) : 1000 "
+                "œuvres sélectionnées au format presque 16:9, sans clé API. "
+                "art_institute_chicago : Art Institute of Chicago. cleveland_museum_of_art "
+                ": Cleveland Museum of Art. local_media : vos fichiers JPEG/PNG dans "
+                "frame_gallery/library, dans les médias Home Assistant."
+            ),
+        ),
+        "color": (
+            "Couleur souhaitée (Commons)",
+            (
+                "any signifie toutes les couleurs. Choisissez une famille présente sur une "
+                "partie visible de l'œuvre (environ 5 %), pas nécessairement dominante. "
+                "Les valeurs restent en anglais : Red rouge, Orange orange, Yellow jaune, "
+                "Green vert, Blue bleu, Purple violet, Pink rose, Brown brun, Beige beige, "
+                "Gray gris, Black noir, White blanc. Les autres sources ignorent ce filtre "
+                "et le signalent dans le journal. Sans résultat, l'œuvre actuelle reste "
+                "affichée."
+            ),
+        ),
+        "artist": (
+            "Artiste souhaité (Commons, facultatif)",
+            (
+                "Laissez vide ou saisissez All artists pour toute la sélection. Sinon, "
+                "copiez un nom proposé dans le guide des artistes, par exemple Wassily "
+                "Kandinsky. Uniquement pour Commons. L'artiste et la couleur doivent tous "
+                "deux correspondre ; sans résultat, l'œuvre actuelle reste affichée, sans "
+                "substitution d'artiste."
+            ),
+        ),
+        "landscape_only": (
+            "Format paysage uniquement",
+            (
+                "Sélectionne seulement les images plus larges que hautes. Recommandé pour "
+                "un téléviseur horizontal."
+            ),
+        ),
+        "strict_tv_format": (
+            "Préférer le format 16:9 (peut prendre plus de temps)",
+            (
+                "Préfère les œuvres à environ 1 % du format 16:9. Sans résultat, avec le "
+                "format paysage et contain, une autre œuvre paysage est affichée entière "
+                "avec des marges. La sélection Commons est à moins de 2,5 % du 16:9 ; "
+                "désactivez cette préférence pour inclure toute la sélection."
+            ),
+        ),
+        "fit_mode": (
+            "Ajustement de l'image (contain = sans recadrage)",
+            (
+                "contain affiche toute l'œuvre, avec des marges si nécessaire, sans la "
+                "recadrer. cover remplit l'écran et peut couper les bords."
+            ),
+        ),
+        "department": (
+            "Département (Cleveland uniquement)",
+            (
+                "Sélectionne un département du Cleveland Museum of Art ; any signifie "
+                "aucun filtre. Les autres sources ne prennent pas en charge ce filtre et "
+                "le signalent dans le journal et le compte rendu du lancement."
+            ),
+        ),
+        "style": (
+            "Période (les deux musées)",
+            (
+                "Sélectionne la période de création : avant 1400, 1400 à 1599, 1600 à "
+                "1799, 1800 à 1899, ou depuis 1900. any signifie aucun filtre. Uniquement "
+                "pour les deux musées, pas pour Commons ni vos fichiers. Les styles "
+                "artistiques ne sont pas proposés."
+            ),
+        ),
+        "background_color": (
+            "Couleur des marges",
+            ("Couleur des marges en mode contain, au format #RRGGBB. Le noir est #000000."),
+        ),
+        "source_helper": (
+            "Source depuis le tableau de bord (facultatif)",
+            (
+                "Identifiant d'une entrée input_select, select ou input_text, par exemple "
+                "input_select.frame_gallery_source. Sa valeur remplace la source "
+                "enregistrée à chaque lancement. Une valeur invalide ou indisponible "
+                "utilise la source enregistrée, avec un avertissement. Laissez vide pour "
+                "ne pas utiliser cette option."
+            ),
+        ),
+        "department_helper": (
+            "Département depuis le tableau de bord (facultatif)",
+            (
+                "Identifiant d'une entrée input_select, select ou input_text, par exemple "
+                "input_select.frame_gallery_department. Sa valeur remplace le département "
+                "enregistré à chaque lancement. Une valeur invalide ou indisponible "
+                "utilise le réglage enregistré, avec un avertissement. Laissez vide pour "
+                "ne pas utiliser cette option."
+            ),
+        ),
+        "style_helper": (
+            "Période depuis le tableau de bord (facultatif)",
+            (
+                "Identifiant d'une entrée input_select, select ou input_text, par exemple "
+                "input_select.frame_gallery_period. Sa valeur remplace la période "
+                "enregistrée à chaque lancement. Une valeur invalide ou indisponible "
+                "utilise le réglage enregistré, avec un avertissement. Laissez vide pour "
+                "ne pas utiliser cette option."
+            ),
+        ),
+        "color_helper": (
+            "Couleur depuis le tableau de bord (facultatif, Commons)",
+            (
+                "Identifiant d'une entrée input_select, select ou input_text, par exemple "
+                "input_select.frame_gallery_colour. Sa valeur remplace la couleur "
+                "enregistrée à chaque lancement. Utilisez les valeurs anglaises "
+                "documentées. Une valeur invalide ou indisponible utilise le réglage "
+                "enregistré, avec un avertissement. Laissez vide pour ne pas utiliser "
+                "cette option."
+            ),
+        ),
+        "artist_helper": (
+            "Artiste depuis le tableau de bord (facultatif, Commons)",
+            (
+                "Identifiant d'une entrée input_select, select ou input_text, par exemple "
+                "input_select.frame_gallery_artist. Sa valeur remplace l'artiste "
+                "enregistré à chaque lancement. Une valeur invalide ou indisponible "
+                "utilise le réglage enregistré, avec un avertissement. Laissez vide pour "
+                "ne pas utiliser cette option."
+            ),
+        ),
+        "log_level": (
+            "Détail du journal",
+            (
+                "Option avancée : info (par défaut), ou debug pour consigner aussi les "
+                "candidats examinés."
+            ),
+        ),
+        "loading_timer": (
+            "Minuteur de chargement du tableau de bord",
+            (
+                "Facultatif. Identifiant du minuteur de cette carte, par exemple "
+                "timer.frame_gallery_run. Seul ce minuteur est annulé après le nettoyage, "
+                "même sans résultat ou en cas d'annulation. Laissez vide pour désactiver "
+                "ce retour. Sa durée reste la sécurité en cas d'arrêt brutal."
+            ),
+        ),
+        "artwork_info_helper": (
+            "Informations sur l'œuvre dans le tableau de bord",
+            (
+                "Facultatif. Entrée Texte dédiée, par exemple "
+                "input_text.frame_gallery_artwork. Longueur minimale 0, maximale 255, sans "
+                "valeur initiale. L'application y écrit le titre, l'artiste et la source "
+                "de l'aperçu. N'utilisez pas une entrée de filtre. Laissez vide pour "
+                "conserver la carte avec image seule."
+            ),
+        ),
+    },
+    "es": {
+        "tv_host": (
+            "Dirección del televisor",
+            (
+                "Dirección IPv4 privada de tu Frame TV, por ejemplo 192.168.1.20. Reserva "
+                "esa dirección en el router. No se aceptan nombres de equipo ni "
+                "direcciones públicas."
+            ),
+        ),
+        "source": (
+            "Fuente de las obras",
+            (
+                "wikimedia_commons (predeterminado en nuevas instalaciones): 1000 obras "
+                "seleccionadas con formato casi 16:9, sin clave API. "
+                "art_institute_chicago: Art Institute of Chicago. cleveland_museum_of_art: "
+                "Cleveland Museum of Art. local_media: tus archivos JPEG/PNG en "
+                "frame_gallery/library, dentro de los medios de Home Assistant."
+            ),
+        ),
+        "color": (
+            "Color deseado (Commons)",
+            (
+                "any significa todos los colores. Elige una familia presente en una parte "
+                "visible de la obra (aproximadamente el 5 %), no necesariamente dominante. "
+                "Los valores siguen en inglés: Red rojo, Orange naranja, Yellow amarillo, "
+                "Green verde, Blue azul, Purple morado, Pink rosa, Brown marrón, Beige "
+                "beige, Gray gris, Black negro, White blanco. Las otras fuentes ignoran "
+                "este filtro y lo indican en el registro. Sin coincidencias, se mantiene "
+                "la obra actual."
+            ),
+        ),
+        "artist": (
+            "Artista deseado (Commons, opcional)",
+            (
+                "Deja vacío o introduce All artists para toda la selección. De lo "
+                "contrario, copia un nombre ofrecido en la guía de artistas, por ejemplo "
+                "Wassily Kandinsky. Solo para Commons. Deben coincidir tanto el artista "
+                "como el color; sin coincidencias se mantiene la obra actual, sin "
+                "sustituir al artista."
+            ),
+        ),
+        "landscape_only": (
+            "Solo formato horizontal",
+            (
+                "Selecciona únicamente imágenes más anchas que altas. Recomendado para un "
+                "televisor horizontal."
+            ),
+        ),
+        "strict_tv_format": (
+            "Preferir 16:9 (puede tardar más)",
+            (
+                "Prefiere obras con una desviación aproximada del 1 % respecto a 16:9. Si "
+                "no hay ninguna, con formato horizontal y contain se muestra otra obra "
+                "horizontal completa con márgenes. La selección Commons está dentro del "
+                "2,5 % de 16:9; desactiva esta preferencia para incluir toda la selección."
+            ),
+        ),
+        "fit_mode": (
+            "Ajuste de imagen (contain = sin recortar)",
+            (
+                "contain muestra toda la obra, con márgenes si son necesarios, sin "
+                "recortarla. cover llena la pantalla y puede recortar los bordes."
+            ),
+        ),
+        "department": (
+            "Departamento (solo Cleveland)",
+            (
+                "Selecciona un departamento del Cleveland Museum of Art; any significa sin "
+                "filtro. Las otras fuentes no admiten este filtro y lo indican en el "
+                "registro y en el informe de ejecución."
+            ),
+        ),
+        "style": (
+            "Periodo (ambos museos)",
+            (
+                "Selecciona el periodo de creación: antes de 1400, de 1400 a 1599, de 1600 "
+                "a 1799, de 1800 a 1899 o desde 1900. any significa sin filtro. Solo para "
+                "ambos museos, no para Commons ni tus archivos. Todavía no se ofrecen "
+                "estilos artísticos."
+            ),
+        ),
+        "background_color": (
+            "Color de los márgenes",
+            ("Color de los márgenes en modo contain, con formato #RRGGBB. El negro es #000000."),
+        ),
+        "source_helper": (
+            "Fuente desde el panel (opcional)",
+            (
+                "ID de un ayudante input_select, select o input_text, por ejemplo "
+                "input_select.frame_gallery_source. Su valor sustituye la fuente guardada "
+                "en cada inicio. Un valor inválido o no disponible utiliza la fuente "
+                "guardada con un aviso. Deja vacío para no usar esta opción."
+            ),
+        ),
+        "department_helper": (
+            "Departamento desde el panel (opcional)",
+            (
+                "ID de un ayudante input_select, select o input_text, por ejemplo "
+                "input_select.frame_gallery_department. Su valor sustituye el departamento "
+                "guardado en cada inicio. Un valor inválido o no disponible utiliza el "
+                "ajuste guardado con un aviso. Deja vacío para no usar esta opción."
+            ),
+        ),
+        "style_helper": (
+            "Periodo desde el panel (opcional)",
+            (
+                "ID de un ayudante input_select, select o input_text, por ejemplo "
+                "input_select.frame_gallery_period. Su valor sustituye el periodo guardado "
+                "en cada inicio. Un valor inválido o no disponible utiliza el ajuste "
+                "guardado con un aviso. Deja vacío para no usar esta opción."
+            ),
+        ),
+        "color_helper": (
+            "Color desde el panel (opcional, Commons)",
+            (
+                "ID de un ayudante input_select, select o input_text, por ejemplo "
+                "input_select.frame_gallery_colour. Su valor sustituye el color guardado "
+                "en cada inicio. Usa los valores ingleses documentados. Un valor inválido "
+                "o no disponible utiliza el ajuste guardado con un aviso. Deja vacío para "
+                "no usar esta opción."
+            ),
+        ),
+        "artist_helper": (
+            "Artista desde el panel (opcional, Commons)",
+            (
+                "ID de un ayudante input_select, select o input_text, por ejemplo "
+                "input_select.frame_gallery_artist. Su valor sustituye el artista guardado "
+                "en cada inicio. Un valor inválido o no disponible utiliza el ajuste "
+                "guardado con un aviso. Deja vacío para no usar esta opción."
+            ),
+        ),
+        "log_level": (
+            "Detalle del registro",
+            (
+                "Opción avanzada: info (predeterminado), o debug para registrar también "
+                "los candidatos examinados."
+            ),
+        ),
+        "loading_timer": (
+            "Temporizador de carga del panel",
+            (
+                "Opcional. ID del temporizador de esta tarjeta, por ejemplo "
+                "timer.frame_gallery_run. Solo este temporizador se cancela tras la "
+                "limpieza, también sin coincidencias o en caso de cancelación. Deja vacío "
+                "para desactivar esta respuesta. Su duración mantiene la protección ante "
+                "una interrupción inesperada."
+            ),
+        ),
+        "artwork_info_helper": (
+            "Información de la obra en el panel",
+            (
+                "Opcional. Ayudante Texto dedicado, por ejemplo "
+                "input_text.frame_gallery_artwork. Longitud mínima 0, máxima 255, sin "
+                "valor inicial. La aplicación escribe el título, el artista y la fuente de "
+                "la vista previa. No uses un ayudante de filtro. Deja vacío para conservar "
+                "la tarjeta con imagen solamente."
+            ),
+        ),
+    },
+    "it": {
+        "tv_host": (
+            "Indirizzo del televisore",
+            (
+                "Indirizzo IPv4 privato del tuo Frame TV, ad esempio 192.168.1.20. Riserva "
+                "questo indirizzo nel router. I nomi host e gli indirizzi pubblici non "
+                "sono accettati."
+            ),
+        ),
+        "source": (
+            "Fonte delle opere",
+            (
+                "wikimedia_commons (predefinita per le nuove installazioni): 1000 opere "
+                "selezionate in formato quasi 16:9, senza chiave API. "
+                "art_institute_chicago: Art Institute of Chicago. cleveland_museum_of_art: "
+                "Cleveland Museum of Art. local_media: i tuoi file JPEG/PNG in "
+                "frame_gallery/library, nei contenuti multimediali di Home Assistant."
+            ),
+        ),
+        "color": (
+            "Colore desiderato (Commons)",
+            (
+                "any significa tutti i colori. Scegli una famiglia presente in una parte "
+                "visibile dell'opera (circa il 5 %), non necessariamente dominante. I "
+                "valori restano in inglese: Red rosso, Orange arancione, Yellow giallo, "
+                "Green verde, Blue blu, Purple viola, Pink rosa, Brown marrone, Beige "
+                "beige, Gray grigio, Black nero, White bianco. Le altre fonti ignorano "
+                "questo filtro e lo segnalano nel registro. Senza risultati rimane l'opera "
+                "attuale."
+            ),
+        ),
+        "artist": (
+            "Artista desiderato (Commons, facoltativo)",
+            (
+                "Lascia vuoto oppure inserisci All artists per l'intera selezione. "
+                "Altrimenti copia un nome disponibile dalla guida agli artisti, ad esempio "
+                "Wassily Kandinsky. Solo per Commons. Devono corrispondere sia l'artista "
+                "sia il colore; senza risultati rimane l'opera attuale, senza sostituire "
+                "l'artista."
+            ),
+        ),
+        "landscape_only": (
+            "Solo formato orizzontale",
+            (
+                "Seleziona soltanto immagini più larghe che alte. Consigliato per un "
+                "televisore orizzontale."
+            ),
+        ),
+        "strict_tv_format": (
+            "Preferisci 16:9 (può richiedere più tempo)",
+            (
+                "Preferisce opere entro circa l'1 % del formato 16:9. Se non ci sono "
+                "risultati, con formato orizzontale e contain viene mostrata un'altra "
+                "opera orizzontale intera con margini. La selezione Commons è entro il 2,5 "
+                "% del 16:9; disattiva questa preferenza per includere tutta la selezione."
+            ),
+        ),
+        "fit_mode": (
+            "Adattamento dell'immagine (contain = senza ritaglio)",
+            (
+                "contain mostra tutta l'opera, con margini se necessari, senza "
+                "ritagliarla. cover riempie lo schermo e può tagliare i bordi."
+            ),
+        ),
+        "department": (
+            "Dipartimento (solo Cleveland)",
+            (
+                "Seleziona un dipartimento del Cleveland Museum of Art; any significa "
+                "nessun filtro. Le altre fonti non supportano questo filtro e lo segnalano "
+                "nel registro e nel resoconto dell'esecuzione."
+            ),
+        ),
+        "style": (
+            "Periodo (entrambi i musei)",
+            (
+                "Seleziona il periodo di creazione: prima del 1400, dal 1400 al 1599, dal "
+                "1600 al 1799, dal 1800 al 1899 o dal 1900 in poi. any significa nessun "
+                "filtro. Solo per entrambi i musei, non per Commons o i tuoi file. Gli "
+                "stili artistici non sono ancora disponibili."
+            ),
+        ),
+        "background_color": (
+            "Colore dei margini",
+            ("Colore dei margini in modalità contain, nel formato #RRGGBB. Il nero è #000000."),
+        ),
+        "source_helper": (
+            "Fonte dalla dashboard (facoltativo)",
+            (
+                "ID di un helper input_select, select o input_text, ad esempio "
+                "input_select.frame_gallery_source. Il suo valore sostituisce la fonte "
+                "salvata a ogni avvio. Un valore non valido o non disponibile usa la fonte "
+                "salvata con un avviso. Lascia vuoto per non usare questa opzione."
+            ),
+        ),
+        "department_helper": (
+            "Dipartimento dalla dashboard (facoltativo)",
+            (
+                "ID di un helper input_select, select o input_text, ad esempio "
+                "input_select.frame_gallery_department. Il suo valore sostituisce il "
+                "dipartimento salvato a ogni avvio. Un valore non valido o non disponibile "
+                "usa l'impostazione salvata con un avviso. Lascia vuoto per non usare "
+                "questa opzione."
+            ),
+        ),
+        "style_helper": (
+            "Periodo dalla dashboard (facoltativo)",
+            (
+                "ID di un helper input_select, select o input_text, ad esempio "
+                "input_select.frame_gallery_period. Il suo valore sostituisce il periodo "
+                "salvato a ogni avvio. Un valore non valido o non disponibile usa "
+                "l'impostazione salvata con un avviso. Lascia vuoto per non usare questa "
+                "opzione."
+            ),
+        ),
+        "color_helper": (
+            "Colore dalla dashboard (facoltativo, Commons)",
+            (
+                "ID di un helper input_select, select o input_text, ad esempio "
+                "input_select.frame_gallery_colour. Il suo valore sostituisce il colore "
+                "salvato a ogni avvio. Usa i valori inglesi documentati. Un valore non "
+                "valido o non disponibile usa l'impostazione salvata con un avviso. Lascia "
+                "vuoto per non usare questa opzione."
+            ),
+        ),
+        "artist_helper": (
+            "Artista dalla dashboard (facoltativo, Commons)",
+            (
+                "ID di un helper input_select, select o input_text, ad esempio "
+                "input_select.frame_gallery_artist. Il suo valore sostituisce l'artista "
+                "salvato a ogni avvio. Un valore non valido o non disponibile usa "
+                "l'impostazione salvata con un avviso. Lascia vuoto per non usare questa "
+                "opzione."
+            ),
+        ),
+        "log_level": (
+            "Dettaglio del registro",
+            (
+                "Opzione avanzata: info (predefinito), oppure debug per registrare anche i "
+                "candidati esaminati."
+            ),
+        ),
+        "loading_timer": (
+            "Timer di caricamento della dashboard",
+            (
+                "Facoltativo. ID del timer di questa scheda, ad esempio "
+                "timer.frame_gallery_run. Solo questo timer viene annullato dopo la "
+                "pulizia, anche senza risultati o in caso di annullamento. Lascia vuoto "
+                "per disattivare questo riscontro. La durata resta la protezione in caso "
+                "di arresto improvviso."
+            ),
+        ),
+        "artwork_info_helper": (
+            "Informazioni sull'opera nella dashboard",
+            (
+                "Facoltativo. Helper Testo dedicato, ad esempio "
+                "input_text.frame_gallery_artwork. Lunghezza minima 0, massima 255, senza "
+                "valore iniziale. L'app scrive il titolo, l'artista e la fonte "
+                "dell'anteprima. Non usare un helper di filtro. Lascia vuoto per mantenere "
+                "la scheda con la sola immagine."
+            ),
+        ),
+    },
+}
+
+
 def translations(language: str = "en") -> dict[str, Value]:
-    """``translations/en.yaml``: every option's name and description. The
+    """Every option's name and description in the selected configuration locale. The
     filter descriptions state which sources each filter applies to (B8)."""
     texts: dict[str, tuple[str, str]] = {
         "tv_host": (
@@ -177,6 +668,15 @@ def translations(language: str = "en") -> dict[str, Value]:
                 "is never used as a fallback."
             ),
         ),
+        "artist": (
+            "Artist wish (Commons, optional)",
+            (
+                "Leave empty or enter All artists for the whole catalogue. Otherwise enter "
+                "an offered artist name from the artist guide, for example Wassily Kandinsky. "
+                "Only Commons supports this filter. Artist and colour must both match; "
+                "no match keeps the current artwork and never substitutes another artist."
+            ),
+        ),
         "landscape_only": (
             "Landscape only",
             "Only choose artworks that are wider than they are tall.",
@@ -216,6 +716,10 @@ def translations(language: str = "en") -> dict[str, Value]:
         "color_helper": (
             "Colour helper",
             HELPER_TEXT.format(what="Colour", example="input_select.frame_gallery_colour"),
+        ),
+        "artist_helper": (
+            "Artist helper (Commons, optional)",
+            HELPER_TEXT.format(what="Artist wish", example="input_select.frame_gallery_artist"),
         ),
         "log_level": (
             "Log detail",
@@ -369,7 +873,27 @@ def translations(language: str = "en") -> dict[str, Value]:
                     "bleibt das bisherige Werk; es gibt keinen Ersatz anderer Farbe."
                 ),
             ),
+            "artist": (
+                "Künstlerwunsch (Commons, optional)",
+                (
+                    "Leer lassen oder Alle Künstler für die gesamte Auswahl eintragen. "
+                    "Sonst einen angebotenen Namen aus der Künstler-Anleitung angeben, "
+                    "z. B. Wassily Kandinsky. Nur für Commons. Künstler und Farbe müssen "
+                    "beide passen; ohne Treffer bleibt das bisherige Werk erhalten."
+                ),
+            ),
+            "artist_helper": (
+                "Künstler vom Dashboard (optional, Commons)",
+                (
+                    "Entitäts-ID eines Dropdown- oder Text-Helfers, z. B. "
+                    "input_select.frame_gallery_artist. Er ersetzt den Künstlerwunsch "
+                    "bei jedem Start. Ungültige oder nicht lesbare Werte fallen mit "
+                    "einer Warnung auf den gespeicherten Künstlerwunsch zurück."
+                ),
+            ),
         }
+    elif language in LOCALIZED_TEXTS:
+        texts = LOCALIZED_TEXTS[language]
     elif language != "en":
         raise ValueError("unsupported configuration language")
     return {
@@ -431,6 +955,9 @@ def main(argv: Sequence[str] | None = None) -> int:
         (CONFIG, config()),
         (TRANSLATIONS, translations()),
         (GERMAN_TRANSLATIONS, translations("de")),
+        (PROJECT / "translations" / "fr.yaml", translations("fr")),
+        (PROJECT / "translations" / "es.yaml", translations("es")),
+        (PROJECT / "translations" / "it.yaml", translations("it")),
     ):
         text = render(document)
         if arguments.check:

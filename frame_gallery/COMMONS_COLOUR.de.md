@@ -1,14 +1,14 @@
 # Farbauswahl ab Beta 0.1.0b6
 
-[English](COMMONS_COLOUR.md) | **Deutsch** | [Français](COMMONS_COLOUR.fr.md) | [Español](COMMONS_COLOUR.es.md)
+[English](COMMONS_COLOUR.md) | **Deutsch** | [Français](COMMONS_COLOUR.fr.md) | [Español](COMMONS_COLOUR.es.md) | [Italiano](COMMONS_COLOUR.it.md)
 
 Diese Seite ist die deutsche Anleitung. Die Sprache wird nicht automatisch durch
-Home Assistant gewählt. Die verlinkte Standardanleitung ist auf Englisch;
-die deutschen Menübezeichnungen für die Farbauswahl stehen unten.
+Home Assistant gewählt. Die deutsche Standardanleitung ist unten verlinkt;
+technische Werte bleiben auf Englisch.
 
 Diese Anleitung gilt ab **0.1.0b6** mit 1000 kuratierten Commons-Werken.
 In Beta 0.1.0b5 und älteren Versionen ist der Farbfilter noch nicht verfügbar.
-Für eine erste Einrichtung zuerst die [Standardanleitung](DOCS.md#dashboard)
+Für eine erste Einrichtung zuerst die [Standardanleitung](SETUP.de.md)
 befolgen. Die Farbauswahl auf dem Dashboard ist optional.
 
 ## Eine Farbe wünschen
@@ -154,3 +154,5 @@ nicht eine speziell programmierte einzelne Karte.
 und das Laufende abwarten. Danach `any` auswählen und erneut tippen. Falls kein
 ungesendetes Werk passt, bleiben Bild und Künstlerdaten erhalten und der Lauf
 endet trotzdem. Das Dropdown darf währenddessen sichtbar bleiben.
+
+[Künstler und Farbe zusammen](COMMONS_ARTIST.de.md): nächster Kandidat, noch nicht auf b6 verfügbar.

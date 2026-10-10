@@ -61,7 +61,12 @@ def _filters_record(filters: EffectiveFilters) -> dict[str, object]:
         "applied": {dimension.value: key for dimension, key in filters.active().items()},
         "provenance": {
             field.value: requested.choice(field).provenance.value
-            for field in (FilterField.DEPARTMENT, FilterField.STYLE, FilterField.COLOR)
+            for field in (
+                FilterField.DEPARTMENT,
+                FilterField.STYLE,
+                FilterField.COLOR,
+                FilterField.ARTIST,
+            )
         },
     }
 

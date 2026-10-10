@@ -17,7 +17,7 @@ Every adapter runs against its own synthesized fixture and must:
 from __future__ import annotations
 
 from collections.abc import Callable, Iterator
-from dataclasses import dataclass, field
+from dataclasses import dataclass, field, replace
 from pathlib import Path
 from types import MappingProxyType
 
@@ -66,6 +66,7 @@ FILTER_KEYS = {
     FilterDimension.STYLE: "style_any_documented_one",
     FilterDimension.PERIOD: "period_1800_1899",
     FilterDimension.COLOR: "color_blue",
+    FilterDimension.ARTIST: "artist_test_artist",
 }
 
 
@@ -77,6 +78,7 @@ def _filters(source: SourceKey, dimension: FilterDimension | None = None) -> Eff
         style=values.get(FilterDimension.STYLE),
         period=values.get(FilterDimension.PERIOD),
         color=values.get(FilterDimension.COLOR),
+        artist=values.get(FilterDimension.ARTIST),
         ignored=(),
         requested=FilterSet(source=source),
     )
@@ -191,7 +193,13 @@ def _commons() -> Subject:
     channel = gateway.channel(policy, metadata_allowance=Allowance("metadata", 15))
     return Subject(
         source=SourceKey.WIKIMEDIA_COMMONS,
-        provider=CommonsProvider(channel, TEST_CATALOG),
+        provider=CommonsProvider(
+            channel,
+            tuple(
+                work if index < 6 else replace(work, artist="Second Test Artist")
+                for index, work in enumerate(TEST_CATALOG)
+            ),
+        ),
         clock=clock,
         policy=policy,
         transport=transport,

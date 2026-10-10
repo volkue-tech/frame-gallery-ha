@@ -1,5 +1,37 @@
 # Implementation plan and approval gates
 
+## Next candidate: artist selection and five languages (D-221/D-222)
+
+Scope: [artist update plan](docs/plans/commons-artist-update.md). Local work is
+approved; native builds/publication and live mutations are separate gates.
+
+- [x] Add optional Commons artist field/helper using offered whole labels,
+  pre-network colour intersection, provenance and unsupported-source reporting.
+  Keep defaults, catalogue/pins, history/upload/quarantine and deadlines intact.
+- [x] Publish a local searchable 557-label choice list with total catalogue
+  counts, transparent unspecified/attributed/multiple-contributor labels.
+- [x] Complete native artist-only/artist-plus-colour examples and full guides in
+  EN/DE/FR/ES/IT. Keep old cards and helper IDs unchanged; no custom extension.
+- [x] Add DE/IT setup and IT colour guides, all reciprocal language/entry links,
+  localized visible card/script text and five generated configuration locales.
+  Preserve English technical selection values; keep technical background English.
+- [x] Verify backward compatibility, helper fallback, provider reporting,
+  intersection/shape fallback, genuine exhausted-artist retention and cleanup,
+  complete guide/example wiring and deterministic labels across hash seeds.
+- [x] Run unchanged local gates: 5116 passed, eleven existing platform skips,
+  strict mypy on Mac/Linux (255 files), 100% line/branch coverage; observed exit 0.
+- [x] Prepare reviewed candidate and verified personal identity for the local
+  commit; its exact hash is recorded in Git, with no push or new public version.
+- [ ] Obtain explicit next-beta native-build/publication confirmation, assign
+  next version and regenerate matching metadata; never publish candidate artist
+  schema with the current public b6 image.
+- [ ] Native ARM/Intel validators/root/measurement, corresponding sources,
+  actual images/signatures and readback; only then approved Store publication.
+- [ ] Separately approved live update/helper/card/locale/TV tests, if requested.
+
+History reset (D-223) remains discussion-only: clarify safe TV-content reuse,
+semantics, confirmation and backup before any reset implementation or data change.
+
 ## French/Spanish setup and colour-picker guides (2026-10-10, D-220)
 
 - [x] Add translated installation/pairing and complete camera/timer/script/card

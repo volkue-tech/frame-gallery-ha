@@ -124,35 +124,36 @@ def test_the_source_helper_switches_the_source(tmp_path: Path) -> None:
     assert h.provider.filters == []
 
 
-def test_all_four_helpers_take_four_reads(tmp_path: Path) -> None:
+@pytest.mark.parametrize("include_artist", [False, True])
+def test_optional_artist_adds_one_helper_read(tmp_path: Path, include_artist: bool) -> None:
+    raw: dict[str, object] = {
+        "source_helper": "input_select.a",
+        "department_helper": "input_select.b",
+        "style_helper": "input_text.c",
+        "color_helper": "select.d",
+    }
+    states = [_state("art_institute_chicago"), _state("any"), _state("any"), _state("any")]
+    expected = ["input_select.a", "input_select.b", "input_text.c", "select.d"]
+    if include_artist:
+        raw["artist_helper"] = "input_select.e"
+        states.append(_state("All artists"))
+        expected.append("input_select.e")
     h = _harness(
         tmp_path,
-        {
-            "source_helper": "input_select.a",
-            "department_helper": "input_select.b",
-            "style_helper": "input_text.c",
-            "color_helper": "select.d",
-        },
-        _state("art_institute_chicago"),
-        _state("any"),
-        _state("any"),
-        _state("any"),
+        raw,
+        *states,
     )
     reader = h.helper_reader
     assert isinstance(reader, SupervisorHelperReader)
     h.run()
     transport = reader._transport
     assert isinstance(transport, FakeTransport)
-    assert len(transport.calls) == 4
-    assert [call.request.target.rsplit("/", 1)[1] for call in transport.calls] == [
-        "input_select.a",
-        "input_select.b",
-        "input_text.c",
-        "select.d",
-    ]
+    assert len(transport.calls) == len(expected)
+    assert [call.request.target.rsplit("/", 1)[1] for call in transport.calls] == expected
     assert set(FilterField) == {
         FilterField.SOURCE,
         FilterField.DEPARTMENT,
         FilterField.STYLE,
         FilterField.COLOR,
+        FilterField.ARTIST,
     }

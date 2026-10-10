@@ -76,7 +76,7 @@ _HELPER_OPTIONS: Final = tuple((field, f"{field.value}_helper") for field in Fil
 """``(field, option)`` in ``FilterField`` order: ``source_helper`` first."""
 
 HELPER_OPTION_NAMES: Final = tuple(option for _, option in _HELPER_OPTIONS)
-"""The names of the four helper options, ``source_helper`` first."""
+"""The names of the five helper options, ``source_helper`` first."""
 
 TIMER_ENTITY_ID: Final = re.compile(r"timer\.[a-z0-9_]{1,64}", re.ASCII)
 ARTWORK_INFO_ENTITY_ID: Final = re.compile(r"input_text\.[a-z0-9_]{1,64}", re.ASCII)
@@ -93,6 +93,7 @@ _FILTER_NOUNS: Final = {
     FilterField.DEPARTMENT: "department or collection",
     FilterField.STYLE: "style or period",
     FilterField.COLOR: "colour",
+    FilterField.ARTIST: "artist (Commons catalogue name)",
 }
 
 _SOURCES: Final = {key.value: key for key in SourceKey}
@@ -253,6 +254,7 @@ def parse_options(
     department = _filter(FilterField.DEPARTMENT, raw.get("department"), vocabulary, issues)
     style = _filter(FilterField.STYLE, raw.get("style"), vocabulary, issues)
     color = _filter(FilterField.COLOR, raw.get("color"), vocabulary, issues)
+    artist = _filter(FilterField.ARTIST, raw.get("artist"), vocabulary, issues)
     landscape_only = _flag("landscape_only", raw.get("landscape_only"), issues, default=True)
     strict_tv_format = _flag("strict_tv_format", raw.get("strict_tv_format"), issues, default=True)
     fit_mode = _fit_mode(raw.get("fit_mode"), issues)
@@ -286,7 +288,9 @@ def parse_options(
         raise ConfigError(issues)
     return Options(
         tv_host=tv_host,
-        filters=FilterSet(source=source, department=department, style=style, color=color),
+        filters=FilterSet(
+            source=source, department=department, style=style, color=color, artist=artist
+        ),
         landscape_only=landscape_only,
         strict_tv_format=strict_tv_format,
         fit_mode=fit_mode,

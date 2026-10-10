@@ -36,6 +36,7 @@ schema:
   landscape_only: bool
   strict_tv_format: bool
   fit_mode: 'list(contain|cover)'
+  artist: 'str(0,255)?'
   department: 'list(any|cma_american_painting_sculpture|cma_european_painting_sculpture|cma_modern_european_painting_sculpture|cma_drawings|cma_prints|cma_photography|cma_chinese_art|cma_japanese_art|cma_korean_art|cma_indian_southeast_asian_art|cma_islamic_art|cma_textiles)?'
   style: 'list(any|period_before_1400|period_1400_1599|period_1600_1799|period_1800_1899|period_1900_and_later)?'
   background_color: 'match(^#[0-9A-Fa-f]{6}$)?'
@@ -43,6 +44,7 @@ schema:
   department_helper: 'match(^(?:input_select|select|input_text)\.[a-z0-9_]{1,64}$)?'
   style_helper: 'match(^(?:input_select|select|input_text)\.[a-z0-9_]{1,64}$)?'
   color_helper: 'match(^(?:input_select|select|input_text)\.[a-z0-9_]{1,64}$)?'
+  artist_helper: 'match(^(?:input_select|select|input_text)\.[a-z0-9_]{1,64}$)?'
   log_level: 'list(info|debug)?'
   loading_timer: 'match(^timer\.[a-z0-9_]{1,64}$)?'
   artwork_info_helper: 'match(^input_text\.[a-z0-9_]{1,64}$)?'

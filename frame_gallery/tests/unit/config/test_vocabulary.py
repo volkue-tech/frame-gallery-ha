@@ -90,11 +90,13 @@ def test_field_dimensions_and_field_for() -> None:
         FilterField.DEPARTMENT: {FilterDimension.DEPARTMENT},
         FilterField.STYLE: {FilterDimension.STYLE, FilterDimension.PERIOD},
         FilterField.COLOR: {FilterDimension.COLOR},
+        FilterField.ARTIST: {FilterDimension.ARTIST},
     }
     assert field_for(FilterDimension.DEPARTMENT) is FilterField.DEPARTMENT
     assert field_for(FilterDimension.STYLE) is FilterField.STYLE
     assert field_for(FilterDimension.PERIOD) is FilterField.STYLE
     assert field_for(FilterDimension.COLOR) is FilterField.COLOR
+    assert field_for(FilterDimension.ARTIST) is FilterField.ARTIST
 
 
 # -- VocabularyEntry --------------------------------------------------------------------------

@@ -27,7 +27,7 @@ from frame_gallery.domain import SourceKey
 CAPABILITY_MATRIX: Final[Mapping[SourceKey, frozenset[FilterDimension]]] = MappingProxyType(
     {
         SourceKey.LOCAL_MEDIA: frozenset(),
-        SourceKey.WIKIMEDIA_COMMONS: frozenset({FilterDimension.COLOR}),
+        SourceKey.WIKIMEDIA_COMMONS: frozenset({FilterDimension.COLOR, FilterDimension.ARTIST}),
         SourceKey.ART_INSTITUTE_CHICAGO: frozenset({FilterDimension.PERIOD}),
         SourceKey.CLEVELAND_MUSEUM_OF_ART: frozenset(
             {FilterDimension.DEPARTMENT, FilterDimension.PERIOD}
@@ -41,7 +41,12 @@ The Art Institute supports only the period in the beta: its documentation
 names the department, style, and colour fields but not their values or
 members, and undocumented values are not used (D-146, Q-25)."""
 
-_FILTER_FIELDS: Final = (FilterField.DEPARTMENT, FilterField.STYLE, FilterField.COLOR)
+_FILTER_FIELDS: Final = (
+    FilterField.DEPARTMENT,
+    FilterField.STYLE,
+    FilterField.COLOR,
+    FilterField.ARTIST,
+)
 """The fields resolved, in the order ignored filters are reported."""
 
 type CapabilityRow = tuple[FilterDimension, tuple[tuple[SourceKey, bool], ...]]
@@ -106,6 +111,7 @@ def resolve_effective_filters(filters: FilterSet, vocabulary: Vocabulary) -> Eff
         style=applied.get(FilterDimension.STYLE),
         period=applied.get(FilterDimension.PERIOD),
         color=applied.get(FilterDimension.COLOR),
+        artist=applied.get(FilterDimension.ARTIST),
         ignored=tuple(ignored),
         requested=filters,
     )

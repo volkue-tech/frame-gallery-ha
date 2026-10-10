@@ -1,11 +1,12 @@
 # Elegir un color — desde la beta 0.1.0b6
 
-[English](COMMONS_COLOUR.md) | [Deutsch](COMMONS_COLOUR.de.md) | [Français](COMMONS_COLOUR.fr.md) | **Español**
+[English](COMMONS_COLOUR.md) | [Deutsch](COMMONS_COLOUR.de.md) | [Français](COMMONS_COLOUR.fr.md) | **Español** | [Italiano](COMMONS_COLOUR.it.md)
 
 Esta página está en español. Home Assistant no cambia automáticamente el
 idioma de la documentación: utiliza los enlaces de arriba.
-Esta actualización traduce las guías, no los campos de configuración de la app.
-Los nombres de esos campos se indican en inglés a continuación.
+La versión pública b6 tiene los campos en inglés/alemán. El próximo candidato
+añade francés, español e italiano. Los nombres siguientes son los españoles del
+candidato; en b6, utiliza las claves técnicas. Los valores siguen en inglés.
 
 Esta guía sirve para **0.1.0b6 y versiones posteriores**, con 1000 obras
 seleccionadas de Commons. El filtro de color no está disponible en 0.1.0b5
@@ -15,10 +16,10 @@ El selector de color del panel es opcional.
 
 ## Elegir un color en la app
 
-1. Abre **Settings → Apps → Frame Gallery → Configuration**
+1. Abre **Ajustes → Aplicaciones → Frame Gallery → Configuración**
    (Ajustes → Apps → Frame Gallery → Configuración).
-2. Elige `wikimedia_commons` en **Artwork source**.
-3. Justo debajo, en **Colour wish (Commons)**, selecciona un color,
+2. Elige `wikimedia_commons` en **Fuente de las obras** (`source`).
+3. Justo debajo, en **Color deseado (Commons)** (`color`), selecciona un color,
    por ejemplo **Blue** para azul. **any** significa todos los colores
    y sigue siendo la opción predeterminada.
 4. Guarda. La próxima ejecución, iniciada desde la app o tu tarjeta actual,
@@ -88,22 +89,19 @@ Varios colores en un solo valor no se interpretan como una combinación.
 sin este paso. No necesitas HACS ni un nuevo script. El ayudante Dropdown nuevo
 solo es necesario para elegir el color desde el panel.
 
-Las rutas de menú siguientes utilizan los nombres en inglés. Si Home Assistant
-está en español, busca las secciones equivalentes; sus traducciones pueden
-variar según la versión.
+Los nombres de menú pueden variar según la versión de Home Assistant.
 
-1. Abre **Settings → Devices & services → Helpers → Create helper → Dropdown**.
+1. Abre **Ajustes → Dispositivos y servicios → Ayudantes → Crear ayudante → Desplegable**.
    Ponle el nombre `Frame Gallery Colour`.
 2. Añade estas opciones por separado, exactamente como aparecen, una por opción:
    `any`, `Red`, `Orange`, `Yellow`, `Green`, `Blue`, `Purple`, `Pink`, `Brown`,
    `Beige`, `Gray`, `Black`, `White`. `any` significa todos los colores.
    Los valores en inglés son iguales en todas las versiones de esta guía.
 3. Guarda y comprueba el ID real de la entidad: abre el ayudante →
-   **⋮ → Details**. ID esperado: `input_select.frame_gallery_colour`.
+   **⋮ → Detalles**. ID esperado: `input_select.frame_gallery_colour`.
    Si ya existe una entidad con ese nombre, el ID puede ser distinto.
-4. En **Frame Gallery → Configuration**, introduce ese ID en **Colour helper**
-   (`color_helper`). Si no aparece, activa **Show unused optional configuration
-   options**. Mantén Commons como fuente y guarda.
+4. En **Frame Gallery → Configuración**, introduce ese ID en **Color desde el panel (opcional, Commons)**
+   (`color_helper`). Si no aparece, activa **Mostrar opciones de configuración opcionales no utilizadas**. Mantén Commons como fuente y guarda.
 5. Selecciona `any`. Utiliza el bloque completo de abajo en tu tarjeta.
    Sustituye en todas las apariciones los IDs de cámara, temporizador, script
    y ayudante que sean diferentes en tu instalación.
@@ -161,3 +159,5 @@ no una única tarjeta personalizada.
 a que termine. Después elige `any` y repite. Si no coincide ninguna obra
 que todavía no se haya enviado, la imagen y los datos se conservan y la ejecución
 termina igualmente. El selector puede seguir visible durante la carga.
+
+[Artista y color juntos](COMMONS_ARTIST.es.md): próximo candidato, aún no disponible en b6.

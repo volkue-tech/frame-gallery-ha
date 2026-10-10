@@ -1,7 +1,7 @@
 """Reads helper states through the Supervisor's Core API proxy (§15.3, D-112).
 
 Each configured helper is read with exactly one request, and there are at
-most four helpers:
+most five filter helpers, sharing the same configuration deadline (D-221):
 
 - ``GET http://supervisor/core/api/states/<entity_id>``, where the entity ID
   is re-validated with ``fullmatch`` and percent-encoded;

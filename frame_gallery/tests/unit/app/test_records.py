@@ -89,7 +89,12 @@ def test_last_run_record_for_a_no_match_run_is_json_and_complete() -> None:
         "source": "cleveland_museum_of_art",
         "source_provenance": "helper",
         "applied": {"department": "cma_test_prints"},
-        "provenance": {"department": "helper", "style": "static", "color": "static"},
+        "provenance": {
+            "department": "helper",
+            "style": "static",
+            "color": "static",
+            "artist": "static",
+        },
     }
     assert record["ignored_filters"] == [
         {

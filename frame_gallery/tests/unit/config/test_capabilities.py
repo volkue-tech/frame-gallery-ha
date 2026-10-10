@@ -42,10 +42,15 @@ DEPARTMENT = FilterDimension.DEPARTMENT
 STYLE_DIM = FilterDimension.STYLE
 PERIOD_DIM = FilterDimension.PERIOD
 COLOR_DIM = FilterDimension.COLOR
+ARTIST_DIM = FilterDimension.ARTIST
 
 # The expected matrix, written out by hand from §9.2 as amended by D-146
 # (not derived from the code).
 EXPECTED_SUPPORT = {
+    (COMMONS, ARTIST_DIM): True,
+    (LOCAL, ARTIST_DIM): False,
+    (AIC, ARTIST_DIM): False,
+    (CMA, ARTIST_DIM): False,
     (COMMONS, DEPARTMENT): False,
     (COMMONS, STYLE_DIM): False,
     (COMMONS, PERIOD_DIM): False,
@@ -115,7 +120,7 @@ def _filters(
 
 def test_matrix_is_exactly_the_published_one() -> None:
     assert dict(CAPABILITY_MATRIX) == {
-        COMMONS: frozenset({COLOR_DIM}),
+        COMMONS: frozenset({COLOR_DIM, ARTIST_DIM}),
         LOCAL: frozenset(),
         AIC: frozenset({PERIOD_DIM}),
         CMA: frozenset({DEPARTMENT, PERIOD_DIM}),
@@ -134,7 +139,13 @@ def test_supports(source: SourceKey, dimension: FilterDimension) -> None:
 
 def test_capability_rows() -> None:
     rows = capability_rows()
-    assert [dimension for dimension, _ in rows] == [DEPARTMENT, STYLE_DIM, PERIOD_DIM, COLOR_DIM]
+    assert [dimension for dimension, _ in rows] == [
+        DEPARTMENT,
+        STYLE_DIM,
+        PERIOD_DIM,
+        COLOR_DIM,
+        ARTIST_DIM,
+    ]
     for dimension, cells in rows:
         assert [source for source, _ in cells] == [LOCAL, AIC, CMA, COMMONS]
         for source, supported in cells:

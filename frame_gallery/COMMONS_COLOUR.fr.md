@@ -1,11 +1,12 @@
 # Choisir une couleur — à partir de la bêta 0.1.0b6
 
-[English](COMMONS_COLOUR.md) | [Deutsch](COMMONS_COLOUR.de.md) | **Français** | [Español](COMMONS_COLOUR.es.md)
+[English](COMMONS_COLOUR.md) | [Deutsch](COMMONS_COLOUR.de.md) | **Français** | [Español](COMMONS_COLOUR.es.md) | [Italiano](COMMONS_COLOUR.it.md)
 
 Cette page est en français. Home Assistant ne choisit pas automatiquement la
 langue de la documentation : utilisez les liens ci-dessus.
-Cette mise à jour traduit les guides, pas les champs de configuration de l’app.
-Les libellés de ces champs sont indiqués en anglais ci-dessous.
+La version publique b6 a les champs de l’app en anglais/allemand. Le prochain
+candidat ajoute français, espagnol et italien. Les noms ci-dessous sont ceux du
+candidat français ; sur b6, utilisez les clés techniques. Les valeurs restent en anglais.
 
 Ce guide s’applique à **0.1.0b6 et aux versions suivantes**, avec 1000 œuvres
 Commons sélectionnées. Le filtre de couleur n’est pas disponible dans
@@ -15,10 +16,10 @@ Le sélecteur de couleur sur le tableau de bord est facultatif.
 
 ## Choisir une couleur dans l’app
 
-1. Ouvrez **Settings → Apps → Frame Gallery → Configuration**
+1. Ouvrez **Paramètres → Applications → Frame Gallery → Configuration**
    (Paramètres → Apps → Frame Gallery → Configuration).
-2. Choisissez `wikimedia_commons` dans **Artwork source**.
-3. Juste en dessous, dans **Colour wish (Commons)**, choisissez une couleur,
+2. Choisissez `wikimedia_commons` dans **Source des œuvres** (`source`).
+3. Juste en dessous, dans **Couleur souhaitée (Commons)** (`color`), choisissez une couleur,
    par exemple **Blue** pour le bleu. **any** signifie toutes les couleurs
    et reste la valeur par défaut.
 4. Enregistrez. La prochaine exécution, lancée depuis l’app ou votre carte
@@ -93,19 +94,19 @@ Les chemins de menu suivants utilisent les libellés anglais. Si votre Home
 Assistant est en français, cherchez les rubriques équivalentes ; leur traduction
 peut varier selon la version.
 
-1. Ouvrez **Settings → Devices & services → Helpers → Create helper → Dropdown**.
+1. Ouvrez **Paramètres → Appareils et services → Entrées → Créer une entrée → Liste déroulante**.
    Nommez la liste `Frame Gallery Colour`.
 2. Ajoutez ces options séparément, exactement comme indiqué, une par option :
    `any`, `Red`, `Orange`, `Yellow`, `Green`, `Blue`, `Purple`, `Pink`, `Brown`,
    `Beige`, `Gray`, `Black`, `White`. `any` signifie toutes les couleurs.
    Les valeurs anglaises sont identiques dans toutes les versions de ce guide.
 3. Enregistrez et vérifiez l’identifiant réel de l’entité : ouvrez l’entrée
-   auxiliaire → **⋮ → Details**. Identifiant attendu :
+   auxiliaire → **⋮ → Détails**. Identifiant attendu :
    `input_select.frame_gallery_colour`. Une entité existante de même nom peut
    entraîner un identifiant différent.
 4. Dans **Frame Gallery → Configuration**, saisissez cet identifiant dans
-   **Colour helper** (`color_helper`). Si le champ est masqué, activez
-   **Show unused optional configuration options**. Gardez Commons comme source
+   **Couleur depuis le tableau de bord (facultatif, Commons)** (`color_helper`). Si le champ est masqué, activez
+   **Afficher les options de configuration facultatives non utilisées**. Gardez Commons comme source
    et enregistrez.
 5. Choisissez `any`. Utilisez le bloc complet ci-dessous dans votre carte.
    Remplacez partout les identifiants de caméra, de minuterie, de script ou de
@@ -165,3 +166,5 @@ l’image et attendez la fin. Choisissez ensuite `any` et recommencez.
 Si aucune œuvre non encore envoyée ne correspond, l’image et les informations
 restent inchangées et l’exécution se termine tout de même. Le sélecteur peut
 rester visible pendant le chargement.
+
+[Artiste et couleur ensemble](COMMONS_ARTIST.fr.md) : prochain candidat, pas encore disponible sur b6.

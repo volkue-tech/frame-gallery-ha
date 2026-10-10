@@ -1,7 +1,7 @@
 """Filter value types (§9.2, D-124).
 
-There are four distinct filter dimensions besides the source: department or
-collection, style, period, and colour. The ``style`` option carries either a
+There are five distinct filter dimensions besides the source: department or
+collection, style, period, colour and artist. The ``style`` option carries either a
 ``style_...`` key (style dimension) or a ``period_...`` key (period dimension).
 """
 
@@ -20,6 +20,7 @@ class FilterField(enum.StrEnum):
     DEPARTMENT = "department"
     STYLE = "style"
     COLOR = "color"
+    ARTIST = "artist"
 
 
 class FilterDimension(enum.StrEnum):
@@ -29,6 +30,7 @@ class FilterDimension(enum.StrEnum):
     STYLE = "style"
     PERIOD = "period"
     COLOR = "color"
+    ARTIST = "artist"
 
 
 class Provenance(enum.StrEnum):
@@ -58,6 +60,7 @@ class FilterSet:
     style: FilterChoice = ANY
     color: FilterChoice = ANY
     source_provenance: Provenance = Provenance.STATIC
+    artist: FilterChoice = ANY
 
     def choice(self, field: FilterField) -> FilterChoice:
         """The choice for a filter field (not for ``SOURCE``)."""
@@ -67,6 +70,8 @@ class FilterSet:
             return self.style
         if field is FilterField.COLOR:
             return self.color
+        if field is FilterField.ARTIST:
+            return self.artist
         msg = "the source is not a FilterChoice"
         raise ValueError(msg)
 
@@ -109,6 +114,7 @@ class EffectiveFilters:
     ignored: tuple[IgnoredFilter, ...]
     requested: FilterSet
     """The values before the capability matrix was applied (for provenance)."""
+    artist: str | None = None
 
     def active(self) -> dict[FilterDimension, str]:
         """The applied filter keys by dimension (unset dimensions omitted)."""
@@ -117,5 +123,6 @@ class EffectiveFilters:
             FilterDimension.STYLE: self.style,
             FilterDimension.PERIOD: self.period,
             FilterDimension.COLOR: self.color,
+            FilterDimension.ARTIST: self.artist,
         }
         return {dimension: key for dimension, key in values.items() if key is not None}

@@ -1,5 +1,23 @@
 # Product specification
 
+## Next-update artist and language amendment (2026-10-10, D-221/D-222)
+
+Local implementation authorized: Commons-only optional `artist` and dedicated
+`artist_helper`, default unrestricted, combined with existing colour/shape.
+Validate offered complete attribution labels/keys only. Preserve originals,
+source pins, history/upload/quarantine and all budgets. Shape fallback never
+relaxes artist or colour; no match retains TV/preview/caption and ends cleanly.
+Other sources visibly report an artist wish as unsupported. Standard cards and
+old options remain valid; native favourite-artist Dropdown is optional alongside
+colour, without HACS, SSH or configuration.yaml. No automatic helper creation.
+
+Configuration names/help: English, German, French, Spanish and Italian.
+Technical values/IDs stay compatible. Italian is additionally an official
+documentation language; finish IT setup/colour and five-language artist guides
+and language links before release. English remains default and technical
+background remains English. Native image/publication/live gates stay separate.
+History reset is only a discussed proposal (D-223), not implementation scope.
+
 ## Draft Commons colour update (2026-10-09, D-212/D-213)
 
 Local next-update scope: 1000 usable Commons works in total, preserving the

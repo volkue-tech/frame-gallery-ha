@@ -1,6 +1,56 @@
 # Project status
 
-Last updated: 2026-10-10 (b6 released; French/Spanish guides, D-220)
+Last updated: 2026-10-10 (b6 public; artist/five-language candidate locally checked)
+
+## Current candidate — artist selection and five-language configuration
+
+Local implementation is human-approved (D-221/D-222), not yet built/published or
+installed. Public Store main remains the b6 documentation closure c995ff5; the
+b6 runtime/release/source asset remains unchanged. The local version/metadata
+still says b6 pending the separate next-beta gate: do not deploy this candidate
+schema against the public b6 image, which has no artist support. Before native
+builds, assign the next beta and regenerate matching version/image metadata.
+
+Commons accepts one optional artist label/key or one dedicated helper, intersected
+with colour before metadata/image requests. Other providers report it ignored.
+The 1000-work catalogue, pins/rights, history/upload/quarantine, limits, privileges
+and standard card are unchanged. Its 560 original attribution strings yield
+557 normalized selectable labels; four long labels have selection-only display
+abbreviations. Labels are deterministic across hash seeds, not an authority
+register. The choice list reports catalogue totals, not unsent matches.
+
+All 18 configuration fields have generated en/de/fr/es/it names and help.
+Technical selection values, entity IDs, paths and YAML actions stay unchanged;
+the HA interface chooses configuration language, guide links choose Markdown
+language manually. Complete setup/colour/artist guides are linked in all five
+languages. The optional artist-only and artist-plus-colour examples use built-in
+cards and favourite-artist helpers; no automatic helper/card writes. Script alias
+and IDs remain stable; script descriptions and visible card text are localized.
+Technical background stays English. No live frontend-language check is claimed.
+
+Tests include old configurations, exact known/invalid/unavailable helper values,
+all-provider capability reporting, colour intersection, shape fallback without
+artist widening, production wiring, and genuine single-artist sent-history
+exhaustion preserving TV/preview/caption. Complete translated guide/examples,
+language links, build context, labels and catalogue counts are verified. Two
+separate hash-seed runs each passed 39 artist/name/document tests.
+
+Full unchanged gates passed with observed exit 0: Ruff/format, strict mypy on
+Mac/Linux (255 files), 5116 tests passed / eleven existing platform skips,
+whole-package 100% (9468 statements / 2068 branches), mandatory-package 100%
+(7751 / 1714). Log: build/commons-1000-release/check-artist-languages-full.log.
+Earlier runs exposed stale four-helper expectations and a display-name tie;
+these were fixed. Two unchanged real group/mode tests failed inside the sandbox
+and passed outside it; the full passing run also used real Mac file permissions.
+No gates were relaxed or new skips introduced. This is local evidence, not native
+Linux/root/RLIMIT_AS, actual-image, signature or hardware validation.
+
+Next gate: explicit native-build/publication approval, exact source/image version
+and ARM/Intel release checks before Store main changes. Live update/helper/card/TV
+checks need their own confirmation. No credentials were loaded and no live
+HA/Green/TV or publication systems were used. Unrelated untracked docs/community/
+remains untouched. History reset is a recorded proposal only (D-223): no reset or
+cache-delete control has been implemented or authorized.
 
 ## Current documentation follow-up — French/Spanish setup and colour picker
 

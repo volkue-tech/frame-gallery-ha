@@ -4,12 +4,14 @@
 > No API key is needed. Update without uninstalling; your saved sources and
 > existing camera, timer, script and optional artwork-information helper still work.
 
-**Setup guide:** English (this page) | [Français](https://github.com/volkue-tech/frame-gallery-ha/blob/main/frame_gallery/SETUP.fr.md) | [Español](https://github.com/volkue-tech/frame-gallery-ha/blob/main/frame_gallery/SETUP.es.md).
+**Setup guide:** English (this page) | [Deutsch](https://github.com/volkue-tech/frame-gallery-ha/blob/main/frame_gallery/SETUP.de.md) | [Français](https://github.com/volkue-tech/frame-gallery-ha/blob/main/frame_gallery/SETUP.fr.md) | [Español](https://github.com/volkue-tech/frame-gallery-ha/blob/main/frame_gallery/SETUP.es.md) | [Italiano](https://github.com/volkue-tech/frame-gallery-ha/blob/main/frame_gallery/SETUP.it.md).
 
-**Colour-picker guide:** [English](https://github.com/volkue-tech/frame-gallery-ha/blob/main/frame_gallery/COMMONS_COLOUR.md) | [Deutsch](https://github.com/volkue-tech/frame-gallery-ha/blob/main/frame_gallery/COMMONS_COLOUR.de.md) | [Français](https://github.com/volkue-tech/frame-gallery-ha/blob/main/frame_gallery/COMMONS_COLOUR.fr.md) | [Español](https://github.com/volkue-tech/frame-gallery-ha/blob/main/frame_gallery/COMMONS_COLOUR.es.md).
+**Colour-picker guide:** [English](https://github.com/volkue-tech/frame-gallery-ha/blob/main/frame_gallery/COMMONS_COLOUR.md) | [Deutsch](https://github.com/volkue-tech/frame-gallery-ha/blob/main/frame_gallery/COMMONS_COLOUR.de.md) | [Français](https://github.com/volkue-tech/frame-gallery-ha/blob/main/frame_gallery/COMMONS_COLOUR.fr.md) | [Español](https://github.com/volkue-tech/frame-gallery-ha/blob/main/frame_gallery/COMMONS_COLOUR.es.md) | [Italiano](https://github.com/volkue-tech/frame-gallery-ha/blob/main/frame_gallery/COMMONS_COLOUR.it.md).
 These are separate guides; their language is not selected automatically by Home Assistant.
-The app configuration has English and German texts; translating a guide does not
-translate the app form. Technical values and entity IDs stay unchanged.
+The public b6 app form has English/German texts. The next, unreleased candidate
+adds French/Spanish/Italian configuration names and help. The form follows the
+HA interface language; guides use manual links. Technical values and entity IDs
+stay unchanged.
 
 One start, one fresh artwork on your Samsung Frame. Choose museum artwork or your own images, preserve the whole work without cropping by default, and optionally see the latest successful preview on your Home Assistant dashboard.
 
@@ -217,7 +219,7 @@ No HACS extension is needed.
 **Optional colour picker (0.1.0b6 and newer, Commons only):** keep the standard
 card if you prefer a minimal setup. To choose a colour directly on the dashboard,
 follow the [complete native colour-card guide](https://github.com/volkue-tech/frame-gallery-ha/blob/main/frame_gallery/COMMONS_COLOUR.md).
-It is available in English, German, French and Spanish through the language links
+It is available in English, German, French, Spanish and Italian through the language links
 at the top of this page, with complete copy-and-paste cards in every version.
 It adds one Dropdown helper through the UI, connected by `color_helper`, and
 reuses the same camera, timer and script. Select a colour, then tap the preview;
@@ -375,3 +377,5 @@ use the complete generic examples above and check the resulting entity IDs.
 Development tests also exercised no-match, cancellation, notification failure
 and the timer's expiry. One recovery run refreshed within 14 seconds of preview
 publication; that observation is not a universal refresh-time guarantee.
+
+**Next update candidate, not yet in public b6:** optional Commons artist selection and complete native cards: [English](https://github.com/volkue-tech/frame-gallery-ha/blob/main/frame_gallery/COMMONS_ARTIST.md) | [Deutsch](https://github.com/volkue-tech/frame-gallery-ha/blob/main/frame_gallery/COMMONS_ARTIST.de.md) | [Français](https://github.com/volkue-tech/frame-gallery-ha/blob/main/frame_gallery/COMMONS_ARTIST.fr.md) | [Español](https://github.com/volkue-tech/frame-gallery-ha/blob/main/frame_gallery/COMMONS_ARTIST.es.md) | [Italiano](https://github.com/volkue-tech/frame-gallery-ha/blob/main/frame_gallery/COMMONS_ARTIST.it.md). Existing cards and history remain unchanged; do not configure artist options on b6.

@@ -28,7 +28,7 @@ VOCAB = BUILTIN_VOCABULARY
 
 
 def test_version_and_shape() -> None:
-    assert VOCAB.version == "2"
+    assert VOCAB.version == "3"
     departments = VOCAB.entries_for(FilterField.DEPARTMENT)
     styles = VOCAB.entries_for(FilterField.STYLE)
     assert len(departments) == 12

@@ -1,14 +1,14 @@
 # Frame Gallery — installation et première carte
 
-[English](DOCS.md#installation) | **Français** | [Español](SETUP.es.md)
+[English](DOCS.md#installation) | [Deutsch](SETUP.de.md) | **Français** | [Español](SETUP.es.md) | [Italiano](SETUP.it.md)
 
 Guide de démarrage pour la **bêta 0.1.0b6**. La langue de cette page est choisie
 avec les liens ci-dessus, pas automatiquement par Home Assistant.
 Les documents techniques restent [en anglais](DOCS.md#options).
-Cette mise à jour traduit les guides, pas le formulaire de configuration de
-l’app. Les chemins de menu et les noms de champs ci-dessous sont indiqués en
-anglais pour correspondre à l’interface anglaise ; dans un Home Assistant
-traduit, cherchez les rubriques équivalentes.
+La version publique b6 a le formulaire en anglais/allemand. Le prochain candidat,
+non encore publié, ajoute aussi français, espagnol et italien. Les noms de champs
+ci-dessous sont ceux du candidat français ; sur b6, utilisez les clés techniques.
+Les valeurs restent en anglais. Le formulaire suit la langue de l’interface HA.
 
 **Parcours :** installer → afficher une œuvre sur le téléviseur → ajouter la carte
 facultative → [ajouter le sélecteur de couleur](COMMONS_COLOUR.fr.md).
@@ -32,15 +32,15 @@ nécessaire. Aucun compte Wikimedia n’est requis.
 ## 1. Installer depuis Home Assistant
 
 1. [Ajoutez le dépôt à Home Assistant](https://my.home-assistant.io/redirect/supervisor_add_addon_repository/?repository_url=https%3A%2F%2Fgithub.com%2Fvolkue-tech%2Fframe-gallery-ha).
-   Sinon, ouvrez **Settings → Apps → App store → ⋮ → Repositories** et ajoutez
+   Sinon, ouvrez **Paramètres → Applications → Boutique d’apps → ⋮ → Dépôts** et ajoutez
    `https://github.com/volkue-tech/frame-gallery-ha`. C’est un dépôt d’apps,
    pas une intégration HACS.
 2. Recherchez **Samsung** ou **Frame Gallery**, ouvrez **Frame Gallery – Samsung
-   Frame TV** et choisissez **Install**. L’image déjà construite pour votre
+   Frame TV** et choisissez **Installer**. L’image déjà construite pour votre
    appareil est téléchargée ; le Green ne compile rien.
-3. Dans **Configuration**, renseignez **TV address** puis **Save**.
+3. Dans **Configuration**, renseignez **Adresse du téléviseur (`tv_host`)** puis **Enregistrer**.
    Gardez les autres valeurs par défaut pour le premier essai.
-4. Laissez **Watchdog** et **Start on boot** désactivés. Chaque démarrage
+4. Laissez **Watchdog** et **Démarrer au démarrage** désactivés. Chaque démarrage
    charge une œuvre puis l’app s’arrête normalement ; elle ne doit pas
    redémarrer en boucle ni changer l’image à chaque redémarrage de HA.
 
@@ -49,13 +49,13 @@ Vos réglages et l’historique des envois sont conservés.
 
 ## 2. Afficher la première œuvre
 
-1. Allumez le téléviseur. Dans l’onglet **Info** de l’app, choisissez **Start**.
-2. Suivez l’onglet **Log**. Lors de la première connexion, acceptez la demande
+1. Allumez le téléviseur. Dans l’onglet **Info** de l’app, choisissez **Démarrer**.
+2. Suivez l’onglet **Journal**. Lors de la première connexion, acceptez la demande
    d’autorisation sur le téléviseur **dans les 20 secondes**.
 3. Si le journal indique `outcome=tv_not_authorized`, relancez l’app et
    acceptez la demande. `outcome=delivered` indique que l’envoi et la sélection
    ont été confirmés par le protocole ; vérifiez aussi l’affichage sur le téléviseur.
-4. L’état **Stopped** après l’exécution est normal. Démarrez à nouveau l’app
+4. L’état **Arrêtée** après l’exécution est normal. Démarrez à nouveau l’app
    quand vous voulez une autre œuvre.
 
 La carte n’est pas nécessaire pour ce premier essai. Elle n’est pas créée
@@ -63,19 +63,18 @@ automatiquement lors de l’installation.
 
 ### Réglages recommandés
 
-| Champ anglais de l’app | Conseil |
+| Champ de l’app | Conseil |
 | --- | --- |
-| TV address | L’adresse IPv4 privée fixe du téléviseur. |
-| Artwork source | `wikimedia_commons`, valeur par défaut pour une nouvelle installation. |
-| Colour wish (Commons) | `any` pour toutes les couleurs ; une seule couleur est facultative. |
-| Landscape only | Activé pour les images horizontales. |
-| Prefer 16:9 (may take longer) | Activé pour privilégier le format le plus proche ; désactivé pour toute la sélection Commons. |
-| Image fit (contain = no crop) | `contain` pour l’œuvre entière, sans recadrage. `cover` peut couper les bords. |
+| Adresse du téléviseur (`tv_host`) | L’adresse IPv4 privée fixe du téléviseur. |
+| Source des œuvres (`source`) | `wikimedia_commons`, valeur par défaut pour une nouvelle installation. |
+| Couleur souhaitée (Commons) (`color`) | `any` pour toutes les couleurs ; une seule couleur est facultative. |
+| Format paysage uniquement (`landscape_only`) | Activé pour les images horizontales. |
+| Préférer le format 16:9 (peut prendre plus de temps) (`strict_tv_format`) | Activé pour privilégier le format le plus proche ; désactivé pour toute la sélection Commons. |
+| Ajustement de l'image (contain = sans recadrage) (`fit_mode`) | `contain` pour l’œuvre entière, sans recadrage. `cover` peut couper les bords. |
 
 Les 1000 sources Commons s’écartent d’au plus 2,5 % du rapport 16:9. La préférence
 16:9 utilise un seuil plus strict d’environ 1 % ; de petites marges peuvent
-rester. Les options avancées sont facultatives. Activez **Show unused optional
-configuration options** uniquement pour afficher les champs dont vous avez
+rester. Les options avancées sont facultatives. Activez **Afficher les options de configuration facultatives non utilisées** uniquement pour afficher les champs dont vous avez
 besoin. Le filtre de couleur concerne Commons uniquement.
 
 ## 3. Ajouter la carte standard au tableau de bord
@@ -95,8 +94,8 @@ vérifiées le 5 octobre 2026.*
 
 ### A. Créer et nommer la caméra d’aperçu
 
-Après une exécution réussie de l’app, ouvrez **Settings → Devices & services →
-Add integration → Local File**. Le fichier d’aperçu doit déjà exister.
+Après une exécution réussie de l’app, ouvrez **Paramètres → Appareils et services →
+Ajouter une intégration → Local File**. Le fichier d’aperçu doit déjà exister.
 
 ![Dialogue réel Local File en allemand, avec les champs Name et Dateipfad.](https://raw.githubusercontent.com/volkue-tech/frame-gallery-ha/main/docs/images/local-file-setup.png)
 
@@ -105,16 +104,16 @@ Les deux valeurs ci-dessous sont identiques dans toutes les langues.*
 
 | Champ | Valeur à saisir |
 | --- | --- |
-| Name | `Frame Gallery Preview` — remplacez le nom par défaut `Local File`. |
-| File path | `/media/frame_gallery/preview/latest.jpg` |
+| Nom | `Frame Gallery Preview` — remplacez le nom par défaut `Local File`. |
+| Chemin du fichier | `/media/frame_gallery/preview/latest.jpg` |
 
 Validez avec **OK**. **La caméra est créée automatiquement.** La page de
-l’intégration peut toujours s’appeler **Local File** ; le lien **1 entity**
+l’intégration peut toujours s’appeler **Local File** ; le lien **1 entité**
 signifie que l’entité existe, pas qu’une autre installation est nécessaire.
 
-1. Cliquez sur **1 entity**, puis sur la ligne **Frame Gallery Preview**
+1. Cliquez sur **1 entité**, puis sur la ligne **Frame Gallery Preview**
    (ou **Local File** si vous avez gardé le nom par défaut).
-2. Dans la fenêtre de l’image, ouvrez **⋮ → Details** et copiez **ID**.
+2. Dans la fenêtre de l’image, ouvrez **⋮ → Détails** et copiez **ID**.
 3. L’ID attendu est `camera.frame_gallery_preview`. Vérifiez aussi le chemin
    du fichier. Si votre ID diffère, utilisez votre ID réel dans le YAML.
 
@@ -124,24 +123,23 @@ carte, recherchez le **nom affiché** Frame Gallery Preview ou Local File,
 pas uniquement l’ID technique. Renommer une entité existante ne change pas
 automatiquement son ID. Conservez les noms proposés pour faciliter la configuration.
 
-**Confidentialité :** la vue Details contient aussi des jetons d’accès et une
+**Confidentialité :** la vue Détails contient aussi des jetons d’accès et une
 URL avec un jeton. Ne partagez que l’ID et le chemin, pas tous les attributs.
 
 ### B. Créer la minuterie de chargement
 
-Ouvrez **Settings → Devices & services → Helpers → Create helper → Timer**.
+Ouvrez **Paramètres → Appareils et services → Entrées → Créer une entrée → Minuteur**.
 Nom : `Frame Gallery run`. Durée : `0:02:30`.
 ID attendu : `timer.frame_gallery_run`.
 
-Dans la configuration de Frame Gallery, renseignez cet ID dans **Dashboard
-loading timer** (`loading_timer`). Affichez les options facultatives si
+Dans la configuration de Frame Gallery, renseignez cet ID dans **Minuteur de chargement du tableau de bord** (`loading_timer`). Affichez les options facultatives si
 nécessaire. Créer la minuterie ne suffit pas : ce champ relie la fin de
 l’exécution à votre minuterie. Utilisez une minuterie dédiée à cette app.
 
 ### C. Créer le script
 
-Ouvrez **Settings → Automations & scenes → Scripts → Create script → ⋮ →
-Edit in YAML**. Copiez le bloc **complet**, enregistrez et vérifiez l’ID
+Ouvrez **Paramètres → Automatisations et scènes → Scripts → Créer un script → ⋮ →
+Modifier en YAML**. Copiez le bloc **complet**, enregistrez et vérifiez l’ID
 `script.frame_gallery_new_artwork`. L’alias reste en anglais pour conserver
 le nom technique attendu. Si vos IDs ou l’ID de l’app diffèrent, adaptez-les
 partout. L’ID public observé de l’app est `a94fc569_frame_gallery` ; vérifiez
@@ -149,7 +147,7 @@ l’URL de sa page. N’utilisez pas l’ID d’une ancienne app locale de test.
 
 ```yaml
 alias: Frame Gallery new artwork
-description: Starts the Frame Gallery app and shows a note on the dashboard while it runs.
+description: Démarre Frame Gallery et affiche une indication de chargement sur le tableau de bord.
 mode: single
 sequence:
   - condition: state
@@ -172,7 +170,7 @@ sequence:
 
 ### D. Ajouter la carte
 
-Modifiez votre tableau de bord, choisissez **Add card → Manual** et collez
+Modifiez votre tableau de bord, choisissez **Ajouter une carte → Manuelle** et collez
 le bloc complet. Remplacez les IDs différents avant d’enregistrer.
 
 ```yaml
@@ -231,6 +229,8 @@ Une exécution sans nouvelle correspondance conserve l’image et les
 informations précédentes. Les œuvres déjà envoyées restent exclues.
 Les images téléchargées temporairement sont nettoyées ; les œuvres déjà
 stockées sur le téléviseur ne sont pas supprimées par l’app.
+
+[Artiste dans la carte](COMMONS_ARTIST.fr.md) : prochain candidat, pas encore disponible sur b6.
 
 ## Aide et limites
 

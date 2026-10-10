@@ -56,6 +56,7 @@ def apply_helper_values(
         FilterField.DEPARTMENT: static.department,
         FilterField.STYLE: static.style,
         FilterField.COLOR: static.color,
+        FilterField.ARTIST: static.artist,
     }
     warnings: list[str] = []
     for field in FilterField:
@@ -83,6 +84,7 @@ def apply_helper_values(
         department=choices[FilterField.DEPARTMENT],
         style=choices[FilterField.STYLE],
         color=choices[FilterField.COLOR],
+        artist=choices[FilterField.ARTIST],
         source_provenance=source_provenance,
     )
     return HelperMerge(filters=merged, warnings=tuple(warnings))

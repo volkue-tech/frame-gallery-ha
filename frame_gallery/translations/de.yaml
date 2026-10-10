@@ -48,3 +48,9 @@ configuration:
   color:
     name: 'Farbwunsch (Commons)'
     description: 'any bedeutet alle Farben. Für Commons eine Farbgruppe wählen: Sie muss einen sichtbaren Anteil am Werk haben (etwa 5 %), nicht zwingend die größte Fläche. Ocker/Gold kann als Gelb zählen. Andere Quellen wenden den Wunsch nicht an und melden das im Protokoll. Ohne Treffer bleibt das bisherige Werk; es gibt keinen Ersatz anderer Farbe.'
+  artist:
+    name: 'Künstlerwunsch (Commons, optional)'
+    description: 'Leer lassen oder Alle Künstler für die gesamte Auswahl eintragen. Sonst einen angebotenen Namen aus der Künstler-Anleitung angeben, z. B. Wassily Kandinsky. Nur für Commons. Künstler und Farbe müssen beide passen; ohne Treffer bleibt das bisherige Werk erhalten.'
+  artist_helper:
+    name: 'Künstler vom Dashboard (optional, Commons)'
+    description: 'Entitäts-ID eines Dropdown- oder Text-Helfers, z. B. input_select.frame_gallery_artist. Er ersetzt den Künstlerwunsch bei jedem Start. Ungültige oder nicht lesbare Werte fallen mit einer Warnung auf den gespeicherten Künstlerwunsch zurück.'

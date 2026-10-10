@@ -188,4 +188,5 @@ def test_the_helper_names_follow_the_filter_fields() -> None:
         "department_helper",
         "style_helper",
         "color_helper",
+        "artist_helper",
     )

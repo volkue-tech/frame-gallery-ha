@@ -88,10 +88,12 @@ def test_english_ui_covers_every_field_with_complete_names_and_help() -> None:
         "tv_host": "TV address",
         "source": "Artwork source",
         "color": "Colour wish (Commons)",
+        "artist": "Artist wish (Commons, optional)",
         "landscape_only": "Landscape only",
         "strict_tv_format": "Prefer 16:9 (may take longer)",
         "fit_mode": "Image fit (contain = no crop)",
         "color_helper": "Colour helper",
+        "artist_helper": "Artist helper (Commons, optional)",
         "loading_timer": "Dashboard loading timer",
     }
     for field, label in expected.items():
@@ -112,12 +114,44 @@ def test_basic_settings_are_short_and_optional_defaults_preserve_existing_behavi
         "fit_mode",
     ]
     assert OPTIONS["color"] == "any"
-    for option in ("department", "style", "background_color"):
+    for option in ("department", "style", "background_color", "artist"):
         assert option not in OPTIONS
         assert SCHEMA[option].endswith("?")
     assert _parse(**OPTIONS) == _parse(
-        **OPTIONS, department="any", style="any", background_color="#000000"
+        **OPTIONS, department="any", style="any", background_color="#000000", artist="All artists"
     )
+
+
+@pytest.mark.parametrize(
+    ("language", "tv_label", "artist_label"),
+    [
+        ("fr", "Adresse du téléviseur", "Artiste souhaité (Commons, facultatif)"),
+        ("es", "Dirección del televisor", "Artista deseado (Commons, opcional)"),
+        ("it", "Indirizzo del televisore", "Artista desiderato (Commons, facoltativo)"),
+    ],
+)
+def test_new_configuration_languages_cover_all_fields_without_changing_values(
+    language: str, tv_label: str, artist_label: str
+) -> None:
+    translated = SCRIPT.translations(language)
+    fields = translated["configuration"]
+    assert set(fields) == set(SCHEMA)
+    assert fields["tv_host"]["name"] == tv_label
+    assert fields["artist"]["name"] == artist_label
+    for item in fields.values():
+        assert set(item) == {"name", "description"}
+        assert item["name"].strip()
+        assert item["description"].endswith(".")
+        assert item["description"] != ""
+    assert all(value in fields["color"]["description"] for value in _choices(SCHEMA["color"]))
+    assert all(value in fields["fit_mode"]["description"] for value in _choices(SCHEMA["fit_mode"]))
+    assert "All artists" in fields["artist"]["description"]
+    assert "input_select.frame_gallery_artist" in fields["artist_helper"]["description"]
+    assert "255" in fields["artwork_info_helper"]["description"]
+    assert (PROJECT / "translations" / (language + ".yaml")).read_text() == SCRIPT.render(
+        translated
+    )
+    assert SCRIPT.config() == CONFIG  # Language does not alter saved options/schema.
 
 
 def test_german_texts_cover_every_option_and_explain_commons_and_no_crop() -> None:

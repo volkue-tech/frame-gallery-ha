@@ -1,6 +1,6 @@
 # Colour selection from Beta 0.1.0b6
 
-**English** | [Deutsch](COMMONS_COLOUR.de.md) | [Français](COMMONS_COLOUR.fr.md) | [Español](COMMONS_COLOUR.es.md)
+**English** | [Deutsch](COMMONS_COLOUR.de.md) | [Français](COMMONS_COLOUR.fr.md) | [Español](COMMONS_COLOUR.es.md) | [Italiano](COMMONS_COLOUR.it.md)
 
 This is the English guide. Home Assistant does not automatically switch this
 page's language; use the language links above for another language.
@@ -150,3 +150,5 @@ not a specially programmed single card.
 run to finish. Then select `any` and tap again. If no unsent work matches,
 the image and artist information remain unchanged and the run still ends.
 The dropdown may remain visible while the run is active.
+
+[Artist and colour together](COMMONS_ARTIST.md): unreleased next candidate, not available in public b6.

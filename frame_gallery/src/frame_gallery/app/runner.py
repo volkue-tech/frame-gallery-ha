@@ -415,6 +415,7 @@ class Runner:
             FilterDimension.STYLE: FilterField.STYLE,
             FilterDimension.PERIOD: FilterField.STYLE,
             FilterDimension.COLOR: FilterField.COLOR,
+            FilterDimension.ARTIST: FilterField.ARTIST,
         }
         return [
             f"{dimension.value}={key}({effective.requested.choice(fields[dimension]).provenance})"

@@ -15,6 +15,9 @@ configuration:
   color:
     name: 'Colour wish (Commons)'
     description: 'any means all colours. For Commons, choose one colour family: it must occupy a noticeable part of the artwork (about 5 %), not necessarily the largest. Warm ochre/gold can match yellow. Other sources do not apply this wish and report it in the log. No match keeps the current artwork; another colour is never used as a fallback.'
+  artist:
+    name: 'Artist wish (Commons, optional)'
+    description: 'Leave empty or enter All artists for the whole catalogue. Otherwise enter an offered artist name from the artist guide, for example Wassily Kandinsky. Only Commons supports this filter. Artist and colour must both match; no match keeps the current artwork and never substitutes another artist.'
   landscape_only:
     name: 'Landscape only'
     description: 'Only choose artworks that are wider than they are tall.'
@@ -39,6 +42,9 @@ configuration:
   color_helper:
     name: 'Colour helper'
     description: 'Optional. An input_select, select, or input_text helper whose state replaces the Colour option above at every start, for example input_select.frame_gallery_colour. A value the helper cannot supply falls back to the option above, with a warning in the log. Leave empty to use only the option above.'
+  artist_helper:
+    name: 'Artist helper (Commons, optional)'
+    description: 'Optional. An input_select, select, or input_text helper whose state replaces the Artist wish option above at every start, for example input_select.frame_gallery_artist. A value the helper cannot supply falls back to the option above, with a warning in the log. Leave empty to use only the option above.'
   log_level:
     name: 'Log detail'
     description: 'Advanced: info (the default) or debug, which also logs each candidate the app considered.'

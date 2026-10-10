@@ -13,6 +13,7 @@ from typing import Final
 
 from frame_gallery import __version__
 from frame_gallery.config.filters import EffectiveFilters
+from frame_gallery.config.vocabulary import artist_key
 from frame_gallery.domain import Size, SourceKey
 from frame_gallery.net.gateway import ProviderChannel
 from frame_gallery.net.identity import commons_identity
@@ -77,6 +78,8 @@ class CommonsProvider:
             raise ValueError("the filters belong to another source")
         self._refs.clear()
         order = list(self._catalog)
+        if filters.artist is not None:
+            order = [work for work in order if artist_key(work.artist) == filters.artist]
         if filters.color is not None:
             # Offline, pin-bound metadata before shuffle or network: shape
             # fallback can never bring another colour back into this sequence.

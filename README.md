@@ -12,10 +12,11 @@ Fresh artwork on your Samsung Frame. Start it with a tap from Home Assistant.
 
 **[Add to Home Assistant](https://my.home-assistant.io/redirect/supervisor_add_addon_repository/?repository_url=https%3A%2F%2Fgithub.com%2Fvolkue-tech%2Fframe-gallery-ha)** · [Setup guide](frame_gallery/DOCS.md) · [Latest beta](https://github.com/volkue-tech/frame-gallery-ha/releases/tag/v0.1.0b6)
 
-**Setup:** [English](frame_gallery/DOCS.md#installation) | [Français](frame_gallery/SETUP.fr.md) | [Español](frame_gallery/SETUP.es.md).
-**Colour picker:** [English](frame_gallery/COMMONS_COLOUR.md) | [Deutsch](frame_gallery/COMMONS_COLOUR.de.md) | [Français](frame_gallery/COMMONS_COLOUR.fr.md) | [Español](frame_gallery/COMMONS_COLOUR.es.md).
-Guides are selected manually. The app configuration has English/German texts;
-technical reference documents remain in English.
+**Setup:** [English](frame_gallery/DOCS.md#installation) | [Deutsch](frame_gallery/SETUP.de.md) | [Français](frame_gallery/SETUP.fr.md) | [Español](frame_gallery/SETUP.es.md) | [Italiano](frame_gallery/SETUP.it.md).
+**Colour picker:** [English](frame_gallery/COMMONS_COLOUR.md) | [Deutsch](frame_gallery/COMMONS_COLOUR.de.md) | [Français](frame_gallery/COMMONS_COLOUR.fr.md) | [Español](frame_gallery/COMMONS_COLOUR.es.md) | [Italiano](frame_gallery/COMMONS_COLOUR.it.md).
+Guides are selected manually. The public b6 app form has English/German texts.
+The next, unreleased candidate adds French/Spanish/Italian configuration texts;
+technical values and background documents remain English.
 
 ## Art first. No unwanted cropping.
 
@@ -140,3 +141,5 @@ Frame Gallery is implemented independently. The project's own code is [Apache-2.
 ## Attribution
 
 The product idea is inspired by community experimentation around Home Assistant and Samsung Frame art-mode automation. No predecessor code is incorporated. Frame Gallery is an independent project, not affiliated with or endorsed by Samsung, the museums, or Home Assistant.
+
+**Next update candidate, not yet in public b6:** optional Commons artist selection and complete native cards: [English](frame_gallery/COMMONS_ARTIST.md) | [Deutsch](frame_gallery/COMMONS_ARTIST.de.md) | [Français](frame_gallery/COMMONS_ARTIST.fr.md) | [Español](frame_gallery/COMMONS_ARTIST.es.md) | [Italiano](frame_gallery/COMMONS_ARTIST.it.md). Existing cards and history remain unchanged; do not configure artist options on b6.

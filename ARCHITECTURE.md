@@ -1,5 +1,18 @@
 # Frame Gallery for Home Assistant — Architecture proposal
 
+**Artist/language candidate addendum (2026-10-10, D-221/D-222):** vocabulary
+version 3 adds an ARTIST field/dimension, optional static artist and explicit
+artist helper. Commons alone intersects artist/colour before existing finite
+metadata batches; shape fallback cannot widen either. All five helper reads
+share the existing CONFIGURE deadline and API guard; no extra token privilege,
+provider request allowance or worker task. Applied/ignored/provenance reporting
+extends the same contracts. Catalogue labels are not canonical artist identities;
+caption/source/history/pins stay unchanged. Native favourite Dropdown is an
+optional variant of the existing colour stack. Config translations become
+en/de/fr/es/it with stable technical values; Italian setup/colour and all artist
+guides join the docs scope. Public b6, installed HA and TV remain unchanged until
+separately approved native/release/live gates. No history-reset implementation.
+
 **Local next-update colour addendum (2026-10-09, D-212/D-213):** Commons alone
 supports a single colour family, default any. Twelve offline-measured families
 are added to vocabulary version 2. A compact immutable ID/upload-pin/family

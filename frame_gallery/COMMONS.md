@@ -44,7 +44,7 @@ colour. Previously sent/uploaded works remain excluded. Fixed search budgets
 mean one unsuccessful run is not an exhaustive scan of all 1000 works.
 
 The [complete native colour-card guide](https://github.com/volkue-tech/frame-gallery-ha/blob/main/frame_gallery/COMMONS_COLOUR.md)
-is available in English, [Deutsch](https://github.com/volkue-tech/frame-gallery-ha/blob/main/frame_gallery/COMMONS_COLOUR.de.md), [Français](https://github.com/volkue-tech/frame-gallery-ha/blob/main/frame_gallery/COMMONS_COLOUR.fr.md) and [Español](https://github.com/volkue-tech/frame-gallery-ha/blob/main/frame_gallery/COMMONS_COLOUR.es.md). It
+is available in English, [Deutsch](https://github.com/volkue-tech/frame-gallery-ha/blob/main/frame_gallery/COMMONS_COLOUR.de.md), [Français](https://github.com/volkue-tech/frame-gallery-ha/blob/main/frame_gallery/COMMONS_COLOUR.fr.md) and [Español](https://github.com/volkue-tech/frame-gallery-ha/blob/main/frame_gallery/COMMONS_COLOUR.es.md), and [Italiano](https://github.com/volkue-tech/frame-gallery-ha/blob/main/frame_gallery/COMMONS_COLOUR.it.md). It
 adds an optional UI-created dropdown helper, reusing your camera, timer and
 script. No HACS or custom card is needed. The minimal standard card still works.
 
@@ -94,3 +94,5 @@ pulls and independent signatures passed; see the
 No new Green or physical TV observation is claimed. The API contact
 `volkue+commonsapi@gmail.com` goes only to allowed Commons/image hosts in request
 headers; it is not an end user's email or an API key.
+
+**Unreleased next candidate:** [artist selection](COMMONS_ARTIST.md) is optional and Commons-only, intersecting with colour. It is not available in public b6. See the [offered names and catalogue counts](ARTIST_CHOICES.md); these are not remaining unsent counts.

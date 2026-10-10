@@ -1,5 +1,27 @@
 # Acceptance tests
 
+## Next artist/language candidate (D-221/D-222; existing A–J IDs unchanged)
+
+- Missing/null/empty/no-filter artist defaults preserve old configurations and
+  standard cards. Whole known labels normalize deterministically; partial,
+  unknown or multi-artist inputs fail static validation or warn/helper-fallback.
+- Every retained catalogue attribution resolves to a bounded distinct key/label;
+  unknown, attributed and workshop labels are transparent. Do not guess names.
+- Valid static/helper artist wishes are Commons-only; all other providers report
+  ignored artist state in log and run record. Provenance is recorded.
+- Artist plus colour plus shape are an intersection before network requests.
+  Sent/upload/quarantine exclusions remain; empty/exhausted selections never
+  recycle or relax artist/colour, preserve current TV/preview/caption and clean up.
+- Complete optional native favourite-artist/colour cards reuse camera/timer/script
+  without HACS/SSH/configuration.yaml. Document total vs unsent counts.
+- en/de/fr/es/it generated config files cover every schema field with translated
+  names/help and identical technical values. English default remains available.
+- IT setup/colour and five-language artist guides have reciprocal language links,
+  complete verified card YAML, unchanged IDs/actions, explicit availability and
+  compatibility. Translation/source tests do not claim live-language evidence.
+- Full unchanged quality gates, then approved native ARM/Intel release gates;
+  live installed-app/helper/card/TV validation requires separate confirmation.
+
 ## Commons catalogue expansion (D-211; existing IDs unchanged)
 
 - Exactly 400 unique IDs, pinned hashes and title/artist pairs; retain the first

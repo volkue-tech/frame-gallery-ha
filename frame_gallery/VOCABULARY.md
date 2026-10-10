@@ -1,4 +1,4 @@
-# Filter vocabulary, version 2 (from 0.1.0b6)
+# Filter vocabulary: version 2 in public b6, version 3 artist candidate
 
 This is the vocabulary the app ships (`config/vocabulary.py`, `BUILTIN_VOCABULARY`). It was decided in Q-14 and D-152. A test (`tests/unit/config/test_builtin_vocabulary.py`) keeps this table identical to the code and to the values the adapters send.
 
@@ -93,3 +93,30 @@ authorizes the colour implementation; D-217 separately approves b6 publication.
 | Style | unsupported | unsupported (values undocumented) | unsupported | unsupported |
 | Period | unsupported | supported | supported | unsupported |
 | Colour | unsupported | unsupported (members undocumented) | unsupported | supported (offline, pinned) |
+| Artist | unsupported | unsupported | unsupported | supported (local candidate, catalogue attribution) |
+
+## Artists (`artist` option, unreleased candidate, D-221)
+
+Vocabulary version 3 adds the curated Commons artist labels, not remote museum
+artist search. Missing/null/empty means no filter. `All artists`, `Alle Künstler`,
+`Tous les artistes` and `Todos los artistas` are artist-only no-filter labels.
+Artist and colour are an intersection, including on shape fallback.
+
+Matching uses the existing exact whole-label normalization (case, accents and
+punctuation), never surname fragments or inferred identities. The 560 original
+attributions become 557 selectable labels: three case/punctuation pairs merge.
+Distinct full names such as Eugène Boudin and Eugène Louis Boudin remain separate.
+Anonymous, unknown, workshop and attributed labels remain labelled as such;
+an empty attribution has the label `Unspecified artist`. This is not an assertion
+of fully normalized real-world artist identities. Four long labels are explicitly
+abbreviated for selection, while original captions/IDs/pins/history are unchanged.
+Stable keys use the normalized full attribution, shortened with a hash only if
+necessary to meet the existing 64-character limit. Labels are <=100 characters.
+
+The artist option is optional text to avoid a 557-choice radio form. A native
+Dropdown helper can offer the user's chosen favourite labels on their dashboard.
+The app only reads an explicitly configured helper; it does not create helpers,
+populate all options or write dashboard configuration. Invalid/unavailable helper
+states fall back to the configured artist with a warning. Other providers visibly
+ignore a valid artist choice. Native images/publication/live verification remain
+separate gates; the public b6 runtime does not yet support artist selection.

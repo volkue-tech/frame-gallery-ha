@@ -1,5 +1,69 @@
 # Decision log
 
+## Artist selector and five-language configuration (2026-10-10)
+
+### D-221 — optional Commons artist selection without loosening exclusions
+
+Status: human-approved local implementation; native release/publication/live
+changes require their own confirmation. Add `artist` and `artist_helper` to the
+existing validated filter/helper model; apply only to Commons and report ignored
+artist wishes for other providers. Artist and colour must both match before any
+API request, including shape fallback. Existing 120 s watchdog, request ceilings,
+sent/upload ledger/quarantine, rights/pins and scratch cleanup stay unchanged.
+
+The existing 560 catalogue attribution strings yield 557 labels after only the
+existing case/accent/punctuation normalization. Do not infer surnames or merge
+distinct full names. Four unwieldy attributions receive explicit selection-only
+abbreviations, retaining attribution qualifiers/multiple contributors; original
+captions and pins remain. Empty/anonymous labels are not asserted to be authors.
+Vocabulary version 3, stable <=64-character keys (hash only for long names),
+<=100-character labels and <=255-character untrusted input bounds. No new
+dependency, network host, worker task, permission, API key or persistent cache.
+
+Static optional text keeps the five basic settings unchanged. A native UI-created
+Dropdown offers the user's favourites on the same vertical-stack colour card.
+The complete candidate choice list carries total catalogue counts, not remaining
+matches. Never populate or create helpers/dashboard configuration automatically.
+Small selections can exhaust after one use; no implicit reset/recycling/colour
+or artist fallback. Missing/invalid helper values use the static value with a
+warning; record artist provenance/applied/ignored fields in logs/run evidence.
+
+### D-222 — Italian docs plus French/Spanish/Italian configuration texts
+
+Status: explicitly approved for next-update implementation. The human initially
+requested Italian as an official documentation language, then also approved
+French, Spanish and Italian configuration UI. Extend generated option names and
+descriptions to en/de/fr/es/it, including artist fields, with completeness and
+generated-file checks. The HA frontend chooses the language; do not add a separate
+app language option. Technical schema/state values remain identical and colour
+English labels are explained in each language. Runtime colour-helper aliases
+remain unchanged; translations alone must not invent accepted values.
+
+Local implementation completes five-language artist instructions plus DE/IT
+setup and Italian colour guides, reciprocal links and complete translated native
+cards. Script descriptions and visible card text are localized; the alias stays
+English to preserve the proposed technical entity ID. Before release, verify the
+matching native images and language behavior; no live-language check is claimed. English
+stays canonical; technical background stays English. No automatic Markdown
+locale selection, new runtime state or mandatory helper is implied. Official
+HA configuration translation and UI-created Dropdown references:
+https://developers.home-assistant.io/docs/apps/configuration/
+https://www.home-assistant.io/integrations/input_select/
+Inspected 2026-10-10; documentation/source checks are not live-language tests.
+The user's final clarification explicitly keeps technical selection values in
+English and requests consistent EN/DE/FR/ES/IT names/help/user guides. Local gate
+evidence is recorded in STATUS.md; publication still needs its separate gate.
+
+### D-223 — history reset is a proposal, not a cache-delete implementation
+
+Status: discussion only. Record the human's advanced reset idea under "Allow
+previously used artworks again", not "Delete cache". Sent history and confirmed
+TV-upload exclusion differ from temporary cache and uncertain-upload quarantine.
+Do not clear these protections or change live state. Investigate safely reusing
+existing TV content IDs without duplicate uploads and confirm explicit reset
+semantics/backup before any implementation. The proposal is in
+docs/plans/commons-artist-update.md and is deliberately not a shipped feature.
+
 ## French/Spanish first-user guides and English UI audit (2026-10-10)
 
 ### D-220 — translate setup and colour guides, not the runtime or technical reference

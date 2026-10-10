@@ -195,7 +195,7 @@ def test_identity_policy_caption_and_lazy_paced_batched_discovery() -> None:
     cap = rig.provider.capabilities()
     assert cap.source is SourceKey.WIKIMEDIA_COMMONS
     assert cap.dims_in_metadata
-    assert CAPABILITY_MATRIX[cap.source] == {FilterDimension.COLOR}
+    assert CAPABILITY_MATRIX[cap.source] == {FilterDimension.COLOR, FilterDimension.ARTIST}
     assert commons_policy().hosts == {
         "commons.wikimedia.org",
         "upload.wikimedia.org",
