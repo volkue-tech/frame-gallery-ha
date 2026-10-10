@@ -1,0 +1,2724 @@
+{
+  "schema": 1,
+  "recorded_at": "2026-10-10T09:42:02.876145+00:00",
+  "status": "Local selection proposal only; runtime unchanged",
+  "baseline_sha256": "582c6abb664d49cc172d208f7bd701b14677e5b31d79b35e5aa4a48fc68af057",
+  "audit_sha256": "4fb27f67bd07691c8be6823b69334b203a8b749300520cce41ea36fb4a5f67f2",
+  "retained_baseline_count": 400,
+  "unresolved_held_count": 56,
+  "baseline_without_unresolved_measurement_prompt": 344,
+  "additional_acceptances_needed_for_1000": 656,
+  "records": [
+    {
+      "id": 118810806,
+      "title": "Woodland Stream",
+      "artist": "Winslow Homer",
+      "original_sha1": "5d0fa0518edf8eaecde5d886aa90084b25d0267b",
+      "source_revision": 1140403342,
+      "source_receipt": "build/commons-1000-research/baseline-identity-8825940.json",
+      "source_receipt_sha256": "356c4b983b72e0b46b840aa4768dbd4f206cd990a26ba686c9be526ac9228138",
+      "source_markup_sha256": "02edc4ce5b4e73ffc38cc5f46254760f56a7f0e0be64a2df566ea20a5b64dd6d",
+      "physical_measurements": [
+        {
+          "raw": "{{size|unit=cm|height=28.9|width=53.2}}",
+          "width": 53.2,
+          "height": 28.9,
+          "ratio": 1.8408304498269898,
+          "interpretation": "named height/width"
+        }
+      ],
+      "review_prompts": [
+        "measurement scope outside original near-16:9 band; review required"
+      ],
+      "status": "unresolved source-measurement prompt",
+      "retained_catalogue_entry": {
+        "id": 118810806,
+        "file_title": "File:Winslow Homer - Woodland Stream (1895).jpg",
+        "sha1": "5d0fa0518edf8eaecde5d886aa90084b25d0267b",
+        "artist": "Winslow Homer",
+        "title": "Woodland Stream",
+        "width": 7780,
+        "height": 4326,
+        "source": "https://commons.wikimedia.org/w/index.php?curid=118810806",
+        "source_page_sha256": "02edc4ce5b4e73ffc38cc5f46254760f56a7f0e0be64a2df566ea20a5b64dd6d",
+        "rights_label_observed": "Public domain",
+        "release_status": "included"
+      },
+      "thumbnail_sha256": "2959c141b069da7a8b2314c97d01bbc603a3879c6b0148af93af9005403e86a8",
+      "curator_review": "Source headers and rights read; preview actually viewed. No further explicit frame-only or numerical-boundary resolution was established in this pass.",
+      "selection_proposal": "Retain identity, upload pin and history; do not count this unresolved case towards 1000 vetted usable works. Collect an additional reserve instead.",
+      "limits": "Measurement-scope disagreement is not proof of cropping. No runtime catalogue removal, repinning, release or HA mutation."
+    },
+    {
+      "id": 149657860,
+      "title": "Velas, Playa de Valencia",
+      "artist": "Joaquín Sorolla",
+      "original_sha1": "6e479a8419f0a9a4cd6ed841aa8c0574415052b8",
+      "source_revision": 1018598095,
+      "source_receipt": "build/commons-1000-research/baseline-identity-114234017.json",
+      "source_receipt_sha256": "31537b3df9d2b971c16a54f71696b5e73e226c6913e4c6a8403cf3192c23505e",
+      "source_markup_sha256": "a187e63ffa5ae713396f7f44633db5f30a584c8599e03896a376cb93c6c33f1a",
+      "physical_measurements": [
+        {
+          "raw": "{{size|cm|56.2|97.2}}",
+          "width": 97.2,
+          "height": 56.2,
+          "ratio": 1.7295373665480427,
+          "interpretation": "unlabelled two axes; landscape orientation observed visually"
+        }
+      ],
+      "review_prompts": [
+        "measurement scope outside original near-16:9 band; review required"
+      ],
+      "status": "unresolved source-measurement prompt",
+      "retained_catalogue_entry": {
+        "id": 149657860,
+        "file_title": "File:Joaquín Sorolla - Velas, Playa de Valencia.jpg",
+        "sha1": "6e479a8419f0a9a4cd6ed841aa8c0574415052b8",
+        "artist": "Joaquín Sorolla",
+        "title": "Velas, Playa de Valencia",
+        "width": 3200,
+        "height": 1828,
+        "source": "https://commons.wikimedia.org/w/index.php?curid=149657860",
+        "source_page_sha256": "a187e63ffa5ae713396f7f44633db5f30a584c8599e03896a376cb93c6c33f1a",
+        "rights_label_observed": "Public domain",
+        "release_status": "included"
+      },
+      "thumbnail_sha256": "087e430223fed9030b508f13e6ed25cce64dc89b1bc55f13ffa5eed090247ee1",
+      "curator_review": "Source headers and rights read; preview actually viewed. No further explicit frame-only or numerical-boundary resolution was established in this pass.",
+      "selection_proposal": "Retain identity, upload pin and history; do not count this unresolved case towards 1000 vetted usable works. Collect an additional reserve instead.",
+      "limits": "Measurement-scope disagreement is not proof of cropping. No runtime catalogue removal, repinning, release or HA mutation."
+    },
+    {
+      "id": 34254029,
+      "title": "Eine Ziege mit ihrem Jungen",
+      "artist": "Giovanni Segantini",
+      "original_sha1": "1318f99da2201fcc1144be3841577e90c5cf8508",
+      "source_revision": 1224490972,
+      "source_receipt": "build/commons-1000-research/baseline-identity-34254029.json",
+      "source_receipt_sha256": "d7bc66eaefc62b8a12a34254f117c8003f5e6b2543ddd8cfec1dd1590d455fea",
+      "source_markup_sha256": "bd2e533e959e3641f2c19f3971063d0be79dd673e1467c19ea68d2f52522b562",
+      "physical_measurements": [
+        {
+          "raw": "drager '''Height:''' {{size|cm|42}} drager '''Width:''' {{size|cm|71.5}}",
+          "width": 715.0,
+          "height": 420.0,
+          "ratio": 1.7023809523809523,
+          "interpretation": "explicit Height/Width single-axis Size templates; measurement scope retained"
+        }
+      ],
+      "review_prompts": [
+        "measurement scope outside original near-16:9 band; review required"
+      ],
+      "status": "unresolved source-measurement prompt",
+      "retained_catalogue_entry": {
+        "id": 34254029,
+        "file_title": "File:Een geit met haar jong Rijksmuseum SK-A-3346.jpeg",
+        "sha1": "1318f99da2201fcc1144be3841577e90c5cf8508",
+        "artist": "Giovanni Segantini",
+        "title": "Eine Ziege mit ihrem Jungen",
+        "width": 4014,
+        "height": 2270,
+        "source": "https://commons.wikimedia.org/w/index.php?curid=34254029",
+        "source_page_sha256": "bd2e533e959e3641f2c19f3971063d0be79dd673e1467c19ea68d2f52522b562",
+        "rights_label_observed": "Public domain",
+        "release_status": "included"
+      },
+      "thumbnail_sha256": "e735d67923f76fe62dabb4c83e4ede144143655b01b188599e9db10e9314b0e7",
+      "curator_review": "Source headers and rights read; preview actually viewed. No further explicit frame-only or numerical-boundary resolution was established in this pass.",
+      "selection_proposal": "Retain identity, upload pin and history; do not count this unresolved case towards 1000 vetted usable works. Collect an additional reserve instead.",
+      "limits": "Measurement-scope disagreement is not proof of cropping. No runtime catalogue removal, repinning, release or HA mutation."
+    },
+    {
+      "id": 95149294,
+      "title": "Szene im Mittelmeerhafen",
+      "artist": "Adrien Manglard",
+      "original_sha1": "ff274f2e5956efef5e31faf0d894d814c673ce3a",
+      "source_revision": 1034460005,
+      "source_receipt": "build/commons-1000-research/baseline-identity-74332535.json",
+      "source_receipt_sha256": "a8a1c37a49956b3524cbad65c0142e781675dc7ce3a05297fdbfce45818ce7b1",
+      "source_markup_sha256": "1b175fc1c4f8a1f2aa8ed47f463412340948f7272f84c9e13e9992e530501cbb",
+      "physical_measurements": [
+        {
+          "raw": "{{size|unit=cm|height=77.7|width=133.9}}",
+          "width": 133.9,
+          "height": 77.7,
+          "ratio": 1.7232947232947233,
+          "interpretation": "named height/width"
+        }
+      ],
+      "review_prompts": [
+        "measurement scope outside original near-16:9 band; review required"
+      ],
+      "status": "unresolved source-measurement prompt",
+      "retained_catalogue_entry": {
+        "id": 95149294,
+        "file_title": "File:Adrien-manglard-a-mediterranean-harbour-with-stevedores-unloading-their-ships,-figures-selling-fish-in-the.jpg",
+        "sha1": "ff274f2e5956efef5e31faf0d894d814c673ce3a",
+        "artist": "Adrien Manglard",
+        "title": "Szene im Mittelmeerhafen",
+        "width": 3200,
+        "height": 1845,
+        "source": "https://commons.wikimedia.org/w/index.php?curid=95149294",
+        "source_page_sha256": "1b175fc1c4f8a1f2aa8ed47f463412340948f7272f84c9e13e9992e530501cbb",
+        "rights_label_observed": "Public domain",
+        "release_status": "included"
+      },
+      "thumbnail_sha256": "60eda1f44e03c1378a3583e17b7d62013d4ac65f4d27e9e443f1d5e8a6eee817",
+      "curator_review": "Source headers and rights read; preview actually viewed. No further explicit frame-only or numerical-boundary resolution was established in this pass.",
+      "selection_proposal": "Retain identity, upload pin and history; do not count this unresolved case towards 1000 vetted usable works. Collect an additional reserve instead.",
+      "limits": "Measurement-scope disagreement is not proof of cropping. No runtime catalogue removal, repinning, release or HA mutation."
+    },
+    {
+      "id": 20264780,
+      "title": "Die Geburt der Venus",
+      "artist": "Alexandre Cabanel",
+      "original_sha1": "cdbe3474820ef7426938a078de3bc9edc374b71e",
+      "source_revision": 1250570405,
+      "source_receipt": "build/commons-1000-research/baseline-identity-66313896.json",
+      "source_receipt_sha256": "fe10f20be81156b44043a27b41b1dee044d6ceb58e52fa159b4f295e2fec7b74",
+      "source_markup_sha256": "0369377cd62998d5878dfa01f1c27edf1080dd9452ca0d3e49f4f6b4bb7ba99e",
+      "physical_measurements": [
+        {
+          "raw": "{{Size|cm|130|225}}",
+          "width": 225.0,
+          "height": 130.0,
+          "ratio": 1.7307692307692308,
+          "interpretation": "unlabelled two axes; landscape orientation observed visually"
+        }
+      ],
+      "review_prompts": [
+        "measurement scope outside original near-16:9 band; review required"
+      ],
+      "status": "unresolved source-measurement prompt",
+      "retained_catalogue_entry": {
+        "id": 20264780,
+        "file_title": "File:Alexandre Cabanel - The Birth of Venus - Google Art Project 2.jpg",
+        "sha1": "cdbe3474820ef7426938a078de3bc9edc374b71e",
+        "artist": "Alexandre Cabanel",
+        "title": "Die Geburt der Venus",
+        "width": 4032,
+        "height": 2290,
+        "source": "https://commons.wikimedia.org/w/index.php?curid=20264780",
+        "source_page_sha256": "0369377cd62998d5878dfa01f1c27edf1080dd9452ca0d3e49f4f6b4bb7ba99e",
+        "rights_label_observed": "Public domain",
+        "release_status": "included"
+      },
+      "thumbnail_sha256": "02bc86094e3698fce012e63c16d892fa5211e86a0fd4c478fc02f14b45881628",
+      "curator_review": "Source headers and rights read; preview actually viewed. No further explicit frame-only or numerical-boundary resolution was established in this pass.",
+      "selection_proposal": "Retain identity, upload pin and history; do not count this unresolved case towards 1000 vetted usable works. Collect an additional reserve instead.",
+      "limits": "Measurement-scope disagreement is not proof of cropping. No runtime catalogue removal, repinning, release or HA mutation."
+    },
+    {
+      "id": 81307464,
+      "title": "Blick auf München",
+      "artist": "Bernardo Bellotto und Werkstatt",
+      "original_sha1": "2420319c2830155d5bf3fccbb2ea9edad5e72544",
+      "source_revision": 822063860,
+      "source_receipt": "build/commons-1000-research/baseline-identity-68010997.json",
+      "source_receipt_sha256": "a193bffc7a2e0f94d8adc6e5ea43fe1c73a6ca9338cd6c3aa07d37311000e9e6",
+      "source_markup_sha256": "bc36c2d87a2d53196d884ab0d4266bdcc09e474bff125f7a7a1b5a8740ef3a53",
+      "physical_measurements": [
+        {
+          "raw": "overall: 69.2 x 119.8 cm (27 1/4 x 47 3/16 in.)\nframed: 86.4 x 137.2 x 8.9 cm (34 x 54 x 3 1/2 in.)",
+          "width": 47.1875,
+          "height": 27.25,
+          "ratio": 1.731651376146789,
+          "interpretation": "plain two axes in inches; original measurement scope retained"
+        },
+        {
+          "raw": "overall: 69.2 x 119.8 cm (27 1/4 x 47 3/16 in.)\nframed: 86.4 x 137.2 x 8.9 cm (34 x 54 x 3 1/2 in.)",
+          "width": 119.8,
+          "height": 69.2,
+          "ratio": 1.7312138728323698,
+          "interpretation": "plain two axes; measurement scope retained, landscape observed visually"
+        }
+      ],
+      "review_prompts": [
+        "measurement scope outside original near-16:9 band; review required"
+      ],
+      "status": "unresolved source-measurement prompt",
+      "retained_catalogue_entry": {
+        "id": 81307464,
+        "file_title": "File:Bernardo Bellotto and Workshop, View of Munich, c. 1761, NGA 46163.jpg",
+        "sha1": "2420319c2830155d5bf3fccbb2ea9edad5e72544",
+        "artist": "Bernardo Bellotto und Werkstatt",
+        "title": "Blick auf München",
+        "width": 3499,
+        "height": 1998,
+        "source": "https://commons.wikimedia.org/w/index.php?curid=81307464",
+        "source_page_sha256": "bc36c2d87a2d53196d884ab0d4266bdcc09e474bff125f7a7a1b5a8740ef3a53",
+        "rights_label_observed": "CC0",
+        "release_status": "included"
+      },
+      "thumbnail_sha256": "1a5f915de1b6bad28e59bb4b77ed0220ed7a3aafec9364a8ea82d9cca8c53155",
+      "curator_review": "Source headers and rights read; preview actually viewed. No further explicit frame-only or numerical-boundary resolution was established in this pass.",
+      "selection_proposal": "Retain identity, upload pin and history; do not count this unresolved case towards 1000 vetted usable works. Collect an additional reserve instead.",
+      "limits": "Measurement-scope disagreement is not proof of cropping. No runtime catalogue removal, repinning, release or HA mutation."
+    },
+    {
+      "id": 81310473,
+      "title": "Becalmed off Halfway Rock",
+      "artist": "Fitz Henry Lane",
+      "original_sha1": "8ff506e4cc2d6e1d574830e9b6386b9923e5a317",
+      "source_revision": 1143028167,
+      "source_receipt": "build/commons-1000-research/baseline-identity-141394807.json",
+      "source_receipt_sha256": "6b72f700119afef049694ccd870556c372b98b3361dd8ffb0d33364f1a81ede1",
+      "source_markup_sha256": "3890f7c208f4adea1f673c2cad1845bb9fae1fcbbd354cdc254b784b4d24238c",
+      "physical_measurements": [
+        {
+          "raw": "design size: 70.4 x 120.5 cm (27 11/16 x 47 7/16 in.)\nframed: 90.2 x 140 x 6.4 cm (35 1/2 x 55 1/8 x 2 1/2 in.)",
+          "width": 47.4375,
+          "height": 27.6875,
+          "ratio": 1.7133182844243793,
+          "interpretation": "plain two axes in inches; original measurement scope retained"
+        },
+        {
+          "raw": "design size: 70.4 x 120.5 cm (27 11/16 x 47 7/16 in.)\nframed: 90.2 x 140 x 6.4 cm (35 1/2 x 55 1/8 x 2 1/2 in.)",
+          "width": 120.5,
+          "height": 70.4,
+          "ratio": 1.711647727272727,
+          "interpretation": "plain two axes; measurement scope retained, landscape observed visually"
+        }
+      ],
+      "review_prompts": [
+        "measurement scope outside original near-16:9 band; review required"
+      ],
+      "status": "unresolved source-measurement prompt",
+      "retained_catalogue_entry": {
+        "id": 81310473,
+        "file_title": "File:Fitz Henry Lane, Becalmed off Halfway Rock, 1860, NGA 76213.jpg",
+        "sha1": "8ff506e4cc2d6e1d574830e9b6386b9923e5a317",
+        "artist": "Fitz Henry Lane",
+        "title": "Becalmed off Halfway Rock",
+        "width": 4000,
+        "height": 2305,
+        "source": "https://commons.wikimedia.org/w/index.php?curid=81310473",
+        "source_page_sha256": "3890f7c208f4adea1f673c2cad1845bb9fae1fcbbd354cdc254b784b4d24238c",
+        "rights_label_observed": "CC0",
+        "release_status": "included"
+      },
+      "thumbnail_sha256": "b957790eab729c9cc27f6aa38eeeb9c10bac802efb04a1e3f4292a01b27be35b",
+      "curator_review": "Source headers and rights read; preview actually viewed. No further explicit frame-only or numerical-boundary resolution was established in this pass.",
+      "selection_proposal": "Retain identity, upload pin and history; do not count this unresolved case towards 1000 vetted usable works. Collect an additional reserve instead.",
+      "limits": "Measurement-scope disagreement is not proof of cropping. No runtime catalogue removal, repinning, release or HA mutation."
+    },
+    {
+      "id": 114833882,
+      "title": "The gardener",
+      "artist": "Frederick McCubbin",
+      "original_sha1": "e1c42d3a832623b243fd589fe3b5101aa5217a51",
+      "source_revision": 1192989415,
+      "source_receipt": "build/commons-1000-research/baseline-identity-22605738.json",
+      "source_receipt_sha256": "87ddbf199bc43d9f955c22dc85ac7926ebd9bbe166ad0efca3be14a2ed2ac693",
+      "source_markup_sha256": "042665bf04b85a905a0d2c6d789d163478f9f70c60c22f3018d099c6ee34a9c2",
+      "physical_measurements": [
+        {
+          "raw": "{{size|unit=cm|height=76.2|width=132}}",
+          "width": 132.0,
+          "height": 76.2,
+          "ratio": 1.7322834645669292,
+          "interpretation": "named height/width"
+        }
+      ],
+      "review_prompts": [
+        "measurement scope outside original near-16:9 band; review required"
+      ],
+      "status": "unresolved source-measurement prompt",
+      "retained_catalogue_entry": {
+        "id": 114833882,
+        "file_title": "File:Frederick McCubbin - The gardener (c. 1910).jpg",
+        "sha1": "e1c42d3a832623b243fd589fe3b5101aa5217a51",
+        "artist": "Frederick McCubbin",
+        "title": "The gardener",
+        "width": 7018,
+        "height": 4000,
+        "source": "https://commons.wikimedia.org/w/index.php?curid=114833882",
+        "source_page_sha256": "042665bf04b85a905a0d2c6d789d163478f9f70c60c22f3018d099c6ee34a9c2",
+        "rights_label_observed": "Public domain",
+        "release_status": "included"
+      },
+      "thumbnail_sha256": "fc0df8bcb3b5280b385fabd6b92f68beb8e67722f2d1f8b58567e2c8a9210f89",
+      "curator_review": "Source headers and rights read; preview actually viewed. No further explicit frame-only or numerical-boundary resolution was established in this pass.",
+      "selection_proposal": "Retain identity, upload pin and history; do not count this unresolved case towards 1000 vetted usable works. Collect an additional reserve instead.",
+      "limits": "Measurement-scope disagreement is not proof of cropping. No runtime catalogue removal, repinning, release or HA mutation."
+    },
+    {
+      "id": 21878879,
+      "title": "Echo und Narcissus",
+      "artist": "John William Waterhouse",
+      "original_sha1": "a69838b0b5ca93948713ee69cce129294302bb64",
+      "source_revision": 1237056117,
+      "source_receipt": "build/commons-1000-research/baseline-identity-57398214.json",
+      "source_receipt_sha256": "15f8e61bc0ee2e01cbc10da02232f844c730d91ff52a0cbc2e4d3429a140d258",
+      "source_markup_sha256": "869b2abfe4b7061d314b4d7915ae5e23175b9351d171d037c374e5cb54ddbf56",
+      "physical_measurements": [
+        {
+          "raw": "w1892 x h1092 cm",
+          "width": 1892.0,
+          "height": 1092.0,
+          "ratio": 1.7326007326007327,
+          "interpretation": "explicit w/h plain dimensions"
+        }
+      ],
+      "review_prompts": [
+        "measurement scope outside original near-16:9 band; review required"
+      ],
+      "status": "unresolved source-measurement prompt",
+      "retained_catalogue_entry": {
+        "id": 21878879,
+        "file_title": "File:John William Waterhouse - Echo and Narcissus - Google Art Project.jpg",
+        "sha1": "a69838b0b5ca93948713ee69cce129294302bb64",
+        "artist": "John William Waterhouse",
+        "title": "Echo und Narcissus",
+        "width": 4903,
+        "height": 2797,
+        "source": "https://commons.wikimedia.org/w/index.php?curid=21878879",
+        "source_page_sha256": "869b2abfe4b7061d314b4d7915ae5e23175b9351d171d037c374e5cb54ddbf56",
+        "rights_label_observed": "Public domain",
+        "release_status": "included"
+      },
+      "thumbnail_sha256": "f9850d4fe7e483559bc1cd2cb6d921feae08eceff4f0ad223f6622772ad142e9",
+      "curator_review": "Source headers and rights read; preview actually viewed. No further explicit frame-only or numerical-boundary resolution was established in this pass.",
+      "selection_proposal": "Retain identity, upload pin and history; do not count this unresolved case towards 1000 vetted usable works. Collect an additional reserve instead.",
+      "limits": "Measurement-scope disagreement is not proof of cropping. No runtime catalogue removal, repinning, release or HA mutation."
+    },
+    {
+      "id": 57673092,
+      "title": "Harbor Scene with a Grotto and Fishermen Hauling in Nets",
+      "artist": "Joseph Vernet",
+      "original_sha1": "f057734d41f401209756809db052303fc5c633d3",
+      "source_revision": 1124584787,
+      "source_receipt": "build/commons-1000-research/baseline-identity-57673092.json",
+      "source_receipt_sha256": "9cb70695aac06d4f9c25dad08c811f5d656cbc4e8df2c0382422a7ff2ba67a68",
+      "source_markup_sha256": "c1f29b41674bf5ba7346b57f54a8598863bc534b13533ed67461c28def79d0b2",
+      "physical_measurements": [
+        {
+          "raw": "{{Size|cm|57.8|107}}",
+          "width": 107.0,
+          "height": 57.8,
+          "ratio": 1.85121107266436,
+          "interpretation": "unlabelled two axes; landscape orientation observed visually"
+        }
+      ],
+      "review_prompts": [
+        "measurement scope outside original near-16:9 band; review required"
+      ],
+      "status": "unresolved source-measurement prompt",
+      "retained_catalogue_entry": {
+        "id": 57673092,
+        "file_title": "File:Harbor Scene with a Grotto and Fishermen Hauling in Nets MET DP312862.jpg",
+        "sha1": "f057734d41f401209756809db052303fc5c633d3",
+        "artist": "Joseph Vernet",
+        "title": "Harbor Scene with a Grotto and Fishermen Hauling in Nets",
+        "width": 3919,
+        "height": 2160,
+        "source": "https://commons.wikimedia.org/w/index.php?curid=57673092",
+        "source_page_sha256": "c1f29b41674bf5ba7346b57f54a8598863bc534b13533ed67461c28def79d0b2",
+        "rights_label_observed": "CC0",
+        "release_status": "included"
+      },
+      "thumbnail_sha256": "d8e7f1144c8a6772ebb97c72404be09dd5f0670a819fa849fd754ab86cec93b1",
+      "curator_review": "Source headers and rights read; preview actually viewed. No further explicit frame-only or numerical-boundary resolution was established in this pass.",
+      "selection_proposal": "Retain identity, upload pin and history; do not count this unresolved case towards 1000 vetted usable works. Collect an additional reserve instead.",
+      "limits": "Measurement-scope disagreement is not proof of cropping. No runtime catalogue removal, repinning, release or HA mutation."
+    },
+    {
+      "id": 27216200,
+      "title": "Kühe überqueren eine Furt",
+      "artist": "Jules Dupré",
+      "original_sha1": "a89b39388e5e23b95e45b98354df28cddcfe9794",
+      "source_revision": 1191225411,
+      "source_receipt": "build/commons-1000-research/baseline-identity-57673092.json",
+      "source_receipt_sha256": "9cb70695aac06d4f9c25dad08c811f5d656cbc4e8df2c0382422a7ff2ba67a68",
+      "source_markup_sha256": "529fa09b7d7d8da46b7c1fd569a7053e2a868a46d31b12991260fd4a374cbbcd",
+      "physical_measurements": [
+        {
+          "raw": "{{Size|cm|36.2|62.5}}",
+          "width": 62.5,
+          "height": 36.2,
+          "ratio": 1.7265193370165743,
+          "interpretation": "unlabelled two axes; landscape orientation observed visually"
+        }
+      ],
+      "review_prompts": [
+        "measurement scope outside original near-16:9 band; review required"
+      ],
+      "status": "unresolved source-measurement prompt",
+      "retained_catalogue_entry": {
+        "id": 27216200,
+        "file_title": "File:Jules Dupré - Vaches traversant un gué (1836).jpg",
+        "sha1": "a89b39388e5e23b95e45b98354df28cddcfe9794",
+        "artist": "Jules Dupré",
+        "title": "Kühe überqueren eine Furt",
+        "width": 3804,
+        "height": 2183,
+        "source": "https://commons.wikimedia.org/w/index.php?curid=27216200",
+        "source_page_sha256": "529fa09b7d7d8da46b7c1fd569a7053e2a868a46d31b12991260fd4a374cbbcd",
+        "rights_label_observed": "Public domain",
+        "release_status": "included"
+      },
+      "thumbnail_sha256": "07a85688cb3957b4d061d048a87664e88ba8d90b9ae0fddbc32a1e033ff04353",
+      "curator_review": "Source headers and rights read; preview actually viewed. No further explicit frame-only or numerical-boundary resolution was established in this pass.",
+      "selection_proposal": "Retain identity, upload pin and history; do not count this unresolved case towards 1000 vetted usable works. Collect an additional reserve instead.",
+      "limits": "Measurement-scope disagreement is not proof of cropping. No runtime catalogue removal, repinning, release or HA mutation."
+    },
+    {
+      "id": 44569993,
+      "title": "Aristocratic family enjoying winter landscape",
+      "artist": "Karel Ooms",
+      "original_sha1": "580d468c1779e68c2b578d81d991314f24a8c14a",
+      "source_revision": 1278497589,
+      "source_receipt": "build/commons-1000-research/baseline-identity-57673092.json",
+      "source_receipt_sha256": "9cb70695aac06d4f9c25dad08c811f5d656cbc4e8df2c0382422a7ff2ba67a68",
+      "source_markup_sha256": "b6b3bb6f4ca06f8d44267fa1f53f16a0a7d028d8bd6ca4aa3ebd8556016be445",
+      "physical_measurements": [
+        {
+          "raw": "{{size|unit=cm|height=180|width=305}}",
+          "width": 305.0,
+          "height": 180.0,
+          "ratio": 1.6944444444444444,
+          "interpretation": "named height/width"
+        }
+      ],
+      "review_prompts": [
+        "measurement scope outside original near-16:9 band; review required"
+      ],
+      "status": "unresolved source-measurement prompt",
+      "retained_catalogue_entry": {
+        "id": 44569993,
+        "file_title": "File:Karel Ooms - Aristocratic family enjoying winter landscape.jpg",
+        "sha1": "580d468c1779e68c2b578d81d991314f24a8c14a",
+        "artist": "Karel Ooms",
+        "title": "Aristocratic family enjoying winter landscape",
+        "width": 3000,
+        "height": 1730,
+        "source": "https://commons.wikimedia.org/w/index.php?curid=44569993",
+        "source_page_sha256": "b6b3bb6f4ca06f8d44267fa1f53f16a0a7d028d8bd6ca4aa3ebd8556016be445",
+        "rights_label_observed": "Public domain",
+        "release_status": "included"
+      },
+      "thumbnail_sha256": "672d416df9fda7c1079ea570f8ad82b880f76b9e9513c3dbfa7685edfa7f53a8",
+      "curator_review": "Source headers and rights read; preview actually viewed. No further explicit frame-only or numerical-boundary resolution was established in this pass.",
+      "selection_proposal": "Retain identity, upload pin and history; do not count this unresolved case towards 1000 vetted usable works. Collect an additional reserve instead.",
+      "limits": "Measurement-scope disagreement is not proof of cropping. No runtime catalogue removal, repinning, release or HA mutation."
+    },
+    {
+      "id": 60909660,
+      "title": "Where the Eggs and the Good Roast Come From",
+      "artist": "Paul Klee",
+      "original_sha1": "fb8821ac7b2a3bc9a474468899c06fb3827c90c8",
+      "source_revision": 927387539,
+      "source_receipt": "build/commons-1000-research/baseline-identity-60909660.json",
+      "source_receipt_sha256": "7ae8f8d24ae33fccf9204bd538774862e5984094e4a06f9a84a4123b6dd29ccb",
+      "source_markup_sha256": "fd920811e85b67cfaeb109b6f94db74d3792fac5481e1553299343e69cf80a17",
+      "physical_measurements": [
+        {
+          "raw": "7 1/2 × 12 7/8 in. (19.1 × 32.7 cm)",
+          "width": 12.875,
+          "height": 7.5,
+          "ratio": 1.7166666666666666,
+          "interpretation": "plain two axes in inches; original measurement scope retained"
+        },
+        {
+          "raw": "7 1/2 × 12 7/8 in. (19.1 × 32.7 cm)",
+          "width": 32.7,
+          "height": 19.1,
+          "ratio": 1.712041884816754,
+          "interpretation": "plain two axes; measurement scope retained, landscape observed visually"
+        }
+      ],
+      "review_prompts": [
+        "measurement scope outside original near-16:9 band; review required"
+      ],
+      "status": "unresolved source-measurement prompt",
+      "retained_catalogue_entry": {
+        "id": 60909660,
+        "file_title": "File:Where the Eggs and the Good Roast Come From MET DT5836.jpg",
+        "sha1": "fb8821ac7b2a3bc9a474468899c06fb3827c90c8",
+        "artist": "Paul Klee",
+        "title": "Where the Eggs and the Good Roast Come From",
+        "width": 3811,
+        "height": 2196,
+        "source": "https://commons.wikimedia.org/w/index.php?curid=60909660",
+        "source_page_sha256": "fd920811e85b67cfaeb109b6f94db74d3792fac5481e1553299343e69cf80a17",
+        "rights_label_observed": "CC0",
+        "release_status": "included"
+      },
+      "thumbnail_sha256": "d383561331067ba5f11ee9b4f2c169ea5f2dbca56b0b76ce35566814432f2816",
+      "curator_review": "Source headers and rights read; preview actually viewed. No further explicit frame-only or numerical-boundary resolution was established in this pass.",
+      "selection_proposal": "Retain identity, upload pin and history; do not count this unresolved case towards 1000 vetted usable works. Collect an additional reserve instead.",
+      "limits": "Measurement-scope disagreement is not proof of cropping. No runtime catalogue removal, repinning, release or HA mutation."
+    },
+    {
+      "id": 57672440,
+      "title": "The Building of Westminster Bridge",
+      "artist": "Samuel Scott",
+      "original_sha1": "3a6d2bc9e60f94cdb54a02e51ba14d47cf94857b",
+      "source_revision": 937944903,
+      "source_receipt": "build/commons-1000-research/baseline-identity-60909660.json",
+      "source_receipt_sha256": "7ae8f8d24ae33fccf9204bd538774862e5984094e4a06f9a84a4123b6dd29ccb",
+      "source_markup_sha256": "f1ac1c63c50092dc78dd98aa73731de60d7f089000bfa3df926487a78adb0a65",
+      "physical_measurements": [
+        {
+          "raw": "{{Size|cm|61|112.7}}",
+          "width": 112.7,
+          "height": 61.0,
+          "ratio": 1.8475409836065575,
+          "interpretation": "unlabelled two axes; landscape orientation observed visually"
+        }
+      ],
+      "review_prompts": [
+        "measurement scope outside original near-16:9 band; review required"
+      ],
+      "status": "unresolved source-measurement prompt",
+      "retained_catalogue_entry": {
+        "id": 57672440,
+        "file_title": "File:The Building of Westminster Bridge MET DP169565.jpg",
+        "sha1": "3a6d2bc9e60f94cdb54a02e51ba14d47cf94857b",
+        "artist": "Samuel Scott",
+        "title": "The Building of Westminster Bridge",
+        "width": 3913,
+        "height": 2148,
+        "source": "https://commons.wikimedia.org/w/index.php?curid=57672440",
+        "source_page_sha256": "f1ac1c63c50092dc78dd98aa73731de60d7f089000bfa3df926487a78adb0a65",
+        "rights_label_observed": "CC0",
+        "release_status": "included"
+      },
+      "thumbnail_sha256": "9341566294bfcae09bfba25dd499ed94a3fe7cc113c70b7d9bad5227ae941284",
+      "curator_review": "Source headers and rights read; preview actually viewed. No further explicit frame-only or numerical-boundary resolution was established in this pass.",
+      "selection_proposal": "Retain identity, upload pin and history; do not count this unresolved case towards 1000 vetted usable works. Collect an additional reserve instead.",
+      "limits": "Measurement-scope disagreement is not proof of cropping. No runtime catalogue removal, repinning, release or HA mutation."
+    },
+    {
+      "id": 13496330,
+      "title": "The Emerald Necklace",
+      "artist": "Viktor Borisov-Musatov",
+      "original_sha1": "8ca553c06091897c8233ca06a7dd3c971cbdecdd",
+      "source_revision": 1097341447,
+      "source_receipt": "build/commons-1000-research/baseline-identity-81332363.json",
+      "source_receipt_sha256": "9108b92dbfa4ba11ac47c08fd44f4b0ea2b9dc7cc8758a73d7a6426eed346c01",
+      "source_markup_sha256": "01192518aaf6346077200e58ec91550b74e5089f3b8c35350cba86f697024d6e",
+      "physical_measurements": [
+        {
+          "raw": "{{size|cm|height=125|width=214.30}}",
+          "width": 214.3,
+          "height": 125.0,
+          "ratio": 1.7144000000000001,
+          "interpretation": "named height/width"
+        }
+      ],
+      "review_prompts": [
+        "measurement scope outside original near-16:9 band; review required"
+      ],
+      "status": "unresolved source-measurement prompt",
+      "retained_catalogue_entry": {
+        "id": 13496330,
+        "file_title": "File:Viktor Borisov-Musatov - Изумрудное ожерелье - Google Art Project.jpg",
+        "sha1": "8ca553c06091897c8233ca06a7dd3c971cbdecdd",
+        "artist": "Viktor Borisov-Musatov",
+        "title": "The Emerald Necklace",
+        "width": 5651,
+        "height": 3258,
+        "source": "https://commons.wikimedia.org/w/index.php?curid=13496330",
+        "source_page_sha256": "01192518aaf6346077200e58ec91550b74e5089f3b8c35350cba86f697024d6e",
+        "rights_label_observed": "Public domain",
+        "release_status": "included"
+      },
+      "thumbnail_sha256": "f83a438ff38bb0a05ba59781a29173fd9c79026fec268ec67ef6b0acc15e760a",
+      "curator_review": "Source headers and rights read; preview actually viewed. No further explicit frame-only or numerical-boundary resolution was established in this pass.",
+      "selection_proposal": "Retain identity, upload pin and history; do not count this unresolved case towards 1000 vetted usable works. Collect an additional reserve instead.",
+      "limits": "Measurement-scope disagreement is not proof of cropping. No runtime catalogue removal, repinning, release or HA mutation."
+    },
+    {
+      "id": 25031017,
+      "title": "Near Cape St. Johns, Coast of Labrador",
+      "artist": "William Bradford",
+      "original_sha1": "dddbb36b1fc29f044262e32a31f9e4ed114f302b",
+      "source_revision": 1171075315,
+      "source_receipt": "build/commons-1000-research/baseline-identity-81332363.json",
+      "source_receipt_sha256": "9108b92dbfa4ba11ac47c08fd44f4b0ea2b9dc7cc8758a73d7a6426eed346c01",
+      "source_markup_sha256": "ce50ba40fb4bfca7700f71532b8d56925008b15dc4d1ac8136f6cffb2934f763",
+      "physical_measurements": [
+        {
+          "raw": "{{size|in|14|24}}",
+          "width": 24.0,
+          "height": 14.0,
+          "ratio": 1.7142857142857142,
+          "interpretation": "unlabelled two axes; landscape orientation observed visually"
+        }
+      ],
+      "review_prompts": [
+        "measurement scope outside original near-16:9 band; review required"
+      ],
+      "status": "unresolved source-measurement prompt",
+      "retained_catalogue_entry": {
+        "id": 25031017,
+        "file_title": "File:Near Cape St Johns Coast of Labrador-William Bradford 1874.jpg",
+        "sha1": "dddbb36b1fc29f044262e32a31f9e4ed114f302b",
+        "artist": "William Bradford",
+        "title": "Near Cape St. Johns, Coast of Labrador",
+        "width": 3000,
+        "height": 1716,
+        "source": "https://commons.wikimedia.org/w/index.php?curid=25031017",
+        "source_page_sha256": "ce50ba40fb4bfca7700f71532b8d56925008b15dc4d1ac8136f6cffb2934f763",
+        "rights_label_observed": "Public domain",
+        "release_status": "included"
+      },
+      "thumbnail_sha256": "96ea8b9c9660779c99294572f65805b1588b7b453a225aff443e0a7aac9f9967",
+      "curator_review": "Source headers and rights read; preview actually viewed. No further explicit frame-only or numerical-boundary resolution was established in this pass.",
+      "selection_proposal": "Retain identity, upload pin and history; do not count this unresolved case towards 1000 vetted usable works. Collect an additional reserve instead.",
+      "limits": "Measurement-scope disagreement is not proof of cropping. No runtime catalogue removal, repinning, release or HA mutation."
+    },
+    {
+      "id": 21276801,
+      "title": "British Coastal View (Coast of Cornwall)",
+      "artist": "William Trost Richards",
+      "original_sha1": "e28e7e66fe76fb005c3fc4a357d74659c0b8be49",
+      "source_revision": 1091271124,
+      "source_receipt": "build/commons-1000-research/baseline-identity-81332363.json",
+      "source_receipt_sha256": "9108b92dbfa4ba11ac47c08fd44f4b0ea2b9dc7cc8758a73d7a6426eed346c01",
+      "source_markup_sha256": "70c39c4dda874f14847303b0dbe1fc49e512fdeb9822116e015a0adbf09fdff8",
+      "physical_measurements": [
+        {
+          "raw": "{{size|in|8.75|16}}",
+          "width": 16.0,
+          "height": 8.75,
+          "ratio": 1.8285714285714285,
+          "interpretation": "unlabelled two axes; landscape orientation observed visually"
+        }
+      ],
+      "review_prompts": [
+        "measurement scope outside original near-16:9 band; review required"
+      ],
+      "status": "unresolved source-measurement prompt",
+      "retained_catalogue_entry": {
+        "id": 21276801,
+        "file_title": "File:British Coastal View-William Trost Richards.jpg",
+        "sha1": "e28e7e66fe76fb005c3fc4a357d74659c0b8be49",
+        "artist": "William Trost Richards",
+        "title": "British Coastal View (Coast of Cornwall)",
+        "width": 3000,
+        "height": 1649,
+        "source": "https://commons.wikimedia.org/w/index.php?curid=21276801",
+        "source_page_sha256": "70c39c4dda874f14847303b0dbe1fc49e512fdeb9822116e015a0adbf09fdff8",
+        "rights_label_observed": "Public domain",
+        "release_status": "included"
+      },
+      "thumbnail_sha256": "bd16f3f2d84fdd235a49712f1df53f7d49fa3231896a827740f05491921c6290",
+      "curator_review": "Source headers and rights read; preview actually viewed. No further explicit frame-only or numerical-boundary resolution was established in this pass.",
+      "selection_proposal": "Retain identity, upload pin and history; do not count this unresolved case towards 1000 vetted usable works. Collect an additional reserve instead.",
+      "limits": "Measurement-scope disagreement is not proof of cropping. No runtime catalogue removal, repinning, release or HA mutation."
+    },
+    {
+      "id": 81302575,
+      "title": "View of the Mall in Saint James's Park",
+      "artist": "Nach Marco Ricci",
+      "original_sha1": "dabde4b262242fd616607d7389ed85a61d8c817a",
+      "source_revision": 786045291,
+      "source_receipt": "build/commons-1000-research/baseline-identity-190237599.json",
+      "source_receipt_sha256": "1025fb8ab1180959b69bf906f9d318183a214ba483b4b9071d832ee8473d185c",
+      "source_markup_sha256": "762035190475a27bff1c8563e3d4c0577310ad525b2d6e7f0398afa5ecd91912",
+      "physical_measurements": [
+        {
+          "raw": "overall: 114.1 x 195.2 cm (44 15/16 x 76 7/8 in.)\nframed: 129.8 x 210.8 x 6.9 cm (51 1/8 x 83 x 2 11/16 in.)",
+          "width": 76.875,
+          "height": 44.9375,
+          "ratio": 1.7107093184979139,
+          "interpretation": "plain two axes in inches; original measurement scope retained"
+        },
+        {
+          "raw": "overall: 114.1 x 195.2 cm (44 15/16 x 76 7/8 in.)\nframed: 129.8 x 210.8 x 6.9 cm (51 1/8 x 83 x 2 11/16 in.)",
+          "width": 195.2,
+          "height": 114.1,
+          "ratio": 1.7107800175284837,
+          "interpretation": "plain two axes; measurement scope retained, landscape observed visually"
+        }
+      ],
+      "review_prompts": [
+        "measurement scope outside original near-16:9 band; review required"
+      ],
+      "status": "unresolved source-measurement prompt",
+      "retained_catalogue_entry": {
+        "id": 81302575,
+        "file_title": "File:After Marco Ricci, View of the Mall in Saint James's Park, after 1709-1710, NGA 52276.jpg",
+        "sha1": "dabde4b262242fd616607d7389ed85a61d8c817a",
+        "artist": "Nach Marco Ricci",
+        "title": "View of the Mall in Saint James's Park",
+        "width": 3490,
+        "height": 2003,
+        "source": "https://commons.wikimedia.org/w/index.php?curid=81302575",
+        "source_page_sha256": "762035190475a27bff1c8563e3d4c0577310ad525b2d6e7f0398afa5ecd91912",
+        "rights_label_observed": "CC0",
+        "release_status": "included"
+      },
+      "thumbnail_sha256": "13046c096c5731407d9f6d332927030dad2ea9df12a671490448df7db9449146",
+      "curator_review": "Source headers and rights read; preview actually viewed. No further explicit frame-only or numerical-boundary resolution was established in this pass.",
+      "selection_proposal": "Retain identity, upload pin and history; do not count this unresolved case towards 1000 vetted usable works. Collect an additional reserve instead.",
+      "limits": "Measurement-scope disagreement is not proof of cropping. No runtime catalogue removal, repinning, release or HA mutation."
+    },
+    {
+      "id": 34258147,
+      "title": "A Flock of Sheep",
+      "artist": "William Charles Estall",
+      "original_sha1": "8e7b2391d370c1d322277233da27a1ac71f67f1e",
+      "source_revision": 1230750722,
+      "source_receipt": "build/commons-1000-research/baseline-identity-83529871.json",
+      "source_receipt_sha256": "e151a5daa8c4a0350b608bef8a7cdc3e47c52a7d3d1e3cc784656120049e5b7d",
+      "source_markup_sha256": "670b9fcaf036941d4712469e8c37d3190834b7ba41a45a672b4952a818268473",
+      "physical_measurements": [
+        {
+          "raw": "drager '''Height:''' {{size|cm|35.8}} drager '''Width:''' {{size|cm|61.5}}",
+          "width": 615.0,
+          "height": 358.0,
+          "ratio": 1.717877094972067,
+          "interpretation": "explicit Height/Width single-axis Size templates; measurement scope retained"
+        }
+      ],
+      "review_prompts": [
+        "measurement scope outside original near-16:9 band; review required"
+      ],
+      "status": "unresolved source-measurement prompt",
+      "retained_catalogue_entry": {
+        "id": 34258147,
+        "file_title": "File:Een kudde schapen Rijksmuseum SK-A-3080.jpeg",
+        "sha1": "8e7b2391d370c1d322277233da27a1ac71f67f1e",
+        "artist": "William Charles Estall",
+        "title": "A Flock of Sheep",
+        "width": 7662,
+        "height": 4394,
+        "source": "https://commons.wikimedia.org/w/index.php?curid=34258147",
+        "source_page_sha256": "670b9fcaf036941d4712469e8c37d3190834b7ba41a45a672b4952a818268473",
+        "rights_label_observed": "Public domain",
+        "release_status": "included"
+      },
+      "thumbnail_sha256": "0b7decba8c5497605ee6c95c753ffc9031e8665a574e16498ba1204426bc679a",
+      "curator_review": "Source headers and rights read; preview actually viewed. No further explicit frame-only or numerical-boundary resolution was established in this pass.",
+      "selection_proposal": "Retain identity, upload pin and history; do not count this unresolved case towards 1000 vetted usable works. Collect an additional reserve instead.",
+      "limits": "Measurement-scope disagreement is not proof of cropping. No runtime catalogue removal, repinning, release or HA mutation."
+    },
+    {
+      "id": 141281704,
+      "title": "Hare in Winter Landscape",
+      "artist": "Bruno Liljefors",
+      "original_sha1": "ef009f0de668a30071cfa1d4080a43bf701a711c",
+      "source_revision": 1284938380,
+      "source_receipt": "build/commons-1000-research/baseline-identity-141281704.json",
+      "source_receipt_sha256": "f5bb556f58012f7bc4d2d38bcf90816573ef4849b61cc60cdba65bb77ce5ad7a",
+      "source_markup_sha256": "8a24253da18ff6cc0611d33cc9db47ad5d0a5dc90c53ffb2042c294d9421e17d",
+      "physical_measurements": [
+        {
+          "raw": "{{size|cm|102|176}}",
+          "width": 176.0,
+          "height": 102.0,
+          "ratio": 1.7254901960784315,
+          "interpretation": "unlabelled two axes; landscape orientation observed visually"
+        }
+      ],
+      "review_prompts": [
+        "measurement scope outside original near-16:9 band; review required"
+      ],
+      "status": "unresolved source-measurement prompt",
+      "retained_catalogue_entry": {
+        "id": 141281704,
+        "file_title": "File:Bruno Liljefors - Hare in Winter Landscape 1917.jpg",
+        "sha1": "ef009f0de668a30071cfa1d4080a43bf701a711c",
+        "artist": "Bruno Liljefors",
+        "title": "Hare in Winter Landscape",
+        "width": 3000,
+        "height": 1699,
+        "source": "https://commons.wikimedia.org/w/index.php?curid=141281704",
+        "source_page_sha256": "98efc27613855e8ab3039ed2f24f3612effb80237d20f5ab9a889127876876c6",
+        "rights_label_observed": "Public domain",
+        "release_status": "included"
+      },
+      "thumbnail_sha256": "347966cdb9498f93be3b8472a8a7c40533f86380db80cee59205d670ba0b7525",
+      "curator_review": "Source headers and rights read; preview actually viewed. No further explicit frame-only or numerical-boundary resolution was established in this pass.",
+      "selection_proposal": "Retain identity, upload pin and history; do not count this unresolved case towards 1000 vetted usable works. Collect an additional reserve instead.",
+      "limits": "Measurement-scope disagreement is not proof of cropping. No runtime catalogue removal, repinning, release or HA mutation."
+    },
+    {
+      "id": 81309955,
+      "title": "The Loge",
+      "artist": "Edgar Degas",
+      "original_sha1": "a2000fb469fe0b0211d673a9a31aa1878be30f5b",
+      "source_revision": 1251553002,
+      "source_receipt": "build/commons-1000-research/baseline-identity-141281704.json",
+      "source_receipt_sha256": "f5bb556f58012f7bc4d2d38bcf90816573ef4849b61cc60cdba65bb77ce5ad7a",
+      "source_markup_sha256": "5842eefd0cdc81bbe730391bd656b9ea4545a7a6802dd8375adbe548556bf5da",
+      "physical_measurements": [
+        {
+          "raw": "support: 12.7 x 21.9 cm (5 x 8 5/8 in.)\noverall (support and wooden collar): 14 x 22.8 cm (5 1/2 x 9 in.)",
+          "width": 8.625,
+          "height": 5.0,
+          "ratio": 1.725,
+          "interpretation": "plain two axes in inches; original measurement scope retained"
+        },
+        {
+          "raw": "support: 12.7 x 21.9 cm (5 x 8 5/8 in.)\noverall (support and wooden collar): 14 x 22.8 cm (5 1/2 x 9 in.)",
+          "width": 9.0,
+          "height": 5.5,
+          "ratio": 1.6363636363636365,
+          "interpretation": "plain two axes in inches; original measurement scope retained"
+        },
+        {
+          "raw": "support: 12.7 x 21.9 cm (5 x 8 5/8 in.)\noverall (support and wooden collar): 14 x 22.8 cm (5 1/2 x 9 in.)",
+          "width": 21.9,
+          "height": 12.7,
+          "ratio": 1.7244094488188977,
+          "interpretation": "plain two axes; measurement scope retained, landscape observed visually"
+        },
+        {
+          "raw": "support: 12.7 x 21.9 cm (5 x 8 5/8 in.)\noverall (support and wooden collar): 14 x 22.8 cm (5 1/2 x 9 in.)",
+          "width": 22.8,
+          "height": 14.0,
+          "ratio": 1.6285714285714286,
+          "interpretation": "plain two axes; measurement scope retained, landscape observed visually"
+        }
+      ],
+      "review_prompts": [
+        "measurement scope outside original near-16:9 band; review required"
+      ],
+      "status": "unresolved source-measurement prompt",
+      "retained_catalogue_entry": {
+        "id": 81309955,
+        "file_title": "File:Edgar Degas, The Loge, c. 1883, NGA 57514.jpg",
+        "sha1": "a2000fb469fe0b0211d673a9a31aa1878be30f5b",
+        "artist": "Edgar Degas",
+        "title": "The Loge",
+        "width": 4000,
+        "height": 2293,
+        "source": "https://commons.wikimedia.org/w/index.php?curid=81309955",
+        "source_page_sha256": "5842eefd0cdc81bbe730391bd656b9ea4545a7a6802dd8375adbe548556bf5da",
+        "rights_label_observed": "CC0",
+        "release_status": "included"
+      },
+      "thumbnail_sha256": "970b507753a2c6d89d1f7228eadcfdf6b35d9de7f940c5fba8490600f15a21e3",
+      "curator_review": "Source headers and rights read; preview actually viewed. No further explicit frame-only or numerical-boundary resolution was established in this pass.",
+      "selection_proposal": "Retain identity, upload pin and history; do not count this unresolved case towards 1000 vetted usable works. Collect an additional reserve instead.",
+      "limits": "Measurement-scope disagreement is not proof of cropping. No runtime catalogue removal, repinning, release or HA mutation."
+    },
+    {
+      "id": 81310326,
+      "title": "Markt in der Bretagne",
+      "artist": "Eugène Boudin",
+      "original_sha1": "f10ef0790d8a00e0473d92936f480197f870a490",
+      "source_revision": 1234474206,
+      "source_receipt": "build/commons-1000-research/baseline-identity-93485240.json",
+      "source_receipt_sha256": "8e394f8cb50158becf16faa6429db7626db537d708315b05ba2f87ca7df2af24",
+      "source_markup_sha256": "25e3880d3e3688c2633b8c59c1be155ba1c5e50376f37f65ea371a4f2adc0db0",
+      "physical_measurements": [
+        {
+          "raw": "overall: 26.67 × 45.72 cm (10 1/2 × 18 in.)\nframed: 40.96 × 61.28 × 6.35 cm (16 1/8 × 24 1/8 × 2 1/2 in.)",
+          "width": 18.0,
+          "height": 10.5,
+          "ratio": 1.7142857142857142,
+          "interpretation": "plain two axes in inches; original measurement scope retained"
+        },
+        {
+          "raw": "overall: 26.67 × 45.72 cm (10 1/2 × 18 in.)\nframed: 40.96 × 61.28 × 6.35 cm (16 1/8 × 24 1/8 × 2 1/2 in.)",
+          "width": 45.72,
+          "height": 26.67,
+          "ratio": 1.7142857142857142,
+          "interpretation": "plain two axes; measurement scope retained, landscape observed visually"
+        }
+      ],
+      "review_prompts": [
+        "measurement scope outside original near-16:9 band; review required"
+      ],
+      "status": "unresolved source-measurement prompt",
+      "retained_catalogue_entry": {
+        "id": 81310326,
+        "file_title": "File:Eugène Boudin, Fair in Brittany, 1874, NGA 178080.jpg",
+        "sha1": "f10ef0790d8a00e0473d92936f480197f870a490",
+        "artist": "Eugène Boudin",
+        "title": "Markt in der Bretagne",
+        "width": 4000,
+        "height": 2307,
+        "source": "https://commons.wikimedia.org/w/index.php?curid=81310326",
+        "source_page_sha256": "25e3880d3e3688c2633b8c59c1be155ba1c5e50376f37f65ea371a4f2adc0db0",
+        "rights_label_observed": "CC0",
+        "release_status": "included"
+      },
+      "thumbnail_sha256": "46f07bc72291499b4c12611feec318117dd648284febd2c9190912cdbdf05cdb",
+      "curator_review": "Source headers and rights read; preview actually viewed. No further explicit frame-only or numerical-boundary resolution was established in this pass.",
+      "selection_proposal": "Retain identity, upload pin and history; do not count this unresolved case towards 1000 vetted usable works. Collect an additional reserve instead.",
+      "limits": "Measurement-scope disagreement is not proof of cropping. No runtime catalogue removal, repinning, release or HA mutation."
+    },
+    {
+      "id": 81310336,
+      "title": "On the Beach",
+      "artist": "Eugène Boudin",
+      "original_sha1": "9a8618d083ba081754e34e8635196985ce5d01d6",
+      "source_revision": 1234474363,
+      "source_receipt": "build/commons-1000-research/baseline-identity-101606839.json",
+      "source_receipt_sha256": "39ab5230943672b5050cc49dfd1c61d1b6592fad698b8ff0469f206945a4ba8c",
+      "source_markup_sha256": "a2914a9b287550775c257418ebd47444b6b66ce46401fcdd8c6fe776c9c2a968",
+      "physical_measurements": [
+        {
+          "raw": "overall: 13.9 x 23.9 cm (5 1/2 x 9 7/16 in.)\nframed: 32 x 40.6 cm (12 5/8 x 16 in.)",
+          "width": 9.4375,
+          "height": 5.5,
+          "ratio": 1.7159090909090908,
+          "interpretation": "plain two axes in inches; original measurement scope retained"
+        },
+        {
+          "raw": "overall: 13.9 x 23.9 cm (5 1/2 x 9 7/16 in.)\nframed: 32 x 40.6 cm (12 5/8 x 16 in.)",
+          "width": 16.0,
+          "height": 12.625,
+          "ratio": 1.2673267326732673,
+          "interpretation": "plain two axes in inches; original measurement scope retained"
+        },
+        {
+          "raw": "overall: 13.9 x 23.9 cm (5 1/2 x 9 7/16 in.)\nframed: 32 x 40.6 cm (12 5/8 x 16 in.)",
+          "width": 23.9,
+          "height": 13.9,
+          "ratio": 1.7194244604316544,
+          "interpretation": "plain two axes; measurement scope retained, landscape observed visually"
+        },
+        {
+          "raw": "overall: 13.9 x 23.9 cm (5 1/2 x 9 7/16 in.)\nframed: 32 x 40.6 cm (12 5/8 x 16 in.)",
+          "width": 40.6,
+          "height": 32.0,
+          "ratio": 1.26875,
+          "interpretation": "plain two axes; measurement scope retained, landscape observed visually"
+        }
+      ],
+      "review_prompts": [
+        "measurement scope outside original near-16:9 band; review required"
+      ],
+      "status": "unresolved source-measurement prompt",
+      "retained_catalogue_entry": {
+        "id": 81310336,
+        "file_title": "File:Eugène Boudin, On the Beach, 1894, NGA 46481.jpg",
+        "sha1": "9a8618d083ba081754e34e8635196985ce5d01d6",
+        "artist": "Eugène Boudin",
+        "title": "On the Beach",
+        "width": 4000,
+        "height": 2294,
+        "source": "https://commons.wikimedia.org/w/index.php?curid=81310336",
+        "source_page_sha256": "a2914a9b287550775c257418ebd47444b6b66ce46401fcdd8c6fe776c9c2a968",
+        "rights_label_observed": "CC0",
+        "release_status": "included"
+      },
+      "thumbnail_sha256": "84e8b418bc566b0b20b829076aa5d148dd3ad86edb7727a6cb5829c2dd19ed7f",
+      "curator_review": "Source headers and rights read; preview actually viewed. No further explicit frame-only or numerical-boundary resolution was established in this pass.",
+      "selection_proposal": "Retain identity, upload pin and history; do not count this unresolved case towards 1000 vetted usable works. Collect an additional reserve instead.",
+      "limits": "Measurement-scope disagreement is not proof of cropping. No runtime catalogue removal, repinning, release or HA mutation."
+    },
+    {
+      "id": 74897839,
+      "title": "The Artist Sketching at Mount Desert, Maine",
+      "artist": "Sanford Robinson Gifford",
+      "original_sha1": "ff2bfc516d1ed45e345b76c859573994fc230182",
+      "source_revision": 1170282244,
+      "source_receipt": "build/commons-1000-research/baseline-identity-101606839.json",
+      "source_receipt_sha256": "39ab5230943672b5050cc49dfd1c61d1b6592fad698b8ff0469f206945a4ba8c",
+      "source_markup_sha256": "82f46ccab8a4869defe9bd455f15888c4ab6c50237055ca643c15952d623d7e9",
+      "physical_measurements": [
+        {
+          "raw": "overall: 27.9 x 48.3 cm (11 x 19 in.) framed: 57.2 x 77.5 cm (22 1/2 x 30 1/2 in.)",
+          "width": 19.0,
+          "height": 11.0,
+          "ratio": 1.7272727272727273,
+          "interpretation": "plain two axes in inches; original measurement scope retained"
+        },
+        {
+          "raw": "overall: 27.9 x 48.3 cm (11 x 19 in.) framed: 57.2 x 77.5 cm (22 1/2 x 30 1/2 in.)",
+          "width": 30.5,
+          "height": 22.5,
+          "ratio": 1.3555555555555556,
+          "interpretation": "plain two axes in inches; original measurement scope retained"
+        },
+        {
+          "raw": "overall: 27.9 x 48.3 cm (11 x 19 in.) framed: 57.2 x 77.5 cm (22 1/2 x 30 1/2 in.)",
+          "width": 48.3,
+          "height": 27.9,
+          "ratio": 1.7311827956989247,
+          "interpretation": "plain two axes; measurement scope retained, landscape observed visually"
+        },
+        {
+          "raw": "overall: 27.9 x 48.3 cm (11 x 19 in.) framed: 57.2 x 77.5 cm (22 1/2 x 30 1/2 in.)",
+          "width": 77.5,
+          "height": 57.2,
+          "ratio": 1.3548951048951048,
+          "interpretation": "plain two axes; measurement scope retained, landscape observed visually"
+        }
+      ],
+      "review_prompts": [
+        "measurement scope outside original near-16:9 band; review required"
+      ],
+      "status": "unresolved source-measurement prompt",
+      "retained_catalogue_entry": {
+        "id": 74897839,
+        "file_title": "File:Sanford Robinson Gifford, The Artist Sketching at Mount Desert, Maine, 1864-1865, NGA 121618.jpg",
+        "sha1": "ff2bfc516d1ed45e345b76c859573994fc230182",
+        "artist": "Sanford Robinson Gifford",
+        "title": "The Artist Sketching at Mount Desert, Maine",
+        "width": 4000,
+        "height": 2303,
+        "source": "https://commons.wikimedia.org/w/index.php?curid=74897839",
+        "source_page_sha256": "82f46ccab8a4869defe9bd455f15888c4ab6c50237055ca643c15952d623d7e9",
+        "rights_label_observed": "CC0",
+        "release_status": "included"
+      },
+      "thumbnail_sha256": "c897d0c57308bcc9c59062dae659ad2f1f7edebb8317e5b6e7e2aac95ceb33d4",
+      "curator_review": "Source headers and rights read; preview actually viewed. No further explicit frame-only or numerical-boundary resolution was established in this pass.",
+      "selection_proposal": "Retain identity, upload pin and history; do not count this unresolved case towards 1000 vetted usable works. Collect an additional reserve instead.",
+      "limits": "Measurement-scope disagreement is not proof of cropping. No runtime catalogue removal, repinning, release or HA mutation."
+    },
+    {
+      "id": 64525652,
+      "title": "Motif of the Alps",
+      "artist": "Adalbert Waagen",
+      "original_sha1": "cca659e399684c9ebaa2bee94add89f25b2d0269",
+      "source_revision": 1022023092,
+      "source_receipt": "build/commons-1000-research/baseline-identity-115423103.json",
+      "source_receipt_sha256": "4720070c5c1315bcbc288e13110863eddc3cd2b34a9950350d8f44204cc1fcdc",
+      "source_markup_sha256": "86167ec4938e7f52a59f36857240f86724cd853e4331ffee797664c6029bdba8",
+      "physical_measurements": [
+        {
+          "raw": "{{size|cm|21.5|37}}",
+          "width": 37.0,
+          "height": 21.5,
+          "ratio": 1.7209302325581395,
+          "interpretation": "unlabelled two axes; landscape orientation observed visually"
+        }
+      ],
+      "review_prompts": [
+        "measurement scope outside original near-16:9 band; review required"
+      ],
+      "status": "unresolved source-measurement prompt",
+      "retained_catalogue_entry": {
+        "id": 64525652,
+        "file_title": "File:Adalbert Waagen - Motif of the Alps.jpg",
+        "sha1": "cca659e399684c9ebaa2bee94add89f25b2d0269",
+        "artist": "Adalbert Waagen",
+        "title": "Motif of the Alps",
+        "width": 3814,
+        "height": 2185,
+        "source": "https://commons.wikimedia.org/w/index.php?curid=64525652",
+        "source_page_sha256": "86167ec4938e7f52a59f36857240f86724cd853e4331ffee797664c6029bdba8",
+        "rights_label_observed": "Public domain",
+        "release_status": "included",
+        "qid": "Q124218178",
+        "source_revision": 1022023092,
+        "physical_check": {
+          "qid": "Q124218178",
+          "physical_ratio": 1.7209302325581395,
+          "physical_source": "Wikidata P2048/P2049",
+          "digital_ratio": 1.745537757437071,
+          "scan_difference_percent": 1.4298967159379172,
+          "dimension_review": false
+        },
+        "visual_review_date": "2026-10-06"
+      },
+      "thumbnail_sha256": "83bb98b72ea18a6a31d132a9c10e93f567e2d8257a6fddeff93f409fc3608213",
+      "curator_review": "Source headers and rights read; preview actually viewed. No further explicit frame-only or numerical-boundary resolution was established in this pass.",
+      "selection_proposal": "Retain identity, upload pin and history; do not count this unresolved case towards 1000 vetted usable works. Collect an additional reserve instead.",
+      "limits": "Measurement-scope disagreement is not proof of cropping. No runtime catalogue removal, repinning, release or HA mutation."
+    },
+    {
+      "id": 21878850,
+      "title": "A Summer Night",
+      "artist": "Albert Joseph Moore",
+      "original_sha1": "8e96c8f602eb5574b88e0cc10384f502cdf25443",
+      "source_revision": 1136156491,
+      "source_receipt": "build/commons-1000-research/baseline-identity-115423103.json",
+      "source_receipt_sha256": "4720070c5c1315bcbc288e13110863eddc3cd2b34a9950350d8f44204cc1fcdc",
+      "source_markup_sha256": "5cf1c244440f0e26ff87ad059379904a1514592dd1df3200fbbda0e968f43439",
+      "physical_measurements": [
+        {
+          "raw": "w2285 x h1320 cm",
+          "width": 2285.0,
+          "height": 1320.0,
+          "ratio": 1.731060606060606,
+          "interpretation": "explicit w/h plain dimensions"
+        }
+      ],
+      "review_prompts": [
+        "measurement scope outside original near-16:9 band; review required"
+      ],
+      "status": "unresolved source-measurement prompt",
+      "retained_catalogue_entry": {
+        "id": 21878850,
+        "file_title": "File:Albert Joseph Moore - A Summer Night - Google Art Project.jpg",
+        "sha1": "8e96c8f602eb5574b88e0cc10384f502cdf25443",
+        "artist": "Albert Joseph Moore",
+        "title": "A Summer Night",
+        "width": 3721,
+        "height": 2143,
+        "source": "https://commons.wikimedia.org/w/index.php?curid=21878850",
+        "source_page_sha256": "5cf1c244440f0e26ff87ad059379904a1514592dd1df3200fbbda0e968f43439",
+        "rights_label_observed": "Public domain",
+        "release_status": "included",
+        "qid": "Q28790547",
+        "source_revision": 1136156491,
+        "physical_check": {
+          "qid": "Q28790547",
+          "physical_ratio": 1.731060606060606,
+          "physical_source": "Wikidata P2048/P2049",
+          "digital_ratio": 1.7363509099393373,
+          "scan_difference_percent": 0.305610552294322,
+          "dimension_review": false
+        },
+        "visual_review_date": "2026-10-06"
+      },
+      "thumbnail_sha256": "f33641f1fe725b4908365e0089ad209d78abb95e4e6f80fa21bb1ddda7b7f8b7",
+      "curator_review": "Source headers and rights read; preview actually viewed. No further explicit frame-only or numerical-boundary resolution was established in this pass.",
+      "selection_proposal": "Retain identity, upload pin and history; do not count this unresolved case towards 1000 vetted usable works. Collect an additional reserve instead.",
+      "limits": "Measurement-scope disagreement is not proof of cropping. No runtime catalogue removal, repinning, release or HA mutation."
+    },
+    {
+      "id": 64501070,
+      "title": "Winter Ride",
+      "artist": "Alfred Steinacker",
+      "original_sha1": "01e4b81dceade9d0c2ebf1e9b55922c72078acd3",
+      "source_revision": 1278500378,
+      "source_receipt": "build/commons-1000-research/baseline-identity-75030787.json",
+      "source_receipt_sha256": "7c1732f2189e6d0550d8cc2299968c675f97af2307c4a2866584f1240ac112b0",
+      "source_markup_sha256": "97d1ea163e9e278573c9d52699a6d23389456e2679d36d5495eb6f373da93a81",
+      "physical_measurements": [
+        {
+          "raw": "{{size|cm|18.5|31.8}}",
+          "width": 31.8,
+          "height": 18.5,
+          "ratio": 1.718918918918919,
+          "interpretation": "unlabelled two axes; landscape orientation observed visually"
+        }
+      ],
+      "review_prompts": [
+        "measurement scope outside original near-16:9 band; review required"
+      ],
+      "status": "unresolved source-measurement prompt",
+      "retained_catalogue_entry": {
+        "id": 64501070,
+        "file_title": "File:Alfred Steinacker - Winter Ride.jpg",
+        "sha1": "01e4b81dceade9d0c2ebf1e9b55922c72078acd3",
+        "artist": "Alfred Steinacker",
+        "title": "Winter Ride",
+        "width": 3556,
+        "height": 2040,
+        "source": "https://commons.wikimedia.org/w/index.php?curid=64501070",
+        "source_page_sha256": "97d1ea163e9e278573c9d52699a6d23389456e2679d36d5495eb6f373da93a81",
+        "rights_label_observed": "Public domain",
+        "release_status": "included",
+        "qid": "Q124749811",
+        "source_revision": 1278500378,
+        "physical_check": {
+          "qid": "Q124749811",
+          "physical_ratio": 1.7297297297297298,
+          "physical_source": "Wikidata P2048/P2049",
+          "digital_ratio": 1.7431372549019608,
+          "scan_difference_percent": 0.7751225490196134,
+          "dimension_review": false
+        },
+        "visual_review_date": "2026-10-06"
+      },
+      "thumbnail_sha256": "edc1efaab1031eb0aa7e00d12ee02130742be6431fb1c6168034111ebc390595",
+      "curator_review": "Source headers and rights read; preview actually viewed. No further explicit frame-only or numerical-boundary resolution was established in this pass.",
+      "selection_proposal": "Retain identity, upload pin and history; do not count this unresolved case towards 1000 vetted usable works. Collect an additional reserve instead.",
+      "limits": "Measurement-scope disagreement is not proof of cropping. No runtime catalogue removal, repinning, release or HA mutation."
+    },
+    {
+      "id": 20972263,
+      "title": "The melon sellers.",
+      "artist": "Antonio Ermolao Paoletti",
+      "original_sha1": "a679b75537ec8333f19bc155ca1e6f64f9b723d5",
+      "source_revision": 1055831448,
+      "source_receipt": "build/commons-1000-research/baseline-identity-178891565.json",
+      "source_receipt_sha256": "82e4ca7fe7bd3994ebbd78e82695b0ab2294be253811f5db7bdf78d332cda504",
+      "source_markup_sha256": "90cc1496f1d1a92f40bdac3091c5abdee48f9a7774b6df8fd02bfd467ac67f31",
+      "physical_measurements": [
+        {
+          "raw": "33 x 57 cm",
+          "width": 57.0,
+          "height": 33.0,
+          "ratio": 1.7272727272727273,
+          "interpretation": "plain two axes; measurement scope retained, landscape observed visually"
+        }
+      ],
+      "review_prompts": [
+        "measurement scope outside original near-16:9 band; review required"
+      ],
+      "status": "unresolved source-measurement prompt",
+      "retained_catalogue_entry": {
+        "id": 20972263,
+        "file_title": "File:Antonio Ermolao Paoletti The melon sellers.jpg",
+        "sha1": "a679b75537ec8333f19bc155ca1e6f64f9b723d5",
+        "artist": "Antonio Ermolao Paoletti",
+        "title": "The melon sellers.",
+        "width": 3699,
+        "height": 2133,
+        "source": "https://commons.wikimedia.org/w/index.php?curid=20972263",
+        "source_page_sha256": "90cc1496f1d1a92f40bdac3091c5abdee48f9a7774b6df8fd02bfd467ac67f31",
+        "rights_label_observed": "Public domain",
+        "release_status": "included",
+        "qid": "Q127834595",
+        "source_revision": 1055831448,
+        "physical_check": {
+          "qid": "Q127834595",
+          "physical_ratio": 1.7272727272727273,
+          "physical_source": "Commons artwork dimensions",
+          "digital_ratio": 1.7341772151898733,
+          "scan_difference_percent": 0.3997335109926725,
+          "dimension_review": false
+        },
+        "visual_review_date": "2026-10-06"
+      },
+      "thumbnail_sha256": "7999603b704142adde5181d384f45d5119a6fd5089882d7da2f9829a259c7d4d",
+      "curator_review": "Source headers and rights read; preview actually viewed. No further explicit frame-only or numerical-boundary resolution was established in this pass.",
+      "selection_proposal": "Retain identity, upload pin and history; do not count this unresolved case towards 1000 vetted usable works. Collect an additional reserve instead.",
+      "limits": "Measurement-scope disagreement is not proof of cropping. No runtime catalogue removal, repinning, release or HA mutation."
+    },
+    {
+      "id": 76696020,
+      "title": "A view of Capri",
+      "artist": "Ascan Lutteroth",
+      "original_sha1": "ebbb1c111bff8b612b216bbe21b27eb887786b49",
+      "source_revision": 1066705695,
+      "source_receipt": "build/commons-1000-research/baseline-identity-128007932.json",
+      "source_receipt_sha256": "49a2872e65ca42550160abf028b4156b1a867dd72176471e504075fd453567d6",
+      "source_markup_sha256": "ff8f243282b19ae0c38d621bcf503d926c23da842d0a4bb46bc2a9beafdb6cca",
+      "physical_measurements": [
+        {
+          "raw": "{{size|unit=cm|height=81|width=140}}",
+          "width": 140.0,
+          "height": 81.0,
+          "ratio": 1.728395061728395,
+          "interpretation": "named height/width"
+        }
+      ],
+      "review_prompts": [
+        "measurement scope outside original near-16:9 band; review required"
+      ],
+      "status": "unresolved source-measurement prompt",
+      "retained_catalogue_entry": {
+        "id": 76696020,
+        "file_title": "File:Ascan Lutteroth - A view of Capri.jpg",
+        "sha1": "ebbb1c111bff8b612b216bbe21b27eb887786b49",
+        "artist": "Ascan Lutteroth",
+        "title": "A view of Capri",
+        "width": 4621,
+        "height": 2609,
+        "source": "https://commons.wikimedia.org/w/index.php?curid=76696020",
+        "source_page_sha256": "ff8f243282b19ae0c38d621bcf503d926c23da842d0a4bb46bc2a9beafdb6cca",
+        "rights_label_observed": "Public domain",
+        "release_status": "included",
+        "qid": "Q114209916",
+        "source_revision": 1066705695,
+        "physical_check": {
+          "qid": "Q114209916",
+          "physical_ratio": 1.728395061728395,
+          "physical_source": "Wikidata P2048/P2049",
+          "digital_ratio": 1.7711766960521274,
+          "scan_difference_percent": 2.4752231287302306,
+          "dimension_review": false
+        },
+        "visual_review_date": "2026-10-06"
+      },
+      "thumbnail_sha256": "59bbef6dffba973dff31ea3fc7f3a32a030ee923e914598c2835c32465cb773a",
+      "curator_review": "Source headers and rights read; preview actually viewed. No further explicit frame-only or numerical-boundary resolution was established in this pass.",
+      "selection_proposal": "Retain identity, upload pin and history; do not count this unresolved case towards 1000 vetted usable works. Collect an additional reserve instead.",
+      "limits": "Measurement-scope disagreement is not proof of cropping. No runtime catalogue removal, repinning, release or HA mutation."
+    },
+    {
+      "id": 123889433,
+      "title": "Enseada com barcos",
+      "artist": "Benedito Calixto",
+      "original_sha1": "2b7834c54e1424860b620bf5125622ffc2a1c302",
+      "source_revision": 1084392818,
+      "source_receipt": "build/commons-1000-research/baseline-identity-67893605.json",
+      "source_receipt_sha256": "3640d8987a879a156d476073a70a20f662283313657af706c99cbeedcf53c5e1",
+      "source_markup_sha256": "efdfa097a929494a1f51a84f29958bf21a250f3dc449b425eaff50ac1f187c76",
+      "physical_measurements": [
+        {
+          "raw": "{{size|cm|38.5|66}}",
+          "width": 66.0,
+          "height": 38.5,
+          "ratio": 1.7142857142857142,
+          "interpretation": "unlabelled two axes; landscape orientation observed visually"
+        }
+      ],
+      "review_prompts": [
+        "measurement scope outside original near-16:9 band; review required"
+      ],
+      "status": "unresolved source-measurement prompt",
+      "retained_catalogue_entry": {
+        "id": 123889433,
+        "file_title": "File:Benedito Calixto - Enseada com barcos, SP, 1907.jpg",
+        "sha1": "2b7834c54e1424860b620bf5125622ffc2a1c302",
+        "artist": "Benedito Calixto",
+        "title": "Enseada com barcos",
+        "width": 6670,
+        "height": 3824,
+        "source": "https://commons.wikimedia.org/w/index.php?curid=123889433",
+        "source_page_sha256": "efdfa097a929494a1f51a84f29958bf21a250f3dc449b425eaff50ac1f187c76",
+        "rights_label_observed": "Public domain",
+        "release_status": "included",
+        "qid": "Q132200408",
+        "source_revision": 1084392818,
+        "physical_check": {
+          "qid": "Q132200408",
+          "physical_ratio": 1.7142857142857142,
+          "physical_source": "Wikidata P2048/P2049",
+          "digital_ratio": 1.7442468619246863,
+          "scan_difference_percent": 1.747733612273361,
+          "dimension_review": false
+        },
+        "visual_review_date": "2026-10-06"
+      },
+      "thumbnail_sha256": "2847d44e83c670346c78df53b3fd755f7d782f2ce6d359c45c21a900843fdfd2",
+      "curator_review": "Source headers and rights read; preview actually viewed. No further explicit frame-only or numerical-boundary resolution was established in this pass.",
+      "selection_proposal": "Retain identity, upload pin and history; do not count this unresolved case towards 1000 vetted usable works. Collect an additional reserve instead.",
+      "limits": "Measurement-scope disagreement is not proof of cropping. No runtime catalogue removal, repinning, release or HA mutation."
+    },
+    {
+      "id": 60278301,
+      "title": "View of Norba from the North, towards San Felice Circeo",
+      "artist": "Carl Werner",
+      "original_sha1": "34998c2fab2d198557fddce9054b90d6cb128379",
+      "source_revision": 1065077640,
+      "source_receipt": "build/commons-1000-research/baseline-identity-67893605.json",
+      "source_receipt_sha256": "3640d8987a879a156d476073a70a20f662283313657af706c99cbeedcf53c5e1",
+      "source_markup_sha256": "468912438470c752b698aa41c1a9086c87b9e3ed8162cd6b4c027745711084fc",
+      "physical_measurements": [
+        {
+          "raw": "Sheet: 10 7/16 in. × 19 in. (26.5 × 48.3 cm)",
+          "width": 48.3,
+          "height": 26.5,
+          "ratio": 1.822641509433962,
+          "interpretation": "plain two axes; measurement scope retained, landscape observed visually"
+        }
+      ],
+      "review_prompts": [
+        "measurement scope outside original near-16:9 band; review required"
+      ],
+      "status": "unresolved source-measurement prompt",
+      "retained_catalogue_entry": {
+        "id": 60278301,
+        "file_title": "File:View of Norba from the North, towards San Felice Circeo MET DP869305.jpg",
+        "sha1": "34998c2fab2d198557fddce9054b90d6cb128379",
+        "artist": "Carl Werner",
+        "title": "View of Norba from the North, towards San Felice Circeo",
+        "width": 3701,
+        "height": 2058,
+        "source": "https://commons.wikimedia.org/w/index.php?curid=60278301",
+        "source_page_sha256": "468912438470c752b698aa41c1a9086c87b9e3ed8162cd6b4c027745711084fc",
+        "rights_label_observed": "CC0",
+        "release_status": "included",
+        "qid": null,
+        "source_revision": 1065077640,
+        "physical_check": {
+          "qid": null,
+          "physical_ratio": 1.822641509433962,
+          "physical_source": "Commons artwork dimensions",
+          "digital_ratio": 1.7983479105928086,
+          "scan_difference_percent": 1.3328786113676272,
+          "dimension_review": false
+        },
+        "visual_review_date": "2026-10-06"
+      },
+      "thumbnail_sha256": "94dada75ea2bff8cbc631a29f1903d68144d5e6b3d65c0b6235c28702f1b7298",
+      "curator_review": "Source headers and rights read; preview actually viewed. No further explicit frame-only or numerical-boundary resolution was established in this pass.",
+      "selection_proposal": "Retain identity, upload pin and history; do not count this unresolved case towards 1000 vetted usable works. Collect an additional reserve instead.",
+      "limits": "Measurement-scope disagreement is not proof of cropping. No runtime catalogue removal, repinning, release or HA mutation."
+    },
+    {
+      "id": 21956171,
+      "title": "Flemish Landscape",
+      "artist": "Carlos de Haes",
+      "original_sha1": "fa3ab3b5591dfdf225a2a59fb692445812f582a4",
+      "source_revision": 1260756154,
+      "source_receipt": "build/commons-1000-research/baseline-identity-21956171.json",
+      "source_receipt_sha256": "258b5017bed2a43a280dc3226e89e9e1a747ce9d5f50a92b7b595d34ff750093",
+      "source_markup_sha256": "12c545da3310ac6bff792d28ddc1694e34d287d0c7cb0c7d3e5d01975941705f",
+      "physical_measurements": [
+        {
+          "raw": "w1005 x h580 cm",
+          "width": 1005.0,
+          "height": 580.0,
+          "ratio": 1.7327586206896552,
+          "interpretation": "explicit w/h plain dimensions"
+        }
+      ],
+      "review_prompts": [
+        "measurement scope outside original near-16:9 band; review required"
+      ],
+      "status": "unresolved source-measurement prompt",
+      "retained_catalogue_entry": {
+        "id": 21956171,
+        "file_title": "File:Carlos de Haes - Flemish Landscape - Google Art Project.jpg",
+        "sha1": "fa3ab3b5591dfdf225a2a59fb692445812f582a4",
+        "artist": "Carlos de Haes",
+        "title": "Flemish Landscape",
+        "width": 3859,
+        "height": 2215,
+        "source": "https://commons.wikimedia.org/w/index.php?curid=21956171",
+        "source_page_sha256": "12c545da3310ac6bff792d28ddc1694e34d287d0c7cb0c7d3e5d01975941705f",
+        "rights_label_observed": "Public domain",
+        "release_status": "included",
+        "qid": "Q23933605",
+        "source_revision": 1260756154,
+        "physical_check": {
+          "qid": "Q23933605",
+          "physical_ratio": 1.7327586206896552,
+          "physical_source": "Wikidata P2048/P2049",
+          "digital_ratio": 1.7422121896162528,
+          "scan_difference_percent": 0.5455791022314971,
+          "dimension_review": false
+        },
+        "visual_review_date": "2026-10-06"
+      },
+      "thumbnail_sha256": "f68d93ece5e52e0b400b8dee61d394c17caca8e22086ef2f6fc73ad4642e779c",
+      "curator_review": "Source headers and rights read; preview actually viewed. No further explicit frame-only or numerical-boundary resolution was established in this pass.",
+      "selection_proposal": "Retain identity, upload pin and history; do not count this unresolved case towards 1000 vetted usable works. Collect an additional reserve instead.",
+      "limits": "Measurement-scope disagreement is not proof of cropping. No runtime catalogue removal, repinning, release or HA mutation."
+    },
+    {
+      "id": 22205181,
+      "title": "Near Wady Halfeh",
+      "artist": "Edward Lear",
+      "original_sha1": "54ed8f94a62ad27b716d3ccd0d2745357416aa34",
+      "source_revision": 1224380851,
+      "source_receipt": "build/commons-1000-research/baseline-identity-22205181.json",
+      "source_receipt_sha256": "11f06e5f7589a7f39fe196ebe9b52e4e3bb3aa2263c993fcf747126d7404bbe3",
+      "source_markup_sha256": "20a70801c422931835d536ae1e60a183b4a52b1b67b050711702a36b863ff6f1",
+      "physical_measurements": [
+        {
+          "raw": "w133 x h78 cm",
+          "width": 133.0,
+          "height": 78.0,
+          "ratio": 1.705128205128205,
+          "interpretation": "explicit w/h plain dimensions"
+        }
+      ],
+      "review_prompts": [
+        "measurement scope outside original near-16:9 band; review required"
+      ],
+      "status": "unresolved source-measurement prompt",
+      "retained_catalogue_entry": {
+        "id": 22205181,
+        "file_title": "File:Edward Lear - Near Wady Halfeh - Google Art Project.jpg",
+        "sha1": "54ed8f94a62ad27b716d3ccd0d2745357416aa34",
+        "artist": "Edward Lear",
+        "title": "Near Wady Halfeh",
+        "width": 4870,
+        "height": 2798,
+        "source": "https://commons.wikimedia.org/w/index.php?curid=22205181",
+        "source_page_sha256": "20a70801c422931835d536ae1e60a183b4a52b1b67b050711702a36b863ff6f1",
+        "rights_label_observed": "Public domain",
+        "release_status": "included",
+        "qid": null,
+        "source_revision": 1224380851,
+        "physical_check": {
+          "qid": null,
+          "physical_ratio": null,
+          "physical_source": null,
+          "digital_ratio": 1.740528949249464,
+          "scan_difference_percent": null,
+          "dimension_review": false
+        },
+        "visual_review_date": "2026-10-06"
+      },
+      "thumbnail_sha256": "13b81343e76da0af1eb90a8d5ecfb8b7535f0a980f5a28d6f5f4bfe04f9b0eb1",
+      "curator_review": "Source headers and rights read; preview actually viewed. No further explicit frame-only or numerical-boundary resolution was established in this pass.",
+      "selection_proposal": "Retain identity, upload pin and history; do not count this unresolved case towards 1000 vetted usable works. Collect an additional reserve instead.",
+      "limits": "Measurement-scope disagreement is not proof of cropping. No runtime catalogue removal, repinning, release or HA mutation."
+    },
+    {
+      "id": 73882709,
+      "title": "Nantasket Beach",
+      "artist": "Emil Carlsen",
+      "original_sha1": "cde54e7c525db8a7d7b88f8e4d956dfb94e62f5d",
+      "source_revision": 1190036730,
+      "source_receipt": "build/commons-1000-research/baseline-identity-73882709.json",
+      "source_receipt_sha256": "e95f6dcf762020565312a18617efd4597885b1e064b138cba95c5220d342c8af",
+      "source_markup_sha256": "b6284e8bf23cdcfd1f54efa2c351b7cb821331b19882ef1c74ba4ff0377254c9",
+      "physical_measurements": [
+        {
+          "raw": "{{Size|cm|38.7| 66.8}}",
+          "width": 66.8,
+          "height": 38.7,
+          "ratio": 1.7260981912144702,
+          "interpretation": "unlabelled two axes; landscape orientation observed visually"
+        }
+      ],
+      "review_prompts": [
+        "measurement scope outside original near-16:9 band; review required"
+      ],
+      "status": "unresolved source-measurement prompt",
+      "retained_catalogue_entry": {
+        "id": 73882709,
+        "file_title": "File:Emil Carlsen, Nantasket Beach, 1876, 1940.1087, Art Institute of Chicago.jpg",
+        "sha1": "cde54e7c525db8a7d7b88f8e4d956dfb94e62f5d",
+        "artist": "Emil Carlsen",
+        "title": "Nantasket Beach",
+        "width": 3000,
+        "height": 1704,
+        "source": "https://commons.wikimedia.org/w/index.php?curid=73882709",
+        "source_page_sha256": "b6284e8bf23cdcfd1f54efa2c351b7cb821331b19882ef1c74ba4ff0377254c9",
+        "rights_label_observed": "CC0",
+        "release_status": "included",
+        "qid": "Q20266612",
+        "source_revision": 1190036730,
+        "physical_check": {
+          "qid": "Q20266612",
+          "physical_ratio": 1.7260981912144702,
+          "physical_source": "Wikidata P2048/P2049",
+          "digital_ratio": 1.7605633802816902,
+          "scan_difference_percent": 1.996710803744639,
+          "dimension_review": false
+        },
+        "visual_review_date": "2026-10-06"
+      },
+      "thumbnail_sha256": "3b2654b3cb2ab29d086eaa1949c09096b70ead7b277871cc9a5331a52bacaa9c",
+      "curator_review": "Source headers and rights read; preview actually viewed. No further explicit frame-only or numerical-boundary resolution was established in this pass.",
+      "selection_proposal": "Retain identity, upload pin and history; do not count this unresolved case towards 1000 vetted usable works. Collect an additional reserve instead.",
+      "limits": "Measurement-scope disagreement is not proof of cropping. No runtime catalogue removal, repinning, release or HA mutation."
+    },
+    {
+      "id": 39680145,
+      "title": "The port of Rio de Janeiro",
+      "artist": "Giovanni Battista Castagneto",
+      "original_sha1": "41adf1fc261aeed061ff1a10997e67053164e1a3",
+      "source_revision": 1204398382,
+      "source_receipt": "build/commons-1000-research/baseline-identity-83513302.json",
+      "source_receipt_sha256": "ed90b1ef4e6a0665c4a6a60ba6b6853ff149f7a9927a71e4262e6aeea0d74bcd",
+      "source_markup_sha256": "d704ac73cd2a8d6592e00e415e19402380066c81174d3ece1d609382b2a80ac1",
+      "physical_measurements": [
+        {
+          "raw": "{{size|cm|54.7|94}}",
+          "width": 94.0,
+          "height": 54.7,
+          "ratio": 1.7184643510054844,
+          "interpretation": "unlabelled two axes; landscape orientation observed visually"
+        }
+      ],
+      "review_prompts": [
+        "measurement scope outside original near-16:9 band; review required"
+      ],
+      "status": "unresolved source-measurement prompt",
+      "retained_catalogue_entry": {
+        "id": 39680145,
+        "file_title": "File:Giovanni Battista Castagneto - Porto do Rio de Janeiro (2).jpg",
+        "sha1": "41adf1fc261aeed061ff1a10997e67053164e1a3",
+        "artist": "Giovanni Battista Castagneto",
+        "title": "The port of Rio de Janeiro",
+        "width": 5667,
+        "height": 3268,
+        "source": "https://commons.wikimedia.org/w/index.php?curid=39680145",
+        "source_page_sha256": "d704ac73cd2a8d6592e00e415e19402380066c81174d3ece1d609382b2a80ac1",
+        "rights_label_observed": "Public domain",
+        "release_status": "included",
+        "qid": "Q43542174",
+        "source_revision": 1204398382,
+        "physical_check": {
+          "qid": "Q43542174",
+          "physical_ratio": 1.7184643510054844,
+          "physical_source": "Wikidata P2048/P2049",
+          "digital_ratio": 1.7340881272949817,
+          "scan_difference_percent": 0.90917081173989,
+          "dimension_review": false
+        },
+        "visual_review_date": "2026-10-06"
+      },
+      "thumbnail_sha256": "9cc30217573f41ca198f5abb5db22b9fa3d5c2bfe003a211fd990c5b3c35c1cc",
+      "curator_review": "Source headers and rights read; preview actually viewed. No further explicit frame-only or numerical-boundary resolution was established in this pass.",
+      "selection_proposal": "Retain identity, upload pin and history; do not count this unresolved case towards 1000 vetted usable works. Collect an additional reserve instead.",
+      "limits": "Measurement-scope disagreement is not proof of cropping. No runtime catalogue removal, repinning, release or HA mutation."
+    },
+    {
+      "id": 164784050,
+      "title": "Veduta di Londra (Il Victoria Embankment, Londra) The Victoria Embankment, London",
+      "artist": "Giuseppe De Nittis",
+      "original_sha1": "7c0292992075f4ca8db1f4685fa75bb7b7182fb1",
+      "source_revision": 1245305875,
+      "source_receipt": "build/commons-1000-research/baseline-identity-164784050.json",
+      "source_receipt_sha256": "4632c53c1d245051df5abc5f465d0804a9b0746018d48be6c009a5a49ed84218",
+      "source_markup_sha256": "720f92780bcbbb5a7760b2f32839f5dcadff6c138a8d2c5f1fcd0206f35354fb",
+      "physical_measurements": [
+        {
+          "raw": "{{Size|unit=cm|height=18.4|width=31.7}}",
+          "width": 31.7,
+          "height": 18.4,
+          "ratio": 1.7228260869565217,
+          "interpretation": "named height/width"
+        }
+      ],
+      "review_prompts": [
+        "measurement scope outside original near-16:9 band; review required"
+      ],
+      "status": "unresolved source-measurement prompt",
+      "retained_catalogue_entry": {
+        "id": 164784050,
+        "file_title": "File:The Victoria Embankment, London (1875), by Giuseppe De Nittis.jpg",
+        "sha1": "7c0292992075f4ca8db1f4685fa75bb7b7182fb1",
+        "artist": "Giuseppe De Nittis",
+        "title": "Veduta di Londra (Il Victoria Embankment, Londra) The Victoria Embankment, London",
+        "width": 3200,
+        "height": 1820,
+        "source": "https://commons.wikimedia.org/w/index.php?curid=164784050",
+        "source_page_sha256": "720f92780bcbbb5a7760b2f32839f5dcadff6c138a8d2c5f1fcd0206f35354fb",
+        "rights_label_observed": "Public domain",
+        "release_status": "included",
+        "qid": null,
+        "source_revision": 1245305875,
+        "physical_check": {
+          "qid": null,
+          "physical_ratio": 1.7228260869565217,
+          "physical_source": "Commons artwork dimensions",
+          "digital_ratio": 1.7582417582417582,
+          "scan_difference_percent": 2.055673033591021,
+          "dimension_review": false
+        },
+        "visual_review_date": "2026-10-06"
+      },
+      "thumbnail_sha256": "c082027594d015f50af1fa304f27aa6d8fb744c8b9a0c691feceec24625be371",
+      "curator_review": "Source headers and rights read; preview actually viewed. No further explicit frame-only or numerical-boundary resolution was established in this pass.",
+      "selection_proposal": "Retain identity, upload pin and history; do not count this unresolved case towards 1000 vetted usable works. Collect an additional reserve instead.",
+      "limits": "Measurement-scope disagreement is not proof of cropping. No runtime catalogue removal, repinning, release or HA mutation."
+    },
+    {
+      "id": 21880968,
+      "title": "La lavandera",
+      "artist": "Prilidiano Pueyrredón",
+      "original_sha1": "1f1ff685126e16ab00cfcdd946ad03a4b69acfcf",
+      "source_revision": 774727811,
+      "source_receipt": "build/commons-1000-research/baseline-identity-148507877.json",
+      "source_receipt_sha256": "07ff9d17907bff42ccc97c0a9be1ded2dc759aa309adc636dde459ffaf705786",
+      "source_markup_sha256": "57575fcc4c9506f1b04300ccbef56d085b0df4de019312ed0af914636d08daa5",
+      "physical_measurements": [
+        {
+          "raw": "w384 x h210 mm",
+          "width": 384.0,
+          "height": 210.0,
+          "ratio": 1.8285714285714285,
+          "interpretation": "explicit w/h plain dimensions"
+        }
+      ],
+      "review_prompts": [
+        "measurement scope outside original near-16:9 band; review required"
+      ],
+      "status": "unresolved source-measurement prompt",
+      "retained_catalogue_entry": {
+        "id": 21880968,
+        "file_title": "File:Prilidiano Pueyrredon - La lavandera - Google Art Project.jpg",
+        "sha1": "1f1ff685126e16ab00cfcdd946ad03a4b69acfcf",
+        "artist": "Prilidiano Pueyrredón",
+        "title": "La lavandera",
+        "width": 4945,
+        "height": 2725,
+        "source": "https://commons.wikimedia.org/w/index.php?curid=21880968",
+        "source_page_sha256": "57575fcc4c9506f1b04300ccbef56d085b0df4de019312ed0af914636d08daa5",
+        "rights_label_observed": "Public domain",
+        "release_status": "included",
+        "qid": "Q27954597",
+        "source_revision": 774727811,
+        "physical_check": {
+          "qid": "Q27954597",
+          "physical_ratio": 1.8285714285714285,
+          "physical_source": "Wikidata P2048/P2049",
+          "digital_ratio": 1.8146788990825689,
+          "scan_difference_percent": 0.7597477064220093,
+          "dimension_review": false
+        },
+        "visual_review_date": "2026-10-06"
+      },
+      "thumbnail_sha256": "ed3be237d5bad9689625bcd7dbbe7f36f1ca6568d24bd64dd3be80aa3fe8ab4c",
+      "curator_review": "Source headers and rights read; preview actually viewed. No further explicit frame-only or numerical-boundary resolution was established in this pass.",
+      "selection_proposal": "Retain identity, upload pin and history; do not count this unresolved case towards 1000 vetted usable works. Collect an additional reserve instead.",
+      "limits": "Measurement-scope disagreement is not proof of cropping. No runtime catalogue removal, repinning, release or HA mutation."
+    },
+    {
+      "id": 45326162,
+      "title": "Landscape with Cottages on the Heath",
+      "artist": "Remigius Adrianus Haanen",
+      "original_sha1": "a943f73803d02d95a3fc3c58218cb6be9a87fdb8",
+      "source_revision": 1140823649,
+      "source_receipt": "build/commons-1000-research/baseline-identity-107396060.json",
+      "source_receipt_sha256": "8cef3fadbb2ff4a1bc06225a060a43f0292d80f7e1573ae3ba481ffe6f9d5818",
+      "source_markup_sha256": "5676679f00c91616f41dc23347d973f9f3f06a12eb5c85dc422c230bc42ea4e0",
+      "physical_measurements": [
+        {
+          "raw": "{{size|cm|32|54.5}}",
+          "width": 54.5,
+          "height": 32.0,
+          "ratio": 1.703125,
+          "interpretation": "unlabelled two axes; landscape orientation observed visually"
+        }
+      ],
+      "review_prompts": [
+        "measurement scope outside original near-16:9 band; review required"
+      ],
+      "status": "unresolved source-measurement prompt",
+      "retained_catalogue_entry": {
+        "id": 45326162,
+        "file_title": "File:Landschap met hutten op de heide SK-A-1639.jpg",
+        "sha1": "a943f73803d02d95a3fc3c58218cb6be9a87fdb8",
+        "artist": "Remigius Adrianus Haanen",
+        "title": "Landscape with Cottages on the Heath",
+        "width": 6242,
+        "height": 3600,
+        "source": "https://commons.wikimedia.org/w/index.php?curid=45326162",
+        "source_page_sha256": "5676679f00c91616f41dc23347d973f9f3f06a12eb5c85dc422c230bc42ea4e0",
+        "rights_label_observed": "Public domain",
+        "release_status": "included",
+        "qid": "Q18607752",
+        "source_revision": 1140823649,
+        "physical_check": {
+          "qid": "Q18607752",
+          "physical_ratio": 1.703125,
+          "physical_source": "Wikidata P2048/P2049",
+          "digital_ratio": 1.7338888888888888,
+          "scan_difference_percent": 1.8063200815494396,
+          "dimension_review": false
+        },
+        "visual_review_date": "2026-10-06"
+      },
+      "thumbnail_sha256": "825729251f748bef7ff5ff49ef88cd7a044f0408bc2852b08230715040e04689",
+      "curator_review": "Source headers and rights read; preview actually viewed. No further explicit frame-only or numerical-boundary resolution was established in this pass.",
+      "selection_proposal": "Retain identity, upload pin and history; do not count this unresolved case towards 1000 vetted usable works. Collect an additional reserve instead.",
+      "limits": "Measurement-scope disagreement is not proof of cropping. No runtime catalogue removal, repinning, release or HA mutation."
+    },
+    {
+      "id": 41242543,
+      "title": "Open Landscape in the Evening Light",
+      "artist": "Remigius Adrianus Haanen",
+      "original_sha1": "0712b476f6a32e7437e9a95686aca0c770e20cac",
+      "source_revision": 910081538,
+      "source_receipt": "build/commons-1000-research/baseline-identity-107396060.json",
+      "source_receipt_sha256": "8cef3fadbb2ff4a1bc06225a060a43f0292d80f7e1573ae3ba481ffe6f9d5818",
+      "source_markup_sha256": "30cf2ff97208d346ac61e5b7756f25363a4f4c1ed67f4b886d0ea6d4275d2bc1",
+      "physical_measurements": [
+        {
+          "raw": "{{Size|cm| 31.3|54}}",
+          "width": 54.0,
+          "height": 31.3,
+          "ratio": 1.7252396166134185,
+          "interpretation": "unlabelled two axes; landscape orientation observed visually"
+        }
+      ],
+      "review_prompts": [
+        "measurement scope outside original near-16:9 band; review required"
+      ],
+      "status": "unresolved source-measurement prompt",
+      "retained_catalogue_entry": {
+        "id": 41242543,
+        "file_title": "File:Haanen-Open Landscape in the Evening Light.jpg",
+        "sha1": "0712b476f6a32e7437e9a95686aca0c770e20cac",
+        "artist": "Remigius Adrianus Haanen",
+        "title": "Open Landscape in the Evening Light",
+        "width": 3876,
+        "height": 2230,
+        "source": "https://commons.wikimedia.org/w/index.php?curid=41242543",
+        "source_page_sha256": "30cf2ff97208d346ac61e5b7756f25363a4f4c1ed67f4b886d0ea6d4275d2bc1",
+        "rights_label_observed": "Public domain",
+        "release_status": "included",
+        "qid": "Q112842637",
+        "source_revision": 910081538,
+        "physical_check": {
+          "qid": "Q112842637",
+          "physical_ratio": 1.7252396166134185,
+          "physical_source": "Wikidata P2048/P2049",
+          "digital_ratio": 1.738116591928251,
+          "scan_difference_percent": 0.746387643248636,
+          "dimension_review": false
+        },
+        "visual_review_date": "2026-10-06"
+      },
+      "thumbnail_sha256": "63e830a77970e243f5db9f3241c8201c2720f7405a2b6c3331c8e2fd284fea44",
+      "curator_review": "Source headers and rights read; preview actually viewed. No further explicit frame-only or numerical-boundary resolution was established in this pass.",
+      "selection_proposal": "Retain identity, upload pin and history; do not count this unresolved case towards 1000 vetted usable works. Collect an additional reserve instead.",
+      "limits": "Measurement-scope disagreement is not proof of cropping. No runtime catalogue removal, repinning, release or HA mutation."
+    },
+    {
+      "id": 29864826,
+      "title": "Tanners Workshop - Tanners Workshop of Ubide",
+      "artist": "Ricardo Arredondo Calmache",
+      "original_sha1": "7d0ba80ab82633c3d4c01413afea8b49c315c9d2",
+      "source_revision": 1065965057,
+      "source_receipt": "build/commons-1000-research/baseline-identity-29864826.json",
+      "source_receipt_sha256": "7a0196080242e7b8fb42323da1b3d873e612a23afb466718fc63c73bc358daeb",
+      "source_markup_sha256": "8cc146860be7cd0e15185d35be922c264d9600884104acc244d6a8ed9ef59d1b",
+      "physical_measurements": [
+        {
+          "raw": "{{Size|unit=cm|width=200|height=123}}",
+          "width": 200.0,
+          "height": 123.0,
+          "ratio": 1.6260162601626016,
+          "interpretation": "named height/width"
+        },
+        {
+          "raw": "{{en|w200 x h123.5 cm (Complete)}}",
+          "width": 200.0,
+          "height": 123.5,
+          "ratio": 1.6194331983805668,
+          "interpretation": "explicit w/h plain dimensions"
+        }
+      ],
+      "review_prompts": [
+        "measurement scope outside original near-16:9 band; review required"
+      ],
+      "status": "unresolved source-measurement prompt",
+      "retained_catalogue_entry": {
+        "id": 29864826,
+        "file_title": "File:Arredondo y Calmache, Ricardo - Tanners Workshop - Tanners Workshop of Ubide - Google Art Project.jpg",
+        "sha1": "7d0ba80ab82633c3d4c01413afea8b49c315c9d2",
+        "artist": "Ricardo Arredondo Calmache",
+        "title": "Tanners Workshop - Tanners Workshop of Ubide",
+        "width": 3421,
+        "height": 1890,
+        "source": "https://commons.wikimedia.org/w/index.php?curid=29864826",
+        "source_page_sha256": "8cc146860be7cd0e15185d35be922c264d9600884104acc244d6a8ed9ef59d1b",
+        "rights_label_observed": "Public domain",
+        "release_status": "included",
+        "qid": null,
+        "source_revision": 1065965057,
+        "physical_check": {
+          "qid": null,
+          "physical_ratio": null,
+          "physical_source": null,
+          "digital_ratio": 1.8100529100529101,
+          "scan_difference_percent": null,
+          "dimension_review": false
+        },
+        "visual_review_date": "2026-10-06"
+      },
+      "thumbnail_sha256": "ae9b1c60f87d782b7de893bc413269748e6e6c485efe1912218464ff691d6aec",
+      "curator_review": "Source headers and rights read; preview actually viewed. No further explicit frame-only or numerical-boundary resolution was established in this pass.",
+      "selection_proposal": "Retain identity, upload pin and history; do not count this unresolved case towards 1000 vetted usable works. Collect an additional reserve instead.",
+      "limits": "Measurement-scope disagreement is not proof of cropping. No runtime catalogue removal, repinning, release or HA mutation."
+    },
+    {
+      "id": 130381235,
+      "title": "The King everywhere",
+      "artist": "Robert Warthmüller",
+      "original_sha1": "d8cf1f451c4aa6e93e7f3a8bea05faddd3a86548",
+      "source_revision": 1188308514,
+      "source_receipt": "build/commons-1000-research/baseline-identity-142201718.json",
+      "source_receipt_sha256": "69b1a692228e853f570e7a0d27a0c4fc0254e800bb35cd22a1a00d88f6f69fe6",
+      "source_markup_sha256": "dac4fa09af56913f1f9cf79057bf09746e7a1f6e15090fd552d5bdb3a6a4e233",
+      "physical_measurements": [
+        {
+          "raw": "{{size|unit=cm|height=105.5|width=182}}",
+          "width": 182.0,
+          "height": 105.5,
+          "ratio": 1.7251184834123223,
+          "interpretation": "named height/width"
+        }
+      ],
+      "review_prompts": [
+        "measurement scope outside original near-16:9 band; review required"
+      ],
+      "status": "unresolved source-measurement prompt",
+      "retained_catalogue_entry": {
+        "id": 130381235,
+        "file_title": "File:Robert Warthmüller - Der König überall (1886).jpg",
+        "sha1": "d8cf1f451c4aa6e93e7f3a8bea05faddd3a86548",
+        "artist": "Robert Warthmüller",
+        "title": "The King everywhere",
+        "width": 12686,
+        "height": 7314,
+        "source": "https://commons.wikimedia.org/w/index.php?curid=130381235",
+        "source_page_sha256": "dac4fa09af56913f1f9cf79057bf09746e7a1f6e15090fd552d5bdb3a6a4e233",
+        "rights_label_observed": "Public domain",
+        "release_status": "included",
+        "qid": "Q117434360",
+        "source_revision": 1188308514,
+        "physical_check": {
+          "qid": "Q117434360",
+          "physical_ratio": 1.7251184834123223,
+          "physical_source": "Wikidata P2048/P2049",
+          "digital_ratio": 1.7344818156959256,
+          "scan_difference_percent": 0.5427645911649126,
+          "dimension_review": false
+        },
+        "visual_review_date": "2026-10-06"
+      },
+      "thumbnail_sha256": "7ff39a3f47822de2ce464b0c3d0bcb7578f374c134629f004aee918dc358eb6d",
+      "curator_review": "Source headers and rights read; preview actually viewed. No further explicit frame-only or numerical-boundary resolution was established in this pass.",
+      "selection_proposal": "Retain identity, upload pin and history; do not count this unresolved case towards 1000 vetted usable works. Collect an additional reserve instead.",
+      "limits": "Measurement-scope disagreement is not proof of cropping. No runtime catalogue removal, repinning, release or HA mutation."
+    },
+    {
+      "id": 13502594,
+      "title": "Morning of the Execution of the Streltsy",
+      "artist": "Vasily Surikov",
+      "original_sha1": "0c0f48f670000ed05aa97e387fa89e5355eda36b",
+      "source_revision": 896452254,
+      "source_receipt": "build/commons-1000-research/baseline-identity-199676.json",
+      "source_receipt_sha256": "9b93a627568ca624b0b9489201455ff95bc0873af53898bfb3aa847ee50eeeef",
+      "source_markup_sha256": "be2e1d202383356994dcc982daf4ad538c67e7ba5f5e2b29762aae8f0ec3d9ad",
+      "physical_measurements": [
+        {
+          "raw": "{{size|cm|height=223|width=383.50}}",
+          "width": 383.5,
+          "height": 223.0,
+          "ratio": 1.7197309417040358,
+          "interpretation": "named height/width"
+        }
+      ],
+      "review_prompts": [
+        "measurement scope outside original near-16:9 band; review required"
+      ],
+      "status": "unresolved source-measurement prompt",
+      "retained_catalogue_entry": {
+        "id": 13502594,
+        "file_title": "File:Vasily Surikov - Утро стрелецкой казни - Google Art Project.jpg",
+        "sha1": "0c0f48f670000ed05aa97e387fa89e5355eda36b",
+        "artist": "Vasily Surikov",
+        "title": "Morning of the Execution of the Streltsy",
+        "width": 4000,
+        "height": 2301,
+        "source": "https://commons.wikimedia.org/w/index.php?curid=13502594",
+        "source_page_sha256": "be2e1d202383356994dcc982daf4ad538c67e7ba5f5e2b29762aae8f0ec3d9ad",
+        "rights_label_observed": "Public domain",
+        "release_status": "included",
+        "qid": "Q4478998",
+        "source_revision": 896452254,
+        "physical_check": {
+          "qid": "Q4478998",
+          "physical_ratio": 1.738532110091743,
+          "physical_source": "Wikidata P2048/P2049",
+          "digital_ratio": 1.7383746197305519,
+          "scan_difference_percent": 0.009058812332363164,
+          "dimension_review": false
+        },
+        "visual_review_date": "2026-10-06"
+      },
+      "thumbnail_sha256": "a417764af40339858d8b086ae474c6cb0aa41d3854bd1f774ec580171da6103d",
+      "curator_review": "Source headers and rights read; preview actually viewed. No further explicit frame-only or numerical-boundary resolution was established in this pass.",
+      "selection_proposal": "Retain identity, upload pin and history; do not count this unresolved case towards 1000 vetted usable works. Collect an additional reserve instead.",
+      "limits": "Measurement-scope disagreement is not proof of cropping. No runtime catalogue removal, repinning, release or HA mutation."
+    },
+    {
+      "id": 141802237,
+      "title": "Cliffs of Star Island",
+      "artist": "Willem Frederik de Haas",
+      "original_sha1": "048980a6db4ebbbd4cd063c4a65b2a7d19d3dd6a",
+      "source_revision": 1093477628,
+      "source_receipt": "build/commons-1000-research/baseline-identity-146757712.json",
+      "source_receipt_sha256": "7c69ae8d97b6f86e1e89d84efcb64b4e3bb10b778774ce5f6ec4e5e2e4cffab2",
+      "source_markup_sha256": "94448b87dd41fdd28d81af2394dcb916a68a2cf8c07eeb1c0b3d6cd7cb09b29e",
+      "physical_measurements": [
+        {
+          "raw": "{{size|unit=cm|height=48.8|width=90.1}}",
+          "width": 90.1,
+          "height": 48.8,
+          "ratio": 1.846311475409836,
+          "interpretation": "named height/width"
+        }
+      ],
+      "review_prompts": [
+        "measurement scope outside original near-16:9 band; review required"
+      ],
+      "status": "unresolved source-measurement prompt",
+      "retained_catalogue_entry": {
+        "id": 141802237,
+        "file_title": "File:William Frederick de Haas - Cliffs of Star Island (1878).jpg",
+        "sha1": "048980a6db4ebbbd4cd063c4a65b2a7d19d3dd6a",
+        "artist": "Willem Frederik de Haas",
+        "title": "Cliffs of Star Island",
+        "width": 3198,
+        "height": 1758,
+        "source": "https://commons.wikimedia.org/w/index.php?curid=141802237",
+        "source_page_sha256": "94448b87dd41fdd28d81af2394dcb916a68a2cf8c07eeb1c0b3d6cd7cb09b29e",
+        "rights_label_observed": "Public domain",
+        "release_status": "included",
+        "qid": "Q123684530",
+        "source_revision": 1093477628,
+        "physical_check": {
+          "qid": "Q123684530",
+          "physical_ratio": 1.846311475409836,
+          "physical_source": "Wikidata P2048/P2049",
+          "digital_ratio": 1.819112627986348,
+          "scan_difference_percent": 1.473145121272157,
+          "dimension_review": false
+        },
+        "visual_review_date": "2026-10-06"
+      },
+      "thumbnail_sha256": "8d5e9aedc1b30e7c839cb157151b0f0036e3f30bf00335d193c0816f3ef3f296",
+      "curator_review": "Source headers and rights read; preview actually viewed. No further explicit frame-only or numerical-boundary resolution was established in this pass.",
+      "selection_proposal": "Retain identity, upload pin and history; do not count this unresolved case towards 1000 vetted usable works. Collect an additional reserve instead.",
+      "limits": "Measurement-scope disagreement is not proof of cropping. No runtime catalogue removal, repinning, release or HA mutation."
+    },
+    {
+      "id": 83488675,
+      "title": "De brug over de IJssel bij Doesburg",
+      "artist": "Willem Roelofs",
+      "original_sha1": "8a6f97145b6e8a3a26dfc89b6f5a2c895ed5b913",
+      "source_revision": 1197720426,
+      "source_receipt": "build/commons-1000-research/baseline-identity-34402003.json",
+      "source_receipt_sha256": "41752f0fce9712f9b3ab130e00ed7f6d62c19888c49376583dd94a788af674e3",
+      "source_markup_sha256": "6d41ecf8a546f2536ec6ed1864f212660a78533a94654f1761a552fcb767e34d",
+      "physical_measurements": [
+        {
+          "raw": "{{nl|1=<br><br><big>'''Identificatie'''</big><br>'''Titel(s): '''De brug over de IJssel bij Doesburg<br>'''Objecttype:''' schilderij <br>'''Objectnummer:''' SK-A-3606<br>'''Opschriften / Merken:''' signatuur en datum, linksonder: ‘W. Roelofs Doesborgh 1889’inscriptie, achterzijde: ‘Schipbrug te Doesborgh’<br>'''Omschrijving:''' Rivierlandschap met een gezicht op de schipbrug over de IJssel bij Doesburg. Bij een brug een steiger waaraan roeiboten liggen, rechtsvoor een man in een roeiboot.<br><br><big>'''Vervaardiging'''</big><br>'''Vervaardiger:''' schilder: Willem Roelofs (I) (vermeld op object)<br>'''Plaats vervaardiging:''' Doesburg<br>'''Datering:''' 1889<br>'''Fysieke kenmerken:''' olieverf op doek op paneel<br>'''Materiaal:''' doek paneel olieverf <br>'''Afmetingen:''' drager: h 24,5 cm.  × b 45,5 cm. buitenmaat: d 9 cm.  (drager incl. SK-L-6576)<br><br><big>'''Onderwerp'''</big><br>'''Wat: '''river (+ landscape with figures, staffage), landscape with bridge, viaduct or aqueduct. Waar. Doesburg. IJssel<br><br><big>'''Verwerving en rechten'''</big><br>'''Credit line:''' Legaat van de heer en mevrouw Drucker-Fraser, Montreux<br>'''Verwerving:''' legaat 1944<br>'''Copyright:''' Publiek domein}}",
+          "width": 455.0,
+          "height": 245.0,
+          "ratio": 1.8571428571428572,
+          "interpretation": "explicit Dutch h/b axes; all measurement scopes retained"
+        }
+      ],
+      "review_prompts": [
+        "measurement scope outside original near-16:9 band; review required"
+      ],
+      "status": "unresolved source-measurement prompt",
+      "retained_catalogue_entry": {
+        "id": 83488675,
+        "file_title": "File:De brug over de IJssel bij Doesburg, SK-A-3606.jpg",
+        "sha1": "8a6f97145b6e8a3a26dfc89b6f5a2c895ed5b913",
+        "artist": "Willem Roelofs",
+        "title": "De brug over de IJssel bij Doesburg",
+        "width": 5636,
+        "height": 3102,
+        "source": "https://commons.wikimedia.org/w/index.php?curid=83488675",
+        "source_page_sha256": "6d41ecf8a546f2536ec6ed1864f212660a78533a94654f1761a552fcb767e34d",
+        "rights_label_observed": "CC0",
+        "release_status": "included",
+        "qid": "Q17334553",
+        "source_revision": 1197720426,
+        "physical_check": {
+          "qid": "Q17334553",
+          "physical_ratio": 1.8571428571428572,
+          "physical_source": "Wikidata P2048/P2049",
+          "digital_ratio": 1.8168923275306255,
+          "scan_difference_percent": 2.1673362098894033,
+          "dimension_review": false
+        },
+        "visual_review_date": "2026-10-06"
+      },
+      "thumbnail_sha256": "91d39f818bc9b3ba8a189c92de72b25e5233d179f46ab31086f41d414b6ed886",
+      "curator_review": "Source headers and rights read; preview actually viewed. No further explicit frame-only or numerical-boundary resolution was established in this pass.",
+      "selection_proposal": "Retain identity, upload pin and history; do not count this unresolved case towards 1000 vetted usable works. Collect an additional reserve instead.",
+      "limits": "Measurement-scope disagreement is not proof of cropping. No runtime catalogue removal, repinning, release or HA mutation."
+    },
+    {
+      "id": 5702693,
+      "title": "Norwegian: Fjordparti",
+      "artist": "Amaldus Nielsen",
+      "original_sha1": "0aff71828ca489df569dcdbd22014e3fa45b059d",
+      "source_revision": 1047543427,
+      "source_receipt": "build/commons-1000-research/baseline-identity-34402003.json",
+      "source_receipt_sha256": "41752f0fce9712f9b3ab130e00ed7f6d62c19888c49376583dd94a788af674e3",
+      "source_markup_sha256": "a36b45bec649358ca2f76508e2f8d46deb116d7e2b2612221585490170914b63",
+      "physical_measurements": [
+        {
+          "raw": "{{size|cm|33|57}}",
+          "width": 57.0,
+          "height": 33.0,
+          "ratio": 1.7272727272727273,
+          "interpretation": "unlabelled two axes; landscape orientation observed visually"
+        }
+      ],
+      "review_prompts": [
+        "measurement scope outside original near-16:9 band; review required"
+      ],
+      "status": "unresolved source-measurement prompt",
+      "retained_catalogue_entry": {
+        "id": 5702693,
+        "file_title": "File:Amaldus Nielsen - Fjordparti (1890).jpg",
+        "sha1": "0aff71828ca489df569dcdbd22014e3fa45b059d",
+        "artist": "Amaldus Nielsen",
+        "title": "Norwegian: Fjordparti",
+        "width": 3654,
+        "height": 2103,
+        "source": "https://commons.wikimedia.org/w/index.php?curid=5702693",
+        "source_page_sha256": "a36b45bec649358ca2f76508e2f8d46deb116d7e2b2612221585490170914b63",
+        "rights_label_observed": "Public domain",
+        "release_status": "included",
+        "qid": "Q110245860",
+        "source_revision": 1047543427,
+        "physical_check": {
+          "qid": "Q110245860",
+          "physical_ratio": 1.7272727272727273,
+          "physical_source": "Wikidata P2048/P2049",
+          "digital_ratio": 1.7375178316690443,
+          "scan_difference_percent": 0.5931376229446617,
+          "dimension_review": false
+        },
+        "visual_review_date": "2026-10-06"
+      },
+      "thumbnail_sha256": "fd67bacf86c83f3456301af6908700ebcc33689415bfcc86d6c21814c2797f71",
+      "curator_review": "Source headers and rights read; preview actually viewed. No further explicit frame-only or numerical-boundary resolution was established in this pass.",
+      "selection_proposal": "Retain identity, upload pin and history; do not count this unresolved case towards 1000 vetted usable works. Collect an additional reserve instead.",
+      "limits": "Measurement-scope disagreement is not proof of cropping. No runtime catalogue removal, repinning, release or HA mutation."
+    },
+    {
+      "id": 34249308,
+      "title": "River view at sunrise",
+      "artist": "Aert van der Neer",
+      "original_sha1": "95cf2a6773c9debfbedc204618ffcb6aa4f25d71",
+      "source_revision": 1108677250,
+      "source_receipt": "build/commons-1000-research/baseline-identity-36994951.json",
+      "source_receipt_sha256": "54d58636b6be8c829ba45135c5705b19cff668655ac7655b08b6c8ece71374dc",
+      "source_markup_sha256": "3a3370a48ffbf5042dc87585bde5059347f9ee9dddeed8864b5f1177842b5d51",
+      "physical_measurements": [
+        {
+          "raw": "drager '''Height:''' {{size|cm|15.6}} drager '''Width:''' {{size|cm|28.5}}",
+          "width": 285.0,
+          "height": 156.0,
+          "ratio": 1.8269230769230769,
+          "interpretation": "explicit Height/Width single-axis Size templates; measurement scope retained"
+        }
+      ],
+      "review_prompts": [
+        "measurement scope outside original near-16:9 band; review required"
+      ],
+      "status": "unresolved source-measurement prompt",
+      "retained_catalogue_entry": {
+        "id": 34249308,
+        "file_title": "File:Riviergezicht bij zonsopgang Rijksmuseum SK-A-3330.jpeg",
+        "sha1": "95cf2a6773c9debfbedc204618ffcb6aa4f25d71",
+        "artist": "Aert van der Neer",
+        "title": "River view at sunrise",
+        "width": 6554,
+        "height": 3634,
+        "source": "https://commons.wikimedia.org/w/index.php?curid=34249308",
+        "source_page_sha256": "3a3370a48ffbf5042dc87585bde5059347f9ee9dddeed8864b5f1177842b5d51",
+        "rights_label_observed": "Public domain",
+        "release_status": "included",
+        "qid": "Q17334194",
+        "source_revision": 1108677250,
+        "physical_check": {
+          "qid": "Q17334194",
+          "physical_ratio": 1.8269230769230769,
+          "physical_source": "Wikidata P2048/P2049",
+          "digital_ratio": 1.8035222894881673,
+          "scan_difference_percent": 1.2808852069634669,
+          "dimension_review": false
+        },
+        "visual_review_date": "2026-10-06"
+      },
+      "thumbnail_sha256": "9e7a1a36ec72f48af9b114188699ffd2432efb522fc7eac64d2e0c5d28ae6679",
+      "curator_review": "Source headers and rights read; preview actually viewed. No further explicit frame-only or numerical-boundary resolution was established in this pass.",
+      "selection_proposal": "Retain identity, upload pin and history; do not count this unresolved case towards 1000 vetted usable works. Collect an additional reserve instead.",
+      "limits": "Measurement-scope disagreement is not proof of cropping. No runtime catalogue removal, repinning, release or HA mutation."
+    },
+    {
+      "id": 56403724,
+      "title": "Wigeon and Teal by the water's edge",
+      "artist": "Archibald Thorburn",
+      "original_sha1": "61ab52e37855cb66097028f3b0b54258b6e894e7",
+      "source_revision": 934540952,
+      "source_receipt": "build/commons-1000-research/baseline-identity-140185641.json",
+      "source_receipt_sha256": "3c58d425b2b8528a4b9250b40c1a4b9eb77d60a562c32e6a3d21d53a87772257",
+      "source_markup_sha256": "e0327b3ba0de235f56f2009ce04b30d86f2aa0d1036ba47e42db4456ab14c377",
+      "physical_measurements": [
+        {
+          "raw": "{{Size|cm|45.5|77.5}}",
+          "width": 77.5,
+          "height": 45.5,
+          "ratio": 1.7032967032967032,
+          "interpretation": "unlabelled two axes; landscape orientation observed visually"
+        }
+      ],
+      "review_prompts": [
+        "measurement scope outside original near-16:9 band; review required"
+      ],
+      "status": "unresolved source-measurement prompt",
+      "retained_catalogue_entry": {
+        "id": 56403724,
+        "file_title": "File:2017-02 Archibald Thorburn - Wigeon and Teal by the water's edge.jpg",
+        "sha1": "61ab52e37855cb66097028f3b0b54258b6e894e7",
+        "artist": "Archibald Thorburn",
+        "title": "Wigeon and Teal by the water's edge",
+        "width": 3308,
+        "height": 1901,
+        "source": "https://commons.wikimedia.org/w/index.php?curid=56403724",
+        "source_page_sha256": "e0327b3ba0de235f56f2009ce04b30d86f2aa0d1036ba47e42db4456ab14c377",
+        "rights_label_observed": "Public domain",
+        "release_status": "included",
+        "qid": "Q123600696",
+        "source_revision": 934540952,
+        "physical_check": {
+          "qid": "Q123600696",
+          "physical_ratio": 1.7032967032967032,
+          "physical_source": "Wikidata P2048/P2049",
+          "digital_ratio": 1.7401367701209889,
+          "scan_difference_percent": 2.1628684393612874,
+          "dimension_review": false
+        },
+        "visual_review_date": "2026-10-06"
+      },
+      "thumbnail_sha256": "9f95ee4a3ac29c32712a1d28e79b9385f52e16b6799023242e3930787dcfa0fa",
+      "curator_review": "Source headers and rights read; preview actually viewed. No further explicit frame-only or numerical-boundary resolution was established in this pass.",
+      "selection_proposal": "Retain identity, upload pin and history; do not count this unresolved case towards 1000 vetted usable works. Collect an additional reserve instead.",
+      "limits": "Measurement-scope disagreement is not proof of cropping. No runtime catalogue removal, repinning, release or HA mutation."
+    },
+    {
+      "id": 38742234,
+      "title": "Die Anbetung des Goldenen Kalbes Landscape with the Adoration of the Golden Calf",
+      "artist": "Claude Lorrain",
+      "original_sha1": "235fcb098716401194ef5cacb806ea37b7939ff9",
+      "source_revision": 1126060227,
+      "source_receipt": "build/commons-1000-research/baseline-identity-84982407.json",
+      "source_receipt_sha256": "4611361b7b63e55f82ff3ee932dbf580b3d9774eee8fd6233a6902b38f634c62",
+      "source_markup_sha256": "aef3ed88ace9fe4945aaf543b8407a85d0bf517f57464ce3db29ad4d1f0e258c",
+      "physical_measurements": [
+        {
+          "raw": "{{en|1=Worship of the Golden Calf - Claude Gellée, called Le Lorrain - Google Cultural Institute.  Staatliche Kunsthalle Karlsruhe. Oil on canvas. 248 cm x 147 cm}}",
+          "width": 2480.0,
+          "height": 1470.0,
+          "ratio": 1.6870748299319729,
+          "interpretation": "plain two axes with repeated units; all scopes retained"
+        }
+      ],
+      "review_prompts": [
+        "measurement scope outside original near-16:9 band; review required"
+      ],
+      "status": "unresolved source-measurement prompt",
+      "retained_catalogue_entry": {
+        "id": 38742234,
+        "file_title": "File:Worship of the Golden Calf - Claude Gellée, called Le Lorrain - Google Cultural Institute.jpg",
+        "sha1": "235fcb098716401194ef5cacb806ea37b7939ff9",
+        "artist": "Claude Lorrain",
+        "title": "Die Anbetung des Goldenen Kalbes Landscape with the Adoration of the Golden Calf",
+        "width": 6699,
+        "height": 3807,
+        "source": "https://commons.wikimedia.org/w/index.php?curid=38742234",
+        "source_page_sha256": "aef3ed88ace9fe4945aaf543b8407a85d0bf517f57464ce3db29ad4d1f0e258c",
+        "rights_label_observed": "Public domain",
+        "release_status": "included",
+        "qid": null,
+        "source_revision": 1126060227,
+        "physical_check": {
+          "qid": null,
+          "physical_ratio": null,
+          "physical_source": null,
+          "digital_ratio": 1.7596532702915682,
+          "scan_difference_percent": null,
+          "dimension_review": false
+        },
+        "visual_review_date": "2026-10-06"
+      },
+      "thumbnail_sha256": "24d6f4a084a69889f96327a0e9d88d9da1a58d51ff914f9c4a69d4ed621df9dd",
+      "curator_review": "Source headers and rights read; preview actually viewed. No further explicit frame-only or numerical-boundary resolution was established in this pass.",
+      "selection_proposal": "Retain identity, upload pin and history; do not count this unresolved case towards 1000 vetted usable works. Collect an additional reserve instead.",
+      "limits": "Measurement-scope disagreement is not proof of cropping. No runtime catalogue removal, repinning, release or HA mutation."
+    },
+    {
+      "id": 22080926,
+      "title": "Famiglia pescatore a Lecco sul lago di Como",
+      "artist": "Ercole Calvi",
+      "original_sha1": "34c4783fd2ae9116d257a5d546f5560d83cfed6c",
+      "source_revision": 1196503793,
+      "source_receipt": "build/commons-1000-research/baseline-identity-22080926.json",
+      "source_receipt_sha256": "4e999edf2b6167faa31307869225acb9925ffc342d07edddf28a643c244a4b66",
+      "source_markup_sha256": "e9a1b8fb0789c7be0d1e4f64a9f98db1a7222d8071dd65ca54c04f33deee23fa",
+      "physical_measurements": [
+        {
+          "raw": "{{Size|cm|72|124.5}}",
+          "width": 124.5,
+          "height": 72.0,
+          "ratio": 1.7291666666666667,
+          "interpretation": "unlabelled two axes; landscape orientation observed visually"
+        }
+      ],
+      "review_prompts": [
+        "measurement scope outside original near-16:9 band; review required"
+      ],
+      "status": "unresolved source-measurement prompt",
+      "retained_catalogue_entry": {
+        "id": 22080926,
+        "file_title": "File:Ercole Calvi - Famiglia pescatore a Lecco sul lago di Como.jpg",
+        "sha1": "34c4783fd2ae9116d257a5d546f5560d83cfed6c",
+        "artist": "Ercole Calvi",
+        "title": "Famiglia pescatore a Lecco sul lago di Como",
+        "width": 4941,
+        "height": 2836,
+        "source": "https://commons.wikimedia.org/w/index.php?curid=22080926",
+        "source_page_sha256": "e9a1b8fb0789c7be0d1e4f64a9f98db1a7222d8071dd65ca54c04f33deee23fa",
+        "rights_label_observed": "Public domain",
+        "release_status": "included",
+        "qid": "Q111185821",
+        "source_revision": 1196503793,
+        "physical_check": {
+          "qid": "Q111185821",
+          "physical_ratio": 1.7291666666666667,
+          "physical_source": "Wikidata P2048/P2049",
+          "digital_ratio": 1.7422425952045133,
+          "scan_difference_percent": 0.7561982768875097,
+          "dimension_review": false
+        },
+        "visual_review_date": "2026-10-06"
+      },
+      "thumbnail_sha256": "ebce13e4f08111cbd7c3a651b99963970305d3241df625963ba5d1d27d5a876c",
+      "curator_review": "Source headers and rights read; preview actually viewed. No further explicit frame-only or numerical-boundary resolution was established in this pass.",
+      "selection_proposal": "Retain identity, upload pin and history; do not count this unresolved case towards 1000 vetted usable works. Collect an additional reserve instead.",
+      "limits": "Measurement-scope disagreement is not proof of cropping. No runtime catalogue removal, repinning, release or HA mutation."
+    },
+    {
+      "id": 99178392,
+      "title": "Floral Still Life with Roses",
+      "artist": "Florine Hyer",
+      "original_sha1": "6802cc037e831651dd3ca3e9c16747eeb77d5e97",
+      "source_revision": 1094825352,
+      "source_receipt": "build/commons-1000-research/baseline-identity-22080926.json",
+      "source_receipt_sha256": "4e999edf2b6167faa31307869225acb9925ffc342d07edddf28a643c244a4b66",
+      "source_markup_sha256": "e420397e351b2854dbb1f28eaa38a41d13dd4d2a2e3f5889a9b186546406927e",
+      "physical_measurements": [
+        {
+          "raw": "{{size|in|14|24}}",
+          "width": 24.0,
+          "height": 14.0,
+          "ratio": 1.7142857142857142,
+          "interpretation": "unlabelled two axes; landscape orientation observed visually"
+        },
+        {
+          "raw": "''Floral Still Life with Roses'' in a Basket by Florine Hyer, oil on canvas, 14 x 24 inches",
+          "width": 24.0,
+          "height": 14.0,
+          "ratio": 1.7142857142857142,
+          "interpretation": "plain two axes in inches; original measurement scope retained"
+        }
+      ],
+      "review_prompts": [
+        "measurement scope outside original near-16:9 band; review required"
+      ],
+      "status": "unresolved source-measurement prompt",
+      "retained_catalogue_entry": {
+        "id": 99178392,
+        "file_title": "File:Floral Still-life with Roses in a Basket by Florine Hyer.jpg",
+        "sha1": "6802cc037e831651dd3ca3e9c16747eeb77d5e97",
+        "artist": "Florine Hyer",
+        "title": "Floral Still Life with Roses",
+        "width": 3000,
+        "height": 1720,
+        "source": "https://commons.wikimedia.org/w/index.php?curid=99178392",
+        "source_page_sha256": "e420397e351b2854dbb1f28eaa38a41d13dd4d2a2e3f5889a9b186546406927e",
+        "rights_label_observed": "Public domain",
+        "release_status": "included",
+        "qid": "Q115473629",
+        "source_revision": 1094825352,
+        "physical_check": {
+          "qid": "Q115473629",
+          "physical_ratio": 1.7142857142857142,
+          "physical_source": "Wikidata P2048/P2049",
+          "digital_ratio": 1.744186046511628,
+          "scan_difference_percent": 1.744186046511631,
+          "dimension_review": false
+        },
+        "visual_review_date": "2026-10-06"
+      },
+      "thumbnail_sha256": "10f4ced58298ec0d45cf8f3647767aa92b32732bedd5fe83a47140c47465a4f7",
+      "curator_review": "Source headers and rights read; preview actually viewed. No further explicit frame-only or numerical-boundary resolution was established in this pass.",
+      "selection_proposal": "Retain identity, upload pin and history; do not count this unresolved case towards 1000 vetted usable works. Collect an additional reserve instead.",
+      "limits": "Measurement-scope disagreement is not proof of cropping. No runtime catalogue removal, repinning, release or HA mutation."
+    },
+    {
+      "id": 17486199,
+      "title": "Cattle on pasture.",
+      "artist": "Francesco Giuseppe Casanova",
+      "original_sha1": "4652aef061e7903861399448724c500032192a68",
+      "source_revision": 1069390442,
+      "source_receipt": "build/commons-1000-research/baseline-identity-22080926.json",
+      "source_receipt_sha256": "4e999edf2b6167faa31307869225acb9925ffc342d07edddf28a643c244a4b66",
+      "source_markup_sha256": "e64ede29c2216ac20374da859238d941c1bae3a934cdabf70863b609b3663c09",
+      "physical_measurements": [
+        {
+          "raw": "{{size|cm|77.6|132}}",
+          "width": 132.0,
+          "height": 77.6,
+          "ratio": 1.7010309278350517,
+          "interpretation": "unlabelled two axes; landscape orientation observed visually"
+        }
+      ],
+      "review_prompts": [
+        "measurement scope outside original near-16:9 band; review required"
+      ],
+      "status": "unresolved source-measurement prompt",
+      "retained_catalogue_entry": {
+        "id": 17486199,
+        "file_title": "File:Casanova Cattle on pasture.jpg",
+        "sha1": "4652aef061e7903861399448724c500032192a68",
+        "artist": "Francesco Giuseppe Casanova",
+        "title": "Cattle on pasture.",
+        "width": 3000,
+        "height": 1729,
+        "source": "https://commons.wikimedia.org/w/index.php?curid=17486199",
+        "source_page_sha256": "e64ede29c2216ac20374da859238d941c1bae3a934cdabf70863b609b3663c09",
+        "rights_label_observed": "Public domain",
+        "release_status": "included",
+        "qid": "Q122702825",
+        "source_revision": 1069390442,
+        "physical_check": {
+          "qid": "Q122702825",
+          "physical_ratio": 1.7010309278350517,
+          "physical_source": "Wikidata P2048/P2049",
+          "digital_ratio": 1.735106998264893,
+          "scan_difference_percent": 2.003259897996723,
+          "dimension_review": false
+        },
+        "visual_review_date": "2026-10-06"
+      },
+      "thumbnail_sha256": "3e877917ee6eb38b4238df49b0bb8c374d1f47bf411c50d5247f6c3f0fc48df2",
+      "curator_review": "Source headers and rights read; preview actually viewed. No further explicit frame-only or numerical-boundary resolution was established in this pass.",
+      "selection_proposal": "Retain identity, upload pin and history; do not count this unresolved case towards 1000 vetted usable works. Collect an additional reserve instead.",
+      "limits": "Measurement-scope disagreement is not proof of cropping. No runtime catalogue removal, repinning, release or HA mutation."
+    },
+    {
+      "id": 23600762,
+      "title": "The first steeplechase in South Australia, 25 September 1846",
+      "artist": "George Hamilton",
+      "original_sha1": "7c100fde79adb9a5632c530b4acd82d8c1462616",
+      "source_revision": 1271242206,
+      "source_receipt": "build/commons-1000-research/baseline-identity-22155057.json",
+      "source_receipt_sha256": "1a63eb39ee8a1d43456e593738e1cfa3d288f58cc8badd5bd324d2a53a74d2a7",
+      "source_markup_sha256": "6ef4f549744c403c6de4f303346c81277f15000268ee6fc1d5074a691734b8f5",
+      "physical_measurements": [
+        {
+          "raw": "w102 x h59 cm",
+          "width": 102.0,
+          "height": 59.0,
+          "ratio": 1.728813559322034,
+          "interpretation": "explicit w/h plain dimensions"
+        }
+      ],
+      "review_prompts": [
+        "measurement scope outside original near-16:9 band; review required"
+      ],
+      "status": "unresolved source-measurement prompt",
+      "retained_catalogue_entry": {
+        "id": 23600762,
+        "file_title": "File:George Hamilton - The first steeplechase in South Australia, 25 September 1846 - Google Art Project.jpg",
+        "sha1": "7c100fde79adb9a5632c530b4acd82d8c1462616",
+        "artist": "George Hamilton",
+        "title": "The first steeplechase in South Australia, 25 September 1846",
+        "width": 5757,
+        "height": 3313,
+        "source": "https://commons.wikimedia.org/w/index.php?curid=23600762",
+        "source_page_sha256": "6ef4f549744c403c6de4f303346c81277f15000268ee6fc1d5074a691734b8f5",
+        "rights_label_observed": "Public domain",
+        "release_status": "included",
+        "qid": "Q28802783",
+        "source_revision": 1271242206,
+        "physical_check": {
+          "qid": "Q28802783",
+          "physical_ratio": 1.728813559322034,
+          "physical_source": "Wikidata P2048/P2049",
+          "digital_ratio": 1.7376999698158768,
+          "scan_difference_percent": 0.5140178618987523,
+          "dimension_review": false
+        },
+        "visual_review_date": "2026-10-06"
+      },
+      "thumbnail_sha256": "f1ce136633da9b0ed2e6dfe35ab640c004b4885fdc3831475e2d341277a0efd0",
+      "curator_review": "Source headers and rights read; preview actually viewed. No further explicit frame-only or numerical-boundary resolution was established in this pass.",
+      "selection_proposal": "Retain identity, upload pin and history; do not count this unresolved case towards 1000 vetted usable works. Collect an additional reserve instead.",
+      "limits": "Measurement-scope disagreement is not proof of cropping. No runtime catalogue removal, repinning, release or HA mutation."
+    },
+    {
+      "id": 56396968,
+      "title": "The hunt",
+      "artist": "Georges Washington",
+      "original_sha1": "a7fdd29b245c7f335c1030bda26e64da2c0f2d33",
+      "source_revision": 959160913,
+      "source_receipt": "build/commons-1000-research/baseline-identity-22155057.json",
+      "source_receipt_sha256": "1a63eb39ee8a1d43456e593738e1cfa3d288f58cc8badd5bd324d2a53a74d2a7",
+      "source_markup_sha256": "923ae58d029d45b954e9260c0fd790ed9314997e09e7b699d56b2bb331a9defd",
+      "physical_measurements": [
+        {
+          "raw": "{{Size|cm|22|41}}",
+          "width": 41.0,
+          "height": 22.0,
+          "ratio": 1.8636363636363635,
+          "interpretation": "unlabelled two axes; landscape orientation observed visually"
+        }
+      ],
+      "review_prompts": [
+        "measurement scope outside original near-16:9 band; review required"
+      ],
+      "status": "unresolved source-measurement prompt",
+      "retained_catalogue_entry": {
+        "id": 56396968,
+        "file_title": "File:2017-02 Georges Washington - The hunt.jpg",
+        "sha1": "a7fdd29b245c7f335c1030bda26e64da2c0f2d33",
+        "artist": "Georges Washington",
+        "title": "The hunt",
+        "width": 3756,
+        "height": 2066,
+        "source": "https://commons.wikimedia.org/w/index.php?curid=56396968",
+        "source_page_sha256": "923ae58d029d45b954e9260c0fd790ed9314997e09e7b699d56b2bb331a9defd",
+        "rights_label_observed": "Public domain",
+        "release_status": "included",
+        "qid": "Q123669334",
+        "source_revision": 959160913,
+        "physical_check": {
+          "qid": "Q123669334",
+          "physical_ratio": 1.8636363636363635,
+          "physical_source": "Wikidata P2048/P2049",
+          "digital_ratio": 1.8180058083252661,
+          "scan_difference_percent": 2.4484688215710815,
+          "dimension_review": false
+        },
+        "visual_review_date": "2026-10-06"
+      },
+      "thumbnail_sha256": "169d366fa2c9a52e2a6c9e8bedd2e0b19214622ef10873ee8a6c661c4950bb71",
+      "curator_review": "Source headers and rights read; preview actually viewed. No further explicit frame-only or numerical-boundary resolution was established in this pass.",
+      "selection_proposal": "Retain identity, upload pin and history; do not count this unresolved case towards 1000 vetted usable works. Collect an additional reserve instead.",
+      "limits": "Measurement-scope disagreement is not proof of cropping. No runtime catalogue removal, repinning, release or HA mutation."
+    },
+    {
+      "id": 145712376,
+      "title": "Madonna and Child with Saints",
+      "artist": "Giovanni Bellini",
+      "original_sha1": "3600f45b211cbefede4b88694763db6476709c1c",
+      "source_revision": 1060846498,
+      "source_receipt": "build/commons-1000-research/baseline-identity-152417.json",
+      "source_receipt_sha256": "7b1e5bf68f20ae2a856660c9adb7e453bbb74d9ea83f000df09f152ff545ad30",
+      "source_markup_sha256": "73978faab809b8454eb12d06ef2f3ab3c19c805bc7c3c9ef567375120c8b6605",
+      "physical_measurements": [
+        {
+          "raw": "{{size|cm|73|124}}",
+          "width": 124.0,
+          "height": 73.0,
+          "ratio": 1.6986301369863013,
+          "interpretation": "unlabelled two axes; landscape orientation observed visually"
+        }
+      ],
+      "review_prompts": [
+        "measurement scope outside original near-16:9 band; review required"
+      ],
+      "status": "unresolved source-measurement prompt",
+      "retained_catalogue_entry": {
+        "id": 145712376,
+        "file_title": "File:Madonna and Child with Saints - Giovanni Bellini - Louvre RF 2097 source.jpg",
+        "sha1": "3600f45b211cbefede4b88694763db6476709c1c",
+        "artist": "Giovanni Bellini",
+        "title": "Madonna and Child with Saints",
+        "width": 5506,
+        "height": 3163,
+        "source": "https://commons.wikimedia.org/w/index.php?curid=145712376",
+        "source_page_sha256": "73978faab809b8454eb12d06ef2f3ab3c19c805bc7c3c9ef567375120c8b6605",
+        "rights_label_observed": "Public domain",
+        "release_status": "included",
+        "qid": "Q18565844",
+        "source_revision": 1060846498,
+        "physical_check": {
+          "qid": "Q18565844",
+          "physical_ratio": 1.6986301369863013,
+          "physical_source": "Wikidata P2048/P2049",
+          "digital_ratio": 1.7407524502055012,
+          "scan_difference_percent": 2.479781342743226,
+          "dimension_review": false
+        },
+        "visual_review_date": "2026-10-06"
+      },
+      "thumbnail_sha256": "aa73b18d9629ca33d9fb1d3893253a793adc73b494cec698e297df45f8a12bd0",
+      "curator_review": "Source headers and rights read; preview actually viewed. No further explicit frame-only or numerical-boundary resolution was established in this pass.",
+      "selection_proposal": "Retain identity, upload pin and history; do not count this unresolved case towards 1000 vetted usable works. Collect an additional reserve instead.",
+      "limits": "Measurement-scope disagreement is not proof of cropping. No runtime catalogue removal, repinning, release or HA mutation."
+    },
+    {
+      "id": 81323136,
+      "title": "The Adoration of the Magi",
+      "artist": "Giovanni di Paolo",
+      "original_sha1": "78b4765fd4e217993e894eef9318fc240374c6ee",
+      "source_revision": 1273660242,
+      "source_receipt": "build/commons-1000-research/baseline-identity-152417.json",
+      "source_receipt_sha256": "7b1e5bf68f20ae2a856660c9adb7e453bbb74d9ea83f000df09f152ff545ad30",
+      "source_markup_sha256": "9ea8cf6326cc6f62423c6ac30ae25b58aefa3b1d8d71e36cae034179da2cf027",
+      "physical_measurements": [
+        {
+          "raw": "overall: 26.9 x 46.4 cm (10 9/16 x 18 1/4 in.)\nframed: 35.9 x 56.4 x 5.2 cm (14 1/8 x 22 3/16 x 2 1/16 in.)",
+          "width": 18.25,
+          "height": 10.5625,
+          "ratio": 1.727810650887574,
+          "interpretation": "plain two axes in inches; original measurement scope retained"
+        },
+        {
+          "raw": "overall: 26.9 x 46.4 cm (10 9/16 x 18 1/4 in.)\nframed: 35.9 x 56.4 x 5.2 cm (14 1/8 x 22 3/16 x 2 1/16 in.)",
+          "width": 46.4,
+          "height": 26.9,
+          "ratio": 1.724907063197026,
+          "interpretation": "plain two axes; measurement scope retained, landscape observed visually"
+        }
+      ],
+      "review_prompts": [
+        "measurement scope outside original near-16:9 band; review required"
+      ],
+      "status": "unresolved source-measurement prompt",
+      "retained_catalogue_entry": {
+        "id": 81323136,
+        "file_title": "File:Giovanni di Paolo, The Adoration of the Magi, c. 1450, NGA 15.jpg",
+        "sha1": "78b4765fd4e217993e894eef9318fc240374c6ee",
+        "artist": "Giovanni di Paolo",
+        "title": "The Adoration of the Magi",
+        "width": 4000,
+        "height": 2277,
+        "source": "https://commons.wikimedia.org/w/index.php?curid=81323136",
+        "source_page_sha256": "9ea8cf6326cc6f62423c6ac30ae25b58aefa3b1d8d71e36cae034179da2cf027",
+        "rights_label_observed": "CC0",
+        "release_status": "included",
+        "qid": null,
+        "source_revision": 1273660242,
+        "physical_check": {
+          "qid": null,
+          "physical_ratio": 1.724907063197026,
+          "physical_source": "Commons artwork dimensions",
+          "digital_ratio": 1.7566974088713219,
+          "scan_difference_percent": 1.8430178849969003,
+          "dimension_review": false
+        },
+        "visual_review_date": "2026-10-06"
+      },
+      "thumbnail_sha256": "702ab56ae934c8fc000494ae68776e460307433d95fb0c07355e99dda3c00ed7",
+      "curator_review": "Source headers and rights read; preview actually viewed. No further explicit frame-only or numerical-boundary resolution was established in this pass.",
+      "selection_proposal": "Retain identity, upload pin and history; do not count this unresolved case towards 1000 vetted usable works. Collect an additional reserve instead.",
+      "limits": "Measurement-scope disagreement is not proof of cropping. No runtime catalogue removal, repinning, release or HA mutation."
+    },
+    {
+      "id": 22213382,
+      "title": "Carlisle",
+      "artist": "J. M. W. Turner",
+      "original_sha1": "05085ac79d0d54485e3eeae0da5d26aebaacae6a",
+      "source_revision": 1030967894,
+      "source_receipt": "build/commons-1000-research/baseline-identity-164566500.json",
+      "source_receipt_sha256": "b2018af73cb4bac4ce5d54a31b3d951bcc45eb52043432cbf4f47de5b49bf27d",
+      "source_markup_sha256": "4f3ea2094f3ad28aeac769f15e0b655f3b51081c172cfba8df77a41236f71252",
+      "physical_measurements": [
+        {
+          "raw": "w143 x h83 cm",
+          "width": 143.0,
+          "height": 83.0,
+          "ratio": 1.7228915662650603,
+          "interpretation": "explicit w/h plain dimensions"
+        }
+      ],
+      "review_prompts": [
+        "measurement scope outside original near-16:9 band; review required"
+      ],
+      "status": "unresolved source-measurement prompt",
+      "retained_catalogue_entry": {
+        "id": 22213382,
+        "file_title": "File:Joseph Mallord William Turner - Carlisle - Google Art Project.jpg",
+        "sha1": "05085ac79d0d54485e3eeae0da5d26aebaacae6a",
+        "artist": "J. M. W. Turner",
+        "title": "Carlisle",
+        "width": 3160,
+        "height": 1820,
+        "source": "https://commons.wikimedia.org/w/index.php?curid=22213382",
+        "source_page_sha256": "4f3ea2094f3ad28aeac769f15e0b655f3b51081c172cfba8df77a41236f71252",
+        "rights_label_observed": "Public domain",
+        "release_status": "included",
+        "qid": "Q28795948",
+        "source_revision": 1030967894,
+        "physical_check": {
+          "qid": "Q28795948",
+          "physical_ratio": 1.7228915662650603,
+          "physical_source": "Wikidata P2048/P2049",
+          "digital_ratio": 1.7362637362637363,
+          "scan_difference_percent": 0.7761469299930823,
+          "dimension_review": false
+        },
+        "visual_review_date": "2026-10-06"
+      },
+      "thumbnail_sha256": "ac57b69cbb77c6cba0b612cf0126222d8c84d4a44b5a8433bdd9e5ca5039762c",
+      "curator_review": "Source headers and rights read; preview actually viewed. No further explicit frame-only or numerical-boundary resolution was established in this pass.",
+      "selection_proposal": "Retain identity, upload pin and history; do not count this unresolved case towards 1000 vetted usable works. Collect an additional reserve instead.",
+      "limits": "Measurement-scope disagreement is not proof of cropping. No runtime catalogue removal, repinning, release or HA mutation."
+    }
+  ]
+}

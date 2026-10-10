@@ -3,6 +3,7 @@
   "recorded_on": "2026-10-09",
   "scope": "Explicit visual/source review deferrals; not permanent artwork rejection or worldwide copyright determinations",
   "records": [
+    {"id": 164844515, "reason": "The actual first and second view is attractive, but the retained filename explicitly calls this a composite photo while the caption describes an encounter and does not identify the composite components. Own/Self CC0 is source evidence, not a separate component inventory. Keep this promising composition unselected until the complete original-work/assets scope is clarified; no infringement or permanent rejection is asserted."},
     {"id": 98807481, "reason": "Visible enclosing border/frame; a suitable unframed source needs separate review."},
     {"id": 98885936, "reason": "Visible enclosing frame; do not count this photograph as the desired unframed reproduction."},
     {"id": 158569322, "reason": "Retained source author and auction link say Max Beckmann, while title/description/signature say Lesser Ury. Attribution is unresolved; never infer it from the category."},
@@ -65,7 +66,8 @@
     {"id": 146986403, "reason": "Actual side-by-side comparison with baseline 34313531 on identity-comparison-2026-10-10-six.jpg confirms the same Hondecoeter country-road painting; this scan is not an additional artwork."},
     {"id": 146922427, "reason": "Actual side-by-side comparison with baseline 34313842 on identity-comparison-2026-10-10-six.jpg confirms the same Segers River Valley. Do not count a second scan or repin the baseline."},
     {"id": 82047380, "reason": "Actual side-by-side comparison with retained candidate 60872799 on identity-comparison-2026-10-10-six.jpg confirms the same Nooms Appelmarkt print. Keep the identity prompt explicit; neither alternative is automatically admitted as another artwork."},
-    {"id": 146054942, "reason": "Actual full-preview reinspection shows wooden panel edges, museum clamps and black surrounding display space. The retained source has the photographer's self CC0 but no separate underlying-artwork declaration. Leave this photograph unselected; neither the old maker name nor absence of automatic flags is fresh rights or full-reproduction approval."}
+    {"id": 146054942, "reason": "Actual full-preview reinspection shows wooden panel edges, museum clamps and black surrounding display space. The retained source has the photographer's self CC0 but no separate underlying-artwork declaration. Leave this photograph unselected; neither the old maker name nor absence of automatic flags is fresh rights or full-reproduction approval."},
+    {"id": 66482993, "reason": "The actually read source identifies the apparent crystal orb as a signed hand-blown Kosta glassworks paperweight, number 05868. The Own/Self CC0 photograph does not separately establish rights to that prominently depicted applied-art object. Leave this staged photo unselected; do not treat the paperweight as rights-cleared generic glass."}
   ],
   "resolved_records": [
     {"id": 125972883, "previous_reason": "Photographer Wolf1949H was incorrectly displayed as artist.", "resolution": "The retained Art Photo explicitly names Creator:Franz Bunke. Source-bound reparse uses that artwork field; underlying PD-old-auto-expired and photographic CC0 declarations remain separately retained. The full preview was reinspected on 2026-10-09; no surrounding frame or apparent detail scope. Quantitative original dimensions are not supplied and are not invented."}

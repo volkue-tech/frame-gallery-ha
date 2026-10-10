@@ -1,12 +1,18 @@
 """Offline tests of review aids; flags are never automatic acceptance."""
 
+import hashlib
+import json
 import unittest
 
-from research_tools.commons_baseline_audit import verify_decision
+from research_tools.commons_baseline_audit import (
+    verify_decision,
+    verify_render_evidence,
+)
 from research_tools.commons_dossiers import (
     declared_artwork_qids,
     physical,
     qids,
+    scoped_measures,
     separate_attribution_declaration,
 )
 from research_tools.commons_expand import (
@@ -25,6 +31,7 @@ from research_tools.commons_review import (
     preview_candidates,
     preview_priority,
     research_pool,
+    sheet_offsets,
     source_artist,
     source_title,
     template_names,
@@ -34,6 +41,82 @@ from research_tools.commons_targeted import artist_term
 
 
 class DossierTests(unittest.TestCase):
+    def test_subject_measurement_scope_is_exactly_bound_and_preserves_other_axes(self):
+        work = dict(
+            id=1, sha1="original", source_revision=2, source_page_sha256="source"
+        )
+        profile = dict(thumbnail_sha256="preview")
+        measures = [
+            dict(raw="crystals 10 x 10 mm", ratio=1),
+            dict(raw="canvas", ratio=1.8),
+        ]
+        decision = dict(
+            id=1,
+            original_sha1="original",
+            source_revision=2,
+            source_page_sha256="source",
+            thumbnail_sha256="preview",
+            measurements_sha256=hashlib.sha256(
+                json.dumps(measures, sort_keys=True, ensure_ascii=False).encode()
+            ).hexdigest(),
+            excluded_measurement_indices=[0],
+            scope="photographed subject, not photographic composition",
+            reason="Actual source gives crystal size, not camera-image size",
+            limits="This explicit decision is not approval",
+        )
+        self.assertEqual(
+            scoped_measures(work, profile, measures, decision), measures[1:]
+        )
+        self.assertEqual(len(measures), 2)
+        for key in (
+            "id",
+            "original_sha1",
+            "source_revision",
+            "source_page_sha256",
+            "thumbnail_sha256",
+            "measurements_sha256",
+            "scope",
+            "reason",
+            "limits",
+        ):
+            with self.subTest(key=key), self.assertRaises(ValueError):
+                scoped_measures(work, profile, measures, dict(decision, **{key: ""}))
+        for indices in (None, [], [True], [0, 0], [-1], [2], [0.0], "0"):
+            with self.subTest(indices=indices), self.assertRaises(ValueError):
+                scoped_measures(
+                    work,
+                    profile,
+                    measures,
+                    dict(decision, excluded_measurement_indices=indices),
+                )
+        with self.assertRaises(ValueError):
+            scoped_measures(
+                work, profile, measures + [dict(raw="new", ratio=2)], decision
+            )
+
+    def test_incremental_contact_sheets_keep_absolute_positions(self):
+        self.assertEqual(list(sheet_offsets(33, 1)), [16, 32])
+        self.assertEqual(list(sheet_offsets(32, 2)), [])
+        self.assertEqual(list(sheet_offsets(0, 0)), [])
+        for value in (-1, True, 1.5, "1", 3):
+            with self.subTest(value=value), self.assertRaises(ValueError):
+                sheet_offsets(33, value)
+        for count in (-1, True, 1.5):
+            with self.subTest(count=count), self.assertRaises(ValueError):
+                sheet_offsets(count, 0)
+
+    def test_baseline_board_preview_is_bound_to_source_and_original_hash(self):
+        record = dict(id=42, original_sha1="source")
+        profile = dict(record, thumbnail_sha256="preview")
+        verify_render_evidence(record, profile, "preview")
+        for key in profile:
+            with self.subTest(key=key), self.assertRaises(ValueError):
+                verify_render_evidence(
+                    record, dict(profile, **{key: "other"}), "preview"
+                )
+        with self.assertRaises(ValueError):
+            verify_render_evidence(record, profile, "other-preview")
+
     def test_dutch_labelled_support_axes_do_not_use_object_depth(self):
         text = (
             "|Description={{nl|Afmetingen: drager: hoogte ca. 39,6 cm. × "
@@ -523,6 +606,11 @@ class DossierTests(unittest.TestCase):
         self.assertEqual(declared_creators("<!-- |artist={{Creator:Hidden}} -->"), "")
 
     def test_preview_order_is_only_a_research_priority(self):
+        for artist in ("W.carter", "George Chernilevsky", "CEKeech"):
+            self.assertEqual(
+                preview_priority(dict(title="Photographic composition", artist=artist)),
+                -1,
+            )
         self.assertNotEqual(
             preview_priority(
                 dict(

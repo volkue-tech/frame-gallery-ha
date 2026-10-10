@@ -1,0 +1,18 @@
+{
+  "schema": 1,
+  "status": "Explicit retained-source measurement scopes; not automatic acceptance",
+  "records": [
+    {
+      "id": 61302527,
+      "original_sha1": "ddc7e1f7a2f9da7750d9d64e3fe3f6c80bd8bf11",
+      "source_revision": 1082977922,
+      "source_page_sha256": "45aed3d2ba6e7ef37a4aa7ec812ae14bf2ab30030bdf3d7e319d858564e2a0db",
+      "thumbnail_sha256": "d17aa81e1e50e6d4d570f076ac14d9f35a1a43ddc7a436293789d2fdf040af6d",
+      "measurements_sha256": "52ded89c907667a8c3cce3f2603273650d626f901e77eac24249c9a9c013537c",
+      "excluded_measurement_indices": [0],
+      "scope": "photographed subject, not photographic composition",
+      "reason": "The fully read source caption explicitly describes feldspar and mica crystals about 10 x 10 mm in the granite. This is a geological subject size, not the dimensions of the photographer's full scene of red beach huts. The actual first-view image contains the complete photographic composition; it is not a reproduction of a square artwork. Retain the extracted measurement but do not compare its square ratio to the camera image.",
+      "limits": "This single source-revision/upload/preview-bound observation is not a blanket exemption for photographs, a crop waiver, rights clearance or acceptance. Other physical scopes, source, identity and oriented-image flags still apply; a changed parse or source fails closed."
+    }
+  ]
+}

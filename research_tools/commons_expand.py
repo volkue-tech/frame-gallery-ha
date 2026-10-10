@@ -67,6 +67,15 @@ SINGLE_SUBJECTS = {
     "kusama": '"Yayoi Kusama"',
     "engraving": 'hastemplate:Artwork insource:"engraving"',
     "lithograph": 'hastemplate:Artwork insource:"lithograph"',
+    # Explicit author/name discovery is not attribution or artwork clearance.
+    # These independently retained searches broaden photographic composition;
+    # raw source, actual composition and variety still decide each admission.
+    "w-carter": '"W.carter"',
+    "george-chernilevsky": '"George Chernilevsky"',
+    "cekeech": '"CEKeech"',
+    "mironov": '"Mironov"',
+    "quality-cc0": "hastemplate:QualityImage hastemplate:CC-zero",
+    "quality-pd-self": "hastemplate:QualityImage hastemplate:PD-self",
 }
 
 

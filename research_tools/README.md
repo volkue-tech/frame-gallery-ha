@@ -3,10 +3,17 @@
 This tooling is outside the runtime package. No credentials, original-image
 downloads, Home Assistant access or television access are needed. It does not
 automatically approve catalogue additions. Explicit second-view choices retain
-378 retained local research acceptances; the current released/runtime catalogue
+592 retained local research acceptances; the current released/runtime catalogue
 has 400. The earlier provisional 127 were reduced after plain source measurements
 exposed additional possible crops; subsequent actual visual reviews added other
 works. Use the checkpoint/curation manifest for the current count, not this history.
+
+The 56 unresolved baseline-measurement cases have a proposal receipt, not an
+approved exclusion. The user requested ten examples before deciding. The
+private `legacy-samples.html` page retains exact source/preview hashes and
+explains that measurement disagreement is not proof of cropping. It has been
+browser-verified with all ten images loaded. Do not change the baseline selection
+while this decision is pending. 992 is nominal, not a fully vetted 1000-work claim.
 
 The project required reading and the D-212/D-213 boundaries apply. Do not weaken
 the minimum source width, near-16:9 shape, existing PD/CC0 policy, reproduction

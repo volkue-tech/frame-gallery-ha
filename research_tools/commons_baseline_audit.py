@@ -6,6 +6,7 @@ catalogue removals. Read only retained, source-pinned Commons receipts.
 
 from __future__ import annotations
 
+import argparse
 import hashlib
 import json
 from datetime import UTC, datetime
@@ -142,5 +143,86 @@ def audit() -> None:
     )
 
 
+def review_sheets() -> None:
+    """Render unresolved retained previews, never resolve by a size heuristic."""
+    from PIL import Image, ImageDraw, ImageOps
+
+    audit_path = ROOT / "research/commons-baseline-format-audit-2026-10-09.json"
+    rows = [
+        r
+        for r in json.loads(audit_path.read_text())["records"]
+        if r["review_prompts"] and not r.get("manual_resolution")
+    ]
+    baseline = {r["id"]: r for r in json.loads(BASELINE.read_text())["included"]}
+    profiles = {
+        r["id"]: r
+        for r in json.loads(
+            (
+                ROOT / "frame_gallery/research/commons-colour-profiles-2026-10-09.json"
+            ).read_text()
+        )["profiles"]
+    }
+    for offset in range(0, len(rows), 12):
+        batch = rows[offset : offset + 12]
+        destination = OUTPUT / f"baseline-scope-sheet-{offset // 12:03}.jpg"
+        if destination.exists() or destination.with_suffix(".json").exists():
+            raise ValueError("retain original baseline review sheets; do not overwrite")
+        sheet = Image.new("RGB", (1500, 1280), "#eeeeee")
+        draw = ImageDraw.Draw(sheet)
+        evidence = []
+        for position, row in enumerate(batch):
+            x, y = position % 3 * 500, position // 3 * 320
+            path = ROOT / "build/commons-colours" / f"{row['id']}.jpg"
+            thumb_hash = hashlib.sha256(path.read_bytes()).hexdigest()
+            verify_render_evidence(row, profiles[row["id"]], thumb_hash)
+            source = ROOT / row["source_receipt"]
+            if (
+                hashlib.sha256(source.read_bytes()).hexdigest()
+                != row["source_receipt_sha256"]
+            ):
+                raise ValueError("baseline source receipt changed")
+            with Image.open(path) as opened:
+                image = ImageOps.exif_transpose(opened).convert("RGB")
+                image.thumbnail((490, 260))
+                sheet.paste(image, (x + 5, y + 5))
+            work = baseline[row["id"]]
+            draw.text(
+                (x + 5, y + 268), f"{row['id']}: {row['artist'][:55]}", fill="black"
+            )
+            draw.text((x + 5, y + 285), row["title"][:68], fill="black")
+            ratios = ", ".join(
+                f"{m['ratio']:.4f}" for m in row["physical_measurements"]
+            )
+            draw.text(
+                (x + 5, y + 302),
+                f"File {work['width'] / work['height']:.4f}; source {ratios}"[:70],
+                fill="black",
+            )
+            evidence.append(dict(row, thumbnail_sha256=thumb_hash))
+        sheet.save(destination, quality=94)
+        save(
+            destination.with_suffix(".json"),
+            dict(
+                status="review board only; no manual resolution",
+                records=evidence,
+                sha256=hashlib.sha256(destination.read_bytes()).hexdigest(),
+            ),
+        )
+    print(json.dumps(dict(unresolved_previews_rendered=len(rows))))
+
+
+def verify_render_evidence(record: dict, profile: dict, thumb_hash: str) -> None:
+    """An observation board must use the retained, original-pin-bound preview."""
+    if (
+        profile.get("id") != record["id"]
+        or profile.get("original_sha1") != record["original_sha1"]
+        or profile.get("thumbnail_sha256") != thumb_hash
+    ):
+        raise ValueError("baseline source-bound preview changed")
+
+
 if __name__ == "__main__":
-    audit()
+    parser = argparse.ArgumentParser()
+    parser.add_argument("mode", choices=("audit", "sheets"), default="audit", nargs="?")
+    args = parser.parse_args()
+    audit() if args.mode == "audit" else review_sheets()

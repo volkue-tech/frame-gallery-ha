@@ -500,6 +500,11 @@ def metadata(limit: int, pool: str | None = None) -> None:
 def preview_priority(work: dict) -> int:
     """Order research only; never exclude or approve a work by its label."""
     title = (work.get("title") or work.get("file_title", "")).casefold()
+    # Previously inspected authors provide promising photographic composition
+    # leads. This only changes queue order; every source and image still needs
+    # review, and all other authors remain in the queue.
+    if work.get("artist") in {"W.carter", "George Chernilevsky", "CEKeech"}:
+        return -1
     if re.search(
         r"\b(?:frieze|sidewall|album|drawing|sketch|map|atlas|loc|verhandeling|"
         r"receipt|manuscript|lettre|papiers|missa|banknote|fragment|"
@@ -680,11 +685,20 @@ def thumbnails(limit: int, pool: str | None = None) -> None:
         print(json.dumps(dict(previews=len(profiles["profiles"]), id=work["id"])))
 
 
-def sheets() -> None:
+def sheet_offsets(count: int, start_sheet: int) -> range:
+    """Keep incremental boards on the same immutable positional grid."""
+    if type(count) is not int or count < 0:
+        raise ValueError("non-negative profile count required")
+    if type(start_sheet) is not int or not 0 <= start_sheet <= count // 16:
+        raise ValueError("start sheet must be an existing bounded sheet position")
+    return range(start_sheet * 16, count, 16)
+
+
+def sheets(start_sheet: int = 0) -> None:
     from PIL import Image, ImageDraw, ImageOps
 
     profiles = json.loads((OUTPUT / "profiles.json").read_text())["profiles"]
-    for start in range(0, len(profiles), 16):
+    for start in sheet_offsets(len(profiles), start_sheet):
         sheet = Image.new("RGB", (1600, 1120), "#eceae5")
         draw = ImageDraw.Draw(sheet)
         for position, work in enumerate(profiles[start : start + 16]):
@@ -717,15 +731,18 @@ if __name__ == "__main__":
     parser.add_argument("mode", choices=("metadata", "thumbnails", "sheets", "counts"))
     parser.add_argument("--limit", type=int, default=1000)
     parser.add_argument("--pool", choices=RESEARCH_POOLS)
+    parser.add_argument("--start-sheet", type=int, default=0)
     args = parser.parse_args()
     if args.pool is not None and args.mode not in ("metadata", "thumbnails"):
         parser.error("--pool only selects retained metadata or preview candidates")
+    if args.start_sheet != 0 and args.mode != "sheets":
+        parser.error("--start-sheet only selects a retained contact-sheet range")
     if args.mode == "metadata":
         metadata(args.limit, args.pool)
     elif args.mode == "thumbnails":
         thumbnails(args.limit, args.pool)
     elif args.mode == "sheets":
-        sheets()
+        sheets(args.start_sheet)
     else:
         report = json.loads((OUTPUT / "review.json").read_text())
         print(json.dumps(Counter(w["status"] for w in report["records"])))

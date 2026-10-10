@@ -1,0 +1,79 @@
+{
+  "schema": 1,
+  "status": "Source-bound local curation notes, not worldwide legal clearance or release approval",
+  "records": [
+    {
+      "id": 90490805,
+      "source_revision": 905605033,
+      "source_markup_sha256": "a644587510f640b0c5014d5a76edd2f5814bcf7cab4ee3fdb10e3ce6764789ea",
+      "observation": "The fully read Own/Self CC0 source explicitly says debris, plant parts and surface bubbles were removed. This original photographic composition was actually viewed twice; do not call it an unretouched photograph.",
+      "limits": "Source-supplied processing, not an app crop; no third-party artwork grant is inferred."
+    },
+    {
+      "id": 68665023,
+      "source_revision": 1122270098,
+      "source_markup_sha256": "f37fb73aba2d65880b4049af82f89c4c281dc31acbe51be80435b603cf3f4e36",
+      "observation": "The fully read Own/Self CC0 source declares a nine-photo Photoshop focus stack. The other_versions image shows the birch itself; the selected bark photograph is an original composition, not a reproduction of someone else's artwork or a claim to show the complete tree.",
+      "limits": "Do not call the selected photograph unretouched or count the linked alternative as another accepted work."
+    },
+    {
+      "id": 88494705,
+      "source_revision": 1025417729,
+      "source_markup_sha256": "181636f3407bfad2f8e32aba43cb39ad8ddb98bc5471f421adb190471e6eac8f",
+      "observation": "The complete Own/Self CC0 source, including its recipe, was read. It explicitly declares a five-photo Photoshop focus stack. The selected apple-cake still life was actually viewed twice; its linked second photograph is not selected.",
+      "limits": "Recipe and creator-supplied processing retained in the source receipt; no unretouched-image or alternative-acceptance claim."
+    },
+    {
+      "id": 58259512,
+      "observation": "Actually compared with accepted photograph 58259511. The accepted earlier photograph is a snow-surface texture; this separate photograph shows a complete functional roof vent on snow. It is not a recrop or alternative scan of that earlier image.",
+      "limits": "Actual photographic-composition comparison, not an automatic fingerprint exemption or general architectural clearance."
+    },
+    {
+      "id": 60975719,
+      "observation": "Actually compared with accepted photograph 63236571. That earlier photograph shows red coastal cabins below rocks, not these blue/pink/white agricultural bales. Their file IDs must not be treated as subject evidence without inspecting the images.",
+      "limits": "Visual comparison only; each selected upload keeps its own source, creator and rights receipts."
+    },
+    {
+      "id": 18835854,
+      "source_revision": 1143096168,
+      "source": "https://www.schoenbrunn.at/en/about-schoenbrunn/the-palace/history/architectural-history-18th-century",
+      "observation": "The official palace history places this principal architectural context in the eighteenth century. The saved Commons source identifies Jebulon's own 2012 photograph and Self CC0. This is the complete photographic composition, not a complete-front-elevation claim.",
+      "limits": "Historical context and Commons declaration only; no clearance of unrelated modern artworks is implied."
+    },
+    {
+      "id": 142165490,
+      "source_revision": 1110498022,
+      "source": "https://whc.unesco.org/document/185697",
+      "observation": "The official UNESCO Bukhara monitoring report dates Kalyan Mosque to 1514. The saved Commons source identifies Bgag's own courtyard photograph and Self CC0.",
+      "limits": "Historical architectural context; no general clearance of all Bukhara photographs or separately depicted contemporary artworks."
+    },
+    {
+      "id": 18224641,
+      "source_revision": 1177094237,
+      "source": "https://vaux-le-vicomte.com/en/the-estate/three-centuries-of-history/",
+      "observation": "Official estate history dates the principal castle to Fouquet's seventeenth-century project. The saved Commons source is Jebulon's own original photograph under Self CC0. Its other_versions field links to an extracted cropped version; that different file is not the selected upload.",
+      "limits": "No assertion that the cropped alternative was reviewed or accepted, and no general clearance of estate artworks."
+    },
+    {
+      "id": 59236992,
+      "source_revision": 1262090771,
+      "observation": "The selected original photographic composition explicitly declares a three-image Photoshop focus stack and removal of a grass straw. Own source and Self CC0 are retained; do not describe the source as unretouched.",
+      "limits": "Source-supplied creative processing, not an app crop or a waiver for third-party artwork."
+    },
+    {
+      "id": 112510538,
+      "observation": "The fountain and statues require a separate underlying-work scope check; dating the town hall alone does not date every statue. Not selected for this batch.",
+      "limits": "No rights failure or clearance is claimed."
+    },
+    {
+      "id": 32625318,
+      "observation": "Colourful house composition remains unselected pending specific architectural scope and curatorial review.",
+      "limits": "No rights failure or clearance is claimed."
+    },
+    {
+      "id": 146258091,
+      "observation": "Hotel-yurt scene remains unselected; documentary rather than current gallery priority, with separate decorative-scope questions.",
+      "limits": "No rights failure or clearance is claimed."
+    }
+  ]
+}

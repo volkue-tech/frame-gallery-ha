@@ -1,6 +1,6 @@
 # Project status
 
-Last updated: 2026-10-10 (778 retained local works; research continues toward 1000)
+Last updated: 2026-10-10 (992 nominal local entries; legacy review remains open)
 
 ## Next Commons update scoped — 2026-10-09
 
@@ -13,12 +13,32 @@ obligations. Original-work and visual/duplicate review remain required; no
 photo-only licence silently clears a contemporary artwork. Published b5 and
 the existing PD/CC0 runtime guard remain unchanged.
 
-Current completed local checkpoint: **378 additions / 778 entries**, with
-222 nominal additions still needed and 56 baseline measurement-scope prompts
-still unresolved. All 4,191 PD/CC0 previews were actually first-viewed (3,280
-first-view deferrals); curator sheets 000--086 were actually second-viewed.
-Source evidence covers 17,171 records / 7,012 automatic evidence passes, not
-accepted-work counts. Five retained additions beyond the preceding 373 are the
+Current completed local checkpoint: **592 additions / 992 nominal entries**, with
+eight nominal additions still needed and 56 baseline measurement-scope prompts
+still unresolved. Without counting those unresolved baseline cases, the local
+count is 936, requiring 64 further acceptances to reach 1000. This is a count
+planning distinction, not approval to remove, repin or quarantine any baseline
+entry. Alexander asked to see ten examples before deciding; the fully loaded,
+browser-verified private page is `http://127.0.0.1:8881/legacy-samples.html`.
+Its ten source/thumbnail-bound examples mix near-boundary and larger differences;
+they do not prove cropping. No baseline entry has been removed.
+
+All 5,148 checkpoint PD/CC0 previews were actually first-viewed
+(3,975 first-view deferrals); curator sheets 000--114 were actually second-viewed.
+Source evidence covers 18,662 records / 8,092 automatic evidence passes, not
+accepted-work counts. The continuing preview writer is separate from this fixed
+screening checkpoint. The latest continuation added four individually reviewed
+works, 33 Quality Image CC0 compositions and 64 W.carter CC0 photographic
+compositions. A signed glass-artwork photograph remains deferred because its
+photographic licence alone does not settle the glass artwork's rights.
+Subsequent actual second views added 11 PD-self compositions, 37 CEKeech
+original CC0 compositions, 13 further Quality Image compositions and 52
+W.carter original photographs. Similar scene variants were left unselected;
+source-declared retouching and focus stacking remain explicit in retained notes.
+One measured crystal-size caption is explicitly scoped to the photographed
+subject, not the photographic composition, with source/upload/thumbnail and
+measurement hashes retained. No generic photographic exception was introduced.
+The five retained additions beyond the preceding 373 were the
 silhouette, coloured smoke, Borget/Ciceri's Macao lithograph and two original
 CC0 landscape photographs (Finnish canoe route and Argentine storm light).
 Lorrain's Roman Landscape returned to reserve after the refreshed fingerprint
@@ -48,9 +68,9 @@ recorded as source evidence, not private-ticket inspection or worldwide clearanc
 
 The full unchanged local gates passed again: 5,020 tests / eleven platform skips,
 strict Mac/Linux mypy, 100% production line/branch coverage. The successful log
-is `build/commons-1000-research/local-quality-gates-2026-10-10-cc-final-success-recheck.log`.
+is `build/commons-1000-research/local-quality-gates-2026-10-10-592-curation.log`.
 A preceding invocation from the wrong directory exited 127 without running tests;
-its separate log is retained, not counted as a test pass. **78 offline research
+its separate log is retained, not counted as a test pass. **90 offline research
 tests**, research Ruff E/F/I and format checks passed; research tooling is outside
 the production coverage gate. No original downloads, credentials, push, release,
 Home Assistant or TV access occurred.
@@ -80,10 +100,17 @@ blue-and-yellow matches; thresholds and labels are not release approved.
 Private thumbnails total 64,316,428 bytes, actual maximum axis 960px despite
 512px requests. They remain under ignored build/, never in runtime/releases.
 The local research preview at `http://127.0.0.1:8881/gallery.html` now contains
-the 400 baseline works plus 378 locally curated additions. New works are marked
+the 400 baseline works plus 592 locally curated additions. New works are marked
 unpublished and can be displayed separately. The earlier 400-card/violet check
 passed; at the 513-work intermediate milestone the browser verified 49 blue
 newcomers. The published app and the runtime catalogue still contain 400 works.
+The 992-entry browser check verified 592 newcomers and 248 blue newcomers,
+matching the retained profiles. The selector was restored to the full collection.
+Screenshot: `build/commons-1000-research/gallery-592-blue-browser-2026-10-10.png`.
+All 56 proposed-hold previews were additionally checked against their previously
+analysed original-pinned colour profiles, without regenerating the proposal or
+changing selection. Regression tests reject changed thumbnails and original pins.
+
 Metadata-only profiles are retained in frame_gallery/research/ and the audit
 in research/commons-colour-audit-2026-10-09.json. Thirteen
 offline research tests and research Ruff/format checks passed. Full production
@@ -141,7 +168,7 @@ description measurements now supplement Size templates: image/sheet scopes are
 retained, not cherry-picked. Both source physical proportions and file shape must
 meet the requested band; conflicts remain deferred. Art Photo declarations with
 a separate attribution/share-alike photographic licence also remain outside this
-PD/CC0-only draft. **378 distinct additions are currently locally accepted**,
+PD/CC0-only draft. **592 distinct additions are currently locally accepted**,
 with upload/source/revision, rights declarations, physical
 evidence limits and inspected-sheet hashes retained in
 `frame_gallery/research/commons-expansion-curation-2026-10-09.json`.
@@ -151,7 +178,8 @@ including baseline identity matches and newly exposed measurement conflicts.
 The previous 127 provisional additions were not frozen: source rechecks removed
 uncertain cases and subsequent actual visual review added different works. No
 baseline entry was changed. This is a partial research milestone, not release
-approval or worldwide copyright clearance. **222 nominal further additions remain.**
+approval or worldwide copyright clearance. **Eight nominal further additions remain**;
+64 are needed if the 56 unresolved baseline prompts are not counted.
 
 The latest actual source/preview review added eleven distinct works, including
 W.carter's original digital photomontage and abstract photographic composition,

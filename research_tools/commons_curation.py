@@ -289,6 +289,21 @@ def checkpoint() -> None:
             note="Original receipts retained; subsequent actual review and "
             "transcription-order corrections are explicitly recorded separately.",
         )
+    for label, filename in (
+        (
+            "photo_measurement_scopes",
+            "commons-photo-measurement-scopes-2026-10-10.json",
+        ),
+        ("quality_pass_notes", "commons-quality-pass-notes-2026-10-10.json"),
+    ):
+        path = ROOT / "research" / filename
+        if path.exists():
+            snapshot[label] = dict(
+                file=str(path.relative_to(ROOT)),
+                sha256=hashlib.sha256(path.read_bytes()).hexdigest(),
+                note="Explicit local evidence only; no generic scope exemption "
+                "or runtime/release approval.",
+            )
     save(ROOT / "research/commons-expansion-checkpoint-2026-10-09.json", snapshot)
     print(
         json.dumps(

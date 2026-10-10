@@ -414,7 +414,49 @@ def physical(text: str) -> list[dict]:
     return result
 
 
+def scoped_measures(
+    work: dict, profile: dict, measures: list[dict], decision: dict
+) -> list[dict]:
+    """One explicit source-bound subject measurement, not a global exemption.
+
+    The original measurement remains in the dossier. This changes only the
+    original-image ratio comparison, never rights, identity or visual flags.
+    """
+    expected = {
+        "id": work["id"],
+        "original_sha1": work["sha1"],
+        "source_revision": work["source_revision"],
+        "source_page_sha256": work["source_page_sha256"],
+        "thumbnail_sha256": profile["thumbnail_sha256"],
+        "measurements_sha256": hashlib.sha256(
+            json.dumps(measures, sort_keys=True, ensure_ascii=False).encode()
+        ).hexdigest(),
+    }
+    indices = decision.get("excluded_measurement_indices")
+    if (
+        any(decision.get(k) != v for k, v in expected.items())
+        or decision.get("scope") != "photographed subject, not photographic composition"
+        or not isinstance(indices, list)
+        or not indices
+        or any(type(i) is not int or not 0 <= i < len(measures) for i in indices)
+        or len(set(indices)) != len(indices)
+        or any(
+            not isinstance(decision.get(k), str) or not decision[k].strip()
+            for k in ("reason", "limits")
+        )
+    ):
+        raise ValueError("explicit source/preview-bound measurement scope required")
+    return [m for i, m in enumerate(measures) if i not in indices]
+
+
 def dossiers() -> None:
+    scope_path = ROOT / "research/commons-photo-measurement-scopes-2026-10-10.json"
+    scope_rows = (
+        json.loads(scope_path.read_text())["records"] if scope_path.exists() else []
+    )
+    scopes = {r["id"]: r for r in scope_rows}
+    if len(scopes) != len(scope_rows):
+        raise ValueError("unique explicit measurement-scope decisions required")
     manual_path = ROOT / "research/commons-curator-deferrals-2026-10-09.json"
     manual = (
         {r["id"]: r["reason"] for r in json.loads(manual_path.read_text())["records"]}
@@ -474,18 +516,25 @@ def dossiers() -> None:
         )
         item_qids = qids(raw_name) | declared_artwork_qids(text)
         measures = physical(text)
+        compared_measures = (
+            scoped_measures(work, profile, measures, scopes[work["id"]])
+            if work["id"] in scopes
+            else measures
+        )
         ratio = work["width"] / work["height"]
         flags = list(work["reasons"])
         if work["id"] in manual:
             flags.append("manual curator deferral: " + manual[work["id"]])
         # A marked frame's additional dimensions need manual scope resolution;
         # don't silently choose whichever measurements fit our desired ratio.
-        if measures and any(abs(m["ratio"] / ratio - 1) > 0.025 for m in measures):
+        if compared_measures and any(
+            abs(m["ratio"] / ratio - 1) > 0.025 for m in compared_measures
+        ):
             flags.append(
                 "physical dimensions contradict file shape; "
                 "cropping/distortion unresolved"
             )
-        if any(abs(m["ratio"] / (16 / 9) - 1) > 0.025 for m in measures):
+        if any(abs(m["ratio"] / (16 / 9) - 1) > 0.025 for m in compared_measures):
             flags.append(
                 "recorded physical proportions outside requested 2.5% band; "
                 "measurement scope/crop unresolved"
@@ -521,6 +570,8 @@ def dossiers() -> None:
                 original_sha1=work["sha1"],
                 file_ratio=ratio,
                 physical_measures=measures,
+                compared_physical_measures=compared_measures,
+                measurement_scope_resolution=scopes.get(work["id"]),
                 artwork_qids=sorted(item_qids),
                 identity_matches=sorted(matches),
                 fingerprint_comparisons=comparisons,

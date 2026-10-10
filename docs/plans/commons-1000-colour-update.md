@@ -31,19 +31,19 @@ Der Bestand ist `frame_gallery/research/commons-400-selection-2026-10-06.json`. 
 
 Der lokale App-Entwurf enthält inzwischen das einzelne Farbfeld und den geprüften Farbfilter. Der Runtime-Katalog bleibt bei 400 Werken; die veröffentlichte Beta ist unverändert. Ein Wochenendziel ist keine garantierte Fertigstellung: Rechte, Bildqualität und bestandene Prüfungen haben Vorrang vor der Zahl und dem Termin.
 
-Lokaler Zwischenstand: 48 Bestandswerke visuell im Farbpilot geprüft und das Verfahren an dunklem Blau und Ockertönen korrigiert. Alle 400 Bestandswerke besitzen vorläufige Farbprofile mit vollständiger Verteilung und Quellenbeleg. Hinzu kommen **378 derzeit lokal kuratierte neue Werke**, ebenfalls mit vollständigen Farbprofilen. Die private [Farbvorschau](http://127.0.0.1:8881/gallery.html) enthält somit **778 Werke** und lässt sich nach Farbgruppe sowie Bestand oder Neuzugängen filtern. **222 weitere Aufnahmen fehlen noch zum nominellen Ziel.** Die [neue Farbanleitung](commons-colour-user-guide-draft.md) bleibt ein unveröffentlichter Entwurf.
+Lokaler Zwischenstand: 48 Bestandswerke visuell im Farbpilot geprüft und das Verfahren an dunklem Blau und Ockertönen korrigiert. Alle 400 Bestandswerke besitzen vorläufige Farbprofile mit vollständiger Verteilung und Quellenbeleg. Hinzu kommen **592 derzeit lokal kuratierte neue Werke**, ebenfalls mit vollständigen Farbprofilen. Die private [Farbvorschau](http://127.0.0.1:8881/gallery.html) enthält somit **992 nominelle Einträge** und lässt sich nach Farbgruppe sowie Bestand oder Neuzugängen filtern. **Acht weitere Aufnahmen fehlen zum nominellen Ziel.** Ohne die 56 ungeklärten Bestandsfälle mitzuzählen sind es 936; dafür fehlen noch 64 geprüfte Aufnahmen. Eine Zurückstellung dieser Bestandsfälle ist noch nicht freigegeben. Die [neue Farbanleitung](commons-colour-user-guide-draft.md) bleibt ein unveröffentlichter Entwurf.
 
-Der jüngste abgeschlossene Metadaten-Prüfstand enthält 17171 zusätzliche Kandidaten
+Der jüngste abgeschlossene Metadaten-Prüfstand enthält 18662 zusätzliche Kandidaten
 mit Quellen-/Rechtemetadaten; nach der quellengebundenen Self-CC0/PD-self-Prüfung bestehen
-7012 die automatische Vorprüfung. Die Fraktalkunst-Treffer haben gesonderte
+8092 die automatische Vorprüfung. Die Fraktalkunst-Treffer haben gesonderte
 CC-Lizenzen und werden seit der gesonderten Freigabe getrennt geprüft; sie zählen
 noch nicht als Aufnahmen. Neue Künstler-Kandidaten
-werden weiter geprüft. Alle 4191 Vorschauen des festen Sichtungsstands wurden tatsächlich gesichtet, 3280 dabei zunächst
-zurückgestellt. 87 Kontaktbögen wurden ein zweites Mal
+werden weiter geprüft. Alle 5148 Vorschauen des festen Sichtungsstands wurden tatsächlich gesichtet, 3975 dabei zunächst
+zurückgestellt. 115 Kontaktbögen wurden ein zweites Mal
 gesichtet. Zusätzliche Maßangaben im Klartext haben mögliche Ausschnitte sichtbar
 gemacht: Die frühere provisorische 127er-Auswahl wurde entsprechend reduziert
 und durch weitere tatsächlich geprüfte Werke ergänzt. Der aktuelle Stand ist
-378 Aufnahmen, nicht die frühere provisorische Auswahl. 58 ausgewählte Fälle
+592 Aufnahmen, nicht die frühere provisorische Auswahl. 58 ausgewählte Fälle
 bleiben zurückgestellt, darunter
 Duplikate und widersprüchliche Originalmaße. 307 konkret zugeordnete Werk-Identitäten aus den
 Metadaten des Bestands ergänzen die Titel- und Bildvergleiche. Weitere kleine
@@ -70,6 +70,15 @@ markiert. Das sind keine 56 bestätigten Ausschnitte. Die offenen Fälle müssen
 Werke“ geklärt sein. Die vorhandenen Einträge und der Verlauf bleiben unverändert;
 es gibt weder automatische Entfernung noch heimliche Ersatz-Pins. Der Beleg
 liegt in `research/commons-baseline-format-audit-2026-10-09.json`.
+
+Auf Alexanders Wunsch sind [zehn gemischte Stichproben](http://127.0.0.1:8881/legacy-samples.html)
+mit Vorschaubild, Dateimaßen, angegebenen Werkmaßen und Quellenlink vorbereitet.
+Alle zehn Bilder wurden im Browser als geladen geprüft. Die Abweichung bezieht
+sich auf das Werkmaß-Verhältnis gegenüber 16:9, nicht auf eine behauptete Menge
+abgeschnittener Bildfläche. Der Vorschlag zur Zurückstellung ist ausdrücklich
+noch keine Auswahländerung; während Alexander entscheidet, werden zusätzliche
+Reserven unabhängig davon recherchiert. Bestandsdatei und Sendeverlauf bleiben
+unangetastet.
 
 Die letzte zweite Sichtung hat 56 Werke hinzugefügt. Die erweiterte Prüfung von
 Zoll-Brüchen, mehrfach angegebenen Einheiten und H/B-Maßen hat zugleich drei
@@ -203,13 +212,13 @@ eine Freigabe des Kunstwerks ([Commons-Richtlinie zu abgeleiteten Werken](https:
 Eine Erweiterung auf andere Lizenzen wäre eine eigene technische und rechtliche
 Entscheidung, keine stillschweigende Änderung dieses Updates.
 
-Offene Entscheidung für die zeitgenössische Erweiterung: Sollen auch originale
-Werke mit CC BY oder CC BY-SA aufgenommen werden, wenn Namensnennung,
-Lizenzverlinkung und gegebenenfalls Änderungs-/Weitergabehinweise vollständig
-erhalten bleiben? Diese Freigabe liegt noch nicht vor. Die 472 gefundenen
-Fraktalkunst-Kandidaten und zwei Anadol-Ausstellungsaufnahmen sind deshalb keine
+Die Recherchefreigabe für CC BY und CC BY-SA liegt seit dem 10. Oktober vor.
+Die Aufnahme bleibt eine Einzelentscheidung mit vollständiger Namensnennung,
+Lizenzverlinkung und gegebenenfalls Änderungs-/Weitergabehinweisen. Die gefundenen
+Fraktalkunst-Kandidaten und Anadol-Ausstellungsaufnahmen sind allein dadurch keine
 Aufnahmen. Bei Anadol oder Kusama wäre zusätzlich die Freigabe des tatsächlich
-abgebildeten Kunstwerks nötig; die Foto-Lizenz löst diese Frage nicht.
+abgebildeten Kunstwerks nötig; die Foto-Lizenz löst diese Frage nicht. Der erste
+CC-Pilot ist ein Recherchevorrat, keine Erweiterung des Runtime-Rechtefilters.
 
 ### Ein Farbfeld für den Nutzer
 
