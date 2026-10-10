@@ -26,7 +26,13 @@ from research_tools.commons_colours import (  # noqa: E402
     run_worker,
     save,
 )
-from research_tools.commons_expand import OUTPUT, eligible  # noqa: E402
+from research_tools.commons_expand import (  # noqa: E402
+    OUTPUT,
+    SINGLE_SUBJECTS,
+    eligible,
+)
+
+RESEARCH_POOLS = ("targeted", *SINGLE_SUBJECTS)
 
 
 class PlainText(HTMLParser):
@@ -119,7 +125,9 @@ def artwork_artist(observed: object, description: object) -> str:
         return artist
     text = plain(description)
     match = re.search(
-        r"Vervaardiger:\s*(?:tekenaar|schilder|ontwerper):\s*(.*?)\s+Datering:", text
+        r"Vervaardiger:\s*(?:tekenaar|schilder|ontwerper):\s*(.*?)"
+        r"(?=\s*(?:Datering|Plaats vervaardiging|opdrachtgever):)",
+        text,
     )
     return (
         match[1].strip()
@@ -216,6 +224,12 @@ def source_artist(observed: object, description: object, wikitext: str) -> str:
     ):
         return stated
     markup = source_markup(wikitext)
+    if not artist and re.search(
+        r"^\s*\|\s*institution\s*=\s*Rijksmuseum\s*$", markup, re.I | re.M
+    ):
+        maker = artwork_artist("Rijksmuseum", description)
+        if not maker.startswith("Artist not identified"):
+            return maker
     if "art photo" in template_names(wikitext) and re.search(
         r"^\s*\|\s*artist\s*=\s*\n", markup, re.I | re.M
     ):
@@ -255,13 +269,13 @@ def source_artist(observed: object, description: object, wikitext: str) -> str:
 
 
 def source_title(observed: object, description: object, fallback: str) -> str:
-    """A short explicit caption may replace only a technical camera filename."""
+    """A short explicit caption may replace only a technical source identifier."""
     title = plain(observed) or fallback
     caption = plain(description)
     if (
         re.fullmatch(
-            r"(?:[0-9]{6,12}\s*)?(?:DSCN?|IMG|PXL)[-_ ]?[0-9]{3,12}[a-z]?"
-            r"(?:\.jpe?g)?",
+            r"(?:(?:[0-9]{6,12}\s*)?(?:DSCN?|IMG|PXL)[-_ ]?[0-9]{3,12}[a-z]?"
+            r"|MET DP[0-9]{3,12})(?:\.jpe?g)?",
             title,
             re.I,
         )
@@ -363,12 +377,24 @@ def research_channel(requests: int):
     ), Deadline.after(clock, 900, "finite Commons evidence pass")
 
 
-def metadata(limit: int) -> None:
+def research_pool(pool: str | None) -> str | None:
+    """A narrow retained-source pass, not a source-path or licence override."""
+    if pool is None:
+        return None
+    if pool == "targeted":
+        return "discovery-targeted.json"
+    if pool in SINGLE_SUBJECTS:
+        return f"discovery-subject-{pool}.json"
+    raise ValueError("unknown retained research pool")
+
+
+def metadata(limit: int, pool: str | None = None) -> None:
     from frame_gallery.net.policy import https_url
     from frame_gallery.providers.commons import RIGHTS_FIELDS
 
     if not 1 <= limit <= 1000:
         raise ValueError("bounded evidence pass")
+    pool_file = research_pool(pool)
     baseline = json.loads(BASELINE.read_text())
     excluded = {w["id"] for w in baseline["included"] + baseline["previously_deferred"]}
     candidates = {}
@@ -392,6 +418,8 @@ def metadata(limit: int) -> None:
         "discovery-artwork.json",
         "discovery.json",
     ):
+        if pool_file is not None and name != pool_file:
+            continue
         path = OUTPUT / name
         if path.exists():
             for work in json.loads(path.read_text())["candidates"]:
@@ -522,13 +550,40 @@ def preview_priority(work: dict) -> int:
     return 0
 
 
-def thumbnails(limit: int) -> None:
+def preview_candidates(
+    records: list[dict],
+    done: set[int],
+    limit: int,
+    pool_ids: set[int] | None = None,
+) -> list[dict]:
+    """Order a bounded retained pool; never approve or discard another pool."""
+    if not 1 <= limit <= 600:
+        raise ValueError("bounded thumbnail pass")
+    return sorted(
+        [
+            work
+            for work in records
+            if not work["reasons"]
+            and work["id"] not in done
+            and (pool_ids is None or work["id"] in pool_ids)
+        ],
+        key=preview_priority,
+    )[:limit]
+
+
+def thumbnails(limit: int, pool: str | None = None) -> None:
     from frame_gallery.net.policy import RequestKind
     from frame_gallery.providers.commons import _image_url
     from frame_gallery.providers.contract import SourceError
 
     if not 1 <= limit <= 600:
         raise ValueError("bounded thumbnail pass")
+    pool_file = research_pool(pool)
+    pool_ids = (
+        {w["id"] for w in json.loads((OUTPUT / pool_file).read_text())["candidates"]}
+        if pool_file is not None
+        else None
+    )
     report = json.loads((OUTPUT / "review.json").read_text())
     path = OUTPUT / "profiles.json"
     profiles = (
@@ -547,10 +602,7 @@ def thumbnails(limit: int) -> None:
         + profiles["refused"]
         + profiles.get("network_deferred", [])
     }
-    works = sorted(
-        [w for w in report["records"] if not w["reasons"] and w["id"] not in done],
-        key=preview_priority,
-    )[:limit]
+    works = preview_candidates(report["records"], done, limit, pool_ids)
     channel, deadline = research_channel(1)
     for work in works:
         if deadline.remaining() < 45:
@@ -664,11 +716,14 @@ if __name__ == "__main__":
     parser = argparse.ArgumentParser()
     parser.add_argument("mode", choices=("metadata", "thumbnails", "sheets", "counts"))
     parser.add_argument("--limit", type=int, default=1000)
+    parser.add_argument("--pool", choices=RESEARCH_POOLS)
     args = parser.parse_args()
+    if args.pool is not None and args.mode not in ("metadata", "thumbnails"):
+        parser.error("--pool only selects retained metadata or preview candidates")
     if args.mode == "metadata":
-        metadata(args.limit)
+        metadata(args.limit, args.pool)
     elif args.mode == "thumbnails":
-        thumbnails(args.limit)
+        thumbnails(args.limit, args.pool)
     elif args.mode == "sheets":
         sheets()
     else:

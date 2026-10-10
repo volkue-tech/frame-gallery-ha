@@ -3,7 +3,12 @@
 import unittest
 
 from research_tools.commons_baseline_audit import verify_decision
-from research_tools.commons_dossiers import physical, qids
+from research_tools.commons_dossiers import (
+    declared_artwork_qids,
+    physical,
+    qids,
+    separate_attribution_declaration,
+)
 from research_tools.commons_expand import (
     GENRE_SUBJECT,
     HIGH_RES_WINDOWS,
@@ -17,7 +22,9 @@ from research_tools.commons_resume import validate_screen_range
 from research_tools.commons_review import (
     artwork_artist,
     declared_creators,
+    preview_candidates,
     preview_priority,
+    research_pool,
     source_artist,
     source_title,
     template_names,
@@ -27,6 +34,161 @@ from research_tools.commons_targeted import artist_term
 
 
 class DossierTests(unittest.TestCase):
+    def test_dutch_labelled_support_axes_do_not_use_object_depth(self):
+        text = (
+            "|Description={{nl|Afmetingen: drager: hoogte ca. 39,6 cm. × "
+            "breedte ca. 71,8 cm. × dikte 1,0 cm. buitenmaat: diepte 5,2 cm.}}"
+        )
+        values = physical(text)
+        self.assertEqual(len(values), 1)
+        self.assertAlmostEqual(values[0]["ratio"], 71.8 / 39.6)
+        self.assertIn("drager:", values[0]["raw"])
+        self.assertAlmostEqual(
+            physical("|description=hoogte 30 cm × breedte 535 mm")[0]["ratio"],
+            535 / 300,
+        )
+        self.assertEqual(physical("|description=hoogte 0 cm × breedte 71 cm"), [])
+        self.assertEqual(physical("|description=hoogte 30 cm × diepte 53 cm"), [])
+
+    def test_rijks_maker_stops_before_separate_creation_place(self):
+        text = (
+            "Vervaardiger: schilder: Hercules Segers Plaats vervaardiging: "
+            "Amsterdam (mogelijk) Datering: ca. 1626 - ca. 1630"
+        )
+        self.assertEqual(artwork_artist("Rijksmuseum", text), "Hercules Segers")
+
+    def test_rijks_commissioner_is_not_part_of_qualified_maker(self):
+        text = (
+            "Vervaardiger: schilder: Reinier Nooms (eigenhandig gesigneerd)"
+            "opdrachtgever: Admiraliteit van Amsterdam Plaats vervaardiging: "
+            "Amsterdam Datering: 1662 - 1668"
+        )
+        self.assertEqual(
+            artwork_artist("Rijksmuseum", text),
+            "Reinier Nooms (eigenhandig gesigneerd)",
+        )
+
+    def test_technical_met_identifier_uses_only_bounded_explicit_caption(self):
+        caption = 'Camellia Flower and <a href="https://example.org">Yōkan</a>'
+        self.assertEqual(
+            source_title("MET DP139008", caption, "fallback"),
+            "Camellia Flower and Yōkan",
+        )
+        self.assertEqual(
+            source_title("A real title", caption, "fallback"), "A real title"
+        )
+        for value in ("x" * 101, "https://example.org/caption", "{{caption}}"):
+            self.assertEqual(
+                source_title("MET DP139008", value, "fallback"), "MET DP139008"
+            )
+
+    def test_targeted_preview_pool_keeps_bounds_flags_and_completed_work(self):
+        def work(work_id, reasons):
+            return dict(id=work_id, reasons=reasons, title="Painting", artist="Maker")
+
+        records = [
+            work(1, []),
+            work(2, ["rights unresolved"]),
+            work(3, []),
+            work(4, []),
+        ]
+        self.assertEqual(
+            [w["id"] for w in preview_candidates(records, {3}, 10, {2, 3, 4})], [4]
+        )
+        self.assertEqual([w["id"] for w in preview_candidates(records, set(), 1)], [1])
+        self.assertEqual(preview_candidates(records, set(), 1, set()), [])
+        self.assertEqual(len(records), 4)  # Other retained pools are not removed.
+        for limit in (0, 601):
+            with self.assertRaises(ValueError):
+                preview_candidates(records, set(), limit)
+
+    def test_attribution_scope_does_not_depend_on_art_photo_template(self):
+        for kind in ("Art Photo", "Artwork", "Information"):
+            self.assertTrue(
+                separate_attribution_declaration(
+                    "{{" + kind + "|source={{own}}}}\n"
+                    "{{PD-Art|PD-old-auto-expired|deathyear=1892}}"
+                    "{{self|cc-by-sa-4.0}}"
+                )
+            )
+        self.assertTrue(separate_attribution_declaration("{{Cc-by-4.0}}"))
+        for text in (
+            "{{PD-Art|PD-old-100-expired}} {{PD-self}}",
+            "{{cc-zero}}",
+            "<!-- {{self|cc-by-sa-4.0}} -->",
+            "<nowiki>{{Cc-by-4.0}}</nowiki>",
+            "A licence called cc-by-sa-4.0 is discussed, not declared.",
+        ):
+            self.assertFalse(separate_attribution_declaration(text))
+
+    def test_self_attribution_checks_every_positional_licence_not_named_values(self):
+        for text in (
+            "{{self|CeCILL|Cc-by-sa-2.0-fr}}",
+            "{{Self|author={{Creator:Example}}|CC0|Cc-by-4.0}}",
+            "{{self|cc-zero|GFDL|cc-by-sa-3.0}}",
+        ):
+            self.assertTrue(separate_attribution_declaration(text))
+        for text in (
+            "{{self|CC0|author=cc-by-sa-4.0}}",
+            "{{self|CC0|author={{Creator:cc-by-sa-4.0}}}}",
+            "{{self|CC0}} cc-by-sa-4.0",
+            "<!-- {{self|CeCILL|cc-by-sa-2.0-fr}} -->",
+            "<pre>{{self|CeCILL|cc-by-sa-2.0-fr}}</pre>",
+        ):
+            self.assertFalse(separate_attribution_declaration(text))
+
+    def test_explicit_unitless_dutch_measurements_are_not_invented_or_ignored(self):
+        values = physical("|description={{nl|Afmetingen: 170 x 290}}\n|date=1650")
+        self.assertEqual(len(values), 1)
+        self.assertAlmostEqual(values[0]["ratio"], 290 / 170)
+        self.assertIn("units unspecified", values[0]["interpretation"])
+        self.assertEqual(physical("|description=170 x 290\n|date=1650"), [])
+        self.assertEqual(physical("|description=Afmetingen: 0 x 290\n}}"), [])
+        self.assertEqual(physical("|description=Afmetingen: 170 x 290 x 20\n}}"), [])
+        self.assertEqual(len(physical("|description=Afmetingen: 170 x 290 cm\n}}")), 1)
+
+    def test_retained_pool_selector_never_accepts_an_arbitrary_path(self):
+        self.assertIsNone(research_pool(None))
+        self.assertEqual(research_pool("targeted"), "discovery-targeted.json")
+        for name in ("", "../source", "/source", "new-provider", "cc-by"):
+            with self.assertRaises(ValueError):
+                research_pool(name)
+
+    def test_subject_pools_only_map_exact_known_discovery_names(self):
+        for name in SINGLE_SUBJECTS:
+            self.assertEqual(research_pool(name), f"discovery-subject-{name}.json")
+        for name in (
+            "lithograph.json",
+            "subject-lithograph",
+            "Lithograph",
+            "../lithograph",
+        ):
+            with self.assertRaises(ValueError):
+                research_pool(name)
+
+    def test_artwork_identity_excludes_nested_maker_and_source_ids(self):
+        text = (
+            "{{Artwork\n|artist={{Creator|wikidata=Q123}}\n"
+            "|source={{Information|wikidata=Q456}}\n|wikidata=Q789\n}}"
+        )
+        self.assertEqual(declared_artwork_qids(text), {"Q789"})
+        self.assertEqual(
+            declared_artwork_qids("{{Art Photo|artist={{Creator|wikidata=Q123}}}}"),
+            set(),
+        )
+        self.assertEqual(
+            declared_artwork_qids("{{Artwork|artist=Maker|wikidata=Q456}}"), {"Q456"}
+        )
+        self.assertEqual(
+            declared_artwork_qids("{{Artwork|wikidata=Q456 additional text}}"), set()
+        )
+        for text in (
+            "<!-- {{Artwork|wikidata=Q123}} -->",
+            "<nowiki>{{Artwork|wikidata=Q123}}</nowiki>",
+            "{{Information|wikidata=Q123}}",
+        ):
+            self.assertEqual(declared_artwork_qids(text), set())
+
     def test_explicit_pd_self_is_a_release_declaration_not_artwork_clearance(self):
         source = "{{Information|source={{Own}}}}\n{{PD-self}}"
         self.assertEqual(us_basis(template_names(source), source), ["pd-self"])
@@ -580,6 +742,27 @@ class DossierTests(unittest.TestCase):
             "Artist not identified (Rijksmuseum source)",
         )
         self.assertEqual(artwork_artist("Other museum", description), "Other museum")
+
+    def test_separate_line_metric_axes_preserve_original_album_leaf_shape(self):
+        values = physical(
+            "|dimensions=H. 8 1/16 in. (20.5 cm)\n"
+            "W. 12 3/4 in. (32.4 cm)\n|institution=Met"
+        )
+        self.assertEqual(len(values), 1)
+        self.assertAlmostEqual(values[0]["ratio"], 32.4 / 20.5)
+        self.assertGreater(abs(values[0]["ratio"] / (16 / 9) - 1), 0.025)
+        self.assertEqual(physical("|dimensions=H. 20.5 cm\n|width=32.4 cm\n"), [])
+
+    def test_blank_artist_in_explicit_rijksmuseum_source_uses_stated_maker(self):
+        text = "{{Artwork\n|Institution=Rijksmuseum\n|Artist=\n}}"
+        caption = "Vervaardiger: schilder: Gillis Mostaert (I) Datering: 1570"
+        self.assertEqual(source_artist("", caption, text), "Gillis Mostaert (I)")
+        self.assertEqual(source_artist("Other", caption, text), "Other")
+        self.assertEqual(
+            source_artist("", caption, text.replace("Rijksmuseum", "Other")), ""
+        )
+        self.assertEqual(source_artist("", "No maker given", text), "")
+        self.assertEqual(source_artist("", caption, "<!-- " + text + " -->"), "")
 
 
 if __name__ == "__main__":

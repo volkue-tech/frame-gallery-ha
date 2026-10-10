@@ -1,6 +1,6 @@
 # Project status
 
-Last updated: 2026-10-10 (746 retained local works; research continues toward 1000)
+Last updated: 2026-10-10 (773 retained local works; research continues toward 1000)
 
 ## Next Commons update scoped — 2026-10-09
 
@@ -29,7 +29,7 @@ blue-and-yellow matches; thresholds and labels are not release approved.
 Private thumbnails total 64,316,428 bytes, actual maximum axis 960px despite
 512px requests. They remain under ignored build/, never in runtime/releases.
 The local research preview at `http://127.0.0.1:8881/gallery.html` now contains
-the 400 baseline works plus 346 locally curated additions. New works are marked
+the 400 baseline works plus 373 locally curated additions. New works are marked
 unpublished and can be displayed separately. The earlier 400-card/violet check
 passed; at the 513-work intermediate milestone the browser verified 49 blue
 newcomers. The published app and the runtime catalogue still contain 400 works.
@@ -51,44 +51,46 @@ optional helper descriptions agree; public b5 has not changed.
 
 The full local gates were repeated after this curation milestone: 5,020 passed,
 eleven platform skips, strict Mac/Linux mypy and 100% line/branch coverage.
-Fifty offline research tests pass. Research Ruff E/F/I and formatting checks
+Sixty-three offline research tests pass. Research Ruff E/F/I and formatting checks
 are repeated before the next checkpoint. The earlier 527-card browser check verified 127 provisional newcomers and
 56 blue newcomers. It is superseded by the stricter source-measure review below;
 the 598-card browser check verified 198 retained newcomers; the following
-616-card check verified 216. The latest browser check verified 746 retained
-entries; the source-bound manifest contains 346 newcomers.
+616-card check verified 216. The latest completed browser check verified 773
+entries, 373 newcomers and 119 blue newcomers; all filters were reset to any.
 
 New-work discovery is kept separate from acceptance. The broad pass found 2,575
 dimension-eligible candidates (including irrelevant photographs); narrower
 Artwork and oil-declaration passes found 1,213 and 839 candidates respectively.
 These overlap and are NOT summed or counted as accepted works. Source revision,
-PD/CC0 metadata and direct rights-basis checks cover 14,150 distinct candidates
-in the latest completed metadata checkpoint; 6,656 pass the automatic evidence screen,
-which is not curator/legal acceptance. All 3,446 private previews have actual
-visual-screen receipts; 2,622 are
+PD/CC0 metadata and direct rights-basis checks cover 15,150 distinct candidates
+in an earlier completed metadata checkpoint; 6,674 passed the automatic evidence screen,
+which is not curator/legal acceptance. The completed first-view checkpoint covers
+3,999 private previews with actual visual-screen receipts; 3,102 are
 conservatively deferred at first view. Original physical dimensions are checked where supplied;
 contradictions and EXIF-rotated portrait renditions remain unresolved, not accepted.
 The official PD-Art-two-auto, PD-old-100-1923 and PD-old-70-expired declarations
 were verified and their explicit evidence recognized without accepting bare PD-Art.
 
 All 400 baseline upload pins passed a separate artwork-identity metadata check;
-347 recorded artwork QIDs supplement title and visual-fingerprint comparisons.
-Sixty-six second-view curator sheets were inspected. Plain museum/GAP and
+307 scoped recorded artwork QIDs supplement title and visual-fingerprint comparisons.
+The earlier 347-entry unscoped map is superseded: nested maker/source IDs must
+not be treated as concrete artworks. All original raw receipts remain retained.
+Eighty-three second-view curator sheets were inspected. Plain museum/GAP and
 description measurements now supplement Size templates: image/sheet scopes are
 retained, not cherry-picked. Both source physical proportions and file shape must
 meet the requested band; conflicts remain deferred. Art Photo declarations with
 a separate attribution/share-alike photographic licence also remain outside this
-PD/CC0-only draft. **346 distinct additions are currently locally accepted**,
+PD/CC0-only draft. **373 distinct additions are currently locally accepted**,
 with upload/source/revision, rights declarations, physical
 evidence limits and inspected-sheet hashes retained in
 `frame_gallery/research/commons-expansion-curation-2026-10-09.json`.
 Their full provisional colour data is retained in the corresponding
-`commons-expansion-colours-2026-10-09.json`. Forty-seven selected cases are deferred,
+`commons-expansion-colours-2026-10-09.json`. Fifty-seven selected cases are deferred,
 including baseline identity matches and newly exposed measurement conflicts.
 The previous 127 provisional additions were not frozen: source rechecks removed
 uncertain cases and subsequent actual visual review added different works. No
 baseline entry was changed. This is a partial research milestone, not release
-approval or worldwide copyright clearance. **254 nominal further additions remain.**
+approval or worldwide copyright clearance. **227 nominal further additions remain.**
 
 The latest actual source/preview review added eleven distinct works, including
 W.carter's original digital photomontage and abstract photographic composition,
@@ -112,7 +114,114 @@ The 346 addition IDs/pins are unique, have no baseline-ID overlap and satisfy
 the unchanged original file width/shape gates; all 346 colour profiles match the
 exact acceptance IDs. The unchanged baseline selection SHA256 matches its receipt.
 
-Fourteen decoder/shape refusals and an individual thumbnail timeout are retained
+Four reserves were actually re-viewed under the broader scope and accepted:
+McArdle's independent 1901 San Jacinto version, Carracci's Lamentation, Stanfield's
+Trafalgar and Shen Zhou's fruit-bearing branch. Concrete work IDs are now read
+from literal top-level Artwork/Art Photo fields, not nested Creator/source IDs;
+raw receipts and old sheet evidence remain preserved. A targeted-pool selector
+keeps the next finite metadata pass focused without altering any rights rule.
+The latest targeted metadata pass ended at 15,279 records / 6,684 automatic
+evidence passes. All 472 fractal candidates have observed CC BY-SA declarations
+(471 version 4.0, one 3.0) and stay outside current PD/CC0 admission; no preview
+or acceptance is claimed for them. The fourteenth and fifteenth full rechecks
+passed unchanged, including 5,020 tests / eleven skips, strict Mac/Linux mypy
+and 100% line/branch coverage. Fifty-two offline research tests, Ruff E/F/I and
+format checks passed. A later targeted metadata pass completed at 15,386 records /
+6,736 automatic evidence passes. The next bounded thumbnail pass is in progress; checkpoint
+counts describe the retained completed state, not every pending preview.
+
+The next actual first/second-view review admitted four complete engravings and
+paintings, followed by two source-checked reserves: Kaulbach's Salamis and the
+Berlin Ideal City. These are source-pinned research choices, not release approval.
+No maker was inferred from a signature, file name or category. One attractive
+castle scene remains deferred because its own-photo PD-self statement alone
+does not document the underlying painting's rights basis.
+
+An offline scope correction now prompts on separate CC BY/CC BY-SA declarations
+also in Artwork/Information sources, not only Art Photo. Nine earlier provisional
+additions returned to unresolved status; their source/preview evidence remains
+retained. A literal Dutch Afmetingen pair without units retains only the declared
+ratio and unknown units; this exposed an out-of-band Snyders prospect, which was
+not selected. The baseline has no such separate attribution declaration; its
+400 IDs/pins remain unchanged. All 337 retained profiles shared with commit
+07f6564 are unchanged by ID. The sixteenth full local recheck passed, with the
+same 5,020 tests, eleven skips, strict Mac/Linux mypy and 100% line/branch coverage;
+54 offline research tests and research Ruff/format checks also passed.
+
+The following actual 150-preview first screen and source/second-view checks
+added two complete Utamaro prints, Morelli's small original canvas and Porcellis's
+marine painting. Trimmed Kunisada, conflicting triptych/leaf measurements, a
+cropped tapestry and an unresolved artist-versus-publisher credit are explicit
+deferrals, not count filler. The retained targeted pool now also selects a bounded
+preview pass, keeping completed/refused IDs and rights flags excluded without
+discarding other pools or accepting arbitrary paths. Fifty-five offline research
+tests and the seventeenth full local gates passed (5,020 / eleven skips, strict
+Mac/Linux mypy, 100% line/branch coverage). No runtime catalogue, release or
+live-installation change follows.
+
+The next completed checkpoint records 16,600 metadata records / 6,851 automatic
+evidence passes and 3,742 actually first-viewed previews. Both attractive Chinese
+roll sections remain explicit deferrals. An additional Self positional-licence
+check returned Vernet 6932372 to unresolved status; the full, independently
+source-checked Vernet figure-study drawing 81417885 was admitted. Current totals
+remain 351 additions / 751 local entries, not a frozen 1000-work catalogue.
+All 400 baseline source receipts have no such separate attribution prompt.
+The eighteenth full recheck under execution confinement failed two real setgid
+handover tests (5,018 passed). The two exact tests passed outside confinement,
+and the nineteenth complete recheck then passed (5,020 / eleven platform skips,
+strict Mac/Linux mypy, 100% line/branch coverage); no production code was changed.
+Both logs remain retained; the failed check is not relabelled as a pass.
+One public discovery process was mistakenly started while a thumbnail process
+was still running. The overlapping discovery was terminated, completed receipts
+preserved, and its possible in-flight Lepine query explicitly deferred without
+automatic retry. Subsequent public phases run singly; no credentials or live
+HA/TV access occurred. Later candidate previews are recorded separately below.
+
+The latest completed review checkpoint is 16,707 metadata records / 6,852
+automatic evidence passes and 3,825 actually first-screened previews / 2,954
+first-view deferrals. Sheets 077 and 078 were actually second-viewed. Five
+complete Nooms/Méryon prints, Nooms' Tripolis painting and Guillemet's Villerville
+coast were admitted: 358 additions / 758 local works, 242 nominal additions left.
+Dutch labelled hoogte/breedte supports retain units and scopes; the explicit
+Rijksmuseum maker ends before place/date/commissioner, retaining attribution
+qualifiers. These changes have 59 passing offline research tests. Six actual
+side-by-side comparisons confirmed alternative scans (five baseline paintings
+and one candidate print); their explicit deferrals preserve image/source receipts.
+The unchanged baseline pins and 56 unresolved baseline measurement prompts
+remain. No release, credentials, HA or TV access occurred.
+
+The subsequent actual first/second-view checkpoint retains 371 additions / 771
+local entries, with 229 nominal additions remaining. All 3,987 first-view previews
+and 81 second-view sheets were actually inspected. Source evidence covers 16,905
+records / 6,886 automatic passes; 3,093 first-view deferrals are not admissions.
+The full Nevinson, Shinsai, Breitner/Maris and six subsequently checked graphic/
+architectural works were admitted. Separate-line H/W metric values now expose
+the conflicting original shape of Two Lovers in a Landscape; it is not selected.
+63 offline research tests and Ruff/format checks pass. The generative-art search
+retains two unreviewed candidates; the Tempera pass retained twelve before a
+transport timeout, which blocks automatic replay of that window. Neither count
+means acceptance or complete search coverage. Runtime/release/HA/TV unchanged.
+
+The following source/preview checkpoint admits Mednyánszky's complete Pastier
+svíň after actual second viewing: 372 additions / 772 entries, 228 nominal
+additions remaining. All 3,994 previews are first-screened; 3,098 are deferred.
+Source evidence covers 16,930 records / 6,892 automatic passes. Sheet 081 was
+actually inspected; a Wilhjelm alternative of a baseline work is not selected.
+The twentieth full local check passed (5,020 tests / eleven platform skips,
+strict mypy for Mac/Linux over 251 files each, 100% line/branch coverage).
+No runtime/release/HA/TV change. Research remains incomplete, not frozen.
+
+The last completed checkpoint admits Willem Maris's full Heuvellandschap after
+source-dimension and actual second-view checks: 373 additions / 773 local entries,
+227 nominal additions remaining. All 3,999 previews are actually first-screened;
+3,102 are deferred. Source evidence covers 16,963 records / 6,900 automatic passes.
+Sheet 082 was actually inspected. 2,617 bounded artist-search windows are complete;
+248 nominal windows remain, apart from documented deferrals. This is not global
+Commons coverage. The colour/guide scope stays in view; current runtime is 400.
+The CC BY/CC BY-SA expansion remains an open user decision, not implicitly
+approved by the broader media request. All research is resumable locally.
+
+Decoder/shape refusals and individual thumbnail timeouts are retained
 separately. One targeted search response refusal lacked detail under the older
 tool; its exact query is explicitly deferred, not silently retried. New tools
 save refusal receipts before stopping. Network-deferred works never count as

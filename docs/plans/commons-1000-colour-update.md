@@ -23,19 +23,20 @@ Der Bestand ist `frame_gallery/research/commons-400-selection-2026-10-06.json`. 
 
 Der lokale App-Entwurf enthält inzwischen das einzelne Farbfeld und den geprüften Farbfilter. Der Runtime-Katalog bleibt bei 400 Werken; die veröffentlichte Beta ist unverändert. Ein Wochenendziel ist keine garantierte Fertigstellung: Rechte, Bildqualität und bestandene Prüfungen haben Vorrang vor der Zahl und dem Termin.
 
-Lokaler Zwischenstand: 48 Bestandswerke visuell im Farbpilot geprüft und das Verfahren an dunklem Blau und Ockertönen korrigiert. Alle 400 Bestandswerke besitzen vorläufige Farbprofile mit vollständiger Verteilung und Quellenbeleg. Hinzu kommen **346 derzeit lokal kuratierte neue Werke**, ebenfalls mit vollständigen Farbprofilen. Die private [Farbvorschau](http://127.0.0.1:8881/gallery.html) enthält somit **746 Werke** und lässt sich nach Farbgruppe sowie Bestand oder Neuzugängen filtern. **254 weitere Aufnahmen fehlen noch zum nominellen Ziel.** Die [neue Farbanleitung](commons-colour-user-guide-draft.md) bleibt ein unveröffentlichter Entwurf.
+Lokaler Zwischenstand: 48 Bestandswerke visuell im Farbpilot geprüft und das Verfahren an dunklem Blau und Ockertönen korrigiert. Alle 400 Bestandswerke besitzen vorläufige Farbprofile mit vollständiger Verteilung und Quellenbeleg. Hinzu kommen **373 derzeit lokal kuratierte neue Werke**, ebenfalls mit vollständigen Farbprofilen. Die private [Farbvorschau](http://127.0.0.1:8881/gallery.html) enthält somit **773 Werke** und lässt sich nach Farbgruppe sowie Bestand oder Neuzugängen filtern. **227 weitere Aufnahmen fehlen noch zum nominellen Ziel.** Die [neue Farbanleitung](commons-colour-user-guide-draft.md) bleibt ein unveröffentlichter Entwurf.
 
-Der jüngste feste Metadaten-Prüfstand enthält 14150 zusätzliche Kandidaten
+Der jüngste abgeschlossene Metadaten-Prüfstand enthält 16963 zusätzliche Kandidaten
 mit Quellen-/Rechtemetadaten; nach der quellengebundenen Self-CC0/PD-self-Prüfung bestehen
-6656 die automatische Vorprüfung. Neue Fraktalkunst-Kandidaten werden getrennt
-weiter geprüft. Alle 3446 Vorschauen wurden tatsächlich gesichtet, 2622 dabei zunächst
-zurückgestellt. 66 Kontaktbögen wurden ein zweites Mal
+6900 die automatische Vorprüfung. Die Fraktalkunst-Treffer haben gesonderte
+CC-Lizenzen und bleiben außerhalb der PD/CC0-Aufnahme. Neue Künstler-Kandidaten
+werden weiter geprüft. Alle 3999 Vorschauen des festen Sichtungsstands wurden tatsächlich gesichtet, 3102 dabei zunächst
+zurückgestellt. 83 Kontaktbögen wurden ein zweites Mal
 gesichtet. Zusätzliche Maßangaben im Klartext haben mögliche Ausschnitte sichtbar
 gemacht: Die frühere provisorische 127er-Auswahl wurde entsprechend reduziert
 und durch weitere tatsächlich geprüfte Werke ergänzt. Der aktuelle Stand ist
-346 Aufnahmen, nicht die frühere provisorische Auswahl. 47 ausgewählte Fälle
+373 Aufnahmen, nicht die frühere provisorische Auswahl. 57 ausgewählte Fälle
 bleiben zurückgestellt, darunter
-Duplikate und widersprüchliche Originalmaße. 347 Werk-Identitäten aus den
+Duplikate und widersprüchliche Originalmaße. 307 konkret zugeordnete Werk-Identitäten aus den
 Metadaten des Bestands ergänzen die Titel- und Bildvergleiche. Weitere kleine
 Vorschauen werden gesammelt; der 400er-Bestand bleibt unverändert.
 Einzelne Netzwerk-Ausfälle bleiben separat zurückgestellt und zählen nicht mit.
@@ -112,7 +113,52 @@ und Quellenprüfung. Explizite PD-self-Erklärungen werden anhand der offizielle
 Vorlagen- und Dokumentationsrevision erkannt, nicht aus bloßen Lizenznamen
 abgeleitet. Die private Vorschau wurde mit 746 Einträgen im Browser geprüft.
 
+Unter dem breiteren Kunstbegriff wurden vier frühere Reserven tatsächlich neu
+gesichtet und aufgenommen: McArdles eigenständige 1901er-Fassung von „The Battle
+of San Jacinto“, Carraccis „The Lamentation“, Stanfields „The Battle of Trafalgar“
+und Shen Zhous „Branch of Fruit Bearing Tree“. Künstler-IDs in eingebetteten
+Creator-Vorlagen zählen nicht mehr als Werk-Identitäten; die ursprünglichen
+Quellen bleiben unverändert. Die Farbprofile wurden auf 750 Einträge aktualisiert.
+
+Die folgende echte Zweitsichtung hat sechs weitere vollständige Werke geprüft.
+Ein genauerer Lizenzabgleich hat zugleich neun frühere Vorschläge zurückgestellt:
+Eine separat erklärte Fotolizenz muss auch bei einer „Artwork“-Beschreibung
+geklärt werden, nicht nur bei „Art Photo“. Die lokale Vorschau enthält daher
+747 Einträge, ohne die zurückgestellten Fälle oder ungeprüfte Treffer mitzuzählen.
+54 Offline-Recherchetests und die sechzehnte vollständige lokale Prüfung bestehen.
+Quellen, Vorschauen und die vollständigen Farbanteile der weiterhin ausgewählten
+Werke bleiben erhalten; veröffentlichte App und HA-Installation sind unverändert.
+
+Die jüngste tatsächliche Zweitsichtung nimmt sieben vollständige Grafiken und
+Gemälde auf, darunter Nooms' Blick auf Tripolis und Guillemets Küstenlandschaft
+bei Villerville. Sechs direkte Bildvergleiche bestätigen dagegen zusätzliche
+Scans bereits vorhandener Motive; diese zählen nicht mit. Niederländische
+Höhen-/Breitenangaben behalten ihre Einheiten und den Maßumfang. Auftraggeber,
+Entstehungsort und Datum werden nicht an den Künstlernamen angehängt; vorhandene
+Zuschreibungsqualifikationen bleiben erhalten. 59 Offline-Recherchetests bestehen.
+
 ## Umfang dieses Updates
+
+Die nächste Zweitsichtung nimmt weitere vollständige Gemälde, Grafik und
+architektonische Zeichnungen auf, darunter Nevinsons „Harvest of Battle“,
+Shinsais vollständigen Surimono-Druck, Breitner/Maris und Rummells Princeton.
+Eine attraktive persische Miniatur bleibt dagegen zurückgestellt: Die getrennt
+in Zeilen angegebenen Original-H/W-Maße passen nicht zur breiten Datei. Diese
+Maßangaben werden jetzt ebenso wie Semikolon-Paare geprüft. 63 Offline-Tests
+bestehen; bekannte Medien-Suchpools können begrenzte Prüfläufe gezielt eingrenzen.
+Die Generativkunst-Suche hat zwei ungeprüfte Kandidaten ergeben; ein neuer
+Tempera-Lauf endete nach zwölf Kandidaten an einem dokumentierten Timeout.
+Die betroffene Anfrage wird nicht automatisch wiederholt. Beide Suchzahlen
+zählen nicht als Aufnahmen oder als Nachweis, dass die Werkarten ausgeschöpft sind.
+Mednyánszkys „Pastier svíň“ ist nach tatsächlichem Quellen- und Bildabgleich
+ebenfalls aufgenommen; ein neuer Wilhjelm-Scan gehört dagegen zu einem Werk,
+das schon im Bestand vertreten ist. Die zwanzigste vollständige lokale Prüfung
+besteht unverändert mit 5020 Tests und elf plattformbedingten Auslassungen.
+Willem Maris' vollständiges „Heuvellandschap“ ist ebenfalls quellengebunden und
+zweimal gesichtet aufgenommen. Ein Roelofs-Motiv bleibt wegen abweichender
+Originalmaße draußen. Der begrenzte Künstler-Suchlauf hat 2617 Fenster erledigt;
+248 nominelle Fenster und weitere Medien-Suchläufe sind noch offen. Die Auswahl
+ist deshalb nicht als abgeschlossene Commons-Recherche oder 1000er-Katalog markiert.
 
 ### 1000 tatsächlich unterschiedliche Werke
 
@@ -139,6 +185,14 @@ der Aufnahme getrennt geprüft werden. Eine freie Fotolizenz ist nicht automatis
 eine Freigabe des Kunstwerks ([Commons-Richtlinie zu abgeleiteten Werken](https://commons.wikimedia.org/wiki/Commons:Derivative_works)).
 Eine Erweiterung auf andere Lizenzen wäre eine eigene technische und rechtliche
 Entscheidung, keine stillschweigende Änderung dieses Updates.
+
+Offene Entscheidung für die zeitgenössische Erweiterung: Sollen auch originale
+Werke mit CC BY oder CC BY-SA aufgenommen werden, wenn Namensnennung,
+Lizenzverlinkung und gegebenenfalls Änderungs-/Weitergabehinweise vollständig
+erhalten bleiben? Diese Freigabe liegt noch nicht vor. Die 472 gefundenen
+Fraktalkunst-Kandidaten und zwei Anadol-Ausstellungsaufnahmen sind deshalb keine
+Aufnahmen. Bei Anadol oder Kusama wäre zusätzlich die Freigabe des tatsächlich
+abgebildeten Kunstwerks nötig; die Foto-Lizenz löst diese Frage nicht.
 
 ### Ein Farbfeld für den Nutzer
 

@@ -25,13 +25,13 @@ artwork, not merely the photo. Existing PD/CC0 and format gates remain unchanged
   Broader visual calibration and the 600 additional works remain incomplete.*
 - [ ] Research and visually verify 600 additional distinct eligible works,
   keeping the existing width, ratio, rights and reproduction requirements.
-  *346 additions retained after stricter source-measure checks and actual
-  second-view review; 254 nominal additions remain. All 3446 previews screened,
-  all 400 baseline upload pins checked and 347 artwork QIDs retained. Candidate
+  *373 additions retained after stricter source/licence checks and actual
+  second-view review; 227 nominal additions remain. All 3999 checkpoint previews screened,
+  all 400 baseline upload pins checked and 307 scoped artwork QIDs retained. Candidate
   counts and temporary network deferrals are not accepted-work counts.*
 - [ ] Complete source-bound colour profiles and a reviewable preview for all
   1000 accepted works; preserve baseline IDs/pins and deferred research.
-  *The private preview contains 746 works, including the 346 unpublished
+  *The private preview contains 773 works, including the 373 unpublished
   additions with complete provisional palettes/distributions/top groups. Runtime
   still has 400; extend/freeze it only after 600 genuine additions are complete.*
 - [ ] Resolve the 56 remaining baseline physical-measurement scope prompts before claiming
@@ -49,7 +49,7 @@ artwork, not merely the photo. Existing PD/CC0 and format gates remain unchanged
 - [x] Test and document the local draft's upgrade/no-match/unsupported-source behaviour and run
   the unchanged quality gates; record observed results in STATUS.
   *5,020 passed, eleven platform skips, strict mypy for Mac/Linux, 100% line/branch
-  coverage; thirteen research tests. Draft guide is local, published b5 unchanged.
+  coverage; 63 current offline research tests. Draft guide is local, published b5 unchanged.
   Repeat catalogue-specific checks after the genuine 1000-work freeze.*
 - [ ] Obtain separate approval for native release builds/publication and
   separately for a Green update/TV test; do not infer either from local work.

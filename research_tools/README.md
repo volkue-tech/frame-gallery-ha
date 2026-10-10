@@ -3,7 +3,7 @@
 This tooling is outside the runtime package. No credentials, original-image
 downloads, Home Assistant access or television access are needed. It does not
 automatically approve catalogue additions. Explicit second-view choices retain
-346 retained local research acceptances; the current released/runtime catalogue
+373 retained local research acceptances; the current released/runtime catalogue
 has 400. The earlier provisional 127 were reduced after plain source measurements
 exposed additional possible crops; subsequent actual visual reviews added other
 works. Use the checkpoint/curation manifest for the current count, not this history.
@@ -53,7 +53,11 @@ saves progress. Discovery files overlap: never add their totals together.
 ```sh
 frame_gallery/.venv/bin/python research_tools/commons_review.py counts
 frame_gallery/.venv/bin/python research_tools/commons_review.py metadata --limit 1000
+frame_gallery/.venv/bin/python research_tools/commons_review.py metadata --limit 150 --pool targeted
 frame_gallery/.venv/bin/python research_tools/commons_review.py thumbnails --limit 315
+frame_gallery/.venv/bin/python research_tools/commons_review.py thumbnails --limit 150 --pool targeted
+frame_gallery/.venv/bin/python -m research_tools.commons_review metadata --limit 150 --pool lithograph
+frame_gallery/.venv/bin/python -m research_tools.commons_review thumbnails --limit 150 --pool lithograph
 frame_gallery/.venv/bin/python research_tools/commons_review.py sheets
 frame_gallery/.venv/bin/python -m research_tools.commons_curation fingerprints
 frame_gallery/.venv/bin/python -m unittest research_tools.test_commons_colours
@@ -126,7 +130,31 @@ Official PD-self template/documentation revisions are retained in the template
 evidence manifest. Recognition of that explicit author dedication stays within
 PD/CC0 screening; it neither recognizes PD-author nor clears someone else's
 artwork in a photograph. Source-caption title and maker improvements retain the
-original raw credit and are covered by the 50 offline research tests.
+original raw credit and are covered by the 63 offline research tests. The retained
+targeted or exact known single-subject pool selector narrows metadata or preview work without accepting arbitrary paths,
+changing licences or removing other pools. Literal top-level Artwork/Art Photo
+Wikidata fields are separate from nested Creator/source IDs; the latter are not
+artwork identity evidence. Retained title and perceptual comparisons still matter.
+
+Separate attribution/share-alike declarations prompt for licence-scope review
+regardless of whether the source uses Artwork, Information or Art Photo. Nine
+provisional choices were returned to unresolved status by this correction;
+absence of the Art Photo wrapper is not a licence exception.
+Self licence declarations are checked in every positional slot, including after
+another licence and a nested author field; named author values are not licences.
+The additional check returned one provisional Vernet reproduction to unresolved
+status; a distinct full Vernet drawing was inspected and admitted separately.
+Explicit Dutch Afmetingen number pairs without units retain their ratio and unknown units;
+neither centimetres nor arbitrary unlabelled number-pair dimensions are invented.
+Dutch labelled hoogte/breedte supports retain their units and do not substitute
+object depth for image height. Explicit Rijksmuseum maker fields stop before
+place, date and commissioner, while preserving attribution/signature qualifiers.
+An empty artist field in an explicitly declared Rijksmuseum source may use its
+explicit maker statement; unrelated institutions, unknown makers and nonempty
+credits are not overwritten. Separate-line H/W metric axes are retained as well
+as semicolon pairs; missing original dimensions must not be claimed when these
+are present. A short literal source caption can replace a technical MET DP image
+identifier, but never a genuine title or unexpanded/link markup.
 
 The public revision API also verified PD-old-auto-1923, PD-old-70-1923 and
 PD-art-old-100-expired against their canonical declarations. Page/revision IDs

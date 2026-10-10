@@ -29,6 +29,68 @@ def qids(markup: str) -> set[str]:
     return set(re.findall(r"wikidata\.org/wiki/(Q[0-9]+)(?:#P1476|[\"'])", markup))
 
 
+def declared_artwork_qids(wikitext: str) -> set[str]:
+    """Read the work's own field, not a nested Creator's Wikidata identity.
+
+    Retained markup is not expanded. Only a literal QID in a top-level field of
+    Artwork/Art Photo is evidence; nested sources, examples and maker IDs stay
+    out of the artwork-duplicate map. Ambiguous expressions remain unresolved.
+    """
+    markup = source_markup(wikitext)
+    result = set()
+    for outer in re.finditer(r"\{\{\s*(?:Artwork|Art Photo)\b", markup, re.I):
+        depth, start = 1, outer.end()
+        for token in re.finditer(r"\{\{|}}|\|", markup[outer.end() :]):
+            end = outer.end() + token.start()
+            if depth == 1 and token[0] in ("|", "}}"):
+                field = re.fullmatch(
+                    r"\s*wikidata\s*=\s*(Q[0-9]+)\s*", markup[start:end], re.I
+                )
+                if field:
+                    result.add(field[1])
+                start = end + len(token[0])
+            if token[0] == "{{":
+                depth += 1
+            elif token[0] == "}}":
+                depth -= 1
+                if depth == 0:
+                    break
+    return result
+
+
+def separate_attribution_declaration(text: str) -> bool:
+    """Conservative scope prompt, not a determination of copyright subsistence.
+
+    A separately declared self/CC-BY reproduction does not cease to require
+    review merely because its description uses Artwork rather than Art Photo.
+    Comments and literal examples are not active declarations.
+    """
+    markup = source_markup(text)
+    if re.search(r"\{\{\s*cc-by(?:-sa)?-[0-9]", markup, re.I):
+        return True
+    # Self may offer multiple positional licences. Inspect each top-level
+    # field, not only the first licence or a named author/example value.
+    for outer in re.finditer(r"\{\{\s*self\b", markup, re.I):
+        depth, start = 1, outer.end()
+        for token in re.finditer(r"\{\{|}}|\|", markup[outer.end() :]):
+            end = outer.end() + token.start()
+            if depth == 1 and token[0] in ("|", "}}"):
+                if re.fullmatch(
+                    r"\s*cc-by(?:-sa)?-[0-9]+(?:\.[0-9]+)*(?:-[a-z]+)?\s*",
+                    markup[start:end],
+                    re.I,
+                ):
+                    return True
+                start = end + len(token[0])
+            if token[0] == "{{":
+                depth += 1
+            elif token[0] == "}}":
+                depth -= 1
+                if depth == 0:
+                    break
+    return False
+
+
 def physical(text: str) -> list[dict]:
     result = []
 
@@ -96,6 +158,56 @@ def physical(text: str) -> list[dict]:
     )
     for field in dimensions:
         labelled = field.replace("'''", "").replace("''", "")
+        for match in re.finditer(
+            r"\bhoogte\s+(?:ca\.\s*)?([0-9]+(?:[.,][0-9]+)?)\s*(cm|mm)\.?"
+            r"\s*[x×]\s*breedte\s+(?:ca\.\s*)?([0-9]+(?:[.,][0-9]+)?)"
+            r"\s*(cm|mm)\b",
+            labelled,
+            re.I,
+        ):
+            height = float(match[1].replace(",", ".")) * (
+                10 if match[2].lower() == "cm" else 1
+            )
+            width = float(match[3].replace(",", ".")) * (
+                10 if match[4].lower() == "cm" else 1
+            )
+            if min(height, width) > 0:
+                result.append(
+                    dict(
+                        raw=field.strip(),
+                        width=width,
+                        height=height,
+                        ratio=width / height,
+                        interpretation="explicit Dutch hoogte/breedte axes; "
+                        "original support/frame scope retained",
+                    )
+                )
+        # A Dutch museum description can explicitly label dimensions without
+        # specifying units. Preserve only the ratio and say that units are
+        # unknown; do not infer centimetres or accept arbitrary number pairs.
+        for match in re.finditer(
+            r"\bAfmetingen:\s*([0-9]+(?:[.,][0-9]+)?)\s*[x×]\s*"
+            r"([0-9]+(?:[.,][0-9]+)?)(?![0-9.,])",
+            labelled,
+            re.I,
+        ):
+            if not two_unlabelled_axes(labelled, match):
+                continue
+            following = labelled[match.end() :].lstrip()
+            if re.match(r"(?:cm|mm|in\b|inches\b|\")", following, re.I):
+                continue
+            a, b = float(match[1].replace(",", ".")), float(match[2].replace(",", "."))
+            if min(a, b) > 0:
+                result.append(
+                    dict(
+                        raw=field.strip(),
+                        width=max(a, b),
+                        height=min(a, b),
+                        ratio=max(a, b) / min(a, b),
+                        interpretation="explicit Afmetingen pair; units unspecified; "
+                        "scope retained, landscape observed visually",
+                    )
+                )
         for match in re.finditer(
             r"\bHeight:\s*\{\{size\s*\|\s*(cm|mm)\s*\|\s*"
             r"([0-9]+(?:[.,][0-9]+)?)\s*}}\s*(?:drager\s+)?"
@@ -189,7 +301,7 @@ def physical(text: str) -> list[dict]:
                     )
                 )
         for match in re.finditer(
-            r"\b(?:H|Height)\.?\s+([^;|\n]+);\s*"
+            r"\b(?:H|Height)\.?\s+([^;|\n]+)(?:;\s*|\n\s*)"
             r"(?:W|Width)\.?\s+([^;|\n]+)",
             field,
             re.I,
@@ -324,9 +436,7 @@ def dossiers() -> None:
                     baseline_qids[q] = page["pageid"]
             for revision in page.get("revisions", []):
                 text = revision.get("slots", {}).get("main", {}).get("content", "")
-                for q in re.findall(
-                    r"\|\s*wikidata\s*=\s*(Q[0-9]+)", text, re.IGNORECASE
-                ):
+                for q in declared_artwork_qids(text):
                     baseline_qids[q] = page["pageid"]
     profiles = {
         w["id"]: w
@@ -362,9 +472,7 @@ def dossiers() -> None:
             .get("ObjectName", {})
             .get("value", "")
         )
-        item_qids = qids(raw_name) | set(
-            re.findall(r"\|\s*wikidata\s*=\s*(Q[0-9]+)", text, re.IGNORECASE)
-        )
+        item_qids = qids(raw_name) | declared_artwork_qids(text)
         measures = physical(text)
         ratio = work["width"] / work["height"]
         flags = list(work["reasons"])
@@ -382,12 +490,10 @@ def dossiers() -> None:
                 "recorded physical proportions outside requested 2.5% band; "
                 "measurement scope/crop unresolved"
             )
-        if re.search(r"\{\{\s*Art Photo\b", text, re.I) and re.search(
-            r"\{\{\s*(?:self\s*\|\s*)?cc-by", text, re.I
-        ):
+        if separate_attribution_declaration(text):
             flags.append(
-                "Art Photo declares a separate attribution/share-alike "
-                "photographic license; PD/CC0-only scope unresolved"
+                "Source declares attribution/share-alike reproduction rights; "
+                "PD/CC0-only licence scope unresolved"
             )
         size = profile.get("oriented_dimensions")
         if not size or abs(size[0] / size[1] / (16 / 9) - 1) > 0.025:

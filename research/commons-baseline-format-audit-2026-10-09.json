@@ -1,6 +1,6 @@
 {
   "schema": 1,
-  "recorded_at": "2026-10-09T22:46:04.700407+00:00",
+  "recorded_at": "2026-10-10T00:40:28.466432+00:00",
   "status": "offline source audit only; baseline/catalogue/history unchanged",
   "baseline_sha256": "582c6abb664d49cc172d208f7bd701b14677e5b31d79b35e5aa4a48fc68af057",
   "source_revisions_checked": 400,
@@ -2631,6 +2631,13 @@
           "height": 590.0,
           "ratio": 1.7627118644067796,
           "interpretation": "explicit Height/Width single-axis Size templates; measurement scope retained"
+        },
+        {
+          "raw": "{{nl|1=Watervogels. Een groepje ganzen, eenden en een reiger bij de waterkant. Tussen het gebladerte op de voorgrond zit een kikker en vliegen vlinders en libellen. Op de achtergrond een rivierlandschap met een vervallen toren.}}\n{{nl|1=<br><br><big>'''Identificatie'''</big><br>'''Titel(s): '''Watervogels<br>'''Objecttype:''' schilderij <br>'''Objectnummer:''' SK-A-1322<br>'''Opschriften / Merken:''' signatuur en datum, linksonder: ‘GDH 1652’<br>'''Omschrijving:''' Watervogels. Een groepje ganzen, eenden en een reiger bij de waterkant. Tussen het gebladerte op de voorgrond zit een kikker en vliegen vlinders en libellen. Op de achtergrond een rivierlandschap met een vervallen toren.<br><br><big>'''Vervaardiging'''</big><br>'''Vervaardiger:''' schilder: Gijsbert Gillisz. de Hondecoeter (vermeld op object)<br>'''Datering:''' 1652<br>'''Fysieke kenmerken:''' olieverf op paneel<br>'''Materiaal:''' paneel olieverf <br>'''Afmetingen:''' drager: hoogte 57,6 cm.  × breedte 102,2 cm. buitenmaat: diepte 5,5 cm.  (drager incl. SK-L-4185)<br><br><big>'''Onderwerp'''</big><br>'''Wat: '''water-birds<br><br><big>'''Verwerving en rechten'''</big><br>'''Verwerving:''' aankoop 1886<br>'''Copyright:''' Publiek domein}}",
+          "width": 1022.0,
+          "height": 576.0,
+          "ratio": 1.7743055555555556,
+          "interpretation": "explicit Dutch hoogte/breedte axes; original support/frame scope retained"
         }
       ],
       "review_prompts": [],
