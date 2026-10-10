@@ -1,0 +1,26 @@
+{
+  "schema": 1,
+  "recorded_at": "2026-10-10T10:33:48.835156+00:00",
+  "status": "offline research consistency only; no runtime freeze or release approval",
+  "input_sha256": {
+    "baseline": "582c6abb664d49cc172d208f7bd701b14677e5b31d79b35e5aa4a48fc68af057",
+    "baseline_colours": "0f3da49220d8831b900bbe9d855c74c95d27db4f001f65f8c3a7822a5d0191f7",
+    "curation": "977aef8d814ad3926c93a86f81f4432901b66c64a96418d01ab8adea6ed62246",
+    "new_colours": "7807042b027012511e48f542020c159e1ca83af32c7c3d9f53b78175b881cc11",
+    "baseline_audit": "4fb27f67bd07691c8be6823b69334b203a8b749300520cce41ea36fb4a5f67f2"
+  },
+  "baseline_count": 400,
+  "accepted_additions": 663,
+  "profiles_verified": 1063,
+  "blue_additions": 290,
+  "unique_ids_and_upload_pins": true,
+  "complete_palette_and_distribution_recomputed": true,
+  "source_evidence_matches": true,
+  "local_reviewed_total": 1063,
+  "remaining_additions": 0,
+  "nominal_reserve_count": 63,
+  "unresolved_baseline_count": 56,
+  "count_without_unresolved_baseline": 1007,
+  "remaining_without_unresolved_baseline": 0,
+  "reserve_without_unresolved_baseline": 7
+}

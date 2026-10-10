@@ -213,6 +213,27 @@ def fingerprints() -> None:
     )
 
 
+def catalogue_counts(
+    baseline_count: int, additions: int, unresolved_baseline: int, target: int = 1000
+) -> dict[str, int]:
+    """Planning counts only: unresolved entries remain in the unchanged baseline."""
+    if min(baseline_count, additions, unresolved_baseline, target) < 0:
+        raise ValueError("catalogue counts must be nonnegative")
+    if unresolved_baseline > baseline_count:
+        raise ValueError("unresolved count exceeds baseline")
+    nominal = baseline_count + additions
+    without_unresolved = nominal - unresolved_baseline
+    return dict(
+        local_reviewed_total=nominal,
+        remaining_additions=max(0, target - nominal),
+        nominal_reserve_count=max(0, nominal - target),
+        unresolved_baseline_count=unresolved_baseline,
+        count_without_unresolved_baseline=without_unresolved,
+        remaining_without_unresolved_baseline=max(0, target - without_unresolved),
+        reserve_without_unresolved_baseline=max(0, without_unresolved - target),
+    )
+
+
 def checkpoint() -> None:
     """Retain a compact tracked receipt; raw pages/JPEGs stay private in build/."""
     review_path = OUTPUT / "review.json"
@@ -244,6 +265,15 @@ def checkpoint() -> None:
     )
     curated = json.loads(curated_path.read_text()) if curated_path.exists() else {}
     accepted_count = len(curated.get("included", []))
+    baseline_audit_path = (
+        ROOT / "research/commons-baseline-format-audit-2026-10-09.json"
+    )
+    audit = json.loads(baseline_audit_path.read_text())
+    if audit["baseline_sha256"] != hashlib.sha256(BASELINE.read_bytes()).hexdigest():
+        raise ValueError("baseline audit does not describe current selection")
+    counts = catalogue_counts(
+        400, accepted_count, audit["unresolved_measurement_prompts"]
+    )
     snapshot = dict(
         schema=1,
         recorded_at=datetime.now(UTC).isoformat(),
@@ -251,8 +281,11 @@ def checkpoint() -> None:
         baseline_count=400,
         target_total=1000,
         accepted_additions=accepted_count,
-        local_reviewed_total=400 + accepted_count,
-        remaining_additions=600 - accepted_count,
+        **counts,
+        baseline_audit_sha256=hashlib.sha256(
+            baseline_audit_path.read_bytes()
+        ).hexdigest(),
+        baseline_selection_change_authorized=False,
         accepted_receipt_sha256=hashlib.sha256(curated_path.read_bytes()).hexdigest()
         if curated_path.exists()
         else None,
@@ -272,8 +305,10 @@ def checkpoint() -> None:
         required_next_checks=[
             "remaining visual review and distinct physical artwork identities",
             "source/proportion/provenance and rights-basis decisions",
-            f"{600 - accepted_count} additional actual approvals plus complete "
-            "source-bound colour profiles",
+            f"{counts['remaining_without_unresolved_baseline']} further acceptances "
+            "needed without relying on unresolved baseline cases; complete "
+            "source-bound colour profiles and explicit baseline decision "
+            "still required",
             "full catalogue/preview/documentation and native release gates",
         ],
         private_cache=(

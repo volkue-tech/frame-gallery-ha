@@ -3,6 +3,99 @@
   "status": "Source-bound local curation notes, not worldwide legal clearance or release approval",
   "records": [
     {
+      "id": 82990666,
+      "source_revision": 977289172,
+      "source_markup_sha256": "e1f005ce366d33e53a1a8420a532497c8e4a43f535a0a3a5600a3a4dffcc8f2a",
+      "observation": "The complete Own/Self CC0 source explicitly declares a six-photo focus stack. The functional jetty-and-ladders photograph was inspected on first and second boards; retain the photographer's processing declaration.",
+      "limits": "Original photographic composition, not an unretouched-image claim or blanket clearance of third-party art."
+    },
+    {
+      "id": 88511742,
+      "source_revision": 1231554122,
+      "source_markup_sha256": "91322ca29608eb5be9ce73ef079715f97d689046ad92cc2598733096e67bb200",
+      "observation": "The complete Own/Self CC0 source declares a two-photo HDR. Actually compared with accepted 88511744: this is the moon within clouds, whereas that earlier image is a separate shore-and-water composition. Both are whole original photographs, not alternate painting scans.",
+      "limits": "Do not describe the selected source as unprocessed; photographic-scene comparison is not a fingerprint waiver."
+    },
+    {
+      "id": 89343393,
+      "source_revision": 1018248346,
+      "source_markup_sha256": "962e009342f0d3a2a3ade2282c60ae7149e4b666c41078c9df39565b73a7f609",
+      "observation": "The fully read Own/Self CC0 source explains a compilation of thirteen thirty-second exposures while stirring naturally bioluminescent plankton. Both visual boards were inspected. The linked reference and first-series photographs are not additional admissions.",
+      "limits": "Retain the creator's composite-method description; do not call it a single unretouched exposure."
+    },
+    {
+      "id": 88012207,
+      "source_revision": 1262090702,
+      "source_markup_sha256": "35ea9160e88f6a5dce0f46c779fe16820055c642ec50504ae50d68ae88c8805e",
+      "observation": "The complete Own/Self CC0 source describes a separately post-edited, high-contrast black-and-white reed-and-water composition. Only this version was selected, not its linked colour or inverted alternatives.",
+      "limits": "Creator-supplied processing retained; monochrome does not imply a different underlying artwork."
+    },
+    {
+      "id": 90459708,
+      "source_revision": 974587703,
+      "source_markup_sha256": "a39bf3acad3e334a33c92264891f68b7ec379031a9eb7be7ee28b76348ff481f",
+      "observation": "The complete Own/Self CC0 source explicitly declares debris and surface-bubble removal. Actually compared with accepted 90490805: this is a gold/red algae composition, while the other contains a prominent translucent jellyfish. File IDs alone were not used as subject evidence.",
+      "limits": "Do not call either image unretouched or infer rights in unrelated third-party works."
+    },
+    {
+      "id": 82616908,
+      "source_revision": 1168705167,
+      "source_markup_sha256": "70b7515e48bd71434c5fe7507df69814311a7a61b8bb3660259fdee09ebc1105",
+      "observation": "The complete Own/Self CC0 source declares removal of spider web and dust specks from the rose photograph. The complete original composition was inspected twice; processing belongs to the source photographer, not the app.",
+      "limits": "No unretouched-source claim or acceptance of linked alternatives."
+    },
+    {
+      "id": 58376602,
+      "observation": "Actually compared with accepted 58376597. Both show a very similar cherry-bud branch against blue sky. The newer candidate is left unselected to avoid near-repetitive photographic compositions.",
+      "limits": "Curatorial variety decision, not a rights failure, source deletion or automatic hash rejection."
+    },
+    {
+      "id": 88187357,
+      "observation": "Actually compared with accepted 88187368. The earlier photograph is a whole bay with moonlight reflected on water; this is a separately framed close view of the half moon in warm clouds.",
+      "limits": "Observed composition distinction only; source and preview pins remain independently required."
+    },
+    {
+      "id": 76782339,
+      "observation": "Actually compared with accepted 92248527. This pink lion's-mane jellyfish and starfish composition is distinct from the earlier translucent moon-jellyfish photograph, not an alternate angle of that same depicted scene.",
+      "limits": "Visual comparison, not an automatic identity exemption."
+    },
+    {
+      "id": 74955529,
+      "source_revision": 963644890,
+      "source_markup_sha256": "7f47b54d5b71c865bc426c1c723d3b652dd06f281adaa769d01fd5599f2e30af",
+      "observation": "The complete Own/Self CC0 source explicitly describes a seven-photo focus stack. Both first and second visual boards were inspected. This is the photographer's original moss-and-lichen composition, not a reproduction of third-party artwork.",
+      "limits": "Source-supplied processing is retained; do not call it a single unretouched exposure."
+    },
+    {
+      "id": 69809804,
+      "observation": "Actually compared with accepted 69809805. Both are very similar views of the same stacked I-beams; the new variant is left unselected.",
+      "limits": "Curatorial near-variant decision, not a rights failure or baseline change."
+    },
+    {
+      "id": 76097836,
+      "observation": "Actually compared with accepted 76097838. These show near-repetitive cumulus-cloud compositions; the new variant is left unselected.",
+      "limits": "No extra work counted for a near-alternative view."
+    },
+    {
+      "id": 80015361,
+      "observation": "Actually compared with accepted 80015362. The new photograph shows a complete boat beside a jetty, whereas the earlier one shows shore rocks and water. The numeric adjacency is not evidence of scene identity.",
+      "limits": "Observed composition distinction; each retains independent source and upload pins."
+    },
+    {
+      "id": 89468935,
+      "source_revision": 1213000266,
+      "source_markup_sha256": "0c50feb1c247df4587fc0478da027b4c60e1c887da46cf0c0cc4bb833a4c90c0",
+      "observation": "Actually compared with accepted 89468931 and 89467671. The new distant gold-sky reflection differs from the earlier close reed-lined creek reflection and the foreground-tree sunset. Own/Self CC0 and the complete composition were read and inspected twice.",
+      "limits": "Same locality does not itself prove duplication or distinctness; the actual compositions were compared."
+    },
+    {
+      "id": 89796716,
+      "source_revision": 1099978628,
+      "source_markup_sha256": "3c3a65d17fd36601007db85eb2beb94a1ecf3ea0082d766b83add4c863c75252",
+      "observation": "The source identifies the original garden-pond bubble composition and separately links an extracted cropped version. Only the original upload was inspected and selected, not that linked crop.",
+      "limits": "No claim that the unselected alternative was reviewed or accepted."
+    },
+    {
       "id": 90490805,
       "source_revision": 905605033,
       "source_markup_sha256": "a644587510f640b0c5014d5a76edd2f5814bcf7cab4ee3fdb10e3ce6764789ea",

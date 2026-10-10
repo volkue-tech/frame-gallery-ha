@@ -127,7 +127,7 @@ def render() -> None:
         "grid-template-columns:repeat(2,minmax(0,1fr));gap:24px}"
         "article{background:light-dark(white,#1c232c);border-radius:16px;"
         "overflow:hidden;border:1px solid light-dark(#deddd7,#344050)}"
-        ".picture{background:#090c10;height:330px;display:flex;"
+        ".picture{background:#090c10;aspect-ratio:16/9;display:flex;"
         "align-items:center;justify-content:center}"
         ".picture img{width:100%;height:100%;object-fit:contain}"
         ".body{padding:22px}.number{font-size:13px;opacity:.7}"
@@ -138,12 +138,14 @@ def render() -> None:
         "line-height:1.6;opacity:.85}a{color:light-dark(#07678e,#88d3ff)}"
         "footer{margin:32px 0;line-height:1.7}"
         "@media(max-width:780px){body{padding:18px}"
-        ".grid{grid-template-columns:1fr}.picture{height:260px}}"
+        ".grid{grid-template-columns:1fr}}"
         '</style><header><a href="gallery.html">← Zur gesamten Vorschau</a>'
         "<h1>10 Stichproben aus dem bisherigen Katalog</h1>"
         "<p>Bewusst gemischte Beispiele aus den 56 ungeklärten Bestandsfällen: "
         "knappe Grenzfälle, bekannte Künstler und größere Formatabweichungen. "
         "Alle gezeigten Dateien selbst liegen innerhalb unseres bisherigen 16:9-Bands. "
+        "Die Bildfelder haben auf jeder Fensterbreite exakt 16:9; "
+        "die Vorschau selbst fügt keine zusätzlichen breiteren Felder hinzu. "
         "Die Prüfung wurde durch abweichende "
         "<em>angegebene Werkmaße</em> ausgelöst.</p>"
         '<div class="notice"><strong>Kein bewiesener Beschnitt.</strong> '
@@ -161,6 +163,14 @@ def render() -> None:
         "Die Bilder werden hier vollständig mit contain angezeigt, "
         "nicht zugeschnitten.</footer></html>"
     )
+    for name in ("legacy-samples.html", "legacy-samples-receipt.json"):
+        previous = OUTPUT / name
+        if previous.exists():
+            payload = previous.read_bytes()
+            digest = hashlib.sha256(payload).hexdigest()
+            archive = OUTPUT / f"retained-{digest}-{name}"
+            if not archive.exists():
+                archive.write_bytes(payload)
     (OUTPUT / "legacy-samples.html").write_text(markup)
     (OUTPUT / "legacy-samples-receipt.json").write_text(
         json.dumps(

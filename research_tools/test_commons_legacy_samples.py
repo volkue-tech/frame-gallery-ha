@@ -60,6 +60,9 @@ class LegacySampleTests(unittest.TestCase):
             self.assertIn("&lt;script&gt;", markup)
             self.assertIn("Example &lt;Artist&gt;", markup)
             self.assertIn("object-fit:contain", markup)
+            self.assertIn("aspect-ratio:16/9", markup)
+            self.assertNotIn("height:330px", markup)
+            self.assertNotIn("height:260px", markup)
             self.assertIn("Kein bewiesener Beschnitt", markup)
             self.assertIn("Special:Redirect/page/123", markup)
             self.assertEqual(receipt.read_bytes(), original)
@@ -96,6 +99,23 @@ class LegacySampleTests(unittest.TestCase):
             with self.assertRaisesRegex(ValueError, "thumbnail differs"):
                 self.render_fixture(root, output)
             self.assertFalse((output / "legacy-samples.html").exists())
+
+    def test_regeneration_retains_the_previous_page_and_receipt(self):
+        with TemporaryDirectory() as directory:
+            root = Path(directory)
+            output, _ = self.fixture(root)
+            old_html = b"previous locally displayed page"
+            old_receipt = b"previous locally displayed receipt"
+            (output / "legacy-samples.html").write_bytes(old_html)
+            (output / "legacy-samples-receipt.json").write_bytes(old_receipt)
+            self.render_fixture(root, output)
+            for name, payload in (
+                ("legacy-samples.html", old_html),
+                ("legacy-samples-receipt.json", old_receipt),
+            ):
+                digest = hashlib.sha256(payload).hexdigest()
+                archive = output / f"retained-{digest}-{name}"
+                self.assertEqual(archive.read_bytes(), payload)
 
     def test_real_sample_plan_has_ten_unique_ids_without_a_selection_mutation(self):
         self.assertEqual(len(subject.SAMPLES), 10)

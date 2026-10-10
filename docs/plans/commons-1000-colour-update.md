@@ -22,7 +22,7 @@ Der Bestand ist `frame_gallery/research/commons-400-selection-2026-10-06.json`. 
 - [x] Produktumfang, Reihenfolge und Abnahmekriterien festgehalten.
 - [x] Vollständige Repository-Pflichtlektüre und anschließender technischer Änderungsentwurf.
 - [x] Farbprofil-Pilot mit visuellem Abgleich.
-- [ ] 600 zusätzliche Werke recherchiert und geprüft.
+- [x] Mindestens 600 zusätzliche Werke recherchiert und geprüft.
 - [ ] Farbprofile und lokale Vorschau für alle 1000 Werke vollständig.
 - [x] Farbauswahl lokal am 400-Werke-Bestand umgesetzt und getestet.
 - [ ] Dokumentation und Releasekandidat geprüft.
@@ -31,19 +31,19 @@ Der Bestand ist `frame_gallery/research/commons-400-selection-2026-10-06.json`. 
 
 Der lokale App-Entwurf enthält inzwischen das einzelne Farbfeld und den geprüften Farbfilter. Der Runtime-Katalog bleibt bei 400 Werken; die veröffentlichte Beta ist unverändert. Ein Wochenendziel ist keine garantierte Fertigstellung: Rechte, Bildqualität und bestandene Prüfungen haben Vorrang vor der Zahl und dem Termin.
 
-Lokaler Zwischenstand: 48 Bestandswerke visuell im Farbpilot geprüft und das Verfahren an dunklem Blau und Ockertönen korrigiert. Alle 400 Bestandswerke besitzen vorläufige Farbprofile mit vollständiger Verteilung und Quellenbeleg. Hinzu kommen **592 derzeit lokal kuratierte neue Werke**, ebenfalls mit vollständigen Farbprofilen. Die private [Farbvorschau](http://127.0.0.1:8881/gallery.html) enthält somit **992 nominelle Einträge** und lässt sich nach Farbgruppe sowie Bestand oder Neuzugängen filtern. **Acht weitere Aufnahmen fehlen zum nominellen Ziel.** Ohne die 56 ungeklärten Bestandsfälle mitzuzählen sind es 936; dafür fehlen noch 64 geprüfte Aufnahmen. Eine Zurückstellung dieser Bestandsfälle ist noch nicht freigegeben. Die [neue Farbanleitung](commons-colour-user-guide-draft.md) bleibt ein unveröffentlichter Entwurf.
+Lokaler Zwischenstand: 48 Bestandswerke visuell im Farbpilot geprüft und das Verfahren an dunklem Blau und Ockertönen korrigiert. Alle 400 Bestandswerke besitzen vorläufige Farbprofile mit vollständiger Verteilung und Quellenbeleg. Hinzu kommen **663 derzeit lokal kuratierte neue Werke**, ebenfalls mit vollständigen Farbprofilen. Die private [Farbvorschau](http://127.0.0.1:8881/gallery.html) enthält somit **1063 nominelle Einträge** und lässt sich nach Farbgruppe sowie Bestand oder Neuzugängen filtern. Ohne die 56 ungeklärten Bestandsfälle mitzuzählen sind es **1007**: Die Zusatzrecherche reicht zahlenmäßig aus, ohne diese offenen Fälle vorauszusetzen. Eine Zurückstellung dieser Bestandsfälle ist noch nicht freigegeben; endgültige Auswahl und Runtime-Export bleiben offen. Die [neue Farbanleitung](commons-colour-user-guide-draft.md) bleibt ein unveröffentlichter Entwurf.
 
 Der jüngste abgeschlossene Metadaten-Prüfstand enthält 18662 zusätzliche Kandidaten
 mit Quellen-/Rechtemetadaten; nach der quellengebundenen Self-CC0/PD-self-Prüfung bestehen
 8092 die automatische Vorprüfung. Die Fraktalkunst-Treffer haben gesonderte
 CC-Lizenzen und werden seit der gesonderten Freigabe getrennt geprüft; sie zählen
 noch nicht als Aufnahmen. Neue Künstler-Kandidaten
-werden weiter geprüft. Alle 5148 Vorschauen des festen Sichtungsstands wurden tatsächlich gesichtet, 3975 dabei zunächst
-zurückgestellt. 115 Kontaktbögen wurden ein zweites Mal
+werden weiter geprüft. Alle 5432 Vorschauen des festen Sichtungsstands wurden tatsächlich gesichtet, 4172 dabei zunächst
+zurückgestellt. 123 Kontaktbögen wurden ein zweites Mal
 gesichtet. Zusätzliche Maßangaben im Klartext haben mögliche Ausschnitte sichtbar
 gemacht: Die frühere provisorische 127er-Auswahl wurde entsprechend reduziert
 und durch weitere tatsächlich geprüfte Werke ergänzt. Der aktuelle Stand ist
-592 Aufnahmen, nicht die frühere provisorische Auswahl. 58 ausgewählte Fälle
+663 Aufnahmen, nicht die frühere provisorische Auswahl. 58 ausgewählte Fälle
 bleiben zurückgestellt, darunter
 Duplikate und widersprüchliche Originalmaße. 307 konkret zugeordnete Werk-Identitäten aus den
 Metadaten des Bestands ergänzen die Titel- und Bildvergleiche. Weitere kleine
@@ -51,6 +51,14 @@ Vorschauen werden gesammelt; der 400er-Bestand bleibt unverändert.
 Einzelne Netzwerk-Ausfälle bleiben separat zurückgestellt und zählen nicht mit.
 Prüfstand und Aufnahmebelege sind lokal gesichert; keine Kandidatenzahl ersetzt
 600 echte Aufnahmeentscheidungen oder die spätere Releaseprüfung.
+
+Die letzten Zweitsichtungen ergänzen 48 und 23 eigenständige CC0-Fotokompositionen.
+Ähnliche I-Träger- und Wolkenvarianten sowie schwächere Dokumentationsmotive
+bleiben ungezählt. Fokus-Stacking und verlinkte Ausschnitt-Alternativen werden
+in den Quellenbelegen ausdrücklich beschrieben; ausgewählt ist jeweils nur die
+geprüfte Originalkomposition. Die aktuelle Browserprüfung bestätigt 663 Neuzugänge
+und 290 blaue Neuzugänge; die Filter sind danach auf die ganze Sammlung gesetzt.
+Bestandsdatei, veröffentlichte App und Sendeverlauf bleiben unverändert.
 
 Die genehmigte CC-Recherche hat daneben 90 kleine Vorschauen tatsächlich gesichtet
 und vollständige Lizenz-/Quellenangaben gesichert. 21 interessante Motive sind
@@ -79,6 +87,14 @@ abgeschnittener Bildfläche. Der Vorschlag zur Zurückstellung ist ausdrücklich
 noch keine Auswahländerung; während Alexander entscheidet, werden zusätzliche
 Reserven unabhängig davon recherchiert. Bestandsdatei und Sendeverlauf bleiben
 unangetastet.
+
+Alexander hat die zehn Stichproben manuell angesehen und die schwarzen Ränder
+als zu breit beurteilt. Die Vorschau verwendet deshalb jetzt responsive,
+exakte 16:9-Bildfelder statt fester Höhen; die früher angezeigte Seite und ihr
+Beleg bleiben hashgebunden erhalten. Kein Bild wurde beschnitten oder ersetzt.
+Alle zehn Felder und geladenen Bilder wurden im Browser geprüft. Die explizite
+Freigabe zur vorläufigen Zurückstellung der 56 Fälle ist weiterhin offen;
+Vorschau-Ränder und widersprüchliche Werkmaße sind getrennte Beobachtungen.
 
 Die letzte zweite Sichtung hat 56 Werke hinzugefügt. Die erweiterte Prüfung von
 Zoll-Brüchen, mehrfach angegebenen Einheiten und H/B-Maßen hat zugleich drei

@@ -32,18 +32,19 @@ artwork, not merely the photo. Existing runtime PD/CC0 and format gates remain u
   full group distributions and source/version evidence, not invented colours.
   *48 visually inspected; provisional v2 calibrated. All 400 baseline profiles
   and a colour-filtered private preview exist; thirteen research tests pass.
-  Broader visual calibration and the 600 additional works remain incomplete.*
-- [ ] Research and visually verify 600 additional distinct eligible works,
+  Broader visual calibration remains part of the final catalogue check.*
+- [x] Research and visually verify at least 600 additional distinct eligible works,
   keeping the existing width, ratio, rights and reproduction requirements.
-  *592 additions retained after stricter source/licence checks and actual
-  second-view review; eight nominal additions remain. All 5148 checkpoint previews screened,
+  *663 additions retained after stricter source/licence checks and actual
+  second-view review. All 5432 checkpoint previews screened,
   all 400 baseline upload pins checked and 307 scoped artwork QIDs retained. Candidate
   counts and temporary network deferrals are not accepted-work counts.*
 - [ ] Complete source-bound colour profiles and a reviewable preview for all
   1000 accepted works; preserve baseline IDs/pins and deferred research.
-  *The private preview contains 992 nominal entries, including the 592 unpublished
+  *The private preview contains 1063 nominal entries, including the 663 unpublished
   additions with complete provisional palettes/distributions/top groups. Runtime
-  still has 400; extend/freeze it only after 600 genuine additions are complete.*
+  still has 400; the final accepted selection/export remains pending the explicit
+  baseline decision. Profiles exist for every provisional entry.*
 - [ ] Resolve the 56 remaining baseline physical-measurement scope prompts before claiming
   1000 genuinely usable complete works. Do not silently repin/remove a baseline
   work or treat an automatic prompt as an established crop.
@@ -53,8 +54,9 @@ artwork, not merely the photo. Existing runtime PD/CC0 and format gates remain u
   pin or file was changed. Exact source-bound decisions are retained in research.*
   *User requested ten examples before deciding on the proposed hold. They are
   browser-verified at /legacy-samples.html; no hold/removal is authorized yet.
-  Excluding unresolved prompts from the usable count gives 936; 64 further
-  acceptances would reach 1000 without relying on those unresolved cases.*
+  Excluding unresolved prompts from the research count gives 1007, so no further
+  acceptances are numerically necessary to reach 1000. This does not authorize
+  a hold/removal, change the runtime selection or close the final quality gate.*
 - [x] Implement the single Commons colour option, default any, with bounded
   selection, history compatibility and no silent colour fallback.
   *Local 400-work draft: readable names, one basic field, source-pinned offline
@@ -63,7 +65,9 @@ artwork, not merely the photo. Existing runtime PD/CC0 and format gates remain u
 - [x] Test and document the local draft's upgrade/no-match/unsupported-source behaviour and run
   the unchanged quality gates; record observed results in STATUS.
   *5,020 passed, eleven platform skips, strict mypy for Mac/Linux, 100% line/branch
-  coverage; 90 current offline research tests. Draft guide is local, published b5 unchanged.
+  coverage; 99 current offline research tests. Full-palette recomputation and
+  source-pin audit pass for all 1063 provisional profiles. Draft guide is local,
+  published b5 unchanged.
   Repeat catalogue-specific checks after the genuine 1000-work freeze.*
 - [ ] Obtain separate approval for native release builds/publication and
   separately for a Green update/TV test; do not infer either from local work.
