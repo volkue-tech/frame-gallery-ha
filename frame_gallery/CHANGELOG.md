@@ -1,6 +1,6 @@
 # Changelog
 
-## 0.1.0b6 (release candidate)
+## 0.1.0b6 (public beta)
 
 - 1000 curated near-widescreen Commons works: 344 unchanged baseline entries
   and 656 additions. Temporarily hold 56 user-reviewed baseline cases; retain
@@ -14,8 +14,9 @@
   Existing camera, timer, script and optional artwork information still work;
   no custom dashboard extension or configuration.yaml changes.
 - Preserve no-crop defaults, strict ratio preference, bounded request/worker
-  limits, temporary-file cleanup and all existing history IDs. Matching sources
-  and native ARM/Intel release validation are required before Store publication.
+  limits, temporary-file cleanup and all existing history IDs. Matching public
+  sources, native ARM/Intel validators and actual publisher images, anonymous
+  pulls and independent signatures passed before Store publication.
   No new Green/TV live test is included in this release phase.
 
 ## 0.1.0b5 (public beta)

@@ -2,7 +2,7 @@
 
 Fresh artwork on your Samsung Frame. Start it with a tap from Home Assistant.
 
-> **0.1.0b6 release candidate:** 1000 curated Commons works and one optional
+> **0.1.0b6 public beta:** 1000 curated Commons works and one optional
 > colour wish, with a complete native dashboard colour-picker guide.
 > Update in place; saved sources, dashboard helpers and history stay compatible.
 
@@ -10,7 +10,7 @@ Fresh artwork on your Samsung Frame. Start it with a tap from Home Assistant.
 
 *Actual Green screenshot from b3; the optional dashboard is set up separately. Theo van Doesburg, [Counter-composition XVI](https://commons.wikimedia.org/w/index.php?curid=3817033), Commons reproduction with public-domain metadata checked on 2026-10-05. The user confirmed this work on the TV. This is historical evidence, not a new-release live test.*
 
-**[Add to Home Assistant](https://my.home-assistant.io/redirect/supervisor_add_addon_repository/?repository_url=https%3A%2F%2Fgithub.com%2Fvolkue-tech%2Fframe-gallery-ha)** · [Setup guide](frame_gallery/DOCS.md) · [Latest beta](https://github.com/volkue-tech/frame-gallery-ha/releases/tag/v0.1.0b5)
+**[Add to Home Assistant](https://my.home-assistant.io/redirect/supervisor_add_addon_repository/?repository_url=https%3A%2F%2Fgithub.com%2Fvolkue-tech%2Fframe-gallery-ha)** · [Setup guide](frame_gallery/DOCS.md) · [Latest beta](https://github.com/volkue-tech/frame-gallery-ha/releases/tag/v0.1.0b6)
 
 ## Art first. No unwanted cropping.
 
@@ -78,13 +78,15 @@ When reporting a problem, include the app version, TV model and the final outcom
 
 ## Public beta
 
-**0.1.0b6 is being prepared for release.** Exactly 1000 active works (344
+**[0.1.0b6 is available](https://github.com/volkue-tech/frame-gallery-ha/releases/tag/v0.1.0b6).** Exactly 1000 active works (344
 unchanged baseline + 656 additions), one Commons colour wish and an optional
 native colour dropdown. The 56 user-approved temporary holds and seven reserves
-retain all research and IDs; no history reset. Local gates passed; matching
-sources, native ARM/Intel images and independent signatures are required before
-Store publication. No new Green/TV test is included. Previous releases remain
-available below.
+retain all research and IDs; no history reset. Local gates, matching public
+sources, native ARM/Intel validators and actual publisher images, anonymous
+pulls and independent signatures passed. See the [b6 validation report](BETA6_VALIDATION.md).
+No new Green/TV test is included. Update in place, without uninstalling;
+saved settings and existing dashboard helpers remain compatible.
+Previous releases remain available below.
 
 [0.1.0b5](https://github.com/volkue-tech/frame-gallery-ha/releases/tag/v0.1.0b5)
 expands Commons to 400 works from 299 artist labels, puts it first/default for
@@ -122,7 +124,7 @@ The app runs once, then stops. It does not remove artworks already stored on you
 
 ## For contributors
 
-Frame Gallery is implemented independently. The project's own code is [Apache-2.0](LICENSE); distributed third-party components retain their own licences. The runtime is not GPL-free. [Third-party notices](THIRD_PARTY_NOTICES.md) and [matching component sources](https://github.com/volkue-tech/frame-gallery-ha/releases/tag/sources-v0.1.0b5) are available; historical b1/b2/b3/b4 source releases are retained.
+Frame Gallery is implemented independently. The project's own code is [Apache-2.0](LICENSE); distributed third-party components retain their own licences. The runtime is not GPL-free. [Third-party notices](THIRD_PARTY_NOTICES.md) and [matching component sources](https://github.com/volkue-tech/frame-gallery-ha/releases/tag/sources-v0.1.0b6) are available; historical b1/b2/b3/b4/b5 source releases are retained.
 
 - [Developer setup and quality gates](frame_gallery/DEVELOPMENT.md)
 - [Product specification](PRODUCT_SPEC.md) · [Architecture](ARCHITECTURE.md) · [Acceptance tests](ACCEPTANCE_TESTS.md)

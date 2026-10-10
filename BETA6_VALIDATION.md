@@ -2,11 +2,13 @@
 
 ## Current publication gate
 
-The source-only prerelease, reviewed candidate branch and both signed images
-are public. The complete native pipeline and independent anonymous image /
-signature checks passed; **the app beta and Store main are not published yet**.
-Downloading the two publisher evidence ZIPs and the final release/Store handoff
-remain pending because the Mac is locked and the fresh token prompt is unanswered.
+The [app beta](https://github.com/volkue-tech/frame-gallery-ha/releases/tag/v0.1.0b6),
+matching source-only prerelease and both signed images are public. Store main
+offers 0.1.0b6. All four evidence ZIPs, complete native validation and independent
+anonymous image/signature checks passed. Both one-time approval values were
+disabled and read back. Earlier releases, research and send-history IDs remain
+retained. This report and the refreshed user guides form the documentation-only
+closure; the exact final push/ref readback is retained separately in the handoff.
 Only observed checks are recorded below. No new HA Green or TV test is authorized
 or claimed for this release.
 
@@ -88,7 +90,7 @@ UI. Manual [run 38056898224](https://github.com/volkue-tech/frame-gallery-ha/act
 started at 2026-10-10 15:44:42 Europe/Berlin on `codex/commons-default`, exact frozen
 commit above. All five jobs passed: approval, both native validators and both
 actual image publishers. The run completed at 2026-10-10 14:20:42 UTC
-(16:20:42 Europe/Berlin). Store main remains on b5 at this checkpoint.
+(16:20:42 Europe/Berlin). Store handoff followed only after all checks below.
 
 Both downloaded native ZIPs were checked against the exact run's public API
 metadata, including size, SHA256, repository, branch and source SHA, then safely
@@ -137,13 +139,39 @@ exact digests, the frozen workflow SHA, GitHub OIDC issuer
 No personal GitHub/HA/TV credential was supplied to these public checks.
 
 Public API metadata for the two publisher evidence ZIPs is retained and binds
-both to the exact approved run/branch/commit. Download/hash checking of their
-contents remains pending; these are not yet claimed as locally verified archives:
+both to the exact approved run/branch/commit. Both ZIPs were downloaded, matched
+their exact byte sizes/SHA256 and were safely extracted without execution.
+Their retained published-digest records match the anonymous registry readback:
 
 - `beta-aarch64-evidence`: artifact `11672796139`, 20,208 bytes,
   SHA256 `cb82a1e04351ef6bab5225be96c92bdcbc39bf25cac94d4e5c2fb0660b0977bb`.
 - `beta-amd64-evidence`: artifact `11672846097`, 20,210 bytes,
   SHA256 `ade10f890177e2c3e1c3dc0016bc076f6b7c558aea5a434dbd099dcfb6553c76`.
+
+Each actual publisher image repeated the 5,034-test non-root pass, all five root
+checks, thirteen worst-case cases twice under the unchanged 1 GiB limit and
+150 inspections without failure. Publisher peak address space was 765.5 MiB
+on ARM / 762.8 MiB on Intel; slowest preparations were 2.14 s / 2.28 s.
+The label-only publication step verified unchanged runtime filesystem layers.
+
+## Publication receipt
+
+Public prerelease `v0.1.0b6`, ID `409036127`, was published at
+2026-10-10 15:35:09 UTC (17:35:09 Europe/Berlin), with `draft=false`,
+`prerelease=true` and the exact frozen runtime/source target above. Its source
+release description links the app beta without replacing its existing asset.
+Store main was fast-forwarded to `be4305477a9d399d09c49128d851bf7156876ac2`;
+authenticated ref readback matched exactly. This is a documentation descendant
+of the frozen runtime, not a different image-build source. Both exact approval
+variables were set to `DISABLED_AFTER_0.1.0b6` and read back in the personal
+repository UI after all publisher jobs completed. Screenshot and public API /
+registry receipts are retained under `build/commons-1000-release/`.
+
+Only public-facing release documentation follows this handoff. No runtime,
+dependency, source pin, image tag, historical release or HA state is changed
+by that final documentation commit. Full local gates are run before its push;
+the final commit/ref readback is recorded in the handoff rather than inventing
+the current commit's self-referential hash.
 
 ## Credential handling and external scope
 

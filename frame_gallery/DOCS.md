@@ -1,6 +1,6 @@
 # Frame Gallery
 
-> **0.1.0b6 release candidate:** [1000 near-widescreen Wikimedia Commons works](COMMONS.md), one optional Commons colour wish and a [native dashboard colour picker](COMMONS_COLOUR.md).
+> **0.1.0b6 public beta:** [1000 near-widescreen Wikimedia Commons works](COMMONS.md), one optional Commons colour wish and a [native dashboard colour picker](COMMONS_COLOUR.md).
 > No API key is needed. Update without uninstalling; your saved sources and
 > existing camera, timer, script and optional artwork-information helper still work.
 
@@ -10,7 +10,7 @@ One start, one fresh artwork on your Samsung Frame. Choose museum artwork or you
 
 *Illustration, not a screenshot. The dashboard is optional and is configured separately; installation does not add a card automatically.*
 
-> Native ARM/Intel release-image validation is required before this candidate reaches the Store. No new Green/TV live test is claimed. The preceding b3 passed two Commons deliveries and preview/text/loading/cleanup on Green, with physical TV confirmation of the second work. [Historical b3 evidence](https://github.com/volkue-tech/frame-gallery-ha/blob/main/BETA3_VALIDATION.md). Compatibility with every TV model is not guaranteed.
+> Native ARM/Intel validators and actual publisher images, public sources, anonymous pulls and independent signatures passed for b6. [Release checks](https://github.com/volkue-tech/frame-gallery-ha/blob/main/BETA6_VALIDATION.md). No new Green/TV live test is claimed. The preceding b3 passed two Commons deliveries and preview/text/loading/cleanup on Green, with physical TV confirmation of the second work. [Historical b3 evidence](https://github.com/volkue-tech/frame-gallery-ha/blob/main/BETA3_VALIDATION.md). Compatibility with every TV model is not guaranteed.
 
 **Start here:** [Install](#installation) → [Show your first artwork](#first-start-and-pairing) → [Add the dashboard card](#dashboard).
 

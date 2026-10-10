@@ -83,9 +83,15 @@ artwork, not merely the photo. Existing runtime PD/CC0 and format gates remain u
 - [x] Obtain separate approval for native release builds/publication.
   *D-217: autonomous personal volkue-tech/frame-gallery-ha publication explicitly
   approved on 2026-10-10; prepare new b6, not an overwrite of b5.*
-- [ ] Freeze b6 sources, verify matching public source package, pass both native
+- [x] Freeze b6 sources, verify matching public source package, pass both native
   validators/actual publisher images and independently check signatures/digests
   before publishing Store main. Disable/read back the exact approval values.
+  *Runtime/source 0c2d77d; sources-v0.1.0b6 has the matching 579,829,760-byte
+  archive, SHA256 8073c60f0b63c0ae73ef8f409adc5a06c65cf65ec0b0fb41a7f6fe6985f1e173.
+  Run 38056898224 passed both native validators and actual image publishers.
+  Evidence hashes, anonymous runtime pulls and independent signatures passed.
+  Public v0.1.0b6 and Store main handoff completed; both approval values read
+  back as DISABLED_AFTER_0.1.0b6. See BETA6_VALIDATION.md.*
 - [ ] Obtain separate approval before a Green update or physical TV test.
   *Not included in D-217; no installed app or television is changed here.*
 

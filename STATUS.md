@@ -1,8 +1,8 @@
 # Project status
 
-Last updated: 2026-10-10 (b6 publication approved; D-217/D-218)
+Last updated: 2026-10-10 (b6 released; D-217/D-218)
 
-## Current release phase — b6 signed images independently verified, final handoff pending
+## Current release phase — b6 published, Store handoff complete
 
 The reviewed candidate `0c2d77d75dba29eebc4c306a174630059448d879` is now pushed
 to `codex/commons-default`. Public source-only release `sources-v0.1.0b6`
@@ -20,12 +20,18 @@ passed; the full run completed successfully at 16:20:42 Berlin. Anonymous tag /
 digest readback, pulls, labels and isolated actual-image imports passed for both
 images (1000 works/profiles, 560 artist labels, twelve colour families and 385
 blue matches). Independent Cosign verification passed for both digests and the
-exact candidate workflow identity/SHA. Publisher ZIP metadata is retained;
-their authenticated browser download, app prerelease and Store main handoff
-remain pending because the Mac is locked and the fresh token prompt is not yet
-answered. The preceding credential session was deliberately ended before expiry;
-no token was persisted. See `BETA6_VALIDATION.md`; no new HA or physical TV test
-is inferred.
+exact candidate workflow identity/SHA. Both publisher ZIPs were subsequently
+downloaded, hash-checked and safely extracted; their digest records match the
+public registry. Actual publisher peak address space was ARM 765.5 MiB / Intel
+762.8 MiB. Public app release v0.1.0b6 (409036127) was published at 17:35:09
+Berlin, exact runtime/source target above, not draft. Store main fast-forwarded
+to be4305477a9d399d09c49128d851bf7156876ac2 with authenticated exact-ref readback.
+Both approval variables read back as DISABLED_AFTER_0.1.0b6. The public-facing
+closure documents capture the completed gates and compatible in-place update;
+they do not change runtime or require an image rebuild. The user unlocked the Mac and entered
+the already valid token in a fresh bounded session after the previous session
+was deliberately ended; no token was persisted. See BETA6_VALIDATION.md.
+No new HA/Green/physical TV test or installed-app update is inferred.
 
 Alexander explicitly approved autonomous beta builds/publication solely under
 volkue-tech/frame-gallery-ha. Number the completed 1000-work/colour-card scope
@@ -33,7 +39,8 @@ volkue-tech/frame-gallery-ha. Number the completed 1000-work/colour-card scope
 candidate docs without claiming unseen native/hardware results. Exact-source
 packaging, native ARM/Intel validators and actual images, independent signatures
 and anonymous readback remain required before Store main is updated.
-No new HA/Green/TV mutation is authorized. Unrelated docs/community/ is untouched.
+All publication gates above passed before Store handoff. No new HA/Green/TV
+mutation is authorized. Unrelated docs/community/ is untouched.
 
 Release preparation found and corrected the documented helper key to
 `color_helper`, now schema-checked. Own-source snapshot exceeds the former

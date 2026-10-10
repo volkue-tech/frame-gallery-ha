@@ -87,7 +87,9 @@ Artwork is not relicensed under the project's Apache licence.
 
 Local quality gates, source/palette audits and actual thumbnail reviews are
 documented separately from native release checks and historical Green tests.
-The b6 native pipeline is still pending on this source candidate; no new Green
-or physical TV observation is claimed. The API contact
+The b6 native validators and actual publisher images, public sources, anonymous
+pulls and independent signatures passed; see the
+[release checks](https://github.com/volkue-tech/frame-gallery-ha/blob/main/BETA6_VALIDATION.md).
+No new Green or physical TV observation is claimed. The API contact
 `volkue+commonsapi@gmail.com` goes only to allowed Commons/image hosts in request
 headers; it is not an end user's email or an API key.

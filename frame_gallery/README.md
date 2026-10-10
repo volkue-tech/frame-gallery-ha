@@ -19,6 +19,6 @@ Fresh artwork on your Samsung Frame — from Home Assistant, with one tap.
 
 **For Commons:** select `wikimedia_commons`, keep Landscape only on and Image fit `contain`. Sources are within 2.5% of 16:9; leave Prefer 16:9 on for the closest matches or turn it off for the whole curated selection. Small margins can remain, without cropping. Your existing dashboard still works. See the [collection and rights notes](https://github.com/volkue-tech/frame-gallery-ha/blob/main/frame_gallery/COMMONS.md).
 
-**Beta 0.1.0b6 release candidate.** Matching sources and native ARM/Intel image validation are being prepared before Store publication. No new Green/TV live test is claimed. A colour run with no new match stops cleanly, keeping the previous image and artwork information; it never silently switches colour. The historical b3 hardware checks remain separate. Compatibility with every Frame model is not guaranteed.
+**Public beta 0.1.0b6.** Matching public sources, native ARM/Intel validators and actual publisher images, anonymous pulls and independent signatures passed. [Validation scope](https://github.com/volkue-tech/frame-gallery-ha/blob/main/BETA6_VALIDATION.md). No new Green/TV live test is claimed. A colour run with no new match stops cleanly, keeping the previous image and artwork information; it never silently switches colour. The historical b3 hardware checks remain separate. Compatibility with every Frame model is not guaranteed.
 
 Frame Gallery is an independent project, not affiliated with or endorsed by Samsung, the museums, or Home Assistant.
