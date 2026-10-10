@@ -1,5 +1,23 @@
 # Implementation plan and approval gates
 
+## French/Spanish setup and colour-picker guides (2026-10-10, D-220)
+
+- [x] Add translated installation/pairing and complete camera/timer/script/card
+  setup guides; keep technical background and evidence in English.
+- [x] Add French/Spanish colour guides and matching standalone complete native
+  cards; preserve all IDs, helper values and wiring.
+- [x] Add reciprocal links for four colour guides and three setup guides at
+  README, Info and Documentation entry points; retain English as default.
+- [x] Review all generated English UI names/help without changing HA language
+  or the app generator; test complete schema coverage and guide terminology.
+- [x] Run targeted documentation/packaging/UI checks: 79 passed. Corrected
+  Unicode lint and rendered-whitespace assertions during local review.
+- [x] Run unchanged full quality gates: 5042 passed, eleven platform skips,
+  strict mypy (252 files), 100% line/branch coverage; observed exit 0.
+- [ ] Commit with personal identity and publish only the authorized docs/tests
+  to personal main; verify public bytes.
+  No image rebuild, new app version, installed-app update or live test included.
+
 ## English-first colour-picker guide (2026-10-10, D-219)
 
 - [x] Keep existing colour-guide links as the English default; preserve a

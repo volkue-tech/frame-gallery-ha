@@ -1,6 +1,6 @@
 # Farbauswahl ab Beta 0.1.0b6
 
-[English](COMMONS_COLOUR.md) | **Deutsch**
+[English](COMMONS_COLOUR.md) | **Deutsch** | [Français](COMMONS_COLOUR.fr.md) | [Español](COMMONS_COLOUR.es.md)
 
 Diese Seite ist die deutsche Anleitung. Die Sprache wird nicht automatisch durch
 Home Assistant gewählt. Die verlinkte Standardanleitung ist auf Englisch;

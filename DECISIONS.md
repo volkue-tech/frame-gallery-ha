@@ -1,5 +1,37 @@
 # Decision log
 
+## French/Spanish first-user guides and English UI audit (2026-10-10)
+
+### D-220 — translate setup and colour guides, not the runtime or technical reference
+
+Status: explicitly approved by the human for implementation and publication.
+Add SETUP.fr.md / SETUP.es.md for installation, pairing, preview camera,
+timer, script and complete standard card. Add COMMONS_COLOUR.fr.md /
+COMMONS_COLOUR.es.md and matching complete colour-card examples. English
+remains the default; all four colour guides link reciprocally. The three setup
+guides (English DOCS.md and the two new guides) link each other. Do not suggest
+that a German setup translation or an automatic Markdown locale switch exists.
+The technical reference, evidence and licence documents stay English.
+
+Translate explanatory prose and visible card labels, not Dropdown values,
+script alias/entity IDs, the public app slug, paths or action wiring. French
+and Spanish guides explicitly say to use the documented English colour values;
+do not invent runtime French/Spanish aliases or imply support for multiple
+colours. Keep the current source-only capability, no-match retention, 150 s
+loading expiry, no-crop recommendation and existing helpers. Reuse only the
+already approved sanitized historical screenshots, with translated credits and
+explicit German-UI/historical labels, not new live-language screenshots.
+
+The read-only English UI audit reviewed the complete generated en.yaml.
+Every schema field has an English name and help text, including the basic six
+fields and optional helpers. Existing tests bind the generated files; a new
+test checks complete English field coverage and labels used by the guides.
+Values such as wikimedia_commons / contain / any remain deliberate technical
+values explained in the English help. No new live locale test, app UI language,
+translation generator change, runtime image/version, registry release or
+HA/Green/TV mutation is authorized or inferred from this documentation scope.
+Public b6 images and corresponding source release remain unchanged.
+
 ## English-first colour-picker documentation (2026-10-10)
 
 ### D-219 — English default, separate German guide and stable language links

@@ -4,8 +4,12 @@
 > No API key is needed. Update without uninstalling; your saved sources and
 > existing camera, timer, script and optional artwork-information helper still work.
 
-**Colour-picker guide:** [English](https://github.com/volkue-tech/frame-gallery-ha/blob/main/frame_gallery/COMMONS_COLOUR.md) | [Deutsch](https://github.com/volkue-tech/frame-gallery-ha/blob/main/frame_gallery/COMMONS_COLOUR.de.md).
+**Setup guide:** English (this page) | [Français](https://github.com/volkue-tech/frame-gallery-ha/blob/main/frame_gallery/SETUP.fr.md) | [Español](https://github.com/volkue-tech/frame-gallery-ha/blob/main/frame_gallery/SETUP.es.md).
+
+**Colour-picker guide:** [English](https://github.com/volkue-tech/frame-gallery-ha/blob/main/frame_gallery/COMMONS_COLOUR.md) | [Deutsch](https://github.com/volkue-tech/frame-gallery-ha/blob/main/frame_gallery/COMMONS_COLOUR.de.md) | [Français](https://github.com/volkue-tech/frame-gallery-ha/blob/main/frame_gallery/COMMONS_COLOUR.fr.md) | [Español](https://github.com/volkue-tech/frame-gallery-ha/blob/main/frame_gallery/COMMONS_COLOUR.es.md).
 These are separate guides; their language is not selected automatically by Home Assistant.
+The app configuration has English and German texts; translating a guide does not
+translate the app form. Technical values and entity IDs stay unchanged.
 
 One start, one fresh artwork on your Samsung Frame. Choose museum artwork or your own images, preserve the whole work without cropping by default, and optionally see the latest successful preview on your Home Assistant dashboard.
 
@@ -213,7 +217,8 @@ No HACS extension is needed.
 **Optional colour picker (0.1.0b6 and newer, Commons only):** keep the standard
 card if you prefer a minimal setup. To choose a colour directly on the dashboard,
 follow the [complete native colour-card guide](https://github.com/volkue-tech/frame-gallery-ha/blob/main/frame_gallery/COMMONS_COLOUR.md).
-It is available in [English](https://github.com/volkue-tech/frame-gallery-ha/blob/main/frame_gallery/COMMONS_COLOUR.md) and [Deutsch](https://github.com/volkue-tech/frame-gallery-ha/blob/main/frame_gallery/COMMONS_COLOUR.de.md), with complete copy-and-paste cards in both languages.
+It is available in English, German, French and Spanish through the language links
+at the top of this page, with complete copy-and-paste cards in every version.
 It adds one Dropdown helper through the UI, connected by `color_helper`, and
 reuses the same camera, timer and script. Select a colour, then tap the preview;
 changing the dropdown alone does not start a run. Other sources do not apply it.

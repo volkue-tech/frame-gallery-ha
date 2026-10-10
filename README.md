@@ -12,10 +12,15 @@ Fresh artwork on your Samsung Frame. Start it with a tap from Home Assistant.
 
 **[Add to Home Assistant](https://my.home-assistant.io/redirect/supervisor_add_addon_repository/?repository_url=https%3A%2F%2Fgithub.com%2Fvolkue-tech%2Fframe-gallery-ha)** · [Setup guide](frame_gallery/DOCS.md) · [Latest beta](https://github.com/volkue-tech/frame-gallery-ha/releases/tag/v0.1.0b6)
 
+**Setup:** [English](frame_gallery/DOCS.md#installation) | [Français](frame_gallery/SETUP.fr.md) | [Español](frame_gallery/SETUP.es.md).
+**Colour picker:** [English](frame_gallery/COMMONS_COLOUR.md) | [Deutsch](frame_gallery/COMMONS_COLOUR.de.md) | [Français](frame_gallery/COMMONS_COLOUR.fr.md) | [Español](frame_gallery/COMMONS_COLOUR.es.md).
+Guides are selected manually. The app configuration has English/German texts;
+technical reference documents remain in English.
+
 ## Art first. No unwanted cropping.
 
 - **A broad, colourful collection, museum artwork or your own images.** b6 includes 1000 near-widescreen Wikimedia Commons works, alongside the Art Institute of Chicago, the Cleveland Museum of Art, or your local JPEG/PNG collection. No API key needed.
-- **A colour wish for Commons.** Choose one colour in the app, or add an optional native dashboard dropdown: [English guide](frame_gallery/COMMONS_COLOUR.md) | [Deutsche Anleitung](frame_gallery/COMMONS_COLOUR.de.md). Matching works contain a noticeable area of that colour; the basic card remains unchanged.
+- **A colour wish for Commons.** Choose one colour in the app, or add an optional [native dashboard dropdown](frame_gallery/COMMONS_COLOUR.md); use the language links above. Matching works contain a noticeable area of that colour; the basic card remains unchanged.
 - **Keep the whole work.** Original proportions are preserved by default; margins fill any unused space. Cropping is opt-in.
 - **Something new.** Previously sent artworks are skipped while new eligible works remain. History keeps the latest 20 000 works.
 - **See it before the next tap.** The optional native Home Assistant card shows the latest successful preview and starts a new run.

@@ -1,6 +1,32 @@
 # Project status
 
-Last updated: 2026-10-10 (b6 released; English/German guide follow-up, D-219)
+Last updated: 2026-10-10 (b6 released; French/Spanish guides, D-220)
+
+## Current documentation follow-up — French/Spanish setup and colour picker
+
+The user approved French/Spanish first-user setup and colour guides with
+language links and publication. SETUP.fr.md / SETUP.es.md cover installation,
+first pairing and complete optional camera/timer/script/card setup.
+COMMONS_COLOUR.fr.md / COMMONS_COLOUR.es.md include complete colour cards and
+match their standalone examples. All four colour guides link each other;
+English/French/Spanish setup entry points are linked from README/Info/DOCS.
+English remains the default, German colour instructions are retained, and
+technical reference/evidence stays English. The guides explicitly distinguish
+their language from the English/German app form and unchanged English values.
+
+Read-only English UI audit: all schema fields have English names/help and
+generated-file identity remains tested. Basic labels and no-crop/colour/API-key
+explanations are now explicitly checked. No locale change or live UI test was
+performed; technical source/filter values are intentionally not translated.
+Targeted guide/packaging/UI checks: 79 passed. Local review corrected typography
+lint and whitespace-sensitive label assertions without relaxing runtime gates.
+Full unchanged gates passed with observed exit 0: Ruff/format, strict mypy on
+Mac/Linux (252 files), 5042 tests passed / eleven platform skips, whole-package
+100% (9440 statements / 2056 branches) and mandatory-package 100%
+(7748 / 1712). Log: build/commons-1000-release/check-fr-es-guides.log.
+The personal-main push/readback remains pending. The fresh bounded credential
+session has verified volkue-tech; no token is persisted.
+No runtime image/version, HA/Green/TV or configuration.yaml change is included.
 
 ## Current documentation follow-up — English default, separate German guide
 

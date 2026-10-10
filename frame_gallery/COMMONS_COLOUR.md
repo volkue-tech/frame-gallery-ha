@@ -1,9 +1,9 @@
 # Colour selection from Beta 0.1.0b6
 
-**English** | [Deutsch](COMMONS_COLOUR.de.md)
+**English** | [Deutsch](COMMONS_COLOUR.de.md) | [Français](COMMONS_COLOUR.fr.md) | [Español](COMMONS_COLOUR.es.md)
 
 This is the English guide. Home Assistant does not automatically switch this
-page's language; use the language link above for German.
+page's language; use the language links above for another language.
 
 This guide applies to **0.1.0b6 and newer**, with 1000 curated Commons works.
 The colour filter is not available in Beta 0.1.0b5 or earlier versions.
@@ -87,7 +87,7 @@ required for dashboard colour selection.
 2. Add these options individually, exactly as shown, one per option:
    `any`, `Red`, `Orange`, `Yellow`, `Green`, `Blue`, `Purple`, `Pink`, `Brown`,
    `Beige`, `Gray`, `Black`, `White`. `any` means all colours. German colour
-   names are also understood; both guides consistently use these English values
+   names are also understood; all guides consistently use these English values
    so translating the guide does not change the setup.
 3. Save and check the actual entity ID: open the helper → **⋮ → Details**.
    Expected: `input_select.frame_gallery_colour`. An existing entity with the

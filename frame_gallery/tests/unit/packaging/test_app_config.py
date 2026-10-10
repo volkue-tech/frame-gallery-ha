@@ -78,6 +78,29 @@ def test_the_files_are_what_the_script_writes() -> None:
     )
 
 
+def test_english_ui_covers_every_field_with_complete_names_and_help() -> None:
+    assert set(TEXTS) == set(SCHEMA)
+    for text in TEXTS.values():
+        assert set(text) == {"name", "description"}
+        assert text["name"].strip()
+        assert text["description"].endswith(".")
+    expected = {
+        "tv_host": "TV address",
+        "source": "Artwork source",
+        "color": "Colour wish (Commons)",
+        "landscape_only": "Landscape only",
+        "strict_tv_format": "Prefer 16:9 (may take longer)",
+        "fit_mode": "Image fit (contain = no crop)",
+        "color_helper": "Colour helper",
+        "loading_timer": "Dashboard loading timer",
+    }
+    for field, label in expected.items():
+        assert TEXTS[field]["name"] == label
+    assert "contain shows the whole artwork" in TEXTS["fit_mode"]["description"]
+    assert "any means all colours" in TEXTS["color"]["description"]
+    assert "no API key" in TEXTS["source"]["description"]
+
+
 def test_basic_settings_are_short_and_optional_defaults_preserve_existing_behavior() -> None:
     assert list(OPTIONS) == ["source", "color", "landscape_only", "strict_tv_format", "fit_mode"]
     assert list(SCHEMA)[:6] == [
