@@ -1,6 +1,29 @@
 # Project status
 
-Last updated: 2026-10-10 (b6 released; D-217/D-218)
+Last updated: 2026-10-10 (b6 released; English/German guide follow-up, D-219)
+
+## Current documentation follow-up — English default, separate German guide
+
+The user explicitly approved implementation/publication of an English-first
+colour-picker guide and a separate German version with language links.
+COMMONS_COLOUR.md retains existing incoming links and is now English;
+COMMONS_COLOUR.de.md preserves the German instructions. Both complete card
+examples retain the same IDs, action wiring and Dropdown values. README/Info
+and documentation entry points link the two languages. Markdown language
+selection is manual, not inferred from Home Assistant's UI locale. D-219 records
+the inspected English app-guide examples and the maintenance choice to start
+with English/German rather than promise other unmaintained translations.
+
+Targeted packaging/documentation checks: 35 passed. Both guide/example pairs,
+their reciprocal language links, build-context inclusion and language-independent
+wiring are tested. Full unchanged gates passed: Ruff/format, strict mypy on
+Mac/Linux (252 files), 5031 tests passed / eleven platform skips, whole-package
+100% coverage (9440 statements / 2056 branches) and mandatory-package 100%
+(7748 / 1712). Observed exit 0; log:
+build/commons-1000-release/check-bilingual-colour-docs-final.log. The first gate
+stopped on import ordering; it was corrected before this passing run. Personal
+Store-main push/readback is still pending. The signed b6 runtime/source release are not rebuilt or
+overwritten; HA, Green, TV and configuration.yaml remain untouched.
 
 ## Current release phase — b6 published, Store handoff complete
 

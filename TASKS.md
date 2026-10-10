@@ -1,5 +1,20 @@
 # Implementation plan and approval gates
 
+## English-first colour-picker guide (2026-10-10, D-219)
+
+- [x] Keep existing colour-guide links as the English default; preserve a
+  separate German guide with reciprocal language links and complete card YAML.
+- [x] Translate only card display text; keep helper values, entity IDs and
+  action wiring identical and test both guide/example pairs.
+- [x] Add language links at the README, Info and main documentation entry points.
+- [x] Inspect independent public app documentation examples; document the
+  English/German maintenance choice without copying third-party guide text.
+- [x] Complete unchanged quality gates: 5031 passed, eleven platform skips,
+  strict mypy (252 files) and 100% line/branch coverage.
+- [ ] Publish the user-authorized documentation-only follow-up to personal
+  Store main, with exact readback.
+  No new beta image, app version, HA update or TV test is included.
+
 ## 1000 Commons works and single-colour selection (user request, 2026-10-09)
 
 Product scope and acceptance checklist:

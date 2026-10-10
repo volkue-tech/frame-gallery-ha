@@ -15,7 +15,7 @@ Fresh artwork on your Samsung Frame. Start it with a tap from Home Assistant.
 ## Art first. No unwanted cropping.
 
 - **A broad, colourful collection, museum artwork or your own images.** b6 includes 1000 near-widescreen Wikimedia Commons works, alongside the Art Institute of Chicago, the Cleveland Museum of Art, or your local JPEG/PNG collection. No API key needed.
-- **A colour wish for Commons.** Choose one colour in the app, or add an optional [native dashboard dropdown](frame_gallery/COMMONS_COLOUR.md). Matching works contain a noticeable area of that colour; the basic card remains unchanged.
+- **A colour wish for Commons.** Choose one colour in the app, or add an optional native dashboard dropdown: [English guide](frame_gallery/COMMONS_COLOUR.md) | [Deutsche Anleitung](frame_gallery/COMMONS_COLOUR.de.md). Matching works contain a noticeable area of that colour; the basic card remains unchanged.
 - **Keep the whole work.** Original proportions are preserved by default; margins fill any unused space. Cropping is opt-in.
 - **Something new.** Previously sent artworks are skipped while new eligible works remain. History keeps the latest 20 000 works.
 - **See it before the next tap.** The optional native Home Assistant card shows the latest successful preview and starts a new run.

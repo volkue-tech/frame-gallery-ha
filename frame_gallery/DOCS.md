@@ -4,6 +4,9 @@
 > No API key is needed. Update without uninstalling; your saved sources and
 > existing camera, timer, script and optional artwork-information helper still work.
 
+**Colour-picker guide:** [English](https://github.com/volkue-tech/frame-gallery-ha/blob/main/frame_gallery/COMMONS_COLOUR.md) | [Deutsch](https://github.com/volkue-tech/frame-gallery-ha/blob/main/frame_gallery/COMMONS_COLOUR.de.md).
+These are separate guides; their language is not selected automatically by Home Assistant.
+
 One start, one fresh artwork on your Samsung Frame. Choose museum artwork or your own images, preserve the whole work without cropping by default, and optionally see the latest successful preview on your Home Assistant dashboard.
 
 ![Product illustration: a framed TV and its optional dashboard preview. Not a screenshot.](https://raw.githubusercontent.com/volkue-tech/frame-gallery-ha/main/docs/images/frame-gallery-overview.png)
@@ -210,6 +213,7 @@ No HACS extension is needed.
 **Optional colour picker (0.1.0b6 and newer, Commons only):** keep the standard
 card if you prefer a minimal setup. To choose a colour directly on the dashboard,
 follow the [complete native colour-card guide](https://github.com/volkue-tech/frame-gallery-ha/blob/main/frame_gallery/COMMONS_COLOUR.md).
+It is available in [English](https://github.com/volkue-tech/frame-gallery-ha/blob/main/frame_gallery/COMMONS_COLOUR.md) and [Deutsch](https://github.com/volkue-tech/frame-gallery-ha/blob/main/frame_gallery/COMMONS_COLOUR.de.md), with complete copy-and-paste cards in both languages.
 It adds one Dropdown helper through the UI, connected by `color_helper`, and
 reuses the same camera, timer and script. Select a colour, then tap the preview;
 changing the dropdown alone does not start a run. Other sources do not apply it.

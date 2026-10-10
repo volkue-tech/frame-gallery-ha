@@ -15,7 +15,7 @@ Fresh artwork on your Samsung Frame — from Home Assistant, with one tap.
 
 **First start:** enter your TV's fixed private IPv4 address in **Configuration**, save, keep **Watchdog off**, and start the app with the TV on. Accept the TV's connection prompt within 20 seconds. The app stops after each run by design.
 
-**Next:** open the **Documentation** tab for the setup guide and complete dashboard examples. The dashboard is not installed automatically. Optionally add a [native colour dropdown](https://github.com/volkue-tech/frame-gallery-ha/blob/main/frame_gallery/COMMONS_COLOUR.md) with one helper; reuse your existing camera, timer and script, with no extra dashboard extension. Art-style filtering is not available.
+**Next:** open the **Documentation** tab for the setup guide and complete dashboard examples. The dashboard is not installed automatically. Optionally add a native colour dropdown ([English](https://github.com/volkue-tech/frame-gallery-ha/blob/main/frame_gallery/COMMONS_COLOUR.md) | [Deutsch](https://github.com/volkue-tech/frame-gallery-ha/blob/main/frame_gallery/COMMONS_COLOUR.de.md)) with one helper; reuse your existing camera, timer and script, with no extra dashboard extension. Art-style filtering is not available.
 
 **For Commons:** select `wikimedia_commons`, keep Landscape only on and Image fit `contain`. Sources are within 2.5% of 16:9; leave Prefer 16:9 on for the closest matches or turn it off for the whole curated selection. Small margins can remain, without cropping. Your existing dashboard still works. See the [collection and rights notes](https://github.com/volkue-tech/frame-gallery-ha/blob/main/frame_gallery/COMMONS.md).
 

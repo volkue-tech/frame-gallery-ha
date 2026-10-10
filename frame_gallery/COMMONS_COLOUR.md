@@ -1,112 +1,114 @@
-# Farbauswahl ab Beta 0.1.0b6
+# Colour selection from Beta 0.1.0b6
 
-Diese Anleitung gilt ab **0.1.0b6** mit 1000 kuratierten Commons-Werken.
-In Beta 0.1.0b5 und älteren Versionen ist der Farbfilter noch nicht verfügbar.
-Für eine erste Einrichtung zuerst die [Standardanleitung](DOCS.md#dashboard)
-befolgen. Die Farbauswahl auf dem Dashboard ist optional.
+**English** | [Deutsch](COMMONS_COLOUR.de.md)
 
-## Eine Farbe wünschen
+This is the English guide. Home Assistant does not automatically switch this
+page's language; use the language link above for German.
 
-1. In **Einstellungen → Apps → Frame Gallery → Konfiguration** gehen.
-2. **Wikimedia Commons** als Bildquelle auswählen.
-3. Direkt darunter bei **Farbwunsch (Commons)** eine Farbe wählen, beispielsweise
-   **Blue** für Blau. **any** bedeutet alle Farben und bleibt der Standard.
-4. Speichern. Das nächste über die App oder die bestehende Dashboardkarte
-   gestartete Kunstwerk wird innerhalb dieser Auswahl gesucht.
+This guide applies to **0.1.0b6 and newer**, with 1000 curated Commons works.
+The colour filter is not available in Beta 0.1.0b5 or earlier versions.
+For your first setup, follow the [standard guide](DOCS.md#dashboard) first.
+Choosing a colour on the dashboard is optional.
 
-Es ist kein API-Key, neuer Helfer, neues Script oder Austausch der Karte nötig.
-Die vorhandene Vorschau und die optionale Künstler-/Titelanzeige bleiben nutzbar.
-Ein neuer Katalog setzt den bisherigen Sendeverlauf nicht zurück.
+## Choose a colour in the app
 
-## Was bedeutet „blau“?
+1. Open **Settings → Apps → Frame Gallery → Configuration**.
+2. Select **Wikimedia Commons** as the artwork source.
+3. Under **Colour wish (Commons)**, choose a colour, for example **Blue**.
+   **any** means all colours and remains the default.
+4. Save. The next artwork run, started from the app or your existing dashboard
+   card, will search within this selection.
 
-Blau muss einen sichtbaren Anteil am Werk haben, aber nicht die größte Fläche
-sein. Die Auswahl verwendet ungefähr fünf Prozent Bildfläche als Schwelle.
-Ein blau-gelbes Werk kann daher sowohl bei Blau als auch bei Gelb erscheinen.
-Ocker- und Goldtöne können unter Gelb fallen. Eine Farbe ist eine grobe Gruppe,
-keine exakte Wandfarben- oder HEX-Übereinstimmung.
+No API key, new helper, new script or replacement card is needed.
+Your existing preview and optional artist/title display remain usable.
+A new catalogue does not reset your sent-artwork history.
 
-Angeboten werden Red, Orange, Yellow, Green, Blue, Purple, Pink, Brown, Beige,
-Gray, Black und White. Die Analysedaten enthalten auch Flächenanteile und bis
-zu drei wichtige unterschiedliche Farbgruppen. Die Oberfläche erlaubt in diesem
-Update trotzdem bewusst nur **eine** Farbe. Farbkombinationen folgen nicht
-automatisch mit diesem Update.
+## What does “blue” mean?
 
-Die Analyse erfolgt bei der Vorbereitung auf dem Mac. Die App muss nicht erst
-zahlreiche Bilder auf den Green laden, um deren Farben auszuprobieren. Schwarze
-TV-Ränder aus der Bildanpassung werden nicht als Bildfarbe mitgemessen.
+Blue must cover a noticeable area of the artwork, but need not be its largest
+colour. Selection uses approximately five percent of the image area as its
+threshold. A blue-and-yellow work can therefore appear under either Blue or
+Yellow. Ochre and gold tones may fall under Yellow. Each colour is a broad
+family, not an exact match to a wall paint or HEX value.
 
-## Kein passendes neues Bild?
+The choices are Red, Orange, Yellow, Green, Blue, Purple, Pink, Brown, Beige,
+Gray, Black and White. The analysis data also retain area shares and up to
+three important distinct colour families. This update deliberately offers
+only **one** colour in the UI. It does not add colour-combination selection.
 
-Der Lauf endet sauber. Das bisherige TV-Bild, die Vorschau und die Werkdaten
-bleiben erhalten. Es wird nicht heimlich eine andere Farbe gewählt. Bereits
-gesendete oder hochgeladene Werke bleiben ausgeschlossen; auch eine kleine
-Farbauswahl kann irgendwann ausgeschöpft sein.
+Analysis takes place during catalogue preparation on the Mac. The app does
+not need to download many images to the Green to try out their colours.
+Black TV margins added by image fitting are not counted as artwork colours.
 
-Du kannst eine andere Farbe oder **any** wählen. Das Protokoll unterscheidet
-einen Lauf ohne Treffer von einem Quellenfehler. Wegen der festen Zeit- und
-Anfragengrenzen bedeutet ein einzelner Lauf ohne Treffer nicht automatisch,
-dass jedes Werk dieser Farbe dauerhaft ausgeschlossen ist.
+## No matching new artwork?
 
-Die vorhandene **16:9-Präferenz** kann auf ein passendes Querformat mit Rand
-zurückfallen, aber nicht auf eine andere Farbe. **contain** bleibt die Empfehlung,
-damit das vollständige Kunstwerk ohne Beschnitt erhalten bleibt.
+The run stops cleanly. The previous TV image, preview and artwork information
+remain unchanged. The app does not silently choose a different colour.
+Previously sent or uploaded works remain excluded; a small colour selection
+can eventually be exhausted.
 
-## Andere Bildquellen und optionale Helfer
+Choose another colour or **any**. The log distinguishes a run without a match
+from a source failure. Because search time and request counts are bounded,
+one run without a match does not necessarily mean that every work of that
+colour is permanently excluded.
 
-Die neue Farbauswahl gilt nur für Commons. Chicago, Cleveland und eigene Bilder
-bekommen dadurch keinen Farbfilter; ein dort gesetzter Farbwunsch wird im
-Protokoll als nicht angewendet ausgewiesen.
+The existing **Prefer 16:9** option may fall back to a landscape image with
+margins, but never to a different colour. **contain** remains the recommendation
+to preserve the complete artwork without cropping.
 
-Die anderen Quellen bleiben verfügbar. Die unten dokumentierte Kartenvariante
-ist bewusst für Commons eingerichtet und bietet keinen Quellenwechsel an.
-Wenn du die Quelle in der App-Konfiguration wechselst, gilt der auf der Karte
-ausgewählte Farbwunsch dort **nicht**. Deshalb steht direkt am Dropdown
-**Farbwunsch (nur Commons)**. Ein späterer Quellenselektor auf dem Dashboard
-müsste die unpassenden Filter abhängig von dieser Quellenauswahl ausblenden;
-das zuletzt angezeigte Kunstwerk verrät nicht zuverlässig die nächste Quelle.
+## Other sources and optional helpers
 
-Ein optionaler Farb-Helfer kann dieselbe Auswahl vom Dashboard steuern.
-Er ist für die normale Einrichtung nicht nötig. Die App versteht etwa **Blau**,
-**Blue** und **color_blue** als denselben Wert. Mehrere Farben in einem Wert
-werden nicht als Kombination interpretiert. Ohne Helfer genügt das einzelne
-Farbfeld in der Konfiguration.
+The new colour selection applies only to Commons. Chicago, Cleveland and your
+own images do not gain a colour filter; a colour wish set for those sources
+is reported in the log as not applied.
 
-## Farbwähler direkt in der Dashboardkarte
+The other sources remain available. The card below is deliberately configured
+for Commons and does not offer a source switch. If you change the source in
+the app's configuration, the colour selected on the card does **not** apply
+there. That is why the dropdown is labelled **Colour wish (Commons only)**.
+A future dashboard source selector would need to hide irrelevant filters
+according to the selected source; the last displayed artwork does not reliably
+identify the next source.
 
-**Optional und ab 0.1.0b6 nutzbar.** Ohne diesen Schritt
-funktioniert die bisherige Standardkarte weiter. Kein HACS oder neues Script
-ist nötig; der neue Dropdown-Helfer ist nur für die Auswahl auf dem Dashboard.
+An optional colour helper can control the same selection from the dashboard.
+It is not needed for the normal setup. The app understands **Blau**, **Blue**
+and **color_blue** as the same value. Multiple colours in one value are not
+interpreted as a combination. Without a helper, the app's single colour field
+is enough.
 
-1. **Einstellungen → Geräte & Dienste → Helfer → Helfer erstellen → Dropdown**
-   öffnen. Name: `Frame Gallery Colour`.
-2. Diese Optionen einzeln und genau so hinzufügen, jeweils eine pro Option:
+## Colour picker directly on the dashboard
+
+**Optional; available from 0.1.0b6.** Your existing standard card works without
+this step. No HACS or new script is needed; the new Dropdown helper is only
+required for dashboard colour selection.
+
+1. Open **Settings → Devices & services → Helpers → Create helper → Dropdown**.
+   Set its name to `Frame Gallery Colour`.
+2. Add these options individually, exactly as shown, one per option:
    `any`, `Red`, `Orange`, `Yellow`, `Green`, `Blue`, `Purple`, `Pink`, `Brown`,
-   `Beige`, `Gray`, `Black`, `White`. `any` bedeutet alle Farben. Deutsche
-   Farbnamen werden ebenfalls verstanden; die Beispiele verwenden durchgängig
-   diese englischen Werte, damit keine Übersetzungsfrage die Einrichtung stört.
-3. Speichern und die tatsächliche Entitäts-ID prüfen: Helfer öffnen → **⋮ →
-   Details**. Erwartet: `input_select.frame_gallery_colour`. Eine vorhandene
-   gleichnamige Entität kann eine andere ID erzeugen.
-4. In **Frame Gallery → Konfiguration** bei **Farbe vom Dashboard (optional,
-   Commons)** (`color_helper`) diese ID eintragen. Falls verborgen, **Nicht
-   verwendete optionale Konfigurationsoptionen einblenden** aktivieren. Commons
-   als Quelle behalten und speichern.
-5. Den Helfer auf `any` stellen. In deiner Karte den ganzen folgenden Block
-   verwenden; abweichende Kamera-, Timer-, Script- und Helfer-IDs überall ersetzen.
+   `Beige`, `Gray`, `Black`, `White`. `any` means all colours. German colour
+   names are also understood; both guides consistently use these English values
+   so translating the guide does not change the setup.
+3. Save and check the actual entity ID: open the helper → **⋮ → Details**.
+   Expected: `input_select.frame_gallery_colour`. An existing entity with the
+   same name may cause a different ID.
+4. In **Frame Gallery → Configuration**, enter this ID under **Colour helper**
+   (`color_helper`). If hidden, enable **Show unused optional configuration
+   options**. Keep Commons as the source and save.
+5. Set the helper to `any`. Use the entire block below in your card; replace
+   any different camera, timer, script and helper IDs everywhere they occur.
 
-Der Farbwähler hat Vorrang vor dem Farbwunsch in der App-Konfiguration. Eine
-Änderung startet **nicht** von selbst einen Lauf: erst Farbe wählen, dann auf
-das Bild tippen. Eine Änderung während eines laufenden Ladevorgangs gilt erst
-beim nächsten Start. Ein nicht lesbarer Helfer fällt auf die gespeicherte
-App-Auswahl zurück und wird im Protokoll gemeldet. Mehrere Farben gleichzeitig
-werden noch nicht angeboten.
+The colour picker takes precedence over the app's saved colour wish.
+Changing it does **not** automatically start a run: first choose a colour,
+then tap the image. A change during a running request applies to the next
+start. If the helper cannot be read, the app falls back to its saved selection
+and reports this in the log. Selecting multiple colours at once is not offered.
 
-### Vollständige Karte mit Vorschau und Farbwähler
+### Complete card with preview and colour picker
 
-Kamera, Timer und Script aus der bisherigen Standardanleitung werden wiederverwendet.
-Der Helfer wird durch YAML **nicht** angelegt; vorher die fünf Schritte oben
-erledigen. Alle Karten sind eingebaute Home-Assistant-Komponenten.
+Reuse the camera, timer and script from the standard guide.
+YAML does **not** create the helper; complete the five steps above first.
+All cards use built-in Home Assistant components.
 
 ```yaml
 type: vertical-stack
@@ -115,10 +117,10 @@ cards:
     show_header_toggle: false
     entities:
       - entity: input_select.frame_gallery_colour
-        name: Farbwunsch (nur Commons)
+        name: Colour wish (Commons only)
   - type: picture-entity
     entity: camera.frame_gallery_preview
-    name: Neues Kunstwerk laden
+    name: Load new artwork
     show_state: false
     show_name: true
     camera_view: auto
@@ -137,14 +139,14 @@ cards:
         state: active
     card:
       type: markdown
-      content: Kunstwerk wird geladen …
+      content: Updating artwork…
 ```
 
-Die optionale Künstler-/Titelkarte kann separat darunter bleiben. Ohne
-zusätzliche Dashboard-Erweiterung ist das optisch eine Gruppe nativer Karten,
-nicht eine speziell programmierte einzelne Karte.
+The optional artist/title card can remain separately below it. Without an
+additional dashboard extension, this is visually a group of native cards,
+not a specially programmed single card.
 
-**Kurzer Funktionstest nach dem Update:** `Blue` auswählen, auf das Bild tippen
-und das Laufende abwarten. Danach `any` auswählen und erneut tippen. Falls kein
-ungesendetes Werk passt, bleiben Bild und Künstlerdaten erhalten und der Lauf
-endet trotzdem. Das Dropdown darf währenddessen sichtbar bleiben.
+**Quick check after updating:** select `Blue`, tap the image and wait for the
+run to finish. Then select `any` and tap again. If no unsent work matches,
+the image and artist information remain unchanged and the run still ends.
+The dropdown may remain visible while the run is active.

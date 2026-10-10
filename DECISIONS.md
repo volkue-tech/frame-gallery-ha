@@ -1,5 +1,33 @@
 # Decision log
 
+## English-first colour-picker documentation (2026-10-10)
+
+### D-219 — English default, separate German guide and stable language links
+
+Status: explicitly accepted by the human for implementation and publication.
+Keep COMMONS_COLOUR.md as the stable English entry point; retain the German
+guide at COMMONS_COLOUR.de.md with reciprocal English/Deutsch links. Do not
+claim automatic Markdown language selection from the Home Assistant UI locale.
+Both guides include one complete native card, with translated display text but
+identical entity IDs, action wiring and English Dropdown values. Keep matching
+standalone English/German examples and test their equivalence. Add the German
+guide to the test-context allowlist; neither guide is runtime application code.
+No image rebuild, version change, new app UI language or installed HA mutation
+is needed. The signed b6 runtime and its corresponding source release stay
+unchanged; this is a later documentation/test-only source commit.
+
+Public documentation examples consulted: AdGuard Home's HA app guide
+(https://github.com/hassio-addons/app-adguard-home/blob/main/adguard/DOCS.md)
+and ESPHome's HA app guide
+(https://github.com/esphome/home-assistant-addon/blob/main/esphome/DOCS.md),
+both English at inspection. These observations are not a survey of all apps or
+permission to reuse their text. Home Assistant's presentation guidance names
+DOCS.md as the app documentation entry point
+(https://developers.home-assistant.io/docs/apps/presentation/).
+Start with English/German; other translations need a maintained, checked guide
+and matching card, not an invented language-usage ranking or a promise of
+automatic translation. French/Spanish can be considered when requested.
+
 ## Numbered b6 publication approval (2026-10-10)
 
 ### D-217 — autonomous personal beta builds and publication

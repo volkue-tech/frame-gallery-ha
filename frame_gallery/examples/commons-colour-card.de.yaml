@@ -4,10 +4,10 @@ cards:
     show_header_toggle: false
     entities:
       - entity: input_select.frame_gallery_colour
-        name: Colour wish (Commons only)
+        name: Farbwunsch (nur Commons)
   - type: picture-entity
     entity: camera.frame_gallery_preview
-    name: Load new artwork
+    name: Neues Kunstwerk laden
     show_state: false
     show_name: true
     camera_view: auto
@@ -26,4 +26,4 @@ cards:
         state: active
     card:
       type: markdown
-      content: Updating artwork…
+      content: Kunstwerk wird geladen …

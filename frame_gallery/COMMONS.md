@@ -44,6 +44,7 @@ colour. Previously sent/uploaded works remain excluded. Fixed search budgets
 mean one unsuccessful run is not an exhaustive scan of all 1000 works.
 
 The [complete native colour-card guide](https://github.com/volkue-tech/frame-gallery-ha/blob/main/frame_gallery/COMMONS_COLOUR.md)
+is available in English and [Deutsch](https://github.com/volkue-tech/frame-gallery-ha/blob/main/frame_gallery/COMMONS_COLOUR.de.md). It
 adds an optional UI-created dropdown helper, reusing your camera, timer and
 script. No HACS or custom card is needed. The minimal standard card still works.
 
