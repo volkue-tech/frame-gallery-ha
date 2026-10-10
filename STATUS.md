@@ -50,7 +50,7 @@ Linux configurations (252 files); **5027 passed / 11 unchanged Linux/root-only
 skips**. Whole-package **100%** coverage: **9440 statements / 2056 branches**;
 mandatory-package gate **7748 / 1712**, also 100%. Terminal completion exit 0.
 Evidence: `build/commons-1000-research/local-quality-gates-2026-10-10-1000-final.log`.
-The **105 offline research tests** pass; changed research tools pass isolated
+The **106 offline research tests** pass; changed research tools pass isolated
 E/F/I lint at the project's 100-character line length. The frozen input/full-
 profile/actual-runtime comparison passes and is retained at
 `research/commons-1000-freeze-audit-2026-10-10.json` (629 PD / 371 CC0 records).
@@ -58,6 +58,17 @@ The first freeze run found one incorrect historical test assumption: captions
 were compared against an unshortened title. It now checks the existing 100-char
 field contract; production caption behavior was not changed. The earlier failing
 log remains retained, not presented as a pass.
+
+A final packaging check moved the native card tests to the app-contained
+`COMMONS_COLOUR.md`, explicitly allowed in `.dockerignore`, rather than reading
+the repository-only `docs/plans/` path that is absent in the container context.
+Its user-facing content is checked against the local draft; the selector/research
+appendix stays outside the packaged first-user guide. This is preparation for
+native validation, not a claim that a container build has been run.
+The full gates were rerun after this adjustment: again **5027 passed / 11
+platform skips**, both strict mypy configurations and 100% coverage, observed
+exit 0. Latest log:
+`build/commons-1000-research/local-quality-gates-2026-10-10-1000-packaged-guide.log`.
 
 Remaining gate: separately authorize native builds/publication and later Green/
 TV validation. No credentials were loaded and no external system was contacted

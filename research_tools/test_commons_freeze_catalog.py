@@ -7,6 +7,7 @@ import copy
 import unittest
 from unittest.mock import patch
 
+from research_tools.commons_colours import ROOT
 from research_tools.commons_freeze_catalog import RESERVE_IDS, render_catalog, select
 
 
@@ -48,6 +49,12 @@ def fixtures() -> dict:
 
 
 class FreezeTests(unittest.TestCase):
+    def test_packaged_first_user_guide_matches_local_draft_without_research_appendix(self) -> None:
+        draft = (ROOT / "docs/plans/commons-colour-user-guide-draft.md").read_text()
+        packaged = (ROOT / "frame_gallery/COMMONS_COLOUR.md").read_text()
+        expected = draft.split("## Welche weiteren Selektoren wären sinnvoll?")[0].rstrip() + "\n"
+        self.assertEqual(packaged, expected)
+
     def test_duplicate_profile_is_not_silently_overwritten(self) -> None:
         data = fixtures()
         data["new_colours"]["profiles"].append(data["new_colours"]["profiles"][0])

@@ -51,7 +51,7 @@ Der Bestand ist `frame_gallery/research/commons-400-selection-2026-10-06.json`. 
 - [x] Vollständige optionale Dashboardkarte mit Farbwähler dokumentiert.
 - [x] Weitere mögliche Selektoren und Grenzen nach tatsächlicher Datenlage bewertet.
 - [x] Lokale Dokumentation, Katalog und Farbauswahl geprüft (5.027 Tests,
-  105 Recherchetests; 100 % Line-/Branch-Coverage).
+  106 Recherchetests; 100 % Line-/Branch-Coverage).
 - [ ] Native Release-Images nach gesonderter Freigabe prüfen.
 - [ ] Veröffentlichung gesondert freigegeben und abgeschlossen.
 - [ ] Green-Update und TV-Test gesondert freigegeben und durchgeführt.

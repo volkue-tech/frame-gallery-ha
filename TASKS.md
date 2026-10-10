@@ -75,7 +75,7 @@ artwork, not merely the photo. Existing runtime PD/CC0 and format gates remain u
 - [x] Test and document the local draft's upgrade/no-match/unsupported-source behaviour and run
   the unchanged quality gates; record observed results in STATUS.
   *Final 1000-work gates: 5,027 passed, eleven platform skips, strict mypy for
-  Mac/Linux (252 files), 100% line/branch coverage; 105 offline research tests.
+  Mac/Linux (252 files), 100% line/branch coverage; 106 offline research tests.
   Full-palette recomputation passes for all 1063 research profiles; actual frozen
   runtime matches its 1000-work source/profile manifests. Browser observed
   1000/56/7 separate sets and 385 active blue matches. Draft guide and next Info
