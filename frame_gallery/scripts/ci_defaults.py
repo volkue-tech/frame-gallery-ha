@@ -10,7 +10,7 @@ WORKFLOWS = ("validate.yml", "publish.yml")
 BASH_DEFAULT = "\ndefaults:\n  run:\n    shell: bash\n"
 PUBLISHER_REF_GATE = (
     "    if: github.repository == 'volkue-tech/frame-gallery-ha' && "
-    "(github.ref == 'refs/heads/main' || github.ref == 'refs/heads/codex/commons-curated')\n"
+    "(github.ref == 'refs/heads/main' || github.ref == 'refs/heads/codex/commons-default')\n"
 )
 PUBLISHER_CERTIFICATE = (
     '--certificate-identity "https://github.com/volkue-tech/frame-gallery-ha/'

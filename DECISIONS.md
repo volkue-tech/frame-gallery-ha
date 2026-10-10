@@ -1,5 +1,38 @@
 # Decision log
 
+## Numbered b6 publication approval (2026-10-10)
+
+### D-217 — autonomous personal beta builds and publication
+
+Status: explicitly accepted by the human: “Ja, bitte die Beta-Builds und
+Veröffentlichung unter volkue-tech/frame-gallery-ha selbständig durchziehen.”
+Prepare 0.1.0b6 with the D-215/D-216 scope, matching corresponding sources,
+native ARM/Intel validators and actual image checks, immutable version images,
+independent signatures and anonymous readback before updating Store main.
+Earlier versions remain untouched. Candidate publication is narrowly gated to
+`codex/commons-default` (and main), replacing the historical candidate ref;
+the signature identity must match the actual ref. The approval variables remain
+exact-SHA/source-hash gates and must be disabled after publication. This does
+not authorize HA/Green/TV changes or a new credential/access-permission grant.
+
+### D-218 — retain full research in bounded corresponding sources
+
+The clean Git source snapshot grew to 72,222,720 bytes from the retained full
+palettes, source-bound profiles and frozen 1000-work manifest. Increase only
+the offline own-project source-archive cap from 32 to 128 MiB; preserve the
+1 GiB upstream-source cap, 200-archive bound, exclusive creation, clean-snapshot
+checks and every-member hash verification. No app worker/download limit changes.
+Full research and archival documentation remain source/test-only, never copied
+into the runtime image. A regression explicitly checks the new finite bound
+and rejects an over-limit snapshot. Unrelated untracked docs/community/ stays
+untouched; assemble from an isolated clean own-branch checkout, not a dirty
+snapshot or a relaxed clean-check guard.
+
+During release documentation review, correct `color_entity` to the actual
+generated option `color_helper` in both identical guides and test it against
+the app schema. Preserve the original b5 collection as clearly historical
+COMMONS_400_ARCHIVE.md; current Commons documentation describes the active 1000.
+
 ## Local 1000-work freeze and dashboard scope (2026-10-10)
 
 ### D-215 — approved temporary baseline holds, exact 1000 active works

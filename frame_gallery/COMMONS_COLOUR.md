@@ -1,9 +1,9 @@
-# Farbauswahl im kommenden Update
+# Farbauswahl ab Beta 0.1.0b6
 
-**Noch nicht veröffentlicht.** Diese Anleitung beschreibt den lokalen Entwurf,
-nicht die aktuell installierbare Beta 0.1.0b5. Die Erweiterung auf insgesamt
-1000 lokal geprüfte Werke ist vorbereitet. Native Releaseprüfung und
-Veröffentlichung stehen noch aus; die Farbfunktion gibt es nicht in Beta b5.
+Diese Anleitung gilt ab **0.1.0b6** mit 1000 kuratierten Commons-Werken.
+In Beta 0.1.0b5 und älteren Versionen ist der Farbfilter noch nicht verfügbar.
+Für eine erste Einrichtung zuerst die [Standardanleitung](DOCS.md#dashboard)
+befolgen. Die Farbauswahl auf dem Dashboard ist optional.
 
 ## Eine Farbe wünschen
 
@@ -21,7 +21,7 @@ Ein neuer Katalog setzt den bisherigen Sendeverlauf nicht zurück.
 ## Was bedeutet „blau“?
 
 Blau muss einen sichtbaren Anteil am Werk haben, aber nicht die größte Fläche
-sein. Der Entwurf verwendet ungefähr fünf Prozent Bildfläche als Schwelle.
+sein. Die Auswahl verwendet ungefähr fünf Prozent Bildfläche als Schwelle.
 Ein blau-gelbes Werk kann daher sowohl bei Blau als auch bei Gelb erscheinen.
 Ocker- und Goldtöne können unter Gelb fallen. Eine Farbe ist eine grobe Gruppe,
 keine exakte Wandfarben- oder HEX-Übereinstimmung.
@@ -74,7 +74,7 @@ Farbfeld in der Konfiguration.
 
 ## Farbwähler direkt in der Dashboardkarte
 
-**Optional und erst mit dem kommenden Update nutzbar.** Ohne diesen Schritt
+**Optional und ab 0.1.0b6 nutzbar.** Ohne diesen Schritt
 funktioniert die bisherige Standardkarte weiter. Kein HACS oder neues Script
 ist nötig; der neue Dropdown-Helfer ist nur für die Auswahl auf dem Dashboard.
 
@@ -89,7 +89,7 @@ ist nötig; der neue Dropdown-Helfer ist nur für die Auswahl auf dem Dashboard.
    Details**. Erwartet: `input_select.frame_gallery_colour`. Eine vorhandene
    gleichnamige Entität kann eine andere ID erzeugen.
 4. In **Frame Gallery → Konfiguration** bei **Farbe vom Dashboard (optional,
-   Commons)** (`color_entity`) diese ID eintragen. Falls verborgen, **Nicht
+   Commons)** (`color_helper`) diese ID eintragen. Falls verborgen, **Nicht
    verwendete optionale Konfigurationsoptionen einblenden** aktivieren. Commons
    als Quelle behalten und speichern.
 5. Den Helfer auf `any` stellen. In deiner Karte den ganzen folgenden Block

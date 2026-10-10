@@ -1,5 +1,23 @@
 # Changelog
 
+## 0.1.0b6 (release candidate)
+
+- 1000 curated near-widescreen Commons works: 344 unchanged baseline entries
+  and 656 additions. Temporarily hold 56 user-reviewed baseline cases; retain
+  their IDs, research and send history. Seven additional reviewed works remain
+  reserves. No original artworks are bundled.
+- One optional Commons colour wish, default `any`, using source-bound offline
+  palettes. A noticeable colour area qualifies; it need not be dominant.
+  Other sources remain available and report unsupported colour as ignored.
+  No different-colour fallback; no match keeps the previous image and caption.
+- Complete optional native dashboard card with a colour dropdown helper.
+  Existing camera, timer, script and optional artwork information still work;
+  no custom dashboard extension or configuration.yaml changes.
+- Preserve no-crop defaults, strict ratio preference, bounded request/worker
+  limits, temporary-file cleanup and all existing history IDs. Matching sources
+  and native ARM/Intel release validation are required before Store publication.
+  No new Green/TV live test is included in this release phase.
+
 ## 0.1.0b5 (public beta)
 
 - Expand the pinned near-widescreen Commons catalogue to 400 works from 299 artist labels: all 166 b4 entries unchanged, plus 234 visually reviewed JPEG works. Sources remain at least 3000 pixels wide and within 2.5% of 16:9; no crop, ratio-rule, request-budget or history reset. Metadata-only research and the 34 older deferred proposals are retained.

@@ -1,9 +1,11 @@
-"""The unreleased guide's complete native card and helper values stay usable."""
+"""The complete native colour card and documented helper key stay usable."""
 
 from __future__ import annotations
 
 import re
 from pathlib import Path
+
+from scripts.app_config import schema
 
 from frame_gallery.config.filters import FilterField
 from frame_gallery.config.vocabulary import BUILTIN_VOCABULARY
@@ -28,8 +30,9 @@ def test_draft_colour_card_matches_complete_native_example() -> None:
     translated = native_image_and_loading.replace("Load new artwork", "Neues Kunstwerk laden")
     translated = translated.replace("Updating artwork…", "Kunstwerk wird geladen …")
     assert example.endswith(translated + "\n")
-    assert "color_entity" in guide
-    assert "Noch nicht veröffentlicht" in guide
+    assert "`color_helper`" in guide
+    assert "color_helper" in schema()
+    assert "color_entity" not in guide
 
 
 def test_documented_dropdown_offers_every_runtime_colour_and_no_multicolour_value() -> None:

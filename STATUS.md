@@ -1,8 +1,38 @@
 # Project status
 
-Last updated: 2026-10-10 (1000 active local works; D-215/D-216)
+Last updated: 2026-10-10 (b6 publication approved; D-217/D-218)
 
-## Current milestone — local 1000-work candidate prepared
+## Current release phase — b6 authorized, not yet published
+
+Alexander explicitly approved autonomous beta builds/publication solely under
+volkue-tech/frame-gallery-ha. Number the completed 1000-work/colour-card scope
+0.1.0b6; preserve b5 and all earlier sources/images. Refresh public-facing
+candidate docs without claiming unseen native/hardware results. Exact-source
+packaging, native ARM/Intel validators and actual images, independent signatures
+and anonymous readback remain required before Store main is updated.
+No new HA/Green/TV mutation is authorized. Unrelated docs/community/ is untouched.
+
+Release preparation found and corrected the documented helper key to
+`color_helper`, now schema-checked. Own-source snapshot exceeds the former
+32 MiB bound (72,222,720 bytes before release docs); D-218 raises only this
+finite source-archive bound to 128 MiB, not runtime/download/memory limits.
+The historical b5 list is retained separately and explicitly labelled archived.
+The first publication-documentation gate found the new archive missing from
+the test-context allowlist (1 failed, 5026 passed, eleven skips, 100% coverage).
+Add its explicit allowlist entry and rerun; the failed log remains retained.
+The first temporary personal credential session did not pass its account
+authentication guard and ended without publication; no blind auth retry.
+
+After fixing the explicit archive allowlist, the numbered-candidate gates
+completed with exit 0: Ruff/format, both strict mypy configurations (252 files),
+**5028 passed / eleven platform skips**, whole-package 100% (9440 statements,
+2056 branches) and required-package 100% (7748 / 1712). All 106 offline research
+tests also passed. Evidence: build/commons-1000-release/local-quality-final.log.
+An anonymous personal-repository release-list check found no existing b6 app or
+source release; b5 and older releases remain available. These are local/source
+preparation observations, not native builds or a completed publication.
+
+## Completed local milestone — 1000-work candidate prepared
 
 The human explicitly approved temporarily holding and replacing the exact 56
 unresolved baseline cases after viewing ten examples. The separate approval

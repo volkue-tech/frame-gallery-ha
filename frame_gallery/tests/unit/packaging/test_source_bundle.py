@@ -149,6 +149,16 @@ def test_invalid_records_and_bounds_are_not_silently_ignored(
         BUNDLE.collect(root, retained)
 
 
+def test_project_snapshot_remains_bounded_after_research_expansion(
+    tmp_path: Path, monkeypatch: pytest.MonkeyPatch
+) -> None:
+    root, _ = _fixture(tmp_path, monkeypatch)
+    assert BUNDLE.MAX_PROJECT_BYTES == 128 * 1024 * 1024
+    monkeypatch.setattr(BUNDLE, "MAX_PROJECT_BYTES", len(_snapshot_bytes()) - 1)
+    with pytest.raises(ValueError, match="project snapshot exceeds bound"):
+        BUNDLE.snapshot(root)
+
+
 def test_dirty_git_and_changed_head_are_rejected(
     tmp_path: Path, monkeypatch: pytest.MonkeyPatch
 ) -> None:

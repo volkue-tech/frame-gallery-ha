@@ -1,4 +1,4 @@
-# Filter vocabulary, version 2 (local next-update draft)
+# Filter vocabulary, version 2 (from 0.1.0b6)
 
 This is the vocabulary the app ships (`config/vocabulary.py`, `BUILTIN_VOCABULARY`). It was decided in Q-14 and D-152. A test (`tests/unit/config/test_builtin_vocabulary.py`) keeps this table identical to the code and to the values the adapters send.
 
@@ -6,7 +6,7 @@ This is the vocabulary the app ships (`config/vocabulary.py`, `BUILTIN_VOCABULAR
 
 **Source.** Museum values come from official documentation (D-146). Version 2
 adds project-defined offline Commons colour families (D-213), not undocumented
-museum colour API values. Published b5 still has version 1.
+museum colour API values. Historical b5 has version 1.
 
 ## Departments (`department` option)
 
@@ -83,11 +83,11 @@ A configured style remains invalid; valid colour choices are applied only to
 Commons and visibly reported as unsupported for museum/local sources. Invalid
 values (including multiple colours) retain the existing validation/fallback
 behaviour. Q-25's original first-beta limitation remains historical; D-213
-authorizes this local next-update colour implementation, not publication.
+authorizes the colour implementation; D-217 separately approves b6 publication.
 
 ## Capability matrix (beta)
 
-| Filter | Local media | Art Institute of Chicago | Cleveland Museum of Art | Wikimedia Commons (unreleased) |
+| Filter | Local media | Art Institute of Chicago | Cleveland Museum of Art | Wikimedia Commons |
 | --- | --- | --- | --- | --- |
 | Department | unsupported | unsupported (values undocumented) | supported | unsupported |
 | Style | unsupported | unsupported (values undocumented) | unsupported | unsupported |

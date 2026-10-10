@@ -80,8 +80,14 @@ artwork, not merely the photo. Existing runtime PD/CC0 and format gates remain u
   runtime matches its 1000-work source/profile manifests. Browser observed
   1000/56/7 separate sets and 385 active blue matches. Draft guide and next Info
   text are local; published b5 unchanged. Native/release/live checks remain gated.*
-- [ ] Obtain separate approval for native release builds/publication and
-  separately for a Green update/TV test; do not infer either from local work.
+- [x] Obtain separate approval for native release builds/publication.
+  *D-217: autonomous personal volkue-tech/frame-gallery-ha publication explicitly
+  approved on 2026-10-10; prepare new b6, not an overwrite of b5.*
+- [ ] Freeze b6 sources, verify matching public source package, pass both native
+  validators/actual publisher images and independently check signatures/digests
+  before publishing Store main. Disable/read back the exact approval values.
+- [ ] Obtain separate approval before a Green update or physical TV test.
+  *Not included in D-217; no installed app or television is changed here.*
 
 No IP discovery, multi-colour UI, new provider or configuration.yaml change.
 Credentials are not needed for initial research; security-sensitive GitHub

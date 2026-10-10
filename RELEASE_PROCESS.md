@@ -31,11 +31,13 @@ not evidence that an image has been published or an installation has passed.
 ## Run the manual workflow
 
 Run **Publish reviewed beta images** on `main`, with the matching beta version.
-For 0.1.0b3 through 0.1.0b5, the narrowly allowed `codex/commons-curated` branch can instead publish
+For 0.1.0b6, the narrowly allowed `codex/commons-default` branch can instead publish
 the exact approved candidate before its app metadata is merged into `main`.
 This prevents store users being offered a version whose image is still missing.
 Repository, exact-commit/source-hash, native validation and non-overwrite gates
-remain identical. Signatures identify the actual workflow branch; b3/b4/b5 use
+remain identical. Signatures identify the actual workflow branch; b6 uses
+`https://github.com/volkue-tech/frame-gallery-ha/.github/workflows/publish.yml@refs/heads/codex/commons-default`.
+Historical b3/b4/b5 used
 `https://github.com/volkue-tech/frame-gallery-ha/.github/workflows/publish.yml@refs/heads/codex/commons-curated`.
 Historical b2 used `codex/artwork-info` and retains that certificate identity;
 it is not the currently allowed candidate publisher branch.
@@ -92,6 +94,8 @@ changes cannot accidentally reuse an earlier approval.
 
 The initial hardware test used an already-authorized TV; fresh pairing was not
 reset. Chicago returned HTTP 403 on the tested network; Cleveland/local media
-worked. Colour filtering is not offered. Do not turn those observations into
+worked. Colour filtering was not offered in those historical runs. The b6
+Commons colour filter requires its own native checks; no new hardware test is
+inferred. Do not turn those observations into
 claims of universal TV/source compatibility, source-byte reproducibility,
 patent clearance or legal counsel's approval.

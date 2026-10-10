@@ -33,7 +33,9 @@ SPECS: Final = (
 )
 MAX_BYTES: Final = 1024 * 1024 * 1024
 MAX_ARCHIVES: Final = 200
-MAX_PROJECT_BYTES: Final = 32 * 1024 * 1024
+# Full source-bound research profiles are retained in the corresponding sources,
+# not the runtime image. The 1000-work snapshot is about 69 MiB; stay bounded.
+MAX_PROJECT_BYTES: Final = 128 * 1024 * 1024
 
 
 def regular(path: Path, boundary: Path) -> None:

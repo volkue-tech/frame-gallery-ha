@@ -2,8 +2,8 @@
 
 Fresh artwork on your Samsung Frame. Start it with a tap from Home Assistant.
 
-> **0.1.0b5 public beta:** 400 curated Commons works (166 retained plus 234 new),
-> Commons first/default for new installations, and a clearer setup guide.
+> **0.1.0b6 release candidate:** 1000 curated Commons works and one optional
+> colour wish, with a complete native dashboard colour-picker guide.
 > Update in place; saved sources, dashboard helpers and history stay compatible.
 
 ![Actual Frame Gallery dashboard with Theo van Doesburg's colourful geometric artwork, tap-to-load preview and optional artwork information.](docs/images/dashboard-commons.png)
@@ -14,7 +14,8 @@ Fresh artwork on your Samsung Frame. Start it with a tap from Home Assistant.
 
 ## Art first. No unwanted cropping.
 
-- **A broad, colourful collection, museum artwork or your own images.** b5 includes 400 near-widescreen Wikimedia Commons works, alongside the Art Institute of Chicago, the Cleveland Museum of Art, or your local JPEG/PNG collection. No API key needed.
+- **A broad, colourful collection, museum artwork or your own images.** b6 includes 1000 near-widescreen Wikimedia Commons works, alongside the Art Institute of Chicago, the Cleveland Museum of Art, or your local JPEG/PNG collection. No API key needed.
+- **A colour wish for Commons.** Choose one colour in the app, or add an optional [native dashboard dropdown](frame_gallery/COMMONS_COLOUR.md). Matching works contain a noticeable area of that colour; the basic card remains unchanged.
 - **Keep the whole work.** Original proportions are preserved by default; margins fill any unused space. Cropping is opt-in.
 - **Something new.** Previously sent artworks are skipped while new eligible works remain. History keeps the latest 20 000 works.
 - **See it before the next tap.** The optional native Home Assistant card shows the latest successful preview and starts a new run.
@@ -48,12 +49,12 @@ When adding **Local File**, replace its default name with **Frame Gallery Previe
 
 | Source | Available filters in this beta |
 | --- | --- |
-| Wikimedia Commons | 400 curated works. Shared fitting options |
+| Wikimedia Commons | 1000 curated works; one optional colour wish and shared fitting options |
 | Art Institute of Chicago | Period |
 | Cleveland Museum of Art | Department and period |
 | Your own images | Landscape and fitting options |
 
-Landscape selection and screen-shape preference work with all four sources. **Colour and style filters are not available yet.** Google Arts & Culture is not a source in this app. Museum sources use documented open-access APIs and eligible CC0 images; Commons uses a curated selection with current rights and file identity rechecked on each run; local media uses your own files.
+Landscape selection and screen-shape preference work with all four sources. **Colour applies only to Commons; art-style filters are not offered.** Other sources report colour as ignored. Google Arts & Culture is not a source in this app. Museum sources use documented open-access APIs and eligible CC0 images; Commons uses a curated selection with current rights and file identity rechecked on each run; local media uses your own files.
 
 **For the wide Commons collection:** choose `wikimedia_commons`, keep **Landscape
 only** on and **Image fit = contain**. Sources are within 2.5% of 16:9;
@@ -76,6 +77,14 @@ The default prefers landscape works close to 16:9. If no suitable new work is fo
 When reporting a problem, include the app version, TV model and the final outcome line. Remove personal details and secrets before sharing logs. Do not include pairing tokens, passwords or access tokens.
 
 ## Public beta
+
+**0.1.0b6 is being prepared for release.** Exactly 1000 active works (344
+unchanged baseline + 656 additions), one Commons colour wish and an optional
+native colour dropdown. The 56 user-approved temporary holds and seven reserves
+retain all research and IDs; no history reset. Local gates passed; matching
+sources, native ARM/Intel images and independent signatures are required before
+Store publication. No new Green/TV test is included. Previous releases remain
+available below.
 
 [0.1.0b5](https://github.com/volkue-tech/frame-gallery-ha/releases/tag/v0.1.0b5)
 expands Commons to 400 works from 299 artist labels, puts it first/default for

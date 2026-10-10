@@ -1,6 +1,6 @@
 # Frame Gallery
 
-> **0.1.0b5 public beta:** [400 near-widescreen Wikimedia Commons works](COMMONS.md), Commons first/default for new installations, and a clearer optional dashboard guide.
+> **0.1.0b6 release candidate:** [1000 near-widescreen Wikimedia Commons works](COMMONS.md), one optional Commons colour wish and a [native dashboard colour picker](COMMONS_COLOUR.md).
 > No API key is needed. Update without uninstalling; your saved sources and
 > existing camera, timer, script and optional artwork-information helper still work.
 
@@ -10,7 +10,7 @@ One start, one fresh artwork on your Samsung Frame. Choose museum artwork or you
 
 *Illustration, not a screenshot. The dashboard is optional and is configured separately; installation does not add a card automatically.*
 
-> **[0.1.0b5 public beta](https://github.com/volkue-tech/frame-gallery-ha/releases/tag/v0.1.0b5).** Matching public sources, native ARM/Intel checks on the actual images, anonymous pulls and independent signatures passed. [Exact b5 scope](https://github.com/volkue-tech/frame-gallery-ha/blob/main/BETA5_VALIDATION.md). No new Green/TV live test is claimed for this catalogue update. The preceding b3 passed two Commons deliveries and preview/text/loading/cleanup on Green, with physical TV confirmation of the second work. [Historical b3 evidence](https://github.com/volkue-tech/frame-gallery-ha/blob/main/BETA3_VALIDATION.md). Compatibility with every TV model is not guaranteed.
+> Native ARM/Intel release-image validation is required before this candidate reaches the Store. No new Green/TV live test is claimed. The preceding b3 passed two Commons deliveries and preview/text/loading/cleanup on Green, with physical TV confirmation of the second work. [Historical b3 evidence](https://github.com/volkue-tech/frame-gallery-ha/blob/main/BETA3_VALIDATION.md). Compatibility with every TV model is not guaranteed.
 
 **Start here:** [Install](#installation) → [Show your first artwork](#first-start-and-pairing) → [Add the dashboard card](#dashboard).
 
@@ -38,11 +38,11 @@ No SSH, no command line, and no change to `configuration.yaml` is needed at any 
 
 You can use Frame Gallery immediately from its app page. No dashboard setup is needed for the first test.
 
-### Simple configuration (0.1.0b5)
+### Simple configuration (0.1.0b6)
 
-The normal form has five fields: **TV address**, **Artwork source**, **Landscape
+The normal form has six fields: **TV address**, **Artwork source**, **Colour wish (Commons)**, **Landscape
 only**, **Prefer 16:9**, and **Image fit**. The German UI uses **TV-IP-Adresse**,
-**Bildquelle**, **Nur Querformat**, **16:9 bevorzugen**, and **Bildanpassung**.
+**Bildquelle**, **Farbwunsch (Commons)**, **Nur Querformat**, **16:9 bevorzugen**, and **Bildanpassung**.
 Configuration keys stay unchanged, so updates retain existing settings.
 
 For the curated wide artworks choose `wikimedia_commons`, keep Landscape only on
@@ -54,8 +54,13 @@ margins can remain. No API key, registration or additional dashboard setup is ne
 Museum period/department filters, margin colour and dashboard helpers are
 optional. Enable **Show unused optional configuration options** only when you
 need one. Period applies to Chicago/Cleveland; department only to Cleveland.
-Commons has no period/department/style/colour filter. The unused colour field
-is retained solely for older configurations and should stay `any`.
+Commons supports the single colour wish, not period/department/style filters.
+Choose `any` or one of Red, Orange, Yellow, Green, Blue, Purple, Pink, Brown,
+Beige, Gray, Black and White. A noticeable area (about 5%) qualifies; it need
+not dominate the image. A blue-yellow work can match either group. Other
+sources report colour as ignored. No new matching work means a clean stop,
+keeping the previous artwork, never a silent different-colour fallback.
+See [colour selection and the optional dashboard picker](COMMONS_COLOUR.md).
 
 On an upgrade previously saved optional values can remain visible. This is
 normal; saved filters and helper IDs are not silently deleted or reset. An
@@ -202,6 +207,13 @@ then connect one dedicated Text helper through **Dashboard artwork information**
 The guide includes the complete native card and the saved helper length settings.
 No HACS extension is needed.
 
+**Optional colour picker (0.1.0b6 and newer, Commons only):** keep the standard
+card if you prefer a minimal setup. To choose a colour directly on the dashboard,
+follow the [complete native colour-card guide](https://github.com/volkue-tech/frame-gallery-ha/blob/main/frame_gallery/COMMONS_COLOUR.md).
+It adds one Dropdown helper through the UI, connected by `color_helper`, and
+reuses the same camera, timer and script. Select a colour, then tap the preview;
+changing the dropdown alone does not start a run. Other sources do not apply it.
+
 **A new artwork every morning (optional).** **Settings → Automations & scenes → Create automation → ⋮ → Edit in YAML**:
 
 ```yaml
@@ -222,10 +234,10 @@ mode: single
 | Option | What it does | Default |
 | --- | --- | --- |
 | TV address | The TV's IPv4 address. Only private home-network addresses are accepted. | none: required |
-| Artwork source | `wikimedia_commons` (400 near-widescreen works; no key), `art_institute_chicago`, `cleveland_museum_of_art`, or `local_media` (your own images). | `wikimedia_commons` |
+| Artwork source | `wikimedia_commons` (1000 near-widescreen works; no key), `art_institute_chicago`, `cleveland_museum_of_art`, or `local_media` (your own images). | `wikimedia_commons` |
 | Department (Cleveland only) | A department of the Cleveland Museum of Art, or `any`. | `any` |
 | Period (both museums) | `period_before_1400`, `period_1400_1599`, `period_1600_1799`, `period_1800_1899`, `period_1900_and_later`, or `any`. | `any` |
-| Colour | Only `any`: no source supports a colour filter yet. | `any` |
+| Colour wish (Commons only) | `any` or Red, Orange, Yellow, Green, Blue, Purple, Pink, Brown, Beige, Gray, Black, White. A noticeable colour area qualifies. | `any` |
 | Landscape only | Only choose works that are wider than they are tall. | on |
 | Prefer the TV's shape | Prefer works within about 1 % of the TV's 16:9 shape. | on |
 | Fit | `contain` shows the whole work with margins; `cover` fills the screen and may crop. | `contain` |
@@ -233,7 +245,7 @@ mode: single
 | Source, department, period, and colour helpers | Optional helpers whose state replaces the matching option at every start (see below). | empty |
 | Log detail | `info`, or `debug` for every candidate the app considered. | `info` |
 
-Version 0.1.0b5 puts **Wikimedia Commons first** and selects it for new
+Version 0.1.0b5 and newer put **Wikimedia Commons first** and select it for new
 installations. Updates retain your saved source: choosing Chicago, Cleveland
 or your own images will not be undone. To switch an existing installation,
 select `wikimedia_commons` and save.
@@ -249,7 +261,7 @@ The full list of department and period values, with their labels and the other s
 | Department | not supported | not supported | supported | not supported |
 | Style | not supported | not supported | not supported | not supported |
 | Period | not supported | supported | supported | not supported |
-| Colour | not supported | not supported | not supported | not supported |
+| Colour | not supported | not supported | not supported | one colour family |
 | Landscape only, the TV's shape, fit | supported | supported | supported | supported |
 
 A filter that the chosen source does not support is not applied. The app says so in its log, in its last line (`ignored_filters=…`), and in its run record; it never pretends to apply it. A value that is not on the lists above is refused: the run ends at once with `outcome=config_invalid`, and the log names the option.
@@ -272,9 +284,9 @@ Put JPEG and PNG files into the folder `frame_gallery/library` of Home Assistant
 
 **Why is "Updating artwork…" still visible?** Check that the app's **Dashboard loading timer** option matches the timer in your script and card. The note expires after 150 seconds even if the app cannot report completion. A disappearing note is not proof of delivery: check the log.
 
-**No artwork was found. What now?** Try a broader period, Cleveland's `any` department, or a different source. A bounded search may not find a match on every run. The app stops cleanly; it does not search forever. See `no_match` below.
+**No artwork was found. What now?** For Commons, try a different colour or `any`; a small colour pool can be exhausted by already-sent works. For museums, try a broader period or Cleveland's `any` department. A bounded search may not find a match on every run. The app keeps the previous image and stops cleanly; it does not search forever or silently choose another colour. See `no_match` below.
 
-**Can I filter by colour or style, or use Google Arts & Culture?** Not in this beta. Chicago supports period; Cleveland supports department and period. Colour and style are unavailable, and Google is not one of the sources.
+**Can I filter by colour or style, or use Google Arts & Culture?** From b6, Commons supports one colour wish and an optional native dashboard dropdown. Chicago supports period; Cleveland supports department and period. Those sources and local images do not apply the Commons colour wish. Art-style filtering is unavailable, and Google is not one of the sources.
 
 **Do old pictures accumulate on Home Assistant?** Downloaded and prepared images are temporary and are cleaned up. The app retains the latest preview, bounded history and metadata, not an ever-growing archive of artwork downloads. Your own media library is left untouched. Pictures uploaded to the TV do stay on the TV; this app does not delete them.
 
@@ -309,7 +321,7 @@ Every run ends with one line such as `outcome=delivered exit=0 elapsed=23.4`. Wh
 - **Very old works can come back.** The app remembers the latest 20 000 artworks it showed. Older ones are forgotten, so a very old artwork could in theory be shown again. At one artwork a day, that takes about 55 years.
 - **An uncertain upload waits 30 days.** If the connection breaks during an upload, the app cannot know whether the TV received the work. It then leaves that work out for 30 days rather than risk sending it twice.
 - **Art Institute images can look soft.** The museum offers images 1686 pixels wide, so they are enlarged up to about 2.3 times for a 4K screen. Cleveland's images are 3400 pixels wide and look sharper.
-- **Filters are limited in this first version.** The Art Institute offers only the period filter, and Cleveland the department and period filters. There are no style or colour filters yet, because the museums' documentation does not define their values.
+- **Filters depend on the source.** Commons offers one colour wish; the Art Institute offers period, and Cleveland department and period. Museums and local images do not apply the Commons colour wish. No art-style filter is offered. Unsupported filters are reported as ignored.
 - **Some TVs are not supported yet.** TVs whose art interface reports version 0.97 are refused (`tv_rejected`) in this version, because the library the app uses could send an image twice to them.
 - **The connection to the TV is not certificate-checked.** The TV's local interface uses a certificate that cannot be verified; whether to pin it is decided after the supervised test. Keep the TV's address reserved in your router.
 - **Another app uploading at the same moment** could, in rare cases, make the TV show that app's image instead; your artwork is still stored on the TV and is not sent again.
