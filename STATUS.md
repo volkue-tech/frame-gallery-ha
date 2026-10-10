@@ -2,7 +2,30 @@
 
 Last updated: 2026-10-10 (b6 publication approved; D-217/D-218)
 
-## Current release phase — b6 authorized, not yet published
+## Current release phase — b6 signed images independently verified, final handoff pending
+
+The reviewed candidate `0c2d77d75dba29eebc4c306a174630059448d879` is now pushed
+to `codex/commons-default`. Public source-only release `sources-v0.1.0b6`
+(ID 408974721) carries asset 628067794, 579,829,760 bytes, SHA256
+`8073c60f0b63c0ae73ef8f409adc5a06c65cf65ec0b0fb41a7f6fe6985f1e173`.
+An anonymous download and tracked preflight verified the exact commit/version,
+clean project snapshot and every source member. Both exact approval values were
+read back in the personal UI. Manual run 38056898224 started at 15:44:42 Berlin
+on 2026-10-10; approval and both native validators passed. Hash-checked evidence
+records 5034 container tests / five root-only skips and all five separate root
+tests on each architecture. All thirteen worst-case inputs passed twice under
+the unchanged 1 GiB limit (ARM 766.5 MiB; Intel 761.8 MiB peak address space);
+150 inspections per architecture had zero failures. Both actual-image publishers
+passed; the full run completed successfully at 16:20:42 Berlin. Anonymous tag /
+digest readback, pulls, labels and isolated actual-image imports passed for both
+images (1000 works/profiles, 560 artist labels, twelve colour families and 385
+blue matches). Independent Cosign verification passed for both digests and the
+exact candidate workflow identity/SHA. Publisher ZIP metadata is retained;
+their authenticated browser download, app prerelease and Store main handoff
+remain pending because the Mac is locked and the fresh token prompt is not yet
+answered. The preceding credential session was deliberately ended before expiry;
+no token was persisted. See `BETA6_VALIDATION.md`; no new HA or physical TV test
+is inferred.
 
 Alexander explicitly approved autonomous beta builds/publication solely under
 volkue-tech/frame-gallery-ha. Number the completed 1000-work/colour-card scope
