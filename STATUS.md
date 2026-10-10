@@ -24,8 +24,17 @@ Full unchanged gates passed with observed exit 0: Ruff/format, strict mypy on
 Mac/Linux (252 files), 5042 tests passed / eleven platform skips, whole-package
 100% (9440 statements / 2056 branches) and mandatory-package 100%
 (7748 / 1712). Log: build/commons-1000-release/check-fr-es-guides.log.
-The personal-main push/readback remains pending. The fresh bounded credential
-session has verified volkue-tech; no token is persisted.
+The personal documentation commit
+9314e44cfcef433d12b5c89927470b11d5127ddf is published on Store main.
+The broker reported an exact-ref readback mismatch after the push; its cause
+is unconfirmed. The push was not retried. Independent anonymous API/ref and
+byte-for-byte checks of all 23 reviewed files passed, and anonymous Git
+ls-remote separately confirmed the exact main SHA. Receipt:
+build/commons-1000-release/fr-es-public-readback-9314e44.json.
+The public b6 runtime/release and corresponding source asset remain unchanged.
+The final pre-commit gates also passed with the same counts and observed exit 0
+(check-fr-es-guides-commit.log). This status/task closure is documentation-only;
+the bounded personal credential session persists no token.
 No runtime image/version, HA/Green/TV or configuration.yaml change is included.
 
 ## Current documentation follow-up — English default, separate German guide

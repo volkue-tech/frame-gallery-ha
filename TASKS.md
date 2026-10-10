@@ -14,8 +14,12 @@
   Unicode lint and rendered-whitespace assertions during local review.
 - [x] Run unchanged full quality gates: 5042 passed, eleven platform skips,
   strict mypy (252 files), 100% line/branch coverage; observed exit 0.
-- [ ] Commit with personal identity and publish only the authorized docs/tests
+- [x] Commit with personal identity and publish only the authorized docs/tests
   to personal main; verify public bytes.
+  *9314e44 is public. The broker's post-push readback reported a mismatch;
+  without retrying the push, independent anonymous ref/byte checks and Git
+  ls-remote confirmed the exact SHA and reviewed files. Existing b6 runtime,
+  release and corresponding source asset remain unchanged.*
   No image rebuild, new app version, installed-app update or live test included.
 
 ## English-first colour-picker guide (2026-10-10, D-219)
