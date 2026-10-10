@@ -1,12 +1,12 @@
 {
   "schema": 1,
-  "updated_at": "2026-10-10T00:49:31.182682+00:00",
+  "updated_at": "2026-10-10T06:33:24.833652+00:00",
   "status": "partial local research milestone, NOT a 1000-work catalogue",
   "baseline_sha256": "582c6abb664d49cc172d208f7bd701b14677e5b31d79b35e5aa4a48fc68af057",
   "baseline_count": 400,
   "target_total": 1000,
-  "added_count": 373,
-  "local_reviewed_total": 773,
+  "added_count": 377,
+  "local_reviewed_total": 777,
   "criteria": {
     "minimum_source_width_px": 3000,
     "relative_16_9_tolerance": 0.025
@@ -3936,6 +3936,30 @@
       "physical_evidence": "source has no explicit dimensions; full reproduction visually checked, no quantitative physical-ratio claim"
     },
     {
+      "id": 49650356,
+      "file_title": "File:Macao from the Forts of Heang-shan.jpg",
+      "sha1": "e8faf42ae68e29ee951dc67b7aeecf1563fee5b9",
+      "title": "Macao from the Forts of Heang-shan",
+      "artist": "Drawn by Auguste Borget, lithograph by Eugene Ciceri",
+      "width": 4915,
+      "height": 2830,
+      "source": "https://commons.wikimedia.org/w/index.php?curid=49650356",
+      "source_revision": 1029430035,
+      "source_page_sha256": "81e2ef82ded6be408c372275328c3f1665b6683f17be8063e56883acc4b2a3ea",
+      "rights_label_observed": "Public domain",
+      "rights_basis": [
+        "pd-old-100-1923"
+      ],
+      "artwork_qids": [],
+      "physical_measures": [],
+      "thumbnail_sha256": "1d7338aa292a9989c322026d9bd6e82e7f4c6cce84f5c99c6b50422af91e5c7f",
+      "evidence_sha256": "8a5c9edfe877ea503c3120a6031880402ee7db414e5111ad334b96e65645f6ce",
+      "second_visual_sheet_sha256": "515bbe260969604cc421619d4d4b49703bba5dd8ea1b88b919fbaefb1db3fe93",
+      "decision": "accepted local research; not release-approved",
+      "reason": "Complete unframed work or original photographic/digital composition visually inspected twice; source/pin/rights declarations and proportions checked; no unresolved artwork-identity flag; selected for gallery variety.",
+      "physical_evidence": "source has no explicit dimensions; full reproduction visually checked, no quantitative physical-ratio claim"
+    },
+    {
       "id": 49893685,
       "file_title": "File:Alfred Jensen - Dreimastbark und mehrere Schoner auf bewegter See (1907).jpg",
       "sha1": "48ba82773467c6c2cf4154e6719a42b726de72ed",
@@ -5074,6 +5098,45 @@
       "thumbnail_sha256": "b6c83631761d39b242a3bcfbf71a14997723ffba4bfec419fcc523e617202c91",
       "evidence_sha256": "d61c6dad182a0fa1902bfe38f87adbd3a674c3963bdfced9eab44a6ff5813c36",
       "second_visual_sheet_sha256": "d8783543736eb209d9bf307dac99c7d63d5c1c81fd270e8627d05531fccff9de",
+      "decision": "accepted local research; not release-approved",
+      "reason": "Complete unframed work or original photographic/digital composition visually inspected twice; source/pin/rights declarations and proportions checked; no unresolved artwork-identity flag; selected for gallery variety.",
+      "physical_evidence": "source dimensions agree within 2.5%"
+    },
+    {
+      "id": 60936484,
+      "file_title": "File:Roman Landscape MET DT3293.jpg",
+      "sha1": "aa1925a302b653aae88a0702290092c31a9d5cc1",
+      "title": "Roman Landscape",
+      "artist": "Claude Lorrain",
+      "width": 4000,
+      "height": 2267,
+      "source": "https://commons.wikimedia.org/w/index.php?curid=60936484",
+      "source_revision": 954319072,
+      "source_page_sha256": "1fad5ffc8cd7f758be668d4d0d2870a05547772a9f0943871383db7dd8406f13",
+      "rights_label_observed": "CC0",
+      "rights_basis": [
+        "cc-zero"
+      ],
+      "artwork_qids": [],
+      "physical_measures": [
+        {
+          "raw": "6 1/4 x 11 1/4 in.  (15.9 x 28.6 cm)",
+          "width": 11.25,
+          "height": 6.25,
+          "ratio": 1.8,
+          "interpretation": "plain two axes in inches; original measurement scope retained"
+        },
+        {
+          "raw": "6 1/4 x 11 1/4 in.  (15.9 x 28.6 cm)",
+          "width": 28.6,
+          "height": 15.9,
+          "ratio": 1.79874213836478,
+          "interpretation": "plain two axes; measurement scope retained, landscape observed visually"
+        }
+      ],
+      "thumbnail_sha256": "7faad195370dd1d139fc74a5ef610419ba9f62d3f449f5c494d1bc0bee3cd407",
+      "evidence_sha256": "8a5c9edfe877ea503c3120a6031880402ee7db414e5111ad334b96e65645f6ce",
+      "second_visual_sheet_sha256": "515bbe260969604cc421619d4d4b49703bba5dd8ea1b88b919fbaefb1db3fe93",
       "decision": "accepted local research; not release-approved",
       "reason": "Complete unframed work or original photographic/digital composition visually inspected twice; source/pin/rights declarations and proportions checked; no unresolved artwork-identity flag; selected for gallery variety.",
       "physical_evidence": "source dimensions agree within 2.5%"
@@ -7450,6 +7513,30 @@
       "physical_evidence": "source dimensions agree within 2.5%"
     },
     {
+      "id": 93431086,
+      "file_title": "File:Humanism in photography 02.jpg",
+      "sha1": "490b6c437ef732af7663d76a56a5ffe82a5a8ae5",
+      "title": "Humanism in photography 02",
+      "artist": "Mostafameraji",
+      "width": 5312,
+      "height": 2988,
+      "source": "https://commons.wikimedia.org/w/index.php?curid=93431086",
+      "source_revision": 1243664652,
+      "source_page_sha256": "bc50309fd8898ac0fbe0c6ace76dd90357d8ca7eece3bdadc80465c80b0f8d89",
+      "rights_label_observed": "CC0",
+      "rights_basis": [
+        "cc-zero"
+      ],
+      "artwork_qids": [],
+      "physical_measures": [],
+      "thumbnail_sha256": "c6436abce4911e5f733621a60860d928d00f6dfb58363d33f81086f6bb83bb68",
+      "evidence_sha256": "f1d5097af96066ae4dc453629aa17b3e3e1d46a668ec41a6f1d75370d671627e",
+      "second_visual_sheet_sha256": "567b7da15e6bfb37dc4ce8ea03cc35dbb369afb8097e02a7df680cc227ab9faf",
+      "decision": "accepted local research; not release-approved",
+      "reason": "Complete unframed work or original photographic/digital composition visually inspected twice; source/pin/rights declarations and proportions checked; no unresolved artwork-identity flag; selected for gallery variety.",
+      "physical_evidence": "source has no explicit dimensions; full reproduction visually checked, no quantitative physical-ratio claim"
+    },
+    {
       "id": 93597976,
       "file_title": "File:Piazza San Marco in Venice, by Giacomo Guardi (1764-1835) or Francesco Guardi (1712-1793). Nationalmuseum, Stockholm, Sweden.jpg",
       "sha1": "51b6fa801f7879767fae8eaf4004cb753ab57eef",
@@ -9786,6 +9873,30 @@
       "decision": "accepted local research; not release-approved",
       "reason": "Complete unframed work or original photographic/digital composition visually inspected twice; source/pin/rights declarations and proportions checked; no unresolved artwork-identity flag; selected for gallery variety.",
       "physical_evidence": "source dimensions agree within 2.5%"
+    },
+    {
+      "id": 149234565,
+      "file_title": "File:Colorful smoke (abstraction) 2.jpg",
+      "sha1": "9da79f5678ebb4239a3c8db32541fe4dbac36cb3",
+      "title": "Colorful smoke (abstraction) 2",
+      "artist": "Pierre Blaché",
+      "width": 6000,
+      "height": 3375,
+      "source": "https://commons.wikimedia.org/w/index.php?curid=149234565",
+      "source_revision": 1130173320,
+      "source_page_sha256": "ba3cf70d5889ac22ce6e347bd39c2891f81211a8196474a815a92b833520ce2a",
+      "rights_label_observed": "CC0",
+      "rights_basis": [
+        "cc-zero"
+      ],
+      "artwork_qids": [],
+      "physical_measures": [],
+      "thumbnail_sha256": "b5beeee52f51a2abed827212adc4ce49404db163dbfaef81622e4e0bf109be71",
+      "evidence_sha256": "97bc0a4c647d23589a3e290f0b6ed9a7c9fb77c955b96d82e4bba2bebac54aef",
+      "second_visual_sheet_sha256": "567b7da15e6bfb37dc4ce8ea03cc35dbb369afb8097e02a7df680cc227ab9faf",
+      "decision": "accepted local research; not release-approved",
+      "reason": "Complete unframed work or original photographic/digital composition visually inspected twice; source/pin/rights declarations and proportions checked; no unresolved artwork-identity flag; selected for gallery variety.",
+      "physical_evidence": "source has no explicit dimensions; full reproduction visually checked, no quantitative physical-ratio claim"
     },
     {
       "id": 149994747,

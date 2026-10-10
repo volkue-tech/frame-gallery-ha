@@ -4,6 +4,14 @@ Stand: 10. Oktober 2026. Arbeitsumfang für das Wochenende am 10. und 11. Oktobe
 
 ## Ausgangspunkt und Fortschritt
 
+**Freigabe vom 10. Oktober:** Zusätzlich dürfen CC BY und CC BY-SA recherchiert
+werden. Urheber, Titel, Quelle, genaue Lizenz samt Link und Versionsnummer sowie
+Hinweise zu Änderungen werden getrennt gesammelt. Rechte am Kunstwerk selbst
+müssen geklärt sein; eine freie Ausstellungsfotografie allein genügt nicht.
+Für eine spätere Aufnahme in die App braucht es eine verlässlich zugängliche
+Pflicht-Attribution, nicht nur die bisher optionale Künstlerkarte. Die
+veröffentlichte Version und ihre PD/CC0-Rechteprüfung bleiben unverändert.
+
 Die veröffentlichte Beta 0.1.0b5 enthält 400 Werke. Der lokale Auswahlbeleg wurde geprüft: 400 Datensätze, 400 eindeutige Commons-IDs, 299 Künstlerbezeichnungen, keine doppelten Upload-Hashes und mindestens 3000 Pixel Quellbreite. Kein Eintrag im Auswahlbeleg enthält bisher ein Farbprofil. Die vorhandene App-Konfiguration bietet bei `color` nur `any` an.
 
 Der Bestand ist `frame_gallery/research/commons-400-selection-2026-10-06.json`. Er enthält außerdem 26 visuell geprüfte Reserve-IDs. Reserven zählen erst nach erneuter Prüfung und vollständiger Aufnahme als neue Werke. Frühere zurückgestellte Fälle bleiben zurückgestellt, solange ihre Gründe nicht geklärt sind.
@@ -23,18 +31,19 @@ Der Bestand ist `frame_gallery/research/commons-400-selection-2026-10-06.json`. 
 
 Der lokale App-Entwurf enthält inzwischen das einzelne Farbfeld und den geprüften Farbfilter. Der Runtime-Katalog bleibt bei 400 Werken; die veröffentlichte Beta ist unverändert. Ein Wochenendziel ist keine garantierte Fertigstellung: Rechte, Bildqualität und bestandene Prüfungen haben Vorrang vor der Zahl und dem Termin.
 
-Lokaler Zwischenstand: 48 Bestandswerke visuell im Farbpilot geprüft und das Verfahren an dunklem Blau und Ockertönen korrigiert. Alle 400 Bestandswerke besitzen vorläufige Farbprofile mit vollständiger Verteilung und Quellenbeleg. Hinzu kommen **373 derzeit lokal kuratierte neue Werke**, ebenfalls mit vollständigen Farbprofilen. Die private [Farbvorschau](http://127.0.0.1:8881/gallery.html) enthält somit **773 Werke** und lässt sich nach Farbgruppe sowie Bestand oder Neuzugängen filtern. **227 weitere Aufnahmen fehlen noch zum nominellen Ziel.** Die [neue Farbanleitung](commons-colour-user-guide-draft.md) bleibt ein unveröffentlichter Entwurf.
+Lokaler Zwischenstand: 48 Bestandswerke visuell im Farbpilot geprüft und das Verfahren an dunklem Blau und Ockertönen korrigiert. Alle 400 Bestandswerke besitzen vorläufige Farbprofile mit vollständiger Verteilung und Quellenbeleg. Hinzu kommen **377 derzeit lokal kuratierte neue Werke**, ebenfalls mit vollständigen Farbprofilen. Die private [Farbvorschau](http://127.0.0.1:8881/gallery.html) enthält somit **777 Werke** und lässt sich nach Farbgruppe sowie Bestand oder Neuzugängen filtern. **223 weitere Aufnahmen fehlen noch zum nominellen Ziel.** Die [neue Farbanleitung](commons-colour-user-guide-draft.md) bleibt ein unveröffentlichter Entwurf.
 
-Der jüngste abgeschlossene Metadaten-Prüfstand enthält 16963 zusätzliche Kandidaten
+Der jüngste abgeschlossene Metadaten-Prüfstand enthält 17171 zusätzliche Kandidaten
 mit Quellen-/Rechtemetadaten; nach der quellengebundenen Self-CC0/PD-self-Prüfung bestehen
-6900 die automatische Vorprüfung. Die Fraktalkunst-Treffer haben gesonderte
-CC-Lizenzen und bleiben außerhalb der PD/CC0-Aufnahme. Neue Künstler-Kandidaten
-werden weiter geprüft. Alle 3999 Vorschauen des festen Sichtungsstands wurden tatsächlich gesichtet, 3102 dabei zunächst
-zurückgestellt. 83 Kontaktbögen wurden ein zweites Mal
+7012 die automatische Vorprüfung. Die Fraktalkunst-Treffer haben gesonderte
+CC-Lizenzen und werden seit der gesonderten Freigabe getrennt geprüft; sie zählen
+noch nicht als Aufnahmen. Neue Künstler-Kandidaten
+werden weiter geprüft. Alle 4111 Vorschauen des festen Sichtungsstands wurden tatsächlich gesichtet, 3202 dabei zunächst
+zurückgestellt. 86 Kontaktbögen wurden ein zweites Mal
 gesichtet. Zusätzliche Maßangaben im Klartext haben mögliche Ausschnitte sichtbar
 gemacht: Die frühere provisorische 127er-Auswahl wurde entsprechend reduziert
 und durch weitere tatsächlich geprüfte Werke ergänzt. Der aktuelle Stand ist
-373 Aufnahmen, nicht die frühere provisorische Auswahl. 57 ausgewählte Fälle
+377 Aufnahmen, nicht die frühere provisorische Auswahl. 57 ausgewählte Fälle
 bleiben zurückgestellt, darunter
 Duplikate und widersprüchliche Originalmaße. 307 konkret zugeordnete Werk-Identitäten aus den
 Metadaten des Bestands ergänzen die Titel- und Bildvergleiche. Weitere kleine
@@ -42,6 +51,14 @@ Vorschauen werden gesammelt; der 400er-Bestand bleibt unverändert.
 Einzelne Netzwerk-Ausfälle bleiben separat zurückgestellt und zählen nicht mit.
 Prüfstand und Aufnahmebelege sind lokal gesichert; keine Kandidatenzahl ersetzt
 600 echte Aufnahmeentscheidungen oder die spätere Releaseprüfung.
+
+Die genehmigte CC-Recherche hat daneben 90 kleine Vorschauen tatsächlich gesichtet
+und vollständige Lizenz-/Quellenangaben gesichert. 21 interessante Motive sind
+in einer [separaten Recherchevorschau](http://127.0.0.1:8881/cc-gallery.html)
+mit Urheber, Lizenzlink und mitgelieferten Hinweisen sichtbar. Sie zählen noch
+nicht als Aufnahmen. Rechte am vollständigen Werk, doppelte Varianten, konkrete
+Assets und eine verlässlich erreichbare Namensnennung in der späteren App müssen
+abschließend geklärt werden. Die optionale Künstlerkarte allein genügt dafür nicht.
 
 Eine ergänzende Bestandsprüfung hat alle 400 Quellenrevisionen und Upload-Pins
 abgeglichen. 239 enthalten auswertbare Originalmaßangaben; 60 erzeugten

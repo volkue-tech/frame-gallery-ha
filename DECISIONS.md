@@ -4,6 +4,34 @@
 
 ### D-214 — broader artistic curation without a silent licence expansion
 
+**2026-10-10 research-scope amendment:** Alexander separately approved checking
+CC BY/CC BY-SA works with correct attribution/licence links and independent
+underlying-artwork rights review. Earlier references below to this question
+being open describe the pre-approval milestones. The production PD/CC0 policy
+is not silently changed. Separate CC research keeps exact licence/version,
+source revision/upload/preview pins, creator/title, supplied notices and actual
+modification notices; ShareAlike conditions stay with the artwork, not a
+purported relicensing of project code. Mandatory accessible attribution and
+current rights validation require a later runtime design/release gate.
+
+Official sources checked: [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/),
+[CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0/) and
+[Commons licensing scopes](https://commons.wikimedia.org/wiki/Commons:Licensing).
+The [BY 4.0 legal code](https://creativecommons.org/licenses/by/4.0/legalcode.en)
+and [BY-SA 4.0 legal code](https://creativecommons.org/licenses/by-sa/4.0/legalcode.en)
+were also read: retain supplied creator/credit, copyright/licence/disclaimer
+notices and source links, and indicate actual modifications. Necessary technical
+format changes are not automatically Adapted Material under §2(a)(4); the SA
+rule applies when adapted material is shared, not automatically to application
+code. This source reading is not the qualified release licence review.
+Licence deeds are summaries, not legal advice or a substitute for the applicable
+legal code. CC 3.0/ported obligations remain separately reviewable; the initial
+preview pilot uses unported 4.0 with matching literal Self and rendered metadata.
+Own-source claims remain leads, not proof of third-party artwork permission.
+NC/ND, conflicting licence evidence and declared FRACT/other underlying material
+do not pass this conservative pilot. All raw notices remain retained even when
+not yet rendered by the older metadata request.
+
 Status: accepted product clarification from Alexander, 2026-10-10; research only.
 
 Research may include illustration, graphic art, artistic photography and digital

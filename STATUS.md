@@ -1,13 +1,52 @@
 # Project status
 
-Last updated: 2026-10-10 (773 retained local works; research continues toward 1000)
+Last updated: 2026-10-10 (777 retained local works; research continues toward 1000)
 
 ## Next Commons update scoped — 2026-10-09
+
+On 2026-10-10 Alexander explicitly approved researching CC BY and CC BY-SA
+works, with correct attribution/licence links and independently checked rights
+to the artwork itself. This resolves the research-scope question, not runtime
+admission or release approval. A separate research ledger retains creator,
+title, source/revision, exact licence/version, supplied notices and change/SA
+obligations. Original-work and visual/duplicate review remain required; no
+photo-only licence silently clears a contemporary artwork. Published b5 and
+the existing PD/CC0 runtime guard remain unchanged.
+
+Current completed local checkpoint: **377 additions / 777 entries**, with
+223 nominal additions still needed and 56 baseline measurement-scope prompts
+still unresolved. All 4,111 PD/CC0 previews were actually first-viewed (3,202
+first-view deferrals); curator sheets 000--085 were actually second-viewed.
+Source evidence covers 17,171 records / 7,012 automatic evidence passes, not
+accepted-work counts. Four distinct additions in this run are the silhouette,
+coloured smoke, Borget/Ciceri's Macao lithograph and Lorrain's Roman Landscape.
+The baseline file is byte-identical to HEAD, and all prior 373 colour profiles
+are unchanged by ID. Their four new profiles retain the full colour evidence.
+
+Separate CC pilot: 4,363 retained CC metadata records, 1,684 conservative preview
+leads, 90 decoded/actually viewed previews with full current rights receipts,
+and **21 promising reserves, zero CC catalogue admissions**. The separate private
+preview is `http://127.0.0.1:8881/cc-gallery.html`; it includes accessible creator,
+licence/source links, actual preview changes and complete supplied notices.
+Individual complete-work/duplicate/assets checks and mandatory runtime attribution
+are still required. Caption keywords only prioritize a capped per-author pilot;
+they never prove original-work rights. KristaKim's Own declaration does not
+independently authenticate the artist; VRT/verified-account declarations are
+recorded as source evidence, not private-ticket inspection or worldwide clearance.
+
+The full unchanged local gates passed again: 5,020 tests / eleven platform skips,
+strict Mac/Linux mypy, 100% production line/branch coverage. The successful log
+is `build/commons-1000-research/local-quality-gates-2026-10-10-cc-final-success-recheck.log`.
+A preceding invocation from the wrong directory exited 127 without running tests;
+its separate log is retained, not counted as a test pass. **78 offline research
+tests**, research Ruff E/F/I and format checks passed; research tooling is outside
+the production coverage gate. No original downloads, credentials, push, release,
+Home Assistant or TV access occurred.
 
 User broadened curation on 2026-10-10 to artistically compelling and reasonably
 recognizable illustration, graphic art, artistic photography and digital works,
 including contemporary artists such as Kusama as research prospects. This does
-not expand the PD/CC0 admission policy or clear underlying artwork rights through
+not itself expand the PD/CC0 runtime policy or clear underlying artwork rights through
 a photographic licence. Format, complete-work and source-identity gates remain.
 
 User requested autonomous local preparation toward **1000 usable Commons works
@@ -29,7 +68,7 @@ blue-and-yellow matches; thresholds and labels are not release approved.
 Private thumbnails total 64,316,428 bytes, actual maximum axis 960px despite
 512px requests. They remain under ignored build/, never in runtime/releases.
 The local research preview at `http://127.0.0.1:8881/gallery.html` now contains
-the 400 baseline works plus 373 locally curated additions. New works are marked
+the 400 baseline works plus 377 locally curated additions. New works are marked
 unpublished and can be displayed separately. The earlier 400-card/violet check
 passed; at the 513-work intermediate milestone the browser verified 49 blue
 newcomers. The published app and the runtime catalogue still contain 400 works.
@@ -51,12 +90,15 @@ optional helper descriptions agree; public b5 has not changed.
 
 The full local gates were repeated after this curation milestone: 5,020 passed,
 eleven platform skips, strict Mac/Linux mypy and 100% line/branch coverage.
-Sixty-three offline research tests pass. Research Ruff E/F/I and formatting checks
+Seventy-eight offline research tests pass. Research Ruff E/F/I and formatting checks
 are repeated before the next checkpoint. The earlier 527-card browser check verified 127 provisional newcomers and
 56 blue newcomers. It is superseded by the stricter source-measure review below;
 the 598-card browser check verified 198 retained newcomers; the following
-616-card check verified 216. The latest completed browser check verified 773
-entries, 373 newcomers and 119 blue newcomers; all filters were reset to any.
+616-card check verified 216. The latest completed browser check verified 777
+entries, 377 newcomers and 119 blue newcomers; all filters were reset to any.
+The separate 21-reserve CC page was visibly checked, with a private screenshot
+retained; both user-facing tabs remain available. Research reserves are not
+silently merged into the accepted gallery or production count.
 
 New-work discovery is kept separate from acceptance. The broad pass found 2,575
 dimension-eligible candidates (including irrelevant photographs); narrower
@@ -75,12 +117,12 @@ All 400 baseline upload pins passed a separate artwork-identity metadata check;
 307 scoped recorded artwork QIDs supplement title and visual-fingerprint comparisons.
 The earlier 347-entry unscoped map is superseded: nested maker/source IDs must
 not be treated as concrete artworks. All original raw receipts remain retained.
-Eighty-three second-view curator sheets were inspected. Plain museum/GAP and
+Eighty-six second-view curator sheets were inspected. Plain museum/GAP and
 description measurements now supplement Size templates: image/sheet scopes are
 retained, not cherry-picked. Both source physical proportions and file shape must
 meet the requested band; conflicts remain deferred. Art Photo declarations with
 a separate attribution/share-alike photographic licence also remain outside this
-PD/CC0-only draft. **373 distinct additions are currently locally accepted**,
+PD/CC0-only draft. **377 distinct additions are currently locally accepted**,
 with upload/source/revision, rights declarations, physical
 evidence limits and inspected-sheet hashes retained in
 `frame_gallery/research/commons-expansion-curation-2026-10-09.json`.
@@ -90,7 +132,7 @@ including baseline identity matches and newly exposed measurement conflicts.
 The previous 127 provisional additions were not frozen: source rechecks removed
 uncertain cases and subsequent actual visual review added different works. No
 baseline entry was changed. This is a partial research milestone, not release
-approval or worldwide copyright clearance. **227 nominal further additions remain.**
+approval or worldwide copyright clearance. **223 nominal further additions remain.**
 
 The latest actual source/preview review added eleven distinct works, including
 W.carter's original digital photomontage and abstract photographic composition,
@@ -211,7 +253,7 @@ The twentieth full local check passed (5,020 tests / eleven platform skips,
 strict mypy for Mac/Linux over 251 files each, 100% line/branch coverage).
 No runtime/release/HA/TV change. Research remains incomplete, not frozen.
 
-The last completed checkpoint admits Willem Maris's full Heuvellandschap after
+The preceding pre-CC-approval checkpoint admits Willem Maris's full Heuvellandschap after
 source-dimension and actual second-view checks: 373 additions / 773 local entries,
 227 nominal additions remaining. All 3,999 previews are actually first-screened;
 3,102 are deferred. Source evidence covers 16,963 records / 6,900 automatic passes.

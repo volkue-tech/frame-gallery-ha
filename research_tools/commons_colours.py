@@ -513,7 +513,15 @@ def gallery() -> None:
         "Die veröffentlichte App enthält weiterhin 400. Ungeprüfte Kandidaten "
         "werden hier nicht mitgezählt. Einzelne Originalmaßangaben des Bestands "
         "werden noch nachgeprüft; dies ist kein fertiger 1000-Werke-Katalog.</p>"
-        "<p>Vorläufige Farbanalyse · vollständiges Bild ohne zugesetzte TV-Ränder.</p>"
+        + (
+            '<p><a href="cc-gallery.html">Moderne CC-Motive · '
+            "separate Recherchevorschau"
+            " (noch nicht aufgenommen)</a></p>"
+            if (OUTPUT / "cc-gallery.html").exists()
+            else ""
+        )
+        + "<p>Vorläufige Farbanalyse · vollständiges Bild "
+        "ohne zugesetzte TV-Ränder.</p>"
         '<label>Farbwunsch <select id="colour"><option value="any">Alle Farben</option>'
         + choices
         + '</select></label> <label>Auswahl <select id="kind">'

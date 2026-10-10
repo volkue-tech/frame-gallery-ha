@@ -11,7 +11,17 @@ for future combinations. This update exposes only one colour selection.
 The 2026-10-10 clarification opens research to illustration, graphic art,
 artistic photography and digital works, with artistic merit and recognizable
 works/makers prioritized. Contemporary-art prospects need rights to the actual
-artwork, not merely the photo. Existing PD/CC0 and format gates remain unchanged.
+artwork, not merely the photo. Existing runtime PD/CC0 and format gates remain unchanged.
+
+- [x] Obtain explicit approval to research CC BY/CC BY-SA original works with
+  correct attribution and separately checked artwork rights (2026-10-10).
+- [ ] Review CC leads separately, retaining exact source/licence/version,
+  creator/title, supplied notices and modification/ShareAlike obligations.
+  No preview or own-source statement constitutes artwork clearance. Design
+  mandatory accessible attribution before admitting these to runtime/release.
+  *90 CC previews actually viewed; 21 promising reserves remain separate from
+  the accepted count. Full raw notices and source/upload/thumbnail hashes retained;
+  the local reserve page is not a runtime attribution implementation.*
 
 - [x] Verify the 400-work baseline and document product scope and acceptance.
   *400 distinct IDs, 299 artist labels, zero colour profiles in the selection
@@ -25,13 +35,13 @@ artwork, not merely the photo. Existing PD/CC0 and format gates remain unchanged
   Broader visual calibration and the 600 additional works remain incomplete.*
 - [ ] Research and visually verify 600 additional distinct eligible works,
   keeping the existing width, ratio, rights and reproduction requirements.
-  *373 additions retained after stricter source/licence checks and actual
-  second-view review; 227 nominal additions remain. All 3999 checkpoint previews screened,
+  *377 additions retained after stricter source/licence checks and actual
+  second-view review; 223 nominal additions remain. All 4111 checkpoint previews screened,
   all 400 baseline upload pins checked and 307 scoped artwork QIDs retained. Candidate
   counts and temporary network deferrals are not accepted-work counts.*
 - [ ] Complete source-bound colour profiles and a reviewable preview for all
   1000 accepted works; preserve baseline IDs/pins and deferred research.
-  *The private preview contains 773 works, including the 373 unpublished
+  *The private preview contains 777 works, including the 377 unpublished
   additions with complete provisional palettes/distributions/top groups. Runtime
   still has 400; extend/freeze it only after 600 genuine additions are complete.*
 - [ ] Resolve the 56 remaining baseline physical-measurement scope prompts before claiming
@@ -49,7 +59,7 @@ artwork, not merely the photo. Existing PD/CC0 and format gates remain unchanged
 - [x] Test and document the local draft's upgrade/no-match/unsupported-source behaviour and run
   the unchanged quality gates; record observed results in STATUS.
   *5,020 passed, eleven platform skips, strict mypy for Mac/Linux, 100% line/branch
-  coverage; 63 current offline research tests. Draft guide is local, published b5 unchanged.
+  coverage; 78 current offline research tests. Draft guide is local, published b5 unchanged.
   Repeat catalogue-specific checks after the genuine 1000-work freeze.*
 - [ ] Obtain separate approval for native release builds/publication and
   separately for a Green update/TV test; do not infer either from local work.

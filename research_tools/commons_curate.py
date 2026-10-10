@@ -1,6 +1,6 @@
 """Explicit human-inspected first-batch choices, never threshold auto-selection.
 
-The IDs were selected after viewing curator sheets 000--082 on 2026-10-09/10.
+The IDs were selected after viewing curator sheets 000--084 on 2026-10-09/10.
 Any subsequent source, identity, preview or dossier flag blocks that choice.
 Research acceptance is not release approval or worldwide legal clearance.
 """
@@ -92,6 +92,8 @@ CHOICES = frozenset(
 140060554 81540470 81829663 42193661 60870999 83536678
 97906665
 85684504
+93431086 149234565
+49650356 60936484
 """.split(),
     )
 )

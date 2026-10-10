@@ -3,7 +3,7 @@
 This tooling is outside the runtime package. No credentials, original-image
 downloads, Home Assistant access or television access are needed. It does not
 automatically approve catalogue additions. Explicit second-view choices retain
-373 retained local research acceptances; the current released/runtime catalogue
+377 retained local research acceptances; the current released/runtime catalogue
 has 400. The earlier provisional 127 were reduced after plain source measurements
 exposed additional possible crops; subsequent actual visual reviews added other
 works. Use the checkpoint/curation manifest for the current count, not this history.
@@ -12,6 +12,38 @@ The project required reading and the D-212/D-213 boundaries apply. Do not weaken
 the minimum source width, near-16:9 shape, existing PD/CC0 policy, reproduction
 quality or no-duplicate rules to hit a count. Template declarations are source
 evidence, not worldwide copyright clearance or a substitute for provenance review.
+
+The 2026-10-10 explicit CC BY/CC BY-SA research approval is separate from the
+runtime PD/CC0 gate. `commons_cc_research` creates separate research leads,
+decoded previews and full attribution receipts; none is an accepted addition.
+Own-source claims do not prove third-party artwork rights. Explicit derivatives,
+conflicting licences and CC 3.0/version-specific cases stay separately deferred.
+The first 4.0 pilot is capped per author to avoid replacing variety with hundreds
+of similar fractals. Full original-work/visual/duplicate review and a mandatory
+accessible attribution design are required before runtime or release admission.
+
+```sh
+frame_gallery/.venv/bin/python -m research_tools.commons_cc_research audit
+frame_gallery/.venv/bin/python -m research_tools.commons_cc_research previews --limit 30 --author-cap 12 --pool fractal-art
+frame_gallery/.venv/bin/python -m research_tools.commons_cc_research metadata --limit 30
+frame_gallery/.venv/bin/python -m research_tools.commons_cc_research sheets
+frame_gallery/.venv/bin/python -m research_tools.commons_cc_research refresh-notices
+frame_gallery/.venv/bin/python -m research_tools.commons_cc_research pilot-review
+frame_gallery/.venv/bin/python -m research_tools.commons_cc_research gallery
+frame_gallery/.venv/bin/python -m unittest research_tools.test_commons_cc_research
+```
+
+Private CC records (`cc-research.json`, `cc-profiles.json`, `cc-full-rights.json`)
+and raw/hash-addressed sheets live only in the retained ignored research folder.
+Older selected-field receipts are not claimed to contain every supplied notice;
+the full pass requests all extmetadata and still requires manual source review.
+Complete notices, including Permission text beyond the short display-caption
+limit, remain retained. The separate local reserve gallery escapes all source
+text and links only to fixed Commons/CC URLs; it neither raises the accepted
+count nor implements mandatory runtime attribution. First-view decisions must
+be extended only after actually viewing their hash-bound sheets. The fixed
+artistic-composition pool is caption prioritization with a per-author cap,
+not evidence that a painting photograph clears the original artwork.
 
 ## Retained state
 

@@ -490,7 +490,7 @@ def inspected_batch(start: int, stop: int, plausible: set[int]) -> None:
                     if position in plausible
                     else "Observed frame, detail, object, alternative scan, "
                     "surrounding "
-                    "paper margin or weak/repetitive archival gallery motif; deferred"
+                    "paper margin or weak/repetitive gallery motif; deferred"
                 ),
             )
         )
