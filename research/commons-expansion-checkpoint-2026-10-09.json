@@ -1,18 +1,18 @@
 {
   "schema": 1,
-  "recorded_at": "2026-10-10T06:37:25.533638+00:00",
+  "recorded_at": "2026-10-10T07:02:11.843705+00:00",
   "status": "partial local curation; runtime remains 400; NOT release-approved",
   "baseline_count": 400,
   "target_total": 1000,
-  "accepted_additions": 377,
-  "local_reviewed_total": 777,
-  "remaining_additions": 223,
-  "accepted_receipt_sha256": "e89ceded301dbf90068e64c1e70cc1b83eb7228d67c2dc99915b8782d2ac76d6",
+  "accepted_additions": 378,
+  "local_reviewed_total": 778,
+  "remaining_additions": 222,
+  "accepted_receipt_sha256": "0ec29b7c347768e8e1c36a63a23410379db4a56e29575e519fe5efd697784b4f",
   "metadata_checked": 17171,
   "metadata_eligible": 7012,
   "metadata_receipt_sha256": "71cd361376bb3401de10002a6fdd453d68cb632b5841de05187f5d1a4a91be88",
-  "preview_count": 4111,
-  "preview_receipt_sha256": "bfbc954f2935072457caed8b6fec0930563d1b2b13038da9f0edc60e6a3517c9",
+  "preview_count": 4191,
+  "preview_receipt_sha256": "33ecaca055fdddc721e82a5ec45fb1306c714e3cf9b08100301ffdb2575ee7d8",
   "locally_refused": [
     {
       "id": 61155923,
@@ -223,8 +223,8 @@
       "retry": "no automatic retry; future separately reviewed retry only"
     }
   ],
-  "visually_screened_count": 4111,
-  "visual_deferrals": 3202,
+  "visually_screened_count": 4191,
+  "visual_deferrals": 3280,
   "visual_screen": {
     "records": [
       {
@@ -37226,6 +37226,726 @@
         "contact_sheet_sha256": "f5efb334c94bb1dbbbc688958822d76e4d7566fbdd8a8e37acced5d15798b352",
         "screen": "deferred",
         "reason": "Observed frame, detail, object, alternative scan, surrounding paper margin or weak/repetitive gallery motif; deferred"
+      },
+      {
+        "id": 64511359,
+        "original_sha1": "4dfd0e3535e64ebaf27d779041ed90eae203f9cb",
+        "thumbnail_sha256": "24b28cb128dc62761111ac7d16311ac092426b772fe6136809b622c05a4c9959",
+        "contact_sheet_position": 4111,
+        "contact_sheet_sha256": "405df97b5756d40eb435947a862664830236627bd0ed98eed8832449129e0928",
+        "screen": "deferred",
+        "reason": "Observed frame, detail, object, alternative scan, surrounding paper margin or weak/repetitive gallery motif; deferred"
+      },
+      {
+        "id": 64654744,
+        "original_sha1": "6a34cc8a3986980bf4e830f4879c3532dced8c10",
+        "thumbnail_sha256": "2e915b7bc80694fa95ce178d8daa9c195f2280bc126cfe1f134e7f08ae300c96",
+        "contact_sheet_position": 4112,
+        "contact_sheet_sha256": "8af958311e7c857e0454ea06d6b9afb3801b5a2d01292e8836663ddc9f957bc6",
+        "screen": "deferred",
+        "reason": "Observed frame, detail, object, alternative scan, surrounding paper margin or weak/repetitive gallery motif; deferred"
+      },
+      {
+        "id": 65051838,
+        "original_sha1": "28134a50f67771b5cf44a620b4e3d54f004787bd",
+        "thumbnail_sha256": "364ef90928f27ff0f851da4dafa5be2e3a7e5867fc8d4b89aca702d7a346066d",
+        "contact_sheet_position": 4113,
+        "contact_sheet_sha256": "8af958311e7c857e0454ea06d6b9afb3801b5a2d01292e8836663ddc9f957bc6",
+        "screen": "deferred",
+        "reason": "Observed frame, detail, object, alternative scan, surrounding paper margin or weak/repetitive gallery motif; deferred"
+      },
+      {
+        "id": 196987091,
+        "original_sha1": "5c67a7962e3d0cabc0373947abdf635769ab64eb",
+        "thumbnail_sha256": "29aa07c4a538ee6f102772c14396ebb75dcb9a32e76441ca2ce101a65daa458e",
+        "contact_sheet_position": 4114,
+        "contact_sheet_sha256": "8af958311e7c857e0454ea06d6b9afb3801b5a2d01292e8836663ddc9f957bc6",
+        "screen": "deferred",
+        "reason": "Observed frame, detail, object, alternative scan, surrounding paper margin or weak/repetitive gallery motif; deferred"
+      },
+      {
+        "id": 196987499,
+        "original_sha1": "e3c166413aa94a5c10f8a3db052350863bfe38c4",
+        "thumbnail_sha256": "8a48cb7fe7ac3c2107008afc48214f82f29325839242728e4a9967c698f1a84d",
+        "contact_sheet_position": 4115,
+        "contact_sheet_sha256": "8af958311e7c857e0454ea06d6b9afb3801b5a2d01292e8836663ddc9f957bc6",
+        "screen": "deferred",
+        "reason": "Observed frame, detail, object, alternative scan, surrounding paper margin or weak/repetitive gallery motif; deferred"
+      },
+      {
+        "id": 57380503,
+        "original_sha1": "0e393be807402135880b04b09711f9b8215ac8c1",
+        "thumbnail_sha256": "4c45b2842e23f5479813fc15b39b0d68f6ee9588f918af4209fe164e8117a3c2",
+        "contact_sheet_position": 4116,
+        "contact_sheet_sha256": "8af958311e7c857e0454ea06d6b9afb3801b5a2d01292e8836663ddc9f957bc6",
+        "screen": "deferred",
+        "reason": "Observed frame, detail, object, alternative scan, surrounding paper margin or weak/repetitive gallery motif; deferred"
+      },
+      {
+        "id": 58752663,
+        "original_sha1": "3d134563dbfcb3ac30d01518b8ae4b21c63d77d2",
+        "thumbnail_sha256": "b512a9379894a958752ae4a97b60c5054d1b9faeefdf0ac0e8f53061e5ae6ce6",
+        "contact_sheet_position": 4117,
+        "contact_sheet_sha256": "8af958311e7c857e0454ea06d6b9afb3801b5a2d01292e8836663ddc9f957bc6",
+        "screen": "deferred",
+        "reason": "Observed frame, detail, object, alternative scan, surrounding paper margin or weak/repetitive gallery motif; deferred"
+      },
+      {
+        "id": 58753399,
+        "original_sha1": "cf0eac3664e9a8635b19225f3f32c0a4a077b4b7",
+        "thumbnail_sha256": "5d2b01e75216466f9124d73d37870925b083e7f896eea1042fd52631ebb94dbd",
+        "contact_sheet_position": 4118,
+        "contact_sheet_sha256": "8af958311e7c857e0454ea06d6b9afb3801b5a2d01292e8836663ddc9f957bc6",
+        "screen": "deferred",
+        "reason": "Observed frame, detail, object, alternative scan, surrounding paper margin or weak/repetitive gallery motif; deferred"
+      },
+      {
+        "id": 60415031,
+        "original_sha1": "524d0362d558d9ba7a4861d6cef32eba61ddfd70",
+        "thumbnail_sha256": "35ae3a9b67ee6b08f21674267843740918e89a3aeeceb54ae1b57fe72db69cdb",
+        "contact_sheet_position": 4119,
+        "contact_sheet_sha256": "8af958311e7c857e0454ea06d6b9afb3801b5a2d01292e8836663ddc9f957bc6",
+        "screen": "deferred",
+        "reason": "Observed frame, detail, object, alternative scan, surrounding paper margin or weak/repetitive gallery motif; deferred"
+      },
+      {
+        "id": 65052799,
+        "original_sha1": "12c9c2b2ee964dd65415542fa33d18dbdc7cc1c9",
+        "thumbnail_sha256": "0f59691dff14d46da9c5c01681b983b3d6995289dadb7d903a976d362ad012ce",
+        "contact_sheet_position": 4120,
+        "contact_sheet_sha256": "8af958311e7c857e0454ea06d6b9afb3801b5a2d01292e8836663ddc9f957bc6",
+        "screen": "deferred",
+        "reason": "Observed frame, detail, object, alternative scan, surrounding paper margin or weak/repetitive gallery motif; deferred"
+      },
+      {
+        "id": 65052855,
+        "original_sha1": "3c4016ebb810b0cef088103eb4105b767ebbd20f",
+        "thumbnail_sha256": "acfedcc9e40ce03ee65a078184b0cf704a4fc7659a24ee96b82fd643c1299cf2",
+        "contact_sheet_position": 4121,
+        "contact_sheet_sha256": "8af958311e7c857e0454ea06d6b9afb3801b5a2d01292e8836663ddc9f957bc6",
+        "screen": "deferred",
+        "reason": "Observed frame, detail, object, alternative scan, surrounding paper margin or weak/repetitive gallery motif; deferred"
+      },
+      {
+        "id": 65053079,
+        "original_sha1": "f4e44b78af623184543fbf1fd32757c90078456a",
+        "thumbnail_sha256": "75d52402b04a0935262c134e4332c09608bba832e2d57323b79edb5d6f6c25aa",
+        "contact_sheet_position": 4122,
+        "contact_sheet_sha256": "8af958311e7c857e0454ea06d6b9afb3801b5a2d01292e8836663ddc9f957bc6",
+        "screen": "deferred",
+        "reason": "Observed frame, detail, object, alternative scan, surrounding paper margin or weak/repetitive gallery motif; deferred"
+      },
+      {
+        "id": 65152487,
+        "original_sha1": "4c446f2dd27a0d5e8c9cf451c5b04a377bc34cb2",
+        "thumbnail_sha256": "e5e686efe4079cca8d96475326fb371f093958758bcdc7de0bdc5fee5a6af4bf",
+        "contact_sheet_position": 4123,
+        "contact_sheet_sha256": "8af958311e7c857e0454ea06d6b9afb3801b5a2d01292e8836663ddc9f957bc6",
+        "screen": "deferred",
+        "reason": "Observed frame, detail, object, alternative scan, surrounding paper margin or weak/repetitive gallery motif; deferred"
+      },
+      {
+        "id": 198468898,
+        "original_sha1": "ddb306fb2b20a87d4ad427d52419b13beaed0efc",
+        "thumbnail_sha256": "413b1f9986a5ee83f1929551cc105a1c1422707a24119e8849deb1a653fcb8b1",
+        "contact_sheet_position": 4124,
+        "contact_sheet_sha256": "8af958311e7c857e0454ea06d6b9afb3801b5a2d01292e8836663ddc9f957bc6",
+        "screen": "deferred",
+        "reason": "Observed frame, detail, object, alternative scan, surrounding paper margin or weak/repetitive gallery motif; deferred"
+      },
+      {
+        "id": 178379165,
+        "original_sha1": "3426fdfb3c672f32faf595b7d01c5aeae558be06",
+        "thumbnail_sha256": "8bb83009bc8ccacd5bb0c54fb3354be37355c86ad6acc85cd1c211580fc71ce3",
+        "contact_sheet_position": 4125,
+        "contact_sheet_sha256": "8af958311e7c857e0454ea06d6b9afb3801b5a2d01292e8836663ddc9f957bc6",
+        "screen": "deferred",
+        "reason": "Observed frame, detail, object, alternative scan, surrounding paper margin or weak/repetitive gallery motif; deferred"
+      },
+      {
+        "id": 34851905,
+        "original_sha1": "289afa9b46aa15016a004ad9545e4b2886d24fe9",
+        "thumbnail_sha256": "0f79236437dcc38edda0fdf01875df14ae54f052cdd60a428a655b3d2e6a9b50",
+        "contact_sheet_position": 4126,
+        "contact_sheet_sha256": "8af958311e7c857e0454ea06d6b9afb3801b5a2d01292e8836663ddc9f957bc6",
+        "screen": "deferred",
+        "reason": "Observed frame, detail, object, alternative scan, surrounding paper margin or weak/repetitive gallery motif; deferred"
+      },
+      {
+        "id": 198468978,
+        "original_sha1": "25f5be7094dedf2c8b0a9ca2df238d84b025c60d",
+        "thumbnail_sha256": "ccfa736ec7d157e03881ce0837451c1e3ccaa3a82e714a7e88152c852d0ce589",
+        "contact_sheet_position": 4127,
+        "contact_sheet_sha256": "7f22ae34d275d004c9c0df2a0c9519042a76d63c2c71c591b8c24cffc5e3f5fe",
+        "screen": "deferred",
+        "reason": "Observed frame, detail, object, alternative scan, surrounding paper margin or weak/repetitive gallery motif; deferred"
+      },
+      {
+        "id": 125834135,
+        "original_sha1": "19c08637e3e33c477abc3e96a557d2abe0986a3a",
+        "thumbnail_sha256": "80ffe7b76b75fb63c28968f76b86bd9c83d1e3674fc3bb8ae93ddd7961af17b3",
+        "contact_sheet_position": 4128,
+        "contact_sheet_sha256": "e943e8831445c6c39195160ea2f9a6071ab27cb00a98557280f30d390fadf6f0",
+        "screen": "deferred",
+        "reason": "Observed frame, detail, object, alternative scan, surrounding paper margin or weak/repetitive gallery motif; deferred"
+      },
+      {
+        "id": 26427863,
+        "original_sha1": "7f4ddbcd397e9cbdf08f489acb727f2b952abf62",
+        "thumbnail_sha256": "2ff350ca6a86058bf1b27ed2f21c9c4cc871fd9f99ca14219b0a24518bc50061",
+        "contact_sheet_position": 4129,
+        "contact_sheet_sha256": "e943e8831445c6c39195160ea2f9a6071ab27cb00a98557280f30d390fadf6f0",
+        "screen": "deferred",
+        "reason": "Observed frame, detail, object, alternative scan, surrounding paper margin or weak/repetitive gallery motif; deferred"
+      },
+      {
+        "id": 162475424,
+        "original_sha1": "f491d70e6ccbf18eb80288cb856f9a5087ca88ce",
+        "thumbnail_sha256": "3bcbc715bcb2cd6eae3819938797bb83cc8adc5e9a2571a37514174148f7b5ff",
+        "contact_sheet_position": 4130,
+        "contact_sheet_sha256": "e943e8831445c6c39195160ea2f9a6071ab27cb00a98557280f30d390fadf6f0",
+        "screen": "deferred",
+        "reason": "Observed frame, detail, object, alternative scan, surrounding paper margin or weak/repetitive gallery motif; deferred"
+      },
+      {
+        "id": 122039505,
+        "original_sha1": "7fa077ea667d336b1a84f240865349db06e8fdbb",
+        "thumbnail_sha256": "59d7e9c32ada48ab58f57415257981e806ce16c41dabfb4d5732f9b69ba56551",
+        "contact_sheet_position": 4131,
+        "contact_sheet_sha256": "e943e8831445c6c39195160ea2f9a6071ab27cb00a98557280f30d390fadf6f0",
+        "screen": "deferred",
+        "reason": "Observed frame, detail, object, alternative scan, surrounding paper margin or weak/repetitive gallery motif; deferred"
+      },
+      {
+        "id": 121730882,
+        "original_sha1": "437149757119462958370ce2016db79faa99b00f",
+        "thumbnail_sha256": "e32800a7e97612d408422c7699ca16d1c41487df4b3ed931300899773ca07fd1",
+        "contact_sheet_position": 4132,
+        "contact_sheet_sha256": "e943e8831445c6c39195160ea2f9a6071ab27cb00a98557280f30d390fadf6f0",
+        "screen": "deferred",
+        "reason": "Observed frame, detail, object, alternative scan, surrounding paper margin or weak/repetitive gallery motif; deferred"
+      },
+      {
+        "id": 89934679,
+        "original_sha1": "62c463e696fe979e9dae1a97dff2a9bd85a1efa0",
+        "thumbnail_sha256": "541c480bcb0f44c34cb11c1d1657c9c8dc7d52116beaa210244449d3ae8b811a",
+        "contact_sheet_position": 4133,
+        "contact_sheet_sha256": "e943e8831445c6c39195160ea2f9a6071ab27cb00a98557280f30d390fadf6f0",
+        "screen": "deferred",
+        "reason": "Observed frame, detail, object, alternative scan, surrounding paper margin or weak/repetitive gallery motif; deferred"
+      },
+      {
+        "id": 32602125,
+        "original_sha1": "4538c639a6c0dc2778bddd8cb356bae799638ad3",
+        "thumbnail_sha256": "b1649465276b7f3463b5fdeaad8d8be53e5a7cb2e5755384d1b2263472be5c9e",
+        "contact_sheet_position": 4134,
+        "contact_sheet_sha256": "e943e8831445c6c39195160ea2f9a6071ab27cb00a98557280f30d390fadf6f0",
+        "screen": "deferred",
+        "reason": "Observed frame, detail, object, alternative scan, surrounding paper margin or weak/repetitive gallery motif; deferred"
+      },
+      {
+        "id": 33080937,
+        "original_sha1": "0ca73cb70d40a1b9e959c36b06a4ce569968440a",
+        "thumbnail_sha256": "61a4a3478624cc03c4a2ca58cdd73bdf5b975c6c5b635b392335ea8d606fee54",
+        "contact_sheet_position": 4135,
+        "contact_sheet_sha256": "e943e8831445c6c39195160ea2f9a6071ab27cb00a98557280f30d390fadf6f0",
+        "screen": "deferred",
+        "reason": "Observed frame, detail, object, alternative scan, surrounding paper margin or weak/repetitive gallery motif; deferred"
+      },
+      {
+        "id": 34219397,
+        "original_sha1": "4fc15868b28a4cfbbe5ae88cf8b3a558df2836e7",
+        "thumbnail_sha256": "2fbfd8df7bdc33483a8fc80d2c2f9fc5c85c895a0a9ed4f733863bd88fea5cb2",
+        "contact_sheet_position": 4136,
+        "contact_sheet_sha256": "e943e8831445c6c39195160ea2f9a6071ab27cb00a98557280f30d390fadf6f0",
+        "screen": "deferred",
+        "reason": "Observed frame, detail, object, alternative scan, surrounding paper margin or weak/repetitive gallery motif; deferred"
+      },
+      {
+        "id": 34402672,
+        "original_sha1": "873a6ed1192624167ea740a696d490cd2e1353a8",
+        "thumbnail_sha256": "40027ec1872660423b2f119c5ae15642d25bd3ba73d991032fd456ff3c7c2ad8",
+        "contact_sheet_position": 4137,
+        "contact_sheet_sha256": "e943e8831445c6c39195160ea2f9a6071ab27cb00a98557280f30d390fadf6f0",
+        "screen": "deferred",
+        "reason": "Observed frame, detail, object, alternative scan, surrounding paper margin or weak/repetitive gallery motif; deferred"
+      },
+      {
+        "id": 38274664,
+        "original_sha1": "6921f1e4dbe8301eaba817ce14b881d0a6d7b867",
+        "thumbnail_sha256": "d6f2272c4353978e1eddad56cedfc2c9cf2073642e91e6deb9a13f6e2f8c2e2e",
+        "contact_sheet_position": 4138,
+        "contact_sheet_sha256": "e943e8831445c6c39195160ea2f9a6071ab27cb00a98557280f30d390fadf6f0",
+        "screen": "deferred",
+        "reason": "Observed frame, detail, object, alternative scan, surrounding paper margin or weak/repetitive gallery motif; deferred"
+      },
+      {
+        "id": 39538277,
+        "original_sha1": "da782c671e1622f9757d9a643c2532c4e7c335a5",
+        "thumbnail_sha256": "34ce55c7c0f543abaab158b9d2b3e071ce5570722b8308b8ab1514b5b5d22e36",
+        "contact_sheet_position": 4139,
+        "contact_sheet_sha256": "e943e8831445c6c39195160ea2f9a6071ab27cb00a98557280f30d390fadf6f0",
+        "screen": "deferred",
+        "reason": "Observed frame, detail, object, alternative scan, surrounding paper margin or weak/repetitive gallery motif; deferred"
+      },
+      {
+        "id": 39625777,
+        "original_sha1": "be63b10e456d8b8874bb073c670a13394ac80576",
+        "thumbnail_sha256": "e9a201cef178332070b5c8bddedc0b632c3c84eeeecb58668607b7127fa7e387",
+        "contact_sheet_position": 4140,
+        "contact_sheet_sha256": "e943e8831445c6c39195160ea2f9a6071ab27cb00a98557280f30d390fadf6f0",
+        "screen": "deferred",
+        "reason": "Observed frame, detail, object, alternative scan, surrounding paper margin or weak/repetitive gallery motif; deferred"
+      },
+      {
+        "id": 41025237,
+        "original_sha1": "163eec0694ccb99bd74c5a990f4c90e68ab7b253",
+        "thumbnail_sha256": "b01899868748072cace942643c337a59cb263dcb80eff9323136ab1ba1ea75fa",
+        "contact_sheet_position": 4141,
+        "contact_sheet_sha256": "e943e8831445c6c39195160ea2f9a6071ab27cb00a98557280f30d390fadf6f0",
+        "screen": "deferred",
+        "reason": "Observed frame, detail, object, alternative scan, surrounding paper margin or weak/repetitive gallery motif; deferred"
+      },
+      {
+        "id": 41073421,
+        "original_sha1": "c7cdb3f2864d7f227158a216ac5dc7485d519460",
+        "thumbnail_sha256": "446334b9712526ea10743e4ed98c90f865ec3b16b3baa481364ff11efdf94ea1",
+        "contact_sheet_position": 4142,
+        "contact_sheet_sha256": "e943e8831445c6c39195160ea2f9a6071ab27cb00a98557280f30d390fadf6f0",
+        "screen": "deferred",
+        "reason": "Observed frame, detail, object, alternative scan, surrounding paper margin or weak/repetitive gallery motif; deferred"
+      },
+      {
+        "id": 41974601,
+        "original_sha1": "7d6f9cb26ee0bac2176723ff6654ee3abb143df9",
+        "thumbnail_sha256": "d88b37b80300b0962bf739ea791ce89e76291027213f711328267ecfb90c6766",
+        "contact_sheet_position": 4143,
+        "contact_sheet_sha256": "e943e8831445c6c39195160ea2f9a6071ab27cb00a98557280f30d390fadf6f0",
+        "screen": "deferred",
+        "reason": "Observed frame, detail, object, alternative scan, surrounding paper margin or weak/repetitive gallery motif; deferred"
+      },
+      {
+        "id": 42856870,
+        "original_sha1": "8cf70a93dc40864177ecc58440bd37810a071b56",
+        "thumbnail_sha256": "9e7ddcd26fb60dc1d247c763683f11e7c169960268f0f000094ba4c7e007e875",
+        "contact_sheet_position": 4144,
+        "contact_sheet_sha256": "06b0faca0397a147f877217ee80ac7acfd154be21c3817ca2005d9c8eeec0413",
+        "screen": "deferred",
+        "reason": "Observed frame, detail, object, alternative scan, surrounding paper margin or weak/repetitive gallery motif; deferred"
+      },
+      {
+        "id": 49112043,
+        "original_sha1": "33c5127423954405a91c923fc5067cdf1022c6c6",
+        "thumbnail_sha256": "4be1d6938d80fa3fe5a6ae09735f6cf1494d53d2dbc28815d39d7d87d9f3ce01",
+        "contact_sheet_position": 4145,
+        "contact_sheet_sha256": "06b0faca0397a147f877217ee80ac7acfd154be21c3817ca2005d9c8eeec0413",
+        "screen": "deferred",
+        "reason": "Observed frame, detail, object, alternative scan, surrounding paper margin or weak/repetitive gallery motif; deferred"
+      },
+      {
+        "id": 49483224,
+        "original_sha1": "d124072d164863a4d5c63139e3e9109bfe42bb5f",
+        "thumbnail_sha256": "4e7579474d1576f8b69072fe4203c4c5f8e174da2a7fc9e97cbcdace2294eeea",
+        "contact_sheet_position": 4146,
+        "contact_sheet_sha256": "06b0faca0397a147f877217ee80ac7acfd154be21c3817ca2005d9c8eeec0413",
+        "screen": "deferred",
+        "reason": "Observed frame, detail, object, alternative scan, surrounding paper margin or weak/repetitive gallery motif; deferred"
+      },
+      {
+        "id": 50463328,
+        "original_sha1": "2fda5f5d2ad2d79f660292eabd55f84168490565",
+        "thumbnail_sha256": "0281b379f6537406a4757cce0f7a7aba9ca397d59f0f19e5d78cf56cc10bbf4d",
+        "contact_sheet_position": 4147,
+        "contact_sheet_sha256": "06b0faca0397a147f877217ee80ac7acfd154be21c3817ca2005d9c8eeec0413",
+        "screen": "deferred",
+        "reason": "Observed frame, detail, object, alternative scan, surrounding paper margin or weak/repetitive gallery motif; deferred"
+      },
+      {
+        "id": 50547985,
+        "original_sha1": "5a0af7598ea38f6db3b62a25a330528c2cfb89f5",
+        "thumbnail_sha256": "831413b09bbafa57a18983f82ddc37daa06b51b1fc0f205fccf0150becc5b3a2",
+        "contact_sheet_position": 4148,
+        "contact_sheet_sha256": "06b0faca0397a147f877217ee80ac7acfd154be21c3817ca2005d9c8eeec0413",
+        "screen": "deferred",
+        "reason": "Observed frame, detail, object, alternative scan, surrounding paper margin or weak/repetitive gallery motif; deferred"
+      },
+      {
+        "id": 50646210,
+        "original_sha1": "749319e39dd1955d5a25734af076958d269f974e",
+        "thumbnail_sha256": "c309723157295a9b0c11854b3590902d2416f70314c8252cebc3da6dd0b851f3",
+        "contact_sheet_position": 4149,
+        "contact_sheet_sha256": "06b0faca0397a147f877217ee80ac7acfd154be21c3817ca2005d9c8eeec0413",
+        "screen": "deferred",
+        "reason": "Observed frame, detail, object, alternative scan, surrounding paper margin or weak/repetitive gallery motif; deferred"
+      },
+      {
+        "id": 58312136,
+        "original_sha1": "2fffea2857a35f3479ad57b76398ed31560c92a8",
+        "thumbnail_sha256": "6a206aef11f51fe1b9947b106dc4f8e68a9c86d7b79ef98cc2de48770be63f9b",
+        "contact_sheet_position": 4150,
+        "contact_sheet_sha256": "06b0faca0397a147f877217ee80ac7acfd154be21c3817ca2005d9c8eeec0413",
+        "screen": "deferred",
+        "reason": "Observed frame, detail, object, alternative scan, surrounding paper margin or weak/repetitive gallery motif; deferred"
+      },
+      {
+        "id": 58587378,
+        "original_sha1": "916067eca1a56f812f2b693e9e82da42ad863277",
+        "thumbnail_sha256": "31370480a2d7d741041953ced75a53e248129eeefe9edac9b9a70348e386186a",
+        "contact_sheet_position": 4151,
+        "contact_sheet_sha256": "06b0faca0397a147f877217ee80ac7acfd154be21c3817ca2005d9c8eeec0413",
+        "screen": "deferred",
+        "reason": "Observed frame, detail, object, alternative scan, surrounding paper margin or weak/repetitive gallery motif; deferred"
+      },
+      {
+        "id": 59614488,
+        "original_sha1": "73cfe9b88aa1154b3a531e65979df8504b78784f",
+        "thumbnail_sha256": "97b89ba378db9ca190053a0f719ce41041b48abf0a9758ab07bf220dcda1af0e",
+        "contact_sheet_position": 4152,
+        "contact_sheet_sha256": "06b0faca0397a147f877217ee80ac7acfd154be21c3817ca2005d9c8eeec0413",
+        "screen": "deferred",
+        "reason": "Observed frame, detail, object, alternative scan, surrounding paper margin or weak/repetitive gallery motif; deferred"
+      },
+      {
+        "id": 61806555,
+        "original_sha1": "2940da5f816ae39827ca0d934065a5781abeee08",
+        "thumbnail_sha256": "668cec822b2714a5f08b3227fe66e3c6f465063f4ab297b62884a98dd9fc9242",
+        "contact_sheet_position": 4153,
+        "contact_sheet_sha256": "06b0faca0397a147f877217ee80ac7acfd154be21c3817ca2005d9c8eeec0413",
+        "screen": "deferred",
+        "reason": "Observed frame, detail, object, alternative scan, surrounding paper margin or weak/repetitive gallery motif; deferred"
+      },
+      {
+        "id": 62533827,
+        "original_sha1": "34483a6bf29ea09b1270010ec61ada91ca8cce20",
+        "thumbnail_sha256": "7c051d7b4c5c9528e8b7b35182a0dbb13f6db7b66c958911634e98d5e46fee00",
+        "contact_sheet_position": 4154,
+        "contact_sheet_sha256": "06b0faca0397a147f877217ee80ac7acfd154be21c3817ca2005d9c8eeec0413",
+        "screen": "deferred",
+        "reason": "Observed frame, detail, object, alternative scan, surrounding paper margin or weak/repetitive gallery motif; deferred"
+      },
+      {
+        "id": 68509603,
+        "original_sha1": "5af2feebdb1b7adaf3cd17634611b9c1413e3293",
+        "thumbnail_sha256": "624924a0d642167b5fa0e3096119e54c7ed4568f8b8cf42c4ca25621c305926f",
+        "contact_sheet_position": 4155,
+        "contact_sheet_sha256": "06b0faca0397a147f877217ee80ac7acfd154be21c3817ca2005d9c8eeec0413",
+        "screen": "deferred",
+        "reason": "Observed frame, detail, object, alternative scan, surrounding paper margin or weak/repetitive gallery motif; deferred"
+      },
+      {
+        "id": 70159416,
+        "original_sha1": "cc41e88a8973ed6ddfcd8ef6ec2db87e94b751c1",
+        "thumbnail_sha256": "af0bf616ac730da07f8a023c1a4bae27b559e26e110a3f1b6593a0ef1fb1b551",
+        "contact_sheet_position": 4156,
+        "contact_sheet_sha256": "06b0faca0397a147f877217ee80ac7acfd154be21c3817ca2005d9c8eeec0413",
+        "screen": "deferred",
+        "reason": "Observed frame, detail, object, alternative scan, surrounding paper margin or weak/repetitive gallery motif; deferred"
+      },
+      {
+        "id": 70281760,
+        "original_sha1": "63f9c4d21b4dc61e70a05476fd787632decbf42e",
+        "thumbnail_sha256": "15e135ab56a847a2bb25d57c93c0e432050df39295b51ab0732598065694e08d",
+        "contact_sheet_position": 4157,
+        "contact_sheet_sha256": "06b0faca0397a147f877217ee80ac7acfd154be21c3817ca2005d9c8eeec0413",
+        "screen": "deferred",
+        "reason": "Observed frame, detail, object, alternative scan, surrounding paper margin or weak/repetitive gallery motif; deferred"
+      },
+      {
+        "id": 72234634,
+        "original_sha1": "e209072676c80a1e4867689443b559d454a72994",
+        "thumbnail_sha256": "f8ebe46308bcce3001050551209df55501e827551b2df00a9bf31dfdda9650ba",
+        "contact_sheet_position": 4158,
+        "contact_sheet_sha256": "06b0faca0397a147f877217ee80ac7acfd154be21c3817ca2005d9c8eeec0413",
+        "screen": "deferred",
+        "reason": "Observed frame, detail, object, alternative scan, surrounding paper margin or weak/repetitive gallery motif; deferred"
+      },
+      {
+        "id": 74179603,
+        "original_sha1": "22ec2dd000061751a940473e492c92e5ed520676",
+        "thumbnail_sha256": "57b7c64934d92dd418f057949546da0442b6e0ef2258399aade291ebc7ce5595",
+        "contact_sheet_position": 4159,
+        "contact_sheet_sha256": "06b0faca0397a147f877217ee80ac7acfd154be21c3817ca2005d9c8eeec0413",
+        "screen": "deferred",
+        "reason": "Observed frame, detail, object, alternative scan, surrounding paper margin or weak/repetitive gallery motif; deferred"
+      },
+      {
+        "id": 74395966,
+        "original_sha1": "4f319921e832c4ae0028114112545110fb647af0",
+        "thumbnail_sha256": "8c862d289a5a33d6029acfda9e3b46829068967beecb4571feb8f13ebc785f0e",
+        "contact_sheet_position": 4160,
+        "contact_sheet_sha256": "1de45af0979a6f01c34b884ce83ede454b17c96d6bd91c0de3183089a3104ce6",
+        "screen": "deferred",
+        "reason": "Observed frame, detail, object, alternative scan, surrounding paper margin or weak/repetitive gallery motif; deferred"
+      },
+      {
+        "id": 74535037,
+        "original_sha1": "124820194100b23f4fa3fb6230260f11db7a4f5b",
+        "thumbnail_sha256": "d23eba06e156bf24997ab9036faf85172bcdae18ec32d606dd4b52615e739c4e",
+        "contact_sheet_position": 4161,
+        "contact_sheet_sha256": "1de45af0979a6f01c34b884ce83ede454b17c96d6bd91c0de3183089a3104ce6",
+        "screen": "deferred",
+        "reason": "Observed frame, detail, object, alternative scan, surrounding paper margin or weak/repetitive gallery motif; deferred"
+      },
+      {
+        "id": 85109525,
+        "original_sha1": "9cb59cf67ef6383c212a3f964529c1451c0da49b",
+        "thumbnail_sha256": "ddca7deae0ec3a9e1f2e7ab98a55e05c717ff6f75d457bd307fd82d6502b4df5",
+        "contact_sheet_position": 4162,
+        "contact_sheet_sha256": "1de45af0979a6f01c34b884ce83ede454b17c96d6bd91c0de3183089a3104ce6",
+        "screen": "deferred",
+        "reason": "Observed frame, detail, object, alternative scan, surrounding paper margin or weak/repetitive gallery motif; deferred"
+      },
+      {
+        "id": 87352998,
+        "original_sha1": "697e42ac1e637d169b3ad5857f90491749d77c77",
+        "thumbnail_sha256": "076f59b9514a29484d04a342bc44e17136f28d813ddeada082788e7a6a571fb3",
+        "contact_sheet_position": 4163,
+        "contact_sheet_sha256": "1de45af0979a6f01c34b884ce83ede454b17c96d6bd91c0de3183089a3104ce6",
+        "screen": "deferred",
+        "reason": "Observed frame, detail, object, alternative scan, surrounding paper margin or weak/repetitive gallery motif; deferred"
+      },
+      {
+        "id": 89059587,
+        "original_sha1": "af5d26459bbfd52ed1d412fce49305ee532dc71f",
+        "thumbnail_sha256": "7c61ee6bd9de242fcf8cc4774067b687d61e1e5d33c2bfa30ddcf68973173e5c",
+        "contact_sheet_position": 4164,
+        "contact_sheet_sha256": "1de45af0979a6f01c34b884ce83ede454b17c96d6bd91c0de3183089a3104ce6",
+        "screen": "deferred",
+        "reason": "Observed frame, detail, object, alternative scan, surrounding paper margin or weak/repetitive gallery motif; deferred"
+      },
+      {
+        "id": 89205208,
+        "original_sha1": "4a487857e1e664f4407bc7844bace46dc76bbb97",
+        "thumbnail_sha256": "3b062a0aab79266105c487943f38f47133198be281d34df4e9cab8671d84bc9f",
+        "contact_sheet_position": 4165,
+        "contact_sheet_sha256": "1de45af0979a6f01c34b884ce83ede454b17c96d6bd91c0de3183089a3104ce6",
+        "screen": "deferred",
+        "reason": "Observed frame, detail, object, alternative scan, surrounding paper margin or weak/repetitive gallery motif; deferred"
+      },
+      {
+        "id": 89292800,
+        "original_sha1": "c590a8bd1a32d25a1f290cf1a4302136dc1e0f4a",
+        "thumbnail_sha256": "438e1db14fbf380761422c0129577e2465086ac9a24f0ed2dc5b8fbc5e24eda4",
+        "contact_sheet_position": 4166,
+        "contact_sheet_sha256": "1de45af0979a6f01c34b884ce83ede454b17c96d6bd91c0de3183089a3104ce6",
+        "screen": "deferred",
+        "reason": "Observed frame, detail, object, alternative scan, surrounding paper margin or weak/repetitive gallery motif; deferred"
+      },
+      {
+        "id": 89878118,
+        "original_sha1": "e31592284b9559abc889e8ff90f55c124a73380b",
+        "thumbnail_sha256": "dde7b6dd91cbdd26ed25d41e8e2874012e4ff0fe8d7160d8f066dee0df3c1dbc",
+        "contact_sheet_position": 4167,
+        "contact_sheet_sha256": "1de45af0979a6f01c34b884ce83ede454b17c96d6bd91c0de3183089a3104ce6",
+        "screen": "deferred",
+        "reason": "Observed frame, detail, object, alternative scan, surrounding paper margin or weak/repetitive gallery motif; deferred"
+      },
+      {
+        "id": 91249774,
+        "original_sha1": "ed8aee86f1092ba904549d836a2a60c3ef4ddcdb",
+        "thumbnail_sha256": "08a880879366fc3da1a9a293ddbb7747638b6afaccdfcb3707e29a3ca803190d",
+        "contact_sheet_position": 4168,
+        "contact_sheet_sha256": "1de45af0979a6f01c34b884ce83ede454b17c96d6bd91c0de3183089a3104ce6",
+        "screen": "deferred",
+        "reason": "Observed frame, detail, object, alternative scan, surrounding paper margin or weak/repetitive gallery motif; deferred"
+      },
+      {
+        "id": 91737950,
+        "original_sha1": "5016de9f3f64648d1c6e65a94e2245674c494896",
+        "thumbnail_sha256": "27169b27956e98915a866c5a87d4ab3aa725653f81c66cad7164e0d5786248c5",
+        "contact_sheet_position": 4169,
+        "contact_sheet_sha256": "1de45af0979a6f01c34b884ce83ede454b17c96d6bd91c0de3183089a3104ce6",
+        "screen": "deferred",
+        "reason": "Observed frame, detail, object, alternative scan, surrounding paper margin or weak/repetitive gallery motif; deferred"
+      },
+      {
+        "id": 91993877,
+        "original_sha1": "2a2f1cb4bbfd1c16151b9d4301e71530258d3ad8",
+        "thumbnail_sha256": "97f086554112286c3355d409927ed1588a85abb6d8d8a54991c188ccc020747f",
+        "contact_sheet_position": 4170,
+        "contact_sheet_sha256": "1de45af0979a6f01c34b884ce83ede454b17c96d6bd91c0de3183089a3104ce6",
+        "screen": "deferred",
+        "reason": "Observed frame, detail, object, alternative scan, surrounding paper margin or weak/repetitive gallery motif; deferred"
+      },
+      {
+        "id": 92166247,
+        "original_sha1": "ca16407275d1bfdb14de0b299dddfd67b11895bf",
+        "thumbnail_sha256": "a9aef14f2a3a62c782c06f2ba595342df911e505428ce697032a227c6090767d",
+        "contact_sheet_position": 4171,
+        "contact_sheet_sha256": "1de45af0979a6f01c34b884ce83ede454b17c96d6bd91c0de3183089a3104ce6",
+        "screen": "deferred",
+        "reason": "Observed frame, detail, object, alternative scan, surrounding paper margin or weak/repetitive gallery motif; deferred"
+      },
+      {
+        "id": 92588025,
+        "original_sha1": "0f5b09ff7babed14746d8f6bdb2f628f33ba0b5c",
+        "thumbnail_sha256": "5e9b21eb1ff90b57ccadddb81132364d41c61b81e87e5ae1e08828387f0cb5c5",
+        "contact_sheet_position": 4172,
+        "contact_sheet_sha256": "1de45af0979a6f01c34b884ce83ede454b17c96d6bd91c0de3183089a3104ce6",
+        "screen": "deferred",
+        "reason": "Observed frame, detail, object, alternative scan, surrounding paper margin or weak/repetitive gallery motif; deferred"
+      },
+      {
+        "id": 104137593,
+        "original_sha1": "b7cebc9d5ae433e2c243e92d5dba72bf51da2fbb",
+        "thumbnail_sha256": "4e804cb3fc2035947157375b29a36305699dcc97e71ce002db6412ac0d42894d",
+        "contact_sheet_position": 4173,
+        "contact_sheet_sha256": "1de45af0979a6f01c34b884ce83ede454b17c96d6bd91c0de3183089a3104ce6",
+        "screen": "visual first-pass",
+        "reason": "Complete reproduction visually plausible; source, physical proportions and artwork identity require second review"
+      },
+      {
+        "id": 105200642,
+        "original_sha1": "e7b7253f5c82a9faeaf6e7dfd4a7b05baa7dfcdd",
+        "thumbnail_sha256": "45311e0d6cf8449d243b2201eefbe4f0ecc0c8b9994e4f35c49659563e553df7",
+        "contact_sheet_position": 4174,
+        "contact_sheet_sha256": "1de45af0979a6f01c34b884ce83ede454b17c96d6bd91c0de3183089a3104ce6",
+        "screen": "deferred",
+        "reason": "Observed frame, detail, object, alternative scan, surrounding paper margin or weak/repetitive gallery motif; deferred"
+      },
+      {
+        "id": 105931494,
+        "original_sha1": "736e21c43d9e5facdad021fc08b7cb629cd19cf9",
+        "thumbnail_sha256": "387d9a46cdd992754f1ca6082514c3d1c6701fe651bb290706c8cedbc171e9cb",
+        "contact_sheet_position": 4175,
+        "contact_sheet_sha256": "1de45af0979a6f01c34b884ce83ede454b17c96d6bd91c0de3183089a3104ce6",
+        "screen": "deferred",
+        "reason": "Observed frame, detail, object, alternative scan, surrounding paper margin or weak/repetitive gallery motif; deferred"
+      },
+      {
+        "id": 107746121,
+        "original_sha1": "edbd3de3d49dc03532f631dc0381fb9953a15633",
+        "thumbnail_sha256": "32be17bc3eca99696796a7dd32d7cfac93176683e1137f23197bbc7d4fcebe86",
+        "contact_sheet_position": 4176,
+        "contact_sheet_sha256": "9eb59312de111d29af3fd89feb560774596a4453a68850169784acdf9643d0a5",
+        "screen": "deferred",
+        "reason": "Observed frame, detail, object, alternative scan, surrounding paper margin or weak/repetitive gallery motif; deferred"
+      },
+      {
+        "id": 107897562,
+        "original_sha1": "daed08c673975e45a599295c883fa80bdfc128dc",
+        "thumbnail_sha256": "bb9bd756cc3f9aa95342466c956b82b4a4cdcd4418a53f9a72357fbc4a23967e",
+        "contact_sheet_position": 4177,
+        "contact_sheet_sha256": "9eb59312de111d29af3fd89feb560774596a4453a68850169784acdf9643d0a5",
+        "screen": "deferred",
+        "reason": "Observed frame, detail, object, alternative scan, surrounding paper margin or weak/repetitive gallery motif; deferred"
+      },
+      {
+        "id": 110629726,
+        "original_sha1": "bee16be88d2310aa47c4befd4474a21e5063d629",
+        "thumbnail_sha256": "8ba0730c569d5368607994556a5160ec3de3ca8ce4b29fee6eef24cd65760aeb",
+        "contact_sheet_position": 4178,
+        "contact_sheet_sha256": "9eb59312de111d29af3fd89feb560774596a4453a68850169784acdf9643d0a5",
+        "screen": "deferred",
+        "reason": "Observed frame, detail, object, alternative scan, surrounding paper margin or weak/repetitive gallery motif; deferred"
+      },
+      {
+        "id": 114097214,
+        "original_sha1": "632e3d71819b49fa0a4e582b2596cfb8b35b7bd5",
+        "thumbnail_sha256": "b65b74612bbb4dcd5f4f8ddd293fa291916aaef0b6c497cdd4b7c786602f5f13",
+        "contact_sheet_position": 4179,
+        "contact_sheet_sha256": "9eb59312de111d29af3fd89feb560774596a4453a68850169784acdf9643d0a5",
+        "screen": "deferred",
+        "reason": "Observed frame, detail, object, alternative scan, surrounding paper margin or weak/repetitive gallery motif; deferred"
+      },
+      {
+        "id": 114431510,
+        "original_sha1": "b6218666b1962358ef58693b6979e382c54ce19b",
+        "thumbnail_sha256": "5211f3d0adb85e9e6c009a6a7bb148c58f37b5450aeb06e4131c3c7b113b5738",
+        "contact_sheet_position": 4180,
+        "contact_sheet_sha256": "9eb59312de111d29af3fd89feb560774596a4453a68850169784acdf9643d0a5",
+        "screen": "deferred",
+        "reason": "Observed frame, detail, object, alternative scan, surrounding paper margin or weak/repetitive gallery motif; deferred"
+      },
+      {
+        "id": 115271535,
+        "original_sha1": "689dc4b087c75a3c5e549c00e690f80c30c74238",
+        "thumbnail_sha256": "14861fdddb1ad191597111e8487bdc4f888c36e8924a2b779ad330076c562a09",
+        "contact_sheet_position": 4181,
+        "contact_sheet_sha256": "9eb59312de111d29af3fd89feb560774596a4453a68850169784acdf9643d0a5",
+        "screen": "deferred",
+        "reason": "Observed frame, detail, object, alternative scan, surrounding paper margin or weak/repetitive gallery motif; deferred"
+      },
+      {
+        "id": 142209721,
+        "original_sha1": "f8df63c7ae3c6dcb3816f0e300453bc4b49d3eb3",
+        "thumbnail_sha256": "f66c4028b1a072e2c53427a4ab9346a24a245d3fede6c4bb887d86e0d18f00fd",
+        "contact_sheet_position": 4182,
+        "contact_sheet_sha256": "9eb59312de111d29af3fd89feb560774596a4453a68850169784acdf9643d0a5",
+        "screen": "deferred",
+        "reason": "Observed frame, detail, object, alternative scan, surrounding paper margin or weak/repetitive gallery motif; deferred"
+      },
+      {
+        "id": 142859687,
+        "original_sha1": "17dc5a67b0e232f7a8ed68592da5a9437a97305a",
+        "thumbnail_sha256": "91161eeaef2497c67ce242f198f1a6774eb8b200ab26a060cd5ea516f8ec2443",
+        "contact_sheet_position": 4183,
+        "contact_sheet_sha256": "9eb59312de111d29af3fd89feb560774596a4453a68850169784acdf9643d0a5",
+        "screen": "visual first-pass",
+        "reason": "Complete reproduction visually plausible; source, physical proportions and artwork identity require second review"
+      },
+      {
+        "id": 144998977,
+        "original_sha1": "1abe16ea9f5b4d42e49ef2f4a17318ff3fa8ae4a",
+        "thumbnail_sha256": "7438fc6192c143c10a3a71bb693ae67d4b215af9085bb87e09cccbccc5ea8eb6",
+        "contact_sheet_position": 4184,
+        "contact_sheet_sha256": "9eb59312de111d29af3fd89feb560774596a4453a68850169784acdf9643d0a5",
+        "screen": "deferred",
+        "reason": "Observed frame, detail, object, alternative scan, surrounding paper margin or weak/repetitive gallery motif; deferred"
+      },
+      {
+        "id": 146724591,
+        "original_sha1": "900315a4af1dc62966053889df7828fe429f073d",
+        "thumbnail_sha256": "e958031d2c7b6f6ee621be80bc7d1e2c4075497df5368f1f21f76f119c7ca5b6",
+        "contact_sheet_position": 4185,
+        "contact_sheet_sha256": "9eb59312de111d29af3fd89feb560774596a4453a68850169784acdf9643d0a5",
+        "screen": "deferred",
+        "reason": "Observed frame, detail, object, alternative scan, surrounding paper margin or weak/repetitive gallery motif; deferred"
+      },
+      {
+        "id": 149988540,
+        "original_sha1": "208314090f480abf1cde81a6ab479d417f6d0e92",
+        "thumbnail_sha256": "dd38d5352aba6b904ce834a82d60363fac2bb0d44aa4ec7406f6920353d00de2",
+        "contact_sheet_position": 4186,
+        "contact_sheet_sha256": "9eb59312de111d29af3fd89feb560774596a4453a68850169784acdf9643d0a5",
+        "screen": "deferred",
+        "reason": "Observed frame, detail, object, alternative scan, surrounding paper margin or weak/repetitive gallery motif; deferred"
+      },
+      {
+        "id": 157007674,
+        "original_sha1": "fcb277bb750edbdc72c271014411ad7823f91f3b",
+        "thumbnail_sha256": "b6192d96ad57613218b57b0c5f84ead50723e3411f7c3c395c486b72fedbfc79",
+        "contact_sheet_position": 4187,
+        "contact_sheet_sha256": "9eb59312de111d29af3fd89feb560774596a4453a68850169784acdf9643d0a5",
+        "screen": "deferred",
+        "reason": "Observed frame, detail, object, alternative scan, surrounding paper margin or weak/repetitive gallery motif; deferred"
+      },
+      {
+        "id": 163920757,
+        "original_sha1": "d532fe041ebab24923528ad524218a4e68196203",
+        "thumbnail_sha256": "7ff689b456686683501cb29ca639cfcb0e66270d57d75632a742cb1d614b044f",
+        "contact_sheet_position": 4188,
+        "contact_sheet_sha256": "9eb59312de111d29af3fd89feb560774596a4453a68850169784acdf9643d0a5",
+        "screen": "deferred",
+        "reason": "Observed frame, detail, object, alternative scan, surrounding paper margin or weak/repetitive gallery motif; deferred"
+      },
+      {
+        "id": 167317213,
+        "original_sha1": "ff2dafe837aa3e3dbe257f5d59fc638a1d7547d2",
+        "thumbnail_sha256": "009b34d717e9fa1bb93b630ae202a5e0cbcfdabcd0b3d781302eec92cf0d366b",
+        "contact_sheet_position": 4189,
+        "contact_sheet_sha256": "9eb59312de111d29af3fd89feb560774596a4453a68850169784acdf9643d0a5",
+        "screen": "deferred",
+        "reason": "Observed frame, detail, object, alternative scan, surrounding paper margin or weak/repetitive gallery motif; deferred"
+      },
+      {
+        "id": 169662978,
+        "original_sha1": "7ecb02204d54ee2209fa75d54459160aa4800a66",
+        "thumbnail_sha256": "023fd59f4a9d50b340e987a11d605a81809c1feccc4a86d9bc94bb96ebc80a71",
+        "contact_sheet_position": 4190,
+        "contact_sheet_sha256": "9eb59312de111d29af3fd89feb560774596a4453a68850169784acdf9643d0a5",
+        "screen": "deferred",
+        "reason": "Observed frame, detail, object, alternative scan, surrounding paper margin or weak/repetitive gallery motif; deferred"
       }
     ]
   },
@@ -38794,8 +39514,13 @@
   "required_next_checks": [
     "remaining visual review and distinct physical artwork identities",
     "source/proportion/provenance and rights-basis decisions",
-    "223 additional actual approvals plus complete source-bound colour profiles",
+    "222 additional actual approvals plus complete source-bound colour profiles",
     "full catalogue/preview/documentation and native release gates"
   ],
-  "private_cache": "build/commons-1000-research (retain locally; never distribute artwork bytes)"
+  "private_cache": "build/commons-1000-research (retain locally; never distribute artwork bytes)",
+  "visual_screen_chronology_amendments": {
+    "file": "research/commons-visual-screen-amendments-2026-10-10.json",
+    "sha256": "ed41a12be3e151abd264372bd6876fd27622808fb00523453eca68e843e3fd2f",
+    "note": "Original receipts retained; subsequent actual review and transcription-order corrections are explicitly recorded separately."
+  }
 }

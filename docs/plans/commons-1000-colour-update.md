@@ -31,19 +31,19 @@ Der Bestand ist `frame_gallery/research/commons-400-selection-2026-10-06.json`. 
 
 Der lokale App-Entwurf enthält inzwischen das einzelne Farbfeld und den geprüften Farbfilter. Der Runtime-Katalog bleibt bei 400 Werken; die veröffentlichte Beta ist unverändert. Ein Wochenendziel ist keine garantierte Fertigstellung: Rechte, Bildqualität und bestandene Prüfungen haben Vorrang vor der Zahl und dem Termin.
 
-Lokaler Zwischenstand: 48 Bestandswerke visuell im Farbpilot geprüft und das Verfahren an dunklem Blau und Ockertönen korrigiert. Alle 400 Bestandswerke besitzen vorläufige Farbprofile mit vollständiger Verteilung und Quellenbeleg. Hinzu kommen **377 derzeit lokal kuratierte neue Werke**, ebenfalls mit vollständigen Farbprofilen. Die private [Farbvorschau](http://127.0.0.1:8881/gallery.html) enthält somit **777 Werke** und lässt sich nach Farbgruppe sowie Bestand oder Neuzugängen filtern. **223 weitere Aufnahmen fehlen noch zum nominellen Ziel.** Die [neue Farbanleitung](commons-colour-user-guide-draft.md) bleibt ein unveröffentlichter Entwurf.
+Lokaler Zwischenstand: 48 Bestandswerke visuell im Farbpilot geprüft und das Verfahren an dunklem Blau und Ockertönen korrigiert. Alle 400 Bestandswerke besitzen vorläufige Farbprofile mit vollständiger Verteilung und Quellenbeleg. Hinzu kommen **378 derzeit lokal kuratierte neue Werke**, ebenfalls mit vollständigen Farbprofilen. Die private [Farbvorschau](http://127.0.0.1:8881/gallery.html) enthält somit **778 Werke** und lässt sich nach Farbgruppe sowie Bestand oder Neuzugängen filtern. **222 weitere Aufnahmen fehlen noch zum nominellen Ziel.** Die [neue Farbanleitung](commons-colour-user-guide-draft.md) bleibt ein unveröffentlichter Entwurf.
 
 Der jüngste abgeschlossene Metadaten-Prüfstand enthält 17171 zusätzliche Kandidaten
 mit Quellen-/Rechtemetadaten; nach der quellengebundenen Self-CC0/PD-self-Prüfung bestehen
 7012 die automatische Vorprüfung. Die Fraktalkunst-Treffer haben gesonderte
 CC-Lizenzen und werden seit der gesonderten Freigabe getrennt geprüft; sie zählen
 noch nicht als Aufnahmen. Neue Künstler-Kandidaten
-werden weiter geprüft. Alle 4111 Vorschauen des festen Sichtungsstands wurden tatsächlich gesichtet, 3202 dabei zunächst
-zurückgestellt. 86 Kontaktbögen wurden ein zweites Mal
+werden weiter geprüft. Alle 4191 Vorschauen des festen Sichtungsstands wurden tatsächlich gesichtet, 3280 dabei zunächst
+zurückgestellt. 87 Kontaktbögen wurden ein zweites Mal
 gesichtet. Zusätzliche Maßangaben im Klartext haben mögliche Ausschnitte sichtbar
 gemacht: Die frühere provisorische 127er-Auswahl wurde entsprechend reduziert
 und durch weitere tatsächlich geprüfte Werke ergänzt. Der aktuelle Stand ist
-377 Aufnahmen, nicht die frühere provisorische Auswahl. 57 ausgewählte Fälle
+378 Aufnahmen, nicht die frühere provisorische Auswahl. 58 ausgewählte Fälle
 bleiben zurückgestellt, darunter
 Duplikate und widersprüchliche Originalmaße. 307 konkret zugeordnete Werk-Identitäten aus den
 Metadaten des Bestands ergänzen die Titel- und Bildvergleiche. Weitere kleine

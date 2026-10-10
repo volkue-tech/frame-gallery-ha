@@ -1,0 +1,20 @@
+{
+  "schema": 1,
+  "recorded_at": "2026-10-10T06:59:26+00:00",
+  "status": "Explicit chronology correction; no catalogue admission",
+  "records": [
+    {
+      "id": 198468978,
+      "contact_sheet_position": 4127,
+      "original_receipt": "build/commons-1000-research/visual-screen-076.json",
+      "original_receipt_sha256": "987d3556d7f6b13147da743e2d1ab39c42488ab66d74c04434d32b35110cf303",
+      "original_sha1": "25f5be7094dedf2c8b0a9ca2df238d84b025c60d",
+      "thumbnail_sha256": "ccfa736ec7d157e03881ce0837451c1e3ccaa3a82e714a7e88152c852d0ce589",
+      "contact_sheet_sha256": "7f22ae34d275d004c9c0df2a0c9519042a76d63c2c71c591b8c24cffc5e3f5fe",
+      "correction": "The 4127--4176 transcription mistakenly included position 4127 before that last cell of sheet 257 had actually been viewed. The original receipt is retained unchanged, not retrospectively described as correctly timed.",
+      "subsequent_actual_review": "Sheet 257 was then actually viewed in full, including position 4127: the blank reverse/book-page photograph is deferred, not an artistic gallery candidate. The observed sheet hash matches the original receipt.",
+      "decision": "deferred",
+      "counts_as_accepted_work": false
+    }
+  ]
+}

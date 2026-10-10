@@ -35,13 +35,13 @@ artwork, not merely the photo. Existing runtime PD/CC0 and format gates remain u
   Broader visual calibration and the 600 additional works remain incomplete.*
 - [ ] Research and visually verify 600 additional distinct eligible works,
   keeping the existing width, ratio, rights and reproduction requirements.
-  *377 additions retained after stricter source/licence checks and actual
-  second-view review; 223 nominal additions remain. All 4111 checkpoint previews screened,
+  *378 additions retained after stricter source/licence checks and actual
+  second-view review; 222 nominal additions remain. All 4191 checkpoint previews screened,
   all 400 baseline upload pins checked and 307 scoped artwork QIDs retained. Candidate
   counts and temporary network deferrals are not accepted-work counts.*
 - [ ] Complete source-bound colour profiles and a reviewable preview for all
   1000 accepted works; preserve baseline IDs/pins and deferred research.
-  *The private preview contains 777 works, including the 377 unpublished
+  *The private preview contains 778 works, including the 378 unpublished
   additions with complete provisional palettes/distributions/top groups. Runtime
   still has 400; extend/freeze it only after 600 genuine additions are complete.*
 - [ ] Resolve the 56 remaining baseline physical-measurement scope prompts before claiming

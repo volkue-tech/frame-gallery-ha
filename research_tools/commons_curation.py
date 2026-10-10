@@ -281,6 +281,14 @@ def checkpoint() -> None:
             "(retain locally; never distribute artwork bytes)"
         ),
     )
+    amendments_path = ROOT / "research/commons-visual-screen-amendments-2026-10-10.json"
+    if amendments_path.exists():
+        snapshot["visual_screen_chronology_amendments"] = dict(
+            file=str(amendments_path.relative_to(ROOT)),
+            sha256=hashlib.sha256(amendments_path.read_bytes()).hexdigest(),
+            note="Original receipts retained; subsequent actual review and "
+            "transcription-order corrections are explicitly recorded separately.",
+        )
     save(ROOT / "research/commons-expansion-checkpoint-2026-10-09.json", snapshot)
     print(
         json.dumps(

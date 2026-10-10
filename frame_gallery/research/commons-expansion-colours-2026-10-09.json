@@ -2,8 +2,8 @@
   "schema": 1,
   "method": "commons-colours-pilot-v2",
   "status": "partial accepted research only; NOT release-approved",
-  "curation_sha256": "e89ceded301dbf90068e64c1e70cc1b83eb7228d67c2dc99915b8782d2ac76d6",
-  "count": 377,
+  "curation_sha256": "0ec29b7c347768e8e1c36a63a23410379db4a56e29575e519fe5efd697784b4f",
+  "count": 378,
   "profiles": [
     {
       "sample_pixels": 36352,
@@ -219197,1319 +219197,6 @@
       "gallery_kind": "new"
     },
     {
-      "sample_pixels": 37120,
-      "distribution": [
-        {
-          "group": "red",
-          "pixels": 0,
-          "share": 0.0,
-          "representative": null
-        },
-        {
-          "group": "orange",
-          "pixels": 4626,
-          "share": 0.1246228448275862,
-          "representative": "#ac7e57"
-        },
-        {
-          "group": "yellow",
-          "pixels": 0,
-          "share": 0.0,
-          "representative": null
-        },
-        {
-          "group": "green",
-          "pixels": 0,
-          "share": 0.0,
-          "representative": null
-        },
-        {
-          "group": "blue",
-          "pixels": 0,
-          "share": 0.0,
-          "representative": null
-        },
-        {
-          "group": "purple",
-          "pixels": 0,
-          "share": 0.0,
-          "representative": null
-        },
-        {
-          "group": "pink",
-          "pixels": 0,
-          "share": 0.0,
-          "representative": null
-        },
-        {
-          "group": "brown",
-          "pixels": 8486,
-          "share": 0.22860991379310344,
-          "representative": "#9c6d48"
-        },
-        {
-          "group": "beige",
-          "pixels": 22344,
-          "share": 0.6019396551724138,
-          "representative": "#e5cdaf"
-        },
-        {
-          "group": "gray",
-          "pixels": 0,
-          "share": 0.0,
-          "representative": null
-        },
-        {
-          "group": "black",
-          "pixels": 0,
-          "share": 0.0,
-          "representative": null
-        },
-        {
-          "group": "white",
-          "pixels": 1664,
-          "share": 0.04482758620689655,
-          "representative": "#fcfaea"
-        }
-      ],
-      "top_colours": [
-        {
-          "group": "beige",
-          "pixels": 22344,
-          "share": 0.6019396551724138,
-          "representative": "#e5cdaf"
-        },
-        {
-          "group": "brown",
-          "pixels": 8486,
-          "share": 0.22860991379310344,
-          "representative": "#9c6d48"
-        },
-        {
-          "group": "orange",
-          "pixels": 4626,
-          "share": 0.1246228448275862,
-          "representative": "#ac7e57"
-        }
-      ],
-      "top_chromatic_colours": [
-        {
-          "group": "beige",
-          "pixels": 22344,
-          "share": 0.6019396551724138,
-          "representative": "#e5cdaf"
-        },
-        {
-          "group": "brown",
-          "pixels": 8486,
-          "share": 0.22860991379310344,
-          "representative": "#9c6d48"
-        },
-        {
-          "group": "orange",
-          "pixels": 4626,
-          "share": 0.1246228448275862,
-          "representative": "#ac7e57"
-        }
-      ],
-      "search_colours": [
-        "beige",
-        "brown",
-        "orange"
-      ],
-      "palette": [
-        {
-          "pixels": 513,
-          "rgb": [
-            252,
-            250,
-            234
-          ],
-          "group": "white"
-        },
-        {
-          "pixels": 483,
-          "rgb": [
-            172,
-            126,
-            87
-          ],
-          "group": "orange"
-        },
-        {
-          "pixels": 479,
-          "rgb": [
-            229,
-            205,
-            175
-          ],
-          "group": "beige"
-        },
-        {
-          "pixels": 469,
-          "rgb": [
-            229,
-            208,
-            181
-          ],
-          "group": "beige"
-        },
-        {
-          "pixels": 451,
-          "rgb": [
-            231,
-            210,
-            179
-          ],
-          "group": "beige"
-        },
-        {
-          "pixels": 440,
-          "rgb": [
-            156,
-            109,
-            72
-          ],
-          "group": "brown"
-        },
-        {
-          "pixels": 429,
-          "rgb": [
-            169,
-            123,
-            84
-          ],
-          "group": "orange"
-        },
-        {
-          "pixels": 428,
-          "rgb": [
-            231,
-            208,
-            178
-          ],
-          "group": "beige"
-        },
-        {
-          "pixels": 419,
-          "rgb": [
-            116,
-            69,
-            41
-          ],
-          "group": "brown"
-        },
-        {
-          "pixels": 392,
-          "rgb": [
-            231,
-            211,
-            182
-          ],
-          "group": "beige"
-        },
-        {
-          "pixels": 391,
-          "rgb": [
-            231,
-            205,
-            170
-          ],
-          "group": "beige"
-        },
-        {
-          "pixels": 391,
-          "rgb": [
-            247,
-            244,
-            228
-          ],
-          "group": "white"
-        },
-        {
-          "pixels": 389,
-          "rgb": [
-            250,
-            247,
-            232
-          ],
-          "group": "white"
-        },
-        {
-          "pixels": 382,
-          "rgb": [
-            167,
-            120,
-            81
-          ],
-          "group": "brown"
-        },
-        {
-          "pixels": 380,
-          "rgb": [
-            133,
-            86,
-            52
-          ],
-          "group": "brown"
-        },
-        {
-          "pixels": 371,
-          "rgb": [
-            254,
-            252,
-            237
-          ],
-          "group": "white"
-        },
-        {
-          "pixels": 362,
-          "rgb": [
-            190,
-            146,
-            105
-          ],
-          "group": "orange"
-        },
-        {
-          "pixels": 357,
-          "rgb": [
-            226,
-            196,
-            158
-          ],
-          "group": "beige"
-        },
-        {
-          "pixels": 356,
-          "rgb": [
-            227,
-            206,
-            177
-          ],
-          "group": "beige"
-        },
-        {
-          "pixels": 355,
-          "rgb": [
-            126,
-            80,
-            48
-          ],
-          "group": "brown"
-        },
-        {
-          "pixels": 355,
-          "rgb": [
-            204,
-            171,
-            134
-          ],
-          "group": "beige"
-        },
-        {
-          "pixels": 354,
-          "rgb": [
-            227,
-            204,
-            172
-          ],
-          "group": "beige"
-        },
-        {
-          "pixels": 351,
-          "rgb": [
-            149,
-            105,
-            70
-          ],
-          "group": "brown"
-        },
-        {
-          "pixels": 350,
-          "rgb": [
-            143,
-            97,
-            62
-          ],
-          "group": "brown"
-        },
-        {
-          "pixels": 350,
-          "rgb": [
-            183,
-            138,
-            99
-          ],
-          "group": "orange"
-        },
-        {
-          "pixels": 350,
-          "rgb": [
-            233,
-            211,
-            182
-          ],
-          "group": "beige"
-        },
-        {
-          "pixels": 349,
-          "rgb": [
-            226,
-            205,
-            176
-          ],
-          "group": "beige"
-        },
-        {
-          "pixels": 347,
-          "rgb": [
-            222,
-            202,
-            173
-          ],
-          "group": "beige"
-        },
-        {
-          "pixels": 346,
-          "rgb": [
-            193,
-            151,
-            112
-          ],
-          "group": "orange"
-        },
-        {
-          "pixels": 346,
-          "rgb": [
-            219,
-            196,
-            164
-          ],
-          "group": "beige"
-        },
-        {
-          "pixels": 346,
-          "rgb": [
-            227,
-            205,
-            173
-          ],
-          "group": "beige"
-        },
-        {
-          "pixels": 346,
-          "rgb": [
-            232,
-            214,
-            185
-          ],
-          "group": "beige"
-        },
-        {
-          "pixels": 345,
-          "rgb": [
-            162,
-            117,
-            80
-          ],
-          "group": "brown"
-        },
-        {
-          "pixels": 345,
-          "rgb": [
-            233,
-            210,
-            178
-          ],
-          "group": "beige"
-        },
-        {
-          "pixels": 344,
-          "rgb": [
-            103,
-            58,
-            37
-          ],
-          "group": "brown"
-        },
-        {
-          "pixels": 340,
-          "rgb": [
-            110,
-            64,
-            39
-          ],
-          "group": "brown"
-        },
-        {
-          "pixels": 340,
-          "rgb": [
-            226,
-            200,
-            166
-          ],
-          "group": "beige"
-        },
-        {
-          "pixels": 335,
-          "rgb": [
-            148,
-            101,
-            66
-          ],
-          "group": "brown"
-        },
-        {
-          "pixels": 335,
-          "rgb": [
-            219,
-            190,
-            154
-          ],
-          "group": "beige"
-        },
-        {
-          "pixels": 334,
-          "rgb": [
-            235,
-            213,
-            182
-          ],
-          "group": "beige"
-        },
-        {
-          "pixels": 333,
-          "rgb": [
-            229,
-            208,
-            176
-          ],
-          "group": "beige"
-        },
-        {
-          "pixels": 332,
-          "rgb": [
-            222,
-            199,
-            167
-          ],
-          "group": "beige"
-        },
-        {
-          "pixels": 331,
-          "rgb": [
-            226,
-            203,
-            171
-          ],
-          "group": "beige"
-        },
-        {
-          "pixels": 325,
-          "rgb": [
-            178,
-            133,
-            93
-          ],
-          "group": "orange"
-        },
-        {
-          "pixels": 325,
-          "rgb": [
-            224,
-            203,
-            175
-          ],
-          "group": "beige"
-        },
-        {
-          "pixels": 324,
-          "rgb": [
-            224,
-            202,
-            170
-          ],
-          "group": "beige"
-        },
-        {
-          "pixels": 323,
-          "rgb": [
-            162,
-            114,
-            76
-          ],
-          "group": "brown"
-        },
-        {
-          "pixels": 321,
-          "rgb": [
-            96,
-            52,
-            35
-          ],
-          "group": "brown"
-        },
-        {
-          "pixels": 318,
-          "rgb": [
-            228,
-            207,
-            179
-          ],
-          "group": "beige"
-        },
-        {
-          "pixels": 318,
-          "rgb": [
-            235,
-            217,
-            187
-          ],
-          "group": "beige"
-        },
-        {
-          "pixels": 314,
-          "rgb": [
-            229,
-            205,
-            171
-          ],
-          "group": "beige"
-        },
-        {
-          "pixels": 306,
-          "rgb": [
-            230,
-            207,
-            175
-          ],
-          "group": "beige"
-        },
-        {
-          "pixels": 304,
-          "rgb": [
-            234,
-            211,
-            180
-          ],
-          "group": "beige"
-        },
-        {
-          "pixels": 303,
-          "rgb": [
-            232,
-            211,
-            183
-          ],
-          "group": "beige"
-        },
-        {
-          "pixels": 302,
-          "rgb": [
-            210,
-            184,
-            149
-          ],
-          "group": "beige"
-        },
-        {
-          "pixels": 302,
-          "rgb": [
-            224,
-            198,
-            163
-          ],
-          "group": "beige"
-        },
-        {
-          "pixels": 300,
-          "rgb": [
-            137,
-            92,
-            58
-          ],
-          "group": "brown"
-        },
-        {
-          "pixels": 297,
-          "rgb": [
-            228,
-            201,
-            170
-          ],
-          "group": "beige"
-        },
-        {
-          "pixels": 296,
-          "rgb": [
-            231,
-            206,
-            175
-          ],
-          "group": "beige"
-        },
-        {
-          "pixels": 290,
-          "rgb": [
-            217,
-            187,
-            151
-          ],
-          "group": "beige"
-        },
-        {
-          "pixels": 286,
-          "rgb": [
-            219,
-            198,
-            168
-          ],
-          "group": "beige"
-        },
-        {
-          "pixels": 284,
-          "rgb": [
-            236,
-            214,
-            184
-          ],
-          "group": "beige"
-        },
-        {
-          "pixels": 282,
-          "rgb": [
-            128,
-            84,
-            52
-          ],
-          "group": "brown"
-        },
-        {
-          "pixels": 281,
-          "rgb": [
-            224,
-            201,
-            171
-          ],
-          "group": "beige"
-        },
-        {
-          "pixels": 280,
-          "rgb": [
-            229,
-            201,
-            164
-          ],
-          "group": "beige"
-        },
-        {
-          "pixels": 273,
-          "rgb": [
-            221,
-            200,
-            170
-          ],
-          "group": "beige"
-        },
-        {
-          "pixels": 272,
-          "rgb": [
-            232,
-            211,
-            179
-          ],
-          "group": "beige"
-        },
-        {
-          "pixels": 270,
-          "rgb": [
-            191,
-            157,
-            121
-          ],
-          "group": "orange"
-        },
-        {
-          "pixels": 270,
-          "rgb": [
-            210,
-            179,
-            142
-          ],
-          "group": "beige"
-        },
-        {
-          "pixels": 268,
-          "rgb": [
-            82,
-            46,
-            33
-          ],
-          "group": "brown"
-        },
-        {
-          "pixels": 267,
-          "rgb": [
-            220,
-            193,
-            158
-          ],
-          "group": "beige"
-        },
-        {
-          "pixels": 266,
-          "rgb": [
-            107,
-            60,
-            37
-          ],
-          "group": "brown"
-        },
-        {
-          "pixels": 265,
-          "rgb": [
-            194,
-            164,
-            131
-          ],
-          "group": "orange"
-        },
-        {
-          "pixels": 263,
-          "rgb": [
-            120,
-            75,
-            46
-          ],
-          "group": "brown"
-        },
-        {
-          "pixels": 263,
-          "rgb": [
-            215,
-            190,
-            157
-          ],
-          "group": "beige"
-        },
-        {
-          "pixels": 263,
-          "rgb": [
-            221,
-            196,
-            163
-          ],
-          "group": "beige"
-        },
-        {
-          "pixels": 263,
-          "rgb": [
-            228,
-            205,
-            171
-          ],
-          "group": "beige"
-        },
-        {
-          "pixels": 263,
-          "rgb": [
-            229,
-            207,
-            175
-          ],
-          "group": "beige"
-        },
-        {
-          "pixels": 260,
-          "rgb": [
-            216,
-            192,
-            160
-          ],
-          "group": "beige"
-        },
-        {
-          "pixels": 259,
-          "rgb": [
-            218,
-            193,
-            160
-          ],
-          "group": "beige"
-        },
-        {
-          "pixels": 257,
-          "rgb": [
-            212,
-            188,
-            155
-          ],
-          "group": "beige"
-        },
-        {
-          "pixels": 257,
-          "rgb": [
-            228,
-            205,
-            176
-          ],
-          "group": "beige"
-        },
-        {
-          "pixels": 256,
-          "rgb": [
-            177,
-            130,
-            90
-          ],
-          "group": "orange"
-        },
-        {
-          "pixels": 255,
-          "rgb": [
-            230,
-            208,
-            179
-          ],
-          "group": "beige"
-        },
-        {
-          "pixels": 254,
-          "rgb": [
-            216,
-            195,
-            165
-          ],
-          "group": "beige"
-        },
-        {
-          "pixels": 254,
-          "rgb": [
-            228,
-            203,
-            171
-          ],
-          "group": "beige"
-        },
-        {
-          "pixels": 254,
-          "rgb": [
-            231,
-            208,
-            174
-          ],
-          "group": "beige"
-        },
-        {
-          "pixels": 254,
-          "rgb": [
-            232,
-            209,
-            178
-          ],
-          "group": "beige"
-        },
-        {
-          "pixels": 251,
-          "rgb": [
-            91,
-            47,
-            32
-          ],
-          "group": "brown"
-        },
-        {
-          "pixels": 251,
-          "rgb": [
-            201,
-            162,
-            122
-          ],
-          "group": "orange"
-        },
-        {
-          "pixels": 243,
-          "rgb": [
-            222,
-            195,
-            161
-          ],
-          "group": "beige"
-        },
-        {
-          "pixels": 238,
-          "rgb": [
-            224,
-            200,
-            164
-          ],
-          "group": "beige"
-        },
-        {
-          "pixels": 237,
-          "rgb": [
-            224,
-            205,
-            177
-          ],
-          "group": "beige"
-        },
-        {
-          "pixels": 236,
-          "rgb": [
-            181,
-            148,
-            114
-          ],
-          "group": "orange"
-        },
-        {
-          "pixels": 232,
-          "rgb": [
-            181,
-            143,
-            106
-          ],
-          "group": "orange"
-        },
-        {
-          "pixels": 230,
-          "rgb": [
-            157,
-            113,
-            77
-          ],
-          "group": "brown"
-        },
-        {
-          "pixels": 228,
-          "rgb": [
-            123,
-            75,
-            45
-          ],
-          "group": "brown"
-        },
-        {
-          "pixels": 228,
-          "rgb": [
-            162,
-            121,
-            85
-          ],
-          "group": "brown"
-        },
-        {
-          "pixels": 227,
-          "rgb": [
-            234,
-            208,
-            174
-          ],
-          "group": "beige"
-        },
-        {
-          "pixels": 223,
-          "rgb": [
-            216,
-            183,
-            144
-          ],
-          "group": "beige"
-        },
-        {
-          "pixels": 221,
-          "rgb": [
-            228,
-            211,
-            181
-          ],
-          "group": "beige"
-        },
-        {
-          "pixels": 218,
-          "rgb": [
-            165,
-            126,
-            91
-          ],
-          "group": "orange"
-        },
-        {
-          "pixels": 218,
-          "rgb": [
-            236,
-            211,
-            180
-          ],
-          "group": "beige"
-        },
-        {
-          "pixels": 216,
-          "rgb": [
-            224,
-            200,
-            168
-          ],
-          "group": "beige"
-        },
-        {
-          "pixels": 215,
-          "rgb": [
-            166,
-            132,
-            101
-          ],
-          "group": "orange"
-        },
-        {
-          "pixels": 215,
-          "rgb": [
-            204,
-            177,
-            144
-          ],
-          "group": "beige"
-        },
-        {
-          "pixels": 212,
-          "rgb": [
-            110,
-            68,
-            42
-          ],
-          "group": "brown"
-        },
-        {
-          "pixels": 212,
-          "rgb": [
-            141,
-            93,
-            58
-          ],
-          "group": "brown"
-        },
-        {
-          "pixels": 210,
-          "rgb": [
-            178,
-            137,
-            99
-          ],
-          "group": "orange"
-        },
-        {
-          "pixels": 210,
-          "rgb": [
-            237,
-            227,
-            202
-          ],
-          "group": "beige"
-        },
-        {
-          "pixels": 206,
-          "rgb": [
-            233,
-            209,
-            178
-          ],
-          "group": "beige"
-        },
-        {
-          "pixels": 205,
-          "rgb": [
-            224,
-            204,
-            176
-          ],
-          "group": "beige"
-        },
-        {
-          "pixels": 201,
-          "rgb": [
-            225,
-            208,
-            179
-          ],
-          "group": "beige"
-        },
-        {
-          "pixels": 198,
-          "rgb": [
-            149,
-            111,
-            80
-          ],
-          "group": "brown"
-        },
-        {
-          "pixels": 197,
-          "rgb": [
-            232,
-            208,
-            174
-          ],
-          "group": "beige"
-        },
-        {
-          "pixels": 189,
-          "rgb": [
-            141,
-            100,
-            69
-          ],
-          "group": "brown"
-        },
-        {
-          "pixels": 189,
-          "rgb": [
-            224,
-            204,
-            171
-          ],
-          "group": "beige"
-        },
-        {
-          "pixels": 188,
-          "rgb": [
-            227,
-            208,
-            178
-          ],
-          "group": "beige"
-        },
-        {
-          "pixels": 188,
-          "rgb": [
-            229,
-            208,
-            179
-          ],
-          "group": "beige"
-        },
-        {
-          "pixels": 187,
-          "rgb": [
-            227,
-            200,
-            164
-          ],
-          "group": "beige"
-        },
-        {
-          "pixels": 183,
-          "rgb": [
-            224,
-            199,
-            169
-          ],
-          "group": "beige"
-        },
-        {
-          "pixels": 180,
-          "rgb": [
-            71,
-            38,
-            27
-          ],
-          "group": "brown"
-        },
-        {
-          "pixels": 178,
-          "rgb": [
-            173,
-            132,
-            94
-          ],
-          "group": "orange"
-        },
-        {
-          "pixels": 169,
-          "rgb": [
-            96,
-            56,
-            38
-          ],
-          "group": "brown"
-        },
-        {
-          "pixels": 167,
-          "rgb": [
-            232,
-            213,
-            183
-          ],
-          "group": "beige"
-        },
-        {
-          "pixels": 164,
-          "rgb": [
-            114,
-            74,
-            48
-          ],
-          "group": "brown"
-        },
-        {
-          "pixels": 161,
-          "rgb": [
-            131,
-            92,
-            63
-          ],
-          "group": "brown"
-        },
-        {
-          "pixels": 151,
-          "rgb": [
-            219,
-            201,
-            172
-          ],
-          "group": "beige"
-        }
-      ],
-      "method": "commons-colours-pilot-v2",
-      "dimensions": [
-        960,
-        544
-      ],
-      "oriented_dimensions": [
-        960,
-        544
-      ],
-      "exif_orientation": 1,
-      "sample_dimensions": [
-        256,
-        145
-      ],
-      "thumbnail_sha256": "7faad195370dd1d139fc74a5ef610419ba9f62d3f449f5c494d1bc0bee3cd407",
-      "bytes": 170706,
-      "colour_space": "ICC converted to sRGB",
-      "pillow_version": "12.3.0",
-      "minimum_search_share": 0.05,
-      "palette_size": 128,
-      "review_dhash256": "022382238126a022a42f92d391f1bd2596dcb2f2e172d0a0d07921ce08cf810b",
-      "id": 60936484,
-      "title": "Roman Landscape",
-      "artist": "Claude Lorrain",
-      "file_title": "File:Roman Landscape MET DT3293.jpg",
-      "original_sha1": "aa1925a302b653aae88a0702290092c31a9d5cc1",
-      "source": "https://commons.wikimedia.org/w/index.php?curid=60936484",
-      "source_page_sha256": "1fad5ffc8cd7f758be668d4d0d2870a05547772a9f0943871383db7dd8406f13",
-      "source_revision": 954319072,
-      "thumbnail_url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/1/16/Roman_Landscape_MET_DT3293.jpg/960px-Roman_Landscape_MET_DT3293.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
-      "reported_thumbnail_dimensions": [
-        512,
-        290
-      ],
-      "analysed_at": "2026-10-10T06:30:05.794786+00:00",
-      "status": "needs full-image, rights-provenance and artwork-duplicate review",
-      "gallery_kind": "new"
-    },
-    {
       "sample_pixels": 37376,
       "distribution": [
         {
@@ -349107,6 +347794,1300 @@
       "gallery_kind": "new"
     },
     {
+      "sample_pixels": 36864,
+      "distribution": [
+        {
+          "group": "red",
+          "pixels": 0,
+          "share": 0.0,
+          "representative": null
+        },
+        {
+          "group": "orange",
+          "pixels": 0,
+          "share": 0.0,
+          "representative": null
+        },
+        {
+          "group": "yellow",
+          "pixels": 322,
+          "share": 0.008734809027777778,
+          "representative": "#868371"
+        },
+        {
+          "group": "green",
+          "pixels": 1262,
+          "share": 0.034233940972222224,
+          "representative": "#212f23"
+        },
+        {
+          "group": "blue",
+          "pixels": 20639,
+          "share": 0.5598687065972222,
+          "representative": "#2b3740"
+        },
+        {
+          "group": "purple",
+          "pixels": 0,
+          "share": 0.0,
+          "representative": null
+        },
+        {
+          "group": "pink",
+          "pixels": 0,
+          "share": 0.0,
+          "representative": null
+        },
+        {
+          "group": "brown",
+          "pixels": 1221,
+          "share": 0.033121744791666664,
+          "representative": "#565240"
+        },
+        {
+          "group": "beige",
+          "pixels": 0,
+          "share": 0.0,
+          "representative": null
+        },
+        {
+          "group": "gray",
+          "pixels": 1030,
+          "share": 0.027940538194444444,
+          "representative": "#6e726a"
+        },
+        {
+          "group": "black",
+          "pixels": 12390,
+          "share": 0.3361002604166667,
+          "representative": "#1c252a"
+        },
+        {
+          "group": "white",
+          "pixels": 0,
+          "share": 0.0,
+          "representative": null
+        }
+      ],
+      "top_colours": [
+        {
+          "group": "blue",
+          "pixels": 20639,
+          "share": 0.5598687065972222,
+          "representative": "#2b3740"
+        },
+        {
+          "group": "black",
+          "pixels": 12390,
+          "share": 0.3361002604166667,
+          "representative": "#1c252a"
+        }
+      ],
+      "top_chromatic_colours": [
+        {
+          "group": "blue",
+          "pixels": 20639,
+          "share": 0.5598687065972222,
+          "representative": "#2b3740"
+        }
+      ],
+      "search_colours": [
+        "blue",
+        "black"
+      ],
+      "palette": [
+        {
+          "pixels": 821,
+          "rgb": [
+            43,
+            55,
+            64
+          ],
+          "group": "blue"
+        },
+        {
+          "pixels": 516,
+          "rgb": [
+            36,
+            46,
+            53
+          ],
+          "group": "blue"
+        },
+        {
+          "pixels": 508,
+          "rgb": [
+            33,
+            47,
+            35
+          ],
+          "group": "green"
+        },
+        {
+          "pixels": 492,
+          "rgb": [
+            86,
+            82,
+            64
+          ],
+          "group": "brown"
+        },
+        {
+          "pixels": 475,
+          "rgb": [
+            28,
+            37,
+            42
+          ],
+          "group": "black"
+        },
+        {
+          "pixels": 472,
+          "rgb": [
+            36,
+            44,
+            48
+          ],
+          "group": "blue"
+        },
+        {
+          "pixels": 462,
+          "rgb": [
+            25,
+            26,
+            23
+          ],
+          "group": "black"
+        },
+        {
+          "pixels": 460,
+          "rgb": [
+            62,
+            63,
+            49
+          ],
+          "group": "brown"
+        },
+        {
+          "pixels": 454,
+          "rgb": [
+            56,
+            76,
+            89
+          ],
+          "group": "blue"
+        },
+        {
+          "pixels": 444,
+          "rgb": [
+            41,
+            51,
+            57
+          ],
+          "group": "blue"
+        },
+        {
+          "pixels": 441,
+          "rgb": [
+            53,
+            71,
+            82
+          ],
+          "group": "blue"
+        },
+        {
+          "pixels": 440,
+          "rgb": [
+            49,
+            69,
+            82
+          ],
+          "group": "blue"
+        },
+        {
+          "pixels": 438,
+          "rgb": [
+            38,
+            45,
+            50
+          ],
+          "group": "blue"
+        },
+        {
+          "pixels": 437,
+          "rgb": [
+            162,
+            203,
+            219
+          ],
+          "group": "blue"
+        },
+        {
+          "pixels": 436,
+          "rgb": [
+            24,
+            24,
+            20
+          ],
+          "group": "black"
+        },
+        {
+          "pixels": 431,
+          "rgb": [
+            48,
+            62,
+            71
+          ],
+          "group": "blue"
+        },
+        {
+          "pixels": 428,
+          "rgb": [
+            27,
+            33,
+            36
+          ],
+          "group": "black"
+        },
+        {
+          "pixels": 422,
+          "rgb": [
+            28,
+            32,
+            31
+          ],
+          "group": "black"
+        },
+        {
+          "pixels": 419,
+          "rgb": [
+            25,
+            32,
+            36
+          ],
+          "group": "black"
+        },
+        {
+          "pixels": 413,
+          "rgb": [
+            191,
+            224,
+            236
+          ],
+          "group": "blue"
+        },
+        {
+          "pixels": 409,
+          "rgb": [
+            25,
+            29,
+            28
+          ],
+          "group": "black"
+        },
+        {
+          "pixels": 402,
+          "rgb": [
+            22,
+            22,
+            17
+          ],
+          "group": "black"
+        },
+        {
+          "pixels": 392,
+          "rgb": [
+            36,
+            42,
+            47
+          ],
+          "group": "blue"
+        },
+        {
+          "pixels": 389,
+          "rgb": [
+            114,
+            142,
+            154
+          ],
+          "group": "blue"
+        },
+        {
+          "pixels": 387,
+          "rgb": [
+            15,
+            16,
+            11
+          ],
+          "group": "black"
+        },
+        {
+          "pixels": 386,
+          "rgb": [
+            49,
+            66,
+            73
+          ],
+          "group": "blue"
+        },
+        {
+          "pixels": 385,
+          "rgb": [
+            65,
+            84,
+            95
+          ],
+          "group": "blue"
+        },
+        {
+          "pixels": 384,
+          "rgb": [
+            193,
+            225,
+            238
+          ],
+          "group": "blue"
+        },
+        {
+          "pixels": 381,
+          "rgb": [
+            84,
+            114,
+            129
+          ],
+          "group": "blue"
+        },
+        {
+          "pixels": 376,
+          "rgb": [
+            29,
+            30,
+            27
+          ],
+          "group": "black"
+        },
+        {
+          "pixels": 372,
+          "rgb": [
+            43,
+            58,
+            68
+          ],
+          "group": "blue"
+        },
+        {
+          "pixels": 370,
+          "rgb": [
+            27,
+            27,
+            24
+          ],
+          "group": "black"
+        },
+        {
+          "pixels": 368,
+          "rgb": [
+            184,
+            221,
+            234
+          ],
+          "group": "blue"
+        },
+        {
+          "pixels": 364,
+          "rgb": [
+            200,
+            230,
+            242
+          ],
+          "group": "blue"
+        },
+        {
+          "pixels": 362,
+          "rgb": [
+            182,
+            218,
+            231
+          ],
+          "group": "blue"
+        },
+        {
+          "pixels": 360,
+          "rgb": [
+            32,
+            40,
+            45
+          ],
+          "group": "black"
+        },
+        {
+          "pixels": 353,
+          "rgb": [
+            197,
+            228,
+            240
+          ],
+          "group": "blue"
+        },
+        {
+          "pixels": 351,
+          "rgb": [
+            190,
+            223,
+            235
+          ],
+          "group": "blue"
+        },
+        {
+          "pixels": 351,
+          "rgb": [
+            202,
+            232,
+            244
+          ],
+          "group": "blue"
+        },
+        {
+          "pixels": 349,
+          "rgb": [
+            32,
+            36,
+            31
+          ],
+          "group": "black"
+        },
+        {
+          "pixels": 348,
+          "rgb": [
+            75,
+            106,
+            121
+          ],
+          "group": "blue"
+        },
+        {
+          "pixels": 344,
+          "rgb": [
+            29,
+            33,
+            35
+          ],
+          "group": "black"
+        },
+        {
+          "pixels": 342,
+          "rgb": [
+            31,
+            37,
+            41
+          ],
+          "group": "black"
+        },
+        {
+          "pixels": 338,
+          "rgb": [
+            32,
+            36,
+            35
+          ],
+          "group": "black"
+        },
+        {
+          "pixels": 336,
+          "rgb": [
+            31,
+            36,
+            38
+          ],
+          "group": "black"
+        },
+        {
+          "pixels": 336,
+          "rgb": [
+            58,
+            83,
+            98
+          ],
+          "group": "blue"
+        },
+        {
+          "pixels": 324,
+          "rgb": [
+            173,
+            212,
+            226
+          ],
+          "group": "blue"
+        },
+        {
+          "pixels": 322,
+          "rgb": [
+            134,
+            131,
+            113
+          ],
+          "group": "yellow"
+        },
+        {
+          "pixels": 320,
+          "rgb": [
+            36,
+            50,
+            58
+          ],
+          "group": "blue"
+        },
+        {
+          "pixels": 318,
+          "rgb": [
+            188,
+            222,
+            234
+          ],
+          "group": "blue"
+        },
+        {
+          "pixels": 317,
+          "rgb": [
+            35,
+            40,
+            41
+          ],
+          "group": "black"
+        },
+        {
+          "pixels": 316,
+          "rgb": [
+            33,
+            38,
+            39
+          ],
+          "group": "black"
+        },
+        {
+          "pixels": 316,
+          "rgb": [
+            39,
+            50,
+            57
+          ],
+          "group": "blue"
+        },
+        {
+          "pixels": 316,
+          "rgb": [
+            63,
+            90,
+            104
+          ],
+          "group": "blue"
+        },
+        {
+          "pixels": 314,
+          "rgb": [
+            72,
+            91,
+            100
+          ],
+          "group": "blue"
+        },
+        {
+          "pixels": 312,
+          "rgb": [
+            110,
+            114,
+            106
+          ],
+          "group": "gray"
+        },
+        {
+          "pixels": 310,
+          "rgb": [
+            29,
+            40,
+            46
+          ],
+          "group": "black"
+        },
+        {
+          "pixels": 309,
+          "rgb": [
+            44,
+            64,
+            73
+          ],
+          "group": "blue"
+        },
+        {
+          "pixels": 309,
+          "rgb": [
+            104,
+            132,
+            145
+          ],
+          "group": "blue"
+        },
+        {
+          "pixels": 307,
+          "rgb": [
+            18,
+            19,
+            14
+          ],
+          "group": "black"
+        },
+        {
+          "pixels": 301,
+          "rgb": [
+            15,
+            17,
+            13
+          ],
+          "group": "black"
+        },
+        {
+          "pixels": 300,
+          "rgb": [
+            19,
+            20,
+            16
+          ],
+          "group": "black"
+        },
+        {
+          "pixels": 300,
+          "rgb": [
+            169,
+            208,
+            223
+          ],
+          "group": "blue"
+        },
+        {
+          "pixels": 291,
+          "rgb": [
+            204,
+            234,
+            245
+          ],
+          "group": "blue"
+        },
+        {
+          "pixels": 288,
+          "rgb": [
+            17,
+            18,
+            14
+          ],
+          "group": "black"
+        },
+        {
+          "pixels": 283,
+          "rgb": [
+            71,
+            98,
+            109
+          ],
+          "group": "blue"
+        },
+        {
+          "pixels": 283,
+          "rgb": [
+            196,
+            229,
+            243
+          ],
+          "group": "blue"
+        },
+        {
+          "pixels": 279,
+          "rgb": [
+            177,
+            214,
+            227
+          ],
+          "group": "blue"
+        },
+        {
+          "pixels": 279,
+          "rgb": [
+            179,
+            217,
+            229
+          ],
+          "group": "blue"
+        },
+        {
+          "pixels": 276,
+          "rgb": [
+            136,
+            144,
+            138
+          ],
+          "group": "gray"
+        },
+        {
+          "pixels": 273,
+          "rgb": [
+            36,
+            48,
+            40
+          ],
+          "group": "green"
+        },
+        {
+          "pixels": 269,
+          "rgb": [
+            40,
+            51,
+            55
+          ],
+          "group": "blue"
+        },
+        {
+          "pixels": 269,
+          "rgb": [
+            102,
+            99,
+            82
+          ],
+          "group": "brown"
+        },
+        {
+          "pixels": 264,
+          "rgb": [
+            95,
+            123,
+            136
+          ],
+          "group": "blue"
+        },
+        {
+          "pixels": 264,
+          "rgb": [
+            185,
+            219,
+            231
+          ],
+          "group": "blue"
+        },
+        {
+          "pixels": 260,
+          "rgb": [
+            36,
+            41,
+            42
+          ],
+          "group": "blue"
+        },
+        {
+          "pixels": 260,
+          "rgb": [
+            57,
+            75,
+            84
+          ],
+          "group": "blue"
+        },
+        {
+          "pixels": 255,
+          "rgb": [
+            38,
+            42,
+            44
+          ],
+          "group": "blue"
+        },
+        {
+          "pixels": 255,
+          "rgb": [
+            167,
+            205,
+            219
+          ],
+          "group": "blue"
+        },
+        {
+          "pixels": 252,
+          "rgb": [
+            33,
+            47,
+            55
+          ],
+          "group": "blue"
+        },
+        {
+          "pixels": 249,
+          "rgb": [
+            12,
+            13,
+            8
+          ],
+          "group": "black"
+        },
+        {
+          "pixels": 247,
+          "rgb": [
+            20,
+            21,
+            17
+          ],
+          "group": "black"
+        },
+        {
+          "pixels": 247,
+          "rgb": [
+            209,
+            236,
+            247
+          ],
+          "group": "blue"
+        },
+        {
+          "pixels": 244,
+          "rgb": [
+            46,
+            50,
+            48
+          ],
+          "group": "gray"
+        },
+        {
+          "pixels": 229,
+          "rgb": [
+            25,
+            31,
+            29
+          ],
+          "group": "black"
+        },
+        {
+          "pixels": 226,
+          "rgb": [
+            28,
+            29,
+            27
+          ],
+          "group": "black"
+        },
+        {
+          "pixels": 225,
+          "rgb": [
+            44,
+            60,
+            66
+          ],
+          "group": "blue"
+        },
+        {
+          "pixels": 224,
+          "rgb": [
+            190,
+            225,
+            238
+          ],
+          "group": "blue"
+        },
+        {
+          "pixels": 220,
+          "rgb": [
+            22,
+            23,
+            20
+          ],
+          "group": "black"
+        },
+        {
+          "pixels": 219,
+          "rgb": [
+            21,
+            32,
+            27
+          ],
+          "group": "black"
+        },
+        {
+          "pixels": 218,
+          "rgb": [
+            58,
+            79,
+            88
+          ],
+          "group": "blue"
+        },
+        {
+          "pixels": 217,
+          "rgb": [
+            24,
+            36,
+            31
+          ],
+          "group": "black"
+        },
+        {
+          "pixels": 213,
+          "rgb": [
+            195,
+            227,
+            239
+          ],
+          "group": "blue"
+        },
+        {
+          "pixels": 212,
+          "rgb": [
+            41,
+            47,
+            50
+          ],
+          "group": "blue"
+        },
+        {
+          "pixels": 211,
+          "rgb": [
+            160,
+            196,
+            207
+          ],
+          "group": "blue"
+        },
+        {
+          "pixels": 199,
+          "rgb": [
+            21,
+            26,
+            25
+          ],
+          "group": "black"
+        },
+        {
+          "pixels": 198,
+          "rgb": [
+            121,
+            128,
+            121
+          ],
+          "group": "gray"
+        },
+        {
+          "pixels": 197,
+          "rgb": [
+            191,
+            227,
+            240
+          ],
+          "group": "blue"
+        },
+        {
+          "pixels": 196,
+          "rgb": [
+            28,
+            36,
+            36
+          ],
+          "group": "black"
+        },
+        {
+          "pixels": 196,
+          "rgb": [
+            33,
+            43,
+            45
+          ],
+          "group": "blue"
+        },
+        {
+          "pixels": 190,
+          "rgb": [
+            64,
+            79,
+            88
+          ],
+          "group": "blue"
+        },
+        {
+          "pixels": 185,
+          "rgb": [
+            42,
+            51,
+            56
+          ],
+          "group": "blue"
+        },
+        {
+          "pixels": 184,
+          "rgb": [
+            23,
+            24,
+            21
+          ],
+          "group": "black"
+        },
+        {
+          "pixels": 184,
+          "rgb": [
+            36,
+            37,
+            35
+          ],
+          "group": "black"
+        },
+        {
+          "pixels": 178,
+          "rgb": [
+            73,
+            81,
+            79
+          ],
+          "group": "green"
+        },
+        {
+          "pixels": 169,
+          "rgb": [
+            18,
+            22,
+            18
+          ],
+          "group": "black"
+        },
+        {
+          "pixels": 165,
+          "rgb": [
+            87,
+            96,
+            92
+          ],
+          "group": "green"
+        },
+        {
+          "pixels": 163,
+          "rgb": [
+            21,
+            28,
+            26
+          ],
+          "group": "black"
+        },
+        {
+          "pixels": 160,
+          "rgb": [
+            194,
+            226,
+            239
+          ],
+          "group": "blue"
+        },
+        {
+          "pixels": 157,
+          "rgb": [
+            40,
+            46,
+            49
+          ],
+          "group": "blue"
+        },
+        {
+          "pixels": 152,
+          "rgb": [
+            30,
+            32,
+            30
+          ],
+          "group": "black"
+        },
+        {
+          "pixels": 150,
+          "rgb": [
+            30,
+            40,
+            35
+          ],
+          "group": "black"
+        },
+        {
+          "pixels": 150,
+          "rgb": [
+            31,
+            32,
+            30
+          ],
+          "group": "black"
+        },
+        {
+          "pixels": 147,
+          "rgb": [
+            186,
+            223,
+            235
+          ],
+          "group": "blue"
+        },
+        {
+          "pixels": 144,
+          "rgb": [
+            19,
+            25,
+            22
+          ],
+          "group": "black"
+        },
+        {
+          "pixels": 140,
+          "rgb": [
+            145,
+            184,
+            194
+          ],
+          "group": "blue"
+        },
+        {
+          "pixels": 138,
+          "rgb": [
+            44,
+            55,
+            57
+          ],
+          "group": "blue"
+        },
+        {
+          "pixels": 136,
+          "rgb": [
+            33,
+            33,
+            30
+          ],
+          "group": "black"
+        },
+        {
+          "pixels": 136,
+          "rgb": [
+            187,
+            224,
+            237
+          ],
+          "group": "blue"
+        },
+        {
+          "pixels": 116,
+          "rgb": [
+            18,
+            18,
+            14
+          ],
+          "group": "black"
+        },
+        {
+          "pixels": 110,
+          "rgb": [
+            62,
+            72,
+            72
+          ],
+          "group": "blue"
+        },
+        {
+          "pixels": 79,
+          "rgb": [
+            39,
+            49,
+            46
+          ],
+          "group": "green"
+        },
+        {
+          "pixels": 68,
+          "rgb": [
+            48,
+            59,
+            61
+          ],
+          "group": "blue"
+        },
+        {
+          "pixels": 59,
+          "rgb": [
+            29,
+            45,
+            39
+          ],
+          "group": "green"
+        },
+        {
+          "pixels": 53,
+          "rgb": [
+            43,
+            58,
+            56
+          ],
+          "group": "blue"
+        },
+        {
+          "pixels": 46,
+          "rgb": [
+            29,
+            42,
+            39
+          ],
+          "group": "black"
+        },
+        {
+          "pixels": 39,
+          "rgb": [
+            52,
+            65,
+            70
+          ],
+          "group": "blue"
+        },
+        {
+          "pixels": 24,
+          "rgb": [
+            39,
+            55,
+            56
+          ],
+          "group": "blue"
+        }
+      ],
+      "method": "commons-colours-pilot-v2",
+      "dimensions": [
+        960,
+        540
+      ],
+      "oriented_dimensions": [
+        960,
+        540
+      ],
+      "exif_orientation": 1,
+      "sample_dimensions": [
+        256,
+        144
+      ],
+      "thumbnail_sha256": "4e804cb3fc2035947157375b29a36305699dcc97e71ce002db6412ac0d42894d",
+      "bytes": 118683,
+      "colour_space": "ICC converted to sRGB",
+      "pillow_version": "12.3.0",
+      "minimum_search_share": 0.05,
+      "palette_size": 128,
+      "review_dhash256": "01ff0b3f138f308c827c207927ae32f13298336032f87cb93db93e797e317e39",
+      "id": 104137593,
+      "title": "Hauhon melontareitti, Suomi (49500708841)",
+      "artist": "Kanta-Hämeen kuvapankki",
+      "file_title": "File:Hauhon melontareitti, Suomi (49500708841).jpg",
+      "original_sha1": "b7cebc9d5ae433e2c243e92d5dba72bf51da2fbb",
+      "source": "https://commons.wikimedia.org/w/index.php?curid=104137593",
+      "source_page_sha256": "b5130c9e62bae6b7c8a1e8a431d80d0d9927ab7ab7df9a70ed9fc022c82c9f59",
+      "source_revision": 1021487466,
+      "thumbnail_url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/3/3c/Hauhon_melontareitti%2C_Suomi_%2849500708841%29.jpg/960px-Hauhon_melontareitti%2C_Suomi_%2849500708841%29.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+      "reported_thumbnail_dimensions": [
+        512,
+        288
+      ],
+      "analysed_at": "2026-10-10T06:56:30.942899+00:00",
+      "status": "needs full-image, rights-provenance and artwork-duplicate review",
+      "gallery_kind": "new"
+    },
+    {
       "sample_pixels": 37376,
       "distribution": [
         {
@@ -426562,6 +426543,1322 @@
         532
       ],
       "exif_orientation": 1,
+      "gallery_kind": "new"
+    },
+    {
+      "sample_pixels": 36864,
+      "distribution": [
+        {
+          "group": "red",
+          "pixels": 1312,
+          "share": 0.035590277777777776,
+          "representative": "#908285"
+        },
+        {
+          "group": "orange",
+          "pixels": 10504,
+          "share": 0.2849392361111111,
+          "representative": "#a79083"
+        },
+        {
+          "group": "yellow",
+          "pixels": 4173,
+          "share": 0.11319986979166667,
+          "representative": "#7c652c"
+        },
+        {
+          "group": "green",
+          "pixels": 0,
+          "share": 0.0,
+          "representative": null
+        },
+        {
+          "group": "blue",
+          "pixels": 0,
+          "share": 0.0,
+          "representative": null
+        },
+        {
+          "group": "purple",
+          "pixels": 2624,
+          "share": 0.07118055555555555,
+          "representative": "#84787f"
+        },
+        {
+          "group": "pink",
+          "pixels": 0,
+          "share": 0.0,
+          "representative": null
+        },
+        {
+          "group": "brown",
+          "pixels": 9504,
+          "share": 0.2578125,
+          "representative": "#544c0d"
+        },
+        {
+          "group": "beige",
+          "pixels": 5812,
+          "share": 0.1576605902777778,
+          "representative": "#bba092"
+        },
+        {
+          "group": "gray",
+          "pixels": 616,
+          "share": 0.016710069444444444,
+          "representative": "#877c83"
+        },
+        {
+          "group": "black",
+          "pixels": 2319,
+          "share": 0.06290690104166667,
+          "representative": "#191f08"
+        },
+        {
+          "group": "white",
+          "pixels": 0,
+          "share": 0.0,
+          "representative": null
+        }
+      ],
+      "top_colours": [
+        {
+          "group": "orange",
+          "pixels": 10504,
+          "share": 0.2849392361111111,
+          "representative": "#a79083"
+        },
+        {
+          "group": "brown",
+          "pixels": 9504,
+          "share": 0.2578125,
+          "representative": "#544c0d"
+        },
+        {
+          "group": "beige",
+          "pixels": 5812,
+          "share": 0.1576605902777778,
+          "representative": "#bba092"
+        }
+      ],
+      "top_chromatic_colours": [
+        {
+          "group": "orange",
+          "pixels": 10504,
+          "share": 0.2849392361111111,
+          "representative": "#a79083"
+        },
+        {
+          "group": "brown",
+          "pixels": 9504,
+          "share": 0.2578125,
+          "representative": "#544c0d"
+        },
+        {
+          "group": "beige",
+          "pixels": 5812,
+          "share": 0.1576605902777778,
+          "representative": "#bba092"
+        }
+      ],
+      "search_colours": [
+        "orange",
+        "brown",
+        "beige",
+        "yellow",
+        "purple",
+        "black"
+      ],
+      "palette": [
+        {
+          "pixels": 582,
+          "rgb": [
+            167,
+            144,
+            131
+          ],
+          "group": "orange"
+        },
+        {
+          "pixels": 575,
+          "rgb": [
+            187,
+            160,
+            146
+          ],
+          "group": "beige"
+        },
+        {
+          "pixels": 498,
+          "rgb": [
+            84,
+            76,
+            13
+          ],
+          "group": "brown"
+        },
+        {
+          "pixels": 497,
+          "rgb": [
+            132,
+            120,
+            127
+          ],
+          "group": "purple"
+        },
+        {
+          "pixels": 496,
+          "rgb": [
+            124,
+            101,
+            44
+          ],
+          "group": "yellow"
+        },
+        {
+          "pixels": 490,
+          "rgb": [
+            245,
+            198,
+            150
+          ],
+          "group": "orange"
+        },
+        {
+          "pixels": 485,
+          "rgb": [
+            175,
+            150,
+            137
+          ],
+          "group": "orange"
+        },
+        {
+          "pixels": 481,
+          "rgb": [
+            140,
+            127,
+            133
+          ],
+          "group": "purple"
+        },
+        {
+          "pixels": 481,
+          "rgb": [
+            162,
+            140,
+            130
+          ],
+          "group": "orange"
+        },
+        {
+          "pixels": 463,
+          "rgb": [
+            134,
+            110,
+            52
+          ],
+          "group": "yellow"
+        },
+        {
+          "pixels": 439,
+          "rgb": [
+            172,
+            149,
+            134
+          ],
+          "group": "orange"
+        },
+        {
+          "pixels": 430,
+          "rgb": [
+            72,
+            60,
+            26
+          ],
+          "group": "brown"
+        },
+        {
+          "pixels": 428,
+          "rgb": [
+            182,
+            157,
+            143
+          ],
+          "group": "beige"
+        },
+        {
+          "pixels": 422,
+          "rgb": [
+            104,
+            86,
+            38
+          ],
+          "group": "brown"
+        },
+        {
+          "pixels": 417,
+          "rgb": [
+            134,
+            122,
+            126
+          ],
+          "group": "purple"
+        },
+        {
+          "pixels": 414,
+          "rgb": [
+            219,
+            189,
+            166
+          ],
+          "group": "beige"
+        },
+        {
+          "pixels": 397,
+          "rgb": [
+            169,
+            147,
+            136
+          ],
+          "group": "orange"
+        },
+        {
+          "pixels": 395,
+          "rgb": [
+            172,
+            149,
+            139
+          ],
+          "group": "orange"
+        },
+        {
+          "pixels": 392,
+          "rgb": [
+            70,
+            61,
+            11
+          ],
+          "group": "brown"
+        },
+        {
+          "pixels": 390,
+          "rgb": [
+            162,
+            131,
+            76
+          ],
+          "group": "yellow"
+        },
+        {
+          "pixels": 390,
+          "rgb": [
+            191,
+            144,
+            90
+          ],
+          "group": "orange"
+        },
+        {
+          "pixels": 387,
+          "rgb": [
+            144,
+            130,
+            133
+          ],
+          "group": "red"
+        },
+        {
+          "pixels": 385,
+          "rgb": [
+            85,
+            75,
+            28
+          ],
+          "group": "brown"
+        },
+        {
+          "pixels": 382,
+          "rgb": [
+            235,
+            188,
+            139
+          ],
+          "group": "orange"
+        },
+        {
+          "pixels": 381,
+          "rgb": [
+            98,
+            85,
+            20
+          ],
+          "group": "brown"
+        },
+        {
+          "pixels": 368,
+          "rgb": [
+            251,
+            202,
+            152
+          ],
+          "group": "orange"
+        },
+        {
+          "pixels": 363,
+          "rgb": [
+            254,
+            242,
+            212
+          ],
+          "group": "beige"
+        },
+        {
+          "pixels": 351,
+          "rgb": [
+            204,
+            175,
+            155
+          ],
+          "group": "beige"
+        },
+        {
+          "pixels": 347,
+          "rgb": [
+            229,
+            181,
+            134
+          ],
+          "group": "orange"
+        },
+        {
+          "pixels": 347,
+          "rgb": [
+            253,
+            209,
+            162
+          ],
+          "group": "orange"
+        },
+        {
+          "pixels": 346,
+          "rgb": [
+            98,
+            85,
+            34
+          ],
+          "group": "brown"
+        },
+        {
+          "pixels": 346,
+          "rgb": [
+            121,
+            96,
+            47
+          ],
+          "group": "yellow"
+        },
+        {
+          "pixels": 346,
+          "rgb": [
+            178,
+            154,
+            139
+          ],
+          "group": "beige"
+        },
+        {
+          "pixels": 345,
+          "rgb": [
+            254,
+            208,
+            150
+          ],
+          "group": "orange"
+        },
+        {
+          "pixels": 343,
+          "rgb": [
+            150,
+            133,
+            131
+          ],
+          "group": "red"
+        },
+        {
+          "pixels": 337,
+          "rgb": [
+            252,
+            226,
+            188
+          ],
+          "group": "beige"
+        },
+        {
+          "pixels": 332,
+          "rgb": [
+            25,
+            31,
+            8
+          ],
+          "group": "black"
+        },
+        {
+          "pixels": 331,
+          "rgb": [
+            63,
+            60,
+            13
+          ],
+          "group": "brown"
+        },
+        {
+          "pixels": 330,
+          "rgb": [
+            111,
+            95,
+            36
+          ],
+          "group": "brown"
+        },
+        {
+          "pixels": 330,
+          "rgb": [
+            240,
+            181,
+            120
+          ],
+          "group": "orange"
+        },
+        {
+          "pixels": 329,
+          "rgb": [
+            178,
+            153,
+            142
+          ],
+          "group": "beige"
+        },
+        {
+          "pixels": 327,
+          "rgb": [
+            104,
+            86,
+            25
+          ],
+          "group": "brown"
+        },
+        {
+          "pixels": 326,
+          "rgb": [
+            135,
+            124,
+            131
+          ],
+          "group": "gray"
+        },
+        {
+          "pixels": 324,
+          "rgb": [
+            50,
+            49,
+            12
+          ],
+          "group": "brown"
+        },
+        {
+          "pixels": 323,
+          "rgb": [
+            55,
+            53,
+            12
+          ],
+          "group": "brown"
+        },
+        {
+          "pixels": 323,
+          "rgb": [
+            141,
+            117,
+            60
+          ],
+          "group": "yellow"
+        },
+        {
+          "pixels": 323,
+          "rgb": [
+            255,
+            217,
+            166
+          ],
+          "group": "beige"
+        },
+        {
+          "pixels": 316,
+          "rgb": [
+            38,
+            42,
+            12
+          ],
+          "group": "black"
+        },
+        {
+          "pixels": 316,
+          "rgb": [
+            155,
+            136,
+            132
+          ],
+          "group": "red"
+        },
+        {
+          "pixels": 314,
+          "rgb": [
+            246,
+            188,
+            128
+          ],
+          "group": "orange"
+        },
+        {
+          "pixels": 314,
+          "rgb": [
+            254,
+            222,
+            176
+          ],
+          "group": "beige"
+        },
+        {
+          "pixels": 313,
+          "rgb": [
+            254,
+            237,
+            202
+          ],
+          "group": "beige"
+        },
+        {
+          "pixels": 312,
+          "rgb": [
+            156,
+            118,
+            61
+          ],
+          "group": "yellow"
+        },
+        {
+          "pixels": 311,
+          "rgb": [
+            91,
+            78,
+            26
+          ],
+          "group": "brown"
+        },
+        {
+          "pixels": 310,
+          "rgb": [
+            210,
+            169,
+            129
+          ],
+          "group": "orange"
+        },
+        {
+          "pixels": 308,
+          "rgb": [
+            196,
+            168,
+            152
+          ],
+          "group": "orange"
+        },
+        {
+          "pixels": 307,
+          "rgb": [
+            137,
+            124,
+            132
+          ],
+          "group": "purple"
+        },
+        {
+          "pixels": 302,
+          "rgb": [
+            240,
+            208,
+            175
+          ],
+          "group": "beige"
+        },
+        {
+          "pixels": 299,
+          "rgb": [
+            54,
+            47,
+            16
+          ],
+          "group": "brown"
+        },
+        {
+          "pixels": 296,
+          "rgb": [
+            253,
+            200,
+            138
+          ],
+          "group": "orange"
+        },
+        {
+          "pixels": 295,
+          "rgb": [
+            46,
+            42,
+            15
+          ],
+          "group": "brown"
+        },
+        {
+          "pixels": 295,
+          "rgb": [
+            119,
+            95,
+            33
+          ],
+          "group": "brown"
+        },
+        {
+          "pixels": 290,
+          "rgb": [
+            77,
+            72,
+            17
+          ],
+          "group": "brown"
+        },
+        {
+          "pixels": 290,
+          "rgb": [
+            134,
+            123,
+            130
+          ],
+          "group": "gray"
+        },
+        {
+          "pixels": 290,
+          "rgb": [
+            232,
+            175,
+            116
+          ],
+          "group": "orange"
+        },
+        {
+          "pixels": 289,
+          "rgb": [
+            27,
+            24,
+            13
+          ],
+          "group": "black"
+        },
+        {
+          "pixels": 286,
+          "rgb": [
+            114,
+            87,
+            25
+          ],
+          "group": "brown"
+        },
+        {
+          "pixels": 285,
+          "rgb": [
+            215,
+            168,
+            113
+          ],
+          "group": "orange"
+        },
+        {
+          "pixels": 285,
+          "rgb": [
+            230,
+            170,
+            105
+          ],
+          "group": "orange"
+        },
+        {
+          "pixels": 279,
+          "rgb": [
+            75,
+            66,
+            20
+          ],
+          "group": "brown"
+        },
+        {
+          "pixels": 273,
+          "rgb": [
+            255,
+            234,
+            196
+          ],
+          "group": "beige"
+        },
+        {
+          "pixels": 271,
+          "rgb": [
+            43,
+            48,
+            11
+          ],
+          "group": "yellow"
+        },
+        {
+          "pixels": 270,
+          "rgb": [
+            139,
+            126,
+            130
+          ],
+          "group": "purple"
+        },
+        {
+          "pixels": 269,
+          "rgb": [
+            56,
+            59,
+            11
+          ],
+          "group": "brown"
+        },
+        {
+          "pixels": 267,
+          "rgb": [
+            36,
+            35,
+            15
+          ],
+          "group": "black"
+        },
+        {
+          "pixels": 266,
+          "rgb": [
+            156,
+            124,
+            73
+          ],
+          "group": "yellow"
+        },
+        {
+          "pixels": 266,
+          "rgb": [
+            158,
+            139,
+            135
+          ],
+          "group": "red"
+        },
+        {
+          "pixels": 252,
+          "rgb": [
+            205,
+            159,
+            109
+          ],
+          "group": "orange"
+        },
+        {
+          "pixels": 251,
+          "rgb": [
+            103,
+            94,
+            29
+          ],
+          "group": "brown"
+        },
+        {
+          "pixels": 251,
+          "rgb": [
+            122,
+            107,
+            35
+          ],
+          "group": "yellow"
+        },
+        {
+          "pixels": 245,
+          "rgb": [
+            5,
+            5,
+            3
+          ],
+          "group": "black"
+        },
+        {
+          "pixels": 244,
+          "rgb": [
+            59,
+            51,
+            16
+          ],
+          "group": "brown"
+        },
+        {
+          "pixels": 240,
+          "rgb": [
+            83,
+            70,
+            22
+          ],
+          "group": "brown"
+        },
+        {
+          "pixels": 236,
+          "rgb": [
+            13,
+            15,
+            6
+          ],
+          "group": "black"
+        },
+        {
+          "pixels": 236,
+          "rgb": [
+            101,
+            79,
+            28
+          ],
+          "group": "brown"
+        },
+        {
+          "pixels": 236,
+          "rgb": [
+            147,
+            110,
+            53
+          ],
+          "group": "yellow"
+        },
+        {
+          "pixels": 235,
+          "rgb": [
+            163,
+            142,
+            136
+          ],
+          "group": "orange"
+        },
+        {
+          "pixels": 232,
+          "rgb": [
+            216,
+            176,
+            137
+          ],
+          "group": "orange"
+        },
+        {
+          "pixels": 229,
+          "rgb": [
+            32,
+            33,
+            14
+          ],
+          "group": "black"
+        },
+        {
+          "pixels": 226,
+          "rgb": [
+            138,
+            96,
+            36
+          ],
+          "group": "yellow"
+        },
+        {
+          "pixels": 225,
+          "rgb": [
+            167,
+            145,
+            136
+          ],
+          "group": "orange"
+        },
+        {
+          "pixels": 223,
+          "rgb": [
+            16,
+            22,
+            7
+          ],
+          "group": "black"
+        },
+        {
+          "pixels": 223,
+          "rgb": [
+            138,
+            125,
+            131
+          ],
+          "group": "purple"
+        },
+        {
+          "pixels": 222,
+          "rgb": [
+            136,
+            124,
+            128
+          ],
+          "group": "purple"
+        },
+        {
+          "pixels": 220,
+          "rgb": [
+            114,
+            88,
+            41
+          ],
+          "group": "brown"
+        },
+        {
+          "pixels": 219,
+          "rgb": [
+            93,
+            84,
+            23
+          ],
+          "group": "brown"
+        },
+        {
+          "pixels": 218,
+          "rgb": [
+            70,
+            71,
+            14
+          ],
+          "group": "brown"
+        },
+        {
+          "pixels": 211,
+          "rgb": [
+            255,
+            231,
+            191
+          ],
+          "group": "beige"
+        },
+        {
+          "pixels": 209,
+          "rgb": [
+            214,
+            181,
+            154
+          ],
+          "group": "beige"
+        },
+        {
+          "pixels": 207,
+          "rgb": [
+            134,
+            122,
+            130
+          ],
+          "group": "purple"
+        },
+        {
+          "pixels": 206,
+          "rgb": [
+            91,
+            70,
+            24
+          ],
+          "group": "brown"
+        },
+        {
+          "pixels": 205,
+          "rgb": [
+            125,
+            110,
+            68
+          ],
+          "group": "yellow"
+        },
+        {
+          "pixels": 200,
+          "rgb": [
+            231,
+            192,
+            157
+          ],
+          "group": "beige"
+        },
+        {
+          "pixels": 199,
+          "rgb": [
+            113,
+            100,
+            38
+          ],
+          "group": "yellow"
+        },
+        {
+          "pixels": 196,
+          "rgb": [
+            192,
+            160,
+            133
+          ],
+          "group": "orange"
+        },
+        {
+          "pixels": 189,
+          "rgb": [
+            139,
+            104,
+            48
+          ],
+          "group": "yellow"
+        },
+        {
+          "pixels": 187,
+          "rgb": [
+            83,
+            64,
+            22
+          ],
+          "group": "brown"
+        },
+        {
+          "pixels": 184,
+          "rgb": [
+            66,
+            65,
+            14
+          ],
+          "group": "brown"
+        },
+        {
+          "pixels": 182,
+          "rgb": [
+            44,
+            36,
+            14
+          ],
+          "group": "black"
+        },
+        {
+          "pixels": 175,
+          "rgb": [
+            68,
+            52,
+            18
+          ],
+          "group": "brown"
+        },
+        {
+          "pixels": 170,
+          "rgb": [
+            175,
+            143,
+            114
+          ],
+          "group": "orange"
+        },
+        {
+          "pixels": 167,
+          "rgb": [
+            143,
+            129,
+            124
+          ],
+          "group": "orange"
+        },
+        {
+          "pixels": 166,
+          "rgb": [
+            196,
+            166,
+            139
+          ],
+          "group": "orange"
+        },
+        {
+          "pixels": 163,
+          "rgb": [
+            158,
+            134,
+            118
+          ],
+          "group": "orange"
+        },
+        {
+          "pixels": 161,
+          "rgb": [
+            246,
+            194,
+            139
+          ],
+          "group": "orange"
+        },
+        {
+          "pixels": 160,
+          "rgb": [
+            246,
+            216,
+            176
+          ],
+          "group": "beige"
+        },
+        {
+          "pixels": 149,
+          "rgb": [
+            179,
+            153,
+            131
+          ],
+          "group": "orange"
+        },
+        {
+          "pixels": 148,
+          "rgb": [
+            85,
+            84,
+            20
+          ],
+          "group": "brown"
+        },
+        {
+          "pixels": 146,
+          "rgb": [
+            101,
+            72,
+            25
+          ],
+          "group": "brown"
+        },
+        {
+          "pixels": 145,
+          "rgb": [
+            178,
+            147,
+            119
+          ],
+          "group": "orange"
+        },
+        {
+          "pixels": 142,
+          "rgb": [
+            233,
+            198,
+            164
+          ],
+          "group": "beige"
+        },
+        {
+          "pixels": 127,
+          "rgb": [
+            172,
+            144,
+            124
+          ],
+          "group": "orange"
+        },
+        {
+          "pixels": 124,
+          "rgb": [
+            187,
+            158,
+            135
+          ],
+          "group": "orange"
+        },
+        {
+          "pixels": 120,
+          "rgb": [
+            240,
+            202,
+            165
+          ],
+          "group": "beige"
+        },
+        {
+          "pixels": 102,
+          "rgb": [
+            252,
+            232,
+            196
+          ],
+          "group": "beige"
+        },
+        {
+          "pixels": 81,
+          "rgb": [
+            162,
+            139,
+            119
+          ],
+          "group": "orange"
+        },
+        {
+          "pixels": 45,
+          "rgb": [
+            165,
+            142,
+            120
+          ],
+          "group": "orange"
+        },
+        {
+          "pixels": 17,
+          "rgb": [
+            132,
+            120,
+            116
+          ],
+          "group": "brown"
+        }
+      ],
+      "method": "commons-colours-pilot-v2",
+      "dimensions": [
+        960,
+        540
+      ],
+      "oriented_dimensions": [
+        960,
+        540
+      ],
+      "exif_orientation": 1,
+      "sample_dimensions": [
+        256,
+        144
+      ],
+      "thumbnail_sha256": "91161eeaef2497c67ce242f198f1a6774eb8b200ab26a060cd5ea516f8ec2443",
+      "bytes": 162580,
+      "colour_space": "ICC converted to sRGB",
+      "pillow_version": "12.3.0",
+      "minimum_search_share": 0.05,
+      "palette_size": 128,
+      "review_dhash256": "f40f76c8ce1bde3394a28f849c358c8da52dc938212ca649b178672a3c1bbadb",
+      "id": 142859687,
+      "title": "La tormenta que no fue... (16287215035)",
+      "artist": "Papa Pic from Eldorado, Argentina",
+      "file_title": "File:La tormenta que no fue... (16287215035).jpg",
+      "original_sha1": "17dc5a67b0e232f7a8ed68592da5a9437a97305a",
+      "source": "https://commons.wikimedia.org/w/index.php?curid=142859687",
+      "source_page_sha256": "b9debff2b50a3da45819c7a8fe3e58e5e7c11fd890b9eb3c04cac3a45f81f9b8",
+      "source_revision": 1107466881,
+      "thumbnail_url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/2/24/La_tormenta_que_no_fue..._%2816287215035%29.jpg/960px-La_tormenta_que_no_fue..._%2816287215035%29.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+      "reported_thumbnail_dimensions": [
+        512,
+        288
+      ],
+      "analysed_at": "2026-10-10T06:57:30.484796+00:00",
+      "status": "needs full-image, rights-provenance and artwork-duplicate review",
       "gallery_kind": "new"
     },
     {

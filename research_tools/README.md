@@ -3,7 +3,7 @@
 This tooling is outside the runtime package. No credentials, original-image
 downloads, Home Assistant access or television access are needed. It does not
 automatically approve catalogue additions. Explicit second-view choices retain
-377 retained local research acceptances; the current released/runtime catalogue
+378 retained local research acceptances; the current released/runtime catalogue
 has 400. The earlier provisional 127 were reduced after plain source measurements
 exposed additional possible crops; subsequent actual visual reviews added other
 works. Use the checkpoint/curation manifest for the current count, not this history.
@@ -44,6 +44,10 @@ count nor implements mandatory runtime attribution. First-view decisions must
 be extended only after actually viewing their hash-bound sheets. The fixed
 artistic-composition pool is caption prioritization with a per-author cap,
 not evidence that a painting photograph clears the original artwork.
+
+`research/commons-visual-screen-amendments-2026-10-10.json` preserves an explicit
+one-cell transcription-order correction and subsequent actual viewing; the
+original screen receipt is not rewritten. The checkpoint references its hash.
 
 ## Retained state
 

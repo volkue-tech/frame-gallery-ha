@@ -1,12 +1,12 @@
 {
   "schema": 1,
-  "updated_at": "2026-10-10T06:33:24.833652+00:00",
+  "updated_at": "2026-10-10T07:01:04.556406+00:00",
   "status": "partial local research milestone, NOT a 1000-work catalogue",
   "baseline_sha256": "582c6abb664d49cc172d208f7bd701b14677e5b31d79b35e5aa4a48fc68af057",
   "baseline_count": 400,
   "target_total": 1000,
-  "added_count": 377,
-  "local_reviewed_total": 777,
+  "added_count": 378,
+  "local_reviewed_total": 778,
   "criteria": {
     "minimum_source_width_px": 3000,
     "relative_16_9_tolerance": 0.025
@@ -5103,45 +5103,6 @@
       "physical_evidence": "source dimensions agree within 2.5%"
     },
     {
-      "id": 60936484,
-      "file_title": "File:Roman Landscape MET DT3293.jpg",
-      "sha1": "aa1925a302b653aae88a0702290092c31a9d5cc1",
-      "title": "Roman Landscape",
-      "artist": "Claude Lorrain",
-      "width": 4000,
-      "height": 2267,
-      "source": "https://commons.wikimedia.org/w/index.php?curid=60936484",
-      "source_revision": 954319072,
-      "source_page_sha256": "1fad5ffc8cd7f758be668d4d0d2870a05547772a9f0943871383db7dd8406f13",
-      "rights_label_observed": "CC0",
-      "rights_basis": [
-        "cc-zero"
-      ],
-      "artwork_qids": [],
-      "physical_measures": [
-        {
-          "raw": "6 1/4 x 11 1/4 in.  (15.9 x 28.6 cm)",
-          "width": 11.25,
-          "height": 6.25,
-          "ratio": 1.8,
-          "interpretation": "plain two axes in inches; original measurement scope retained"
-        },
-        {
-          "raw": "6 1/4 x 11 1/4 in.  (15.9 x 28.6 cm)",
-          "width": 28.6,
-          "height": 15.9,
-          "ratio": 1.79874213836478,
-          "interpretation": "plain two axes; measurement scope retained, landscape observed visually"
-        }
-      ],
-      "thumbnail_sha256": "7faad195370dd1d139fc74a5ef610419ba9f62d3f449f5c494d1bc0bee3cd407",
-      "evidence_sha256": "8a5c9edfe877ea503c3120a6031880402ee7db414e5111ad334b96e65645f6ce",
-      "second_visual_sheet_sha256": "515bbe260969604cc421619d4d4b49703bba5dd8ea1b88b919fbaefb1db3fe93",
-      "decision": "accepted local research; not release-approved",
-      "reason": "Complete unframed work or original photographic/digital composition visually inspected twice; source/pin/rights declarations and proportions checked; no unresolved artwork-identity flag; selected for gallery variety.",
-      "physical_evidence": "source dimensions agree within 2.5%"
-    },
-    {
       "id": 61133701,
       "file_title": "File:The Watermill at the Foot of the Mountain MET DP837555.jpg",
       "sha1": "3bfad77c6699857be48e693a34ac5e44dbb5d384",
@@ -7976,6 +7937,30 @@
       "physical_evidence": "source dimensions agree within 2.5%"
     },
     {
+      "id": 104137593,
+      "file_title": "File:Hauhon melontareitti, Suomi (49500708841).jpg",
+      "sha1": "b7cebc9d5ae433e2c243e92d5dba72bf51da2fbb",
+      "title": "Hauhon melontareitti, Suomi (49500708841)",
+      "artist": "Kanta-Hämeen kuvapankki",
+      "width": 3087,
+      "height": 1736,
+      "source": "https://commons.wikimedia.org/w/index.php?curid=104137593",
+      "source_revision": 1021487466,
+      "source_page_sha256": "b5130c9e62bae6b7c8a1e8a431d80d0d9927ab7ab7df9a70ed9fc022c82c9f59",
+      "rights_label_observed": "CC0",
+      "rights_basis": [
+        "cc-zero"
+      ],
+      "artwork_qids": [],
+      "physical_measures": [],
+      "thumbnail_sha256": "4e804cb3fc2035947157375b29a36305699dcc97e71ce002db6412ac0d42894d",
+      "evidence_sha256": "e341e44d5152d6aebb65586e8e19d7f59c49f352ce7dd0cc005bd651d03371b4",
+      "second_visual_sheet_sha256": "34a613d99af66368dfc64ceaaf6787ec7e956d0d102969c1647427cbc9f51114",
+      "decision": "accepted local research; not release-approved",
+      "reason": "Complete unframed work or original photographic/digital composition visually inspected twice; source/pin/rights declarations and proportions checked; no unresolved artwork-identity flag; selected for gallery variety.",
+      "physical_evidence": "source has no explicit dimensions; full reproduction visually checked, no quantitative physical-ratio claim"
+    },
+    {
       "id": 106289300,
       "file_title": "File:Henry Martin Street in Cornwall.jpg",
       "sha1": "59168c7b26fee2cc99c137e5f707bb38f1eb2344",
@@ -9727,6 +9712,30 @@
       "physical_evidence": "source dimensions agree within 2.5%"
     },
     {
+      "id": 142859687,
+      "file_title": "File:La tormenta que no fue... (16287215035).jpg",
+      "sha1": "17dc5a67b0e232f7a8ed68592da5a9437a97305a",
+      "title": "La tormenta que no fue... (16287215035)",
+      "artist": "Papa Pic from Eldorado, Argentina",
+      "width": 3000,
+      "height": 1687,
+      "source": "https://commons.wikimedia.org/w/index.php?curid=142859687",
+      "source_revision": 1107466881,
+      "source_page_sha256": "b9debff2b50a3da45819c7a8fe3e58e5e7c11fd890b9eb3c04cac3a45f81f9b8",
+      "rights_label_observed": "CC0",
+      "rights_basis": [
+        "cc-zero"
+      ],
+      "artwork_qids": [],
+      "physical_measures": [],
+      "thumbnail_sha256": "91161eeaef2497c67ce242f198f1a6774eb8b200ab26a060cd5ea516f8ec2443",
+      "evidence_sha256": "f76aec6ea7d1e9fb190037fbc22dc56e80c30028df87f3899a5999248b17dd7d",
+      "second_visual_sheet_sha256": "34a613d99af66368dfc64ceaaf6787ec7e956d0d102969c1647427cbc9f51114",
+      "decision": "accepted local research; not release-approved",
+      "reason": "Complete unframed work or original photographic/digital composition visually inspected twice; source/pin/rights declarations and proportions checked; no unresolved artwork-identity flag; selected for gallery variety.",
+      "physical_evidence": "source has no explicit dimensions; full reproduction visually checked, no quantitative physical-ratio claim"
+    },
+    {
       "id": 143435922,
       "file_title": "File:Fausto Zonaro Istanbul - an den Hängen von Üsküdar.jpg",
       "sha1": "6fbce4f955f26d642e45e80b3be64cbc6fdd9ffe",
@@ -11450,6 +11459,12 @@
       "reasons": [
         "physical dimensions contradict file shape; cropping/distortion unresolved",
         "recorded physical proportions outside requested 2.5% band; measurement scope/crop unresolved"
+      ]
+    },
+    {
+      "id": 60936484,
+      "reasons": [
+        "fingerprint artwork-identity comparison required"
       ]
     },
     {
