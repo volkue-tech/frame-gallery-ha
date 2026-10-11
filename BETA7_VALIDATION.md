@@ -1,13 +1,13 @@
 # Frame Gallery 0.1.0b7 validation
 
-## Publication gate — verified beta; Store documentation handoff prepared
+## Publication gate — public beta and verified Store handoff
 
 The app beta, corresponding sources and both signed images are public. All five
 native pipeline jobs, four evidence ZIPs and independent public image/signature
-checks passed. Both one-time approval values were disabled and read back. The
-Store metadata/documentation handoff is prepared after these checks; its exact
-push/ref readback is recorded separately rather than inventing a self-referential
-current commit hash.
+checks passed. Both one-time approval values were disabled and read back. Store
+main was fast-forwarded to `69b0088bd09e972b6bcbac36288add172ea06ba1` and its exact
+ref read back. The final documentation-only closure's exact push/termination
+receipts are retained separately, not invented as a self-referential current hash.
 No new HA Green, television or live frontend-language test is authorized or
 claimed for this release. Only observed results are recorded here.
 
@@ -44,8 +44,9 @@ Ruff/format, strict host/Linux mypy over 255 files, 5,116 tests passed with elev
 unchanged platform skips, 100% whole-package line/branch coverage (9,468 statements,
 2,068 branches) and mandatory-package coverage (7,751 / 1,714).
 `build/artist-b7-release/local-quality-commit.log` records the precommit run.
-The documentation-preparation full run also passed with the same counts and
-coverage (`local-quality-doc-prep.log`). No test, skip or threshold was relaxed.
+The documentation-preparation and Store publication-documentation full runs
+also passed with the same counts and coverage (`local-quality-doc-prep.log`,
+`local-quality-publication.log`). No test, skip or threshold was relaxed.
 
 The first numbered-candidate run found stale own-package b6 versions in
 pyproject.toml/uv.lock (5,115 passed, one failed, eleven skips). Only those own
@@ -158,9 +159,14 @@ were set to `DISABLED_AFTER_0.1.0b7` and visibly read back in the personal
 repository. `build/artist-b7-release/approvals-disabled.png` records that result.
 
 The publication-documentation descendant keeps runtime/source/images at the
-frozen commit. Its full local gate and exact main/ref readback are required for
-Store handoff; closure records follow the observed push, not an invented future
-result. No previous release/source asset or user HA state is replaced/deleted.
+frozen commit. Its unchanged full local gate passed before main was pushed and
+read back at `69b0088bd09e972b6bcbac36288add172ea06ba1`. Anonymous byte-exact
+readback passed for 25 public files, including config.yaml, Info/README, all
+five generated configuration locales and setup/colour/artist guides.
+This observed documentation-only closure does not change runtime/source/images.
+Its final personal push/ref and credential-termination receipts are retained
+separately rather than inventing the current commit hash. No previous release/
+source asset or user HA state is replaced/deleted.
 
 ## Credential handling and external scope
 
@@ -176,6 +182,8 @@ which returned HTTP 200 without any permission change. A private helper transfor
 typo stopped before Git transfer; the corrected session pushed and verified the
 exact candidate without changing application code.
 
-Both one-time approval values are disabled. The memory-only broker must be
-explicitly ended after the final authorized push/readback. HA state, dashboards
+Both one-time approval values are disabled. The memory-only broker's shutdown
+watcher is armed: the verified exact final main push/readback triggers its end;
+completion is verified by the separate local termination receipt at handoff,
+not assumed in this pre-push record. HA state, dashboards
 and television remain unchanged; this release does not authorize live HA mutations.

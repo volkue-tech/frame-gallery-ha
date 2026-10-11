@@ -22,10 +22,16 @@
 - [x] Publish the beta announcement only after the release checks pass.
   *Public prerelease v0.1.0b7, ID 409494522, exact frozen runtime/source.*
 - [x] Prepare matching Store metadata and five-language documentation handoff.
-- [ ] Pass final documentation gates and push/read back the exact Store main commit.
+- [x] Pass final documentation gates and push/read back the exact Store main commit.
+  *Full unchanged gates passed (5116 tests/eleven skips, strict mypy 255 files,
+  100% line/branch coverage); main 69b0088bd09e972b6bcbac36288add172ea06ba1
+  read back exactly. Anonymous byte-exact readback passed for 25 public files.*
 - [x] Disable both one-time release approvals and visibly read back both values.
   *DISABLED_AFTER_0.1.0b7; screenshot retained under build/artist-b7-release/.*
-- [ ] Close the memory-only credential session after the final authorized push/readback.
+- [x] Arm verified-final-push-triggered memory-only credential shutdown.
+  *The constrained watcher ends the broker only after the final closure's exact
+  main push/readback; the actual shutdown receipt is retained in the handoff.
+  This checkbox records the armed mechanism, not a future observation.*
 
 No HA/Green/TV modification or live-language validation is authorized here.
 

@@ -1,22 +1,29 @@
 # Project status
 
-Last updated: 2026-10-11 (b7 release verified/public; Store documentation handoff ready)
+Last updated: 2026-10-11 (b7 public Store handoff verified; documentation closure)
 
-## Authorized b7 publication — release checks complete; final Store push pending
+## Beta 0.1.0b7 — public, Store handoff verified
 
 The user explicitly authorized building and publishing the artist/five-language
 beta under volkue-tech/frame-gallery-ha, autonomously. Candidate metadata is
 numbered 0.1.0b7 and regenerated. All required source, native and independent
 image/signature checks passed. Public v0.1.0b7 is release 409494522, exact runtime
 d15c1ffec63c3af0ad8ec2599b58d07e748cec15, published 2026-10-11 07:10:09 UTC.
-The reviewed Store/documentation descendant is ready for its unchanged full
-local gate and exact main push/readback. No HA/Green/TV changes or live tests
+Store main was fast-forwarded to 69b0088bd09e972b6bcbac36288add172ea06ba1 after
+the unchanged full publication gates passed: 5116 tests/eleven existing skips,
+strict host/Linux mypy over 255 files and 100% line/branch coverage. Exact
+authenticated ref readback matched. Anonymous byte-exact readback passed for
+25 public files: Store metadata, Info/README, validation, all five generated
+configuration locales and setup/colour/artist guides. No HA/Green/TV changes or live tests
 are authorized or claimed in this step. See BETA7_VALIDATION.md.
 
 The user's hidden token paste was verified for the exact personal account and
 public repository. The fixed-repository broker is capped at four hours with the
 token held only in process memory; no secret is stored in a file, log or this
-document. The corrected helper pushed and read back the exact frozen runtime
+document. Its final-closure push watcher is armed: only a successful exact
+personal main push/readback triggers session termination. The final push and
+termination receipts are retained under build/artist-b7-release/, not asserted
+as a self-referential commit hash here. The corrected helper pushed and read back the exact frozen runtime
 d15c1ffec63c3af0ad8ec2599b58d07e748cec15. A temporary wrapper typo in the first
 private helper stopped before transfer; it was corrected and the old session
 ended. No application/runtime change resulted.
@@ -59,6 +66,14 @@ passed / eleven unchanged platform skips, whole-package 100% line/branch coverag
 (9468 statements / 2068 branches) and mandatory-package 100% (7751 / 1714).
 Log: build/artist-b7-release/local-quality-numbered-rerun.log. These are local
 checks only; no native Linux/image/signature or new hardware result is inferred.
+
+This last closure changes release records/maintainer wording only. Runtime,
+images, source asset and the verified 25 user-facing files stay unchanged apart
+from this status and validation report's observed closure record. Run the full
+unchanged local gates before the final personal commit/push; retain its exact
+readback/termination evidence separately. Next product work needs its own scope;
+no further feature, live change, history reset or repeated review loop is pending
+in this approved publication task.
 
 ## Implementation gate snapshot — artist selection and five-language configuration
 

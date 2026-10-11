@@ -26,6 +26,14 @@ those already-authorized operations, without rights expansion or blind retries.
 Record actual publication results and any remaining limitations in STATUS/TASKS
 and BETA7_VALIDATION.md; do not infer new hardware/frontend observations.
 
+Observed closure: all five jobs of 38118401015, four bounded evidence archives,
+both public image/import/signature checks passed. App release 409494522 is public
+at the frozen runtime/source. Main was pushed/read back exactly at 69b0088;
+anonymous byte-exact readback passed for 25 public Store/guide files. Both
+one-time approval values read DISABLED_AFTER_0.1.0b7. The verified final-push
+credential-shutdown watcher is armed; retain its actual completion receipt at
+handoff. No D-223 reset or live HA/Green/TV/frontend change is included.
+
 ## Artist selector and five-language configuration (2026-10-10)
 
 ### D-221 — optional Commons artist selection without loosening exclusions
