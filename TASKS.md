@@ -4,15 +4,28 @@
 
 - [x] Receive explicit autonomous native-build and personal-repository publication approval.
 - [x] Assign 0.1.0b7 and regenerate matching Supervisor version/image metadata.
-- [ ] Verify the personal memory-only release session after the user's hidden paste.
-- [ ] Run unchanged full quality gates for the numbered candidate and commit personally.
+- [x] Verify the personal memory-only release session after the user's hidden paste.
+- [x] Run unchanged full quality gates for the numbered candidate and commit personally.
   *Numbered b7 full rerun passed: 5116 tests, eleven unchanged platform skips,
   strict host/Linux mypy over 255 files and 100% line/branch coverage. No native
-  or live result is inferred; the final documentation recheck/commit remains.*
-- [ ] Publish and independently verify matching corresponding sources.
-- [ ] Run native ARM/Intel validation and publishers; verify actual images and signatures.
-- [ ] Publish the beta announcement and Store metadata only after the release checks pass.
-- [ ] Disable both one-time release approvals and close the memory-only credential session.
+  or live result is inferred. Frozen runtime/source is d15c1ff; the final
+  publication-documentation recheck/commit remains.*
+- [x] Publish and independently verify matching corresponding sources.
+  *Public sources-v0.1.0b7, release 409469678 / asset 629983716, 580116480 bytes,
+  SHA256 a5ecbf2ba5ebc057d20e1546a99dffa4f8ef0a60f86848b70e60993cb9a207bc.
+  Anonymous download and exact clean-snapshot metadata/package verification passed.*
+- [x] Run native ARM/Intel validation and publishers; verify actual images and signatures.
+  *All five jobs of 38118401015 passed. Four exact bounded evidence ZIPs verified;
+  each actual container passed 5122 tests/five root skips plus five root tests,
+  thirteen cases twice within 1 GiB and 150 inspections. Both anonymous public
+  image/import and exact frozen-workflow signature checks passed.*
+- [x] Publish the beta announcement only after the release checks pass.
+  *Public prerelease v0.1.0b7, ID 409494522, exact frozen runtime/source.*
+- [x] Prepare matching Store metadata and five-language documentation handoff.
+- [ ] Pass final documentation gates and push/read back the exact Store main commit.
+- [x] Disable both one-time release approvals and visibly read back both values.
+  *DISABLED_AFTER_0.1.0b7; screenshot retained under build/artist-b7-release/.*
+- [ ] Close the memory-only credential session after the final authorized push/readback.
 
 No HA/Green/TV modification or live-language validation is authorized here.
 
@@ -38,10 +51,10 @@ approved; native builds/publication and live mutations are separate gates.
   strict mypy on Mac/Linux (255 files), 100% line/branch coverage; observed exit 0.
 - [x] Prepare reviewed candidate and verified personal identity for the local
   commit; its exact hash is recorded in Git, with no push or new public version.
-- [ ] Obtain explicit next-beta native-build/publication confirmation, assign
+- [x] Obtain explicit next-beta native-build/publication confirmation, assign
   next version and regenerate matching metadata; never publish candidate artist
   schema with the current public b6 image.
-- [ ] Native ARM/Intel validators/root/measurement, corresponding sources,
+- [x] Native ARM/Intel validators/root/measurement, corresponding sources,
   actual images/signatures and readback; only then approved Store publication.
 - [ ] Separately approved live update/helper/card/locale/TV tests, if requested.
 

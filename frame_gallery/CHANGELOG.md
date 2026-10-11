@@ -1,6 +1,6 @@
 # Changelog
 
-## 0.1.0b7 (beta candidate)
+## 0.1.0b7 (public beta)
 
 - Optional Commons artist selection, alone or combined with colour. Exact
   catalogue artist names or offered keys are accepted; other sources report
@@ -13,6 +13,9 @@
 - Keep all 1000 catalogue entries, source pins, history IDs, defaults, limits,
   dependencies and existing cards unchanged. No history-reset control or
   new Green/TV live validation is included.
+- Matching public sources, both native validators and actual publisher images,
+  bounded evidence checks, anonymous imports/pulls and independent signatures
+  passed before Store handoff. Existing installations update without uninstalling.
 
 ## 0.1.0b6 (public beta)
 

@@ -4,9 +4,9 @@
 
 Esta página está en español. Home Assistant no cambia automáticamente el
 idioma de la documentación: utiliza los enlaces de arriba.
-La versión pública b6 tiene los campos en inglés/alemán. El próximo candidato
-añade francés, español e italiano. Los nombres siguientes son los españoles del
-candidato; en b6, utiliza las claves técnicas. Los valores siguen en inglés.
+Desde b7, los campos de la app siguen el idioma HA: inglés, alemán, francés,
+español o italiano. En b6, utiliza las claves técnicas para los campos en
+inglés/alemán. Los valores siguen en inglés.
 
 Esta guía sirve para **0.1.0b6 y versiones posteriores**, con 1000 obras
 seleccionadas de Commons. El filtro de color no está disponible en 0.1.0b5
@@ -160,4 +160,4 @@ a que termine. Después elige `any` y repite. Si no coincide ninguna obra
 que todavía no se haya enviado, la imagen y los datos se conservan y la ejecución
 termina igualmente. El selector puede seguir visible durante la carga.
 
-[Artista y color juntos](COMMONS_ARTIST.es.md): próximo candidato, aún no disponible en b6.
+[Artista y color juntos](COMMONS_ARTIST.es.md): disponible desde b7; actualiza primero si utilizas b6.

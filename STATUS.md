@@ -1,24 +1,55 @@
 # Project status
 
-Last updated: 2026-10-11 (b7 publication authorized; credential intake pending)
+Last updated: 2026-10-11 (b7 release verified/public; Store documentation handoff ready)
 
-## Authorized b7 publication — in progress
+## Authorized b7 publication — release checks complete; final Store push pending
 
 The user explicitly authorized building and publishing the artist/five-language
 beta under volkue-tech/frame-gallery-ha, autonomously. Candidate metadata is
-numbered 0.1.0b7 and regenerated; the b6 Store remains unchanged until native
-validation, corresponding-source checks and independent image/signature checks
-pass. No HA/Green/TV changes or live tests are authorized in this step.
+numbered 0.1.0b7 and regenerated. All required source, native and independent
+image/signature checks passed. Public v0.1.0b7 is release 409494522, exact runtime
+d15c1ffec63c3af0ad8ec2599b58d07e748cec15, published 2026-10-11 07:10:09 UTC.
+The reviewed Store/documentation descendant is ready for its unchanged full
+local gate and exact main push/readback. No HA/Green/TV changes or live tests
+are authorized or claimed in this step. See BETA7_VALIDATION.md.
 
-The user requested preparing the personal credential before leaving. The exact
-Mac Passwords item was found and copied without revealing its value. A new
-fixed-repository release broker is open in Terminal, capped at four hours with
-the token held only in process memory. Terminal UI control is unavailable to
-the agent: user hidden paste/Enter and verified personal account readiness are
-still required. No secret is stored in a file, log or this document.
+The user's hidden token paste was verified for the exact personal account and
+public repository. The fixed-repository broker is capped at four hours with the
+token held only in process memory; no secret is stored in a file, log or this
+document. The corrected helper pushed and read back the exact frozen runtime
+d15c1ffec63c3af0ad8ec2599b58d07e748cec15. A temporary wrapper typo in the first
+private helper stopped before transfer; it was corrected and the old session
+ended. No application/runtime change resulted.
+
+Both exact release approval values were saved/read back in Firefox after the
+user's Confirm access. The token lacks Actions-variable and workflow-dispatch
+write permissions (403); no rights were expanded or blind retries made. The
+already-authorized workflow was started in the confirmed Firefox session.
+Run 38118401015 completed successfully at 2026-10-11 07:07:14 UTC, bound to the
+exact candidate; all five jobs and all four independent bounded ZIP checks passed.
+Each validator and actual publisher image passed 5122 tests/five root-only skips
+plus all five separate root tests; thirteen cases twice within 1 GiB and 150
+inspections passed. ARM peak 765.5 MiB / Intel 761.8 MiB. The
+private verifier's old-count occurrence guard was corrected from three to the
+two actual occurrences before extraction; no verification bound was relaxed.
+Anonymous exact tag/digest, pull/labels, isolated actual-image catalogue/palette/
+artist imports and independently pinned Cosign checks passed for both images:
+ARM sha256:42290c4f9e5e6440b0cca27f5cf7a0289f2677e12661548914cfe5cfab8c76af;
+Intel sha256:a0ecd563d2ed48f67f847f894eec266c184757616c1e9183bc36c0cee79ce3a8.
+The Intel import on this Mac is emulated inspection; native Intel evidence is CI.
+Both one-time approval variables read back DISABLED_AFTER_0.1.0b7. The anonymous
+API quota was exhausted and narrowly confirmed (remaining 0/60); subsequent
+public-metadata reads use the existing verified broker, with HTTP 200 and no
+permission expansion. The public corresponding-source
+release 409469678 / asset 629983716 has 580116480 bytes and SHA256
+a5ecbf2ba5ebc057d20e1546a99dffa4f8ef0a60f86848b70e60993cb9a207bc.
+Anonymous download and exact clean-source preflight passed with exit 0. Local
+verification first used the wrong Python/path invocation; corrected verification
+used the existing project Python and an absolute guarded package path. No source
+or test gate changed. Public observations remain under build/artist-b7-release/.
 
 Unrelated untracked docs/community/ remains untouched. The numbered candidate
-must pass the unchanged complete gates before a personal commit and publication.
+passed the unchanged complete gates before its verified personal commit/push.
 The first numbered-candidate run found stale own-project b6 versions in
 pyproject.toml and uv.lock (5115 passes, one failure, eleven platform skips;
 100% package coverage). Both own-version fields were synchronized without
@@ -31,7 +62,7 @@ checks only; no native Linux/image/signature or new hardware result is inferred.
 
 ## Implementation gate snapshot — artist selection and five-language configuration
 
-Local implementation is human-approved (D-221/D-222), not yet built/published or
+Historical implementation snapshot: human-approved (D-221/D-222), not yet built/published or
 installed. Public Store main remains the b6 documentation closure c995ff5; the
 b6 runtime/release/source asset remains unchanged. The local version/metadata
 still says b6 pending the separate next-beta gate: do not deploy this candidate

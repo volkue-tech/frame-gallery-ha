@@ -2,7 +2,7 @@
 
 [English](DOCS.md#installation) | [Deutsch](SETUP.de.md) | [Français](SETUP.fr.md) | [Español](SETUP.es.md) | **Italiano**
 
-Scegli la lingua con i link: Home Assistant non traduce automaticamente questa guida. La versione pubblica **0.1.0b6** ha il modulo dell'app in inglese/tedesco. Il prossimo candidato, non ancora pubblicato, aggiunge francese, spagnolo e italiano e la [selezione facoltativa dell'artista](COMMONS_ARTIST.it.md). I campi qui sotto usano i nomi italiani del candidato; su b6 riconoscili dalla chiave tecnica. I valori, gli ID e i percorsi restano uguali. I documenti tecnici rimangono [in inglese](DOCS.md#options).
+Scegli la lingua con i link: Home Assistant non traduce automaticamente questa guida. Dalla **0.1.0b7**, il modulo dell'app offre inglese, tedesco, francese, spagnolo e italiano secondo la lingua dell'interfaccia HA. La [selezione facoltativa dell'artista](COMMONS_ARTIST.it.md) richiede b7. Su b6 i campi sono in inglese/tedesco: usa le chiavi tecniche indicate. I valori, gli ID e i percorsi restano uguali. I documenti tecnici rimangono [in inglese](DOCS.md#options).
 
 ## 1. Installare
 
@@ -121,7 +121,7 @@ Se un'entità non esiste, verifica gli ID: non creare una seconda fotocamera. L'
 ## Opzioni e aiuto
 
 - [Selettore di colore](COMMONS_COLOUR.it.md): un helper Menu a discesa, nessun nuovo script.
-- [Selettore dell'artista](COMMONS_ARTIST.it.md): prossimo candidato, non configurarlo su b6.
+- [Selettore dell'artista](COMMONS_ARTIST.it.md): disponibile da b7; aggiorna prima se usi b6.
 - [Titolo e artista](ARTWORK_INFO.md): guida inglese, helper Testo separato; la scheda standard funziona senza.
 
 Su GitHub i blocchi hanno un pulsante di copia. Se manca nella scheda Documentazione di HA, apri la guida su GitHub. Copia solo YAML, non i delimitatori Markdown.

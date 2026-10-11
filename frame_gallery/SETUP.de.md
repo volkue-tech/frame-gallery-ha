@@ -2,7 +2,7 @@
 
 [English](DOCS.md#installation) | **Deutsch** | [Français](SETUP.fr.md) | [Español](SETUP.es.md) | [Italiano](SETUP.it.md)
 
-Die Anleitung wird über die Sprachlinks gewählt, nicht automatisch durch Home Assistant. Die öffentliche **0.1.0b6** hat englische/deutsche App-Texte. Der nächste, noch nicht veröffentlichte Kandidat ergänzt Französisch, Spanisch und Italienisch sowie die [optionale Künstlerauswahl](COMMONS_ARTIST.de.md). Die Konfigurationsbeschriftungen folgen der Sprache deiner HA-Oberfläche; technische Werte, IDs und Pfade bleiben unverändert. Technische Hintergrunddokumente bleiben [Englisch](DOCS.md#options).
+Die Anleitung wird über die Sprachlinks gewählt, nicht automatisch durch Home Assistant. Ab **0.1.0b7** gibt es die App-Konfiguration auf Englisch, Deutsch, Französisch, Spanisch und Italienisch sowie die [optionale Künstlerauswahl](COMMONS_ARTIST.de.md). Die Konfigurationsbeschriftungen folgen der Sprache deiner HA-Oberfläche; technische Werte, IDs und Pfade bleiben unverändert. Unter b6 gibt es nur englische/deutsche App-Texte und keine Künstlerauswahl. Technische Hintergrunddokumente bleiben [Englisch](DOCS.md#options).
 
 ## 1. Installieren
 
@@ -119,7 +119,7 @@ Bei fehlender Entität IDs prüfen, nicht eine weitere Kamera anlegen. Die Edito
 ## Optional und Hilfe
 
 - [Farbwähler](COMMONS_COLOUR.de.md): ein zusätzlicher Dropdown-Helfer, kein neues Skript.
-- [Künstlerauswahl](COMMONS_ARTIST.de.md): nächster Kandidat, nicht auf b6 einrichten.
+- [Künstlerauswahl](COMMONS_ARTIST.de.md): ab b7 verfügbar; vorher von b6 aktualisieren.
 - [Titel und Künstler anzeigen](ARTWORK_INFO.md): englische Anleitung, separater Text-Helfer; die Standardkarte funktioniert ohne ihn.
 
 Auf GitHub haben Codeblöcke einen Kopierbutton. Fehlt dieser im HA-Dokumentationsreiter, diese Anleitung auf GitHub öffnen. Nur YAML kopieren, keine Markdown-Begrenzungszeichen.

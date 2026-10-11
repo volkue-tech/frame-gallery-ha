@@ -4,9 +4,9 @@
 
 Cette page est en français. Home Assistant ne choisit pas automatiquement la
 langue de la documentation : utilisez les liens ci-dessus.
-La version publique b6 a les champs de l’app en anglais/allemand. Le prochain
-candidat ajoute français, espagnol et italien. Les noms ci-dessous sont ceux du
-candidat français ; sur b6, utilisez les clés techniques. Les valeurs restent en anglais.
+Depuis b7, les champs de l’app suivent la langue HA : anglais, allemand,
+français, espagnol ou italien. Sur b6, utilisez les clés techniques pour les
+champs anglais/allemands. Les valeurs restent en anglais.
 
 Ce guide s’applique à **0.1.0b6 et aux versions suivantes**, avec 1000 œuvres
 Commons sélectionnées. Le filtre de couleur n’est pas disponible dans
@@ -167,4 +167,4 @@ Si aucune œuvre non encore envoyée ne correspond, l’image et les information
 restent inchangées et l’exécution se termine tout de même. Le sélecteur peut
 rester visible pendant le chargement.
 
-[Artiste et couleur ensemble](COMMONS_ARTIST.fr.md) : prochain candidat, pas encore disponible sur b6.
+[Artiste et couleur ensemble](COMMONS_ARTIST.fr.md) : disponible à partir de b7 ; mettez d'abord b6 à jour.

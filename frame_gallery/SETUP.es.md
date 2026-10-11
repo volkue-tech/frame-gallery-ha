@@ -2,13 +2,13 @@
 
 [English](DOCS.md#installation) | [Deutsch](SETUP.de.md) | [Français](SETUP.fr.md) | **Español** | [Italiano](SETUP.it.md)
 
-Guía inicial para la **beta 0.1.0b6**. El idioma de esta página se elige con
+Guía inicial para la **beta 0.1.0b7**. El idioma de esta página se elige con
 los enlaces de arriba, no automáticamente desde Home Assistant.
 Los documentos técnicos siguen [en inglés](DOCS.md#options).
-La versión pública b6 tiene el formulario en inglés/alemán. El próximo candidato,
-aún no publicado, añade francés, español e italiano. Los campos siguientes usan
-los nombres españoles del candidato; en b6, utiliza las claves técnicas.
-Los valores siguen en inglés. El formulario sigue el idioma de la interfaz HA.
+Desde 0.1.0b7, el formulario ofrece inglés, alemán, francés, español e italiano
+según el idioma de la interfaz HA. Los valores técnicos siguen en inglés.
+En 0.1.0b6 los campos están en inglés/alemán: utiliza las claves técnicas.
+La [selección de artista](COMMONS_ARTIST.es.md) requiere b7.
 
 **Pasos:** instalar → mostrar una obra en el TV → añadir la tarjeta opcional →
 [añadir el selector de color](COMMONS_COLOUR.es.md).
@@ -230,7 +230,7 @@ Si no hay una obra nueva que coincida, se conservan la imagen y los datos
 anteriores. Las obras ya enviadas siguen excluidas. Las imágenes descargadas
 temporalmente se limpian; la app no elimina las obras guardadas en el TV.
 
-[Artista en la tarjeta](COMMONS_ARTIST.es.md): próximo candidato, aún no disponible en b6.
+[Artista en la tarjeta](COMMONS_ARTIST.es.md): disponible desde b7; actualiza primero si utilizas b6.
 
 ## Ayuda y límites
 

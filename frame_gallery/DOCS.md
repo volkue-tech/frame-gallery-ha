@@ -1,6 +1,6 @@
 # Frame Gallery
 
-> **0.1.0b6 public beta:** [1000 near-widescreen Wikimedia Commons works](COMMONS.md), one optional Commons colour wish and a [native dashboard colour picker](COMMONS_COLOUR.md).
+> **0.1.0b7 public beta:** [1000 near-widescreen Wikimedia Commons works](COMMONS.md), optional Commons artist/colour selection and [native dashboard pickers](COMMONS_ARTIST.md).
 > No API key is needed. Update without uninstalling; your saved sources and
 > existing camera, timer, script and optional artwork-information helper still work.
 
@@ -8,10 +8,9 @@
 
 **Colour-picker guide:** [English](https://github.com/volkue-tech/frame-gallery-ha/blob/main/frame_gallery/COMMONS_COLOUR.md) | [Deutsch](https://github.com/volkue-tech/frame-gallery-ha/blob/main/frame_gallery/COMMONS_COLOUR.de.md) | [Français](https://github.com/volkue-tech/frame-gallery-ha/blob/main/frame_gallery/COMMONS_COLOUR.fr.md) | [Español](https://github.com/volkue-tech/frame-gallery-ha/blob/main/frame_gallery/COMMONS_COLOUR.es.md) | [Italiano](https://github.com/volkue-tech/frame-gallery-ha/blob/main/frame_gallery/COMMONS_COLOUR.it.md).
 These are separate guides; their language is not selected automatically by Home Assistant.
-The public b6 app form has English/German texts. The next, unreleased candidate
-adds French/Spanish/Italian configuration names and help. The form follows the
-HA interface language; guides use manual links. Technical values and entity IDs
-stay unchanged.
+From b7 the app form has English/German/French/Spanish/Italian names and help,
+selected by the HA interface language. Guides use manual links. Technical values
+and entity IDs stay unchanged. Older b6 forms have English/German texts only.
 
 One start, one fresh artwork on your Samsung Frame. Choose museum artwork or your own images, preserve the whole work without cropping by default, and optionally see the latest successful preview on your Home Assistant dashboard.
 
@@ -19,7 +18,7 @@ One start, one fresh artwork on your Samsung Frame. Choose museum artwork or you
 
 *Illustration, not a screenshot. The dashboard is optional and is configured separately; installation does not add a card automatically.*
 
-> Native ARM/Intel validators and actual publisher images, public sources, anonymous pulls and independent signatures passed for b6. [Release checks](https://github.com/volkue-tech/frame-gallery-ha/blob/main/BETA6_VALIDATION.md). No new Green/TV live test is claimed. The preceding b3 passed two Commons deliveries and preview/text/loading/cleanup on Green, with physical TV confirmation of the second work. [Historical b3 evidence](https://github.com/volkue-tech/frame-gallery-ha/blob/main/BETA3_VALIDATION.md). Compatibility with every TV model is not guaranteed.
+> Native ARM/Intel validators and actual publisher images, public sources, anonymous pulls/imports and independent signatures passed for b7. [Release checks](https://github.com/volkue-tech/frame-gallery-ha/blob/main/BETA7_VALIDATION.md). No new Green/TV/frontend-language test is claimed. The historical b3 passed two Commons deliveries and preview/text/loading/cleanup on Green, with physical TV confirmation of the second work. [Historical b3 evidence](https://github.com/volkue-tech/frame-gallery-ha/blob/main/BETA3_VALIDATION.md). Compatibility with every TV model is not guaranteed.
 
 **Start here:** [Install](#installation) → [Show your first artwork](#first-start-and-pairing) → [Add the dashboard card](#dashboard).
 
@@ -47,7 +46,7 @@ No SSH, no command line, and no change to `configuration.yaml` is needed at any 
 
 You can use Frame Gallery immediately from its app page. No dashboard setup is needed for the first test.
 
-### Simple configuration (0.1.0b6)
+### Simple configuration (0.1.0b7)
 
 The normal form has six fields: **TV address**, **Artwork source**, **Colour wish (Commons)**, **Landscape
 only**, **Prefer 16:9**, and **Image fit**. The German UI uses **TV-IP-Adresse**,
@@ -60,16 +59,20 @@ and choose `contain` (the complete artwork, no crop). Sources are within 2.5% of
 on for the closest matches, or turn it off for the whole selection. Small
 margins can remain. No API key, registration or additional dashboard setup is needed.
 
-Museum period/department filters, margin colour and dashboard helpers are
+Artist selection, museum period/department filters, margin colour and dashboard helpers are
 optional. Enable **Show unused optional configuration options** only when you
 need one. Period applies to Chicago/Cleveland; department only to Cleveland.
-Commons supports the single colour wish, not period/department/style filters.
+Commons supports an optional artist and single colour wish, not period/department/style filters.
 Choose `any` or one of Red, Orange, Yellow, Green, Blue, Purple, Pink, Brown,
 Beige, Gray, Black and White. A noticeable area (about 5%) qualifies; it need
 not dominate the image. A blue-yellow work can match either group. Other
-sources report colour as ignored. No new matching work means a clean stop,
+sources report Commons artist/colour as ignored. No new matching work means a clean stop,
 keeping the previous artwork, never a silent different-colour fallback.
 See [colour selection and the optional dashboard picker](COMMONS_COLOUR.md).
+Artist selection uses offered whole catalogue names/keys, not a substring search.
+Combine it with colour only when eligible new works remain; no-match never
+widens the artist or resets history. See the [optional artist picker](COMMONS_ARTIST.md)
+and [searchable offered labels](ARTIST_CHOICES.md). Existing cards need no change.
 
 On an upgrade previously saved optional values can remain visible. This is
 normal; saved filters and helper IDs are not silently deleted or reset. An
@@ -249,11 +252,12 @@ mode: single
 | Department (Cleveland only) | A department of the Cleveland Museum of Art, or `any`. | `any` |
 | Period (both museums) | `period_before_1400`, `period_1400_1599`, `period_1600_1799`, `period_1800_1899`, `period_1900_and_later`, or `any`. | `any` |
 | Colour wish (Commons only) | `any` or Red, Orange, Yellow, Green, Blue, Purple, Pink, Brown, Beige, Gray, Black, White. A noticeable colour area qualifies. | `any` |
+| Artist (Commons only, b7+) | `any` or an offered whole catalogue name/key from [artist choices](ARTIST_CHOICES.md). Combines with colour before artwork requests. | `any` |
 | Landscape only | Only choose works that are wider than they are tall. | on |
 | Prefer the TV's shape | Prefer works within about 1 % of the TV's 16:9 shape. | on |
 | Fit | `contain` shows the whole work with margins; `cover` fills the screen and may crop. | `contain` |
 | Margin colour | The margin colour in `contain` mode, as `#RRGGBB`. | `#000000` |
-| Source, department, period, and colour helpers | Optional helpers whose state replaces the matching option at every start (see below). | empty |
+| Source, department, period, colour and artist helpers | Optional helpers whose state replaces the matching option at every start (see below and [artist guide](COMMONS_ARTIST.md)). | empty |
 | Log detail | `info`, or `debug` for every candidate the app considered. | `info` |
 
 Version 0.1.0b5 and newer put **Wikimedia Commons first** and select it for new
@@ -297,7 +301,7 @@ Put JPEG and PNG files into the folder `frame_gallery/library` of Home Assistant
 
 **No artwork was found. What now?** For Commons, try a different colour or `any`; a small colour pool can be exhausted by already-sent works. For museums, try a broader period or Cleveland's `any` department. A bounded search may not find a match on every run. The app keeps the previous image and stops cleanly; it does not search forever or silently choose another colour. See `no_match` below.
 
-**Can I filter by colour or style, or use Google Arts & Culture?** From b6, Commons supports one colour wish and an optional native dashboard dropdown. Chicago supports period; Cleveland supports department and period. Those sources and local images do not apply the Commons colour wish. Art-style filtering is unavailable, and Google is not one of the sources.
+**Can I filter by artist, colour or style, or use Google Arts & Culture?** From b6, Commons supports one colour wish; b7 adds an optional artist, alone or intersected with colour. Native dropdown cards are optional. Chicago supports period; Cleveland supports department and period. Those sources and local images do not apply the Commons artist/colour wishes. Art-style filtering is unavailable, and Google is not one of the sources.
 
 **Do old pictures accumulate on Home Assistant?** Downloaded and prepared images are temporary and are cleaned up. The app retains the latest preview, bounded history and metadata, not an ever-growing archive of artwork downloads. Your own media library is left untouched. Pictures uploaded to the TV do stay on the TV; this app does not delete them.
 
@@ -378,4 +382,4 @@ Development tests also exercised no-match, cancellation, notification failure
 and the timer's expiry. One recovery run refreshed within 14 seconds of preview
 publication; that observation is not a universal refresh-time guarantee.
 
-**Next update candidate, not yet in public b6:** optional Commons artist selection and complete native cards: [English](https://github.com/volkue-tech/frame-gallery-ha/blob/main/frame_gallery/COMMONS_ARTIST.md) | [Deutsch](https://github.com/volkue-tech/frame-gallery-ha/blob/main/frame_gallery/COMMONS_ARTIST.de.md) | [Français](https://github.com/volkue-tech/frame-gallery-ha/blob/main/frame_gallery/COMMONS_ARTIST.fr.md) | [Español](https://github.com/volkue-tech/frame-gallery-ha/blob/main/frame_gallery/COMMONS_ARTIST.es.md) | [Italiano](https://github.com/volkue-tech/frame-gallery-ha/blob/main/frame_gallery/COMMONS_ARTIST.it.md). Existing cards and history remain unchanged; do not configure artist options on b6.
+**Optional artist picker (b7 and newer):** complete native cards in [English](https://github.com/volkue-tech/frame-gallery-ha/blob/main/frame_gallery/COMMONS_ARTIST.md) | [Deutsch](https://github.com/volkue-tech/frame-gallery-ha/blob/main/frame_gallery/COMMONS_ARTIST.de.md) | [Français](https://github.com/volkue-tech/frame-gallery-ha/blob/main/frame_gallery/COMMONS_ARTIST.fr.md) | [Español](https://github.com/volkue-tech/frame-gallery-ha/blob/main/frame_gallery/COMMONS_ARTIST.es.md) | [Italiano](https://github.com/volkue-tech/frame-gallery-ha/blob/main/frame_gallery/COMMONS_ARTIST.it.md). Existing cards and history remain unchanged; update before configuring artist options on b6.

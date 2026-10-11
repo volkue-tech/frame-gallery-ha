@@ -2,13 +2,13 @@
 
 [English](DOCS.md#installation) | [Deutsch](SETUP.de.md) | **Français** | [Español](SETUP.es.md) | [Italiano](SETUP.it.md)
 
-Guide de démarrage pour la **bêta 0.1.0b6**. La langue de cette page est choisie
+Guide de démarrage pour la **bêta 0.1.0b7**. La langue de cette page est choisie
 avec les liens ci-dessus, pas automatiquement par Home Assistant.
 Les documents techniques restent [en anglais](DOCS.md#options).
-La version publique b6 a le formulaire en anglais/allemand. Le prochain candidat,
-non encore publié, ajoute aussi français, espagnol et italien. Les noms de champs
-ci-dessous sont ceux du candidat français ; sur b6, utilisez les clés techniques.
-Les valeurs restent en anglais. Le formulaire suit la langue de l’interface HA.
+Depuis 0.1.0b7, le formulaire propose anglais, allemand, français, espagnol et
+italien selon la langue de l’interface HA. Les valeurs techniques restent en
+anglais. Sur 0.1.0b6, les champs sont en anglais/allemand : utilisez les clés
+techniques indiquées. La [sélection d’artiste](COMMONS_ARTIST.fr.md) nécessite b7.
 
 **Parcours :** installer → afficher une œuvre sur le téléviseur → ajouter la carte
 facultative → [ajouter le sélecteur de couleur](COMMONS_COLOUR.fr.md).
@@ -230,7 +230,7 @@ informations précédentes. Les œuvres déjà envoyées restent exclues.
 Les images téléchargées temporairement sont nettoyées ; les œuvres déjà
 stockées sur le téléviseur ne sont pas supprimées par l’app.
 
-[Artiste dans la carte](COMMONS_ARTIST.fr.md) : prochain candidat, pas encore disponible sur b6.
+[Artiste dans la carte](COMMONS_ARTIST.fr.md) : disponible à partir de b7 ; mettez d'abord b6 à jour.
 
 ## Aide et limites
 

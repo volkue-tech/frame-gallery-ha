@@ -2,26 +2,27 @@
 
 Fresh artwork on your Samsung Frame. Start it with a tap from Home Assistant.
 
-> **0.1.0b6 public beta:** 1000 curated Commons works and one optional
-> colour wish, with a complete native dashboard colour-picker guide.
+> **0.1.0b7 public beta:** 1000 curated Commons works, optional artist and
+> colour selection, and configuration in English, German, French, Spanish and Italian.
 > Update in place; saved sources, dashboard helpers and history stay compatible.
 
 ![Actual Frame Gallery dashboard with Theo van Doesburg's colourful geometric artwork, tap-to-load preview and optional artwork information.](docs/images/dashboard-commons.png)
 
 *Actual Green screenshot from b3; the optional dashboard is set up separately. Theo van Doesburg, [Counter-composition XVI](https://commons.wikimedia.org/w/index.php?curid=3817033), Commons reproduction with public-domain metadata checked on 2026-10-05. The user confirmed this work on the TV. This is historical evidence, not a new-release live test.*
 
-**[Add to Home Assistant](https://my.home-assistant.io/redirect/supervisor_add_addon_repository/?repository_url=https%3A%2F%2Fgithub.com%2Fvolkue-tech%2Fframe-gallery-ha)** · [Setup guide](frame_gallery/DOCS.md) · [Latest beta](https://github.com/volkue-tech/frame-gallery-ha/releases/tag/v0.1.0b6)
+**[Add to Home Assistant](https://my.home-assistant.io/redirect/supervisor_add_addon_repository/?repository_url=https%3A%2F%2Fgithub.com%2Fvolkue-tech%2Fframe-gallery-ha)** · [Setup guide](frame_gallery/DOCS.md) · [Latest beta](https://github.com/volkue-tech/frame-gallery-ha/releases/tag/v0.1.0b7)
 
 **Setup:** [English](frame_gallery/DOCS.md#installation) | [Deutsch](frame_gallery/SETUP.de.md) | [Français](frame_gallery/SETUP.fr.md) | [Español](frame_gallery/SETUP.es.md) | [Italiano](frame_gallery/SETUP.it.md).
 **Colour picker:** [English](frame_gallery/COMMONS_COLOUR.md) | [Deutsch](frame_gallery/COMMONS_COLOUR.de.md) | [Français](frame_gallery/COMMONS_COLOUR.fr.md) | [Español](frame_gallery/COMMONS_COLOUR.es.md) | [Italiano](frame_gallery/COMMONS_COLOUR.it.md).
-Guides are selected manually. The public b6 app form has English/German texts.
-The next, unreleased candidate adds French/Spanish/Italian configuration texts;
-technical values and background documents remain English.
+Guides are selected manually. From b7, the app form follows the Home Assistant
+interface language with English, German, French, Spanish and Italian names/help.
+Technical values and background documents remain English.
 
 ## Art first. No unwanted cropping.
 
-- **A broad, colourful collection, museum artwork or your own images.** b6 includes 1000 near-widescreen Wikimedia Commons works, alongside the Art Institute of Chicago, the Cleveland Museum of Art, or your local JPEG/PNG collection. No API key needed.
+- **A broad, colourful collection, museum artwork or your own images.** 1000 near-widescreen Wikimedia Commons works, alongside the Art Institute of Chicago, the Cleveland Museum of Art, or your local JPEG/PNG collection. No API key needed.
 - **A colour wish for Commons.** Choose one colour in the app, or add an optional [native dashboard dropdown](frame_gallery/COMMONS_COLOUR.md); use the language links above. Matching works contain a noticeable area of that colour; the basic card remains unchanged.
+- **Your favourite artists.** Optionally select a Commons artist, alone or together with colour. Use an offered catalogue label/key or the [native favourites dropdown](frame_gallery/COMMONS_ARTIST.md). No custom dashboard extension is needed.
 - **Keep the whole work.** Original proportions are preserved by default; margins fill any unused space. Cropping is opt-in.
 - **Something new.** Previously sent artworks are skipped while new eligible works remain. History keeps the latest 20 000 works.
 - **See it before the next tap.** The optional native Home Assistant card shows the latest successful preview and starts a new run.
@@ -55,12 +56,12 @@ When adding **Local File**, replace its default name with **Frame Gallery Previe
 
 | Source | Available filters in this beta |
 | --- | --- |
-| Wikimedia Commons | 1000 curated works; one optional colour wish and shared fitting options |
+| Wikimedia Commons | 1000 curated works; optional artist and one colour wish, with shared fitting options |
 | Art Institute of Chicago | Period |
 | Cleveland Museum of Art | Department and period |
 | Your own images | Landscape and fitting options |
 
-Landscape selection and screen-shape preference work with all four sources. **Colour applies only to Commons; art-style filters are not offered.** Other sources report colour as ignored. Google Arts & Culture is not a source in this app. Museum sources use documented open-access APIs and eligible CC0 images; Commons uses a curated selection with current rights and file identity rechecked on each run; local media uses your own files.
+Landscape selection and screen-shape preference work with all four sources. **Artist and colour apply only to Commons; art-style filters are not offered.** Other sources report those filters as ignored. Google Arts & Culture is not a source in this app. Museum sources use documented open-access APIs and eligible CC0 images; Commons uses a curated selection with current rights and file identity rechecked on each run; local media uses your own files.
 
 **For the wide Commons collection:** choose `wikimedia_commons`, keep **Landscape
 only** on and **Image fit = contain**. Sources are within 2.5% of 16:9;
@@ -84,7 +85,16 @@ When reporting a problem, include the app version, TV model and the final outcom
 
 ## Public beta
 
-**[0.1.0b6 is available](https://github.com/volkue-tech/frame-gallery-ha/releases/tag/v0.1.0b6).** Exactly 1000 active works (344
+**[0.1.0b7 is available](https://github.com/volkue-tech/frame-gallery-ha/releases/tag/v0.1.0b7).** Optional artist selection
+alone or combined with colour, complete native favourites cards and configuration
+names/help in EN/DE/FR/ES/IT. The 1000 works and all existing history/pins/cards
+remain unchanged. Matching public sources, native ARM/Intel validators and actual
+publisher images, bounded evidence checks, anonymous pulls/imports and independent
+signatures passed. See the [b7 validation report](BETA7_VALIDATION.md).
+No new Green/TV/frontend-language test is claimed. Update in place, without
+uninstalling. History reset remains a proposal, not a shipped feature.
+
+[0.1.0b6](https://github.com/volkue-tech/frame-gallery-ha/releases/tag/v0.1.0b6) introduced exactly 1000 active works (344
 unchanged baseline + 656 additions), one Commons colour wish and an optional
 native colour dropdown. The 56 user-approved temporary holds and seven reserves
 retain all research and IDs; no history reset. Local gates, matching public
@@ -130,7 +140,7 @@ The app runs once, then stops. It does not remove artworks already stored on you
 
 ## For contributors
 
-Frame Gallery is implemented independently. The project's own code is [Apache-2.0](LICENSE); distributed third-party components retain their own licences. The runtime is not GPL-free. [Third-party notices](THIRD_PARTY_NOTICES.md) and [matching component sources](https://github.com/volkue-tech/frame-gallery-ha/releases/tag/sources-v0.1.0b6) are available; historical b1/b2/b3/b4/b5 source releases are retained.
+Frame Gallery is implemented independently. The project's own code is [Apache-2.0](LICENSE); distributed third-party components retain their own licences. The runtime is not GPL-free. [Third-party notices](THIRD_PARTY_NOTICES.md) and [matching component sources](https://github.com/volkue-tech/frame-gallery-ha/releases/tag/sources-v0.1.0b7) are available; historical b1/b2/b3/b4/b5/b6 source releases are retained.
 
 - [Developer setup and quality gates](frame_gallery/DEVELOPMENT.md)
 - [Product specification](PRODUCT_SPEC.md) · [Architecture](ARCHITECTURE.md) · [Acceptance tests](ACCEPTANCE_TESTS.md)
@@ -142,4 +152,4 @@ Frame Gallery is implemented independently. The project's own code is [Apache-2.
 
 The product idea is inspired by community experimentation around Home Assistant and Samsung Frame art-mode automation. No predecessor code is incorporated. Frame Gallery is an independent project, not affiliated with or endorsed by Samsung, the museums, or Home Assistant.
 
-**Next update candidate, not yet in public b6:** optional Commons artist selection and complete native cards: [English](frame_gallery/COMMONS_ARTIST.md) | [Deutsch](frame_gallery/COMMONS_ARTIST.de.md) | [Français](frame_gallery/COMMONS_ARTIST.fr.md) | [Español](frame_gallery/COMMONS_ARTIST.es.md) | [Italiano](frame_gallery/COMMONS_ARTIST.it.md). Existing cards and history remain unchanged; do not configure artist options on b6.
+**Optional artist picker (b7 and newer):** complete native cards in [English](frame_gallery/COMMONS_ARTIST.md) | [Deutsch](frame_gallery/COMMONS_ARTIST.de.md) | [Français](frame_gallery/COMMONS_ARTIST.fr.md) | [Español](frame_gallery/COMMONS_ARTIST.es.md) | [Italiano](frame_gallery/COMMONS_ARTIST.it.md). Existing cards and history remain unchanged; update before configuring artist options on b6.

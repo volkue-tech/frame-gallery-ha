@@ -2,7 +2,7 @@
 
 [English](COMMONS_COLOUR.md) | [Deutsch](COMMONS_COLOUR.de.md) | [Français](COMMONS_COLOUR.fr.md) | [Español](COMMONS_COLOUR.es.md) | **Italiano**
 
-La lingua di questa guida si sceglie con i link: Home Assistant non cambia automaticamente la documentazione. Il filtro esiste dalla **0.1.0b6**. La versione pubblica b6 ha il modulo dell'app in inglese/tedesco; il prossimo aggiornamento candidato aggiunge anche francese, spagnolo e italiano. I nomi dei campi qui sotto sono quelli italiani del candidato; su b6 usa la chiave tecnica indicata. I valori di selezione restano in inglese.
+La lingua di questa guida si sceglie con i link: Home Assistant non cambia automaticamente la documentazione. Il filtro esiste dalla **0.1.0b6**. Dalla b7, il modulo segue la lingua HA: inglese, tedesco, francese, spagnolo o italiano. Su b6 usa le chiavi tecniche indicate per i campi inglesi/tedeschi. I valori di selezione restano in inglese.
 
 Segui prima la [configurazione standard](SETUP.it.md). Il selettore nella dashboard è facoltativo: non servono un nuovo script, HACS o modifiche a configuration.yaml. Nessuna chiave API è richiesta.
 
@@ -72,4 +72,4 @@ cards:
 
 La scheda facoltativa di titolo/artista può restare separata sotto lo stack. Non si tratta di una singola scheda personalizzata con un bordo comune; non servono estensioni aggiuntive.
 
-Per provare: seleziona `Blue`, tocca l'immagine e attendi la fine, poi ripeti con `any`. Se non ci sono opere nuove idonee, l'immagine rimane invariata e l'esecuzione termina comunque. Per il prossimo candidato, [artista e colore insieme](COMMONS_ARTIST.it.md) sono un'opzione separata, non ancora disponibile su b6.
+Per provare: seleziona `Blue`, tocca l'immagine e attendi la fine, poi ripeti con `any`. Se non ci sono opere nuove idonee, l'immagine rimane invariata e l'esecuzione termina comunque. Da b7, [artista e colore insieme](COMMONS_ARTIST.it.md) sono un'opzione separata; aggiorna prima se usi b6.

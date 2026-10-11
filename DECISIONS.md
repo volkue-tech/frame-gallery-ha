@@ -1,5 +1,31 @@
 # Decision log
 
+## Artist/five-language beta publication (2026-10-11)
+
+### D-224 — publish exact b7 after native and independent checks
+
+Status: explicitly human-authorized autonomous build/publication under
+volkue-tech/frame-gallery-ha. Freeze runtime/source at
+d15c1ffec63c3af0ad8ec2599b58d07e748cec15, version 0.1.0b7. Preserve older releases,
+all catalogue pins/history, existing cards and other sources. No live HA/Green/TV
+mutation, language test or D-223 history-reset implementation is authorized.
+
+The clean own snapshot plus 172 retained upstream source archives/notices is
+public before registry publication. Independent anonymous download and exact
+source preflight passed for asset 629983716 (580116480 bytes, SHA256
+a5ecbf2ba5ebc057d20e1546a99dffa4f8ef0a60f86848b70e60993cb9a207bc).
+Run 38118401015 targets the exact frozen SHA. Store main and the app announcement
+must wait for both native validators, both actual image publishers, bounded
+evidence checks, anonymous image/import checks and exact independent signatures.
+Disable both existing one-time approval variables after publication jobs finish.
+
+Keep the personal token only in the constrained broker's process memory, for at
+most four hours; explicitly close it at handoff. Actions-variable/dispatch API
+write permissions were refused, so use the user-confirmed Firefox session for
+those already-authorized operations, without rights expansion or blind retries.
+Record actual publication results and any remaining limitations in STATUS/TASKS
+and BETA7_VALIDATION.md; do not infer new hardware/frontend observations.
+
 ## Artist selector and five-language configuration (2026-10-10)
 
 ### D-221 — optional Commons artist selection without loosening exclusions

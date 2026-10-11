@@ -151,4 +151,4 @@ run to finish. Then select `any` and tap again. If no unsent work matches,
 the image and artist information remain unchanged and the run still ends.
 The dropdown may remain visible while the run is active.
 
-[Artist and colour together](COMMONS_ARTIST.md): unreleased next candidate, not available in public b6.
+[Artist and colour together](COMMONS_ARTIST.md): requires 0.1.0b7 or newer; not available in b6.

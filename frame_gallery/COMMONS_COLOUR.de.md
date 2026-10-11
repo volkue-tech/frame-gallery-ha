@@ -155,4 +155,4 @@ und das Laufende abwarten. Danach `any` auswählen und erneut tippen. Falls kein
 ungesendetes Werk passt, bleiben Bild und Künstlerdaten erhalten und der Lauf
 endet trotzdem. Das Dropdown darf währenddessen sichtbar bleiben.
 
-[Künstler und Farbe zusammen](COMMONS_ARTIST.de.md): nächster Kandidat, noch nicht auf b6 verfügbar.
+[Künstler und Farbe zusammen](COMMONS_ARTIST.de.md): ab b7 verfügbar; vorher von b6 aktualisieren.

@@ -1,7 +1,7 @@
-# Commons artist choices — unreleased candidate
+# Commons artist choices — requires 0.1.0b7 or newer
 
 Generated from the pinned 1000-work catalogue and vocabulary version 3 (D-221).
-The public 0.1.0b6 image does not yet support these choices. These are catalogue
+The older 0.1.0b6 image does not support these choices. These are catalogue
 attribution labels, not a complete authority register. Case/punctuation variants
 merge; distinct full names, workshop and attributed labels remain separate.
 Four long labels are abbreviated only for selection. Original captions stay unchanged.
