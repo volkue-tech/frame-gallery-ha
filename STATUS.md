@@ -1,6 +1,6 @@
 # Project status
 
-Last updated: 2026-10-16 (b8 native release verified; documentation-only Store handoff)
+Last updated: 2026-10-16 (public b8 app/Store release independently read back)
 
 ## Public beta b8 — native release verified
 
@@ -48,8 +48,16 @@ readback and session-closure receipts are retained separately under the ignored
 build/current-artwork-b8-release/ directory; no token is persisted there.
 The closing host gates passed: 5377 tests/15 platform skips, strict host/Linux
 typing over 273 files and unchanged 100% whole/mandatory line/branch coverage.
-Store main readback and disabling both exact one-time approvals remain the
-final handoff tasks; no b8 live installation is included.
+Store main was fast-forwarded without force to documentation handoff 295f7c0.
+All 37 public Store/guide files matched byte-for-byte; app release/tag/source
+and its five polished guide links passed independent anonymous readback.
+The automatic native main-push validation 38968787213 also passed both real
+ARM and Intel jobs. It is additional to the completed frozen-runtime release
+gates, not a new image build.
+Both one-time release approvals were disabled and visibly read back as
+DISABLED_AFTER_0.1.0b8 in the personal Firefox session. No credentials or
+token permissions were changed. The closing commit records only completion
+evidence, not a new source/image build. No b8 live installation is included.
 
 No HA/TV connection or mutation occurred during publication. Natural sleep remains deferred,
 experimental background mode stays off by default, and docs/community/ is

@@ -41,8 +41,15 @@
   and pass final gates after image verification. App release 415386298 is
   public; the closing host run passed 5377 tests/15 platform skips, strict
   host/Linux typing over 273 files and unchanged 100% line/branch gates.
-- [ ] Advance/read back Store main and the public release-guide links.
-- [ ] Disable/read back both one-time approvals after successful publication.
+- [x] Advance/read back Store main and the public release-guide links.
+  Documentation-only handoff 295f7c0 was fast-forwarded without force; 37
+  public Store/guide files matched byte-for-byte. App release/tag/source and
+  all five polished guide links passed independent anonymous readback.
+- [x] Observe the additional automatic main-push native validation.
+  Run 38968787213 passed both real ARM and Intel jobs for handoff 295f7c0.
+- [x] Disable/read back both one-time approvals after successful publication.
+  Both repository variables visibly read back as DISABLED_AFTER_0.1.0b8 in
+  the personal Firefox session. No token rights or credentials were changed.
 
 Earlier absolute activation gates below are historical, superseded only by the
 explicit experimental exception D-230. Natural no-motion sleep, transition and

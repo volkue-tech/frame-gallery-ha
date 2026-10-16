@@ -65,8 +65,17 @@ is release 415386298, explicitly experimental/default-off and not the source-onl
 release. Images and corresponding sources remain tied to frozen 842a8ce;
 this later documentation-only handoff does not change their runtime source.
 Release receipts and all six verified ZIPs are retained under the git-ignored
-build/current-artwork-b8-release/ directory. Public Store readback and closure
-receipts are recorded there separately after the documentation commit is pushed.
+build/current-artwork-b8-release/ directory. Documentation handoff 295f7c0 was
+fast-forwarded to Store main without force. All 37 public Store/guide files
+matched byte-for-byte; anonymous readback also confirmed the unchanged app
+release/tag/source and all five polished guide links. Closure receipts are
+recorded there separately; this does not claim a live app upgrade on HA.
+The additional automatic native validation of documentation handoff 295f7c0,
+run 38968787213, also passed both real ARM and Intel jobs. It did not rebuild
+or replace either published image.
+Both one-time GitHub release approvals were disabled and visibly read back as
+DISABLED_AFTER_0.1.0b8 in the personal Firefox session after publication.
+No credential, permission scope, installed HA app or TV state was changed.
 
 ## Scope and compatibility
 
