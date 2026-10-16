@@ -31,12 +31,12 @@ not evidence that an image has been published or an installation has passed.
 ## Run the manual workflow
 
 Run **Publish reviewed beta images** on `main`, with the matching beta version.
-For reviewed candidates such as 0.1.0b6 and 0.1.0b7, the narrowly allowed
+For reviewed candidates such as 0.1.0b6, 0.1.0b7 and 0.1.0b8, the narrowly allowed
 `codex/commons-default` branch can instead publish
 the exact approved candidate before its app metadata is merged into `main`.
 This prevents store users being offered a version whose image is still missing.
 Repository, exact-commit/source-hash, native validation and non-overwrite gates
-remain identical. Signatures identify the actual workflow branch; b6/b7 use
+remain identical. Signatures identify the actual workflow branch; b6/b7 and the b8 candidate use
 `https://github.com/volkue-tech/frame-gallery-ha/.github/workflows/publish.yml@refs/heads/codex/commons-default`.
 Historical b3/b4/b5 used
 `https://github.com/volkue-tech/frame-gallery-ha/.github/workflows/publish.yml@refs/heads/codex/commons-curated`.

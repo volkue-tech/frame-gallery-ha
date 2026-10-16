@@ -16,7 +16,7 @@ components. Preserve their original terms, copyrights, notices and patent texts.
 For each published version, distribute a matching source package alongside the
 image. Its `manifest.json` identifies the exact project commit, archive lengths
 and SHA256s. `project-source.tar` contains that clean commit, including this guide,
-Dockerfile, dependency locks, profiles, tests, notices and the CMDSIG modification.
+Dockerfile, dependency locks, profiles, tests, notices and the CMDSIG/rc.init modifications.
 Other entries are **inert upstream source archives**, including:
 
 - `alpine-recipes/`: the 45 exact package recipe directories, with their local
@@ -162,10 +162,14 @@ retained separately. Binary cross-compilers inspected for provenance are not
 redistributed by this project. Rebuilding all base components bit-for-bit has
 not been performed and is not claimed.
 
-The sole base-script change made by Frame Gallery is visible in its Dockerfile:
-verify the pinned CMDSIG hash and replace only `#!/bin/sh` with `#!/bin/bash`.
-Its upstream body remains unchanged. The supplied source and own Dockerfile
-therefore describe both the original and the modification.
+Both base-script changes made by Frame Gallery are visible in its Dockerfile:
+verify the pinned CMDSIG hash and replace only `#!/bin/sh` with `#!/bin/bash`
+(D-177); verify rc.init before and after saving stdin in the parent shell group
+and passing it to the asynchronous command (D-227). The latter preserves s6's
+PID/wait/signal/exit handling while fixing BusyBox's stdin-to-/dev/null behaviour.
+Both transformations are checksum-guarded against the exact pinned upstream
+scripts. The supplied upstream sources and own Dockerfile describe the originals
+and each modification; neither modified script is claimed to be unchanged.
 
 ## Installing a modified version
 

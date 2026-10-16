@@ -13,7 +13,10 @@
 - [ ] Run a true native x86_64 validator before publication. Local amd64 images
   built, but the emulated overall check failed five real seccomp installation
   cases with EINVAL; no protection/test was weakened. Native ARM checks passed.
-- [ ] Obtain publication approval before any public push/build/Store handoff.
+- [x] Obtain publication approval before any public push/build/Store handoff.
+  User explicitly authorized native Intel validation and autonomous b8
+  publication under volkue-tech/frame-gallery-ha, conditional on green tests,
+  on 2026-10-16. Natural-sleep validation remains deferred, not passed.
 
 Earlier absolute activation gates below are historical, superseded only by the
 explicit experimental exception D-230. Natural no-motion sleep, transition and

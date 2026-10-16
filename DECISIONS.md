@@ -4,6 +4,11 @@
 
 ### D-230 — opt-in experimental observation; natural-sleep test deferred
 
+Publication addendum, 2026-10-16: the user subsequently explicitly authorized
+native Intel validation and autonomous b8 publication in the personal repository,
+conditional on green tests. This supersedes the earlier publication prohibition
+below, not the default-off state, wake warning or deferred physical sleep test.
+
 **Accepted by the user, 2026-10-16, for local implementation and beta building;
 publication is not authorized.** The user explicitly chose experimental use,
 off by default, with a warning that read-only connections may wake the TV.

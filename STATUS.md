@@ -2,6 +2,23 @@
 
 Last updated: 2026-10-16 (experimental b8 locally authorized; public b7 unchanged)
 
+## b8 native validation and conditional publication now authorized
+
+The user explicitly requested the real native Intel check and autonomous b8
+publication under volkue-tech/frame-gallery-ha only after green tests. Natural
+no-motion sleep remains deferred; default-off mode and warnings stay unchanged.
+The runtime source remains the tested 0830e0e implementation; this preparation
+only records authority and corrects the corresponding-source description of
+both pinned s6 script modifications. Freeze the exact new documentation/source
+commit before native CI and corresponding-source assembly. Do not advance
+Store main until both actual publisher images, evidence and signatures pass.
+No live HA/TV mutation or physical sleep claim is included.
+
+Personal git credential lookup found no saved helper entry. The known Mac
+Passwords item remains the intended credential source; the app is locked and
+the user has been asked for Touch ID. No corporate credential is used, no token
+is saved, and no authenticated request/publication has yet occurred.
+
 ## Local b8 candidate built; ARM passed, native Intel/publication still open
 
 D-230 is implemented in the real service: explicit opt-in, session-only
