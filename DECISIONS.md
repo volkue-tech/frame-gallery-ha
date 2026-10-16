@@ -9,8 +9,9 @@ native Intel validation and autonomous b8 publication in the personal repository
 conditional on green tests. This supersedes the earlier publication prohibition
 below, not the default-off state, wake warning or deferred physical sleep test.
 
-**Accepted by the user, 2026-10-16, for local implementation and beta building;
-publication is not authorized.** The user explicitly chose experimental use,
+**Accepted by the user, 2026-10-16, initially for local implementation and beta
+building; later conditionally authorized for publication as recorded above.**
+The user explicitly chose experimental use,
 off by default, with a warning that read-only connections may wake the TV.
 This narrowly supersedes D-226's absolute activation gate; it does not establish
 no-wake safety. Manual-off REST and a complete Art-Mode read have passed their
@@ -47,8 +48,22 @@ as such, not treated as an ordinary bug already proven absent.
   the experimental wake risk, default-off state, first-send/re-arm requirement,
   unchanged old cards and the distinction between preview and actual current
   artwork. No-wake, transition and Recorder checks remain open beta follow-ups.
-- Build the next candidate locally as `0.1.0b8`; matching public images, source
-  publication and Store handoff still require separate publication approval.
+- Build the next candidate as `0.1.0b8`; matching public images, source
+  publication and Store handoff require the separate publication approval
+  subsequently received above, not merely local-build permission.
+
+Release verification addendum, 2026-10-16: frozen source/image commit
+842a8ce3c26c436c3228db1a307e4f84750184a2 passed native ARM/Intel validation
+38949768486 and all five jobs of publisher 38953833709. All six evidence ZIPs
+were independently hash/content checked; each actual image passed 5385 non-root
+tests plus seven separate root checks and the unchanged bounded measurements.
+Both public images passed independent anonymous pull/import/source assertions
+and exact-workflow/issuer/source Cosign verification. The public source-only
+release/asset passed anonymous download and every-member/exact-snapshot checks;
+app prerelease 415386298 is separate. BETA8_VALIDATION.md records digests and
+limitations. Closing documentation does not change the frozen image/source.
+No live b8 installation, sustained polling, mode transitions or natural no-motion
+sleep/no-wake result is inferred; those remain follow-ups under this exception.
 
 ### D-229 — fit real Art handshakes inside the bounded read budget
 

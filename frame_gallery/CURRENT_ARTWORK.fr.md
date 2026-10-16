@@ -2,8 +2,9 @@
 
 [English](CURRENT_ARTWORK.md) | [Deutsch](CURRENT_ARTWORK.de.md) | Français | [Español](CURRENT_ARTWORK.es.md) | [Italiano](CURRENT_ARTWORK.it.md)
 
-**Candidat local b8 ; la version publique b7 est inchangée. Expérimental et
-désactivé par défaut.** Une connexion en lecture peut réveiller un TV en veille.
+**Bêta publique b8. Les cartes b7 existantes restent compatibles lorsque ce
+mode est désactivé. Expérimental et désactivé par défaut.**
+Une connexion en lecture peut réveiller un TV en veille.
 La veille automatique sans mouvement n'est pas encore validée. Laissez ce mode
 désactivé si un réveil est inacceptable. Aucun assistant supplémentaire, clé API, HACS ou autre app.
 

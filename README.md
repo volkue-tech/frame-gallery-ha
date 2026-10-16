@@ -1,12 +1,12 @@
 # Frame Gallery for Home Assistant
 
-> **Unreleased b8 work:** [experimental current-TV artwork information](frame_gallery/CURRENT_ARTWORK.md)
-> is optional and off by default. Read-only connections might wake the TV;
-> automatic sleep is not validated. The Store version remains b7 until publication.
+> **Optional in b8:** [experimental current-TV artwork information](frame_gallery/CURRENT_ARTWORK.md)
+> is off by default. Read-only connections might wake the TV;
+> automatic no-motion sleep is not validated. Leave this mode off if waking the TV is unacceptable.
 
 Fresh artwork on your Samsung Frame. Start it with a tap from Home Assistant.
 
-> **0.1.0b7 public beta:** 1000 curated Commons works, optional artist and
+> **0.1.0b8 public beta:** 1000 curated Commons works, optional artist and
 > colour selection, and configuration in English, German, French, Spanish and Italian.
 > Update in place; saved sources, dashboard helpers and history stay compatible.
 
@@ -14,7 +14,7 @@ Fresh artwork on your Samsung Frame. Start it with a tap from Home Assistant.
 
 *Actual Green screenshot from b3; the optional dashboard is set up separately. Theo van Doesburg, [Counter-composition XVI](https://commons.wikimedia.org/w/index.php?curid=3817033), Commons reproduction with public-domain metadata checked on 2026-10-05. The user confirmed this work on the TV. This is historical evidence, not a new-release live test.*
 
-**[Add to Home Assistant](https://my.home-assistant.io/redirect/supervisor_add_addon_repository/?repository_url=https%3A%2F%2Fgithub.com%2Fvolkue-tech%2Fframe-gallery-ha)** · [Setup guide](frame_gallery/DOCS.md) · [Latest beta](https://github.com/volkue-tech/frame-gallery-ha/releases/tag/v0.1.0b7)
+**[Add to Home Assistant](https://my.home-assistant.io/redirect/supervisor_add_addon_repository/?repository_url=https%3A%2F%2Fgithub.com%2Fvolkue-tech%2Fframe-gallery-ha)** · [Setup guide](frame_gallery/DOCS.md) · [Latest beta](https://github.com/volkue-tech/frame-gallery-ha/releases/tag/v0.1.0b8)
 
 **Setup:** [English](frame_gallery/DOCS.md#installation) | [Deutsch](frame_gallery/SETUP.de.md) | [Français](frame_gallery/SETUP.fr.md) | [Español](frame_gallery/SETUP.es.md) | [Italiano](frame_gallery/SETUP.it.md).
 **Colour picker:** [English](frame_gallery/COMMONS_COLOUR.md) | [Deutsch](frame_gallery/COMMONS_COLOUR.de.md) | [Français](frame_gallery/COMMONS_COLOUR.fr.md) | [Español](frame_gallery/COMMONS_COLOUR.es.md) | [Italiano](frame_gallery/COMMONS_COLOUR.it.md).

@@ -14,7 +14,7 @@ Fresh artwork on your Samsung Frame — from Home Assistant, with one tap.
 - Optionally add title, artist and museum below the preview with built-in cards and one Text helper; the standard card stays minimal.
 - Install on Home Assistant OS, including Green. No SSH, Docker setup, HACS, or edits to `configuration.yaml`.
 
-**First start:** enter your TV's fixed private IPv4 address in **Configuration**, save, keep **Watchdog off**, and start the app with the TV on. Accept the TV's connection prompt within 20 seconds. The app stops after each run by design.
+**First start:** enter your TV's fixed private IPv4 address in **Configuration**, save, keep **Watchdog off**, and start the app with the TV on. Accept the TV's connection prompt within 20 seconds. With **Background mode off** (the default), the app stops after each run by design.
 
 **Next:** open the **Documentation** tab for the setup guide and complete dashboard examples. The dashboard is not installed automatically. Setup is available in [English](https://github.com/volkue-tech/frame-gallery-ha/blob/main/frame_gallery/DOCS.md#installation), [Deutsch](https://github.com/volkue-tech/frame-gallery-ha/blob/main/frame_gallery/SETUP.de.md) | [Français](https://github.com/volkue-tech/frame-gallery-ha/blob/main/frame_gallery/SETUP.fr.md) and [Español](https://github.com/volkue-tech/frame-gallery-ha/blob/main/frame_gallery/SETUP.es.md) | [Italiano](https://github.com/volkue-tech/frame-gallery-ha/blob/main/frame_gallery/SETUP.it.md).
 
@@ -22,7 +22,9 @@ Fresh artwork on your Samsung Frame — from Home Assistant, with one tap.
 
 **For Commons:** select `wikimedia_commons`, keep Landscape only on and Image fit `contain`. Sources are within 2.5% of 16:9; leave Prefer 16:9 on for the closest matches or turn it off for the whole curated selection. Small margins can remain, without cropping. Your existing dashboard still works. See the [collection and rights notes](https://github.com/volkue-tech/frame-gallery-ha/blob/main/frame_gallery/COMMONS.md).
 
-**Public beta 0.1.0b7.** Matching public sources, native ARM/Intel validators and actual publisher images, anonymous pulls/imports and independent signatures passed. [Validation scope](https://github.com/volkue-tech/frame-gallery-ha/blob/main/BETA7_VALIDATION.md). No new Green/TV/frontend-language test is claimed. Artist and colour must both match; no match keeps the previous image/information and ends cleanly, without widening the selection or resetting history. The historical b3 hardware checks remain separate. Compatibility with every Frame model is not guaranteed. Update without uninstalling.
+**Public beta 0.1.0b8.** Matching public sources, native ARM/Intel validators and actual publisher images, anonymous pulls/imports and independent signatures passed. [Validation scope](https://github.com/volkue-tech/frame-gallery-ha/blob/main/BETA8_VALIDATION.md). No b8 Green/TV migration, sustained polling or new frontend-language test is claimed. Artist and colour must both match; no match keeps the previous image/information and ends cleanly, without widening the selection or resetting history. Historical hardware checks remain separate. Compatibility with every Frame model is not guaranteed. Update without uninstalling.
+
+**Optional current-TV artwork (b8):** [show verified current title and artist](https://github.com/volkue-tech/frame-gallery-ha/blob/main/frame_gallery/CURRENT_ARTWORK.md), with five-language guides and no extra dashboard extension/helper. Experimental background mode is off by default; read-only connections may wake a sleeping TV, and natural no-motion sleep remains untested. Existing cards work with the mode off; their preview/caption still means last delivered, not a live TV image.
 
 Frame Gallery is an independent project, not affiliated with or endorsed by Samsung, the museums, or Home Assistant.
 

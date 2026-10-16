@@ -10,13 +10,39 @@
   warnings, entry points and candidate version; retain old one-shot cards.
 - [x] Run unchanged quality gates and proportionate local native-container
   checks; preserve evidence and report remaining hardware/release limitations.
-- [ ] Run a true native x86_64 validator before publication. Local amd64 images
-  built, but the emulated overall check failed five real seccomp installation
-  cases with EINVAL; no protection/test was weakened. Native ARM checks passed.
+- [x] Run true native ARM/x86_64 validators before publication.
+  Run 38949768486 passed both jobs for frozen 842a8ce; both evidence ZIP hashes
+  match, each container passed 5385 non-root tests plus seven separate root
+  checks, thirteen preparation cases twice under 1 GiB and 150 inspections.
+  The earlier emulated five seccomp EINVAL failures remain historical evidence;
+  no protection/test was weakened.
 - [x] Obtain publication approval before any public push/build/Store handoff.
   User explicitly authorized native Intel validation and autonomous b8
   publication under volkue-tech/frame-gallery-ha, conditional on green tests,
   on 2026-10-16. Natural-sleep validation remains deferred, not passed.
+- [x] Publish and independently verify matching corresponding sources.
+  Source release 415290337 / asset 648311285, 580403200 bytes, SHA256
+  d81b3196d3d17a1d99c3eae245183a2e87f88a49b7f3777d936c4fd4aff625b2.
+  Anonymous download and every-member/exact-snapshot preflight passed.
+- [x] Save/read back both exact one-time release approvals and run native publishers.
+  Both exact values were saved/read back after the user's GitHub confirmation;
+  all five jobs of publisher 38953833709 passed for frozen 842a8ce/version 0.1.0b8.
+  The PAT's missing Actions-write/variable permissions are not expanded.
+- [x] Independently verify both exact public images and signatures.
+  Anonymous tag/digest/pull/import, catalogue/artist/default-off/107-file source
+  assertions and exact-workflow/source Cosign checks passed for ARM and Intel.
+- [x] Verify all four exact publisher-run evidence ZIPs and their contents.
+  Both reusable-native and actual-image ZIPs passed hash/provenance, bounded
+  extraction and content checks. Actual-image ZIPs 12071012393/12072290343
+  contain exactly the independently verified ARM/Intel public image digests.
+  Each actual Linux image passed 5385 non-root tests, seven separate root checks,
+  thirteen preparations twice within 1 GiB and 150 inspections without failures.
+- [x] Publish the app prerelease, update the five-language public guide status
+  and pass final gates after image verification. App release 415386298 is
+  public; the closing host run passed 5377 tests/15 platform skips, strict
+  host/Linux typing over 273 files and unchanged 100% line/branch gates.
+- [ ] Advance/read back Store main and the public release-guide links.
+- [ ] Disable/read back both one-time approvals after successful publication.
 
 Earlier absolute activation gates below are historical, superseded only by the
 explicit experimental exception D-230. Natural no-motion sleep, transition and

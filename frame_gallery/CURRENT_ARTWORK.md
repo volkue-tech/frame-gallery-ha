@@ -2,7 +2,8 @@
 
 English | [Deutsch](CURRENT_ARTWORK.de.md) | [Français](CURRENT_ARTWORK.fr.md) | [Español](CURRENT_ARTWORK.es.md) | [Italiano](CURRENT_ARTWORK.it.md)
 
-**b8 local candidate; public b7 is unchanged. Experimental and off by default.**
+**Public beta b8. Existing b7 cards remain compatible with background mode off.
+Experimental and off by default.**
 Read-only connections may wake a sleeping TV. Automatic no-motion sleep has not
 been validated: leave this mode off if waking the TV is unacceptable. No API
 key, new helper, HACS extension or second app is required.

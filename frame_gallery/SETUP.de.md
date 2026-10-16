@@ -1,6 +1,6 @@
 # Frame Gallery — Installation und erste Dashboardkarte
 
-> Unveröffentlichter b8-Kandidat: [Aktuelles TV-Kunstwerk](CURRENT_ARTWORK.de.md)
+> Optional ab Beta b8: [Aktuelles TV-Kunstwerk](CURRENT_ARTWORK.de.md)
 > mit optionalem experimentellem Hintergrundmodus. Standardmäßig aus; lesende
 > Verbindungen könnten den TV aufwecken. Automatisches Einschlafen ist ungeprüft.
 > Diese Anleitung beschreibt weiterhin den unveränderten Einmalbetrieb.

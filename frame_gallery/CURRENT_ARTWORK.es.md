@@ -2,8 +2,9 @@
 
 [English](CURRENT_ARTWORK.md) | [Deutsch](CURRENT_ARTWORK.de.md) | [Français](CURRENT_ARTWORK.fr.md) | Español | [Italiano](CURRENT_ARTWORK.it.md)
 
-**Candidato local b8; la versión pública b7 no cambia. Experimental y desactivado
-por defecto.** Una conexión de lectura podría despertar un TV en espera. La
+**Beta pública b8. Las tarjetas b7 existentes siguen siendo compatibles con
+este modo desactivado. Experimental y desactivado por defecto.**
+Una conexión de lectura podría despertar un TV en espera. La
 espera automática sin movimiento aún no está validada. Deje este modo desactivado
 si despertar el TV resulta inaceptable. No necesita otro ayudante, clave API, HACS ni otra app.
 

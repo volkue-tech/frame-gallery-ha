@@ -1,6 +1,6 @@
 # Changelog
 
-## 0.1.0b8 (local candidate, not published)
+## 0.1.0b8 (public beta)
 
 - Optional **experimental background mode**, off by default. Read-only TV
   connections may wake a sleeping Frame; automatic no-motion sleep has not
@@ -17,7 +17,10 @@
 - Preserve stdin through the pinned s6 init path; retain bounded isolated TV,
   image and delivery workers, shutdown, replay protection and temporary cleanup.
 - No new providers, dependencies, catalogue entries or history-reset action.
-  Local build is authorized; public ARM/Intel images and Store handoff are not.
+- Matching public sources, native ARM/Intel validators and actual publisher
+  images, bounded evidence archives, anonymous pulls/imports and independent
+  signatures passed. Natural no-motion sleep/no-wake, sustained polling,
+  transitions and real b8 HA migration remain open beta follow-ups.
 
 ## 0.1.0b7 (public beta)
 

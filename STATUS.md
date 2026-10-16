@@ -1,6 +1,59 @@
 # Project status
 
-Last updated: 2026-10-16 (experimental b8 locally authorized; public b7 unchanged)
+Last updated: 2026-10-16 (b8 native release verified; documentation-only Store handoff)
+
+## Public beta b8 — native release verified
+
+Frozen runtime/source commit: 842a8ce3c26c436c3228db1a307e4f84750184a2,
+pushed to codex/commons-default. This documentation-only descendant accompanies
+the fast-forward Store main handoff; the image/source commit stays frozen.
+Native run 38949768486 passed both real
+ARM and Intel jobs. The two downloaded evidence ZIPs match GitHub's SHA256s;
+each container passed 5385 non-root tests, seven separate root tests, thirteen
+preparations twice within 1 GiB and 150 inspections. Peak virtual memory was
+771.6 MiB on ARM and 768.0 MiB on Intel. No emulated result replaced these checks.
+
+Public source-only prerelease sources-v0.1.0b8 (415290337), asset 648311285,
+contains 580403200 bytes, SHA256
+d81b3196d3d17a1d99c3eae245183a2e87f88a49b7f3777d936c4fd4aff625b2.
+Its independent anonymous download and every-member/exact-snapshot preflight
+passed. The separate app prerelease v0.1.0b8 is public as release 415386298:
+https://github.com/volkue-tech/frame-gallery-ha/releases/tag/v0.1.0b8.
+
+The user authenticated the personal memory-only broker; it has contents-write
+and Actions-read access, but not Actions-write or Actions-variable access.
+The one rejected workflow dispatch was not retried and token rights were not
+expanded. After the user's existing-password GitHub confirmation, both exact
+release variables were saved and visibly read back. Firefox's personal session
+started publisher run 38953833709 on codex/commons-default at frozen 842a8ce,
+with version 0.1.0b8. All five publisher jobs passed. Both exact public images
+independently passed anonymous tag/pull/import, 107-file runtime-source,
+catalogue/default-off/artist assertions and exact-workflow/source Cosign checks:
+
+- ARM: sha256:9fc3a7ef9775d512c8885926352028c580c2f757a5aedb1bcf86407f19914d3b
+- Intel: sha256:e1e27e748a5a012b6e985350eac14a256752fefdb5bf7924c1a2f5ffba08592b
+
+All four publisher-run evidence ZIPs passed exact hash/provenance, bounded safe
+extraction and content validation. Actual-image artifacts 12071012393 (ARM) and
+12072290343 (Intel) also report exactly the independently verified public digests.
+Their Linux suites passed 5385 non-root tests plus seven separate root checks;
+each ran thirteen preparations twice under 1 GiB and 150 inspections without
+failures. Actual-image peak VM/slowest case: ARM 771.6 MiB/2.16 s, Intel
+768.0 MiB/2.93 s. See BETA8_VALIDATION.md for the six artifact hashes and limits.
+
+Public user-facing status and current-artwork guides are aligned across
+English, German, French, Spanish and Italian. The standard card, catalogue,
+filters, dependencies and one-shot default remain unchanged. Final gate/Store
+readback and session-closure receipts are retained separately under the ignored
+build/current-artwork-b8-release/ directory; no token is persisted there.
+The closing host gates passed: 5377 tests/15 platform skips, strict host/Linux
+typing over 273 files and unchanged 100% whole/mandatory line/branch coverage.
+Store main readback and disabling both exact one-time approvals remain the
+final handoff tasks; no b8 live installation is included.
+
+No HA/TV connection or mutation occurred during publication. Natural sleep remains deferred,
+experimental background mode stays off by default, and docs/community/ is
+untouched. Older preparation snapshots below are historical.
 
 ## b8 native validation and conditional publication now authorized
 
@@ -14,10 +67,9 @@ commit before native CI and corresponding-source assembly. Do not advance
 Store main until both actual publisher images, evidence and signatures pass.
 No live HA/TV mutation or physical sleep claim is included.
 
-Personal git credential lookup found no saved helper entry. The known Mac
-Passwords item remains the intended credential source; the app is locked and
-the user has been asked for Touch ID. No corporate credential is used, no token
-is saved, and no authenticated request/publication has yet occurred.
+The earlier personal-helper lookup found no saved entry. The subsequent
+user-approved Mac Passwords/hidden Terminal handoff is verified above; Passwords
+is locked again. No corporate credential or durable agent-side token is used.
 
 ## Local b8 candidate built; ARM passed, native Intel/publication still open
 

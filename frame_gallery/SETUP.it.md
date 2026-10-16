@@ -1,6 +1,6 @@
 # Frame Gallery — installazione e prima scheda
 
-> Candidato b8 non pubblicato: [opera attuale del TV](CURRENT_ARTWORK.it.md), modo
+> Opzione disponibile nella beta b8: [opera attuale del TV](CURRENT_ARTWORK.it.md), modo
 > in background sperimentale facoltativo, disattivato per impostazione predefinita.
 > Una connessione in lettura potrebbe risvegliare il TV; standby automatico non
 > verificato. Questa guida descrive ancora il modo singolo invariato.

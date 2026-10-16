@@ -2,8 +2,9 @@
 
 [English](CURRENT_ARTWORK.md) | [Deutsch](CURRENT_ARTWORK.de.md) | [Français](CURRENT_ARTWORK.fr.md) | [Español](CURRENT_ARTWORK.es.md) | Italiano
 
-**Candidato locale b8; la versione pubblica b7 non cambia. Sperimentale e
-disattivato per impostazione predefinita.** Una connessione in lettura potrebbe
+**Beta pubblica b8. Le schede b7 esistenti restano compatibili con questa
+modalità disattivata. Sperimentale e disattivato per impostazione predefinita.**
+Una connessione in lettura potrebbe
 risvegliare un TV in standby. Lo standby automatico senza movimento non è ancora
 verificato. Lasciare il modo disattivato se il risveglio è inaccettabile.
 Non servono altri aiutanti, chiavi API, HACS o un'altra app.

@@ -2,8 +2,9 @@
 
 [English](CURRENT_ARTWORK.md) | Deutsch | [Français](CURRENT_ARTWORK.fr.md) | [Español](CURRENT_ARTWORK.es.md) | [Italiano](CURRENT_ARTWORK.it.md)
 
-**Lokaler b8-Kandidat; die öffentliche b7 bleibt unverändert. Experimentell und
-standardmäßig aus.** Auch lesende Verbindungen könnten einen schlafenden TV
+**Öffentliche Beta b8. Vorhandene b7-Karten bleiben bei ausgeschaltetem
+Hintergrundmodus kompatibel. Experimentell und standardmäßig aus.**
+Auch lesende Verbindungen könnten einen schlafenden TV
 aufwecken. Automatisches Einschlafen ohne Bewegung ist noch nicht geprüft.
 Falls Aufwecken inakzeptabel wäre, diesen Modus ausgeschaltet lassen. Keine zusätzlichen Helfer,
 API-Schlüssel, HACS-Erweiterungen oder weiteren Apps nötig.
