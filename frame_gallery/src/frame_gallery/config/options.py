@@ -58,6 +58,7 @@ class Options:
     log_level: LogLevel = LogLevel.INFO
     loading_timer: str | None = None
     artwork_info_helper: str | None = None
+    background_mode: bool = False
 
     def helper_for(self, field: FilterField) -> str | None:
         for helper_field, entity_id in self.helpers:
@@ -257,6 +258,7 @@ def parse_options(
     artist = _filter(FilterField.ARTIST, raw.get("artist"), vocabulary, issues)
     landscape_only = _flag("landscape_only", raw.get("landscape_only"), issues, default=True)
     strict_tv_format = _flag("strict_tv_format", raw.get("strict_tv_format"), issues, default=True)
+    background_mode = _flag("background_mode", raw.get("background_mode"), issues, default=False)
     fit_mode = _fit_mode(raw.get("fit_mode"), issues)
     background = _background(raw.get("background_color"), issues)
     helpers = _helpers(raw, issues)
@@ -299,4 +301,5 @@ def parse_options(
         log_level=log_level,
         loading_timer=timer,
         artwork_info_helper=info_helper,
+        background_mode=background_mode,
     )

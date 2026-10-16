@@ -15,6 +15,7 @@ from frame_gallery.app.outcomes import Outcome
 from frame_gallery.config.filters import EffectiveFilters, FilterField
 from frame_gallery.providers.contract import Attribution
 from frame_gallery.selection.shortlist import SelectionResult
+from frame_gallery.tv.port import CONTENT_ID_PATTERN
 
 LAST_RUN_FORMAT: Final = "frame-gallery-last-run"
 CURRENT_FORMAT: Final = "frame-gallery-current"
@@ -147,13 +148,14 @@ def build_current_record(
     sha256: str,
     delivered_at: datetime,
     preview_fingerprint: str,
+    tv_content_id: str | None = None,
 ) -> dict[str, object]:
     """``current.json``: the artwork on the television; written only after ``selected``.
 
     ``preview_fingerprints`` holds the D-118 fingerprint of this delivery; the
     store adds those of the earlier previews, up to the last 10 (§13.1, F7).
     """
-    return {
+    record: dict[str, object] = {
         "format": CURRENT_FORMAT,
         "version": RECORD_VERSION,
         "id": qualified_id,
@@ -168,3 +170,8 @@ def build_current_record(
         },
         "preview_fingerprints": [preview_fingerprint],
     }
+    if tv_content_id is not None:
+        if CONTENT_ID_PATTERN.fullmatch(tv_content_id) is None:
+            raise ValueError("invalid TV content ID")
+        record["tv_content_id"] = tv_content_id
+    return record

@@ -1,5 +1,49 @@
 # Frame Gallery for Home Assistant — Architecture proposal
 
+## Experimental background activation amendment D-230, 2026-10-16
+
+The user's explicit experimental risk acceptance supersedes the absolute
+activation block below. Keep default-off/background-disabled one-shot behaviour.
+Boot/restart stays passive. A successful explicit send grants observation for
+this service session and permits the first read to enroll the TV identity;
+persist up to 32 per-address SHA256 identity pins in 16 KiB, fail closed on
+corruption/newer versions/conflicts/full capacity. Pin comparison precedes Art
+connection. Tokenless mode may be granted only by that fresh successful send,
+never after a stored-token rejection. Any failed/non-Art read disarms polling;
+refresh does not re-arm. Keep existing read/image-proof deadlines and isolation.
+The user deferred natural-sleep testing; do not claim no-wake safety. All five
+languages must warn about possible wake-up. Local b8 building is approved;
+publication remains separately gated.
+
+## Optional background amendment 2026-10-16
+
+D-225 is approved for local implementation only. The absent/false background
+option retains the existing bounded runner. The optional service serializes
+fixed stdin commands, runs that trusted runner in a separate bounded process,
+and exposes a fixed ownership-checked current-TV Core state. Opt-in users update
+their send script once while retaining its ID/cards; no automatic HA edits.
+The service loop may persist, but deliveries/reads, input, storage and shutdown
+remain bounded. Start/boot/restart in background mode never sends an image.
+
+D-226 keeps automatic reads blocked without no-wake validation and an exact
+TV identity. This candidate has no approved production policy. A validated read
+worker is confined like the TV worker, cannot use setter/upload/power commands,
+and rechecks mode/ID around its targeted bounded thumbnail read. Failure or
+non-Art-Mode disarms the observer; no automatic reconnect from that state.
+Following the isolated Green handshake finding, D-228 distinguishes stored-token
+authentication from explicitly validated tokenless Art channels. The latter
+requires a default-off internal grant plus exact TV identity, not a UI switch
+or a retry after rejected credentials. No production policy/grant is enabled.
+Mappings are separate from history, keyed by device/TV ID/thumbnail SHA256.
+New binding capture requires an isolated comparison against the exact processed
+preview; current.json alone or an uploaded event is not sufficient evidence.
+
+The Core state is not a registered device/entity platform. Its optional native
+card distinguishes current observations from last-delivery preview/caption and
+hides expired attribution. Runtime/release/live checks are not implied by the
+local implementation. See [the approved scope](docs/plans/current-tv-artwork-update.md)
+and [synchronization assessment](docs/plans/current-tv-artwork-sync.md).
+
 **Artist/language candidate addendum (2026-10-10, D-221/D-222):** vocabulary
 version 3 adds an ARTIST field/dimension, optional static artist and explicit
 artist helper. Commons alone intersects artist/colour before existing finite

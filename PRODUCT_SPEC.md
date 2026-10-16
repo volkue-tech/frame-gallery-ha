@@ -1,5 +1,53 @@
 # Product specification
 
+## D-230 experimental background exception, 2026-10-16
+
+The user accepted experimental default-off observation with a wake-risk warning
+and deferred the natural-sleep test. This supersedes the absolute activation
+gate below, not the requirement to avoid power/WOL/setter commands. No-wake is
+unverified. Start/boot/restart stays passive. A successful explicit send arms
+bounded reads and permits initial device enrollment; subsequent reads enforce
+a persistent identity pin. Inactive Art Mode or any read failure stops polling
+until another successful explicit send. Tokenless authorization is session-only
+and comes only from that successful send, never a failed/missing-token retry.
+Publication remains separately gated. Existing one-shot defaults/cards remain.
+
+## Optional current TV background mode amendment 2026-10-16
+
+Local implementation is user-authorized (D-225/D-226); private hardware testing
+was subsequently approved, but publication was not. `background_mode` is optional and false when absent or
+null. Preserve old configurations, script references, preview and last-delivery
+caption. Enabling background mode needs a one-time replacement of the send
+script body, keeping its entity ID. Never edit user scripts/cards automatically.
+
+In that mode, app start/boot/restart only starts the service. Fixed validated
+stdin commands separately request one bounded delivery or a read-only refresh.
+Consume fresh request IDs durably before delivery, reject replays and expired
+requests, and bound the request journal. Keep the existing loading timer and
+all upload/history/quarantine/cleanup protections. Serialize all TV work.
+
+Keep current TV information separate from last sent. Publish only a fixed,
+owned Core state without requiring a new helper or integration. It is not an
+entity-registry integration. Unknown/stale/offline observations cannot retain a
+current title. A known association must match device, content ID and thumbnail
+identity. Establish new associations only after isolated comparison with the
+exact processed preview and a matching confirmed-upload ID; never infer from
+last-caption text or bundle user-specific mappings.
+
+Automatic TV connections are blocked until a validated no-wake policy is bound
+to an exact device. The local candidate ships no approved policy. In validated
+operation, failure/non-Art-Mode disarms reads without reconnecting; restart
+does not resume TV reads on its own. Retain this conservative limit until a
+separately approved safe-resume design is validated. No power, WOL, pairing,
+upload or selection operation may be reached from the observation path.
+An explicitly reviewed identity/channel policy may distinguish a token-bearing
+Art channel from a validated tokenless one (D-228). Missing/rejected credentials
+must never cause an automatic tokenless fallback. The local candidate enables
+neither a production no-wake policy nor a tokenless grant.
+
+New configuration texts and optional setup/script/card guides cover EN/DE/FR/ES/IT.
+No version bump, image build, installed-app update or release is authorized here.
+
 ## Next-update artist and language amendment (2026-10-10, D-221/D-222)
 
 Local implementation authorized: Commons-only optional `artist` and dedicated

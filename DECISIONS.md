@@ -1,5 +1,224 @@
 # Decision log
 
+## Current TV artwork synchronization planning 2026-10-16
+
+### D-230 — opt-in experimental observation; natural-sleep test deferred
+
+**Accepted by the user, 2026-10-16, for local implementation and beta building;
+publication is not authorized.** The user explicitly chose experimental use,
+off by default, with a warning that read-only connections may wake the TV.
+This narrowly supersedes D-226's absolute activation gate; it does not establish
+no-wake safety. Manual-off REST and a complete Art-Mode read have passed their
+limited checks; automatic no-motion sleep remains untested and must be reported
+as such, not treated as an ordinary bug already proven absent.
+
+- Missing/false `background_mode` retains the existing one-shot behaviour.
+  The enabled service starts paused, never contacts the TV on boot/restart,
+  and only arms reads after its own successful explicit `new_artwork` delivery.
+  A failed read, inactive Art Mode or rejected authorization disarms it without
+  automatic reconnection. Another successful explicit send is required to arm
+  it again; `refresh_current` cannot bypass this rule.
+  The service requires a newly changed valid current record with a TV content
+  ID, not merely child exit 0 (which also covers no_match and TV failures).
+  An unreadable before-snapshot or unchanged record cannot arm reads; a genuinely
+  absent record is allowed for the first successful delivery.
+- The first post-delivery read may enroll the device identity from the same
+  bounded device-info/Art getter sequence. Subsequent reads compare the exact
+  hashed device identity before opening Art Mode. Persist a bounded per-address
+  identity pin, not authorization to resume after restart. A changed device,
+  damaged/newer pin document or a full pin table fails closed; do not silently
+  evict a pin or adopt another device at the same address.
+- Only this successful-delivery path can grant a tokenless Art session when no
+  own token exists. It is an in-memory grant for the current service session,
+  not a missing-token fallback during arbitrary reads. Rejection never retries
+  without a token. No other integration's private credentials are accessed.
+- Keep five-second isolated TV reads, separate five-second image proof, exact
+  preview/thumbnail verification, read-method allowlist, serialization and all
+  existing upload/history protections. No polling/port/grant options are added.
+  Service startup reuses the bounded temporary-file sweep while briefly holding
+  the existing delivery-state lock. It releases that lock before dispatch and
+  fails closed if another writer holds it; no live atomic writes are swept.
+- All five configuration translations and current-artwork guides must explain
+  the experimental wake risk, default-off state, first-send/re-arm requirement,
+  unchanged old cards and the distinction between preview and actual current
+  artwork. No-wake, transition and Recorder checks remain open beta follow-ups.
+- Build the next candidate locally as `0.1.0b8`; matching public images, source
+  publication and Store handoff still require separate publication approval.
+
+### D-229 — fit real Art handshakes inside the bounded read budget
+
+Status: local correction and user-authorized Art-Mode read validation only;
+natural sleep, automatic policy activation and publication remain unapproved.
+The first complete isolated read returned unavailable. A private trace logged
+only fixed stage names/types: REST identity matched, then Art open timed out
+with the one-second socket wait. The earlier successful command-free handshake
+took 1.294 seconds. Do not misclassify this as rejected credentials.
+
+Use a two-second per-operation socket timeout, still inside the unchanged
+five-second isolated read deadline. Set key_press_delay=0 for getters, as the
+existing delivery adapter already does: the pinned library's default otherwise
+sleeps one second after every request, even though these are not remote key
+presses. Five such artificial waits cannot fit inside the five-second read
+budget. Keep the request allowlist, token/grant contract, TV-only guard, identity
+check, process/isolation limits, serial operation and no retries unchanged.
+
+The corrected private Green run read identity, Art Mode, current ID, targeted
+thumbnail, then current ID/Art Mode again in 3.643 seconds. Isolated comparison
+with the exact processed preview passed in a separate 1.675 seconds. The
+resulting verified binding was persisted and the owned HA state read back as
+artwork with matching TV ID, catalogue ID, title and artist. This tests one
+known Art-Mode image, not slideshow/unknown-ID/standby transitions or every TV.
+
+The operator harness used copies of only two non-secret own QA backup records,
+not another integration's private storage or credentials. Existing QA/public
+apps and their data/options were not reinstalled or migrated. Media was mounted
+read-only. The separate temporary app used the unchanged production observer,
+image verifier, binding store and publisher; private stage tracing is not shipped.
+Preserve the verified test association in its own backup before cleanup.
+
+No production policy/grant, live send script/card migration or release is
+enabled by this test. The original no-wake gate and deferred natural-sleep test
+remain open. Full unchanged local gates after the correction passed: 5314 tests,
+15 unchanged skips, strict host/Linux typing and 100% whole/mandatory coverage.
+
+### D-228 — distinguish token-bearing and validated tokenless Art channels
+
+Status: local compatibility correction during authorized private testing, not
+production activation or publication. A single isolated connection-only probe
+on the Green completed in 1.294 seconds: ms.channel.connect followed by
+ms.channel.ready, both without a token field. No Art request, upload, selection
+or power command was sent. The diagnostic had no Core API access or media mount;
+its worker retained the existing privilege drop, resource limits, AppArmor child
+and seccomp/TCP restriction. Only event names and token presence/type were logged.
+The separate probe app/repository is disposable; retain its own source locally,
+not in the release. A prior two-second Mac attempt timed out before events and
+does not establish an authentication rejection. A raw Green HTTP 101 result
+alone did not validate Art events; the isolated pinned-library probe did.
+
+On this tested Art channel, absence of a token is therefore not itself evidence
+of failed authorization. The REST TokenAuthSupport flag cannot establish the
+Art channel's authentication requirements. Do not invent a token, normalize a
+guessed token type, or import an integration-private credential to satisfy the
+observer's earlier overly strict guard.
+
+Add a default-false internal tokenless_grant to the identity-bound observer and
+an explicit disjoint worker contract: either a valid stored string token with
+grant=false, or token=null with grant=true. Missing/malformed grants, a token
+combined with tokenless mode, missing identity and mismatched TV identity fail
+closed. This is not an app option/stdin bypass or automatic fallback: stored-token
+rejection makes one attempt only and cannot select tokenless mode. A future
+reviewed device/channel policy must choose the mode explicitly. Production
+still supplies no identity/policy/grant, and D-226 remains unchanged. The user's
+deferred natural-sleep test is a working hypothesis only, not a passed gate.
+
+Keep getters, thumbnail/image proof, timeouts and cleanup unchanged. Full live
+getter/mapping acceptance, safe reconnect/resume and natural-sleep/no-wake remain
+open; a successful command-free handshake does not establish those properties.
+
+### D-227 — preserve stdin through the pinned s6 signal-forwarding branch
+
+Status: local packaging correction during the user-authorized private Green
+test; not a release or automatic-TV-read approval. The Green exposed an actual
+startup failure: the service observed stdin EOF and exited immediately. A
+network-disabled test of the exact ARM runtime reproduced BusyBox ash replacing
+stdin with /dev/null in rc.init's asynchronous command branch. Explicit <&0
+self-duplication is also insufficient in this shell and was rejected after test.
+
+Keep the existing s6 init and signal-forwarding mode. In the parent shell group,
+temporarily save fd 0 as fd 3, restore the child's stdin from fd 3 and close the
+extra descriptor in the child. The group restores/closes its temporary descriptor
+after spawning. Keep the existing command PID, wait, signal and exit-status code.
+Only the one command-spawn line changes. Verify rc.init before the edit as
+bf6a4575f0029b66913623356e3c56553514a86bcf693fae6432617c73977747
+and afterwards as 2fcfe3694c4268c73e654cc276fab2d5ca023151a421826c85450237eaa87878;
+fail the build on either mismatch rather than silently patch a different base.
+
+The local ARM transport/stop check accepted a real bounded refresh_current
+command, received SIGTERM, completed eight seconds of cleanup and exited 0;
+stop took 11.15 seconds including s6 shutdown. It had network=none and no secrets.
+Add a packaging regression test and a real stdin check to container_check.sh.
+Subsequent Green sustained startup and Supervisor stdin transport were observed.
+The unchanged full regression rerun passed with 5311 tests/15 platform skips,
+strict host/Linux typing and 100% whole/mandatory line/branch coverage. Manual
+standby device-info access kept the screen off per user confirmation; neither
+the complete Art getter nor natural no-motion sleep is validated by that result.
+
+The later single authorized artwork delivery succeeded, but no own TV token was
+stored. The strict observer therefore returned not_authorized without connecting
+to the TV. Investigate the channel/authentication/token-capture distinction before
+any production policy change; device TokenAuthSupport="true" is not sufficient
+evidence about the Art channel's grant. Do not weaken that guard to make a demo
+appear to work. A private explicit diagnostic harness is not a shipped bypass.
+
+### D-225 — optional same-app observer and separate send command
+
+Status: local implementation explicitly approved by the user on 2026-10-16;
+subsequent private native/Green tests were explicitly authorized. Production
+activation and publication remain separate gates.
+Use optional background mode
+inside the existing app, bounded isolated read/delivery jobs and explicit
+commands via the documented hassio.app_stdin action. Retain legacy one-shot
+mode; missing options on upgrade must not silently enable the observer.
+Starting/restarting/booting in background mode never uploads. Enabling it needs
+one send-script update with the same entity ID, and an explicit Start on boot
+choice for restart persistence. Zero extra installations does not mean zero
+migration. Do not intercept generic HA service-call events or restart the app
+on every card tap to disguise the lifecycle difference.
+
+Use fixed app-owned Core API state publication through the existing proxy
+without a new Text helper, MQTT or a mandatory companion integration. These
+are state-machine records, not registered sensor/device entities; ownership,
+restart recovery, safe freshness and Recorder impact are acceptance gates.
+The observer cannot pair, change TV state or claim unknown mappings. R-30
+upload correlation, stable identity and bounded storage are addressed
+conservatively by D-226; native verification and no-wake hardware validation
+remain open activation/release gates.
+
+The user-approved implementation includes narrow amendments to the existing
+one-shot/background and token-purpose constraints. Existing protections,
+last-delivery preview/caption and standard-card behaviour remain in legacy mode.
+No new dependency, live state change or release is included. Alternatives,
+official sources, migration and remaining checks are in
+[the synchronization proposal](docs/plans/current-tv-artwork-sync.md).
+
+### D-226 — no automatic TV access without no-wake validation
+
+The user's implementation approval is conditional on not waking the TV. A
+stored pairing token and read-only method names are not evidence that opening
+a connection is harmless in standby. Ship no enabled production read policy
+in this local candidate. The service reports validation_required; boot, idle
+and refresh cannot reach a TV worker. Do not add a UI or stdin safety bypass.
+The isolated getter transport and controller can be tested with injected
+synthetic policies; these tests do not approve physical behaviour.
+
+Even with a validated policy, only a successful explicit send arms observation.
+A failed request or non-Art-Mode observation disarms it without an automatic
+reconnect. Restart does not arm it. A separate hardware test and a reviewed
+model/device policy are necessary before activation; firmware and safe wake
+resumption remain explicit compatibility concerns, not promised coverage.
+
+Keep at most 4096 verified associations within 8 MiB, plus one atomic backup;
+eviction loses only attribution, never sent/upload history. Keep at most 128
+live command IDs for five minutes, with a 30-second future-clock tolerance.
+Reject excess requests rather than evict a live ID. Consume the ID before the
+trusted one-shot runner starts, so an uncertain dispatch is not automatically
+retried. A damaged/missing primary request journal cannot dispatch from its
+older backup; it fails closed, since that backup may omit the last consumed ID.
+New mappings require the matching current-record TV ID, exact preview
+SHA256 and an isolated strict thumbnail comparison. The comparison is a
+conservative image heuristic, not a cryptographic guarantee of TV pixels;
+featureless images remain unidentified. Later observation additionally
+requires the stored TV-thumbnail digest; different device/ID/image stays unknown.
+An HA 401/403 ends the whole service to prevent a later delivery from retrying
+the same rejected token. Stop requests are rechecked after status publication
+and before dispatch, not only at the top of the loop.
+
+Use at most five seconds for the isolated TV read and, only when establishing
+a missing mapping, at most five additional seconds for isolated image comparison.
+This is at most ten seconds of worker budgets for a first association, not a
+claim that the entire first comparison fits the earlier provisional five-second
+target. Reads/delivery are serial. No network recognition or growing image cache.
+
 ## Artist/five-language beta publication (2026-10-11)
 
 ### D-224 — publish exact b7 after native and independent checks

@@ -29,7 +29,13 @@ type Instruction = tuple[int, int, int, int]
 
 def program(machine: str, task: str) -> tuple[Instruction, ...]:
     """Independent BPF program from the Linux UAPI, not a copied example."""
-    if machine not in ARCHES or task not in ("prepare", "inspect", "deliver"):
+    if machine not in ARCHES or task not in (
+        "prepare",
+        "inspect",
+        "deliver",
+        "observe",
+        "verify_thumbnail",
+    ):
         raise ValueError("network_filter_target")
     arch, socket_nr, pair_nr, ptrace_nr = ARCHES[machine]
     rows: list[Instruction] = [
@@ -42,7 +48,7 @@ def program(machine: str, task: str) -> tuple[Instruction, ...]:
     ]
     for number in (pair_nr, ptrace_nr, 425, 438):  # socketpair, ptrace, io_uring, pidfd_getfd
         rows.extend(((EQ, 0, 1, number), (RET, 0, 0, DENY)))
-    if task != "deliver":
+    if task not in ("deliver", "observe"):
         rows.extend(((EQ, 0, 1, socket_nr), (RET, 0, 0, DENY), (RET, 0, 0, ALLOW)))
     else:
         rows.extend(

@@ -72,6 +72,20 @@ def test_loading_timer_missing_options_is_disabled(tmp_path: Path) -> None:
     assert OptionsFile(tmp_path).loading_timer() is None
 
 
+@pytest.mark.parametrize("value", [None, False, True, 1, "true"])
+def test_background_dispatch_accepts_only_explicit_boolean_true(
+    tmp_path: Path, value: object
+) -> None:
+    write(tmp_path, json.dumps({"background_mode": value}))
+    assert OptionsFile(tmp_path).background_mode() is (value is True)
+
+
+def test_missing_or_malformed_options_never_start_background_mode(tmp_path: Path) -> None:
+    assert not OptionsFile(tmp_path).background_mode()
+    write(tmp_path, "broken")
+    assert not OptionsFile(tmp_path).background_mode()
+
+
 def test_a_missing_file_tells_the_user_to_save_the_options(
     tmp_path: Path, clock: FakeClock
 ) -> None:

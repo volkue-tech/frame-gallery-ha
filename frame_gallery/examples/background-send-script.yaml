@@ -1,0 +1,43 @@
+alias: Frame Gallery new artwork
+description: Explicitly requests one artwork from the optional background service.
+mode: single
+sequence:
+  - condition: state
+    entity_id: timer.frame_gallery_run
+    state: idle
+  - action: timer.start
+    target:
+      entity_id: timer.frame_gallery_run
+    data:
+      duration: "00:02:30"
+  - action: hassio.app_start
+    data:
+      app: a94fc569_frame_gallery
+    continue_on_error: true
+  - wait_template: >-
+      {{ state_attr('sensor.frame_gallery_current_artwork', 'background_mode') == true }}
+    timeout: "00:00:05"
+    continue_on_timeout: true
+  - if:
+      - condition: template
+        value_template: "{{ wait.completed }}"
+    then:
+      - variables:
+          frame_gallery_request_id: >-
+            {{ now().strftime('%Y%m%d%H%M%S%f') }}_{{ range(100000, 999999) | random }}
+          frame_gallery_issued_at: "{{ as_timestamp(now()) }}"
+      - action: hassio.app_stdin
+        data:
+          app: a94fc569_frame_gallery
+          input:
+            command: new_artwork
+            request_id: "{{ frame_gallery_request_id }}"
+            issued_at: "{{ frame_gallery_issued_at }}"
+        continue_on_error: true
+      - wait_template: "{{ not is_state('timer.frame_gallery_run', 'active') }}"
+        timeout: "00:02:30"
+        continue_on_timeout: true
+    else:
+      - action: timer.cancel
+        target:
+          entity_id: timer.frame_gallery_run

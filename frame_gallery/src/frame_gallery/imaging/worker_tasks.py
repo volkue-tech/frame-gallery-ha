@@ -28,9 +28,11 @@ this module; in Phase 2 that is the parent (in-process executor, D-139).
 
 from __future__ import annotations
 
+import base64
 import contextlib
 import errno
 import functools
+import hashlib
 import io
 import os
 import stat
@@ -147,6 +149,63 @@ other mode (``F``, ``LAB``, ...) is refused as unsupported."""
 _WITHOUT_ALPHA: Final = {"LA": "L", "RGBA": "RGB"}
 _DECODE_ERRORS: Final = (OSError, ValueError, SyntaxError, EOFError, struct.error)
 _DETAIL_LIMIT: Final = 120
+
+
+def verify_thumbnail_task(payload: JsonObject) -> JsonObject:
+    """Compare a bounded TV JPEG with the exact last-delivery preview in isolation.
+
+    The parent lends a regular file descriptor. No source path or network is
+    accepted. A failed/ambiguous comparison never establishes an association.
+    """
+    fd, sha256, encoded = payload.get("fd"), payload.get("sha256"), payload.get("thumbnail")
+    if (
+        set(payload) != {"fd", "sha256", "thumbnail"}
+        or not isinstance(fd, int)
+        or isinstance(fd, bool)
+        or fd < 3
+        or not isinstance(sha256, str)
+        or len(sha256) != 64
+        or not isinstance(encoded, str)
+        or len(encoded) > 56 * 1024
+    ):
+        raise ValueError("invalid thumbnail verification request")
+    Image.MAX_IMAGE_PIXELS = MAX_JPEG_PIXELS
+    try:
+        thumbnail = base64.b64decode(encoded, validate=True)
+        if not 0 < len(thumbnail) <= 40 * 1024:
+            return {"matched": False}
+        with _wrap_descriptor(fd, None, owned=False) as source:
+            content = source.read(MAX_OUTPUT_BYTES + 1)
+            if hashlib.sha256(content).hexdigest() != sha256 or len(content) > MAX_OUTPUT_BYTES:
+                return {"matched": False}
+        with (
+            contextlib.closing(_open_image(io.BytesIO(content), ImageFormat.JPEG)) as expected,
+            contextlib.closing(_open_image(io.BytesIO(thumbnail), ImageFormat.JPEG)) as actual,
+        ):
+            if expected.size != (3840, 2160) or not (
+                0 < actual.width <= 1024 and 0 < actual.height <= 1024
+            ):
+                return {"matched": False}
+            expected.load()
+            actual.load()
+            a = expected.convert("RGB").resize((64, 36), Image.Resampling.LANCZOS).tobytes()
+            b = actual.convert("RGB").resize((64, 36), Image.Resampling.LANCZOS).tobytes()
+        mse = sum((x - y) ** 2 for x, y in zip(a, b, strict=True)) / len(a)
+        # Featureless images cannot distinguish a coincidental solid-colour upload.
+        variation = max(
+            sum(v * v for v in channel) / len(channel) - (sum(channel) / len(channel)) ** 2
+            for channel in (a[0::3], a[1::3], a[2::3])
+        )
+        # A conservative heuristic, not cryptographic proof of TV pixel identity.
+        return {"matched": mse <= 9.0 and variation >= 64.0}
+    except (
+        ValueError,
+        OSError,
+        _Failed,
+        Image.DecompressionBombError,
+        Image.DecompressionBombWarning,
+    ):
+        return {"matched": False}
 
 
 class _Failed(Exception):

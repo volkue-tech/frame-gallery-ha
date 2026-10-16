@@ -67,6 +67,8 @@ profile frame_gallery flags=(attach_disconnected,mediate_deleted) {
   # temporary backup name. Ordinary rw permissions do not permit link(2).
   link subset /data/state/history.json.bak.tmp-* -> /data/state/history.json,
   link subset /data/state/upload_ledger.json.bak.tmp-* -> /data/state/upload_ledger.json,
+  link subset /data/state/artwork-bindings.json.bak.tmp-* -> /data/state/artwork-bindings.json,
+  link subset /data/state/observer-requests.json.bak.tmp-* -> /data/state/observer-requests.json,
   /tmp/{,**} rwk,
   /media/ r,
   /media/** r,
@@ -90,6 +92,7 @@ profile frame_gallery flags=(attach_disconnected,mediate_deleted) {
     /dev/urandom r,
     @{PROC}/@{pid}/** r,
     /media/frame_gallery/library/{,**} r,
+    /media/frame_gallery/preview/latest.jpg r,
     /tmp/frame-gallery/ r,
     /tmp/frame-gallery/run-*/ r,
     /tmp/frame-gallery/run-*/in/{,**} r,

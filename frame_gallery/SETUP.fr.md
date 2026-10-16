@@ -1,5 +1,10 @@
 # Frame Gallery — installation et première carte
 
+> Candidat b8 non publié : [œuvre actuelle du TV](CURRENT_ARTWORK.fr.md), mode
+> arrière-plan expérimental facultatif, désactivé par défaut. Une connexion en
+> lecture pourrait réveiller le TV ; la veille automatique n'est pas vérifiée.
+> Ce guide décrit toujours le fonctionnement ponctuel inchangé.
+
 [English](DOCS.md#installation) | [Deutsch](SETUP.de.md) | **Français** | [Español](SETUP.es.md) | [Italiano](SETUP.it.md)
 
 Guide de démarrage pour la **bêta 0.1.0b7**. La langue de cette page est choisie

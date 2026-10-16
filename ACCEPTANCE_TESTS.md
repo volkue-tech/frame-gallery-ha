@@ -1,5 +1,52 @@
 # Acceptance tests
 
+## D-230 experimental activation acceptance, 2026-10-16
+
+- Off/missing/null background mode preserves one-shot behaviour; all five
+  languages warn that read-only connections may wake a sleeping TV.
+- Opt-in alone and start/boot/restart make no TV request. Only a successful
+  explicit delivery enables session authorization and the first bounded read.
+- Initial enrollment is permitted only in that post-delivery session. Pin at
+  most 32 exact per-address device identities in a 16 KiB atomic document; do
+  not silently replace/evict a pin or recover a damaged primary into enrollment.
+- A different identity is rejected before Art connection. Stored-token rejection
+  cannot switch to tokenless or retry. Any failed/non-Art read disarms polling;
+  refresh alone cannot re-arm. Known identity plus thumbnail digest, not last
+  sent metadata or content ID alone, determines the current caption.
+- Natural no-motion sleep/no-wake is explicitly deferred, not passed. Local beta
+  building is approved; publication and further live mutation are separate gates.
+
+## Optional background current artwork candidate 2026-10-16 (earlier D-226 gate)
+
+- Missing/null/false background option preserves the complete one-shot path,
+  old state records and standard card; only a real boolean true opts in.
+- Background boot/start/restart/idle cannot send an image. An explicit send
+  command uses the unchanged bounded runner, isolation and loading completion.
+  Script ID/card references remain; opt-in migration is documented, never automatic.
+- Validate fixed JSON commands, limits and fresh timestamps; atomically consume
+  request IDs before sending. Duplicates, expired requests, a full journal,
+  restart and an uncertain dispatch do not create a second delivery.
+- No production no-wake policy is enabled before hardware validation. Missing
+  policy/device identity cannot start a TV worker. Missing tokens cannot start
+  one without an explicit reviewed tokenless-channel grant (D-228); malformed
+  grants and token/grant combinations fail before loading the TV library.
+  A rejected stored token never triggers a tokenless retry. A failed/off-mode
+  observation disarms reads; idle/refresh must not reconnect or pair.
+- The read worker allows only getters, uses the TV-only connect guard, targets
+  a single thumbnail, bounds D2D lengths, checks identity/mode/ID consistency
+  and closes connections. No selection/upload/power/WOL/write request is allowed.
+- Mapping requires the exact processed preview hash and a successful isolated
+  image comparison, not a restored caption. Device/ID/thumbnail mismatch yields
+  unidentified. Bound/atomically recover mapping storage independently of history.
+- Publish only the fixed app-owned Core state with bounded metadata; ownership
+  collisions and 401/403 fail closed. Display-escaped metadata, missing/stale
+  states, Core restart and app failure cannot show an old title as current.
+  Unchanged heartbeat metadata uses no changing timestamp or force_update flag.
+- Complete five-language option/script/card instructions preserve source/artist/
+  colour options and technical IDs. Run unchanged full quality gates; native
+  memory/confinement, real Recorder growth and no-wake hardware checks remain
+  separate live/build gates. No publication without explicit approval.
+
 ## Next artist/language candidate (D-221/D-222; existing A–J IDs unchanged)
 
 - Missing/null/empty/no-filter artist defaults preserve old configurations and

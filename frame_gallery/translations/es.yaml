@@ -54,3 +54,6 @@ configuration:
   artwork_info_helper:
     name: 'Información de la obra en el panel'
     description: 'Opcional. Ayudante Texto dedicado, por ejemplo input_text.frame_gallery_artwork. Longitud mínima 0, máxima 255, sin valor inicial. La aplicación escribe el título, el artista y la fuente de la vista previa. No uses un ayudante de filtro. Deja vacío para conservar la tarjeta con imagen solamente.'
+  background_mode:
+    name: 'Modo en segundo plano (experimental, opcional)'
+    description: 'Desactivado de forma predeterminada. Frame Gallery sigue activo; Iniciar ya no envía una obra. Actualice una vez el script de envío y active opcionalmente el inicio automático. Las consultas empiezan tras un envío correcto y se pausan si fallan. Atención: una conexión de lectura podría despertar el TV; la espera automática aún no está validada. No necesita otro ayudante ni integración.'

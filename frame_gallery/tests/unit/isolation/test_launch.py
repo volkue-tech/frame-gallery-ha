@@ -149,6 +149,15 @@ def test_the_production_tables() -> None:
         "deliver": TaskEntry(
             "frame_gallery.tv.samsung_task", "deliver_task", events=True, limits=TELEVISION_LIMITS
         ),
+        "observe": TaskEntry(
+            "frame_gallery.tv.samsung_task", "observe_task", events=False, limits=TELEVISION_LIMITS
+        ),
+        "verify_thumbnail": TaskEntry(
+            "frame_gallery.imaging.worker_tasks",
+            "verify_thumbnail_task",
+            events=False,
+            limits=IMAGE_LIMITS,
+        ),
     } == PRODUCTION_TASKS
     assert IMAGE_LIMITS == {
         Limit.ADDRESS_SPACE: GIB,

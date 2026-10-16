@@ -42,6 +42,27 @@ from tests.support.fakes import canvas_jpeg_bytes
 T0 = datetime(2026, 9, 27, 12, 0, 0, tzinfo=UTC)
 
 
+def test_optional_content_id_is_recorded_without_changing_legacy_records() -> None:
+    record = build_current_record(
+        qualified_id="commons:123",
+        attribution=Attribution(),
+        sha256="a" * 64,
+        delivered_at=T0,
+        preview_fingerprint="b" * 64,
+        tv_content_id="MY_TEST",
+    )
+    assert record["tv_content_id"] == "MY_TEST"
+    with pytest.raises(ValueError, match="invalid TV content ID"):
+        build_current_record(
+            qualified_id="commons:123",
+            attribution=Attribution(),
+            sha256="a" * 64,
+            delivered_at=T0,
+            preview_fingerprint="b" * 64,
+            tv_content_id="../bad",
+        )
+
+
 @pytest.fixture
 def layout(tmp_path: Path) -> StoreLayout:
     for name in ("data", "media", "tmp"):

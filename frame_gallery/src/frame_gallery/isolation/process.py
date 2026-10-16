@@ -52,6 +52,7 @@ import subprocess
 import sys
 import sysconfig
 import threading
+import time
 from collections.abc import Callable, Iterable, Mapping, Sequence
 from dataclasses import dataclass, field
 from pathlib import Path
@@ -85,6 +86,8 @@ from frame_gallery.isolation.launch import (
     ordered_limits,
 )
 from frame_gallery.logs.summary import sanitize_for_log
+from frame_gallery.observer.model import MAX_COMMAND_BYTES, Command
+from frame_gallery.store.atomic import decode_json
 
 BOOT: Final = (
     'import sys;a=sys.argv[2:];i=a.index("--");sys.path[:0]=a[:i];sys.path+=a[i+1:];'
@@ -708,3 +711,99 @@ class ProcessExecutor:
             worker = self._active
         if worker is not None:
             self._kill(worker)
+
+
+class ServiceInput:
+    """Size-capped newline JSON commands; stdin is never evaluated as shell text."""
+
+    def __init__(self, fd: int) -> None:
+        self._fd = fd
+        self._buffer = b""
+        self._discard = False
+        self.closed = False
+
+    def receive(self, timeout: float) -> Command | None:
+        if b"\n" not in self._buffer:
+            readable, _, _ = select.select([self._fd], [], [], timeout)
+            if not readable:
+                return None
+            chunk = os.read(self._fd, MAX_COMMAND_BYTES + 1)
+            if not chunk:
+                self.closed = True
+                return None
+            if self._discard:
+                self._discard = b"\n" not in chunk
+                return None
+            self._buffer += chunk
+        if b"\n" not in self._buffer:
+            if len(self._buffer) > MAX_COMMAND_BYTES:
+                self._buffer = b""
+                self._discard = True
+            return None
+        line, self._buffer = self._buffer.split(b"\n", 1)
+        return self._command(line)
+
+    @staticmethod
+    def _command(line: bytes) -> Command | None:
+        if len(line) > MAX_COMMAND_BYTES:
+            return None
+        try:
+            value = decode_json(line)
+            return Command.from_json(value) if isinstance(value, dict) else None
+        except ValueError:
+            return None
+
+
+class DeliveryProcess:
+    """Run the existing trusted one-shot entry point, never an arbitrary command.
+
+    Image/TV workers still run under their existing unprivileged confinement.
+    The supervisor token reaches only this trusted runner, not its workers.
+    """
+
+    def __init__(
+        self,
+        environ: Mapping[str, str],
+        stopped: Callable[[], bool],
+        *,
+        monotonic: Callable[[], float] = time.monotonic,
+        pause: Callable[[float], None] = time.sleep,
+    ) -> None:
+        self._environment = dict(environ)
+        self._stopped, self._now, self._pause = stopped, monotonic, pause
+
+    def run(self) -> int:
+        if self._stopped():
+            return 130
+        boot = (
+            "import sys;sys.path.insert(0,sys.argv[1]);"
+            "from frame_gallery.__main__ import delivery_main;"
+            "raise SystemExit(delivery_main())"
+        )
+        child = subprocess.Popen(  # noqa: S603 - fixed own trusted entry point
+            [sys.executable, "-I", "-B", "-c", boot, _source_root()],
+            env=self._environment,
+            cwd="/",
+            stdin=subprocess.DEVNULL,
+            stdout=subprocess.DEVNULL,
+            close_fds=True,
+            start_new_session=True,
+        )
+        end = self._now() + 135.0
+        try:
+            while child.poll() is None:
+                if self._stopped() or self._now() >= end:
+                    child.send_signal(signal.SIGTERM)
+                    with contextlib.suppress(subprocess.TimeoutExpired):
+                        child.wait(timeout=10.0)
+                    break
+                self._pause(0.05)
+            code = child.poll()
+            return 70 if code is None else code
+        finally:
+            # The isolated workers' lifeline/pdeathsig handles parent loss.
+            # poll() may reap a completed child: never signal a reused process ID.
+            if child.poll() is None:
+                with contextlib.suppress(ProcessLookupError):
+                    os.killpg(child.pid, signal.SIGKILL)
+            child.wait(timeout=2.0)

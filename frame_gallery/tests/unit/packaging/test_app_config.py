@@ -181,13 +181,16 @@ def test_store_metadata_keeps_samsung_near_the_start_of_both_search_fields() -> 
         assert CONFIG[field].lower().index("samsung") <= 20
 
 
-def test_the_app_is_a_one_shot_without_extra_privileges() -> None:
-    """§17.1, D-129, Q-16: what is set, and what is deliberately not set."""
+def test_optional_service_keeps_legacy_default_and_needs_no_extra_privileges() -> None:
+    """D-225: stdin/boot control changes, no implicit background opt-in or privileges."""
     assert CONFIG["slug"] == "frame_gallery"
     assert CONFIG["version"] == __version__
     assert CONFIG["arch"] == ["aarch64", "amd64"]
     assert CONFIG["url"] == "https://github.com/volkue-tech/frame-gallery-ha"
-    assert (CONFIG["startup"], CONFIG["boot"], CONFIG["init"]) == ("once", "manual_only", False)
+    assert (CONFIG["startup"], CONFIG["boot"], CONFIG["init"]) == ("application", "manual", False)
+    assert CONFIG["stdin"] is True
+    assert SCHEMA["background_mode"] == "bool?"
+    assert "background_mode" not in CONFIG["options"]
     assert CONFIG["stage"] == "experimental"
     assert CONFIG["homeassistant"] == "2026.2.0"
     assert CONFIG["homeassistant_api"] is True
@@ -205,7 +208,6 @@ def test_the_app_is_a_one_shot_without_extra_privileges() -> None:
         "ingress",
         "ports",
         "devices",
-        "stdin",
         "watchdog",
         "apparmor",
     ):

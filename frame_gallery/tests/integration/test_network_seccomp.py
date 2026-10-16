@@ -50,7 +50,7 @@ print(json.dumps(results))
 
 
 @pytest.mark.skipif(sys.platform != "linux", reason="real Linux seccomp kernel required")
-@pytest.mark.parametrize("task", ["prepare", "inspect", "deliver"])
+@pytest.mark.parametrize("task", ["prepare", "inspect", "deliver", "observe", "verify_thumbnail"])
 def test_native_worker_network_filter(task: str) -> None:
     source = Path(__file__).resolve().parents[2] / "src"
     result = subprocess.run(  # noqa: S603 - fixed interpreter and own no-network probe
@@ -61,7 +61,7 @@ def test_native_worker_network_filter(task: str) -> None:
         timeout=15,
     )
     assert json.loads(result.stdout) == {
-        "tcp": task == "deliver",
+        "tcp": task in ("deliver", "observe"),
         "udp": False,
         "ipv6": False,
         "unix": False,

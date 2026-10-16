@@ -63,6 +63,7 @@ def test_minimal_options_take_the_accepted_defaults() -> None:
     assert options.background == BLACK
     assert options.helpers == ()
     assert options.log_level is LogLevel.INFO
+    assert options.background_mode is False
     assert options.filters.source is SourceKey.WIKIMEDIA_COMMONS
     assert options.filters.source_provenance is Provenance.STATIC
     assert (options.filters.department, options.filters.style, options.filters.color) == (
@@ -70,6 +71,16 @@ def test_minimal_options_take_the_accepted_defaults() -> None:
         ANY,
         ANY,
     )
+
+
+@pytest.mark.parametrize("value", [None, False, True])
+def test_background_mode_is_opt_in(value: bool | None) -> None:
+    assert _parse(background_mode=value).background_mode is (value is True)
+
+
+@pytest.mark.parametrize("value", [0, 1, "true", "false", [], {}])
+def test_background_mode_cannot_coerce_values(value: object) -> None:
+    assert _issue(background_mode=value).option == "background_mode"
 
 
 def test_null_optional_values_take_their_defaults() -> None:

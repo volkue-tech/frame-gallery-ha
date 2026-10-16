@@ -91,6 +91,7 @@ def schema() -> dict[str, Value]:
         "log_level": "list(info|debug)?",
         "loading_timer": r"match(^timer\.[a-z0-9_]{1,64}$)?",
         "artwork_info_helper": r"match(^input_text\.[a-z0-9_]{1,64}$)?",
+        "background_mode": "bool?",
     }
 
 
@@ -106,8 +107,9 @@ def config() -> dict[str, Value]:
         "arch": ["aarch64", "amd64"],
         "image": "ghcr.io/volkue-tech/frame-gallery-ha-{arch}",
         "url": "https://github.com/volkue-tech/frame-gallery-ha",
-        "startup": "once",
-        "boot": "manual_only",
+        "startup": "application",
+        "boot": "manual",
+        "stdin": True,
         "init": False,
         "stage": "experimental",
         "homeassistant": "2026.2.0",
@@ -896,6 +898,63 @@ def translations(language: str = "en") -> dict[str, Value]:
         texts = LOCALIZED_TEXTS[language]
     elif language != "en":
         raise ValueError("unsupported configuration language")
+    texts = dict(texts)
+    texts["background_mode"] = {
+        "en": (
+            "Background mode (experimental, optional)",
+            (
+                "Off by default. Keeps Frame Gallery running; Start no longer sends an artwork. "
+                "Update the existing send script once and optionally enable Start on boot. "
+                "Checks start after a successful explicit send and pause on failure. "
+                "Warning: read-only connections may wake a sleeping TV; "
+                "sleep is not yet validated. "
+                "No extra helper or integration is required."
+            ),
+        ),
+        "de": (
+            "Hintergrundmodus (experimentell, optional)",
+            (
+                "Standardmäßig aus. Frame Gallery läuft dauerhaft; Start sendet dann kein Bild. "
+                "Das vorhandene Sende-Script einmal aktualisieren und optional Beim Systemstart "
+                "starten aktivieren. Abfragen starten nach erfolgreichem Senden und pausieren bei "
+                "Fehlern. Achtung: Auch lesende Verbindungen könnten den TV aufwecken; "
+                "automatisches Einschlafen ist noch nicht geprüft. Kein zusätzlicher Helfer nötig."
+            ),
+        ),
+        "fr": (
+            "Mode arrière-plan (expérimental, facultatif)",
+            (
+                "Désactivé par défaut. Frame Gallery reste actif ; Démarrer n'envoie plus d'œuvre. "
+                "Mettez à jour le script d'envoi une fois et activez éventuellement le démarrage "
+                "automatique. Les lectures commencent après un envoi réussi et s'arrêtent en cas "
+                "d'erreur. Attention : une connexion en lecture peut réveiller le TV ; "
+                "la veille automatique n'est pas encore validée. "
+                "Aucun autre assistant ni intégration requis."
+            ),
+        ),
+        "es": (
+            "Modo en segundo plano (experimental, opcional)",
+            (
+                "Desactivado de forma predeterminada. Frame Gallery sigue activo; Iniciar ya no "
+                "envía una obra. Actualice una vez el script de envío y active opcionalmente el "
+                "inicio automático. Las consultas empiezan tras un envío correcto y se pausan "
+                "si fallan. Atención: una conexión de lectura podría despertar el TV; "
+                "la espera automática aún no está validada. "
+                "No necesita otro ayudante ni integración."
+            ),
+        ),
+        "it": (
+            "Modalità in background (sperimentale, facoltativa)",
+            (
+                "Disattivata per impostazione predefinita. Frame Gallery resta attivo; Avvia non "
+                "invia più un'opera. Aggiornare una volta lo script di invio e attivare "
+                "eventualmente l'avvio automatico. Le letture iniziano dopo un invio riuscito "
+                "e si sospendono in caso di errore. Attenzione: una connessione in lettura può "
+                "risvegliare il TV; lo standby automatico non è ancora verificato. "
+                "Nessun altro aiutante o integrazione richiesto."
+            ),
+        ),
+    }[language]
     return {
         "configuration": {
             option: {"name": name, "description": description}

@@ -39,6 +39,7 @@ once, so nothing is uploaded or selected that the parent could not record.
 
 from __future__ import annotations
 
+import base64
 import contextlib
 import errno
 import hashlib
@@ -52,11 +53,13 @@ from collections.abc import Callable, Iterator
 from dataclasses import dataclass, field
 from ipaddress import IPv4Address
 from pathlib import Path
-from typing import Any, Final
+from typing import Any, Final, cast
 
+from frame_gallery.config.tv_address import validate_tv_host
 from frame_gallery.imaging.contract import MAX_OUTPUT_BYTES
 from frame_gallery.isolation.executor import EventSink, JsonObject
 from frame_gallery.logs.redact import active_redactor
+from frame_gallery.observer.model import DEVICE_ID, Observation, Status
 from frame_gallery.tv.contract import (
     TOKEN_PATTERN,
     Pairing,
@@ -681,3 +684,117 @@ def deliver_task(payload: JsonObject, emit: EventSink) -> JsonObject:
     quiet_library()
     guard = install_connect_guard(request.host)
     return run_delivery(load_library(), request, emit, guard_tripped=guard.tripped)
+
+
+MAX_THUMBNAIL_BYTES: Final = 40 * 1024
+_READ_REQUESTS: Final = frozenset({"get_artmode_status", "get_current_artwork", "get_thumbnail"})
+
+
+def observe_task(payload: JsonObject) -> JsonObject:
+    """A no-pairing, no-write read under the parent's explicit session policy.
+
+    Validate explicit authentication mode, target identity/enrollment, requested
+    methods and thumbnail size. D-230 permits enrollment only after an explicit
+    successful delivery; a missing or rejected token never selects that path.
+    """
+    host, token, device = payload.get("host"), payload.get("token"), payload.get("device_id")
+    tokenless = payload.get("tokenless_grant")
+    enroll = payload.get("enroll_device")
+    if (
+        set(payload) != {"host", "token", "device_id", "tokenless_grant", "enroll_device"}
+        or not isinstance(host, str)
+        or not isinstance(tokenless, bool)
+        or not isinstance(enroll, bool)
+        or (tokenless and token is not None)
+        or (
+            not tokenless and (not isinstance(token, str) or TOKEN_PATTERN.fullmatch(token) is None)
+        )
+        or (enroll and device is not None)
+        or (not enroll and (not isinstance(device, str) or DEVICE_ID.fullmatch(device) is None))
+    ):
+        raise ValueError("invalid read-only TV request")
+    address = validate_tv_host(host, excluded_networks=())
+    if isinstance(token, str):
+        _register_secret(token)
+    quiet_library()
+    guard = install_connect_guard(address)
+    try:
+        return run_observation(
+            load_library(), host, cast(str | None, token), cast(str | None, device)
+        )
+    finally:
+        guard.undo()
+
+
+def run_observation(
+    library: TvLibrary, host: str, token: str | None, device_id: str | None
+) -> JsonObject:
+    """Only fixed getter requests; no setters, upload, WOL or automatic retry."""
+    art = library.art_class(
+        host, token=token, port=ART_PORT, timeout=2.0, key_press_delay=0, name=CLIENT_NAME
+    )
+    try:
+        return _observe_art(art, device_id)
+    except library.unauthorized:
+        return Observation(Status.NOT_AUTHORIZED).to_json()
+    except Exception:  # noqa: BLE001 - never disclose library URLs/tokens or retry
+        return Observation(Status.UNAVAILABLE).to_json()
+    finally:
+        connection = getattr(art, "connection", None)
+        if connection is not None:
+            with contextlib.suppress(Exception):
+                connection.shutdown()
+
+
+def _bound_observer(art: Any) -> None:
+    real_request, real_recv = art._send_art_request, art._recv_exact
+    received = 0
+
+    def read_request(data: dict[str, Any], *args: Any, **kwargs: Any) -> Any:
+        if data.get("request") not in _READ_REQUESTS:
+            raise ValueError("write request forbidden in observer")
+        return real_request(data, *args, **kwargs)
+
+    def read_exact(sock: Any, size: int) -> bytes:
+        nonlocal received
+        if isinstance(size, bool) or size < 0 or received + size > MAX_THUMBNAIL_BYTES:
+            raise ValueError("thumbnail exceeds observer limit")
+        received += size
+        return real_recv(sock, size)  # type: ignore[no-any-return]
+
+    art._send_art_request, art._recv_exact = read_request, read_exact
+
+
+def _observe_art(art: Any, device_id: str | None) -> JsonObject:
+    info = art._get_rest_api().rest_device_info()
+    remote = info.get("device", {}).get("id")
+    if not isinstance(remote, str) or not 1 <= len(remote.strip()) <= 128:
+        raise ValueError("missing TV identity")
+    actual_device = hashlib.sha256(remote.strip().lower().encode("utf-8")).hexdigest()
+    if device_id is not None and actual_device != device_id:
+        raise ValueError("TV identity changed")
+    _bound_observer(art)
+    art.open()
+    if art.get_artmode() != "on":
+        return Observation(Status.TV_IN_USE).to_json()
+    current = art.get_current()
+    content_id = current.get("content_id") if isinstance(current, dict) else None
+    if not isinstance(content_id, str) or CONTENT_ID_PATTERN.fullmatch(content_id) is None:
+        raise ValueError("invalid current ID")
+    thumbnails = art.get_thumbnail(content_id, as_dict=True)
+    if not isinstance(thumbnails, dict) or len(thumbnails) != 1:
+        raise ValueError("missing targeted thumbnail")
+    key, thumbnail = next(iter(thumbnails.items()))
+    if (
+        key not in (content_id, content_id + ".jpg", content_id + ".jpeg")
+        or not isinstance(thumbnail, bytes | bytearray)
+        or not 0 < len(thumbnail) <= MAX_THUMBNAIL_BYTES
+        or art.get_current().get("content_id") != content_id
+        or art.get_artmode() != "on"
+    ):
+        raise ValueError("inconsistent current image")
+    result = Observation(
+        Status.UNIDENTIFIED, actual_device, content_id, hashlib.sha256(thumbnail).hexdigest()
+    ).to_json()
+    result["thumbnail"] = base64.b64encode(thumbnail).decode("ascii")
+    return result

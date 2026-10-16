@@ -1,5 +1,10 @@
 # Frame Gallery — instalación y primera tarjeta
 
+> Candidato b8 sin publicar: [obra actual del TV](CURRENT_ARTWORK.es.md), modo
+> experimental opcional en segundo plano, desactivado por defecto. Una conexión
+> de lectura podría despertar el TV; la espera automática no está validada.
+> Esta guía sigue describiendo el modo de una ejecución, sin cambios.
+
 [English](DOCS.md#installation) | [Deutsch](SETUP.de.md) | [Français](SETUP.fr.md) | **Español** | [Italiano](SETUP.it.md)
 
 Guía inicial para la **beta 0.1.0b7**. El idioma de esta página se elige con

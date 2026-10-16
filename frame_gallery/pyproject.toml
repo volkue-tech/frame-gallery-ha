@@ -7,8 +7,8 @@
 
 [project]
 name = "frame-gallery"
-version = "0.1.0b7"
-description = "Sends one fresh artwork to a Samsung Frame TV each time it is started."
+version = "0.1.0b8"
+description = "Samsung Frame artwork with optional experimental current-artwork observation."
 requires-python = ">=3.12"
 dependencies = [
     # Image preparation, imported only by the imaging worker tasks (D-107).

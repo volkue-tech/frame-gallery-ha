@@ -1,5 +1,10 @@
 # Frame Gallery — Installation und erste Dashboardkarte
 
+> Unveröffentlichter b8-Kandidat: [Aktuelles TV-Kunstwerk](CURRENT_ARTWORK.de.md)
+> mit optionalem experimentellem Hintergrundmodus. Standardmäßig aus; lesende
+> Verbindungen könnten den TV aufwecken. Automatisches Einschlafen ist ungeprüft.
+> Diese Anleitung beschreibt weiterhin den unveränderten Einmalbetrieb.
+
 [English](DOCS.md#installation) | **Deutsch** | [Français](SETUP.fr.md) | [Español](SETUP.es.md) | [Italiano](SETUP.it.md)
 
 Die Anleitung wird über die Sprachlinks gewählt, nicht automatisch durch Home Assistant. Ab **0.1.0b7** gibt es die App-Konfiguration auf Englisch, Deutsch, Französisch, Spanisch und Italienisch sowie die [optionale Künstlerauswahl](COMMONS_ARTIST.de.md). Die Konfigurationsbeschriftungen folgen der Sprache deiner HA-Oberfläche; technische Werte, IDs und Pfade bleiben unverändert. Unter b6 gibt es nur englische/deutsche App-Texte und keine Künstlerauswahl. Technische Hintergrunddokumente bleiben [Englisch](DOCS.md#options).

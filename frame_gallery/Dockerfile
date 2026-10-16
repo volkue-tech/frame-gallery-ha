@@ -68,6 +68,13 @@ COPY license_bundle /usr/share/frame-gallery/licenses
 # fail closed if the exact upstream script differs on a future base.
 RUN echo '7debfda814cfe11f6b87492cce523eb6e1a2abdf622d0465b73c6d3ccd4bef72  /package/admin/s6-overlay-3.2.3.0/etc/s6-linux-init/skel/CMDSIG' | sha256sum -c - \
     && sed -i '1s|^#!/bin/sh$|#!/bin/bash|' /package/admin/s6-overlay-3.2.3.0/etc/s6-linux-init/skel/CMDSIG
+# D-227: BusyBox ash nulls stdin in the asynchronous signal-forwarding branch.
+# Save the original input in the parent shell group before spawning CMD; close
+# the extra descriptor in CMD and when the group returns. Keep s6's PID, wait,
+# exit-status and signal handling intact. Both exact scripts are hash-checked.
+RUN echo 'bf6a4575f0029b66913623356e3c56553514a86bcf693fae6432617c73977747  /package/admin/s6-overlay-3.2.3.0/etc/s6-linux-init/skel/rc.init' | sha256sum -c - \
+    && sed -i 's|^    \$arg0 "\$@" &$|    { $arg0 "$@" <\&3 3<\&- \& } 3<\&0|' /package/admin/s6-overlay-3.2.3.0/etc/s6-linux-init/skel/rc.init \
+    && echo '2fcfe3694c4268c73e654cc276fab2d5ca023151a421826c85450237eaa87878  /package/admin/s6-overlay-3.2.3.0/etc/s6-linux-init/skel/rc.init' | sha256sum -c -
 # The base image's own labels describe the base (io.hass.base.*); the OCI
 # ones are set for the app, and the base's source and build time cleared.
 LABEL \
@@ -75,7 +82,7 @@ LABEL \
     io.hass.arch="${BUILD_ARCH}" \
     io.hass.version="${BUILD_VERSION}" \
     org.opencontainers.image.title="Frame Gallery" \
-    org.opencontainers.image.description="Sends one fresh artwork to a Samsung Frame TV each time it is started." \
+    org.opencontainers.image.description="Samsung Frame artwork with optional experimental current-artwork observation." \
     org.opencontainers.image.version="${BUILD_VERSION}" \
     org.opencontainers.image.source="" \
     org.opencontainers.image.created=""

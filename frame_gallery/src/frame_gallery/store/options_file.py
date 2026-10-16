@@ -100,6 +100,13 @@ class OptionsFile:
         except ConfigError:
             return None
 
+    def background_mode(self) -> bool:
+        """Only a real explicit true opts in; malformed options cannot start a service."""
+        try:
+            return self._read().get("background_mode") is True
+        except ConfigError:
+            return False
+
     def _parse(self) -> Mapping[str, object]:
         try:
             with open_directory(self._data_root) as directory:

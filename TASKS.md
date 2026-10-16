@@ -1,5 +1,119 @@
 # Implementation plan and approval gates
 
+## D-230 experimental b8 build, 2026-10-16
+
+- [x] Receive explicit approval for experimental default-off observation with
+  a wake-risk warning; defer natural-sleep validation without claiming a pass.
+- [x] Wire the real service to post-delivery identity enrollment/session grants;
+  enforce bounded device pins, no boot reads and no failed-read reconnect loop.
+- [x] Update the complete five-language current-artwork guides, configuration
+  warnings, entry points and candidate version; retain old one-shot cards.
+- [x] Run unchanged quality gates and proportionate local native-container
+  checks; preserve evidence and report remaining hardware/release limitations.
+- [ ] Run a true native x86_64 validator before publication. Local amd64 images
+  built, but the emulated overall check failed five real seccomp installation
+  cases with EINVAL; no protection/test was weakened. Native ARM checks passed.
+- [ ] Obtain publication approval before any public push/build/Store handoff.
+
+Earlier absolute activation gates below are historical, superseded only by the
+explicit experimental exception D-230. Natural no-motion sleep, transition and
+Recorder-impact checks remain open follow-ups, not completed acceptance tests.
+
+## Current TV artwork next beta planning 2026-10-16
+
+Scope: [current TV artwork beta plan](docs/plans/current-tv-artwork-update.md).
+Local implementation and subsequent private HA/Frame validation were explicitly
+approved 2026-10-16. Preserve existing cards; no publication or production
+automatic-read policy activation is approved merely by that test permission.
+
+- [x] Record per-TV associations, actual-current metadata/status, optional native
+  cards, five-language docs and unchanged standard-card requirements.
+- [x] Record the verified local MY_F0176 image match and the limits of TV metadata
+  and last-delivery captions; no public user-specific mapping.
+- [x] Compare automatic synchronization and HA metadata transports against
+  official documentation. Record proposed D-225 and the necessary one-time
+  script migration in [the architecture assessment](docs/plans/current-tv-artwork-sync.md).
+- [x] Receive local implementation approval and amend lifecycle/token-purpose
+  constraints without changing default one-shot behaviour.
+- [x] Add local service/controller, fixed commands, durable replay protection,
+  bounded binding store, isolated getters/image proof and owned HA output.
+- [x] Complete first full regression/type/format/mandatory-coverage run: 5288
+  tests and eleven existing skips. Add complete five-language candidate guides
+  and structural tests; no live rendering outcome is implied.
+- [x] Observe final unchanged gate rerun after stop-race/journal-replay hardening
+  and guide tests: 5310 passed, 15 platform skips (eleven existing, four new
+  native-only cases), strict host/Linux mypy over 271 files and 100% whole-package
+  and mandatory line/branch coverage. Log: build/current-tv-artwork-complete-check.log.
+- [x] Obtain separate private hardware/native validation approval, including
+  the no-wake test, while preserving existing cards and not publishing.
+- [x] Record the original Green stdin-EOF startup failure and reproduce it in a
+  network-disabled native ARM container; add D-227's guarded init correction.
+- [x] Verify corrected native ARM stdin delivery, SIGTERM and eight-second
+  cleanup in a network-disabled container (11.15 s stop, exit 0).
+- [x] Rerun all unchanged quality gates after D-227: 5311 passed, 15 platform
+  skips, strict host/Linux mypy 271 files, whole/mandatory coverage 100%.
+- [x] Verify corrected sustained Green startup and Supervisor stdin delivery.
+  One separately human-authorized new_artwork command delivered in 14.2 s;
+  the user confirmed the image, existing card/configuration hashes unchanged.
+- [x] Test a single device-info GET after manual standby (15:04:04 UTC);
+  the user confirmed the screen stayed off. Not a full getter/no-wake result.
+- [x] Identify the missing-own-token compatibility gap: the isolated Green
+  handshake succeeded with connect/ready events and no token. Add D-228's
+  default-off explicit tokenless-channel grant, without retries or a UI bypass.
+  Full live getter/mapping validation remains open; no production grant enabled.
+- [x] Rerun all unchanged gates after D-228: 5314 passed, 15 unchanged skips,
+  strict host/Linux mypy 271 files and 100% whole/mandatory line/branch coverage.
+  Remove the disposable connection-diagnostic app/repository, close its bounded
+  source server, preserve the earlier QA app/state and public b7 installation.
+- [x] Receive complete Art-Mode read-only test permission and validate D-229's
+  handshake timing correction with existing isolation and no TV writes. Read
+  MY_F0182, verify its thumbnail against the exact preview, persist one mapping
+  and independently read back the matching HA title/artist/catalogue ID.
+  Preserve the disposable test mapping in backup da2c2962; existing QA/public
+  data/options and dashboard hashes remain unchanged. No live migration claimed.
+- [x] Observe unchanged full final gates: 5314 tests/15 unchanged skips, strict
+  host/Linux mypy 271 files, 100% whole/mandatory line/branch coverage.
+- [x] Evaluate the documented native template against the real verified HA
+  result: title/artist/source appeared while fresh, then disappeared at expiry
+  without another TV read. Undo restored the original developer template;
+  no dashboard configuration was saved or changed.
+- [x] Verify the saved binding/result in backup da2c2962, remove the disposable
+  read-test app/repository, close source transport and restore owned metadata
+  to paused. Original QA/public apps are stopped/manual, existing dashboard
+  hashes unchanged, no TV poller or temporary Mac wake assertion left running.
+- [ ] Complete sustained HA heartbeat/freshness and Recorder-impact validation.
+  *Backend heartbeat/minute-template freshness observed; the 24-sample HA-only
+  watch completed. Actual current-artwork rendering and Recorder volume remain
+  open. QA app stopped/manual at handoff; no TV poller remains running.*
+- [ ] Separately test natural no-motion sleep (the user's normal use), not only
+  manual power-off, and the remaining standby/mode/ID transitions. The complete
+  single-image Art-Mode getter path is verified above, not a no-wake result.
+  *User deferred this physical test while the living room is occupied. Continue
+  other work under the stated hypothesis, without recording a pass or enabling
+  automatic reads. A separate Art-Mode confirmation permits connection-only
+  diagnosis, not a second picture delivery.*
+- [ ] Complete physically observed standby/transition validation before enabling
+  any reviewed production automatic-read policy. Current candidate fails closed.
+- [x] Record synchronization architecture, HA exposure, credential boundaries,
+  conservative identity/correlation, storage and freshness bounds. Physical
+  no-wake validation and production policy activation remain open above.
+- [x] Record D-225/D-226 and specification/test amendments, with explicit local
+  implementation approval and no publication permission.
+- [ ] After implementation approval, complete regression and separately approved
+  live/native/publication gates in the linked plan.
+
+History reset and TV-content replay remain outside this update. Public b7 stays
+unchanged; no automatic legacy scan, monitoring or new credentials are requested.
+
+## Stable 1.0 direction agreed 2026-10-11
+
+Keep the public beta available while gathering tester feedback; freeze new
+features for 1.0 except the explicit next-beta planning scope above. The agreed
+scope and outstanding real-world/release checks are
+in [the stable readiness plan](docs/plans/stable-1.0.md). No live mutation,
+tester outreach, scheduled monitoring or stable publication is authorized here.
+Setup/colour/artist guides retain all five language links already shipped in b7.
+
 ## Authorized artist/five-language beta 0.1.0b7 — 2026-10-11
 
 - [x] Receive explicit autonomous native-build and personal-repository publication approval.

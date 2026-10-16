@@ -1,5 +1,24 @@
 # Changelog
 
+## 0.1.0b8 (local candidate, not published)
+
+- Optional **experimental background mode**, off by default. Read-only TV
+  connections may wake a sleeping Frame; automatic no-motion sleep has not
+  been validated. No power, Wake-on-LAN or Art-Mode setters in the observer.
+- Keep the app running, then explicitly send a new artwork through the updated
+  script to arm current-artwork checks. Boot/restart never contacts the TV.
+  Failed reads or inactive Art Mode pause checks without automatic reconnects.
+- Verify per-TV content IDs and thumbnails before associating title/artist.
+  Bounded atomic mappings and device pins persist separately from send history.
+  Unknown TV pictures remain unidentified; no cloud recognition or bulk scan.
+- Optional native current-information card and complete five-language guides.
+  Existing one-shot operation, preview/cards, filters and history stay unchanged
+  unless the user explicitly opts in and replaces the send-script body.
+- Preserve stdin through the pinned s6 init path; retain bounded isolated TV,
+  image and delivery workers, shutdown, replay protection and temporary cleanup.
+- No new providers, dependencies, catalogue entries or history-reset action.
+  Local build is authorized; public ARM/Intel images and Store handoff are not.
+
 ## 0.1.0b7 (public beta)
 
 - Optional Commons artist selection, alone or combined with colour. Exact

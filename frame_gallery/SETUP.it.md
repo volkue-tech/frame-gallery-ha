@@ -1,5 +1,10 @@
 # Frame Gallery — installazione e prima scheda
 
+> Candidato b8 non pubblicato: [opera attuale del TV](CURRENT_ARTWORK.it.md), modo
+> in background sperimentale facoltativo, disattivato per impostazione predefinita.
+> Una connessione in lettura potrebbe risvegliare il TV; standby automatico non
+> verificato. Questa guida descrive ancora il modo singolo invariato.
+
 [English](DOCS.md#installation) | [Deutsch](SETUP.de.md) | [Français](SETUP.fr.md) | [Español](SETUP.es.md) | **Italiano**
 
 Scegli la lingua con i link: Home Assistant non traduce automaticamente questa guida. Dalla **0.1.0b7**, il modulo dell'app offre inglese, tedesco, francese, spagnolo e italiano secondo la lingua dell'interfaccia HA. La [selezione facoltativa dell'artista](COMMONS_ARTIST.it.md) richiede b7. Su b6 i campi sono in inglese/tedesco: usa le chiavi tecniche indicate. I valori, gli ID e i percorsi restano uguali. I documenti tecnici rimangono [in inglese](DOCS.md#options).

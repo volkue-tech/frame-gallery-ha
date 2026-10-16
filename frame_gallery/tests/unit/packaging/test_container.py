@@ -116,6 +116,20 @@ def test_the_labels_come_from_required_build_arguments() -> None:
     assert "arm64/aarch64|amd64/amd64" in text
 
 
+def test_signal_forwarding_preserves_stdin_with_exact_s6_script_guards() -> None:
+    """D-227: saving fd 0 in the parent avoids BusyBox's background /dev/null.
+
+    A self-duplication <&0 is insufficient in ash. Runtime transport and signal
+    checks live in container_check.sh; this test protects the build recipe.
+    """
+    text = _dockerfile()
+    path = "/package/admin/s6-overlay-3.2.3.0/etc/s6-linux-init/skel/rc.init"
+    assert "bf6a4575f0029b66913623356e3c56553514a86bcf693fae6432617c73977747  " + path in text
+    assert "2fcfe3694c4268c73e654cc276fab2d5ca023151a421826c85450237eaa87878  " + path in text
+    assert r'{ $arg0 "$@" <\&3 3<\&- \& } 3<\&0' in text
+    assert text.count("| sha256sum -c -") == 3  # original CMDSIG plus both rc.init guards
+
+
 def test_the_app_image_is_the_last_stage() -> None:
     """A build without a target (the Supervisor's) produces the last stage:
     it must be the app, never the test stage (CP-1 of the review)."""

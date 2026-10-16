@@ -1,7 +1,10 @@
 """The app's entry point: ``python -m frame_gallery`` (§4, §17.5; Phase 6).
 
-Importing this module has no side effects (§11.3). :func:`main` builds the
-production ports and runs exactly one run:
+Importing this module has no side effects (§11.3). :func:`main` defaults to
+the production ports and exactly one run. D-225 optionally dispatches to a
+trusted background supervisor; boot never uploads or reads the TV. D-230 permits
+experimental reads after a successful explicit send, without a no-wake claim.
+The legacy path builds:
 
 1. A :class:`CancellationController` that starts deferred, and only then the
    SIGTERM handler (D-141): a stop request during start-up is recorded, and
@@ -31,7 +34,9 @@ from __future__ import annotations
 import functools
 import logging
 import os
+import signal
 import sys
+import threading
 from collections.abc import Callable, MutableMapping
 from dataclasses import dataclass, field
 from typing import Final, TextIO
@@ -49,14 +54,18 @@ from frame_gallery.app.runner import Runner, RunnerPorts
 from frame_gallery.app.signals import CancellationController, deferring, install_sigterm_handler
 from frame_gallery.budget.allowance import Allowance
 from frame_gallery.budget.clock import Clock, SystemClock
+from frame_gallery.budget.deadline import Deadline
 from frame_gallery.budget.limits import METADATA_REQUEST_ALLOWANCE
 from frame_gallery.budget.watchdog import RunWatchdog
-from frame_gallery.config.options import ConfigError, LogLevel
+from frame_gallery.config.options import ConfigError, LogLevel, parse_options
+from frame_gallery.config.vocabulary import BUILTIN_VOCABULARY
 from frame_gallery.domain import SourceKey
+from frame_gallery.errors import AlreadyRunning, StateError
 from frame_gallery.ha.client import SupervisorHelperReader
+from frame_gallery.ha.current_artwork import CurrentArtworkPublisher
 from frame_gallery.isolation.apparmor import ProfileError
 from frame_gallery.isolation.executor import Executor
-from frame_gallery.isolation.process import Launch, ProcessExecutor
+from frame_gallery.isolation.process import DeliveryProcess, Launch, ProcessExecutor, ServiceInput
 from frame_gallery.logs.redact import Redactor
 from frame_gallery.logs.setup import configure_logging, set_app_level
 from frame_gallery.logs.summary import format_summary
@@ -64,12 +73,17 @@ from frame_gallery.net.gateway import Gateway
 from frame_gallery.net.identity import ClientIdentity, project_identity
 from frame_gallery.net.transport import SystemResolver, Urllib3Transport
 from frame_gallery.net.wire import Resolver, Transport
+from frame_gallery.observer.backend import HostObserver
+from frame_gallery.observer.controller import Controller, SafetyPermit
+from frame_gallery.observer.model import Observation
+from frame_gallery.observer.service import serve
 from frame_gallery.providers import aic, cma
 from frame_gallery.providers.aic import AicProvider, aic_policy
 from frame_gallery.providers.cma import CmaProvider, cma_policy
 from frame_gallery.providers.commons import CommonsProvider, commons_policy
 from frame_gallery.providers.local_media import LocalInspectionProbe, LocalMediaProvider
 from frame_gallery.randomness import RandomSource, SystemRandomSource
+from frame_gallery.store.artwork_bindings import BindingStore, ObserverLock
 from frame_gallery.store.diagnostics import log_storage
 from frame_gallery.store.layout import StoreLayout
 from frame_gallery.store.options_file import OptionsFile
@@ -123,8 +137,121 @@ class Wiring:
 
 
 def main() -> int:
-    """One production run; returns its exit code (§4.2)."""
+    """Legacy by default; only an explicit option selects the background service."""
+    if OptionsFile(StoreLayout().data).background_mode():
+        return background_main()
+    return delivery_main()
+
+
+def delivery_main() -> int:
+    """The unchanged bounded run, including when invoked by the service."""
     return run_app(os.environ, sys.stderr, Wiring(require_apparmor=True))
+
+
+def _service_cleanup(layout: StoreLayout, clock: Clock) -> bool:
+    # Sweep interrupted atomic files only while excluding a delivery writer.
+    state = layout.state_store(clock)
+    try:
+        state.open(Deadline(clock, clock.monotonic() + 3, "background cleanup"))
+    except (AlreadyRunning, StateError):
+        return False
+    finally:
+        state.close()
+    return True
+
+
+def background_main() -> int:
+    """Explicit experimental service; no TV connections on start/boot/restart.
+
+    D-230 accepts the unvalidated wake risk only for opt-in users. A successful
+    explicit delivery grants observation for this session; read failures disarm.
+    """
+    clock, layout = SystemClock(), StoreLayout()
+    source = OptionsFile(layout.data)
+    networks = ContainerNetworks().container_networks()
+    try:
+        options = parse_options(
+            source.load(Deadline(clock, clock.monotonic() + 3, "service options")),
+            vocabulary=BUILTIN_VOCABULARY,
+            excluded_networks=networks,
+        )
+        launch = Launch.production()
+        if sys.platform.startswith("linux") and (
+            not launch.enforced or launch.apparmor_profile is None
+        ):
+            return REFUSED_EXIT_CODE
+    except (ConfigError, ProfileError):
+        return REFUSED_EXIT_CODE
+    reduced = reduce_environment(os.environ, keep_supervisor_token=True)
+    apply_environment(os.environ, reduced)
+    configure_logging(
+        level=LogLevel.INFO,
+        stream=sys.stderr,
+        redactor=Redactor([reduced.supervisor_token] if reduced.supervisor_token else []),
+    )
+    stopped = threading.Event()
+    incoming = ServiceInput(sys.stdin.fileno())
+
+    def stopping() -> bool:
+        return stopped.is_set() or incoming.closed
+
+    child_environment = dict(reduced.variables)
+    if reduced.supervisor_token is not None:
+        child_environment[SUPERVISOR_TOKEN_VARIABLE] = reduced.supervisor_token
+    child = DeliveryProcess(child_environment, stopping)
+    resolver, transport = _system_network()
+    publisher = CurrentArtworkPublisher(
+        token=reduced.supervisor_token, resolver=resolver, transport=transport, networks=networks
+    )
+    store, lock = BindingStore(layout.data), ObserverLock(layout.data)
+    executor = ProcessExecutor(launch, clock)
+    observer = HostObserver(executor, layout.data, layout.media, options.tv_host, stopped=stopping)
+    previous = signal.signal(signal.SIGTERM, lambda _signum, _frame: stopped.set())
+    try:
+        lock.acquire()
+        if not _service_cleanup(layout, clock):
+            return REFUSED_EXIT_CODE
+        owner = store.owner()
+
+        def publish(observation: Observation) -> None:
+            publisher.publish(
+                owner,
+                observation,
+                store.resolve(observation),
+                Deadline(clock, clock.monotonic() + 2, "current artwork"),
+            )
+            if publisher.authorization_refused:
+                # Do not let a later explicit send retry the same rejected HA token.
+                stopped.set()
+
+        def send() -> int:
+            before = observer.delivery_snapshot()
+            code = child.run()
+            if code == 0 and not stopping() and observer.after_delivery(before):
+                return 0
+            # One-shot exit 0 includes no_match, TV errors and cancellation.
+            # Never turn those into authorization to read a sleeping TV.
+            return 1
+
+        controller = Controller(
+            send=send,
+            observe=observer.read,
+            publish=publish,
+            now=clock.monotonic,
+            claim=lambda command: store.claim(command, clock.utc_now().timestamp()),
+            permit=SafetyPermit(experimental=options.background_mode),
+            stopped=stopping,
+        )
+        _log.warning(
+            "experimental background service ready; read-only connections may wake the TV; "
+            "checks start only after a successful explicit send"
+        )
+        serve(controller, incoming.receive, stopping)
+    finally:
+        executor.terminate_all()
+        lock.close()
+        signal.signal(signal.SIGTERM, previous)
+    return REFUSED_EXIT_CODE if publisher.authorization_refused else 0
 
 
 def run_app(environ: MutableMapping[str, str], stream: TextIO, wiring: Wiring) -> int:

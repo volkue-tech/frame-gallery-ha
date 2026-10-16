@@ -201,6 +201,7 @@ class _RunState:
     intent_attempted: bool = False
     television_contacted: bool = False
     markers: list[Marker] = field(default_factory=list)
+    tv_content_id: str | None = None
     promoted: bool = False
     selected: bool = False
     record_attempted: bool = False
@@ -864,6 +865,8 @@ class Runner:
 
         def on_marker(event: MarkerEvent) -> None:
             self._take_marker(run, event.marker, qualified_id)
+            if event.marker is Marker.UPLOADED:
+                run.tv_content_id = event.content_id
 
         reply = _TelevisionReply()
         self._cancel.check()
@@ -1010,6 +1013,7 @@ class Runner:
             sha256=artifact.sha256,
             delivered_at=self._clock.utc_now(),
             preview_fingerprint=artifact.fingerprint,
+            tv_content_id=run.tv_content_id if self._options(run).background_mode else None,
         )
         try:
             self._ports.records.write_current(record, deadline)

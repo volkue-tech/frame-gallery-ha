@@ -14,7 +14,13 @@ from typing import Final
 
 CURRENT: Final = Path("/proc/self/attr/apparmor/current")
 PARENT: Final = re.compile(r"(?:frame_gallery|local_frame_gallery_dev|[0-9a-f]{8}_frame_gallery)")
-CHILDREN: Final = {"prepare": "image_worker", "inspect": "image_worker", "deliver": "tv_worker"}
+CHILDREN: Final = {
+    "prepare": "image_worker",
+    "inspect": "image_worker",
+    "deliver": "tv_worker",
+    "observe": "tv_worker",
+    "verify_thumbnail": "image_worker",
+}
 
 
 class ProfileError(Exception):

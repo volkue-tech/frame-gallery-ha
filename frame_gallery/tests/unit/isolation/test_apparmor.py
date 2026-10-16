@@ -72,7 +72,13 @@ def test_missing_interface(monkeypatch: pytest.MonkeyPatch, error: Exception) ->
 
 @pytest.mark.parametrize(
     ("task", "child"),
-    [("prepare", "image_worker"), ("inspect", "image_worker"), ("deliver", "tv_worker")],
+    [
+        ("prepare", "image_worker"),
+        ("inspect", "image_worker"),
+        ("deliver", "tv_worker"),
+        ("observe", "tv_worker"),
+        ("verify_thumbnail", "image_worker"),
+    ],
 )
 def test_transition(task: str, child: str, monkeypatch: pytest.MonkeyPatch) -> None:
     target = f"frame_gallery//{child}"

@@ -54,3 +54,6 @@ configuration:
   artwork_info_helper:
     name: 'Informazioni sull''opera nella dashboard'
     description: 'Facoltativo. Helper Testo dedicato, ad esempio input_text.frame_gallery_artwork. Lunghezza minima 0, massima 255, senza valore iniziale. L''app scrive il titolo, l''artista e la fonte dell''anteprima. Non usare un helper di filtro. Lascia vuoto per mantenere la scheda con la sola immagine.'
+  background_mode:
+    name: 'Modalità in background (sperimentale, facoltativa)'
+    description: 'Disattivata per impostazione predefinita. Frame Gallery resta attivo; Avvia non invia più un''opera. Aggiornare una volta lo script di invio e attivare eventualmente l''avvio automatico. Le letture iniziano dopo un invio riuscito e si sospendono in caso di errore. Attenzione: una connessione in lettura può risvegliare il TV; lo standby automatico non è ancora verificato. Nessun altro aiutante o integrazione richiesto.'

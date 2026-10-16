@@ -1,5 +1,9 @@
 # Frame Gallery for Home Assistant
 
+> **Unreleased b8 work:** [experimental current-TV artwork information](frame_gallery/CURRENT_ARTWORK.md)
+> is optional and off by default. Read-only connections might wake the TV;
+> automatic sleep is not validated. The Store version remains b7 until publication.
+
 Fresh artwork on your Samsung Frame. Start it with a tap from Home Assistant.
 
 > **0.1.0b7 public beta:** 1000 curated Commons works, optional artist and

@@ -54,3 +54,6 @@ configuration:
   artist_helper:
     name: 'Künstler vom Dashboard (optional, Commons)'
     description: 'Entitäts-ID eines Dropdown- oder Text-Helfers, z. B. input_select.frame_gallery_artist. Er ersetzt den Künstlerwunsch bei jedem Start. Ungültige oder nicht lesbare Werte fallen mit einer Warnung auf den gespeicherten Künstlerwunsch zurück.'
+  background_mode:
+    name: 'Hintergrundmodus (experimentell, optional)'
+    description: 'Standardmäßig aus. Frame Gallery läuft dauerhaft; Start sendet dann kein Bild. Das vorhandene Sende-Script einmal aktualisieren und optional Beim Systemstart starten aktivieren. Abfragen starten nach erfolgreichem Senden und pausieren bei Fehlern. Achtung: Auch lesende Verbindungen könnten den TV aufwecken; automatisches Einschlafen ist noch nicht geprüft. Kein zusätzlicher Helfer nötig.'

@@ -4,8 +4,8 @@ They run only as root on Linux, the Phase 6 container
 (``FRAME_GALLERY_REQUIRE_ISOLATION=root`` makes a skip a failure). A root
 parent drops every worker to 65534, and such a worker loads no test code, so
 these tests run production tasks without the H2 guard. That is safe only
-because each task here opens no socket: ``prepare`` and ``inspect`` work on
-files, and the ``deliver`` request is refused before the library is loaded.
+because each task here opens no socket: image tasks work on files, and empty
+``deliver``/``observe`` requests are refused before the library is loaded.
 """
 
 from __future__ import annotations
@@ -49,7 +49,7 @@ def production_executor(*tasks: str) -> ProcessExecutor:
     return ProcessExecutor(launch, SystemClock())
 
 
-@pytest.mark.parametrize("task", ["prepare", "inspect", "deliver"])
+@pytest.mark.parametrize("task", list(PRODUCTION_TASKS))
 def test_a_production_worker_drops_to_65534(task: str) -> None:
     """The parent checks the worker's ready report (uid and gid 65534, no
     groups, every limit including RLIMIT_AS 1 GiB or 512 MiB) before it sends

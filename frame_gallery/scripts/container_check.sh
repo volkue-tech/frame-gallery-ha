@@ -212,6 +212,23 @@ set -e
 echo "exit status $status"
 [ "$status" -eq 70 ] || fail "(b) exit status $status, expected 70"
 
+note "(b2) stdin survives the s6 signal-forwarding path (D-227)"
+SCRIPT='from frame_gallery.isolation.process import ServiceInput
+from frame_gallery.observer.model import Action, Command
+incoming = ServiceInput(0)
+command = incoming.receive(5)
+assert not incoming.closed
+assert command == Command(Action.REFRESH_CURRENT, "transport_test", 1.0)
+print("bounded stdin command received; no TV or HA client created", flush=True)'
+if printf '%s\n' '{"command":"refresh_current","request_id":"transport_test","issued_at":1}' \
+    | run -i "$APP" with-contenv /opt/frame-gallery/bin/python -I -c "$SCRIPT" \
+        > "$OUT/b-stdin.txt" 2>&1; then
+    cat "$OUT/b-stdin.txt"
+else
+    cat "$OUT/b-stdin.txt"
+    fail "(b2) s6 did not preserve the bounded stdin transport"
+fi
+
 note "(c) a stop request reaches the app at once and waits for it"
 SCRIPT='import signal, sys, time
 start = time.monotonic()

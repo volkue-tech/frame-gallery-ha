@@ -35,12 +35,31 @@ This file constrains the architecture without prescribing or copying an implemen
 
 ## Home Assistant constraints
 
+- **2026-10-16 optional background amendment (D-225/D-226):** explicit user
+  approval permits an opt-in supervising service, fixed stdin commands and
+  ownership-checked GET/POST of only `sensor.frame_gallery_current_artwork`.
+  The absent/false option retains the one-shot path. Each delivery and read
+  remains bounded and isolated; boot/restart never implicitly sends an image
+  in background mode. No additional helpers/configuration/registry writes,
+  private HA files, new credentials or Supervisor-management privilege.
+- **D-230 experimental exception, explicitly accepted by the user:** automatic
+  reads may be armed after a successful explicit delivery only when the
+  default-off background mode is enabled. Read-only connections might wake a
+  sleeping TV; no-wake behaviour is not validated. Boot/restart never arms
+  reads; the first post-delivery read enrolls a bounded persistent device pin,
+  all later reads enforce it, and failures/inactive Art Mode stop polling.
+- A tokenless Art channel additionally requires an explicit reviewed internal
+  grant and exact TV identity (D-228). Missing/rejected stored tokens never
+  trigger a tokenless retry; there is no user-configurable grant bypass. D-230
+  permits the fresh successful-delivery path to grant it in memory, not at boot.
 - Read options from the standard app options mechanism.
-- Use the Supervisor-provided Home Assistant API token only for configured filter helpers, explicit loading-timer completion (D-176), or the optional artwork-information Text helper (D-202). Keep it in parent memory and out of worker environments. D-202 permits only the explicit helper GET and fixed input_text.set_value service; no arbitrary configuration or state writes.
+- Use the Supervisor-provided Home Assistant API token only for configured filter helpers, explicit loading-timer completion (D-176), the optional artwork-information Text helper (D-202), or the fixed optional current-artwork publication above (D-225). Keep it in trusted parent/delivery-runner memory and out of unprivileged worker environments. No arbitrary configuration or state writes.
 - The app must work when no helper entities are configured.
 - Do not request access to Home Assistant configuration files.
-- Do not require privileged container mode, host networking, Docker socket access, or persistent background execution.
-- Default startup mode is manual/one-shot; the app exits after one completed attempt.
+- Do not require privileged container mode, host networking or Docker socket access.
+  Persistent execution is optional only under the amendment above.
+- Default execution is still manual/one-shot. Metadata allows the ordinary
+  Start on boot control for opt-in users; do not enable it automatically.
 
 ## Security constraints
 

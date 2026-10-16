@@ -1,6 +1,289 @@
 # Project status
 
-Last updated: 2026-10-11 (b7 public Store handoff verified; documentation closure)
+Last updated: 2026-10-16 (experimental b8 locally authorized; public b7 unchanged)
+
+## Local b8 candidate built; ARM passed, native Intel/publication still open
+
+D-230 is implemented in the real service: explicit opt-in, session-only
+post-delivery grants, bounded persistent device pins and no boot/restart reads.
+Only a changed valid current record with TV ID after the explicit child run can
+arm checks; exit 0/no_match/unchanged records cannot. Read/auth/non-Art failures
+disarm without retry. Temporary atomic files are swept at startup under the
+delivery-state lock, without racing a writer. All five configuration/guide
+languages warn about the unvalidated wake risk. Legacy defaults/cards remain.
+
+Local runtime version/config/lock is 0.1.0b8. Both images are built and their
+107-file runtime source digests match this checkout. Full host gates passed:
+5377 tests/15 platform skips, strict host/Linux mypy 273 files, 100% whole and
+mandatory line/branch coverage. Native ARM container checks passed: 5385 tests,
+7 root-only skips and all 7 separate root checks, plus inventory, original
+notices, stdin, exit/stop and network-disabled smoke checks.
+
+The amd64 images build, but the emulated full check is **not green**: 5380 pass,
+7 skips and 5 kernel-network-filter failures. A bounded standalone probe
+reproduced PR_SET_SECCOMP EINVAL under this Mac's amd64 emulation. No security
+test/policy was relaxed. A true native x86_64 validator remains required before
+publication. See [the local validation report](BETA8_VALIDATION.md).
+
+No HA/TV mutation or new live query occurred during this build step. Public b7,
+existing cards/scripts and prior QA installations remain unchanged. Natural
+sleep, transitions, sustained Recorder behaviour and b8 live migration remain
+open. No public push, registry publication, source upload or Store update was
+attempted; publication authorization is still missing. Unrelated docs/community/
+is left untouched. Earlier blocked-candidate snapshots below are historical.
+
+## Experimental b8 preparation authorized; publication still gated
+
+The user deferred the natural no-motion-sleep test and explicitly accepted
+experimental background observation, off by default, with a clear warning that
+read-only connections may wake a TV (D-230). This is a risk acceptance, not a
+successful no-wake test. Prepare and build b8 locally; no public push, images or
+Store update is authorized. No live HA/TV change is required for this step.
+
+Wire session-only post-delivery authorization, bounded persistent device pins
+and the existing guarded getter path into the real service. Keep boot/restart
+and failed-read reconnects passive, all legacy cards and one-shot defaults
+unchanged. Update all five configuration/guide languages and rerun the existing
+quality gates. Historical activation-blocked statements below describe the
+earlier D-226 candidate and are superseded only by this explicit D-230 exception.
+
+## Full Art-Mode read verified; natural sleep still deferred
+
+The user explicitly authorized the complete read-only Art-Mode check without
+changing the picture. It succeeded at 18:06:48 Europe/Berlin (16:06:48 UTC):
+MY_F0182 matched commons:65256137, Surface of Brofjorden by W.carter. The isolated
+TV read confirmed device identity, Art Mode/current ID before and after the
+targeted thumbnail. It took 3.643 seconds; isolated preview comparison passed
+in another 1.675 seconds. One verified association was persisted. A normal HA
+API read independently returned artwork with the same ID/title/artist/source.
+
+The first attempts failed closed at Art open, not authentication. D-229 records
+the observed timeout cause and local correction: two-second operation waits
+inside the unchanged five-second read deadline, plus no artificial remote-key
+sleep for getters. The final unchanged full gate passed with observed exit 0:
+5314 tests, 15 unchanged skips, strict host/Linux mypy (271 files), 100% whole
+and mandatory line/branch coverage. Log:
+build/current-artwork-live-20261016/readonly-final-regression.log.
+
+This was a separate disposable test on copies of two non-secret records from
+the existing own QA backup, with read-only media and existing worker isolation.
+The real QA/public app data/options and all existing cards/scripts were retained;
+both dashboard hashes matched the baseline. The preview SHA256 stayed exactly
+7b0d75cfbb1e2f25dd1e22cc1535aaef4b9134c832cd9eec43ae29d46cd7807d.
+No image upload/selection, power or Art-Mode write was sent. The test association
+was saved in its own partial backup da2c2962 before disposable-app cleanup.
+This does not claim a live upgrade/migration or that the old QA build contains
+the corrected code/mapping. No production policy or automatic poller was enabled.
+
+The documented template was also evaluated against the real HA result and
+showed the verified title, W.carter, commons and 18:06:48. This is actual template
+evaluation, not a saved dashboard-card layout test. After expiry it hid the title
+and showed the unconfirmed fallback without another TV read. The original user
+template was restored with Undo and the temporary tab closed. Natural sleep/no-wake,
+other mode/ID transitions, sustained polling/Recorder impact and live migration
+remain open; no publication is authorized.
+Safe local evidence is retained in
+build/current-artwork-live-20261016/full-read-verified-result.json and the normal
+HA API before/successful readbacks in the same directory.
+
+Cleanup is complete: the disposable read-test app and its temporary Store entry
+were removed; the finite source server ended. Backup da2c2962's result and one
+binding were read back, and the locally recorded thumbnail digest was verified
+against it. The retained original QA and public apps are stopped/manual at their
+unchanged versions. An immediate start/stop of the old QA build briefly produced
+a Supervisor error state; after visibly confirming a complete start, a controlled
+stop returned stopped and the owned HA state was independently read back as
+paused at 18:13:21 Europe/Berlin. This cleanup made no TV call. No poller remains.
+The temporary Mac wake assertion was released. Dashboard hashes still match.
+
+## Private Green validation: service fixed; tokenless channel identified; sleep open
+
+The user authorized testing the background candidate on their HA/Frame, with
+existing cards preserved and no publication. They confirmed Art Mode and logged
+into their existing HA administrator session. The installed public b7 app and
+its options remain unchanged. A partial backup was created before the separate
+private QA installation; its existing TV-secret exclusions remain in force.
+The two existing dashboard configuration hashes matched before/after the initial
+QA start and the authorized delivery; no card, script, helper configuration or
+configuration.yaml was edited. The preview/caption values changed together as
+the expected result of the one explicitly authorized test artwork.
+
+The separate, protected aarch64 QA app built on the exact published b7 runtime
+and local candidate source. Its original service started but immediately exited
+on stdin EOF, publishing paused. D-227 records the packaging cause: BusyBox ash
+replaces the asynchronous CMD's stdin with /dev/null. A checksum-guarded parent
+descriptor save fixes this in the local candidate without changing s6 signal,
+exit-status or isolation handling. The first attempted <&0 self-duplication was
+insufficient and is not the shipped correction.
+
+The corrected private ARM image passed a network-disabled Docker lifecycle
+test: a real bounded refresh_current command was accepted, SIGTERM reached the
+process, its eight-second cleanup completed, and container stop finished in
+11.15 seconds with exit 0. It used no credentials, HA or TV connection. The
+corrected service subsequently stayed running on the Green and accepted the
+Supervisor stdin transport. The unchanged full quality rerun passed: 5311 tests,
+15 platform skips, strict host/Linux mypy over 271 files, and 100% whole-package
+and mandatory line/branch coverage. Two actual setgid tests failed inside the
+macOS sandbox; all four focused permission tests and the full suite passed
+outside it, without weakening tests or production permissions. Final log:
+build/current-artwork-live-20261016/full-regression-unsandboxed.log.
+
+An initial bounded device-info GET identified model GQ50LS03TAUXZG. The user
+confirmed manual standby; one GET at 15:04:04 UTC succeeded and they confirmed
+the display stayed off. This tests only the device-info request after manual
+power-off, not the complete Art websocket getter and not natural motion-sensor
+sleep. The user clarified their everyday case is automatic sleep without
+movement. That must be a distinct physically observed test; the exact internal
+TV power state is not inferred from a blank display or HA on/off status.
+
+After the user explicitly returned to Art Mode and authorized one test image,
+the real service command delivered commons:65256137, Surface of Brofjorden by
+W.carter, in 14.2 seconds with connected/upload_started/uploaded/selected markers.
+The user confirmed the new water image. Scratch/cache temporary counts were 0.
+There was no power/Art Mode command and no second delivery.
+
+The subsequent bounded diagnostic stopped as not_authorized before any TV
+getter: the QA app had no stored token after the successful delivery, while
+the device-info endpoint reports TokenAuthSupport="true". This is an unresolved
+authentication/capture compatibility gap, not proof the TV rejected a read and
+not permission to invent a token or import integration-private credentials.
+The own HA metadata state correctly reports that limitation. Automatic reads
+remain disabled; full current-ID/attribution/no-wake acceptance is not achieved.
+
+The subsequent Art-Mode connection-only diagnostic identified the cause:
+the pinned library on the Green received ms.channel.connect and ms.channel.ready
+without a token field, completing successfully in 1.294 seconds. No Art command
+was sent. A prior two-second Mac attempt timed out before receiving events;
+the Green's raw HTTP 101 alone was not treated as proof of an Art handshake.
+The isolated probe had no HA API access or media mount and retained enforced
+worker isolation. It reported only event names/token presence/type, never a
+token value. Local evidence: build/current-artwork-live-20261016/green-handshake-metadata.json.
+
+D-228 adds a default-off internal tokenless-channel grant, separate from the
+stored-token mode. Missing identity/policy still fails closed; malformed or
+mixed token/grant requests are rejected before library load. A rejected stored
+token never triggers a tokenless retry. No app option/stdin bypass or production
+grant was enabled. This local compatibility correction does not prove full live
+getter/mapping behaviour or no-wake safety. The existing private QA app is still
+the earlier live4 build, with its state preserved and stopped/manual.
+
+The disposable connection-diagnostic app and its temporary Store repository
+were uninstalled/removed after its successful stopped-state readback; both
+operations returned ok. Its source is retained locally for recovery, with no
+user media/history stored in that app. The bounded source server has ended.
+The existing QA and public b7 apps were both read back as stopped/manual, at
+their unchanged versions. No second artwork or power operation was performed.
+
+The unchanged full gate after D-228 passed with observed exit 0: 5314 tests,
+15 unchanged platform skips, strict host/Linux mypy over 271 files, 100% whole
+line/branch coverage (10142 statements / 2274 branches) and 100% mandatory
+coverage (8147 / 1846). Log:
+build/current-artwork-live-20261016/tokenless-regression.log.
+Four separate offline checks of the disposable handshake harness also passed;
+these are not part of, or a substitute for, the application quality gate.
+
+The separate private QA harness is not a release input. It permits one bounded
+operator read without enabling a production policy, and reset only the exact
+disposable status left by today's first QA reinstall (not an existing user
+entity). Reinstall generated a new owner, and the candidate correctly refused
+to overwrite the old owner's state before that test-only cleanup. Preserve the
+QA app's state for further diagnosis; backup 98515fd8 retains it, with TV-secret
+exclusions unchanged. The public app's pre-test backup is add0e7a9.
+Local evidence is under build/current-artwork-live-20261016/.
+
+No source/image/release was published. All bounded private LAN source-transfer
+sessions are closed; they served only own non-secret QA source. No GitHub token
+was retrieved or needed. The public b7 app/options remain unchanged.
+
+The own HA heartbeat is live in backend templates: last_reported advanced from
+15:19:52.259196 to 15:20:52.451430 UTC while last_updated stayed at
+15:17:21.747153. The now()-based preview refreshed at the next minute without a
+state/attribute change. REST snapshots retained their serialized timestamp;
+that alone is not evidence the heartbeat stopped. This agrees with the pinned
+Core state serialization/reporting paths. The temporary developer-template
+content was undone to its original text and its extra tab closed; no card was
+created. Full current-artwork card behaviour and Recorder growth remain open.
+The bounded 24-sample HA-only observation completed. The QA app was then
+stopped and read back as stopped/manual; no poller is left running. The user
+has confirmed the water image. They subsequently deferred the natural
+no-motion-sleep test because the living room is occupied, and authorized
+continued work under a no-wake working hypothesis. This does not pass that test
+or enable automatic TV access. They separately confirmed Art Mode for a bounded
+connection-only diagnostic; no further image delivery or power command is
+authorized by that confirmation.
+
+## Optional background candidate implemented locally; activation gated
+
+The user approved local implementation, preserving existing cards and not
+waking the TV, explicitly without publication. D-225 is accepted for that local
+scope; D-226 keeps automatic TV access blocked pending physical no-wake
+validation. No enabled production policy, UI bypass or automatic pairing is
+present. The candidate service can run and accept explicit one-shot send
+commands, but it reports validation_required rather than claiming current TV
+metadata without an approved identity/policy.
+
+Local code now includes optional/default-off dispatch, bounded stdin commands,
+durable at-most-once request consumption, separate bounded TV associations,
+isolated getter/thumbnail-comparison tasks and ownership-checked HA state
+publication. The final unchanged quality run passed with observed exit 0:
+5310 tests, 15 platform skips, strict host/Linux mypy over 271 files, and
+100% whole-package line/branch coverage (10139 statements / 2272 branches).
+Mandatory-package coverage is also 100% (8145 / 1844). Eleven pre-existing
+platform skips remain; four added skips cover the new task types' native
+Linux seccomp/root checks, not relaxed tests. Stop-during-publication, rejected
+authorization, journal-backup replay, same-ID image changes, thumbnail bounds
+and all five guide structures are covered locally. No native/hardware result
+is claimed. Log: build/current-tv-artwork-complete-check.log.
+Those figures describe the pre-live implementation gate. The subsequently
+authorized private tests are recorded above. Existing untracked docs/community/
+remains untouched.
+
+The candidate [guide](frame_gallery/CURRENT_ARTWORK.md) links all five languages,
+a complete same-ID send-script replacement and a separate native current-info
+card. The existing standard cards and published setup instructions are unchanged.
+No registered integration, extra helper, dependency or new privilege is added.
+Local config/schema still carries the b7 number only as a working candidate:
+never publish it against the old b7 runtime image. Assign the next beta and
+rebuild matching images only after the separate release approval.
+
+Local implementation is ready for review, but automatic synchronization is not
+activated or accepted as live-ready. Native/private Green/Frame validation is
+now user-authorized and in progress, including standby transitions, manual/slideshow
+changes, frontend freshness, Core restart, Recorder growth and unchanged cards.
+No production safety policy may be enabled merely to make the demo show a title.
+
+## Historical next-beta planning scope, subsequently approved locally
+
+The user requested planning, explicitly without implementation, for persistent
+per-TV content-ID associations and optional information about the artwork
+actually observed on the TV. [The scope and approval gates](docs/plans/current-tv-artwork-update.md)
+separate current observations from last-delivery captions and preserve existing
+cards. The proposed scope includes optional read-only automatic synchronization;
+its architecture, identity checks, credentials, freshness and no-wake behaviour
+were recorded as prerequisites to implementation approval. D-225 selected an optional
+same-app background service, explicit stdin commands and fixed HA API metadata
+states, with no mandatory new integration/helper/broker. The
+[assessment](docs/plans/current-tv-artwork-sync.md) records the one-time script
+change for opt-in users, state-registry limitations, required constraint
+amendments and remaining safety tests. The user subsequently approved local
+implementation as recorded above; no version is bumped, live action scheduled
+or release authorized.
+
+The preceding user-authorized read-only investigation identified MY_F0176 as
+commons:25027786, Houses by the Shore by Frank Knox Morton Rehn, through actual
+TV-thumbnail comparison. The TV's own metadata supplied no title or artist.
+The association is local diagnostic evidence, not a shipped feature or global
+TV-ID mapping. Evidence remains under build/readonly-MY_F0176-*.
+
+## Stable release direction
+
+The user agreed to retain beta status while gathering tester feedback and to
+freeze the 1.0 feature scope, with the narrowly scoped next-beta planning
+exception above. [The readiness plan](docs/plans/stable-1.0.md)
+records the remaining live validation, beginner/compatibility feedback and
+stable-publication preparation. No new runtime or live action is included.
+The reported missing setup languages appear in a screenshot of b6: b7 DOCS.md
+already links English, German, French, Spanish and Italian setup guides.
 
 ## Beta 0.1.0b7 — public, Store handoff verified
 

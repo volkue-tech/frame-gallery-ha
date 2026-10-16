@@ -2,6 +2,26 @@
 
 All commands run from this directory (`frame_gallery/`). The environment is managed with `uv` 0.12.19 (D-128), pinned in `pyproject.toml` (`required-version`).
 
+## Local experimental background-mode candidate (D-225 to D-230)
+
+[Current-artwork setup](CURRENT_ARTWORK.md) has reciprocal EN/DE/FR/ES/IT guides,
+a complete native information card and the complete opt-in send script. It is
+not supported by the public b7 image. The local candidate is b8; do not publish
+its metadata/schema against the older image. Publication is not yet authorized.
+
+Missing/null/false `background_mode` retains one-shot behavior. Opting in keeps
+existing card/script IDs but needs the documented script-body replacement.
+Boot/start alone never sends; existing source/colour/artist options remain.
+
+D-230 explicitly accepts experimental wake risk, not no-wake validation. The
+opted-in service starts paused. A successful explicit send and changed valid
+current record arm reads and permit first-device enrollment. Persisted pins
+never grant restart/resume permission. The worker compares known identity before
+opening Art Mode; read/auth/mode failures disarm without automatic reconnects.
+No cached title or restored last-delivery caption substitutes for observation.
+Natural no-motion sleep and sustained Recorder/transition checks are deferred
+beta follow-ups. Preserve default-off state and warnings in all five languages.
+
 ## Environment
 
 `uv` never downloads Python interpreters for this project (`python-downloads = "never"`), so a local CPython 3.12, 3.13, or 3.14 must be available. Point `UV_PYTHON` at it if it is not on `PATH`.

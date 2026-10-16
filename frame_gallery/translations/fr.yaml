@@ -54,3 +54,6 @@ configuration:
   artwork_info_helper:
     name: 'Informations sur l''œuvre dans le tableau de bord'
     description: 'Facultatif. Entrée Texte dédiée, par exemple input_text.frame_gallery_artwork. Longueur minimale 0, maximale 255, sans valeur initiale. L''application y écrit le titre, l''artiste et la source de l''aperçu. N''utilisez pas une entrée de filtre. Laissez vide pour conserver la carte avec image seule.'
+  background_mode:
+    name: 'Mode arrière-plan (expérimental, facultatif)'
+    description: 'Désactivé par défaut. Frame Gallery reste actif ; Démarrer n''envoie plus d''œuvre. Mettez à jour le script d''envoi une fois et activez éventuellement le démarrage automatique. Les lectures commencent après un envoi réussi et s''arrêtent en cas d''erreur. Attention : une connexion en lecture peut réveiller le TV ; la veille automatique n''est pas encore validée. Aucun autre assistant ni intégration requis.'

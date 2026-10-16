@@ -1,5 +1,9 @@
 # Frame Gallery
 
+> **Unreleased b8 candidate:** optional [current-TV artwork information](CURRENT_ARTWORK.md)
+> with experimental background mode, off by default. Read-only connections may
+> wake a sleeping TV. Automatic sleep is not validated. The public Store remains b7.
+
 > **0.1.0b7 public beta:** [1000 near-widescreen Wikimedia Commons works](COMMONS.md), optional Commons artist/colour selection and [native dashboard pickers](COMMONS_ARTIST.md).
 > No API key is needed. Update without uninstalling; your saved sources and
 > existing camera, timer, script and optional artwork-information helper still work.

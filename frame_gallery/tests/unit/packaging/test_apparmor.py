@@ -115,6 +115,14 @@ def test_backup_links_are_parent_only_and_pair_specific() -> None:
     assert [rule for rule in BODY if rule.startswith("link ")] == [
         "link subset /data/state/history.json.bak.tmp-* -> /data/state/history.json,",
         "link subset /data/state/upload_ledger.json.bak.tmp-* -> /data/state/upload_ledger.json,",
+        (
+            "link subset /data/state/artwork-bindings.json.bak.tmp-* -> "
+            "/data/state/artwork-bindings.json,"
+        ),
+        (
+            "link subset /data/state/observer-requests.json.bak.tmp-* -> "
+            "/data/state/observer-requests.json,"
+        ),
     ]
     for name in ("image_worker", "tv_worker"):
         assert not any(rule.startswith("link ") for rule in child(name))
