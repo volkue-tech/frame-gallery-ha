@@ -18,17 +18,34 @@ polling or reconnect. See D-235 for the narrow superseding profile decision.
 Full offline gates pass 5751 tests/16 Linux-only skips, strict host/Linux typing
 over 295 files, Ruff/format/licence/configuration checks and 100% whole/mandatory
 line+branch coverage. Five-language guides/configuration help are consistent.
-Version is prepared as 0.1.0b9. Local native ARM container checks are running;
-native Intel and publisher checks remain pending. No publication/live-TV test.
+Version is prepared as 0.1.0b9. Corrected local native ARM container checks pass:
+5759 tests/8 root-only skips, all eight separate root checks, inventory of 61 APKs,
+11 Python packages/21 Pillow libraries, and 202 readable licence evidence files.
+Native Intel and signed publisher checks remain pending. No publication/live-TV test.
 The first ARM inventory correctly stopped release on newly supplied libexpat
 2.9.0-r0 versus old notices. D-236 pins that exact official MIT package and adds
 recipe/source SHA512 verification plus original COPYING; bundle now 202 files.
-First Linux suite 5759/8 skips and all eight root checks passed, but this is
-not a green container run until the corrected full inventory/measurement rerun.
+The first run's inventory failure is preserved, not waived. Its separate R-09
+measurement completed with the same b9 runtime/actual Expat 2.9.0: all 26 extreme
+image runs passed under real 1 GiB RLIMIT_AS, maximum 1.63s / 771.6 MiB address
+space; 150 inspections/10 workers, no failures. The corrected inventory/run is
+independently green. Native CI must repeat the complete candidate measurement
+before publication. ARM log SHA256 e0a259eabde7f56b7423643f0af84210d59853a133f7f013fb55f1fb97bd9676;
+measurement SHA256 47d18ec16e16e6541ed6c6849e03b7ea8fc26ef85a20ae08b2366daa727b59a6.
+
+Native ARM storage stress also passed as UID 65534, network none/256 MiB cap:
+2048 worst-size records, 25.1 MB primary plus backup, replacement 1.5468s and
+138900 KiB peak RSS. This is not a Green live performance measurement.
+Code is committed personally; the exact public-source package is being frozen.
+No GitHub/registry operation has occurred. The sole external-access blocker is
+the existing personal token: Passwords is locked and the one own b9 Release
+Terminal waits for hidden human input. The user has been asked; no token has
+been retrieved, stored or printed. No Terminal-UI control is permitted.
 The earlier random known-work hardware gate below remains genuinely open; a
 synthetic test or new storage design does not close it. Historical private
-snapshots are preserved. No HA/TV mutation, credential retrieval or Terminal
-window has occurred in this development round.
+snapshots are preserved. No HA/TV mutation or credential retrieval. One own
+credential Terminal is active, not a stack of finished wrappers; it must stay
+until its input/session completes. No Terminal window is claimed closed.
 
 Last updated: 2026-10-18 (D-235/D-236 b9 preparation; full offline gates green; native/publication pending)
 

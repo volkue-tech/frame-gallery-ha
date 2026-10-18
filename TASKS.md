@@ -16,8 +16,11 @@
   failure/cancel/time bounds, one-shot/background parity and exact network counts.
 - [x] Update complete EN/DE/FR/ES/IT guides and technical state/provenance notes.
   Full host gates pass 5751 tests/16 Linux-only skips, strict host/Linux typing
-  over 295 files and 100% whole/mandatory line+branch coverage. Local native
-  ARM container/measurement round is running; native Intel remains a CI gate.
+  over 295 files and 100% whole/mandatory line+branch coverage. Corrected native
+  ARM container gates pass 5759/8 skips plus 8 root checks and full inventory.
+  Separate same-runtime/Expat R-09 passes 26 cases (max 1.63s/771.6 MiB VM),
+  150 inspections/no failure. Native Intel remains a CI gate. Own b9 Terminal
+  awaits hidden user token input; no GitHub mutation or credential loaded yet.
 - [ ] Run full offline/security/typing/coverage gates and native ARM/Intel release
   validation; verify Green packaging/protected permissions and candidate evidence.
 - [ ] Build/publish the authorized beta only after actual green results; keep

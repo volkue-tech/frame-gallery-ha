@@ -57,6 +57,14 @@ event-only listening. Initial contradictory pixel evidence rejects attribution.
   ddeb606ff43c15b312df831775aeeecbdd542a567c7452ee36920a165999145f.
 - [ ] Native aarch64 and amd64 validation, real confinement/root checks and
   RLIMIT_AS image measurements; no emulation claim for native Intel.
+  Local native ARM corrected inventory/container checks pass 5759/8 skips +
+  8 root checks. The earlier inventory-failed image's separate measurement used
+  the same b9 runtime/actual Expat 2.9.0: 26/26 cases under real 1 GiB RLIMIT_AS,
+  maximum 1.63s/771.6 MiB VM, 150 inspections/no failures. No failed overall run
+  is relabelled green. Native CI repeats all checks before publication.
+  A separate unprivileged/network-none/256-MiB store stress passed at 2048
+  records: 25.1-MB primary + backup, replacement 1.5468s, peak RSS 138900 KiB.
+  Neither local ARM result is a new HA Green/TV live test.
 - [ ] Exact clean personal commit, matching source package publicly accessible.
 - [ ] Both actual publisher images pass checks, immutable tags and OIDC signatures.
 - [ ] Anonymous image pulls/imports and independent signature verification.
