@@ -16,9 +16,10 @@ from frame_gallery.budget.deadline import Deadline, DeadlineExceeded
 from frame_gallery.ha.client import SupervisorHelperReader, _ReadFailed
 from frame_gallery.net.policy import media_type
 from frame_gallery.net.wire import IPAddress, TransportFailure, WireRequest
-from frame_gallery.observer.model import DEVICE_ID, Observation
+from frame_gallery.observer.model import DEVICE_ID, SLIDESHOW_FRESH_S, Evidence, Observation
 from frame_gallery.store.artwork_bindings import Binding
 from frame_gallery.store.atomic import decode_json
+from frame_gallery.store.delivery_associations import DeliveryAssociation
 
 ENTITY_ID: Final = "sensor.frame_gallery_current_artwork"
 PATH: Final = "/core/api/states/" + ENTITY_ID
@@ -35,7 +36,11 @@ class CurrentArtworkPublisher(SupervisorHelperReader):
         return self._authorization_refused
 
     def publish(
-        self, owner: str, observation: Observation, binding: Binding | None, deadline: Deadline
+        self,
+        owner: str,
+        observation: Observation,
+        binding: Binding | DeliveryAssociation | None,
+        deadline: Deadline,
     ) -> bool:
         token = self._token
         if token is None or _TOKEN.fullmatch(token) is None:
@@ -44,7 +49,7 @@ class CurrentArtworkPublisher(SupervisorHelperReader):
             raise ValueError("invalid state owner")
         if binding is not None and not binding.matches(observation):
             raise ValueError("caption does not match the observed TV image")
-        attributes: dict[str, str | bool] = {
+        attributes: dict[str, str | bool | int] = {
             OWNER_KEY: owner,
             "friendly_name": "Frame Gallery current artwork",
             "icon": "mdi:television-ambient-light",
@@ -52,8 +57,16 @@ class CurrentArtworkPublisher(SupervisorHelperReader):
         }
         if observation.content_id is not None:
             attributes["tv_content_id"] = observation.content_id
+        if observation.evidence is Evidence.SLIDESHOW:
+            attributes["confirmation_method"] = "slideshow_events"
+            attributes["confirmation_max_age"] = int(SLIDESHOW_FRESH_S)
         status = observation.status.value
         if binding is not None:
+            attributes["association_method"] = (
+                "confirmed_upload"
+                if isinstance(binding, DeliveryAssociation)
+                else "verified_thumbnail"
+            )
             attributes.update(
                 {
                     "work_id": binding.work_id,

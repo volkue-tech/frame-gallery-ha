@@ -714,6 +714,7 @@ def test_the_delivery_logic_in_a_worker(tmp_path: Path) -> None:
     result = run("deliver", payload, on_event=seen.append, timeout=30.0)
     assert result == {"status": "ok", "detail": "selected", "pairing": None}
     assert seen == [
+        {"device_id": "fcf6ea5b7ff95575833563873eeb2cce9371852ba76f57ec7b39de1e9b3dbcad"},
         {"token": "12345678"},
         {"marker": "connected", "content_id": None},
         {"marker": "upload_started", "content_id": None},

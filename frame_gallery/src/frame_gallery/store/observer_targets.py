@@ -55,13 +55,13 @@ class TargetStore:
                 raise StateError("observer device pins damaged")
             return loaded.value or {}
 
-    def pin(self, host: IPv4Address, identity: str) -> None:
+    def pin(self, host: IPv4Address, identity: str, *, confirmed_delivery: bool = False) -> None:
         targets = self.targets()
         key = str(host)
         if DEVICE_ID.fullmatch(identity) is None:
             raise ValueError("invalid observer device identity")
         previous = targets.get(key)
-        if previous is not None and previous != identity:
+        if previous is not None and previous != identity and not confirmed_delivery:
             raise StateError("observer TV identity changed")
         if previous is None and len(targets) >= MAX_TARGETS:
             raise StateError("observer device pin capacity reached")

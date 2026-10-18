@@ -14,6 +14,7 @@ from typing import Final
 from frame_gallery.errors import StateError
 from frame_gallery.observer.model import DEVICE_ID, REQUEST_ID, THUMBNAIL_HASH, Command, Observation
 from frame_gallery.store.atomic import DocumentFile, DocumentSpec, ReadFailure, open_directory
+from frame_gallery.store.delivery_associations import DeliveryAssociation, DeliveryAssociations
 from frame_gallery.store.fields import parse_qualified_id, parse_timestamp
 from frame_gallery.tv.port import CONTENT_ID_PATTERN
 
@@ -178,10 +179,28 @@ class BindingStore:
                 raise StateError("TV associations cannot be read safely")
             return loaded.value or ()
 
-    def resolve(self, observation: Observation) -> Binding | None:
+    def resolve(self, observation: Observation) -> Binding | DeliveryAssociation | None:
         if observation.content_id is None:
             return None
-        return next((binding for binding in self.all() if binding.matches(observation)), None)
+        delivered = DeliveryAssociations(self._data).find(
+            observation.device_id or "", observation.content_id
+        )
+        if delivered is not None:
+            if delivered.image_rejected:
+                return None
+            if delivered.matches(observation):
+                return delivered
+        binding = next((binding for binding in self.all() if binding.matches(observation)), None)
+        if (
+            binding is not None
+            and delivered is not None
+            and any(
+                getattr(binding, name) != getattr(delivered, name)
+                for name in ("work_id", "title", "artist", "source", "detail_url")
+            )
+        ):
+            return None
+        return binding
 
     def remember(self, binding: Binding) -> None:
         Binding.from_json(asdict(binding))

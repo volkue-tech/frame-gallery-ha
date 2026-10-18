@@ -46,10 +46,11 @@ import hashlib
 import logging
 import os
 import re
+import secrets
 import stat
 import time
 import warnings
-from collections.abc import Callable, Iterator
+from collections.abc import Callable, Generator, Iterator
 from dataclasses import dataclass, field
 from ipaddress import IPv4Address
 from pathlib import Path
@@ -59,7 +60,8 @@ from frame_gallery.config.tv_address import validate_tv_host
 from frame_gallery.imaging.contract import MAX_OUTPUT_BYTES
 from frame_gallery.isolation.executor import EventSink, JsonObject
 from frame_gallery.logs.redact import active_redactor
-from frame_gallery.observer.model import DEVICE_ID, Observation, Status
+from frame_gallery.observer.model import DEVICE_ID, FRESH_S, Observation, Status
+from frame_gallery.observer.stream import Change, EventPolicy, decode_event, validate_device
 from frame_gallery.tv.contract import (
     TOKEN_PATTERN,
     Pairing,
@@ -68,6 +70,9 @@ from frame_gallery.tv.contract import (
     result,
     token_event,
 )
+from frame_gallery.tv.event_frames import SessionClosed, SessionSockets
+from frame_gallery.tv.event_query import current_id_once
+from frame_gallery.tv.identity import device_digest
 from frame_gallery.tv.port import CONTENT_ID_PATTERN, DeliveryStatus, Marker
 
 ART_PORT: Final = 8002
@@ -394,7 +399,27 @@ class _Delivery:
     def _check_support(self) -> None:
         art = self._new_art(CONNECT_S)
         try:
-            supported = art.supported()
+            # Harvest only the response supported() already reads. Never issue
+            # a second identity request or retain the rest of the device data.
+            identity: str | None = None
+            get_rest = getattr(art, "_get_rest_api", None)
+            if callable(get_rest):
+                rest = get_rest()
+                read_info = rest.rest_device_info
+
+                def capture_info() -> Any:
+                    nonlocal identity
+                    info = read_info()
+                    identity = device_digest(info)
+                    return info
+
+                rest.rest_device_info = capture_info
+                try:
+                    supported = art.supported()
+                finally:
+                    rest.rest_device_info = read_info
+            else:
+                supported = art.supported()
         except Exception as exc:  # noqa: BLE001 - every failure has an outcome
             self._unless_blocked()
             if isinstance(exc, self.library.transport_errors):
@@ -407,6 +432,8 @@ class _Delivery:
             ) from None
         if supported is not True:
             raise _finished(DeliveryStatus.UNSUPPORTED, "the TV does not report Frame art support")
+        if identity is not None:
+            self.emit({"device_id": identity})
 
     def _connect(self) -> None:
         """Open the art channel, with at most one reconnect before ``upload_started``."""
@@ -697,6 +724,16 @@ def observe_task(payload: JsonObject) -> JsonObject:
     methods and thumbnail size. D-230 permits enrollment only after an explicit
     successful delivery; a missing or rejected token never selects that path.
     """
+    host, token, device = _observer_request(payload)
+    quiet_library()
+    guard = install_connect_guard(validate_tv_host(host, excluded_networks=()))
+    try:
+        return run_observation(load_library(), host, token, device)
+    finally:
+        guard.undo()
+
+
+def _observer_request(payload: JsonObject) -> tuple[str, str | None, str | None]:
     host, token, device = payload.get("host"), payload.get("token"), payload.get("device_id")
     tokenless = payload.get("tokenless_grant")
     enroll = payload.get("enroll_device")
@@ -713,17 +750,118 @@ def observe_task(payload: JsonObject) -> JsonObject:
         or (not enroll and (not isinstance(device, str) or DEVICE_ID.fullmatch(device) is None))
     ):
         raise ValueError("invalid read-only TV request")
-    address = validate_tv_host(host, excluded_networks=())
+    validate_tv_host(host, excluded_networks=())
     if isinstance(token, str):
         _register_secret(token)
+    return host, cast(str | None, token), cast(str | None, device)
+
+
+def observe_session_task(payload: JsonObject, emit: EventSink) -> JsonObject:
+    value = dict(payload)
+    schema, cancel_fd = value.pop("policy", None), value.pop("cancel_fd", None)
+    if (
+        not isinstance(schema, dict)
+        or isinstance(cancel_fd, bool)
+        or not isinstance(cancel_fd, int)
+    ):
+        raise ValueError("invalid event session request")
+    policy = EventPolicy.from_json(schema)
+    if (
+        cancel_fd <= 2
+        or not stat.S_ISFIFO(os.fstat(cancel_fd).st_mode)
+        or os.get_blocking(cancel_fd)
+    ):
+        raise ValueError("invalid event cancellation pipe")
+    host, token, device = _observer_request(value)
+    device = validate_device(device)
     quiet_library()
-    guard = install_connect_guard(address)
+    guard = install_connect_guard(validate_tv_host(host, excluded_networks=()))
     try:
-        return run_observation(
-            load_library(), host, cast(str | None, token), cast(str | None, device)
-        )
+        with contextlib.closing(
+            _session_events(load_library(), host, token, device, policy, cancel_fd=cancel_fd)
+        ) as events:
+            for event in events:
+                emit(event)  # sink failures propagate, but the generator still closes
     finally:
         guard.undo()
+    return {"status": "paused"}
+
+
+def _cancelled(fd: int) -> bool:
+    try:
+        os.read(fd, 1)
+    except BlockingIOError:
+        return False
+    return True  # any byte or EOF is cancellation, never a TV command
+
+
+def _session_events(
+    library: TvLibrary,
+    host: str,
+    token: str | None,
+    device: str,
+    policy: EventPolicy,
+    *,
+    cancel_fd: int,
+) -> Generator[JsonObject, None, None]:
+    sockets = SessionSockets(library.websocket, time.monotonic, lambda: _cancelled(cancel_fd))
+    try:
+        art = library.art_class(
+            host, token=token, port=ART_PORT, timeout=2.0, key_press_delay=0, name=CLIENT_NAME
+        )
+        baseline = _observe_art(art, device)
+        if baseline["status"] != Status.UNIDENTIFIED.value:
+            yield {"kind": "end", "status": "unavailable"}
+            return
+        if sockets.bound is None:
+            raise ValueError("missing bounded event transport")
+        sockets.bound.passive = True
+        proved_at = time.monotonic()
+        yield {"kind": "baseline", "observation": baseline}
+        while True:
+            sockets.bound.check()
+            try:
+                raw = art.connection.recv()
+            except library.websocket_timeout:
+                continue  # same socket, no GET, ping or reconnect
+            if not isinstance(raw, str) or not raw:
+                raise ValueError("event connection ended")
+            change = decode_event(raw, policy)
+            if policy.current_id_once and change == Change("mode", "on"):
+                if time.monotonic() - proved_at >= FRESH_S:
+                    yield {"kind": "end", "status": "paused"}
+                    return
+                yield {"kind": "querying"}  # clear old attribution before any extra request
+                content_id = current_id_once(
+                    art.connection,
+                    sockets.bound,
+                    policy,
+                    secrets.token_hex(16),
+                    library.websocket_timeout,
+                )
+                yield {"kind": "current_id", "content_id": content_id}
+                return  # one follow-up maximum per session, including duplicate on events
+            yield {"kind": "change", "change": change.to_json()}
+            if _ends_session(change, policy, baseline["content_id"]):
+                break
+    except SessionClosed:
+        yield {"kind": "end", "status": "paused"}
+    except library.unauthorized:
+        yield {"kind": "end", "status": "not_authorized"}
+    except Exception:  # noqa: BLE001 - only fixed status, never library payloads
+        yield {"kind": "end", "status": "unavailable"}
+    finally:
+        sockets.close()
+
+
+def _ends_session(change: Change, policy: EventPolicy, initial_id: object) -> bool:
+    if policy.slideshow:
+        return change.kind == "standby" or change == Change("mode", "off")
+    return (
+        change.kind == "invalidate"
+        or change.value == "off"
+        or (change.kind == "content" and change.value != initial_id)
+    )
 
 
 def run_observation(
@@ -767,10 +905,9 @@ def _bound_observer(art: Any) -> None:
 
 def _observe_art(art: Any, device_id: str | None) -> JsonObject:
     info = art._get_rest_api().rest_device_info()
-    remote = info.get("device", {}).get("id")
-    if not isinstance(remote, str) or not 1 <= len(remote.strip()) <= 128:
+    actual_device = device_digest(info)
+    if actual_device is None:
         raise ValueError("missing TV identity")
-    actual_device = hashlib.sha256(remote.strip().lower().encode("utf-8")).hexdigest()
     if device_id is not None and actual_device != device_id:
         raise ValueError("TV identity changed")
     _bound_observer(art)

@@ -13,7 +13,7 @@ from frame_gallery import __main__ as entry
 from frame_gallery.errors import AlreadyRunning, StateError
 from frame_gallery.isolation.apparmor import ProfileError
 from frame_gallery.isolation.process import Launch
-from frame_gallery.observer.controller import Controller
+from frame_gallery.observer.event_controller import EventController
 from frame_gallery.observer.model import Action, Command, Observation, Status
 from frame_gallery.store.layout import StoreLayout
 
@@ -38,6 +38,7 @@ def test_main_dispatch_is_explicit(monkeypatch: pytest.MonkeyPatch) -> None:
 
 @pytest.mark.parametrize("has_token", [False, True])
 @pytest.mark.parametrize("refuse", [False, True])
+@pytest.mark.parametrize("auth_failure", [False, True])
 @pytest.mark.parametrize("platform", ["darwin", "linux"])
 @pytest.mark.parametrize("send_result", [0, 70, "stop", "no_match", "cleanup_failed"])
 def test_background_entry_waits_for_explicit_successful_send_before_reading(
@@ -45,6 +46,7 @@ def test_background_entry_waits_for_explicit_successful_send_before_reading(
     monkeypatch: pytest.MonkeyPatch,
     has_token: bool,
     refuse: bool,
+    auth_failure: bool,
     platform: str,
     send_result: int | str,
 ) -> None:
@@ -100,7 +102,7 @@ def test_background_entry_waits_for_explicit_successful_send_before_reading(
             self, _owner: str, seen: Observation, _binding: object, _deadline: object
         ) -> bool:
             published.append(seen)
-            self.authorization_refused = refuse
+            self.authorization_refused = refuse and auth_failure
             return not refuse
 
     monkeypatch.setattr(entry, "CurrentArtworkPublisher", Publisher)
@@ -156,7 +158,7 @@ def test_background_entry_waits_for_explicit_successful_send_before_reading(
 
     monkeypatch.setattr(entry, "signal", SimpleNamespace(SIGTERM=signal.SIGTERM, signal=handler))
 
-    def serve(controller: Controller, _receive: Any, stopped: Any) -> None:
+    def serve(controller: EventController, _receive: Any, stopped: Any) -> None:
         assert not stopped()
         controller.start()
         clock.advance(60)
@@ -184,8 +186,12 @@ def test_background_entry_waits_for_explicit_successful_send_before_reading(
         return
     assert entry.background_main() == (70 if refuse else 0)
     assert sent == ([] if refuse else [True])
-    assert reads == ([True] if not refuse and send_result == 0 else [])
-    assert published[-1].status is Status.PAUSED
+    # No real device-event profile is approved: even a successful explicit
+    # delivery cannot silently restore the old short-lived polling path.
+    assert reads == []
+    assert published[-1].status is (Status.VALIDATION_REQUIRED if refuse else Status.PAUSED)
+    if refuse:
+        assert len(published) == 1  # no retry even for non-auth publication failure
     assert "SUPERVISOR_TOKEN" not in environ
     assert closed == [True]
     assert signals[-1] == signal.SIG_DFL

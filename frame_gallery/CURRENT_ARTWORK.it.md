@@ -2,31 +2,27 @@
 
 [English](CURRENT_ARTWORK.md) | [Deutsch](CURRENT_ARTWORK.de.md) | [Français](CURRENT_ARTWORK.fr.md) | [Español](CURRENT_ARTWORK.es.md) | Italiano
 
-**Beta pubblica b8. Le schede b7 esistenti restano compatibili con questa
-modalità disattivata. Sperimentale e disattivato per impostazione predefinita.**
-Una connessione in lettura potrebbe
-risvegliare un TV in standby. Lo standby automatico senza movimento non è ancora
-verificato. Lasciare il modo disattivato se il risveglio è inaccettabile.
-Non servono altri aiutanti, chiavi API, HACS o un'altra app.
+**Beta b9: sperimentale e disattivato per impostazione predefinita.** Le schede b7/b8 restano utilizzabili. Nessun aiutante, chiave API, HACS, privilegio speciale o altra app su Home Assistant Green/OS.
 
-Senza la modalità in background, le schede e il funzionamento a esecuzione
-singola restano invariati. Per provarla, attivarla e riavviare l'app.
-Avvia/Arresta controllano quindi il servizio, non il cambio dell'immagine.
-L'avvio automatico è facoltativo e non invia un'opera. Riavviare l'app dopo
-averne modificato le opzioni.
+Anche una connessione in lettura può risvegliare il TV. I test controllati coprono cambi automatici e un episodio di sonno naturale su un Frame, non tutti i modelli o firmware. Lasciare disattivato se questo rischio è inaccettabile.
 
-Sostituire solo il contenuto di `script.frame_gallery_new_artwork` con lo
-[script di invio completo](examples/background-send-script.yaml), mantenendo
-ID, fotocamera e timer. Le schede che chiamano lo script continuano a funzionare.
-Sostituire le chiamate dirette a `hassio.app_start` con lo script. Adattare lo
-slug dell'app e l'ID del timer se diversi. I valori tecnici restano in inglese.
-Non sostituire l'ID della richiesta e l'ora generati con valori fissi.
+## Memoria automatica delle opere
 
-## Scheda informativa facoltativa
+Ogni invio selezionato con successo salva automaticamente ID TV, titolo, artista e fonte, anche con la modalità in background **disattivata**. Nessun ID da inserire. L'associazione appartiene alla vera identità del TV, non solo al suo IP. Lo stesso ID su un altro TV non indica la stessa opera. Un nuovo invio riuscito sostituisce l'associazione precedente per quel TV/ID.
 
-Aggiungere una scheda manuale con questo blocco completo. La scheda esistente
-con immagine/colore/artista resta separata: la sua anteprima è l'ultima immagine
-inviata, non una schermata dal vivo del televisore.
+I dati privati sopravvivono agli aggiornamenti normali. Azzerare la cronologia di selezione non elimina le associazioni; disinstallare cancellando i dati sì. Conservare un backup prima della reinstallazione. Limite: le ultime 2.048 associazioni e 32 MiB, più un backup. Il riferimento è un piccolo campione RGB di 64×36 pixel, non un archivio ad alta risoluzione. Le vecchie associazioni verificate tramite immagine restano compatibili.
+
+Vecchie immagini, invii di altre app e invii senza identità stabile rimangono sconosciuti. Nessun artista indovinato o riconoscimento cloud.
+
+## Attivare la scheda facoltativa
+
+1. Conservare fotocamera, timer, schede e ID `script.frame_gallery_new_artwork`.
+2. Attivare **Modalità in background** e riavviare l'app. Avvia/Arresta controlla il servizio, non cambia immagine. L'avvio automatico non contatta il TV.
+3. Sostituire solo il contenuto dello script con lo [script di invio completo](examples/background-send-script.yaml). Adattare slug e timer se diversi. Le schede continuano a funzionare; sostituire le chiamate dirette a `hassio.app_start` con lo script.
+4. Con un'opera visibile in modalità Arte, richiedere esplicitamente una nuova opera. Un invio recente riuscito con associazione salvata autorizza una sola sessione sperimentale. Avvio/riavvio/aggiornamento da solo non la attiva.
+5. Aggiungere una scheda manuale con il YAML **completo** seguente.
+
+La scheda immagine/colore/artista mostra l'**ultima anteprima inviata**, non una schermata dal vivo. Questa scheda nativa aggiuntiva presenta separatamente le informazioni attuali.
 
 ```yaml
 type: markdown
@@ -36,41 +32,37 @@ content: >-
   {% if item is not defined or item is none %}
   Nessuna informazione attuale disponibile.
   {% elif item.state == 'artwork' and
-      as_timestamp(now()) - as_timestamp(item.last_reported, 0) < 90 %}
+      as_timestamp(now()) - as_timestamp(item.last_reported, 0) <
+      (900 if item.attributes.get('confirmation_method') == 'slideshow_events' else 90) %}
   **{{ item.attributes.get('display_title', '') }}**
 
   {{ item.attributes.get('display_artist', '') }}
 
   {{ item.attributes.get('display_source', '') }}
 
-  Ultima verifica: {{ as_local(item.last_reported).strftime('%H:%M:%S') }}
+  Ultima conferma: {{ as_local(item.last_reported).strftime('%H:%M:%S') }}
   {% elif item.state == 'validation_required' %}
   Verifiche bloccate. Controllare il registro e richiedere esplicitamente un'opera.
   {% elif item.state == 'checking' %}
   Operazione in corso. L'immagine attuale non è ancora confermata.
   {% elif item.state == 'unidentified' %}
-  L'opera visualizzata non è stata identificata.
+  Nessuna associazione salvata per l'opera visualizzata.
   {% else %}
-  Opera attuale non confermata. TV non disponibile oppure verifiche in pausa.
+  Opera attuale non confermata. TV non disponibile o sessione sospesa.
   {% endif %}
 ```
 
-Questo stato di HA non è un'integrazione dispositivo registrata. Può mancare
-dopo un riavvio di HA o diventare obsoleto se l'app si arresta. La scheda nasconde
-i titoli non confermati e può aggiungere circa un minuto di ritardo. Le vecchie
-immagini senza associazione verificata restano sconosciute. Non cancellare la
-cronologia per identificarle. Non viene usato il riconoscimento immagini cloud.
+## Conferma e limiti
 
-Dopo la modifica dello script, richiedere **una nuova opera con il TV in modalità
-Arte**. Solo un invio riuscito attiva le letture, circa ogni 30 secondi.
-Avvia/riavvia da solo non contatta il TV. La prima lettura memorizza l'identità;
-un altro dispositivo allo stesso indirizzo viene rifiutato. Errori o modalità
-Arte inattiva sospendono le letture senza riconnessione. Per riprendere, portare
-il TV in modalità Arte e richiedere un'altra opera; aggiornare non riattiva le
-letture. Per tornare al modo singolo, disattivare il modo, riavviare e ripristinare
-lo script di invio originale. Non cancellare cronologia o identità per forzare la connessione.
+Ogni sessione dura al massimo otto ore e termina prima con sonno, modalità TV o
+errori. Non riprende automaticamente quando il televisore si risveglia.
 
-È stata verificata una lettura reale con confronto immagine e titolo/artista,
-non lo standby automatico, tutte le transizioni o la crescita del Recorder.
-L'osservatore non invia comandi di alimentazione, Wake-on-LAN o modifiche alla
-modalità Arte; tuttavia la connessione stessa potrebbe risvegliare il TV.
+Dopo una lettura iniziale e confronto locale, una connessione ascolta la sequenza osservata: `image_selected`, `auto_rotation_image_changed` con lo stesso ID e modalità Arte `on`, entro cinque secondi. Nessuna richiesta ripetuta ogni 30 secondi, miniatura successiva o riconnessione automatica. Un evento cerca l'associazione di invio o immagine verificata di quel TV; un ID sconosciuto cancella il testo.
+
+La prova iniziale dura 90 secondi. Una sequenza completa dura al massimo **15 minuti**, per il ciclo testato di dieci minuti. Duplicati, pong e modalità attiva non rinnovano nulla. Cicli più lunghi possono creare intervalli vuoti; i cambi manuali non sempre producono questa sequenza. Il modello può aggiungere circa un minuto di ritardo.
+
+Sonno, modalità TV, disconnessione, eventi non validi o errore di pubblicazione sospendono/arrestano senza riconnettere. Per riprendere, portare il TV in modalità Arte e inviare esplicitamente un'altra opera. Aggiornare elabora solo eventi già ricevuti. Nessun comando di alimentazione, Wake-on-LAN, selezione immagine o cambio modalità; la connessione stessa può comunque causare effetti indesiderati.
+
+Gli ID salvati sono corrispondenze storiche, non verifica continua dei pixel. Un riutilizzo esterno non osservato non è escludibile. Un confronto iniziale contraddittorio blocca la didascalia salvata. Nessuna garanzia generale di firmware o mancato risveglio (D-235).
+
+Il sensore è uno stato pubblicato dall'app, non un'integrazione registrata. Può mancare dopo un riavvio di Core. Dati scaduti/sospesi nascondono il titolo. Per tornare al funzionamento singolo, disattivare, riavviare e ripristinare lo script originale. Non cancellare cronologia o identità per forzare una connessione.

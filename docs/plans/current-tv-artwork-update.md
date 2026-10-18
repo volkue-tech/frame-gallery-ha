@@ -1,5 +1,47 @@
 # Current TV artwork beta plan
 
+## D-235 complete feature and authorized b9 release round, 2026-10-18
+
+Latest user authority supersedes earlier no-publication planning below: build
+and publish the next beta after green tests, with coherent automatic per-TV
+metadata memory even when background mode is off, Green without new rights,
+and no manual ID management. D-235 defines a one-use persisted-delivery-backed
+experimental event grant, no personal TV entry or general no-wake approval.
+Full host gates now pass 5751/16 skips/100% line+branch coverage and strict
+host/Linux typing. Native ARM/Intel and exact publisher/source checks are pending.
+b8 stays off and actual user cards stay unchanged. No new TV connection here.
+
+## Current planning status, 2026-10-18
+
+D-234 completes local regular-entry integration coverage with target-bound fresh
+receipts, publication failure stop/no-retry and exact standby-to-pause handling.
+Full host gates pass 5670 tests, 16 platform skips, strict host/Linux typing and
+100% line/branch coverage. Actual saved captures replay through the new decoder;
+old private snapshots are unchanged, not relabelled as new hardware evidence.
+One controlled natural-sleep episode on lab5 was physically confirmed, not broad
+no-wake/no-delay clearance. A genuine known-work automatic transition and profile
+approval remain live gates. Production profiles stay empty and b8 remains off;
+existing cards are unchanged. The user defers native ARM/Intel checks to the
+later release round before publication; no GitHub/source upload occurs now.
+
+The user explicitly defers the targeted live test. Private-app-only update and
+HA-only five-minute transfer are approved for that later controlled test; no
+source server or HA update is performed in this local integration round.
+
+### Earlier candidate and incident context
+
+Public b8 is released. Following an unexpected Art-to-TV playback incident in
+the user's subsequent trial, background mode was disabled and the app stopped.
+The triggering cause is unresolved; do not turn the later lab5 episode into a
+general no-wake pass or a pass for the old b8 polling implementation.
+The user subsequently authorized local implementation and offline tests of a
+safer, single-session/event-first
+design: [D-231 synchronization plan](current-tv-artwork-sync.md).
+No live test, reactivation, build or release is authorized. Device-event and
+natural-sleep safety remain unvalidated; the candidate's reviewed-policy registry
+is empty, so no automatic TV access is enabled.
+The dated b8 preparation/implementation snapshots below are historical.
+
 ## Current amendment D-230 — experimental b8 locally authorized
 
 The user explicitly accepted default-off experimental observation and its

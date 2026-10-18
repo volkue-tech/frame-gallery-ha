@@ -1,6 +1,6 @@
 """Isolated TV observation and image-verified binding capture.
 
-No credentials or image bytes are retained in mappings. Enrollment is allowed
+No credentials or high-resolution image bytes are retained. Enrollment is allowed
 only following a fresh successful explicit delivery in the opted-in service.
 """
 
@@ -10,18 +10,23 @@ import base64
 import hashlib
 import os
 from collections.abc import Callable, Mapping
+from dataclasses import replace
 from datetime import UTC, datetime
 from ipaddress import IPv4Address
 from pathlib import Path
 from typing import cast
 
+from frame_gallery.budget.clock import SystemClock
+from frame_gallery.budget.deadline import Deadline
 from frame_gallery.errors import StateError
-from frame_gallery.isolation.executor import Executor, WorkerError
-from frame_gallery.observer.model import READ_S, Observation, Status
+from frame_gallery.isolation.executor import Executor, JsonObject, WorkerError
+from frame_gallery.observer.model import DEVICE_ID, READ_S, Evidence, Observation, Status
+from frame_gallery.observer.stream import SLIDESHOW_POLICY, EventPolicy, reviewed_policy
 from frame_gallery.store.artwork_bindings import Binding, BindingStore
 from frame_gallery.store.atomic import ReadFailure, decode_json, open_directory
+from frame_gallery.store.delivery_associations import DeliveryAssociations
 from frame_gallery.store.observer_targets import MAX_TARGETS, TargetStore
-from frame_gallery.tv.port import CONTENT_ID_PATTERN
+from frame_gallery.tv.port import CONTENT_ID_PATTERN, target_fingerprint
 from frame_gallery.tv.token_store import TokenStore
 
 
@@ -43,6 +48,7 @@ class HostObserver:
         # neither a user option nor a retry after a stored-token rejection.
         self._tokenless = tokenless_grant
         self._bindings = BindingStore(data)
+        self._delivery_device: str | None = None
         self._targets = TargetStore(data)
         self._enroll = False
 
@@ -68,20 +74,44 @@ class HostObserver:
         or infer a tokenless grant during ordinary reads after token rejection.
         """
         self._device, self._enroll, self._tokenless = None, False, False
+        self._delivery_device = None
         try:
             after = self.delivery_snapshot()
-            record = self._current()
+            record = self._current(after) if after else None
             content_id = None if record is None else record.get("tv_content_id")
             if (
                 before is None
                 or not after
                 or before == after
+                or record is None
                 or not isinstance(content_id, str)
                 or CONTENT_ID_PATTERN.fullmatch(content_id) is None
+                or record.get("tv_target_sha256") != target_fingerprint(self._host)
             ):
                 return False
             targets = self._targets.targets()
-            self._device = targets.get(str(self._host))
+            delivered_device = record.get("tv_device_id")
+            if delivered_device is not None:
+                if (
+                    not isinstance(delivered_device, str)
+                    or DEVICE_ID.fullmatch(delivered_device) is None
+                ):
+                    return False
+                association = DeliveryAssociations(self._data).find(delivered_device, content_id)
+                if (
+                    association is None
+                    or association.image_rejected
+                    or (
+                        association.target_sha256 != record["tv_target_sha256"]
+                        or association.jpeg_sha256 != record.get("sha256")
+                        or association.work_id != record.get("id")
+                    )
+                ):
+                    return False
+                self._targets.pin(self._host, delivered_device, confirmed_delivery=True)
+                self._device = self._delivery_device = delivered_device
+            else:
+                self._device = targets.get(str(self._host))
             if self._device is None and len(targets) >= MAX_TARGETS:
                 return False
             self._tokenless = TokenStore(self._data, self._host).load() is None
@@ -90,45 +120,129 @@ class HostObserver:
             return False
         return True
 
+    def event_policy(self, device_id: str | None) -> EventPolicy | None:
+        """Consume one opt-in experimental grant, never a persisted resume right."""
+        granted, self._delivery_device = self._delivery_device, None
+        if device_id is not None and device_id == granted:
+            return SLIDESHOW_POLICY
+        return reviewed_policy(device_id)
+
     def read(self) -> Observation:
+        payload = self.session_request()
+        if isinstance(payload, Observation):
+            return payload
+        try:
+            result = self._executor.run(
+                "observe", payload, timeout=READ_S, should_stop=self._stopped
+            )
+            return self.accept_snapshot(result)
+        except (WorkerError, ValueError, StateError, OSError):
+            return Observation(Status.UNAVAILABLE)
+
+    @property
+    def device_id(self) -> str | None:
+        return self._device
+
+    def session_request(self) -> JsonObject | Observation:
+        """Local validation only; never starts a worker or contacts a TV."""
         if self._device is None and not self._enroll:
             return Observation(Status.VALIDATION_REQUIRED)
         token = None if self._tokenless else TokenStore(self._data, self._host).load()
         if token is None and not self._tokenless:
             return Observation(Status.NOT_AUTHORIZED)
-        try:
-            result = self._executor.run(
-                "observe",
-                {
-                    "host": str(self._host),
-                    "token": token,
-                    "device_id": self._device,
-                    "tokenless_grant": self._tokenless,
-                    "enroll_device": self._enroll,
-                },
-                timeout=READ_S,
-                should_stop=self._stopped,
+        return {
+            "host": str(self._host),
+            "token": token,
+            "device_id": self._device,
+            "tokenless_grant": self._tokenless,
+            "enroll_device": self._enroll,
+        }
+
+    def accept_snapshot(self, result: JsonObject) -> Observation:
+        """Accept initial byte proof once; events cannot manufacture a digest."""
+        result = dict(result)
+        thumbnail = result.pop("thumbnail", None)
+        observation = Observation.from_json(result)
+        if observation.evidence is not Evidence.THUMBNAIL:
+            raise ValueError("snapshot cannot supply slideshow evidence")
+        if self._device is not None and observation.device_id not in (None, self._device):
+            raise ValueError("observation belongs to another TV")
+        if observation.content_id is not None and not _thumbnail_matches(observation, thumbnail):
+            raise ValueError("inconsistent observed thumbnail")
+        if self._enroll and observation.device_id is not None:
+            self._targets.pin(self._host, observation.device_id)
+            self._device, self._enroll = observation.device_id, False
+        if observation.content_id is not None and self._bindings.resolve(observation) is None:
+            self._capture(observation, cast(str, thumbnail))
+        return observation
+
+    def accept_slideshow(self, content_id: str) -> Observation:
+        """Local lookup ONLY after a corroborated triple on the pinned session.
+
+        The saved digest identifies the previously verified association; it is
+        not a claim of a newly downloaded thumbnail. Never create a binding.
+        """
+        if self._device is None or CONTENT_ID_PATTERN.fullmatch(content_id) is None:
+            raise ValueError("missing slideshow identity")
+        if DeliveryAssociations(self._data).find(self._device, content_id) is not None:
+            return Observation(
+                Status.UNIDENTIFIED, self._device, content_id, None, Evidence.SLIDESHOW
             )
-            thumbnail = result.pop("thumbnail", None)
-            observation = Observation.from_json(result)
-            if self._device is not None and observation.device_id not in (None, self._device):
-                raise ValueError("observation belongs to another TV")
-            if observation.content_id is not None and not _thumbnail_matches(
-                observation, thumbnail
-            ):
-                raise ValueError("inconsistent observed thumbnail")
-            if self._enroll and observation.device_id is not None:
-                self._targets.pin(self._host, observation.device_id)
-                self._device, self._enroll = observation.device_id, False
-            if observation.content_id is not None and self._bindings.resolve(observation) is None:
-                self._capture(observation, cast(str, thumbnail))
-            return observation
-        except (WorkerError, ValueError, StateError, OSError):
-            return Observation(Status.UNAVAILABLE)
+        binding = next(
+            (
+                b
+                for b in self._bindings.all()
+                if b.device_id == self._device and b.content_id == content_id
+            ),
+            None,
+        )
+        return Observation(
+            Status.UNIDENTIFIED,
+            self._device,
+            content_id,
+            None if binding is None else binding.thumbnail_sha256,
+            Evidence.SLIDESHOW,
+        )
 
     def _capture(self, observation: Observation, thumbnail: str) -> None:
+        archived = DeliveryAssociations(self._data)
+        delivered = archived.find(observation.device_id or "", observation.content_id or "")
+        if delivered is not None and delivered.reference_rgb is not None:
+            verified = self._executor.run(
+                "verify_thumbnail",
+                {"reference_rgb": delivered.reference_rgb, "thumbnail": thumbnail},
+                timeout=5.0,
+                should_stop=self._stopped,
+            )
+            matched = verified == {"matched": True}
+            if delivered.image_rejected == matched:
+                archived.remember(
+                    replace(delivered, image_rejected=not matched),
+                    Deadline.after(SystemClock(), 2.0, "association verification"),
+                )
+            if matched:
+                self._bindings.remember(
+                    Binding.from_json(
+                        {
+                            "device_id": observation.device_id,
+                            "content_id": observation.content_id,
+                            "thumbnail_sha256": observation.thumbnail_sha256,
+                            "work_id": delivered.work_id,
+                            "title": delivered.title,
+                            "artist": delivered.artist,
+                            "source": delivered.source,
+                            "detail_url": delivered.detail_url,
+                            "recorded_at": datetime.now(UTC).isoformat(timespec="seconds"),
+                        }
+                    )
+                )
+            return
         record = self._current()
-        if record is None or record.get("tv_content_id") != observation.content_id:
+        if (
+            record is None
+            or record.get("tv_content_id") != observation.content_id
+            or record.get("tv_target_sha256") != target_fingerprint(self._host)
+        ):
             return
         metadata = record.get("attribution")
         sha256 = record.get("sha256")
@@ -165,12 +279,14 @@ class HostObserver:
         }
         self._bindings.remember(Binding.from_json(fields))
 
-    def _current(self) -> Mapping[str, object] | None:
+    def _current(self, raw: bytes | None = None) -> Mapping[str, object] | None:
         try:
-            with open_directory(self._data, ("state",)) as directory:
-                raw = directory.read_bytes("current.json", 16 * 1024)
-            if isinstance(raw, ReadFailure):
-                return None
+            if raw is None:
+                with open_directory(self._data, ("state",)) as directory:
+                    value = directory.read_bytes("current.json", 16 * 1024)
+                if isinstance(value, ReadFailure):
+                    return None
+                raw = value
             record = decode_json(raw)
             if (
                 not isinstance(record, dict)

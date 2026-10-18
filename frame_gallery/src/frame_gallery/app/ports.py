@@ -147,6 +147,10 @@ class PreviewPublisher(Protocol):
 
 
 class RunRecords(Protocol):
+    def write_delivery(self, record: Mapping[str, object], deadline: Deadline) -> None:
+        """Archive one confirmed selected upload, independently of preview/history."""
+        ...
+
     def write_current(self, record: Mapping[str, object], deadline: Deadline) -> None:
         """Write ``current.json``. Raises ``StateError``."""
         ...

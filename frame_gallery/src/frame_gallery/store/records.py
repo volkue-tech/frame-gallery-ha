@@ -32,6 +32,7 @@ from frame_gallery.store.atomic import (
     Quarantine,
     open_directory,
 )
+from frame_gallery.store.delivery_associations import DeliveryAssociation, DeliveryAssociations
 from frame_gallery.store.fields import parse_qualified_id, parse_timestamp
 
 STATE_DIRECTORY: Final = "state"
@@ -118,6 +119,13 @@ class RunRecordStore:
         deadline.check()
         with self._open() as directory:
             _write(DocumentFile(directory, LAST_RUN_FILE, LAST_RUN_SPEC), record)
+
+    def write_delivery(self, record: Mapping[str, object], deadline: Deadline) -> None:
+        try:
+            association = DeliveryAssociation.from_record(record)
+        except ValueError as exc:
+            raise StateError(str(exc)) from None
+        DeliveryAssociations(self._data_root).remember(association, deadline)
 
     def preview_fingerprints(self) -> tuple[str, ...]:
         """The fingerprints of the last published previews, newest first, for

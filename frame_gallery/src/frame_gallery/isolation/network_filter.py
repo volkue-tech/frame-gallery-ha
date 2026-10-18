@@ -34,6 +34,7 @@ def program(machine: str, task: str) -> tuple[Instruction, ...]:
         "inspect",
         "deliver",
         "observe",
+        "observe_session",
         "verify_thumbnail",
     ):
         raise ValueError("network_filter_target")
@@ -48,7 +49,7 @@ def program(machine: str, task: str) -> tuple[Instruction, ...]:
     ]
     for number in (pair_nr, ptrace_nr, 425, 438):  # socketpair, ptrace, io_uring, pidfd_getfd
         rows.extend(((EQ, 0, 1, number), (RET, 0, 0, DENY)))
-    if task not in ("deliver", "observe"):
+    if task not in ("deliver", "observe", "observe_session"):
         rows.extend(((EQ, 0, 1, socket_nr), (RET, 0, 0, DENY), (RET, 0, 0, ALLOW)))
     else:
         rows.extend(

@@ -41,6 +41,7 @@ from frame_gallery.isolation.executor import Executor, JsonObject, WorkerError, 
 from frame_gallery.logs.redact import active_redactor
 from frame_gallery.logs.summary import sanitize_for_log
 from frame_gallery.tv.contract import TOKEN_PATTERN, Pairing, TvRequest
+from frame_gallery.tv.identity import DEVICE_DIGEST
 from frame_gallery.tv.port import (
     MARKER_ORDER,
     AuthChange,
@@ -83,11 +84,23 @@ class _EventRelay:
         self._on_token = on_token
         self.seen: list[Marker] = []
         self.tokens = 0
+        self.device_id: str | None = None
 
     def __call__(self, event: JsonObject) -> None:
         """Raises ``ValueError`` for an event that breaks the protocol."""
         if set(event) == {"token"}:
             self._token(event["token"])
+        elif set(event) == {"device_id"}:
+            identity = event["device_id"]
+            if (
+                self.device_id is not None
+                or self.seen
+                or self.tokens
+                or not isinstance(identity, str)
+                or DEVICE_DIGEST.fullmatch(identity) is None
+            ):
+                raise ValueError("invalid or late delivery device identity")
+            self.device_id = identity
         else:
             self._marker(event)
 
@@ -170,6 +183,7 @@ class SamsungTelevision:
             auth=self._auth(seed, rejected=pairing == Pairing.REJECTED.value),
             markers_seen=tuple(relay.seen),
             detail=sanitize_for_log(detail, max_length=MAX_DETAIL),
+            device_id=relay.device_id,
         )
 
     def _install(self, token: str) -> None:

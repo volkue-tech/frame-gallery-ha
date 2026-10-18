@@ -104,7 +104,11 @@ def test_a_first_delivery_pairs_and_stores_the_token(tmp_path: Path) -> None:
     rig = Rig(tmp_path)
     result = rig.deliver()
     assert result == DeliveryResult(
-        DeliveryStatus.OK, AuthChange.NEW_TOKEN, ALL_MARKERS, "selected"
+        DeliveryStatus.OK,
+        AuthChange.NEW_TOKEN,
+        ALL_MARKERS,
+        "selected",
+        device_id="fcf6ea5b7ff95575833563873eeb2cce9371852ba76f57ec7b39de1e9b3dbcad",
     )
     assert [m.marker for m in rig.markers] == list(ALL_MARKERS)
     assert rig.markers[2].content_id == "MY_F0042"

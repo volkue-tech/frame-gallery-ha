@@ -1,10 +1,10 @@
 {
-  "evidence": "exact installed ARM apk database build commits; recipe/local-file and upstream-source hashes checked; not binary reproducibility proof",
-  "recipe_count": 45,
-  "package_count": 61,
+  "evidence": "installed ARM apk build commits, including libexpat 2.9.0-r0 in b9; previous 2.8.5 evidence retained; recipe/local-file and upstream-source hashes checked; not binary reproducibility proof",
+  "recipe_count": 46,
+  "package_count": 62,
   "local_file_checks": 197,
-  "source_count": 58,
-  "source_bytes": 282359632,
+  "source_count": 59,
+  "source_bytes": 282893684,
   "recipes": [
     {
       "origin": "alpine-base",
@@ -336,6 +336,20 @@
       "upstream_files": [
         "expat-2.8.5.tar.xz"
       ]
+    },
+    {
+      "origin": "expat",
+      "commit": "c10df79ce35862cf273f98f6eb78d52e4f064ac7",
+      "url": "https://gitlab.alpinelinux.org/api/v4/projects/alpine%2Faports/repository/archive.tar.gz?sha=c10df79ce35862cf273f98f6eb78d52e4f064ac7&path=main%2Fexpat",
+      "filename": "expat-c10df79ce35862cf273f98f6eb78d52e4f064ac7.tar.gz",
+      "sha256": "f73e8c4a41f10ff87e621a6a2aa61350240390089b6db30de04df8becea75b8f",
+      "bytes": 1225,
+      "packages": [
+        {"name": "libexpat", "version": "2.9.0-r0", "license": "MIT"}
+      ],
+      "recipe_symlinks_not_followed": [],
+      "local_sha512_verified_count": 0,
+      "upstream_files": ["expat-2.9.0.tar.xz"]
     },
     {
       "origin": "fstrm",
@@ -1237,6 +1251,15 @@
       "url": "https://distfiles.alpinelinux.org/distfiles/v3.24/expat-2.8.5.tar.xz",
       "sha256": "1e727b8933ec51a77a9a9d9afcf8e688bce45d907c13e36ab7393fe36e703182",
       "bytes": 528380,
+      "verification": "SHA512 matches exact installed build recipe; not binary reproducibility proof"
+    },
+    {
+      "filename": "expat-2.9.0.tar.xz",
+      "sha512": "677b5a39ea47aa238813412061eefba0ff2e819597efee69452eab7fd63b1387537eda0dfd4e5891b938be202dc87df4b5115bdae75c6b81643ac2363bb99b34",
+      "origins": ["expat"],
+      "url": "https://distfiles.alpinelinux.org/distfiles/v3.24/expat-2.9.0.tar.xz",
+      "sha256": "1e6371862cc31999b368c3b89b49994f0677e1bab5f1b2b85ae3741f5d803051",
+      "bytes": 534052,
       "verification": "SHA512 matches exact installed build recipe; not binary reproducibility proof"
     },
     {

@@ -42,7 +42,8 @@ def test_guides_have_complete_native_cards_and_matching_language_links(language:
         "states.sensor.frame_gallery_current_artwork",
         "item is not defined or item is none",
         "item.state == 'artwork' and",
-        "as_timestamp(now()) - as_timestamp(item.last_reported, 0) < 90",
+        "as_timestamp(now()) - as_timestamp(item.last_reported, 0) <",
+        "(900 if item.attributes.get('confirmation_method') == 'slideshow_events' else 90)",
         "item.attributes.get('display_title', '')",
         "item.attributes.get('display_artist', '')",
         "item.attributes.get('display_source', '')",
@@ -67,6 +68,7 @@ def test_service_script_uses_explicit_commands_without_restarting_or_changing_id
         'request_id: "{{ frame_gallery_request_id }}"',
         'issued_at: "{{ frame_gallery_issued_at }}"',
         "now().strftime('%Y%m%d%H%M%S%f')",
+        "range(100000, 199999)",  # HA sandbox forbids >=100000 range items.
         'timeout: "00:00:05"',
         'timeout: "00:02:30"',
     ):
@@ -75,3 +77,15 @@ def test_service_script_uses_explicit_commands_without_restarting_or_changing_id
     assert "refresh_current" not in script
     assert "sensor.frame_gallery_current_artwork" in script
     assert "camera." not in script
+    assert "range(100000, 999999)" not in script
+
+
+@pytest.mark.parametrize("language", LANGUAGES)
+def test_local_candidate_is_not_documented_as_live_validated(language: str) -> None:
+    guide = (ROOT / name(language)).read_text()
+    assert "D-235" in guide
+    assert "b9" in guide
+    assert "32 MiB" in guide
+    assert "64\u00d736" in guide
+    assert "15" in guide
+    assert "90" in guide

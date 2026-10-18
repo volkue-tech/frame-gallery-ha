@@ -109,6 +109,8 @@ def test_repeated_runs_do_not_grow_temporary_or_state_storage(rig: PersistentRig
     assert names[-1] == names[-2] == names[-3]
     assert names[-1] == [
         ".lock",
+        "artwork-deliveries.json",
+        "artwork-deliveries.json.bak",
         "current.json",
         "history.json",
         "history.json.bak",

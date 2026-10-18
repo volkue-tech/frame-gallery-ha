@@ -57,7 +57,9 @@ def evaluate(
 
 
 @pytest.mark.parametrize("machine", nf.ARCHES)
-@pytest.mark.parametrize("task", ["prepare", "inspect", "deliver", "observe", "verify_thumbnail"])
+@pytest.mark.parametrize(
+    "task", ["prepare", "inspect", "deliver", "observe", "observe_session", "verify_thumbnail"]
+)
 def test_all_native_network_decisions(machine: str, task: str) -> None:
     arch, socket_nr, pair_nr, ptrace_nr = nf.ARCHES[machine]
     rows = nf.program(machine, task)
@@ -71,7 +73,7 @@ def test_all_native_network_decisions(machine: str, task: str) -> None:
             for protocol in (0, 6, 17, 255):
                 expected = (
                     nf.ALLOW
-                    if task in ("deliver", "observe")
+                    if task in ("deliver", "observe", "observe_session")
                     and domain == 2
                     and kind & 0xF == 1
                     and protocol in (0, 6)

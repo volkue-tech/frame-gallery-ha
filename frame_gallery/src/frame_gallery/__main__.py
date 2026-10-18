@@ -65,7 +65,13 @@ from frame_gallery.ha.client import SupervisorHelperReader
 from frame_gallery.ha.current_artwork import CurrentArtworkPublisher
 from frame_gallery.isolation.apparmor import ProfileError
 from frame_gallery.isolation.executor import Executor
-from frame_gallery.isolation.process import DeliveryProcess, Launch, ProcessExecutor, ServiceInput
+from frame_gallery.isolation.process import (
+    DeliveryProcess,
+    Launch,
+    ProcessExecutor,
+    ServiceInput,
+    SessionProcess,
+)
 from frame_gallery.logs.redact import Redactor
 from frame_gallery.logs.setup import configure_logging, set_app_level
 from frame_gallery.logs.summary import format_summary
@@ -74,9 +80,10 @@ from frame_gallery.net.identity import ClientIdentity, project_identity
 from frame_gallery.net.transport import SystemResolver, Urllib3Transport
 from frame_gallery.net.wire import Resolver, Transport
 from frame_gallery.observer.backend import HostObserver
-from frame_gallery.observer.controller import Controller, SafetyPermit
+from frame_gallery.observer.event_backend import EventBackend
+from frame_gallery.observer.event_controller import EventController
 from frame_gallery.observer.model import Observation
-from frame_gallery.observer.service import serve
+from frame_gallery.observer.service import PublicationGuard, serve
 from frame_gallery.providers import aic, cma
 from frame_gallery.providers.aic import AicProvider, aic_policy
 from frame_gallery.providers.cma import CmaProvider, cma_policy
@@ -206,6 +213,7 @@ def background_main() -> int:
     store, lock = BindingStore(layout.data), ObserverLock(layout.data)
     executor = ProcessExecutor(launch, clock)
     observer = HostObserver(executor, layout.data, layout.media, options.tv_host, stopped=stopping)
+    session = SessionProcess(ProcessExecutor(launch, clock), clock.monotonic)
     previous = signal.signal(signal.SIGTERM, lambda _signum, _frame: stopped.set())
     try:
         lock.acquire()
@@ -213,16 +221,15 @@ def background_main() -> int:
             return REFUSED_EXIT_CODE
         owner = store.owner()
 
-        def publish(observation: Observation) -> None:
-            publisher.publish(
+        def publish(observation: Observation) -> bool:
+            return publisher.publish(
                 owner,
                 observation,
                 store.resolve(observation),
                 Deadline(clock, clock.monotonic() + 2, "current artwork"),
             )
-            if publisher.authorization_refused:
-                # Do not let a later explicit send retry the same rejected HA token.
-                stopped.set()
+
+        publication = PublicationGuard(publish, stopped.set)
 
         def send() -> int:
             before = observer.delivery_snapshot()
@@ -233,25 +240,26 @@ def background_main() -> int:
             # Never turn those into authorization to read a sleeping TV.
             return 1
 
-        controller = Controller(
+        controller = EventController(
             send=send,
-            observe=observer.read,
-            publish=publish,
-            now=clock.monotonic,
+            source=EventBackend(observer, session, clock.monotonic, policy=observer.event_policy),
+            publish=publication,
             claim=lambda command: store.claim(command, clock.utc_now().timestamp()),
-            permit=SafetyPermit(experimental=options.background_mode),
             stopped=stopping,
         )
         _log.warning(
-            "experimental background service ready; read-only connections may wake the TV; "
-            "checks start only after a successful explicit send"
+            "event background service ready; TV access requires an approved device-event profile "
+            "and a fresh explicit delivery; no polling or automatic reconnect"
         )
         serve(controller, incoming.receive, stopping)
     finally:
-        executor.terminate_all()
-        lock.close()
-        signal.signal(signal.SIGTERM, previous)
-    return REFUSED_EXIT_CODE if publisher.authorization_refused else 0
+        try:
+            session.stop()
+        finally:
+            executor.terminate_all()
+            lock.close()
+            signal.signal(signal.SIGTERM, previous)
+    return REFUSED_EXIT_CODE if publication.failed else 0
 
 
 def run_app(environ: MutableMapping[str, str], stream: TextIO, wiring: Wiring) -> int:

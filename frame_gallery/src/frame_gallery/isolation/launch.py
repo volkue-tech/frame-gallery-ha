@@ -125,6 +125,12 @@ PRODUCTION_TASKS: Final[Mapping[str, TaskEntry]] = {
     "observe": TaskEntry(
         "frame_gallery.tv.samsung_task", "observe_task", events=False, limits=TELEVISION_LIMITS
     ),
+    "observe_session": TaskEntry(
+        "frame_gallery.tv.samsung_task",
+        "observe_session_task",
+        events=True,
+        limits=TELEVISION_LIMITS,
+    ),
     "verify_thumbnail": TaskEntry(
         "frame_gallery.imaging.worker_tasks",
         "verify_thumbnail_task",

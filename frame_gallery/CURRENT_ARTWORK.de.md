@@ -2,34 +2,27 @@
 
 [English](CURRENT_ARTWORK.md) | Deutsch | [Français](CURRENT_ARTWORK.fr.md) | [Español](CURRENT_ARTWORK.es.md) | [Italiano](CURRENT_ARTWORK.it.md)
 
-**Öffentliche Beta b8. Vorhandene b7-Karten bleiben bei ausgeschaltetem
-Hintergrundmodus kompatibel. Experimentell und standardmäßig aus.**
-Auch lesende Verbindungen könnten einen schlafenden TV
-aufwecken. Automatisches Einschlafen ohne Bewegung ist noch nicht geprüft.
-Falls Aufwecken inakzeptabel wäre, diesen Modus ausgeschaltet lassen. Keine zusätzlichen Helfer,
-API-Schlüssel, HACS-Erweiterungen oder weiteren Apps nötig.
+**Beta b9: experimentell und standardmäßig aus.** Bestehende b7/b8-Bildkarten bleiben nutzbar. Auf Home Assistant Green/OS werden keine API-Schlüssel, zusätzlichen Helfer, HACS-Erweiterungen, Sonderrechte oder weiteren Apps benötigt.
 
-## Vorhandene Karten behalten
+Auch eine lesende Verbindung kann einen Fernseher aufwecken. Kontrollierte Tests erfassten automatische Bildwechsel und einen natürlichen Einschlafvorgang an einem Frame, nicht alle Modelle oder Firmwares. Falls jedes Aufweckrisiko inakzeptabel ist, Hintergrundmodus ausgeschaltet lassen.
 
-Ohne Hintergrundmodus bleiben Einmalbetrieb und Karten unverändert. Zum
-Ausprobieren den optionalen Hintergrundmodus aktivieren und die App neu
-starten. Start/Stop steuert dann den Dienst, nicht den Bildwechsel. „Beim
-Systemstart starten“ ist optional; ein Neustart sendet kein Bild. Nach Änderungen
-an App-Optionen die App neu starten.
+## Automatisches Bildgedächtnis
 
-Im vorhandenen `script.frame_gallery_new_artwork` nur den Inhalt durch das
-[vollständige Sende-Script](examples/background-send-script.yaml) ersetzen.
-Die Script-ID, Kamera und den Timer behalten. Vorhandene Karten und Automationen,
-die dieses Script aufrufen, funktionieren weiter. Direkte Aufrufe von
-`hassio.app_start` durch das Script ersetzen. Technische IDs und Befehlswerte
-bleiben Englisch. App-Slug und Timer-ID im Beispiel gegebenenfalls anpassen.
-Die automatisch erzeugte Anfrage-ID und Zeit nicht durch feste Werte ersetzen.
+Jeder erfolgreich ausgewählte Upload speichert automatisch TV-Bild-ID, Titel, Künstler und Quelle, auch bei **ausgeschaltetem** Hintergrundmodus. Keine IDs selbst eintragen. Die Zuordnung gehört zur tatsächlichen Geräteidentität, nicht nur zur IP-Adresse: dieselbe Bild-ID auf einem anderen TV bezeichnet nicht dasselbe Werk. Ein neuer erfolgreicher Upload ersetzt eine ältere Zuordnung für diesen TV/diese ID.
 
-## Optionale Informationskarte
+Die privaten App-Daten bleiben bei normalen Updates erhalten. Das Zurücksetzen des Auswahlverlaufs löscht keine Zuordnungen; eine Deinstallation mit Datenlöschung dagegen schon. Vor Neuinstallation eine App-Sicherung behalten. Gespeichert werden höchstens die neuesten 2.048 Upload-Zuordnungen und 32 MiB, plus eine Sicherungskopie. Die Bildreferenz ist nur eine kleine RGB-Probe mit 64×36 Pixeln, kein hochauflösendes Bildarchiv. Ältere bildgeprüfte Zuordnungen bleiben kompatibel.
 
-Eine manuelle Karte hinzufügen und diesen vollständigen Block einfügen.
-Die bestehende Bild-/Farb-/Künstlerkarte bleibt bestehen. Ihr Vorschaubild zeigt
-weiterhin das zuletzt gesendete Bild, nicht automatisch das aktuelle TV-Bild.
+Alte TV-Bilder, Uploads anderer Apps und Sendungen ohne stabile Geräteidentität bleiben unbekannt. Künstler werden nicht geraten; keine Cloud-Bilderkennung.
+
+## Optionale aktuelle Künstlerkarte einrichten
+
+1. Kamera, Timer, bestehende Karten und die Entitäts-ID `script.frame_gallery_new_artwork` behalten.
+2. **Hintergrundmodus** einschalten und die App neu starten. Start/Stop steuert jetzt den Dienst, keinen Bildwechsel. Optionaler Systemstart allein verbindet sich nicht mit dem TV.
+3. Nur den Script-Inhalt durch das [vollständige Hintergrund-Sende-Script](examples/background-send-script.yaml) ersetzen. App-Slug und vorhandene Timer-ID bei Bedarf anpassen. Aufrufende Karten funktionieren weiter; direkte `hassio.app_start`-Automationen auf das Script umstellen.
+4. Bei sichtbar eingeschaltetem Kunstmodus ausdrücklich ein neues Werk anfordern. Erst ein frischer erfolgreicher Sendevorgang mit gespeicherter TV-Zuordnung erlaubt eine experimentelle Ereignissitzung. Start/Neustart/Aktualisieren allein aktiviert sie nicht.
+5. Eine manuelle Dashboard-Karte mit dem **vollständigen** YAML unten ergänzen.
+
+Die bisherige Bild-/Farb-/Künstlerkarte zeigt weiterhin die **zuletzt gesendete Vorschau**, keinen Live-Screenshot. Diese zusätzliche native Karte zeigt davon getrennt die aktuelle Information.
 
 ```yaml
 type: markdown
@@ -39,43 +32,37 @@ content: >-
   {% if item is not defined or item is none %}
   Noch keine aktuellen Informationen verfügbar.
   {% elif item.state == 'artwork' and
-      as_timestamp(now()) - as_timestamp(item.last_reported, 0) < 90 %}
+      as_timestamp(now()) - as_timestamp(item.last_reported, 0) <
+      (900 if item.attributes.get('confirmation_method') == 'slideshow_events' else 90) %}
   **{{ item.attributes.get('display_title', '') }}**
 
   {{ item.attributes.get('display_artist', '') }}
 
   {{ item.attributes.get('display_source', '') }}
 
-  Zuletzt geprüft: {{ as_local(item.last_reported).strftime('%H:%M:%S') }}
+  Zuletzt bestätigt: {{ as_local(item.last_reported).strftime('%H:%M:%S') }}
   {% elif item.state == 'validation_required' %}
-  TV-Abfragen gesperrt. App-Protokoll prüfen und ausdrücklich ein Bild senden.
+  TV-Prüfung gesperrt. App-Protokoll prüfen und ausdrücklich ein Bild senden.
   {% elif item.state == 'checking' %}
   Bildvorgang läuft. Die aktuelle Anzeige ist noch nicht bestätigt.
   {% elif item.state == 'unidentified' %}
-  Das angezeigte Kunstwerk ist noch nicht zugeordnet.
+  Für das angezeigte Kunstwerk ist keine Zuordnung gespeichert.
   {% else %}
-  Aktuelles Kunstwerk nicht bestätigt. Der TV ist eventuell nicht erreichbar oder die Abfrage pausiert.
+  Aktuelles Kunstwerk nicht bestätigt. Der TV ist eventuell nicht erreichbar oder die Sitzung pausiert.
   {% endif %}
 ```
 
-Der HA-Zustand ist keine registrierte Geräteintegration. Nach einem HA-Neustart
-kann er vorübergehend fehlen; nach einem App-Ausfall veralten. Die Karte blendet
-unbestätigte Titel aus und kann etwa eine Minute zusätzliche Anzeigeverzögerung
-haben. Unbekannte alte TV-Bilder bleiben ohne Zuordnung. Den Verlauf dafür
-nicht löschen. Eine Cloud-Bilderkennung wird nicht verwendet.
+## Bestätigung und Grenzen
 
-Nach dem Script-Wechsel **bei eingeschaltetem Kunstmodus ein neues Bild
-anfordern**. Erst erfolgreiches Senden aktiviert die Abfragen etwa alle 30
-Sekunden. Start/Systemstart/Neustart allein verbindet sich nicht mit dem TV.
-Die erste Abfrage merkt sich die Geräteidentität; ein anderes Gerät an derselben
-Adresse wird abgelehnt. Fehler oder inaktiver Kunstmodus pausieren ohne
-Neuverbindung. Zum Fortsetzen den TV selbst in den Kunstmodus bringen und
-ausdrücklich ein weiteres Bild senden; reines Aktualisieren aktiviert nichts.
-Zum Zurückwechseln den Modus deaktivieren, neu starten und das ursprüngliche
-Einmal-Sende-Script wieder einsetzen. Nicht Verlauf oder Gerätezuordnung löschen.
+Eine Sitzung dauert höchstens acht Stunden und endet bei Einschlafen, TV-Betrieb
+oder Fehlern früher. Beim erneuten Aufwachen wird sie nicht heimlich fortgesetzt.
 
-Ein echter Kunstmodus-Abgleich mit Bildvergleich und Titel/Künstler-Anzeige
-wurde geprüft, aber nicht das automatische Einschlafen, alle Moduswechsel oder
-das langfristige Recorder-Wachstum. Der Beobachter sendet keine Power-,
-Wake-on-LAN- oder Kunstmodus-Änderungen. Trotzdem könnte bereits die Verbindung
-einen TV aufwecken. Eine sichere automatische Wiederaufnahme wird nicht versprochen.
+Nach einer anfänglichen Abfrage mit lokalem Bildvergleich hört eine einzige Verbindung auf die beobachtete Diashow-Folge: `image_selected`, passendes `auto_rotation_image_changed`, danach Kunstmodus `on`, innerhalb von fünf Sekunden. Keine wiederholten TV-Abfragen alle 30 Sekunden, späteren Vorschaubilder oder automatischen Neuverbindungen. Ein Ereignis löst die gespeicherte Upload- oder bildgeprüfte Zuordnung dieses TVs auf; unbekannte IDs leeren den Text.
+
+Der anfängliche Bildnachweis gilt 90 Sekunden. Eine vollständige Diashow-Folge gilt höchstens **15 Minuten**, passend zur getesteten Zehn-Minuten-Diashow. Doppelte IDs, Pongs und Modus-an-Meldungen verlängern nichts. Langsamere Diashows können Lücken zeigen; manuelle Wechsel müssen diese Folge nicht liefern. Die Vorlage kann etwa eine Minute Anzeigeverzögerung hinzufügen.
+
+Einschlafen, TV-Betrieb, Verbindungsabbruch, ungültige Ereignisse oder Publikationsfehler beenden/pausieren ohne Neuverbindung. Zum Fortsetzen den TV selbst in den Kunstmodus bringen und ausdrücklich ein weiteres Werk senden. Aktualisieren verarbeitet nur bereits empfangene Ereignisse. Der Beobachter sendet keine Power-, Wake-on-LAN-, Bildauswahl- oder Modusbefehle. Trotzdem kann bereits die Verbindung Nebenwirkungen haben.
+
+Gespeicherte IDs sind historische Zuordnungen, kein fortlaufender Pixelnachweis. Unbeobachtetes externes Ersetzen/Wiederverwenden einer TV-ID ist während reinen Ereignisempfangs nicht auszuschließen. Ein widersprechender anfänglicher Bildvergleich sperrt die gespeicherte Bildunterschrift. Keine allgemeine Firmware-/Nichtaufweckgarantie (D-235).
+
+Der Sensor ist ein von der App publizierter HA-Zustand, keine registrierte Geräteintegration; nach einem Core-Neustart kann er vorübergehend fehlen. Veraltete/pausierte Daten blenden den Titel aus. Zurück zum Einmalbetrieb: Hintergrundmodus aus, App neu starten und ursprüngliches Einmal-Sende-Script wieder einsetzen. Nicht Verlauf oder Gerätezuordnung löschen, um eine Verbindung zu erzwingen.

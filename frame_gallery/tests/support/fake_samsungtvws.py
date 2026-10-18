@@ -168,7 +168,15 @@ def make_art_class(script: Script, record: Callable[[str], None], ws: Any) -> ty
             self.key_press_delay = key_press_delay
             self.name = name
             self.connection: FakeConnection | None = None
+            self._rest = SimpleNamespace(
+                rest_device_info=lambda: {
+                    "device": {"id": "uuid:synthetic-delivery-tv", "FrameTVSupport": "true"}
+                }
+            )
             record(f"init:{host}:{port}:{timeout}:{key_press_delay}:{name}")
+
+        def _get_rest_api(self) -> Any:
+            return self._rest
 
         def supported(self) -> bool:
             record(f"supported:{self.timeout}")
@@ -183,6 +191,8 @@ def make_art_class(script: Script, record: Callable[[str], None], ws: Any) -> ty
                 raise exceptions.ResponseError(PARSE_FAILURE)
             if outcome == "weird":
                 raise AttributeError("'list' object has no attribute 'get'")
+            # Exactly the library's existing capability read, not another request.
+            self._get_rest_api().rest_device_info()
             return outcome == "yes"
 
         def open(self) -> FakeConnection:

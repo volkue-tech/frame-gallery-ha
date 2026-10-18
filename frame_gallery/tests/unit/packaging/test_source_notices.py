@@ -91,7 +91,7 @@ def test_alpine_original_notices_match_source_manifest_and_retained_bytes() -> N
     archives = {row["filename"]: row for row in sources["sources"] + sources["recipes"]}
     assert manifest["schema"] == 1
     texts = manifest["texts"]
-    assert len(texts) == 111
+    assert len(texts) == 112  # b9 retains Expat 2.9.0 and the previous 2.8.5 notice
     assert len({row["path"] for row in texts}) == len(texts)
     for row in texts:
         path = LICENSES / row["path"]

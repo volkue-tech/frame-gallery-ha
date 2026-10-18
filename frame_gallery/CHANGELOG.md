@@ -1,5 +1,29 @@
 # Changelog
 
+## 0.1.0b9 (public beta candidate)
+
+- Automatically remember title, artist, source and TV image ID after every
+  selected upload, even with background mode off. Associations are per actual
+  television identity, not just an IP address, and survive normal app updates.
+  Bounded atomic storage and compact local image references; no user-managed IDs.
+- Replace repeated background queries with one finite event session after a
+  fresh explicit send. Automatic slideshow events can show the saved artist
+  and title; unknown older TV images stay unidentified rather than borrow text.
+  No post-baseline image requests, polling, automatic reconnect or power/mode
+  setters. Boot/restart/refresh alone never starts a TV session.
+- Background mode remains experimental, optional and OFF by default. Controlled
+  private tests covered slideshow changes and one natural-sleep episode on one
+  Frame, not all models/firmwares. A connection may still wake a television.
+  Unobserved external reuse of an image ID is an event-only attribution limit.
+- Keep existing camera, timer, script ID and cards. Optional current-artwork
+  native card and setup/script instructions in English, German, French,
+  Spanish and Italian. No new Green permissions, helpers, dependencies or
+  configuration.yaml changes. Last-upload preview stays separate from current TV.
+- Native ARM/Intel and publication verification are pending for this candidate;
+  earlier private snapshots are not a changed-candidate hardware pass.
+- Pin Alpine's transitive libexpat 2.9.0-r0 and retain its exact MIT licence,
+  source and recipe evidence; all Python dependency versions remain unchanged.
+
 ## 0.1.0b8 (public beta)
 
 - Optional **experimental background mode**, off by default. Read-only TV

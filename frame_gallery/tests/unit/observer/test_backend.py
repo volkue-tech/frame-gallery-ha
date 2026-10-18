@@ -68,6 +68,7 @@ class Rig:
             "format": "frame-gallery-current",
             "version": 1,
             "tv_content_id": "MY_TEST",
+            "tv_target_sha256": hashlib.sha256(str(HOST).encode("ascii")).hexdigest(),
             "id": "commons:123",
             "sha256": "c" * 64,
             "attribution": {"title": "Synthetic work", "creator": "Synthetic Artist"},
@@ -149,6 +150,8 @@ def test_concurrent_upload_or_wrong_preview_never_creates_a_caption(tmp_path: Pa
         {"sha256": None},
         {"format": "wrong"},
         {"version": 2},
+        {"tv_target_sha256": "b" * 64},
+        {"tv_target_sha256": None},
     ],
 )
 def test_unknown_or_legacy_records_are_not_guessed(
@@ -317,3 +320,32 @@ def test_fresh_record_needs_a_valid_tv_id(tmp_path: Path, content_id: object) ->
     rig.save()
     assert not observer.after_delivery(b"")
     assert rig.executor.calls == []
+
+
+@pytest.mark.parametrize("target", [None, "", "x" * 64, "b" * 64])
+def test_send_to_missing_or_other_target_never_arms_old_tv(tmp_path: Path, target: object) -> None:
+    rig = Rig(tmp_path)
+    observer = HostObserver(rig.executor, rig.data, rig.media, HOST)
+    rig.record["tv_target_sha256"] = target
+    rig.save()
+    assert not observer.after_delivery(b"")
+    assert observer.read().status is Status.VALIDATION_REQUIRED
+    assert rig.executor.calls == []
+    assert TargetStore(rig.data).targets() == {}
+
+
+def test_target_proof_parses_the_same_snapshot_not_a_second_file_read(
+    tmp_path: Path, monkeypatch: pytest.MonkeyPatch
+) -> None:
+    rig = Rig(tmp_path)
+    observer = HostObserver(rig.executor, rig.data, rig.media, HOST)
+    receipt = observer.delivery_snapshot()
+    assert receipt
+    rig.record["tv_target_sha256"] = "b" * 64
+    rig.save()  # a subsequent write must not change the already-read receipt
+    current = rig.data / "state" / "current.json"
+    after_write = current.read_bytes()
+    monkeypatch.setattr(observer, "delivery_snapshot", lambda: receipt)
+    assert observer.after_delivery(b"previous receipt")
+    assert rig.executor.calls == []  # this local decision does not connect
+    assert current.read_bytes() == after_write

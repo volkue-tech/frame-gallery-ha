@@ -1,5 +1,481 @@
 # Decision log
 
+## D-236 — pin the observed Expat build dependency and retain exact MIT evidence
+
+The first b9 ARM container inventory on 2026-10-18 rejects libexpat 2.9.0-r0:
+Alpine's moving repository updated this transitive Python dependency since b8.
+Do not weaken H4 or publish with stale 2.8.5-only notices. Official v3.24 package
+metadata and aports commit c10df79ce35862cf273f98f6eb78d52e4f064ac7 identify
+2.9.0-r0/MIT. The retained 534052-byte source archive SHA512 matches that exact
+recipe; SHA256 1e6371862cc31999b368c3b89b49994f0677e1bab5f1b2b85ae3741f5d803051.
+Pin libexpat=2.9.0-r0 in both existing interpreter installation stages. Retain
+the original COPYING, recipe and source hashes alongside b8's older evidence;
+regenerate the shipped bundle mechanically. No upstream source is executed.
+This is technical provenance/license evidence, not qualified legal advice or
+binary reproducibility certification. Repeat all candidate/container gates.
+Source: https://pkgs.alpinelinux.org/package/v3.24/main/x86_64/libexpat
+
+## D-235 — complete per-device delivery associations and current artwork feature
+
+User authorizes local implementation/offline tests of successful-send mappings
+in one-shot mode too, then asks for the coherent end-to-end feature rather than
+individual storage steps. Green/HAOS must retain normal protected-app packaging;
+no new access, configuration.yaml edits, TV connections or user-managed IDs.
+The later explicit request authorizes beta build/publication after green tests,
+superseding this round's earlier no-publication restriction, not b8 OFF or the
+prohibition of additional live TV connections during implementation.
+
+Capture device identity from the already performed delivery capability read,
+never make a second request to learn it. Store confirmed-selection metadata
+per actual device+upload ID, with target consistency hash, exact delivery digest
+and explicit confirmed-upload provenance, independently of last-preview/history
+and background enablement. Persist after selected even if later preview/history
+publication fails or cancellation skips the preview. Bound and atomically write
+the new archive; keep legacy image-verified association documents readable.
+Unknown/missing identity or failed writes must not manufacture a verified match.
+
+Historical upload correspondence and fresh current-display confirmation are
+different claims. Same-device confirmed event ID lookup may reuse genuinely
+acknowledged uploads, never the last caption or another TV's same numeric ID.
+Keep identity/schema/freshness/disarm guards and no-reconnect behaviour. Any
+new provenance is explicit; no fabricated TV thumbnail hash. Hardware tests of
+old frozen private apps remain old evidence, not a changed-candidate live pass.
+
+The complete beta must not require installation-specific device hashes or a
+hand-edited profile. Default background remains OFF. Within the opted-in
+service only, a fresh successful Frame-supported send with its actual captured
+device identity and exact persisted receipt may grant ONE experimental session
+using the observed strict slideshow contract. Consume this in-memory grant;
+boot, refresh, cached metadata, identity mismatch or a failed receipt never
+grant it. Unknown firmware/protocol ends safely without reconnect or attribution.
+This supersedes the old empty-profile-only gate for that narrowly delivery-backed
+experimental path, not a claim of universal sleep/firmware validation. The
+reviewed no-wake profile registry stays empty and personal TV IDs are not shipped.
+Fresh explicit successful delivery may replace that address's old pin, using
+the observed actual device identity; observation itself still cannot repin.
+
+## D-234 local regular-service integration and final checks, 2026-10-18
+
+The user authorizes completing the remaining checks/integration autonomously,
+keeping b8 off and actual cards intact. Native ARM/Intel validation is deferred
+to the later release round at the user's explicit request; no GitHub access,
+candidate push, registry write or publication in this round. No new TV session
+starts without fresh physical Art-Mode/readiness confirmation. Existing frozen
+private test snapshots remain untouched and must not be presented as the exact
+new candidate after runtime changes.
+
+Complete local regular-entry integration coverage, without hardcoding the user's
+personal device identity or enabling the empty production policy table. Preserve
+successful explicit-send gating, pinning, old records/card IDs and one-shot mode.
+Use a bounded hashed target receipt in new background current records so a send
+to a changed configured address cannot arm a listener to the previous target.
+The digest is a consistency check, not address anonymization/security proof.
+Missing/legacy/mismatched target receipts cannot arm observation; existing
+associations/history and last-delivery information remain readable unchanged.
+
+Any current-state publication failure, including ownership collision or network
+failure, stops the service/observer and latches further publication attempts.
+No later explicit command retries the rejected state write in that service.
+Decode only the exact captured unsolicited go_to_standby shape under the already
+observed slideshow policy; clear metadata, close and pause normally without any
+getter, response setter or reconnect. Unknown/extra/correlated shapes still fail
+closed. Offline replay/integration coverage does not replace a live known-work
+automatic transition or certify broad hardware sleep safety/profile compatibility.
+
+Later in this round the user explicitly defers the targeted known-work live
+test. The described private-app-only update/five-minute HA-only source transfer
+is approved for that later controlled test, not a current TV session or public
+source exposure. No transfer, HA update or device connection is performed now;
+fresh visible-Art-Mode readiness remains required before the later session.
+
+## D-233 final-validation authority and sleep-control conditions, 2026-10-17
+
+User approves the remaining bounded validation round autonomously where
+practical, b8 off/actual cards intact and no publication. This covers preparation,
+normal HA cached-state reads/template-only compatibility and separately fresh
+human-armed private tests; it is not permission for publishing candidate sources,
+registry/CI publishers, TV power/image/mode changes, production activation or
+unbounded monitoring. Mac/daemon ARM cannot certify native Intel, and old b8
+checks cannot certify a changed candidate. Keep native evidence honest/separate.
+
+Quiet conditions are available only from around 23:00 local. User does not know
+sleep minutes and suspects brightness: retain current settings, first measure
+an app-off reference and then compare comparable light/absence with one bounded
+session. Samsung documents no-motion Sleep After separately from darkness Night
+Mode; unknown cause stays unknown. No fixed timeout or no-motion pass is inferred.
+If reference exceeds the existing lab5 window, report inconclusive and scope any
+test-harness update explicitly, never silently lengthen/reconnect. One quiet
+cycle alone does not establish repeatable no-wake/no-sleep-delay across modes.
+No automatic test starts at 23:00; fresh physical readiness remains necessary.
+Source: https://www.samsung.com/uk/support/tv-audio-video/how-to-use-art-mode-on-the-frame-tv/
+
+Bounded overnight outcome (October 17–18): the app-off reference naturally went
+dark, followed by fresh human movement-wake/visible-Art-Mode readiness for one
+private lab5 session. The TV sent unsolicited go_to_standby then socket close
+at 00:03:34 local while the listener was still open; no manual early stop was
+performed. Worker reaped and published paused without reconnect or post-baseline
+application request. The user physically confirmed naturally dark; Samsung off
+and later 0.71 W corroborated it. No re-on was recorded in the bounded passive
+tail ending 00:08:22. Cleanup separately verified disarmed/stopped/b8 off/cards
+exact, own logins revoked and own collector/assertion ended. This is one positive
+natural-sleep/no-reconnect episode, not proof of equal sleep delay, identified
+no-motion trigger, all sleep modes or general/repeatable no-wake safety. Timing
+anchors differed from the app-off reference, so do not infer unchanged latency.
+Production profiles remain empty; regular-service/native candidate and live
+known-artist automatic-transition gates are not passed by this sleep episode.
+Nothing was published. Exact evidence is under build/sleep-active-20261017/.
+
+## D-233 known-artwork validation follow-up authority, 2026-10-17
+
+The user now authorizes transferring existing verified per-TV associations into
+the separate test app and controlled testing with known artworks. This does not
+authorize starting b8, changing actual cards, TV power/image/mode setters,
+publication or a production profile. Use only the binding document's original
+validated fields for the pinned TV, no tokens, ownership/history/config copy,
+last-caption guesses or manufactured association. Reuse installed lab5's import
+field within its documented bounds; if a broader source-access step is needed,
+resolve that scope first. Fresh visible Art-Mode readiness is still required
+before each approved finite device test; prior no-anomaly observations are not
+sleep/no-wake proof. Current progress belongs in STATUS.md/TASKS.md.
+
+Source-access amendment: the existing protected terminal exposes neither Docker
+nor its socket. The user explicitly permits creating an HA-local, unencrypted
+partial backup solely of stopped b8 and reading only artwork-bindings.json from
+it. Keep the backup on HA, no whole credential-bearing archive download, restore,
+protection/permission change or source-app start. Only the canonical-hash-checked
+original nine association fields are transferred into lab5; its owner stays its
+own and test_ticket remains disarmed until fresh known-work readiness.
+
+Known-work outcome: a fresh human-confirmed Wien-panorama session proved the
+original thumbnail digest and actual exact artist/title HA publication; 90s
+expiry removed old metadata. One channel/five initial getters, no follow-up
+application request/setter/reconnect. It was stopped/reaped/disarmed with genuine
+binding retained, b8 off/cards exact. The short run contained no automatic change;
+do not turn initial-thumbnail known-caption coverage into live event-known or
+natural-sleep/no-wake proof. The user subsequently confirms the Wien panorama
+and Art Mode remained unchanged without anomalies during this bounded test.
+No further session or production/publication authority is implied.
+
+## D-233 private multi-cycle validation amendment, 2026-10-17
+
+Subsequent user authority permits updating the already-installed separate local
+test app and controlled observation of several automatic slideshow changes.
+The user explicitly accepts unidentified old TV artworks without artist data.
+Use the same existing private sensor, never mutate actual cards or turn b8 on.
+One fresh human-armed finite session may inject the captured strict contract for
+this pinned TV; the reviewed production-policy table remains empty. No image,
+power or mode setters, follow-up getters, reconnects, publication or sleep-safety
+claim. A separate bounded cached HA subscription is passive toward the TV.
+Only previously image-verified exact-TV associations may supply artist data;
+the isolated private store is not automatically the production app's store.
+Installation/transfer and actual test outcomes must be recorded separately from
+the passing offline checks. Maximum observer window is 1500 seconds.
+
+Private validation outcome: two exact automatic triples ten minutes apart and
+their actual HA publications were captured on one connection with only the five
+initial getters. Unknown metadata remained empty, stop/reaping/disarm and exact
+card/b8 preservation were verified. The user subsequently confirms both physical
+automatic changes and continued Art Mode without anomalies. The isolated store
+had no known bindings, so known-artist display and natural sleep/no-wake remain
+open. No production profile, new device session or publication follows. Detailed
+times and evidence are in STATUS.md and the ignored private lab5 build folder.
+
+## D-233 — event-confirmed slideshow attribution, local/offline only (2026-10-17)
+
+The user explicitly authorizes implementation/offline tests of current artist
+display based on the captured, physically confirmed automatic-slideshow events.
+b8 remains off/cards intact; no more live connections, install/build or release.
+Use the complete matching selected/shown + automatic rotation + on triple, not
+nav or a bare ID query. Its exact schema is an injectable internal policy; keep
+the production profile registry empty pending further hardware/sleep gates.
+
+The trusted host corroborates order/equal IDs within five seconds and consults
+only prior image-verified associations for that same TV. Unknown works carry
+no artist, with no last-caption fallback. Never write a mapping or claim a new
+thumbnail from these events; Evidence.SLIDESHOW and publication metadata expose
+the distinction. Undetected deletion/reuse/replacement of a TV ID cannot be
+identified by this event evidence alone. This narrowly amends D-231's blanket
+no-attribution-after-ID-change rule; D-232 bare diagnostic IDs remain insufficient.
+
+Baseline proof retains its 90-second age; a complete changed-ID triple gets at
+most 15 minutes from receipt, enough for the observed ten-minute slideshow.
+This is an explicit local freshness design, not measured multi-cycle reliability.
+Expiry clears metadata but does not kill the receiver needed for a later event.
+Incomplete sequence times out; selection/nav invalidate; off/unknown/error closes.
+Duplicate IDs/on/pongs never renew proof. No additional application requests or
+connections, no pairing/retry/polling or image transfer after the initial proof.
+
+Old JSON shape, binding/history/current files and actual cards remain unchanged.
+The new optional complete card examples in EN/DE/FR/ES/IT understand event age
+900 with old-snapshot fallback 90; existing installed templates retain their old
+shorter age check and are not rewritten. Exact one-WebSocket/five-getter counts,
+multiple synthetic ten-minute cycles, unknown/mismatched/stale data, metadata
+escaping/ownership and cleanup are tested offline. Results go in STATUS.md;
+no existing single-transition hardware result is broadened into a no-wake pass.
+
+Completed local/offline implementation and manual lifecycle/attribution review:
+5606 tests passed, 16 platform skips, strict host/Linux typing over 286 files,
+Ruff/format and 100% whole/mandatory line and branch coverage. Source fingerprint
+and exact preservation of all four private snapshots are recorded in STATUS.md
+and build/slideshow-events-offline-20261017/. Actual installed-library tests
+use socketpairs, not TCP/HA/TV; authored multiple-cycle tests are not hardware
+evidence. No live profile, device/credential/browser access, build or publication.
+
+## Lab4 automatic slideshow protocol evidence, 2026-10-17
+
+After explicit user confirmation of a ten-minute slideshow, one bounded private
+session captured an actual unsolicited ID change at 13:14:50 local. Exact order:
+image_selected with content_id MY_F0118 and is_shown Yes;
+auto_rotation_image_changed with current_content_id MY_F0118 and type
+shuffleslideshow; art_mode_changed with status on. All three arrived over the
+same initial-proof-pinned connection, without post-baseline requests. Initial
+ID was MY_F0015. This is direct device evidence of a slideshow-ID notification,
+distinct from the earlier manual nav event. Retain both field names verbatim;
+do not alias nav to on or assume manual and automatic sequences identical.
+
+The private diagnostic ended at its finite deadline and reaped/paused, then
+ticket disarmed/app stopped. b8 remains off, cards exactly unchanged; companion
+HA capture ended/revoked its own login. Full trace is retained privately with
+hash and time/scope in STATUS.md. Actual-log offline replay passes three tests.
+No production registry/schema was changed, no ID-to-artist association guessed,
+no live repetition or publication. The user subsequently confirms the automatic
+physical artwork change and unchanged Art Mode without anomalies. Multi-cycle
+evidence, stricter schema/correlation/invalidation review and natural
+sleep/no-wake behaviour remain distinct gates. The captured automatic event
+already carries the new ID, so a subsequent implementation should assess this
+path before adding another getter; this is a diagnostic finding, not automatic
+permission to amend the production proof/freshness rules.
+
+## Private lab4 sequence-capture scope, 2026-10-17
+
+The user authorizes broader local diagnostic recording to reduce repeated tests.
+Use one finite connection in the separate app, retaining decoded/sanitized
+inbound messages and initial read requests across several manually selected
+works. Ten-minute maximum, one fresh single-use ticket, unchanged initial
+identity/double-mode/current-ID/thumbnail proof, then zero application sends.
+Do not stop at nav or reinterpret it as on; unknown valid messages are evidence,
+not production authority. Existing frame/partial-frame/rate/isolation limits
+remain, plus 256 trace records/512 KiB total/8 KiB per sanitized row and explicit
+omission indicators. Credentials, credential-bearing URLs and image/binary
+payloads are excluded; no unrelated household packet capture. On malformed
+framing, cap/deadline, cancellation or explicit mode-off, close without retry.
+Transport-only bounded server-pong/close is permitted, no client keepalive ping.
+
+A separate finite HA normal-API collector subscribes only to existing related
+Frame entity states/attributes and the already identified TV power sensor,
+without integration refresh/service call or device connection. Its exact known
+credential is loaded only after public manifest connectivity succeeds; its own
+temporary login is revoked at exit. b8 remains stopped/background off, existing
+cards unchanged, production registry empty, no publication. Initial ID evidence
+does not establish continuing displayed-artwork freshness. The user separately
+approved the same five-minute single-HA-IP source transfer. Offline tests and
+subsequent live evidence are distinguished in STATUS.md.
+
+The user subsequently clarifies real use is the TV's automatic slideshow, with
+a minimum ten-minute interval. Manual event behaviour is not proof of slideshow
+behaviour. Await the user setting that interval/running confirmation; prefer an
+automatic transition in the finite lab4 capture rather than resetting its timer
+with manual selections. The approved ten-minute limit is unchanged: two full
+cycles need a separately scoped longer capture. No app-driven slideshow change
+or new live TV connection follows from this planning clarification.
+
+## Private lab3 status-field diagnostic authorization, 2026-10-17
+
+User-approved targeted capture after lab2's redacted non-on/off value: update
+only the separate test app; fresh human Art-Mode readiness before one bounded
+session. Retain b8 off, existing cards and no publication. This is diagnostic
+instrumentation, not an amendment to D-232's production event semantics.
+Lab3 opts out of all post-baseline ID requests, captures JSON type plus one
+bounded scalar status from the exact known unsolicited event/status envelope,
+and immediately ends. No nested/raw event, URL, credential or unlimited string
+is exported. Even literal on/off is only recorded, never used as query authority.
+Same initial byte/device/mode proof and worker isolation, finite ticket/session,
+stop/reap, no reconnect/setters. The separately approved short transfer remains
+single-HA-IP restricted. Private implementation passes 116 focused offline tests;
+live evidence and physical state must be recorded separately, not inferred.
+
+Lab3 was installed/protected with inert no-TV start and empty production registry;
+after fresh human Art-Mode/start confirmation, one bounded session at
+12:43:17–12:44:03 local verified initial MY_F0175 but received no event/status.
+The user confirms the change happened only after the window and Art Mode
+remained without unexpected power/playback changes; there was no in-window
+controlled transition. No firmware/event-support or value conclusion is drawn.
+Worker reaped/paused, ticket disarmed/app
+stopped, b8 stopped/background off and exact dashboard preservation verified.
+No extra ID query, setter, automatic repeat, production alias or publication.
+Evidence and hashes are in STATUS.md and build/event-status-live-20261017/.
+
+On a subsequent fresh human Start, a second unchanged lab3 session at
+12:47:31–12:47:52 local used an immediate-final post-baseline change signal.
+Initial MY_F0176 proof passed; user confirms a new work visible/still Art Mode.
+One art_mode_changed/event+status notification contained exact JSON string nav,
+length three. The targeted value capture succeeded; no claim about the earlier
+redacted value or nav's precise display/mode semantics. Lab3 stops at the first
+event, so it did not record later event sequence or query the changed ID.
+No additional ID request/setter/reconnect; reaping/paused publication,
+disarmed/stopped state, b8 off and exact dashboard preservation verified.
+Do not alias nav to on or enable a production policy from this observation.
+The same-socket ID-query, event-sequence/completeness and no-wake gates remain
+open. Further live work requires its own scope/authority; nothing published.
+
+## D-232 — one bounded event-triggered ID request on the existing socket
+
+User-authorized 2026-10-17 for local implementation/offline tests only. No live
+connection, installed-app update, build, b8 reactivation or publication. D-231
+remains the baseline; this is a narrow opt-in internal-policy exception to its
+receive-only phase. The production policy registry stays empty.
+
+Following initial byte/device/Art-Mode proof, one strictly validated mode-on
+notification may trigger at most one get_current_artwork request per session,
+directly on the existing bounded websocket. Exact selected event/value-field
+schema (including the observed status key shape), no heuristic value matching.
+Real status values/reply schema still need separate hardware validation.
+Mode-off still ends, never remains connected to await later on. Expired initial
+image proof cannot trigger a request. A one-shot
+request has a fixed five-second reply budget and exact nonce correlation;
+unknown/mutation/error/late replies fail closed. Duplicate on cannot repeat or
+extend the request. Existing frame/cancel/worker isolation bounds apply.
+
+Worker emits invalidation before probing; host clears the old attribution on
+receipt, without a synchronous HA acknowledgement before the send, and permits
+only bounded checking until completion, then pauses. ID-only results are diagnostic, not current
+artist/title proof, including same/previous IDs. No thumbnail, binding update,
+proof-age renewal, timer retry, fallback polling or reconnect. The existing
+cards and one-shot path are unchanged.
+
+Completed locally with manual transport/lifecycle review and unchanged offline
+gates: 5562 tests passed, 16 platform skips, strict host/Linux typing of 283
+files, 100% whole/mandatory line and branch coverage. The same Python-input hash
+was verified before/after the final run; evidence is recorded in STATUS.md and
+build/event-id-probe-20261017/. No live/build/publication step occurred, the
+frozen private Event Lab snapshot is unchanged and no hardware safety claim
+follows. Actual status values, ID reply schema and sleep behavior remain gates.
+
+Subsequent user authority permits only a separate local Event Lab update and
+controlled awake-Art-Mode validation, retaining cards/b8 off and no publication.
+The specifically renewed five-minute/IP-restricted source transfer completed and
+was stopped. Private lab2 (821a6961a71ef75575bebe2c35fc9c0df773030c)
+is installed with its own protected AppArmor profile and inert boot. Its harness
+calls the actual D-232 session/query implementation and bounds one capture to
+45 seconds; production policies remain empty. The first lab2 capture at
+11:22:00–11:22:47 local verified initial MY_F0176 but received no event, attempted
+no follow-up query and ended/reaped/paused correctly. The user subsequently
+confirmed the change happened only after the window and no unexpected power or
+playback change occurred during the session. There was no in-window controlled
+transition, so the event-triggered query remains unvalidated. The saved ticket
+is disarmed, app stopped, b8 stopped/background off and exact dashboard hash
+unchanged. No automatic retry, new profile or publication is authorized by that
+quiet capture. Detailed receipts/log hashes are in STATUS.md and the private
+build/event-id-live-20261017/ evidence.
+
+After a fresh explicit human Start/readiness, the second lab2 capture ran
+12:15:47–12:16:09 local. Initial MY_F0181 byte proof passed and the user was
+signalled to change artwork, subsequently confirming a different work visible.
+One art_mode_changed/event+status notification arrived, but its status was not
+exact on/off. The diagnostic redacted it to other (not a literal firmware value),
+so its actual value/type is unknown. Strict decoding ended unavailable without
+an ID query/retry/reconnect. Reaping, paused publication, disarming/stopped app,
+b8 stopped/background off and exact dashboard preservation were verified.
+No production-profile amendment follows: clarify exact bounded status semantics
+before any separately authorized repeat. Event-triggered ID detection and
+natural-sleep safety remain unvalidated. The user subsequently confirmed Art
+Mode remained without unexpected power or playback changes after the manual
+transition. This awake controlled-test report does not prove no-wake safety.
+
+## Safer current-artwork observation planning 2026-10-17
+
+### D-231 — propose one bounded Art session and event-first observation
+
+Status: **local implementation/offline tests completed 2026-10-17; subsequent
+separate local Event Lab installation and controlled device tests authorized.
+Public b8 reactivation and publication remain prohibited.** Following
+unexpected television playback during the b8 trial,
+background mode was saved off and the app stopped. Cause is unproven. The user
+requires no further TV connection while planning a design that must neither
+wake the TV nor change its mode.
+
+Later test authority is limited to the separate diagnostic app, with existing
+cards untouched and b8 stopped/background off. Start is inert unless a fresh
+single-use ticket explicitly requests one bounded discovery session. The first
+test is read-only while the user confirms observed Art Mode; no power/mode/image
+setter. This may discover real event fields, not grant a production profile or
+remove freshness/sleep gates. The test app uses read-only media and a distinct
+diagnostic entity; no raw response, pairing token or image bytes are logged.
+
+First private native capture, 2026-10-17: after a fresh human Art-Mode report,
+the separate 9357e71f_frame_gallery app ran one 45-second read/listen budget
+(10:04:05–10:04:52 local including startup/publication). Initial pinned identity,
+Art Mode and ID/thumbnail proof passed for MY_F0183. No unsolicited event was
+received; that quiet baseline is not event-completeness evidence. Worker reaping
+and paused publication succeeded. The app is stopped/ticket disarmed, b8 remains
+stopped/background false, and the exact existing dashboard digest is unchanged.
+The user physically confirmed unchanged artwork/Art Mode with no other anomaly.
+Controlled transition and natural-sleep tests remain open; the awake baseline
+does not prove no-wake safety.
+No production profile, continuous artist claim or publication follows from this.
+
+Second explicitly coordinated capture, 10:19:16–10:20:03 local: the user chose
+another artwork after the baseline/start signal and confirmed a different image.
+Two unsolicited art_mode_changed notifications had event/status body fields,
+not the synthetic value-field schema; no new content ID was received. Status
+values were not collected, and no subsequent ID query was made. This proves a
+real notification channel, not complete image-change/invalidation coverage.
+The app is stopped/disarmed, worker reaped and existing dashboard unchanged.
+Same-socket event-triggered reads remain only a separately reviewed possible
+follow-up; no polling fallback, live profile or reactivation is authorized by
+this observed partial coverage.
+
+Implementation contract: a dedicated SessionProcess reuses the real worker
+bootstrap and TV-only security/resource policy, with bounded JSON/event queues,
+cancellation pipe, graceful-close attempt and nonblocking kill/reap coordination.
+EventController replaces periodic Controller in actual service wiring. No
+software-reviewed device/event policy exists yet; the immutable registry is
+empty, so ordinary opt-in, boot, refresh and even a successful explicit delivery
+cannot enable a real observer. No profile option/stdin bypass is added.
+
+Only a profile-injected offline session may bootstrap one identity/mode/ID/
+thumbnail proof, then receive without GETs/thumbnails/client pings/reconnects.
+The new proof epoch contains only that byte-verified baseline; new/invalidated
+IDs and gaps pause, never restore a cached caption by ID alone. D-226's per-read
+thumbnail rule is replaced only in this local candidate by initial proof plus
+strict invalidation and the unchanged 90-second conservative proof age. Duplicate
+mode-on/same-ID events do not renew it; expiry closes the session. No complete
+firmware event-feed or continuously renewed-current guarantee is accepted here.
+
+Bounds: session <=8h, bootstrap/partial frame <=5s, text frame <=64KiB before
+payload allocation, <=64 parent events and <=64 frame attempts per 5s window,
+250ms idle socket waits/graceful-close attempt, and a two-second parent stop
+budget before refusing an unreaped worker/replacement. Existing worker CPU,
+512MiB, descriptor, no-process/thread, AppArmor, seccomp and parent-death rules
+remain; existing one-shot runner/watchdog/history/preview behavior is unchanged.
+The installed public app, version and cards are not changed or published.
+
+Local acceptance: unchanged gates pass with 5496 tests, 16 platform skips,
+host/Linux strict typing over 281 files and 100% whole/mandatory line/branch
+coverage. Socket-pair tests use the pinned real library without outbound access;
+isolated-worker cancellation and parent-credential exclusion are exercised.
+Lifecycle/compatibility review is complete. This is not native-container,
+real-firmware event coverage or natural-sleep safety acceptance; the production
+profile registry remains empty and live background remains off.
+
+Propose a bounded unprivileged persistent read-session worker, not repeated
+30-second fresh connections. One session may follow an explicitly successful
+delivery; no boot/availability reconnect, routine thumbnail/D2D reads, own
+keepalive pings or silent polling fallback. Event completeness, transport
+side effects, natural-sleep behavior and truthful freshness are open gates.
+Preserve current attribution proof; ID alone or a publisher heartbeat cannot
+replace image identity or fresh TV evidence. A revised proof/freshness contract
+and worker-lifecycle amendment preceded the local implementation above. Uncertainty pauses
+and clears current attribution; another explicit send is initially required to
+resume after sleep/loss. Existing one-shot operation/cards/IDs remain.
+
+The [safer-session plan](docs/plans/current-tv-artwork-sync.md) records limits,
+compatibility, the conservative stale-card behavior and three bounded work
+packages with separate implementation, hardware and publication approvals.
+A persistent socket is not itself proof of no-wake/no-mode-change safety.
+D-230 describes the released experimental behavior, not permission to resume
+the stopped trial or bypass the remaining offline/hardware approval boundary.
+
 ## Current TV artwork synchronization planning 2026-10-16
 
 ### D-230 — opt-in experimental observation; natural-sleep test deferred

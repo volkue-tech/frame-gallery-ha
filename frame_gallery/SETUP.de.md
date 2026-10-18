@@ -1,9 +1,10 @@
 # Frame Gallery — Installation und erste Dashboardkarte
 
-> Optional ab Beta b8: [Aktuelles TV-Kunstwerk](CURRENT_ARTWORK.de.md)
-> mit optionalem experimentellem Hintergrundmodus. Standardmäßig aus; lesende
-> Verbindungen könnten den TV aufwecken. Automatisches Einschlafen ist ungeprüft.
-> Diese Anleitung beschreibt weiterhin den unveränderten Einmalbetrieb.
+> Neu ab Beta b9: Jeder ausgewählte Upload speichert automatisch die Zuordnung
+> zu Titel/Künstler für diesen TV, auch ohne Hintergrundmodus. Optional:
+> [Aktuelles TV-Kunstwerk über Ereignisse](CURRENT_ARTWORK.de.md), experimentell
+> und standardmäßig aus. Keine regelmäßigen Abfragen/Neuverbindungen; trotzdem
+> mögliches Aufweckrisiko. Hier folgt der unveränderte Einmalbetrieb.
 
 [English](DOCS.md#installation) | **Deutsch** | [Français](SETUP.fr.md) | [Español](SETUP.es.md) | [Italiano](SETUP.it.md)
 

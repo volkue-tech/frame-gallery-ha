@@ -202,6 +202,8 @@ class _RunState:
     television_contacted: bool = False
     markers: list[Marker] = field(default_factory=list)
     tv_content_id: str | None = None
+    tv_device_id: str | None = None
+    delivery_record: dict[str, object] | None = None
     promoted: bool = False
     selected: bool = False
     record_attempted: bool = False
@@ -765,6 +767,8 @@ class Runner:
             return None
         try:
             artifact = validate_delivery(output_path)
+            if result.reference_rgb is not None and result.reference_sha256 != artifact.sha256:
+                raise DeliveryValidationError("delivery reference belongs to different bytes")
         except DeliveryValidationError as exc:
             note.result = "failed:invalid_output"
             run.evidence.processing_failure = True
@@ -775,7 +779,7 @@ class Runner:
             )
             return None
         note.result = "prepared"
-        return artifact
+        return replace(artifact, reference_rgb=result.reference_rgb)
 
     def _log_chosen(self, entry: ShortlistEntry, artifact: DeliveryArtifact) -> None:
         attribution = entry.candidate.attribution
@@ -874,6 +878,7 @@ class Runner:
         run.television_contacted = True
         try:
             result: DeliveryResult = self._ports.television.deliver(request, on_marker)
+            run.tv_device_id = result.device_id
             reply.status, reply.reported, reply.detail = (
                 result.status,
                 result.markers_seen,
@@ -967,6 +972,7 @@ class Runner:
         self._enter(Stage.RECORD)
         run.record_attempted = True
         run.finish_deadline = self._run_budget().phase(Phase.FINISH)
+        self._remember_delivery(run)
         try:
             self._ports.state.record_history()
         except StateError as exc:
@@ -974,6 +980,36 @@ class Runner:
             self._log.error("the delivery could not be recorded: %s", sanitize_for_log(str(exc)))
             return
         run.recorded = True
+
+    def _remember_delivery(self, run: _RunState) -> None:
+        entry, artifact = run.entry, run.artifact
+        if entry is None or artifact is None or run.finish_deadline is None:  # pragma: no cover
+            raise RuntimeError("missing selected-delivery evidence")
+        options = self._options(run)
+        record = build_current_record(
+            qualified_id=entry.candidate.qualified_id,
+            attribution=entry.candidate.attribution,
+            sha256=artifact.sha256,
+            delivered_at=self._clock.utc_now(),
+            preview_fingerprint=artifact.fingerprint,
+            tv_content_id=run.tv_content_id,
+            tv_host=options.tv_host,
+            tv_device_id=run.tv_device_id,
+        )
+        run.delivery_record = record
+        archived = dict(record)
+        if artifact.reference_rgb is not None:
+            archived["delivery_reference_rgb"] = artifact.reference_rgb
+        try:
+            self._ports.records.write_delivery(
+                archived,
+                run.finish_deadline.cap_at(
+                    run.finish_deadline.expires_at - LAST_RUN_RESERVE_S, "delivery association"
+                ),
+            )
+        except (StateError, DeadlineExceeded) as exc:
+            run.warnings.append("delivery_association_failed")
+            self._log.warning("delivery association unavailable: %s", sanitize_for_log(str(exc)))
 
     def _publish(self, run: _RunState) -> None:
         self._enter(Stage.PUBLISH)
@@ -1007,14 +1043,9 @@ class Runner:
             ):
                 run.warnings.append("artwork_info_failed")
                 self._log.warning("preview updated, but artwork information remains empty")
-        record = build_current_record(
-            qualified_id=entry.candidate.qualified_id,
-            attribution=entry.candidate.attribution,
-            sha256=artifact.sha256,
-            delivered_at=self._clock.utc_now(),
-            preview_fingerprint=artifact.fingerprint,
-            tv_content_id=run.tv_content_id if self._options(run).background_mode else None,
-        )
+        record = run.delivery_record
+        if record is None:  # pragma: no cover
+            raise RuntimeError("missing selected-delivery record")
         try:
             self._ports.records.write_current(record, deadline)
         except (StateError, DeadlineExceeded) as exc:

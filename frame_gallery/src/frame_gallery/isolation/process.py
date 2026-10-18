@@ -53,6 +53,7 @@ import sys
 import sysconfig
 import threading
 import time
+from collections import deque
 from collections.abc import Callable, Iterable, Mapping, Sequence
 from dataclasses import dataclass, field
 from pathlib import Path
@@ -87,6 +88,7 @@ from frame_gallery.isolation.launch import (
 )
 from frame_gallery.logs.summary import sanitize_for_log
 from frame_gallery.observer.model import MAX_COMMAND_BYTES, Command
+from frame_gallery.observer.stream import MAX_EVENTS, SESSION_S, START_S, STOP_S
 from frame_gallery.store.atomic import decode_json
 
 BOOT: Final = (
@@ -711,6 +713,141 @@ class ProcessExecutor:
             worker = self._active
         if worker is not None:
             self._kill(worker)
+
+    @property
+    def idle(self) -> bool:
+        """A timed-out/unreaped worker is not safe to replace with a new one."""
+        with self._lock:
+            return self._active is None
+
+    def try_terminate(self) -> bool:
+        """Nonblocking cancellation for the session's strict stop budget.
+
+        A busy reap already owns/kills the worker; do not wait for its lock or
+        signal an unprotected/reused PID. The session also latches should_stop.
+        """
+        if not self._lock.acquire(blocking=False):
+            return False
+        try:
+            worker = self._active
+            if worker is not None and not worker.reaped:
+                _signal(worker)
+            return True
+        finally:
+            self._lock.release()
+
+
+class SessionProcess:
+    """Dedicated bounded read worker; the trusted thread never talks to the TV.
+
+    Reuses the normal bootstrap, clean environment, privilege/LSM/seccomp limits,
+    lifeline and framed JSON. The cancel pipe allows a bounded graceful close;
+    an unresponsive worker is killed, never replaced or silently reconnected.
+    """
+
+    def __init__(self, executor: ProcessExecutor, now: Callable[[], float]) -> None:
+        self._executor, self._now = executor, now
+        self._thread: threading.Thread | None = None
+        self._write: int | None = None
+        self._queue: deque[tuple[JsonObject, float]] = deque()
+        self._mutex = threading.Lock()
+        self._baseline = threading.Event()
+        self._force = threading.Event()
+        self._failed = False
+        self._terminal: JsonObject | None = None
+        self._started = 0.0
+
+    def start(self, payload: JsonObject) -> None:
+        self.stop()
+        read, write = os.pipe()
+        self._write = write
+        try:
+            os.set_blocking(read, False)
+            self._baseline.clear()
+            self._force.clear()
+            self._started = self._now()
+            request: JsonObject = {**payload, "cancel_fd": read}
+            self._thread = threading.Thread(
+                target=self._run, args=(request, read), daemon=True, name="frame-gallery-events"
+            )
+            self._thread.start()
+        except BaseException:
+            self._thread = None
+            os.close(read)
+            self._close_write()
+            raise
+
+    def _expired(self) -> bool:
+        return self._force.is_set() or (
+            not self._baseline.is_set() and self._now() - self._started >= START_S
+        )
+
+    def _event(self, value: JsonObject) -> None:
+        with self._mutex:
+            if len(self._queue) >= MAX_EVENTS:
+                self._failed = True
+                raise ValueError("event queue limit")
+            self._queue.append((value, self._now()))
+            if value.get("kind") == "baseline":
+                self._baseline.set()
+
+    def _run(self, request: JsonObject, read: int) -> None:
+        status = "unavailable"
+        try:
+            result = self._executor.run(
+                "observe_session",
+                request,
+                timeout=SESSION_S + START_S,
+                on_event=self._event,
+                should_stop=self._expired,
+                files=(read,),
+            )
+            if (
+                set(result) == {"status"}
+                and isinstance(result["status"], str)
+                and result["status"] in {"paused", "unavailable", "not_authorized"}
+            ):
+                status = str(result["status"])
+        except (WorkerError, IsolationFailure, OSError, ValueError):
+            pass  # Never copy a request, token, URL or exception body into status.
+        finally:
+            os.close(read)
+            with self._mutex:
+                self._terminal = {"kind": "end", "status": status}
+
+    def poll(self) -> tuple[JsonObject, float] | None:
+        with self._mutex:
+            if self._failed:
+                self._failed = False
+                self._queue.clear()
+                self._terminal = None
+                return {"kind": "end", "status": "unavailable"}, self._now()
+            if self._queue:
+                return self._queue.popleft()
+            value, self._terminal = self._terminal, None
+            return None if value is None else (value, self._now())
+
+    def _close_write(self) -> None:
+        if self._write is not None:
+            os.close(self._write)
+            self._write = None
+
+    def stop(self) -> None:
+        self._close_write()  # EOF wakes the single-threaded child, no TV request.
+        thread = self._thread
+        if thread is not None:
+            thread.join(STOP_S / 4)
+            if thread.is_alive():
+                self._force.set()
+                self._executor.try_terminate()
+                thread.join(STOP_S * 3 / 4)
+            if thread.is_alive() or not self._executor.idle:
+                raise IsolationFailure("event worker has not ended; refusing replacement")
+            self._thread = None
+        with self._mutex:
+            self._queue.clear()
+            self._failed = False
+            self._terminal = None
 
 
 class ServiceInput:

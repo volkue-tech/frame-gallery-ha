@@ -35,6 +35,62 @@ This file constrains the architecture without prescribing or copying an implemen
 
 ## Home Assistant constraints
 
+- **2026-10-18 D-235 superseding complete-feature scope:** archive every selected
+  upload in one-shot/background mode, per actual device identity captured from
+  the existing capability response, with no extra TV request. Bound private
+  atomic state to 2,048 associations/32 MiB plus one backup; tiny RGB references
+  are generated in the existing image worker. No new privileges/mounts/helpers.
+  An opted-in service can consume one fresh, exact persisted-delivery grant for
+  an experimental strict slideshow session; no personal-ID registry entry or
+  user-managed mapping. This replaces the old empty-profile-only restriction
+  for that path, not the default OFF, no-reconnect or no-wake warning. Current
+  observation and historical metadata provenance remain separate. Native ARM/
+  Intel must pass before the now-authorized beta publication. b8/cards stay.
+
+- **2026-10-18 D-234 local integration:** bind new background receipts to the
+  actual delivery target by a hash, reuse the exact receipt bytes for parsing,
+  and reject legacy/missing/mismatched receipts for arming without connecting.
+  Every state-publication failure latches stop/no-retry, not only 401/403.
+  Exact captured standby under the slideshow contract pauses/closes normally.
+  Do not add user-profile bypasses or ship a personal TV ID; production profiles
+  stay empty. Native candidate checks move to the separately approved release
+  round, not a claim from local Mac results. b8/cards remain unchanged.
+
+- **2026-10-17 D-233 local/offline amendment:** the exact lab4 slideshow
+  event contract can corroborate selected/shown ID + matching automatic-rotation
+  ID + mode-on within five seconds. Host-only per-TV binding lookup is read-only,
+  marked slideshow evidence, never a new byte proof or association. Unknown IDs
+  have no artist. Selection/navigation invalidate old metadata; off/failure ends.
+  Baseline proof expires at 90 seconds and changed-ID event proof at 15 minutes,
+  with no duplicate/on/pong freshening. Expiry clears display, not the listener.
+  No post-baseline request/reconnect, runtime profile bypass, active hardware
+  policy, live update or publication. Existing confinement and cards stay intact.
+
+- **2026-10-17 D-232 local-only exception:** an exact internal policy may opt
+  into at most one five-second same-websocket ID probe after validated mode-on.
+  No new transport, library reconnect/getter loop, timer/polling, retry, image
+  transfer or freshened ID-only attribution. Emit invalidation before the request;
+  the parent clears metadata on receipt, without a synchronous HA acknowledgement.
+  Parent bounds pending checking and ends on success/failure. Off still closes;
+  expired initial proof cannot trigger a request.
+  Existing worker isolation, resource/cancel limits and empty live-policy table
+  remain. No live/test-app update or release is authorized by this amendment.
+
+- **2026-10-17 local event-session amendment (D-231):** local implementation
+  and offline testing only. Replace the periodic observer in real service wiring
+  with a dedicated unprivileged event worker, using the existing TV-worker
+  bootstrap, 512 MiB/CPU/descriptor/LSM/seccomp restrictions and parent lifeline.
+  The long-lived session is finite (eight hours); bootstrap is bounded to five
+  seconds, incomplete frames to five seconds, text frames to 64 KiB and the
+  parent event queue to 64. Child cancellation first attempts a bounded graceful
+  close, then kills/reaps; an unreaped worker forbids replacement/delivery.
+  No thread or child process is created by the unprivileged event task.
+  A trusted parent thread relays framed JSON only; no Supervisor token crosses
+  into the worker. All one-shot delivery deadlines/watchdogs remain unchanged.
+  An exact reviewed device-event profile and fresh explicit delivery are both
+  required; the production profile table is empty pending separate validation.
+  Do not substitute the earlier D-230 opt-in for that event/sleep approval.
+  No live reactivation, new HA read permission, pairing, polling or reconnect.
 - **2026-10-16 optional background amendment (D-225/D-226):** explicit user
   approval permits an opt-in supervising service, fixed stdin commands and
   ownership-checked GET/POST of only `sensor.frame_gallery_current_artwork`.

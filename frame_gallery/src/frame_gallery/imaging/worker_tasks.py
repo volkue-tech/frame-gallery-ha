@@ -66,6 +66,7 @@ from frame_gallery.imaging.contract import (
     inspected_event,
 )
 from frame_gallery.imaging.fit import contain_layout, cover_crop, scaled_source
+from frame_gallery.imaging.reference import valid_reference
 from frame_gallery.imaging.source_scan import SourceLimitError, SourceScanError, scan_source
 from frame_gallery.isolation.executor import EventSink, JsonObject
 from frame_gallery.selection.geometry import check_rendition
@@ -157,6 +158,8 @@ def verify_thumbnail_task(payload: JsonObject) -> JsonObject:
     The parent lends a regular file descriptor. No source path or network is
     accepted. A failed/ambiguous comparison never establishes an association.
     """
+    if set(payload) == {"reference_rgb", "thumbnail"}:
+        return _verify_reference(payload)
     fd, sha256, encoded = payload.get("fd"), payload.get("sha256"), payload.get("thumbnail")
     if (
         set(payload) != {"fd", "sha256", "thumbnail"}
@@ -190,14 +193,43 @@ def verify_thumbnail_task(payload: JsonObject) -> JsonObject:
             actual.load()
             a = expected.convert("RGB").resize((64, 36), Image.Resampling.LANCZOS).tobytes()
             b = actual.convert("RGB").resize((64, 36), Image.Resampling.LANCZOS).tobytes()
-        mse = sum((x - y) ** 2 for x, y in zip(a, b, strict=True)) / len(a)
-        # Featureless images cannot distinguish a coincidental solid-colour upload.
-        variation = max(
-            sum(v * v for v in channel) / len(channel) - (sum(channel) / len(channel)) ** 2
-            for channel in (a[0::3], a[1::3], a[2::3])
-        )
-        # A conservative heuristic, not cryptographic proof of TV pixel identity.
-        return {"matched": mse <= 9.0 and variation >= 64.0}
+        return _same_pixels(a, b)
+    except (
+        ValueError,
+        OSError,
+        _Failed,
+        Image.DecompressionBombError,
+        Image.DecompressionBombWarning,
+    ):
+        return {"matched": False}
+
+
+def _same_pixels(expected: bytes, actual: bytes) -> JsonObject:
+    mse = sum((x - y) ** 2 for x, y in zip(expected, actual, strict=True)) / len(expected)
+    variation = max(
+        sum(v * v for v in channel) / len(channel) - (sum(channel) / len(channel)) ** 2
+        for channel in (expected[0::3], expected[1::3], expected[2::3])
+    )
+    # Same conservative heuristic as the full-JPEG verifier, not pixel identity.
+    return {"matched": mse <= 9.0 and variation >= 64.0}
+
+
+def _verify_reference(payload: JsonObject) -> JsonObject:
+    reference, encoded = payload["reference_rgb"], payload["thumbnail"]
+    if not valid_reference(reference) or not isinstance(encoded, str) or len(encoded) > 56 * 1024:
+        raise ValueError("invalid stored-reference verification request")
+    assert isinstance(reference, str)  # noqa: S101
+    Image.MAX_IMAGE_PIXELS = MAX_JPEG_PIXELS
+    try:
+        thumbnail = base64.b64decode(encoded, validate=True)
+        if not 0 < len(thumbnail) <= 40 * 1024:
+            return {"matched": False}
+        with contextlib.closing(_open_image(io.BytesIO(thumbnail), ImageFormat.JPEG)) as image:
+            if not 0 < image.width <= 1024 or not 0 < image.height <= 1024:
+                return {"matched": False}
+            image.load()
+            actual = image.convert("RGB").resize((64, 36), Image.Resampling.LANCZOS).tobytes()
+        return _same_pixels(base64.b64decode(reference, validate=True), actual)
     except (
         ValueError,
         OSError,
@@ -346,6 +378,11 @@ def _prepare(request: PrepareRequest, known: _Known, max_output_bytes: int) -> P
     canvas = _compose(rgb, alpha, request)
     data, quality = _encode_bounded(canvas, max_output_bytes)
     _write_exclusive(request.output_path, data)
+    with contextlib.closing(_open_image(io.BytesIO(data), ImageFormat.JPEG)) as encoded_image:
+        encoded_image.load()
+        reference = (
+            encoded_image.convert("RGB").resize((64, 36), Image.Resampling.LANCZOS).tobytes()
+        )
     return PrepareResult(
         status=PrepareStatus.OK,
         source_size=source_size,
@@ -354,6 +391,8 @@ def _prepare(request: PrepareRequest, known: _Known, max_output_bytes: int) -> P
         output_bytes=len(data),
         jpeg_quality=quality,
         colour=colour,
+        reference_rgb=base64.b64encode(reference).decode("ascii"),
+        reference_sha256=hashlib.sha256(data).hexdigest(),
     )
 
 

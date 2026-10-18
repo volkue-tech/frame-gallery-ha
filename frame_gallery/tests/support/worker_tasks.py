@@ -47,6 +47,24 @@ def echo(payload: JsonObject) -> JsonObject:
 
 
 @guarded
+def event_session(payload: JsonObject, emit: EventSink) -> JsonObject:
+    """Only the real process/IPC lifecycle, never a socket or credentials."""
+    fd = payload["cancel_fd"]
+    assert isinstance(fd, int)
+    assert "SUPERVISOR_TOKEN" not in os.environ
+    emit({"kind": "baseline", "observation": {"synthetic": True}})
+    end = time.monotonic() + 10
+    while time.monotonic() < end:
+        try:
+            os.read(fd, 1)
+        except BlockingIOError:
+            time.sleep(0.01)
+        else:
+            return {"status": "paused"}
+    raise RuntimeError("test session cancellation deadline")
+
+
+@guarded
 def events(payload: JsonObject, emit: EventSink) -> JsonObject:
     """Sends ``payload["events"]`` (pausing ``gap`` seconds after the first),
     then sleeps ``payload["then_sleep"]``."""

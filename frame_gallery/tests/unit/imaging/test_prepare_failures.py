@@ -562,7 +562,7 @@ def test_the_decoded_source_is_released_before_encoding(
     monkeypatch.setattr(ImageFile.ImageFile, "close", close)
     monkeypatch.setattr(Image.Image, "save", save)
     assert_ok(prepare_image(req), Path(req.output_path))
-    assert events == ["close", "save"]
+    assert events == ["close", "save", "close"]  # final close: tiny delivery-reference decode
 
 
 # --- Q-05: the single re-encode at quality 85 --------------------------------------

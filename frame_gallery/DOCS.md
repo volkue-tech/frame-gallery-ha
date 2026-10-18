@@ -1,10 +1,11 @@
 # Frame Gallery
 
-> **Optional in public beta 0.1.0b8:** [current-TV artwork information](CURRENT_ARTWORK.md)
-> with experimental background mode, off by default. Read-only connections may
-> wake a sleeping TV. Automatic no-motion sleep is not validated. Leave the mode off if waking the TV is unacceptable.
+> **New in beta b9:** selected uploads automatically save per-TV title/artist
+> associations, even with background mode off. Optional [event-based current-TV artwork information](CURRENT_ARTWORK.md)
+> remains experimental/off by default. No polling or automatic reconnect;
+> a connection may still wake a TV. Leave off if any wake-up risk is unacceptable.
 
-> **0.1.0b8 public beta:** [1000 near-widescreen Wikimedia Commons works](COMMONS.md), optional Commons artist/colour selection and [native dashboard pickers](COMMONS_ARTIST.md).
+> **0.1.0b9 beta candidate:** [1000 near-widescreen Wikimedia Commons works](COMMONS.md), optional Commons artist/colour selection and [native dashboard pickers](COMMONS_ARTIST.md).
 > No API key is needed. Update without uninstalling; your saved sources and
 > existing camera, timer, script and optional artwork-information helper still work.
 

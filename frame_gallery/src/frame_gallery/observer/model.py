@@ -14,6 +14,7 @@ DEVICE_ID: Final = re.compile(r"[0-9a-f]{64}")
 THUMBNAIL_HASH: Final = re.compile(r"[0-9a-f]{64}")
 POLL_S: Final = 30.0
 FRESH_S: Final = 90.0
+SLIDESHOW_FRESH_S: Final = 15 * 60.0
 READ_S: Final = 5.0
 MAX_COMMAND_BYTES: Final = 1024
 REQUEST_ID: Final = re.compile(r"[A-Za-z0-9_-]{8,64}")
@@ -33,6 +34,11 @@ class Status(enum.StrEnum):
 class Action(enum.StrEnum):
     NEW_ARTWORK = "new_artwork"
     REFRESH_CURRENT = "refresh_current"
+
+
+class Evidence(enum.StrEnum):
+    THUMBNAIL = "thumbnail"
+    SLIDESHOW = "slideshow"
 
 
 @dataclass(frozen=True, slots=True)
@@ -67,10 +73,15 @@ class Observation:
     device_id: str | None = None
     content_id: str | None = None
     thumbnail_sha256: str | None = None
+    evidence: Evidence = Evidence.THUMBNAIL
 
     def __post_init__(self) -> None:
+        if not isinstance(self.evidence, Evidence):
+            raise ValueError("invalid observation evidence")
         if self.status not in {Status.ARTWORK, Status.UNIDENTIFIED}:
-            if any((self.device_id, self.content_id, self.thumbnail_sha256)):
+            if any((self.device_id, self.content_id, self.thumbnail_sha256)) or (
+                self.evidence is not Evidence.THUMBNAIL
+            ):
                 raise ValueError("non-artwork observation contains artwork identity")
             return
         if (
@@ -78,15 +89,25 @@ class Observation:
             or DEVICE_ID.fullmatch(self.device_id) is None
             or self.content_id is None
             or CONTENT_ID_PATTERN.fullmatch(self.content_id) is None
-            or self.thumbnail_sha256 is None
-            or THUMBNAIL_HASH.fullmatch(self.thumbnail_sha256) is None
+            or (
+                self.thumbnail_sha256 is None
+                and not (self.evidence is Evidence.SLIDESHOW and self.status is Status.UNIDENTIFIED)
+            )
+            or (
+                self.thumbnail_sha256 is not None
+                and THUMBNAIL_HASH.fullmatch(self.thumbnail_sha256) is None
+            )
         ):
             raise ValueError("invalid observed artwork identity")
 
     @classmethod
     def from_json(cls, value: JsonObject) -> Observation:
-        if set(value) != {"status", "device_id", "content_id", "thumbnail_sha256"}:
+        fields_set = {"status", "device_id", "content_id", "thumbnail_sha256"}
+        if set(value) not in (fields_set, fields_set | {"evidence"}):
             raise ValueError("invalid observation fields")
+        evidence = value.get("evidence", Evidence.THUMBNAIL.value)
+        if not isinstance(evidence, str):
+            raise ValueError("invalid observation evidence")
         status = value["status"]
         fields = [value[name] for name in ("device_id", "content_id", "thumbnail_sha256")]
         if not isinstance(status, str) or any(
@@ -97,12 +118,15 @@ class Observation:
         assert device_id is None or isinstance(device_id, str)  # noqa: S101
         assert content_id is None or isinstance(content_id, str)  # noqa: S101
         assert thumbnail is None or isinstance(thumbnail, str)  # noqa: S101
-        return cls(Status(status), device_id, content_id, thumbnail)
+        return cls(Status(status), device_id, content_id, thumbnail, Evidence(evidence))
 
     def to_json(self) -> JsonObject:
-        return {
+        value: JsonObject = {
             "status": self.status.value,
             "device_id": self.device_id,
             "content_id": self.content_id,
             "thumbnail_sha256": self.thumbnail_sha256,
         }
+        if self.evidence is not Evidence.THUMBNAIL:
+            value["evidence"] = self.evidence.value
+        return value

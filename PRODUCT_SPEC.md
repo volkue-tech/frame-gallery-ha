@@ -1,5 +1,148 @@
 # Product specification
 
+## Complete delivery associations, 2026-10-18 (D-235)
+
+Every TV-confirmed successful selection must retain a bounded, atomic local
+association, including ordinary one-shot sends with background mode disabled.
+Use the actual TV identity learned from the delivery's existing capability
+response and its acknowledged upload ID; neither IP address nor content ID
+alone is a globally unique artwork key. Keep provider ID/title/artist/source,
+exact uploaded-image digest and provenance. Never guess an identity, bundle a
+user's associations, or require manual ID entry, new HA rights or another TV
+connection. Failed/uncertain uploads do not create successful associations.
+
+Separate historical confirmed-upload associations from current-display proof.
+The current artist card may resolve exact device+ID associations only inside
+the validated observation/event path, clears stale/unknown/non-Art data, and
+never wakes/reconnects merely to obtain metadata. Existing verified bindings,
+history, cards and source configuration remain compatible. Preserve metadata
+across updates/restarts and history reset; document bounds and uninstall loss.
+Unsupported/missing device identity or persistence failure must be explicit,
+not silently attributed to another TV. Keep background mode optional/default
+off with firmware/sleep limitations, and no hardcoded personal TV identity.
+
+User subsequently requests the complete coherent feature, Green/ordinary
+HAOS compatibility without special permissions, and authorizes building and
+publishing the next beta after successful testing. No additional live TV
+connections are authorized by the implementation request; b8 stays off.
+Native release checks and exact new-candidate evidence remain required.
+
+## Regular event-service integration, 2026-10-18 (D-234, local only)
+
+Keep the production profile table empty, background off by default and old
+cards/one-shot behaviour unchanged. A new background delivery receipt includes
+the SHA256 of its actual target address (no plaintext address in current.json).
+Only fresh changed receipt bytes with a valid TV ID and matching target digest
+may arm observation. Old/missing/different target evidence cannot authorize a
+connection; existing histories and verified associations are not rewritten.
+Bind receipt parsing to those same bytes, not a second racing file read.
+
+Any failed owned current-state publication stops and latches the service without
+another write attempt. Only the observed exact unsolicited go_to_standby object
+under the slideshow policy clears metadata and ends as a normal pause. Never
+turn it into a command or reconnect. Regular-entry integration is offline-tested
+with injected I/O; prior private hardware runs are not exact new-runtime proof.
+Native ARM/Intel checks are explicitly deferred to the later release round,
+before publication. No GitHub, live activation or publication is authorized here.
+
+## Local event-confirmed slideshow attribution, 2026-10-17 (D-233)
+
+The user authorizes implementation and offline tests only, based on the lab4
+slideshow notifications and physical confirmation. No further HA/TV connection,
+installed-app change, container build, version bump or publication. Keep b8 off,
+existing cards/IDs/state/history intact and the live device-policy registry empty.
+
+An explicitly injected slideshow contract requires this ordered triple within
+five seconds: image_selected with is_shown Yes and valid content_id/matte fields;
+auto_rotation_image_changed with the identical current_content_id and exact
+observed type shuffleslideshow; then art_mode_changed/status on. Reject extra,
+correlated, malformed, stale/future, reordered, overlapping or conflicting data.
+Navigation nav clears attribution/pending selection but is not on or a reason
+to reconnect. Mode-off, errors and disconnects disarm the existing session.
+
+Clear old metadata on selection/navigation. Only a completed triple may consult
+existing image-verified device+ID associations; unknown IDs remain unidentified.
+Do not create or rewrite a binding, infer from last-delivery metadata or invent
+a new thumbnail hash. Mark this as slideshow evidence, distinct from a fresh
+thumbnail: any carried digest references the stored association, not new bytes.
+Undetected server-side ID replacement/reuse is not ruled out by events alone;
+do not claim otherwise. The D-232 bare-ID request still cannot restore metadata.
+
+The byte-proof baseline expires after 90 seconds; a completed changed-ID triple
+expires at most 15 minutes after its actual receipt, supporting the observed
+ten-minute slideshow. Duplicate same-ID triples/on/pongs/publications never
+renew confirmation. Expiry clears metadata but keeps the bounded receiver alive
+for later transitions, not a retry or new request. Incomplete triples time out
+after five seconds. Keep the one initial device/mode/ID/thumbnail proof and zero
+post-baseline application requests, polling, thumbnail transfers or reconnects.
+
+Existing four-field observation JSON remains unchanged by default; only new
+slideshow observations add an evidence tag. The optional five-language complete
+card template understands the 15-minute event limit with a 90-second fallback.
+Existing installed cards are never edited; their old shorter limit remains.
+Multiple simulated cycles are offline evidence only; natural sleep/no-wake and
+multi-cycle hardware validation remain separately authorized follow-ups.
+
+## Local one-shot same-session ID probe, 2026-10-17 (D-232)
+
+The user authorizes local implementation/offline tests only: no HA/TV access,
+installed-test-app update, image build or publication. Public b8 stays off and
+existing cards unchanged. This narrowly amends D-231's receive-only phase.
+
+An exact injected/reviewed software policy may permit one get_current_artwork
+request on the already established, initially verified Art websocket, triggered
+only by a strictly validated Art-Mode-on notification. No approved production
+policy exists. The observed event/status key shape does not establish its value
+semantics; on/off examples remain offline fixtures pending separate validation.
+Mode-off still terminates: never hold/reconnect through off to await on.
+An expired initial image proof cannot trigger a follow-up request.
+
+At most one follow-up ID request per entire session, not one per duplicate or
+timer tick. Send directly on the existing bounded transport, never through a
+getter that can reopen a socket or silently discard intervening events. Bound
+the reply wait to five seconds, retain cancellation/frame/queue/rate bounds,
+match the exact request correlation and reject unknown/mutating/error replies.
+Duplicate on messages while waiting cannot cause another request or extend the
+deadline. Stop the session after success or failure, with no retry or thumbnail.
+
+Emit invalidation before probing; the parent clears attribution when consuming
+that event (there is no synchronous HA publication acknowledgement). A new or
+repeated ID alone cannot create/restore a binding, refresh the 90-second image proof or
+show an artist/title as current. Publish checking while pending, then paused;
+the validated bare ID is diagnostic evidence only. Existing one-shot/card IDs,
+last-delivery information and history remain unchanged.
+
+## Local event-session candidate, 2026-10-17 (D-231)
+
+The user authorizes local implementation and offline tests only. No device
+access, live configuration, build or publication is included. The installed
+background mode remains off and existing cards unchanged. This candidate
+replaces production wiring to repeated short-lived observer jobs, not the
+legacy one-shot delivery behavior or public b8 image.
+
+Use at most one bounded read-only Art websocket after a fresh explicit
+successful delivery and an exact reviewed device-event policy. No policies
+are approved yet: absent policy reports validation_required without a TV
+worker, including after an explicit send. No boot, idle, refresh, HA on-state,
+timer or retry can create a session. No observer pairing/tokenless fallback.
+
+Within an approved session, obtain one initial bounded identity/mode/ID/targeted
+thumbnail proof, then only receive validated notifications on the same socket.
+No periodic GET, thumbnail, application keepalive ping or reconnection. Protocol
+responses such as pong/close are not zero traffic and need later sleep tests.
+Mode-off, malformed/unknown events, loss, limits and identity/image uncertainty
+clear current attribution and end the session. Art Mode must be confirmed, not
+inferred from reachability or generic HA on. Keep all send/history protections.
+
+The initial conservative candidate trusts only the byte-verified baseline in
+this session. Changed/invalidated IDs pause, including a later return to a known
+old ID; never resolve an event by content ID alone. Duplicate/same-ID/mode-on
+events and HA publications do not refresh image proof. Clear current information
+after 90 seconds from actual baseline receipt, even if the socket is still open.
+Continuous event-stream attribution beyond this conservative limit requires a
+separate reviewed event-coverage/freshness amendment and hardware evidence.
+No existing card is allowed to make an old title current through a heartbeat.
+
 ## D-230 experimental background exception, 2026-10-16
 
 The user accepted experimental default-off observation with a wake-risk warning

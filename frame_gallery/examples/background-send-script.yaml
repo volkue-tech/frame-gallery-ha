@@ -24,7 +24,7 @@ sequence:
     then:
       - variables:
           frame_gallery_request_id: >-
-            {{ now().strftime('%Y%m%d%H%M%S%f') }}_{{ range(100000, 999999) | random }}
+            {{ now().strftime('%Y%m%d%H%M%S%f') }}_{{ range(100000, 199999) | random }}
           frame_gallery_issued_at: "{{ as_timestamp(now()) }}"
       - action: hassio.app_stdin
         data:

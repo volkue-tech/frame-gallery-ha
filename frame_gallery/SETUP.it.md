@@ -1,9 +1,9 @@
 # Frame Gallery — installazione e prima scheda
 
-> Opzione disponibile nella beta b8: [opera attuale del TV](CURRENT_ARTWORK.it.md), modo
-> in background sperimentale facoltativo, disattivato per impostazione predefinita.
-> Una connessione in lettura potrebbe risvegliare il TV; standby automatico non
-> verificato. Questa guida descrive ancora il modo singolo invariato.
+> Novità beta b9: ogni invio selezionato salva automaticamente titolo/artista
+> per quel TV, anche senza background. Opzione: [opera attuale tramite eventi](CURRENT_ARTWORK.it.md),
+> sperimentale e disattivata per impostazione predefinita. Nessuna richiesta
+> periodica o riconnessione; resta un rischio di risveglio. Il modo singolo seguente non cambia.
 
 [English](DOCS.md#installation) | [Deutsch](SETUP.de.md) | [Français](SETUP.fr.md) | [Español](SETUP.es.md) | **Italiano**
 

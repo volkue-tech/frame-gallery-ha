@@ -8,6 +8,7 @@ progress markers to the parent as they arrive, through ``on_marker``.
 from __future__ import annotations
 
 import enum
+import hashlib
 import re
 from collections.abc import Callable
 from dataclasses import dataclass, field
@@ -19,6 +20,14 @@ from frame_gallery.budget.deadline import Deadline
 
 CONTENT_ID_PATTERN: Final = re.compile(r"[A-Za-z0-9_.:-]{1,64}")
 """A strict pattern for the television's content identifier (≤ 64 chars)."""
+
+
+def target_fingerprint(host: IPv4Address) -> str:
+    """Bind a delivery receipt to its address without storing plaintext there.
+
+    Consistency only: a small private address space is not anonymized by a hash.
+    """
+    return hashlib.sha256(str(host).encode("ascii")).hexdigest()
 
 
 class Marker(enum.StrEnum):
@@ -106,6 +115,9 @@ class DeliveryResult:
     markers_seen: tuple[Marker, ...] = ()
     detail: str = ""
     """A short, log-safe explanation."""
+
+    device_id: str | None = None
+    """Hashed actual device identity from the existing capability read, if known."""
 
 
 MarkerSink = Callable[[MarkerEvent], None]

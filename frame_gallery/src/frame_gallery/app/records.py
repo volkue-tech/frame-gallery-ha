@@ -9,13 +9,15 @@ from __future__ import annotations
 
 from dataclasses import dataclass, field
 from datetime import datetime
+from ipaddress import IPv4Address
 from typing import Final
 
 from frame_gallery.app.outcomes import Outcome
 from frame_gallery.config.filters import EffectiveFilters, FilterField
 from frame_gallery.providers.contract import Attribution
 from frame_gallery.selection.shortlist import SelectionResult
-from frame_gallery.tv.port import CONTENT_ID_PATTERN
+from frame_gallery.tv.identity import DEVICE_DIGEST
+from frame_gallery.tv.port import CONTENT_ID_PATTERN, target_fingerprint
 
 LAST_RUN_FORMAT: Final = "frame-gallery-last-run"
 CURRENT_FORMAT: Final = "frame-gallery-current"
@@ -149,6 +151,8 @@ def build_current_record(
     delivered_at: datetime,
     preview_fingerprint: str,
     tv_content_id: str | None = None,
+    tv_host: IPv4Address | None = None,
+    tv_device_id: str | None = None,
 ) -> dict[str, object]:
     """``current.json``: the artwork on the television; written only after ``selected``.
 
@@ -174,4 +178,10 @@ def build_current_record(
         if CONTENT_ID_PATTERN.fullmatch(tv_content_id) is None:
             raise ValueError("invalid TV content ID")
         record["tv_content_id"] = tv_content_id
+    if tv_host is not None:
+        record["tv_target_sha256"] = target_fingerprint(tv_host)
+    if tv_device_id is not None:
+        if DEVICE_DIGEST.fullmatch(tv_device_id) is None:
+            raise ValueError("invalid TV device identity")
+        record["tv_device_id"] = tv_device_id
     return record

@@ -20,7 +20,7 @@ FROM ghcr.io/home-assistant/base:3.24-2026.08.0@sha256:93ef607824e3f27e868f11b10
 
 # --- the interpreter for the build, with the pip wheel it bundles ----------------
 FROM base AS python
-RUN apk add --no-cache python3=3.14.8-r0
+RUN apk add --no-cache python3=3.14.8-r0 libexpat=2.9.0-r0
 
 # --- the virtual environment -----------------------------------------------------
 FROM python AS builder
@@ -57,7 +57,7 @@ RUN test -n "${BUILD_VERSION}" || { echo "BUILD_VERSION is required" >&2; exit 1
         *) echo "BUILD_ARCH must be aarch64 or amd64" >&2; exit 1 ;; esac \
     && case "${TARGETARCH:-none}/${BUILD_ARCH}" in none/*|arm64/aarch64|amd64/amd64) ;; \
         *) echo "BUILD_ARCH ${BUILD_ARCH} does not match ${TARGETARCH}" >&2; exit 1 ;; esac \
-    && apk add --no-cache python3=3.14.8-r0 \
+    && apk add --no-cache python3=3.14.8-r0 libexpat=2.9.0-r0 \
     && rm -rf /usr/lib/python3.14/ensurepip/_bundled
 COPY --from=builder /opt/frame-gallery /opt/frame-gallery
 # Current original notices/evidence are committed in the Supervisor build context.

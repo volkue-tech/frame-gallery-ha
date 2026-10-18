@@ -10,6 +10,7 @@ import logging
 import os
 import stat
 from datetime import UTC, datetime
+from ipaddress import IPv4Address
 from pathlib import Path
 
 import pytest
@@ -42,7 +43,8 @@ from tests.support.fakes import canvas_jpeg_bytes
 T0 = datetime(2026, 9, 27, 12, 0, 0, tzinfo=UTC)
 
 
-def test_optional_content_id_is_recorded_without_changing_legacy_records() -> None:
+@pytest.mark.parametrize("with_target", [False, True])
+def test_optional_content_id_is_recorded_without_changing_legacy_records(with_target: bool) -> None:
     record = build_current_record(
         qualified_id="commons:123",
         attribution=Attribution(),
@@ -50,8 +52,13 @@ def test_optional_content_id_is_recorded_without_changing_legacy_records() -> No
         delivered_at=T0,
         preview_fingerprint="b" * 64,
         tv_content_id="MY_TEST",
+        tv_host=IPv4Address("192.168.1.20") if with_target else None,
     )
     assert record["tv_content_id"] == "MY_TEST"
+    assert ("tv_target_sha256" in record) is with_target
+    if with_target:
+        assert record["tv_target_sha256"] == hashlib.sha256(b"192.168.1.20").hexdigest()
+        assert "192.168.1.20" not in json.dumps(record)
     with pytest.raises(ValueError, match="invalid TV content ID"):
         build_current_record(
             qualified_id="commons:123",
@@ -60,6 +67,18 @@ def test_optional_content_id_is_recorded_without_changing_legacy_records() -> No
             delivered_at=T0,
             preview_fingerprint="b" * 64,
             tv_content_id="../bad",
+        )
+
+
+def test_invalid_stable_device_identity_is_never_written() -> None:
+    with pytest.raises(ValueError, match="invalid TV device"):
+        build_current_record(
+            qualified_id="commons:123",
+            attribution=Attribution(),
+            sha256="a" * 64,
+            delivered_at=T0,
+            preview_fingerprint="b" * 64,
+            tv_device_id="192.168.1.20",
         )
 
 

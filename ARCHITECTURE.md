@@ -1,5 +1,154 @@
 # Frame Gallery for Home Assistant — Architecture proposal
 
+## Complete selected-upload / current-artwork feature D-235, 2026-10-18
+
+This section supersedes the D-234 one-shot-no-change and empty-profile-only
+rules narrowly described below. All selected deliveries carry device identity
+from the already needed capability response, target consistency hash and TV ID.
+Before history/preview updates, persist artwork-deliveries.json using the
+existing atomic store, maximum 2,048 latest per-device/ID receipts, 32 MiB plus
+one backup. No entry is invented after merely uploaded/uncertain selection.
+An unreadable/future/damaged primary or backup fallback cannot attribute an old
+reused ID. Selection-history reset does not erase delivery associations.
+
+The existing image preparation worker samples the exact final JPEG to 64x36
+RGB, returning its SHA and compact reference. The parent checks SHA against
+validated delivery bytes. Initial observation may compare the already obtained
+bounded TV thumbnail with an older reference inside the existing verifier;
+no second network request, permanent high-resolution archive or Pillow import
+in the host. Mismatch rejects the caption until real matching image evidence.
+
+One opted-in service session may be granted by a changed successful receipt
+whose actual TV identity, target, ID, work and bytes match persisted metadata.
+The in-memory grant is consumed; boot, restart, cached state and refresh cannot
+re-arm. This generic experimental path uses SLIDESHOW_POLICY without a shipped
+personal TV ID. The reviewed no-wake registry remains empty. Existing exact
+sequence/freshness/resource/isolation/no-reconnect rules remain. Off is default.
+Publisher distinguishes confirmed_upload from verified_thumbnail metadata;
+neither receipt itself nor a bare observed ID proves current display. Unknown
+IDs clear metadata. External unobserved ID replacement remains a documented
+event-only limitation. Old cards/data stay readable; no HA/card changes here.
+
+User authorizes the next beta after actual native ARM/Intel gates. Earlier
+private hardware captures are not live validation of this changed candidate.
+
+## D-234 regular-entry integration, 2026-10-18 (unreleased/local)
+
+The existing EventController/EventBackend service wiring is exercised end-to-end
+with actual host store and owned publisher over injected I/O. PublicationGuard
+latches every failed publication, requests service shutdown and suppresses later
+calls, including final pause. A non-auth collision/timeout must not leave a
+listener running without a usable display. No old periodic Controller fallback.
+
+Only background delivery records add tv_target_sha256, computed from the actual
+validated run target by target_fingerprint. HostObserver.after_delivery parses
+the already-read changed receipt bytes and requires that exact target digest
+before pin/token/grant lookup; capture also refuses another/missing target.
+This is a consistency tag, not cryptographic address anonymization. Old records
+remain readable but cannot arm reads; next explicit successful delivery supplies
+the tag. One-shot records, state schema version, history and associations stay.
+
+The exact observed unsolicited go_to_standby object under SLIDESHOW_POLICY
+becomes a bounded standby change, pauses metadata and ends the existing socket.
+Extra/correlated variants still fail closed. No getter, setter or reconnect.
+The software policy table remains empty; no personal device ID is bundled.
+Earlier private runs remain separately frozen hardware evidence, not validation
+of the nine changed runtime modules. Native ARM/Intel is deferred by the user
+to the later release round before publication. No HA/card/live activation here.
+
+## Local slideshow event attribution D-233, 2026-10-17
+
+Local/offline-only authority extends D-231 with the observed lab4 triple:
+image_selected (is_shown Yes, valid matte fields/ID), matching
+auto_rotation_image_changed (current_content_id, type shuffleslideshow), then
+art_mode_changed/status on. EventPolicy's optional slideshow flag selects only
+these exact names/values, cannot coexist with the D-232 ID query, and is not a
+user option. REVIEWED_POLICIES stays empty. No live app/profile/card changes.
+
+The existing receiver performs only the original five initial getters and
+one initial targeted thumbnail. It then emits bounded normalized changes,
+continuing through nav/new IDs without further requests. Unknown/malformed
+frames and mode-off still end without reconnect. SlideshowSequence in the
+trusted host enforces matching order, five-second receipt/deadline bounds and
+nonrenewing duplicates. Selection/nav first clear attribution. Complete changed
+IDs call HostObserver.accept_slideshow: exact device+ID lookup in the existing
+image-verified binding store, no network, verification or binding write.
+
+Observation adds optional Evidence.SLIDESHOW, leaving old four-field JSON exact.
+Unknown event IDs can have no digest/metadata; a known digest references the
+previously verified association, explicitly not fresh TV bytes. accept_snapshot
+rejects slideshow evidence. Publisher retains its owned sensor/escaped metadata
+and matching device/ID/digest requirement, adding only event confirmation method
+and maximum age (900). Undetected ID reuse/replacement cannot be ruled out;
+the event evidence/association distinction is a deliberate limit, not a new
+byte-identity or no-wake claim.
+
+EventBackend retains the established bounded listener after the baseline's
+90-second age-out while clearing current text. Completed changed-ID triples
+get a 15-minute lease from actual parent receipt for the observed ten-minute
+slideshow. The same-ID replay/on/pong cannot renew it; pending timeout or uncertain
+data disarm. After lease expiry, clear metadata and await later events on the
+same connection. No per-tick artist publication or false last_reported heartbeat.
+New five-language card examples support this bound and old 90-second fallback;
+installed cards/IDs and their old shorter window remain unchanged. Lifetime,
+queue/frame limits, worker isolation, no-boot/no-refresh connections and missing
+profile gate remain unchanged. Nothing is installed, built or published here.
+
+## Local one-shot same-session ID probe D-232, 2026-10-17
+
+Local/offline-only authority narrowly amends the D-231 receive-only phase:
+EventPolicy may select the exact mode field (value/status) and explicitly opt
+into one follow-up get_current_artwork maximum per whole session. Defaults stay
+receive-only; the production reviewed-device table remains empty. No installed
+app, card, version, background setting or device connection changes here.
+
+After fresh initial byte proof and a validated mode-on event, the worker emits
+querying/invalidation before sending on the original bounded websocket directly.
+It never invokes the library's getter/open/receive-discard loop or creates a new
+transport. FrameBounds latches a five-second query deadline before send; the
+single receiver accepts only the matching nonce/current-ID schema, ignores
+duplicate on without extending time, and aborts on off/mutation/unknown/error.
+Session ends on either result/failure. No request at boot, refresh, silence,
+mode-off or from an old/correlated event, and no retry/thumbnail/client ping.
+
+EventBackend clears baseline attribution when consuming querying, permits only
+bounded checking, and pauses after a bare-ID result or failure. There is no
+synchronous HA acknowledgement before the send, nor any proof-age renewal or
+ID-only binding/caption restoration. Unknown/missing actual firmware schema and
+sleep safety remain hardware gates; field names observed by Event Lab are not
+proof of their on/off values or a complete event stream. Earlier D-231's no-GET
+post-baseline rule below now has only this explicit, gated one-request exception.
+
+## Local event-session amendment D-231, 2026-10-17
+
+The user approved local implementation/offline testing of the
+[safer-session design](docs/plans/current-tv-artwork-sync.md). No device access,
+live configuration, build or publication is authorized. The real background
+entry now uses EventController/EventBackend and a dedicated bounded SessionProcess
+instead of the periodic Controller/HostObserver.read path. The released b8
+image and its historical behavior below remain unchanged.
+
+Only an exact reviewed device-event profile plus a fresh explicit delivery can
+open one observer websocket. The profile registry is intentionally empty until
+separate event/sleep validation. No boot/refresh/on-state/timer reconnect and
+no runtime profile/grant option. A single-threaded TV child receives normalized
+events; a trusted parent relay thread uses the existing isolated process seam
+and a bounded cancel pipe. Session lifetime <=8h, startup/partial frame <=5s,
+text frame <=64KiB, queue <=64, existing 512MiB/cumulative CPU/LSM/seccomp limits.
+Graceful close is attempted within 250ms; parent stop waits at most 2s before
+refusing an unresponsive/unreaped worker and any replacement delivery. The
+original delivery watchdog/resource/history protections are unchanged.
+
+Initial image proof is captured once on the same session; no repeated GET,
+thumbnail or client keepalive follows. Unknown/mutation/changed-ID events end
+the proof epoch, never trigger a content-ID-only lookup. Same-ID/mode-on events
+do not refresh attribution; the conservative 90s proof age still expires and
+pauses. Current cards receive no freshened artwork heartbeat. Continuous
+event-stream freshness is not claimed without a future accepted coverage/proof
+policy. Existing card IDs, last-delivery captions and one-shot defaults remain.
+Pong/close transport traffic and a persistent connection can still affect sleep;
+offline tests cannot validate physical no-wake/no-mode-change behavior.
+
 ## Experimental background activation amendment D-230, 2026-10-16
 
 The user's explicit experimental risk acceptance supersedes the absolute

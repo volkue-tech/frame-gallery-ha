@@ -8,11 +8,13 @@ treats its input as untrusted and raises ``ValueError`` on any deviation.
 from __future__ import annotations
 
 import enum
+import re
 from dataclasses import dataclass
 from pathlib import Path
 from typing import Final
 
 from frame_gallery.domain import CANVAS, FitMode, Rgb, Size
+from frame_gallery.imaging.reference import valid_reference
 from frame_gallery.isolation.executor import MAX_PASSED_FILES, JsonObject, JsonValue
 from frame_gallery.selection.geometry import Rejection
 
@@ -247,8 +249,17 @@ class PrepareResult:
     output_bytes: int | None = None
     jpeg_quality: int | None = None
     colour: ColourHandling | None = None
+    reference_rgb: str | None = None
+    reference_sha256: str | None = None
 
     def __post_init__(self) -> None:
+        if (self.reference_rgb is not None or self.reference_sha256 is not None) and (
+            self.status is not PrepareStatus.OK
+            or not valid_reference(self.reference_rgb)
+            or self.reference_sha256 is None
+            or re.fullmatch(r"[0-9a-f]{64}", self.reference_sha256) is None
+        ):
+            raise ValueError("invalid delivery pixel reference")
         if self.status is PrepareStatus.OK:
             if (
                 self.source_size is None
@@ -279,7 +290,7 @@ class PrepareResult:
             raise ValueError(msg)
 
     def to_json(self) -> JsonObject:
-        return {
+        result: JsonObject = {
             "status": self.status.value,
             "source_size": _size_to_json(self.source_size),
             "oriented_size": _size_to_json(self.oriented_size),
@@ -291,6 +302,9 @@ class PrepareResult:
             "jpeg_quality": self.jpeg_quality,
             "colour": None if self.colour is None else self.colour.value,
         }
+        if self.reference_rgb is not None:
+            result.update(reference_rgb=self.reference_rgb, reference_sha256=self.reference_sha256)
+        return result
 
     @classmethod
     def from_json(cls, obj: JsonObject) -> PrepareResult:
@@ -305,6 +319,12 @@ class PrepareResult:
             output_bytes=_optional_int(obj, "output_bytes", 1, MAX_OUTPUT_BYTES),
             jpeg_quality=_optional_int(obj, "jpeg_quality", 1, 100),
             colour=_optional_enum(obj, "colour", ColourHandling),
+            reference_rgb=_optional_str(obj, "reference_rgb", 9216)
+            if "reference_rgb" in obj
+            else None,
+            reference_sha256=_optional_str(obj, "reference_sha256", 64)
+            if "reference_sha256" in obj
+            else None,
         )
 
 
@@ -452,3 +472,4 @@ class DeliveryArtifact:
     fingerprint: str
     """The D-118 fingerprint of the same bytes, recorded for each published
     preview so the local library never offers a copy of it (F7)."""
+    reference_rgb: str | None = None

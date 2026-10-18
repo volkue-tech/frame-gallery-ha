@@ -28,8 +28,8 @@
     },
     {
       "path": "LICENSES/alpine-original-notices-manifest.json",
-      "bytes": 43731,
-      "sha256": "32c31c4c18ed20a7f269f4dd3396162085f6e0039d2c61810124591f055e4876"
+      "bytes": 44091,
+      "sha256": "7b2a9f7bcab7c562b9f35c2d5a199ac13ac947c009cb98a1cb24241c00336e89"
     },
     {
       "path": "LICENSES/alpine-originals/Python-3.14.8.tar.xz/Python-3.14.8/Doc/copyright.rst",
@@ -143,6 +143,11 @@
     },
     {
       "path": "LICENSES/alpine-originals/expat-2.8.5.tar.xz/expat-2.8.5/COPYING",
+      "bytes": 1144,
+      "sha256": "31b15de82aa19a845156169a17a5488bf597e561b2c318d159ed583139b25e87"
+    },
+    {
+      "path": "LICENSES/alpine-originals/expat-2.9.0.tar.xz/expat-2.9.0/COPYING",
       "bytes": 1144,
       "sha256": "31b15de82aa19a845156169a17a5488bf597e561b2c318d159ed583139b25e87"
     },
@@ -588,8 +593,8 @@
     },
     {
       "path": "LICENSES/alpine-source-manifest.json",
-      "bytes": 68042,
-      "sha256": "de25882f83a432fe5026c901a260d6c745268855c85583f873909a02656d4170"
+      "bytes": 69293,
+      "sha256": "d58194b93fa6342a5e5a92458d9123528483cc753aa550c6cdaddba6dbdc07ec"
     },
     {
       "path": "LICENSES/aom-3.14.1/LICENSE",
@@ -1003,8 +1008,8 @@
     },
     {
       "path": "THIRD_PARTY_NOTICES.md",
-      "bytes": 29981,
-      "sha256": "66d995333e4427cbef2b7a06356df83ad1f080291e0f3c8b4174e71b9fd2b27b"
+      "bytes": 30066,
+      "sha256": "19c637f683bb3f103c2ab9555e2f6ebad90f60e7788160986381e37b3bf6fec0"
     }
   ]
 }

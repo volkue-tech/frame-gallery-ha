@@ -187,6 +187,14 @@
       "archive_sha256": "1e727b8933ec51a77a9a9d9afcf8e688bce45d907c13e36ab7393fe36e703182"
     },
     {
+      "path": "alpine-originals/expat-2.9.0.tar.xz/expat-2.9.0/COPYING",
+      "archive": "expat-2.9.0.tar.xz",
+      "member": "expat-2.9.0/COPYING",
+      "bytes": 1144,
+      "sha256": "31b15de82aa19a845156169a17a5488bf597e561b2c318d159ed583139b25e87",
+      "archive_sha256": "1e6371862cc31999b368c3b89b49994f0677e1bab5f1b2b85ae3741f5d803051"
+    },
+    {
       "path": "alpine-originals/fstrm-0.6.1.tar.gz/fstrm-0.6.1/COPYRIGHT",
       "archive": "fstrm-0.6.1.tar.gz",
       "member": "fstrm-0.6.1/COPYRIGHT",

@@ -462,6 +462,7 @@ class FakeTelevision:
                     status=DeliveryStatus.UNREACHABLE,
                     markers_seen=tuple(seen) if self.report_markers else (),
                     detail="stopped",
+                    device_id="d" * 64,
                 )
         if self.error is not None:
             raise self.error
@@ -469,6 +470,7 @@ class FakeTelevision:
             status=self.status,
             markers_seen=tuple(self.markers) if self.report_markers else (),
             detail=self.detail,
+            device_id="d" * 64,
         )
 
 
@@ -533,6 +535,8 @@ class FakeRecords:
         self.last_run_error = last_run_error
         self.consume_deadline = consume_deadline
         self.current: list[Mapping[str, object]] = []
+        self.deliveries: list[Mapping[str, object]] = []
+        self.delivery_error: BaseException | None = None
         self.last_run: list[Mapping[str, object]] = []
         self.deadlines: dict[str, Deadline] = {}
         self.remaining: dict[str, float] = {}
@@ -544,6 +548,13 @@ class FakeRecords:
         if self.current_error is not None:
             raise self.current_error
         self.current.append(dict(record))
+
+    def write_delivery(self, record: Mapping[str, object], deadline: Deadline) -> None:
+        self.events.append("records.delivery")
+        deadline.check()
+        if self.delivery_error is not None:
+            raise self.delivery_error
+        self.deliveries.append(dict(record))
 
     def write_last_run(self, record: Mapping[str, object], deadline: Deadline) -> None:
         self.events.append("records.last_run")

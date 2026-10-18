@@ -1,6 +1,1009 @@
 # Project status
 
-Last updated: 2026-10-16 (public b8 app/Store release independently read back)
+## D-235 complete feature / authorized beta round in progress — 2026-10-18
+
+User now requests the coherent current-artwork feature, automatic per-TV upload
+memory in both one-shot/background mode, Green/HAOS without special rights, and
+build/publication after green tests. This supersedes prior no-publication scope,
+not b8 OFF, unchanged installed cards or no new development TV connections.
+
+Local implementation captures actual device identity from the delivery's
+existing capability response, archives selected-upload metadata before later
+history/preview failures, and retains compact image references in bounded atomic
+private app data. Device+ID, not IP or last caption, resolves historical metadata.
+Opted-in service consumes a fresh persisted-delivery grant for one experimental
+strict slideshow session; no shipped personal identity, boot/refresh grant,
+polling or reconnect. See D-235 for the narrow superseding profile decision.
+
+Full offline gates pass 5751 tests/16 Linux-only skips, strict host/Linux typing
+over 295 files, Ruff/format/licence/configuration checks and 100% whole/mandatory
+line+branch coverage. Five-language guides/configuration help are consistent.
+Version is prepared as 0.1.0b9. Local native ARM container checks are running;
+native Intel and publisher checks remain pending. No publication/live-TV test.
+The first ARM inventory correctly stopped release on newly supplied libexpat
+2.9.0-r0 versus old notices. D-236 pins that exact official MIT package and adds
+recipe/source SHA512 verification plus original COPYING; bundle now 202 files.
+First Linux suite 5759/8 skips and all eight root checks passed, but this is
+not a green container run until the corrected full inventory/measurement rerun.
+The earlier random known-work hardware gate below remains genuinely open; a
+synthetic test or new storage design does not close it. Historical private
+snapshots are preserved. No HA/TV mutation, credential retrieval or Terminal
+window has occurred in this development round.
+
+Last updated: 2026-10-18 (D-235/D-236 b9 preparation; full offline gates green; native/publication pending)
+
+## Known-work random follow-up complete — no known hit; both unknown cycles confirmed
+
+After the user confirmed visible Art Mode and the unchanged ten-minute random
+slideshow, existing lab6 started once at about 10:38:05 local, for at most
+25 minutes. Its baseline MY_F0015 was correctly unidentified, with no caption.
+The only genuine imported association remains MY_F0183/Jakob Alt. Only an actual
+automatic transition to that work with the correct published title/artist can
+close the known-work gate; no random hit or known baseline substitutes for it.
+No forced selection, new image, setter, reconnect, app update or card edit.
+b8 was independently verified stopped/background OFF immediately beforehand.
+This follow-up uses existing HA UI/logs, no new Terminal window or API wrapper.
+Native HA details confirmed automatic changes at 10:47:53/MY_F0063 and
+10:57:53/MY_F0174, both unidentified/slideshow_events/900s, no title or artist.
+The first matches the app publication at 10:47:53.441265. No MY_F0183 hit;
+the automatic known-caption gate remains open, not a software failure inferred.
+After both opportunities within the finite window, lab6 was deliberately
+stopped; saved disarmed ticket independently reloaded with the original binding
+unchanged. No further TV connection. After user unlock, the complete 1000-line
+export was saved and only its final session analyzed: 10:38:05.222293 to
+10:58:33.261066 local; 222 trace rows, one Art channel, exactly five initial Art
+getters, 204 server pongs, zero later application requests or sequence errors.
+Worker reaped/paused published; actual HA details confirm paused at 10:58:33,
+with no ID/title/artist remaining. The user confirms both physical changes and
+Art Mode without power/mode anomalies during and after this bounded session;
+no new natural-sleep/general no-wake pass. b8 independently rechecked stopped,
+background OFF/Save disabled. Own extra diagnostic browser tab closed; no new
+Terminal window, API-wrapper login, relay or monitor. Raw export SHA256:
+f652020898cbd28ce1c513cec34ed234f76218763414647767cb56f15a036597.
+62 slideshow/publisher, 127 service/entry/controller
+and 21 evidence-gate offline checks pass; old snapshots/core parity unchanged.
+Evidence: build/known-random-followup-20261018/plan.json, analysis.json and
+slideshow-capture.log. Existing cards not edited; no publication.
+
+## Random-slideshow lab6 complete — both cycles technically and physically confirmed
+
+One human-armed session ran 10:02:10.342353–10:18:11.156766 local. Baseline
+MY_F0118 was correctly unidentified/cleared at 90s. Actual automatic triples
+completed 10:07:53.364613 / MY_F0017 and 10:17:53.408454 / MY_F0165, 600.044s
+apart. Both app publications match the actual HA events, slideshow_events/900s,
+no title/artist. One genuine Jakob Alt binding was available but never selected;
+unknown random hits do not pass the known-artist automatic-transition gate.
+
+Complete raw 1000-line export: 177 trace rows, one Art channel, exact five
+initial Art getters/one thumbnail, 159 server pongs, zero later application
+requests, setters, reconnects or sequence errors. Deliberate stop reaped the
+worker, published paused and wrote a complete result. Lab6 UI confirmed stopped;
+saved disarmed ticket independently reloaded with original binding exact. One
+transient screen-capture error was resolved by read-only re-observation, no
+blind action repeat or TV reconnect. Log SHA256:
+e2815b68c28e797cf6b3beb581be0d936d449d491b99743317fb987d0a1482f5.
+
+Passive capture completed normally/15 messages; before/collector/after logins
+all revoked. After-read 10:18:58 confirms exact original dashboard SHA and both
+selected artwork sensors paused. Own wrapper, collector, snapshot and finite
+caffeinate process absent. UI separately rechecked old lab5 stopped and b8
+stopped/background OFF, with no unsaved b8 configuration change. No source
+server/TV session/monitor remains active; no existing card was edited.
+
+129 focused/synthetic/actual-evidence checks pass; unchanged full gates pass
+5670/16 platform skips, strict host/Linux typing and 100% line+branch coverage.
+Current-core parity 113 files/five older snapshots/Python fingerprint exact.
+The user subsequently confirmed both automatic changes were visible and Art
+Mode remained without unexpected power/mode changes during and after this
+bounded session. This is not a new sleep/no-wake or known-artist automatic
+transition pass; no production profile or publication. Native ARM/Intel remain
+deferred to the later release round.
+Evidence: build/random-slideshow-live-20261018/completion.json,
+slideshow-analysis.json, slideshow-capture.log and run/.
+
+### Running-session checkpoint (historical)
+
+Fresh user confirmation of visible Art Mode/random ten-minute slideshow received.
+Passive normal-HA capture began 10:01:54 local, then lab6 was armed once and
+started; baseline HA state at 10:02:14 identifies MY_F0118 without any caption
+(no matching verified association). At 10:03:44 the 90-second proof expired and
+checking cleared the ID without another request. One bounded 25-minute session,
+no reconnect/setters, source server already stopped, b8 off/cards preserved.
+First actual automatic triple at 10:07:53 selected/rotated MY_F0017 and reported
+Art Mode on; app publication and passive HA state match that unknown ID, no
+caption, slideshow_events with confirmation_max_age 900. Initial five outgoing
+getters only in the current visible log; final raw-log request count/reaping
+still pending. The second automatic transition and physical after-report are
+not passed at this running checkpoint. Unknown transitions do not pass the
+separate known-artwork automatic artist-caption gate.
+
+Full unchanged offline gates rerun now pass 5670 tests/16 platform skips,
+strict host/Linux typing over 287 files and 100% whole/mandatory line+branch
+coverage. Four new synthetic passive-reviewer checks pass separately. Fingerprint,
+113 private/current core parity and all five earlier snapshots remain exact.
+Full gate log SHA256 e80bbeefe91b021306b2841fe1107ccb4b8332dcac8619bcc7b38f253cb420fd.
+Evidence: build/random-slideshow-live-20261018/, live passive trace under run/.
+
+### Lab6 installation/preparation checkpoint
+
+The user reports no way to choose specific slideshow works and confirms Art
+Mode plus the ten-minute random slideshow. Adapt the controlled test to at
+most 25 minutes/two automatic changes, without any image/power/mode command.
+Unknown IDs are expected and must keep title/artist empty; a live known-caption
+automatic-transition gate remains open unless an actual verified work occurs.
+
+Private lab6 is prepared with all 113 current core modules matching the candidate
+(only the isolated private sensor name/ID is normalized). Prior five frozen
+hardware snapshots remain exact. 119 focused private/parser/service/transport
+tests pass; the 5670-test full result below remains the unchanged candidate's
+previous full-gate result, not a new run. No runtime policy was enabled.
+
+Normal HA before-read at 09:28:43 local confirms the exact original dashboard
+digest and both artwork sensors paused; its temporary login was revoked. UI
+separately confirms b8 stopped/background off and private lab5 disarmed with the
+one genuine Jakob Alt binding unchanged. Direct Codex connectivity failed with
+curl 7 once; no credential or guessed-IP retry followed. One bounded Terminal
+wrapper obtained the normal-API before-read instead. Its local wait was then
+cancelled without starting the monitor; there is no continuing capture/login.
+
+Opening the privileged HA Terminal & SSH build surface was initially rejected;
+the user then explicitly approved it for this private app update only. Narrow
+management metadata confirmed lab5 stopped/manual/watchdog off/updates off and
+source http://192.168.178.183:8896/event-lab-20261017.git. That address is no
+longer assigned to the Mac (current Wi-Fi address .64). No interface alias,
+network setting, host/Supervisor file or protection is changed as a workaround.
+
+User then explicitly approved temporary lab6 and the fresh five-minute HA-only
+transfer. Private source commit 004f5786d26bda72e9e12d91fcfb3bed590bfdf3 was
+imported at the new source URL; the restricted server stopped immediately
+after registration, own exec session 56712 completed exit 0. Lab6 installed
+as 292798ee_frame_gallery / 0.1.0b8-event-lab6, protected, own AppArmor profile,
+manual boot/watchdog off/updates off; no host networking/Docker/full access.
+Its own diagnostic ID is sensor.frame_gallery_event_test6. Inert start at
+09:50:10 local published validation_required and explicitly logged disarmed/no
+TV connection before stopping. Original MY_F0183/Jakob Alt association alone
+was saved and independently reopened; ticket remains disarmed.
+
+Fresh normal-API before-read 09:50:04 confirms exact original dashboard and b8
+sensor paused; own login revoked. One fresh finite wrapper waits at most 15
+minutes for a local marker before starting passive HA capture. Its idle-only
+assertion is bounded/no screen-lock change. The user is asked to freshly confirm
+visible Art Mode and the random ten-minute slideshow; no TV session starts yet.
+Original test app/binding and existing cards/sensors remain intact; no public
+release, live-profile activation or hardware pass. Evidence:
+build/random-slideshow-live-20261018/ and run/.
+
+## D-234 local regular-service integration complete; live/native checks deferred
+
+Regular entry/controller/backend/store/owned-publisher wiring now has multiple
+known/unknown-cycle tests over injected I/O, not only private lab coverage.
+New background receipts hash the actual target and parse the same snapshot
+bytes; old/missing/different targets cannot arm the previous TV. Every failed
+publication (500, 401/403, ownership collision) stops/latches without final-state
+retry. Exact captured go_to_standby clears metadata and closes as normal pause.
+One-shot records, history, existing bindings and card/script IDs remain intact.
+
+Full local gates: 5670 passed, 16 platform skips; strict host/Linux typing over
+287 Python files, Ruff/format and 100% whole/mandatory line+branch coverage.
+After five-language candidate-note changes, 11 guide/YAML checks pass again.
+Python input fingerprint:
+9fc6f1120920804e4b4def1c299c316c79ebe3282e5df547eb202ee9cb1ca3dc.
+Five frozen private snapshots still match. Nine runtime modules now differ
+from live lab5: historical hardware evidence is not exact new-runtime proof.
+Offline replay accepts both saved automatic transitions and the saved standby
+event. It is not a new known-work automatic live transition or broad safety pass.
+
+The user explicitly defers the targeted known-work live test and native ARM/
+Intel validation (the latter must pass before release). Private-app-only update
+and a five-minute HA-only transfer are approved for that later controlled test;
+neither is executed now. Production profiles stay empty, so activation is still
+blocked pending hardware/profile acceptance; no personal TV identity is shipped.
+No credentials, GitHub, HA/TV connection, app/card change, build, version bump,
+commit, push or publication in this local integration round. All local test
+sessions completed. Evidence: build/service-integration-20261018/plan.json,
+verification.json and full-offline-gates-final.log.
+
+## Natural-sleep comparison complete — positive single episode, not general clearance
+
+The freshly human-armed lab5 session ran 23:50:51.427353 on October 17 to
+00:03:34.874246 on October 18 (Europe/Berlin). Initial known MY_F0183 caption
+was correct and expired after 90s without another application request. With the
+listener still open, the TV itself sent go_to_standby at 00:03:34.759621 and a
+WebSocket close frame immediately afterward. The worker reaped automatically,
+cancelled false, published unavailable then paused, and did not reconnect.
+No manual stop or proposed 15-minute early-stop intervention was executed.
+
+Samsung local/remote went off at 00:03:41.613673/.614534. The user confirmed
+the screen had become naturally dark from a distance (reply recorded by
+00:05:38, not an exact falling-edge timestamp). Power fell to 24.53 W at
+00:04:27, then 0.71 W at 00:06:00. The passive tail ended 00:08:22.629734:
+no subsequent Samsung/remote on, more than two minutes after both the recorded
+human confirmation and first low-power sample. DLNA temporarily returned
+unknown/idle despite Samsung off; Music Assistant stayed idle and SmartThings
+unavailable, so those cannot alone identify physical Art Mode or sleep.
+
+Latest-session-only log review: 140 trace rows, one Art channel, exactly five
+initial getters/one thumbnail, 126 server pongs and one close frame. Zero later
+application requests, follow-up queries, setters or reconnects. The passive
+collector completed normally after 24 messages and revoked its own login.
+Before/after logins also revoked. Normal after-read 00:08:27 confirms exact
+original dashboard unchanged and both artwork sensors paused. Private stopped,
+boot/updates off; saved disarmed independently reopened, original binding exact.
+b8 separately verified stopped/background OFF. Own caffeinate 49223 terminated,
+exec session exit 143; both own PIDs absent. No ongoing monitor/TV session,
+automation, production-profile enablement, commit, upload or release.
+
+This is a positive controlled natural-sleep/no-reconnect episode on this Frame,
+not a general no-wake/no-delay guarantee. Trigger, exact last motion and physical
+off edge remain unknown. The app-off reference went off about 9.5 minutes after
+capture; active standby was about 12.7 minutes after session start. These are
+different anchors, so neither equal timeout nor no sleep delay is proven.
+No automatic known-work slideshow transition occurred in this run. Thirteen
+focused reviewer/replay tests pass; candidate fingerprint, five frozen snapshots,
+113 core-file parity and empty production policy registry remain unchanged.
+Native candidate ARM/Intel and regular-service/profile integration remain open.
+Evidence: build/sleep-active-20261017/plan.json, session-analysis.json,
+active-session-capture.log and ha-events.jsonl. Earlier checkpoints below are
+historical; this completed state supersedes their pending-test wording.
+
+### Active session setup (historical checkpoint)
+
+After the completed app-off reference below, the user freshly confirmed waking
+the Frame by movement with actual artwork visible. The passive HA capture began
+23:50:26.823493 local; the installed private lab5 was armed once and started. Initial
+proof at 23:50:55.496256 confirmed MY_F0183/Jakob Alt and published the exact
+known title. Only then was the user told to leave the room for natural sleep.
+Exact last motion and sleep trigger remain unknown. No active safety result yet.
+The session is bounded at 1500 seconds; collector 1560 seconds, own idle-only
+assertion 1620 seconds. No automatic reconnect, setters, image/power/mode change,
+code transfer, production profile, publication or card change. b8 stays off.
+Current evidence: build/sleep-active-20261017/plan.json and passive capture.
+
+### Completed app-off reference
+
+The passive app-off control finished normally at 23:46:24.203529 local after
+13 scoped HA messages. Samsung local/remote switched off at 23:40:36; the user
+subsequently physically confirmed naturally dark from a distance by approximately
+23:42:29. This reply is NOT an exact physical falling-edge timestamp. Power later
+reached 0.42 W at 23:43:05 and 0.71 W at 23:45:09. The passive tail remained quiet
+for more than two minutes after human confirmation; no Samsung local/remote on
+was observed. DLNA temporarily returned unknown/idle despite Samsung off,
+demonstrating why that alone cannot prove a lit screen. Sleep cause and exact
+timeout remain unknown (motion vs Night Mode not isolated).
+
+Collector stopped early by own marker after the reference was complete; own
+login revoked. Normal after-read 23:46:29 confirms exact dashboard unchanged,
+both observer sensors paused and its own login revoked. Own caffeinate 47696
+matched exact command/start time, terminated, session exit 143. No ongoing
+collector/automation/assertion or TV connection. Both apps stayed stopped;
+no active observer/no-wake safety pass is claimed from this app-off reference.
+The user offered to simulate expected wake by approaching; a signal was given
+only after the tail. The later fresh visible-artwork confirmation and one
+private active comparison are recorded above; no new binding/code update needed.
+
+### Reference setup and provenance
+
+The user freshly confirms visible Art Mode and a quiet living room and requests
+the sleep test. The announced first phase is an app-off control, not an active
+no-wake test. Normal HA cached-state collector actually began at
+23:31:01.994096 local, finite 1560 seconds to approximately 23:57. Own temporary
+HA login stayed in memory and was revoked at finish. Own finite idle-only
+caffeinate lasts at most 1620 seconds, no display/lock setting change. Existing
+admin UI independently confirms b8 stopped/background OFF and lab5 stopped with
+saved ticket disarmed, boot/update off. No app, TV setting, power/image/mode,
+dashboard or configuration.yaml change; no direct TV connection.
+
+Initial HA power 36.62 W has last_reported 23:29:20; Samsung/remote on are old
+cached states, not fresh screen proof. The fresh human Art-Mode observation is
+separate evidence. Local review reports timestamp/staleness and merely suggests
+a fresh high-to-low power transition, never certifies physical sleep from watts
+or unavailable. Four synthetic review tests pass; collector completed without
+an auth/recording error. A distance-only physical off observation was obtained.
+No active observer session or natural-sleep/no-wake pass follows automatically.
+Evidence and current bounds: build/sleep-control-20261017-2330/plan.json,
+ha-monitor-status.json, ha-events.jsonl and review-control.json.
+An attempted recurring follow-up was rejected as beyond this finite scope;
+none was created and no alternate persistent monitor/relay was used. The
+one-shot capture and direct bounded accompaniment were used instead and ended.
+
+## Final validation round — offline/template checks complete, sleep window from 23:00
+
+User authorizes the bounded final round as autonomously as practical, with b8
+off, actual cards intact and no publication. Quiet living-room conditions are
+available only from about 23:00 local; no sleep timeout is known and brightness
+may affect it. No new TV session was opened: the user's brief Art-Mode window
+before watching TV was deliberately left free, not substituted for sleep proof.
+First observe a passive app-off reference, then a freshly human-armed bounded
+session under comparable lighting/absence. Preserve current TV settings. Do not
+label an unknown darkness-triggered sleep as proven no-motion sleep, use watts
+alone as physical evidence, extend the 25-minute lab silently or auto-reconnect.
+The later test still needs fresh human Art-Mode/readiness; no scheduled test or
+automatic activation was created. Current plan: build/final-validation-20261017/.
+
+Full host gates rerun: native-permissions run passes 5606 tests/16 platform skips,
+strict host/Linux typing over 286 files, Ruff/format and 100% whole/mandatory
+line/branch coverage. The initial sandbox run failed only the two real group/
+mode handover checks (5604 passed); the full native-permissions rerun passed,
+not a suppression/test change. Python input fingerprint remains
+bdfbf4f228b1e40a8f874b8fbdf31c35f932d070063440dba046893c4fd560a0.
+All five frozen private snapshots remain exact; 113 runtime core files match
+the live-tested lab5 after normalizing only its private sensor ID/friendly name.
+Production profiles remain empty. No source/runtime/image changed this round.
+
+Actual authenticated HA Template-editor render verifies 50 cases (10 each in
+EN/DE/FR/ES/IT) using the original card content templates unchanged and synthetic
+local variables only. Missing/paused/checking/unknown/blocked, fresh/expired
+thumbnail, fresh/expired slideshow and old fallback all passed. Previous personal
+editor restored via Undo and verified. No entities/cards/configuration written
+and no TV calls. This checks HA template rendering/metadata visibility, not a
+saved native card's visual layout. A normal-API after-read at 20:10:03 local
+matches the exact original dashboard SHA and both sensors paused; own login
+revoked. Source record is the explicitly dated 19:32 baseline, not a newly
+fabricated fresh before-read. Reports and exact gate logs are in that folder.
+
+Native build checks remain separate: Mac/local Docker are arm64 and no images
+matching the own standard development app/test names are locally available.
+No pull/build/CI/registry activity occurred. Native Intel for this changed
+candidate cannot be claimed from old b8 results or ARM emulation. No candidate
+source push/upload or publisher workflow is authorized to obtain those checks.
+Hardware sleep/known-event and final regular-service/native candidate gates are
+still open; nothing was released or made active on HA.
+
+## Known-artwork live validation — title/artist confirmed, stopped and disarmed
+
+Fresh human readiness confirmed the actual Wien panorama in Art Mode. One
+private session ran 19:33:49.729277–19:35:41.907505 local on 2026-10-17.
+Its baseline proved MY_F0183 and exactly the original saved thumbnail SHA256;
+one imported genuine association resolved to Jakob Alt / View of Vienna from
+the Spinner on the Cross, 1817. Actual HA state artwork at 19:33:53.696811
+contained that exact title and artist. At 19:35:23.684922, 90 seconds later,
+checking correctly removed ID/title/artist without another request. No automatic
+image transition occurred in this short known-work session; known-event caption
+lookup remains offline-covered, not a new live known-slideshow pass.
+
+Downloaded full log, excluding all earlier runs from the analysis: 30 bounded
+trace rows, exactly one Art channel and the five initial getters/one thumbnail;
+zero post-baseline application requests, setters or reconnects. Deliberate stop
+reaped the worker, cancelled true and published paused. Saved disarmed ticket
+was independently reopened; exact imported binding retained. Private app stopped,
+boot/updates off. Fresh admin UI separately verifies b8 stopped/background OFF.
+Passive collector ended normally at 19:36:01 by own stop marker, seven scoped
+events and own login revoked. After-read at 19:36:06 confirms both sensors paused
+and exact dashboard SHA unchanged; its own login revoked. Own finite caffeinate
+PID 42579 was matched to command/start time and terminated, session exit 143.
+No ongoing observation, TV connection, automation, release or production profile.
+
+Combined private/import/slideshow/actual-evidence replay: 81 tests passed. No
+runtime source/image changed for this follow-up. The user now explicitly confirms
+the Wien panorama remained in Art Mode without unexpected power/mode changes
+throughout this test. Technical known-caption evidence and physical observation
+therefore agree for this one bounded session. Natural
+sleep/no-wake remains untested, not implicitly passed. Existing installed cards
+were not edited/render-tested against the private sensor. Evidence is under
+build/known-artwork-live-20261017/; known-work-capture.log SHA256:
+0c1a81aaee66264d8cc8148605e45d6cdb773af06a65e30370a0f4faa937ed2d.
+
+### Original association import and preparation
+
+The user now separately authorizes copying existing verified artwork bindings
+into the private test app and controlled known-work artist display tests. b8
+must stay off, actual cards intact, no publication. Reuse installed lab5's
+verified_bindings input; no new image/package or production-profile change is
+needed for up to 32 existing associations. Never infer mappings from old captions
+or copy TV credentials, owner records, history or general app configuration.
+
+Initially prepared a bounded exact-format/version/per-device validator under
+build/known-artwork-live-20261017/: twelve synthetic offline tests passed, including
+duplicate/invalid/other-device data, credential-like links and refusal to silently
+truncate above lab5's limit. At that preparation point no real mapping had been
+accessed/copied, no HA configuration changed and no TV connection opened.
+After user unlock, the existing protected terminal had no Docker CLI/socket;
+no tools installed, protection changed or app started. The user then explicitly
+approved an HA-local unencrypted b8-only partial backup and extraction solely
+of its binding document. Backup 7fb4e2c1 contains only a94fc569_frame_gallery;
+no complete archive was downloaded. Read only nested data/state/artwork-bindings.json.
+It has exactly one original record: MY_F0183 / commons:21793150 / Jakob Alt /
+View of Vienna from the Spinner on the Cross, 1817. Its canonical selected-record
+SHA256 d87dcb61efb7f71b17ac932d38175ab0abb73410a0e7c8ddc8168d34e157c82f
+matches the independently validated local transcription byte-for-byte.
+The original nine fields alone were saved in lab5's existing verified_bindings
+input and independently reopened with exact equality; test_ticket stays disarmed,
+private app stopped, boot/updates off. Source b8 remained stopped/background OFF
+after the backup. No tokens/owner/history/general configuration copied and no
+association inferred. Fourteen import/genuine-binding offline tests now pass.
+The combined private-harness/import/slideshow regression run passes 76 tests.
+The normal-API before-read at 19:32:19 local independently confirms the exact
+original dashboard SHA unchanged and both sensors paused; own login revoked.
+Only one known work exists, not a larger set. The freshly approved known-work
+session and outcome are recorded above. Provenance and canonical payload:
+build/known-artwork-live-20261017/import-provenance.json and verified-bindings.json.
+
+## Private lab5 — two automatic changes confirmed, stopped and disarmed
+
+One freshly approved session ran 16:01:42.748881–16:16:50.875573 local on
+2026-10-17. Initial MY_F0168; automatic selected/rotation/on triples confirmed
+MY_F0041 at 16:06:35.281811 and MY_F0015 at 16:16:35.219634. Actual private HA
+states followed at 16:06:35.384651 and 16:16:35.288362, tagged slideshow_events.
+Both were unidentified with no title/artist, as required for the empty isolated
+binding store. The second replaced the first after ten minutes; baseline expiry
+had not killed the listener. Known-artist display is NOT live-validated.
+
+Full downloaded log: 168 bounded trace rows, one channel connection, exactly
+five initial getters/one targeted thumbnail, zero post-proof application sends,
+six unsolicited slideshow messages, 150 bounded server-pongs. No sequence error,
+setter, follow-up query or reconnect. After two transitions the private app was
+deliberately stopped early, not allowed to run unnecessarily to its 25-minute
+limit: cancelled true, worker_reaped true, paused publication true. Saved test
+ticket was reset to disarmed and independently re-opened in the admin UI.
+Private app stopped; boot/update remain off. The passive collector ended by
+local stop marker at 16:17:07, 13 scoped messages, own login revoked. Normal
+after-read at 16:17:12 confirms both sensors paused and the exact original
+dashboard SHA256 unchanged; its own login revoked. Fresh final info probes
+confirm both apps stopped/protected/manual. Admin UI independently confirms
+b8 background switch OFF. Own finite caffeinate process was identified by
+exact command/start time and terminated; no ongoing collector/automation remains.
+
+Actual-log replay plus private/contract/API-scope checks pass 77 focused tests;
+the earlier full 5606-test gates and exact Python fingerprint remain unchanged,
+as do all four older private snapshots and all 120 frozen lab5 files. The focused
+command output is saved as final-replay-tests.log. No production profile enabled, public
+version changed, combined main-repository commit or publication. The user has
+now explicitly confirmed both physical automatic changes and continued Art
+Mode without unexpected power/mode changes. Protocol, HA publication and human
+observation therefore agree for these two cycles. Natural sleep/no-wake and
+known-artist live coverage remain open; no additional session is authorized.
+Evidence: build/slideshow-attribution-live-20261017/slideshow-capture.log,
+slideshow-analysis.json, ha-events.jsonl, ha-monitor-status.json, ha-after.json,
+progress.json. Log SHA256:
+48dd769df200b6df304878cffed9062c39a760f796eae44f87cc53df6995fab6.
+
+### Preparation and authorization timeline
+
+The user separately authorizes updating only the existing local Event Lab and
+controlled observation over multiple automatic slideshow changes. Unknown old
+TV images may legitimately have no artist/title. b8 must remain stopped with
+background off; existing cards and the production profile registry stay intact,
+and publication is not authorized. This supersedes the D-233 offline-only gate
+solely for that private, freshly human-armed test.
+
+Prepared under build/slideshow-attribution-live-20261017/: a maximum 1500-second
+single-use-ticket session, one initial image proof then zero application sends,
+strict D-233 event/backend/binding lookup, only the existing private test sensor.
+A separate finite 1560-second normal-HA-API collector observes cached entities;
+no additional TV connection. The private binding store is isolated from b8;
+never infer a caption for an unimported/unknown ID. The preparation gates below
+subsequently completed as recorded in the outcome above. The existing
+dashboard digest is unchanged in a fresh normal-API before-read, own login revoked.
+No new TV connection or publication has occurred during this preparation.
+Full offline gates were rerun successfully: 5606 passed/16 platform skips,
+Ruff/format, strict host/Linux typing over 286 files, 100% whole/mandatory
+line and branch coverage. A further 67 focused private/slideshow tests pass.
+All earlier frozen snapshots and the Python source fingerprint are unchanged.
+Private local-only source commit a4eb3c896b685be0079ee5d6aec94ee3070d46b0
+descends from lab4; it is not a main-repository commit or public push. Exact
+progress is saved alongside the new private snapshot. Single-HA-IP transfer
+approval has been requested; no transfer server was started while awaiting it.
+
+Subsequently the user approved this update's five-minute single-HA-IP transfer.
+Source refresh/import succeeded and the server was immediately stopped (exit 0).
+Only the existing private app was updated with --backup to lab5, still protected,
+own AppArmor profile, manual boot, ticket disarmed. Its inert start at
+15:32:12.827988 local published validation_required without artist data, explicitly
+logged no TV connection, and exited. Fresh b8 management info remains stopped/
+background false. The normal-API before-read at 15:31:34 local matched the exact
+original dashboard hash and revoked its own login. No TV connection occurred.
+Fresh physical Art-Mode/ten-minute-slideshow readiness has been requested before
+the finite live session. A metadata-only lookup found only older public-app
+backups, not a current verified mapping export; no backup was restored, no new
+public-app backup/credential export made and no mapping was inferred from titles.
+The after-read at 15:34:06 local confirms exact dashboard preservation, b8's
+sensor still paused and the private sensor validation_required; its own login
+was revoked. Fresh private info UI shows lab5 stopped, boot and automatic updates
+off. The private verified_bindings input is empty: unknown-ID/clearing results
+can be observed, but no live known-artist pass may be claimed without a genuine
+previously verified association becoming available and selected in the session.
+
+The user then freshly confirmed visible Art Mode and ten-minute automatic
+slideshow. One finite private session began 16:01:42 local; initial image proof
+published MY_F0168 at 16:01:46. The independent passive HA collector began
+16:01:17, maximum 1560 seconds. Baseline freshness expired/cleared at 16:03:17
+without terminating the receiver. At 16:06:35.384651 local the actual HA test
+entity confirmed MY_F0041 with slideshow_events, unidentified and no title/artist.
+At that point it was the first transition, not yet two-cycle or physical/sleep
+confirmation; the later second transition and cleanup are recorded above.
+No additional TV query or session was requested. A proposed finite scheduler
+follow-up was rejected; no automation was created and direct accompaniment
+continued. Mac lock temporarily blocked UI/log download, not the bounded
+app/normal-API capture; the user subsequently unlocked for the approved cleanup.
+
+A narrowly allowlisted ordinary-HA-login Supervisor-WebSocket info probe succeeded
+without a Supervisor token or Core proxy, reading only the two own app states.
+The test app was started/protected/manual and b8 stopped. A later visibility
+check establishes that this non-admin response omits the entire options object;
+an omitted/redacted object is UNKNOWN, not a false configuration. The auxiliary
+parser was corrected/tested accordingly. The final b8 OFF and private disarmed
+settings are verified in the admin UI, not inferred from that restricted API.
+One private log GET was then refused unauthorized. No retry, scope change or
+alternate credential search: one auth/current_user metadata check confirms that
+this known API account is neither admin nor owner. All three temporary logins
+were revoked. The auxiliary log/write modes are now disabled before credential
+loading; final log/download/disarm used the already authorized admin Firefox
+session after user unlock. The passive HA collector was unaffected.
+
+## D-233 event-confirmed slideshow attribution — local/offline implementation
+
+User authority: implement locally/offline from the captured slideshow sequence;
+no more live tests or publication. b8 remains stopped/background off, actual
+existing cards untouched. An exact injected slideshow contract now decodes the
+observed shapes; the host corroborates selected/shown + equal rotation ID + on
+within five seconds. Navigation invalidates, not on. Known image-verified per-TV
+bindings supply metadata; unknown IDs stay unidentified, no binding/history/
+current write or last-caption fallback. Explicit slideshow evidence distinguishes
+the saved association digest from a new thumbnail proof. ID reuse outside the
+observed stream is not detected. Production profile registry remains empty.
+
+The receiver survives baseline age-out (90s) and new selections without further
+requests; changed-ID triple evidence lasts at most 900s from receipt, covering
+the observed ten-minute interval. Duplicates/on/pongs never freshen it. Selection,
+expiry and uncertainty clear current text; off/failure closes without reconnect.
+Complete five-language optional card examples support the new limit and old
+90s fallback. Installed cards and their old shorter window are preserved.
+
+Full offline gates pass: 5606 tests passed, 16 platform skips, Ruff/format,
+strict host and Linux-platform typing over 286 files, 100% whole plus mandatory
+line/branch coverage. The real pinned-library socketpairs use two authored
+slideshow cycles, one connection/five initial getters/one thumbnail, zero
+follow-up queries. Host tests simulate multiple ten-minute cycles/returning IDs,
+metadata expiry without receiver shutdown, stale/conflicting/partial/replayed
+data, unknown/other-device mappings and unchanged persistent records. Manual
+review checked proof tagging, policy gating, invalidation/coalescing and expiry;
+the four earlier private snapshots remain byte-exact. Python input fingerprint:
+bdfbf4f228b1e40a8f874b8fbdf31c35f932d070063440dba046893c4fd560a0.
+No new HA/TV/credential/browser/network access, native container, install,
+version bump, release or sleep-safety claim. No live profile enabled. Existing
+uncommitted predecessor candidate work was preserved, unrelated docs/community
+left untouched; no combined commit was made across that overlapping work.
+Evidence: build/slideshow-events-offline-20261017/full-gates.log and
+verification.json. The optional card template is structurally tested offline,
+not newly rendered on HA. At that offline-only milestone natural sleep and
+multiple real cycles remained open; the subsequent private two-cycle results
+and still-open sleep/known-artist/physical gates are recorded above.
+
+## Lab4 automatic-slideshow capture complete — unsolicited new ID observed
+
+The user now explicitly reports the ten-minute slideshow started. The finite
+HA companion subscription began 13:05:31 local, scoped to thirteen existing
+Frame/loading/power entities, no device request. One ticket-gated lab4 TV session
+started after that confirmation. At 13:05:48 the pinned identity and double
+Art-Mode/current-ID/thumbnail proof passed for MY_F0015, thumbnail SHA256
+a18d021af0a28f5c7e36c72ab95751965290288e3b257609b650b57be57c57b5.
+The worker then only listens; observed transport server-ping responses occur
+about every six seconds. These are recorded separately from artwork events.
+No post-baseline application getter, setter, reconnect, b8 reactivation or
+dashboard mutation. User asked to leave the slideshow running without manual
+changes and report the next physically observed automatic transition.
+
+At 13:14:50.947556 local, a receive-only image_selected notification contained
+content_id MY_F0118 and is_shown Yes. The next notification at 13:14:50.947855
+was auto_rotation_image_changed, current_content_id MY_F0118, type
+shuffleslideshow. At 13:14:50.998225 art_mode_changed/status on followed.
+Thus this device actually supplies the new slideshow ID without a further
+getter or reconnection. The ID differs from the initial MY_F0015. No nav
+notification occurred during this automatic change; the manual/nav observation
+must not be substituted for this sequence. This is one captured protocol
+transition, not approved production semantics, an artist association or a
+multi-cycle/no-wake pass. The user subsequently explicitly confirms that the
+artwork changed automatically at the observed transition and the Frame remained
+in Art Mode without anomalies. This single slideshow transition is therefore
+corroborated by both the protocol trace and physical observation; it does not
+establish natural-sleep/no-wake safety or multi-cycle reliability.
+
+The session ended at its finite deadline, 13:15:47.513557 local, terminal paused,
+worker_reaped true, paused publication true, zero query attempts/setters.
+Downloaded log has 115 diagnostic rows: 13 initial messages, 3 unsolicited
+artwork/mode messages and 99 transport pongs; exactly one channel-connect
+message and five initial application getters, zero post-baseline getters.
+Log SHA256 d11d2ad875499a11e32b75f10d1557aba5876596ecb14f9d3141d4a9feb5bfac.
+Saved ticket is disarmed and private app UI stopped with boot/update off; the
+offered restart was declined. Fresh b8 UI confirms stopped/background off.
+The HA companion ended normally at 13:16:31, eight scoped messages, own login
+revoked. It showed no corresponding Samsung-local/SmartThings mode change;
+cached local on and SmartThings unavailable remained. Fresh cached power
+samples exist but do not identify artworks or establish sleep state.
+The normal after-read at 13:17:09 confirms exact dashboard digest unchanged,
+both sensors paused, own temporary login revoked. Offline replay of the actual
+download passes three tests and retains both ID fields/is_shown/rotation type.
+No new connection, app/profile activation, automatic repeat or publication.
+
+## Private lab4 complete-sequence diagnostic — preparation
+
+The user requests broader useful local evidence and fewer repeated short tests.
+Replace the lab3 first-status stop with one ticket-gated, maximum 600-second
+receive-only sequence in the separate app, plus a finite 660-second normal-HA-API
+subscription to the existing Frame entities/attributes and cached power sensor.
+No LAN-wide packet capture, unrelated device collection, credentials, image
+bytes, production-profile amendment or public release. Unknown valid protocol
+messages, including nav, are evidence only, never mode-on/query authority.
+The initial device/double-mode/ID/thumbnail proof is unchanged; there are zero
+post-baseline application sends, no reconnect, setter, background reactivation
+or existing-card changes. The initial ID is not published as ten-minute current
+metadata. Malformed frames, cancellation, rate/size/count bounds and observed
+mode-off end the capture; bounded transport close/server-pong remain permitted.
+
+Private lab4 snapshot 792de9df946e33b3289d2a1d07ec61055a5c7440 has parent
+4a891baa5e2a945174b37895009f934144d9201e. The 240 focused offline tests pass,
+including installed-library/socket-pair complete-sequence/no-new-getter checks
+and HA entity-scope/redaction tests. All earlier snapshots are retained.
+The normal HA baseline confirms both sensors paused, exact dashboard digest
+unchanged and own temporary login revoked. After separate user approval, the
+single-HA-IP transfer completed and server ended with exit 0. The private update
+with partial backup completed; CLI confirms lab4/protected/own AppArmor/manual
+boot/disarmed. An inert start explicitly logs no fresh ticket/no TV connection;
+UI confirms stopped and boot/update switches off. b8 is freshly verified stopped
+and background_mode false. Full offline gates pass with normal Mac permissions:
+5562 passed, 16 platform skips, strict host/Linux typing over 283 files and 100%
+whole/mandatory line and branch coverage. An initial sandbox run failed only
+two group/setgid workspace checks; all four related tests and the full suite
+pass outside the sandbox without code changes. All four private snapshot
+manifests remain exact. Evidence: build/event-sequence-live-20261017/.
+
+The user confirms visible Art Mode/readiness, then notes that actual use is the
+TV's automatic slideshow, whose smallest interval is ten minutes. Manual-change
+evidence must not stand in for automatic-change evidence. The user needs to set
+that interval first; wait for their explicit slideshow-running confirmation.
+No new live TV connection or HA companion collector has started yet. Prefer
+the next automatic change without manual interference in this finite capture;
+one ten-minute window cannot prove two complete ten-minute cycles. Longer
+cycle/reliability testing remains a distinct follow-up, not silently extended.
+
+## Private mode-status capture complete: exact string nav observed
+
+The user now explicitly approves a targeted status-value capture in the separate
+local test app, controlled in visible Art Mode, without image/power/mode setters,
+with b8 off, cards retained and no publication. The private diagnostic disables
+the optional post-baseline ID query entirely. After the unchanged initial proof,
+it captures only one exact unsolicited art_mode_changed/event+status envelope,
+records JSON type and a bounded scalar status (up to 64 safe text characters or
+bounded number/boolean/null; no nested payload/URLs/credentials), and terminates
+without interpreting its meaning. Unknown envelopes fail closed. The session
+remains at most 45 seconds, single-use ticket gated, same isolated transport,
+with no polling/retry/reconnect or production-policy amendment.
+
+The user separately reapproved the five-minute single-HA-IP source transfer.
+Lab3 private snapshot is 4a891baa5e2a945174b37895009f934144d9201e,
+parent lab2 821a6961a71ef75575bebe2c35fc9c0df773030c. Its 116 focused
+offline tests pass, including real installed-library/socket-pair verification
+of exactly the five initial requests and zero post-baseline requests for on,
+off, unexpected scalar and structured statuses. No new dependency or production
+source change. A normal HA baseline read confirms the exact dashboard hash still
+unchanged, both sensors paused and own temporary login revoked. Installation
+and a fresh physical-readiness-gated capture were initially pending; no TV
+connection has been opened by this preparation. Evidence:
+build/event-status-live-20261017/.
+
+Lab3 was subsequently imported and installed successfully with its own partial
+backup. The restricted transfer ended immediately after refresh (exit 0).
+CLI verifies lab3, own protected AppArmor profile, manual boot and disarmed
+ticket. The completed inert start explicitly logs no fresh ticket/no TV
+connection and exits stopped; UI confirms stopped, boot/update switches off
+and saved ticket disarmed. All three frozen private snapshot manifests match.
+The unchanged full production offline gates were rerun: 5562 passed, 16 platform
+skips, strict host/Linux typing over 283 files, Ruff/format and 100% whole plus
+mandatory line/branch coverage (full-gates.log, exit 0). A fresh human visible
+Art-Mode/observer confirmation was requested before any live capture. No artwork
+ID query, image/power/mode setter, production profile,
+dashboard change or publication occurred in this preparation.
+
+The user subsequently explicitly confirmed visible Art Mode and readiness to
+start. One lab3 capture ran 12:43:17.206018–12:44:03.656925 local. Initial pinned
+identity and double Art-Mode/ID/thumbnail proof passed for MY_F0175, SHA256
+65c84bc02e275a934f1e4de6acd366887826adcd776b98c73299433d86f83e0a.
+After that fresh proof the user was immediately signalled to manually choose
+another work. No unsolicited event arrived during this bounded session, so no
+status value was captured. The user subsequently confirmed the change happened
+only after the window and Art Mode remained without unexpected power/playback
+changes. No controlled transition occurred while listening, so this is neither
+an event-support failure nor a successful status-value test. No extra ID query
+or setter occurred, worker reaping and paused publication
+passed. The actual downloaded log matches quiet-capture-result.json; SHA256
+a6a644804d0499fdcb3f76386ef67975c9634bb515fbefe6fba3066589ae0a39.
+Ticket is saved disarmed and app visibly stopped. Fresh b8 UI checks confirm
+stopped/background off. The normal HA after-read at 12:45:00 confirms unchanged
+dashboard digest, both current sensors paused and own temporary login revoked.
+No automatic repeat, code/profile change or publication follows this quiet run.
+For the next separately user-started window, deliver the confirmed-baseline
+change signal as an immediate final response instead of continuing diagnostics
+while the human needs to respond. Keep the existing finite session/cleanup;
+do not extend it or reconnect silently. No new session started from this report.
+
+### Second lab3 capture: exact status value retained
+
+After a fresh explicit user Start, one unchanged lab3 session ran
+12:47:31.914957–12:47:52.058384 Europe/Berlin. Initial pinned device/double
+Art-Mode/current-ID/thumbnail proof passed for MY_F0176 (same thumbnail SHA256
+as the earlier verified MY_F0176 baseline). This time the post-baseline change
+signal was delivered as an immediate final response. The user promptly confirmed
+a different artwork visible and continued Art Mode. At 12:47:52.057835, one
+uncorrelated art_mode_changed with exact keys event/status arrived. Its status
+was the exact JSON string nav, length three. This is a newly retained value,
+not proof that nav means Art Mode on, displayed-artwork completion, or a safe
+query point. The earlier lab2 event's actual value was redacted, so it is not
+retrospectively asserted to have been nav.
+
+Lab3 deliberately ended on that first event, reaped the worker and published
+paused. Thus no later event sequence was observed; no follow-up ID query,
+content association, setter or reconnect occurred. The targeted field-capture
+goal is complete; the D-232 event-triggered ID-query acceptance is still open.
+The actual downloaded log matches transition-capture-result.json; SHA256
+53d5c9d5488c148bd163f3e8e2f6411c398bbe0f44b12c6d3e7684336366d2d1.
+Saved ticket is disarmed/app visibly stopped, offered restart declined. Fresh
+b8 UI checks confirm stopped/background off. The normal HA after-read at
+12:49:06 confirms the exact dashboard digest unchanged, both sensors paused and
+own temporary login revoked. Earlier quiet-run after-evidence is preserved.
+No production code/profile change or publication. No further test or production
+activation follows automatically; semantics/sequence, new-ID correlation and
+natural-sleep safety remain separately scoped validation work.
+
+## D-232 local same-session ID probe — offline implementation complete
+
+The user approves local implementation/offline tests of one ID request following
+a validated Art-Mode-on event on the existing socket. No further HA/TV access,
+installed-test-app update, build or publication. The last verified live state
+remains: both apps stopped, Event Lab disarmed, b8 background off and cards
+unchanged. D-232 implements one request maximum per session, five-second
+correlation and cancellation bounds, invalidation emitted before the probe and
+no ID-only artist claim. The parent clears metadata on receipt; there is no
+synchronous HA acknowledgement before sending. Expired initial proof cannot
+trigger the request. The production profile registry remains empty.
+
+The final unchanged Python snapshot passed all offline gates: 5562 tests,
+16 platform skips, strict host/Linux typing of 283 files, Ruff/format checks and
+100% whole/mandatory line and branch coverage. Real installed-library/socket-pair
+tests assert exactly one transport, no post-baseline library getter, at most one
+extra ID request, and bounded cancellation/disconnection. Parser/host tests cover
+exact nonce correlation, duplicate on, off/mutation, malformed/duplicate-key
+JSON, timeouts, stale proof/queued events and no ID-only metadata restoration.
+Manual transport/lifecycle/compatibility review is complete. No gate was weakened.
+
+Final Python-input SHA256:
+793708c273ef755d8f296d565ed2fc030bd0152304c58d30fa97d109904015ec.
+Evidence: build/event-id-probe-20261017/final-gates.log (exit 0,
+All gates passed) and verification.json. All 118 files in the frozen private
+Event Lab snapshot still match their recorded digests. These are host/offline
+results, not native-container, actual-firmware or no-wake evidence. No HA/TV
+connection, credentials, live change, image build or publication occurred in
+this D-232 implementation. A separately approved live validation remains open.
+
+### Separate D-232 Event Lab update/test authorized; preparation in progress
+
+The user subsequently approved updating only the separate local test app and a
+controlled Art-Mode test of the one-shot ID query. Public b8 stays stopped with
+background off; existing cards are retained and nothing may be published.
+The user separately renewed the maximum-five-minute source-transfer approval,
+restricted to the previously verified HA address. The new private snapshot is
+0.1.0b8-event-lab2, commit 821a6961a71ef75575bebe2c35fc9c0df773030c,
+a fast-forward of the private lab1 snapshot, not a public/main commit. It uses
+the actual D-232 worker/query implementation with a fixed private diagnostic
+policy and a 45-second session bound. Exact status values/reply schema remain
+unvalidated; unknown/off values terminate without probing or reconnecting.
+Its production policy registry remains empty and the only publisher is the
+existing diagnostic sensor. The new private harness plus core query/session
+tests pass (76 tests). No new dependency was installed. The normal HA before-read
+confirmed the exact dashboard hash unchanged, both current sensors paused and
+its own login revoked. GUI/CLI confirmed b8 stopped/background false and lab1
+stopped/disarmed. No TV connection has occurred in this preparation.
+
+The private repository refresh and lab2 update (with its own partial backup)
+completed successfully. The IP-restricted source server was stopped immediately
+after refresh (exit 0). Lab2's disarmed start explicitly logged no TV connection;
+the app was then explicitly stopped. GUI confirms lab2 installed/stopped,
+manual boot, automatic updates off and saved ticket disarmed; CLI confirms its
+own AppArmor profile and protected mode. Both frozen local snapshot manifests
+match (lab2 119 files; original lab1 118 files). Fresh human Art-Mode/observer
+readiness was subsequently confirmed before arming the single live capture.
+Progress and read-only baseline are in build/event-id-live-20261017/.
+
+The first lab2 capture ran 11:22:00.821521–11:22:47.140817 Europe/Berlin.
+Pinned identity and initial double mode/ID/thumbnail proof passed for MY_F0176,
+thumbnail SHA256
+2a5464f787ad08ba04621aa316e01a972ba3003d42640c8939f006a28dc18071.
+After the fresh baseline, the user was prompted to choose another artwork via
+their remote. No unsolicited event arrived within the bounded session, so no
+follow-up query was attempted and no new ID obtained. The user subsequently
+confirmed the artwork was changed only after that window and that Art Mode
+remained without unexpected power/playback changes during the session. Thus no
+controlled transition occurred while lab2 was listening; this quiet capture
+neither passes nor fails event-triggered ID detection. It does not establish
+natural-sleep/no-wake behavior or event completeness.
+The actual downloaded log confirms worker reaping, paused publication and no
+TV setter. Log SHA256:
+cb5d4b4e4eb31b7f5a9c8ae54e195bda7f2ef797dab2738bc62a7d491f04889e;
+quiet-capture-result.json preserves its result. The app is visibly stopped;
+saved ticket disarmed and offered restart declined. The ordinary HA after-read
+at 11:23:43 confirms the exact dashboard hash unchanged, both current sensors
+paused and its own login revoked. Fresh b8 UI checks confirm stopped/background
+off. No new session was started. The event-triggered ID-query test remains open,
+as do current-artist attribution, natural-sleep/no-wake and production profiles.
+
+### Second lab2 capture: controlled transition, unrecognized mode value
+
+The user freshly confirmed visible Art Mode/remote readiness and explicitly
+requested Start. One new session ran 12:15:47.673096–12:16:09.029707 local.
+Initial device/double-mode/ID/thumbnail proof passed for MY_F0181, SHA256
+2f3a65206b5cc354c3b068bc0db44602c5ebc8de54a518d582eb281258dbd159.
+After that baseline, the user was immediately signalled to change artwork via
+the remote and subsequently confirmed a different artwork visible. At
+12:16:09.029156, an unsolicited art_mode_changed with exact keys event/status
+arrived. Its status was neither the exact string on nor off. The private
+diagnostic replaced the value with the sentinel other; its actual value/type
+was not retained and cannot be reconstructed from this log. No meaning such
+as awake/asleep or successful completion is inferred from it.
+
+The strict decoder failed closed: no follow-up ID request, no new content ID,
+no retry or reconnect. The worker ended unavailable, was reaped, and the own
+sensor was published paused. The actual downloaded log matches
+transition-capture-result.json, SHA256
+9c46678caee03f788d40d680c793cc1cc5e6721a52b8a6ea6b55d1b6c405fdcb.
+GUI confirms saved ticket disarmed/app stopped; the offered restart was
+declined. Fresh b8 UI checks confirm stopped/background off. The normal HA
+after-read at 12:17:05 confirms unchanged dashboard digest, both current sensors
+paused and own temporary login revoked. The earlier quiet after-read was
+preserved separately. No app/code/profile update or public publication occurred
+in this test. The user subsequently confirmed the new work remained in Art Mode
+without unexpected power or playback changes. This is an awake controlled-test
+observation, not natural-sleep/no-wake evidence. The one-shot
+event-triggered ID-query acceptance remains open: next clarify actual mode-value
+semantics with a separately reviewed bounded diagnostic, not guessed aliases.
+No further TV session is authorized by an unknown-value failure alone.
+
+## Separate local Event Lab installed; two bounded captures completed
+
+After the offline implementation, the user explicitly authorized installing a
+separate local test app and controlled Frame tests, retaining existing cards,
+leaving public b8 observation off and publishing nothing. The user reports Art
+Mode and can observe the first bounded read. This does not authorize a power,
+mode or artwork change by the diagnostic. The initial preparation made no TV
+connection; b8 is read back stopped, background false, boot manual.
+
+The private Event Lab has a distinct owner/status entity, read-only media mount,
+no boot/automatic connection and a fresh, consumed-once 180-second capture ticket.
+Its diagnostic reuses the real isolated worker/session transport for one initial
+proof and at most 45 seconds of structural unsolicited-event discovery. It does
+not enable any production event profile or claim continuous attribution. The
+additional private harness has 20 passing offline tests, including transfer
+client restrictions and inert imports. The first unrestricted
+LAN source-transfer attempt was rejected and did not start; a five-minute
+single-HA-IP restricted transfer was subsequently explicitly approved by the
+user for this installation only. Its source was imported successfully as
+9357e71f_frame_gallery; the transfer was stopped immediately after import (exit
+0). The separate app installed as 0.1.0b8-event-lab1, protected with its AppArmor
+profile and manual boot. Its disarmed native start passed, explicitly logged
+no TV connection and exited stopped. The normal HA API baseline used only the
+known login through the fixed Terminal wrapper and revoked that own temporary
+login; the existing current sensor remains paused. No GitHub, new credentials
+or public storage were used. The cached power sample is 0.71 W at 09:51:37 local,
+not proof of physical sleep. A renewed user confirmation of visible Art Mode
+was obtained before the first TV connection. The one explicit capture ran from
+10:04:05.010659 to 10:04:52.100263 Europe/Berlin, including startup/publication;
+its worker had a 45-second read/listen budget. The pinned device identity and
+initial double Art-Mode/current-ID/thumbnail proof passed for MY_F0183, thumbnail
+SHA256 c821506a87977049a472f415a88ffda2f4e3872e1f248c4992065698b1d6242a.
+No unsolicited event was received. This quiet baseline neither proves nor
+disproves change-event support; no controlled transition occurred by the app.
+The worker was reaped, terminal status paused, and the diagnostic sensor's
+paused publication succeeded. The app is visibly stopped and its saved ticket
+is disarmed; the offered restart was cancelled. No repeat connection or
+power/mode/artwork setter was used. The user subsequently confirmed that the
+same artwork and Art Mode remained unchanged, without power/mode changes or
+other anomalies. This is a physically unremarkable awake baseline, not a
+natural-sleep/no-wake pass. Event completeness remains unproven. The subsequent
+transition capture below had its own fresh user readiness/start instruction,
+not an automatic reconnection from this post-test confirmation.
+
+The normal API after-check confirms the existing
+dashboard's exact SHA256 is unchanged and the b8 sensor is still paused; both
+own temporary API logins were revoked. The newer cached power sample is 0.78 W
+at 09:55:23 local, also not a physical-screen observation. Progress/evidence is
+under build/event-lab-20261017/. The after-capture HA read at 10:04:56 confirms
+the exact dashboard digest is still unchanged and both current sensors paused;
+its own temporary login was revoked. The cached 58.72 W value predates this
+test (10:02:52), so it is not evidence of a test-induced wake. The six-line
+sanitized app log was downloaded through HA and retained as first-capture.log;
+first-capture-result.json matches its actual result. No current artist mapping
+or continuous observation is claimed by this discovery-only harness.
+
+### Second capture: user-performed artwork transition
+
+After the user reported remote-control readiness and requested the start,
+exactly one further bounded session ran at 10:19:16.307621–10:20:03.264582 local.
+The new baseline again verified the pinned device/Art Mode/MY_F0183/thumbnail.
+Only after that proof, the user was asked to choose another artwork themselves
+and subsequently confirmed a different artwork visible. The diagnostic sent no
+power/mode/artwork setter, additional ID query or reconnect.
+
+Two unsolicited d2d_service_message/art_mode_changed notifications arrived at
+10:19:53.979291 and 10:19:56.589026, each 151 bytes with body keys event/status,
+no id/request_id and no content ID. The first structural allowlist did not
+retain status values, so no on/off sequence is asserted. No artwork-ID change
+event was received during this short capture; this is not a universal claim
+that the firmware never supplies one. The synthetic decoder's value-field
+contract is not a reviewed profile for this real status-field schema.
+
+Worker reaping and paused publication passed; saved ticket is visibly disarmed,
+app stopped, boot/update switches off. The 10:21:33 ordinary HA API read confirms
+the exact existing dashboard hash unchanged, both current sensors paused and
+its own temporary login revoked. The downloaded 12-line log is retained as
+transition-capture.log, SHA256
+ba92d79560cb879467547b6cf369d31a70ca8791f7b2cde2e6aa042b482e610e;
+transition-capture-result.json matches its actual final result. A real event
+channel is demonstrated, not complete content attribution or natural-sleep
+safety. Production profiles remain empty, b8 off and nothing published.
+At the time of this capture, an event-triggered getter on the same connection
+was only a possible follow-up. D-232 above subsequently implements it locally,
+without changing this frozen private app or enabling a production profile.
+
+## Local event-session implementation; offline validation complete
+
+The user explicitly approved local implementation/offline tests of D-231 after
+the plan. No device access, live change, image build or publication is included.
+The real service now wires an event controller/backend to a dedicated bounded
+unprivileged session, not repeated 30-second read workers. Startup/refresh never
+connect, the production reviewed-device registry is empty, and no user option
+or stdin command can supply a profile. Offline schemas are synthetic only.
+
+One profile-approved session obtains initial byte proof and listens on the same
+socket. There is no routine GET/thumbnail/client ping/reconnect. Mode/ID mutation,
+loss, invalid frames and age expiry pause and clear metadata. Duplicate/mode-on/
+same-ID notifications do not renew the 90-second proof age. This is not yet a
+complete-event-feed or continuously renewed-current claim. One-shot defaults,
+existing entity/card IDs, catalogue, filters, history and dependency pins remain.
+
+The final unchanged offline gates passed: 5496 tests, 16 platform skips, strict
+host/Linux typing over 281 Python files, Ruff and format checks, and 100% whole
+and mandatory line/branch coverage. Real-library/socket-pair tests exercise one
+connection, initial proof, passive notifications and protocol pong handling;
+actual isolated-worker tests cover cancellation/reaping without inheriting the
+parent's synthetic Supervisor credential. Manual lifecycle/compatibility review
+is complete. The first sandboxed run's two existing macOS group-permission
+failures passed unchanged outside that sandbox; no test or gate was weakened.
+
+The final Python-input SHA256 is
+269ffeabc3303395565140de22bfe482d05dce8de24e930b6e1671ca661f9002.
+Local logs are retained under build/current-artwork-overnight-20261016/;
+event-final-gates.log ends with All gates passed. These are host/offline results,
+not native-container or hardware safety evidence. No HA/TV connection, live
+change, build, credential access or publication occurred in this implementation.
+Live background remains off and the night collector/automation remain stopped.
+
+## Historical incident and planning before the local implementation
+
+After the public b8 release, the user installed it and authorized local setup.
+Existing cards were preserved and one current-information card added. A
+successful explicit send and current attribution were observed. At 00:23:42
+Europe/Berlin the state became tv_in_use; the user reported unexpected TV
+playback and turned it off. The app was stopped and background mode saved off.
+The cause is not proven and no intervening full standby is established.
+
+Offline review found no power/mode/input setter in the examined observer call
+chain. The exact local samsungtvws 3.0.6 was traced with synthetic transports
+and actual network attempts blocked; 144 focused tests passed. Repeated fresh
+Art-channel connections, getter traffic and teardown remain possible side-effect
+mechanisms, not proven causes. Raw mode/request-level incident traces are absent.
+
+The preceding request authorized planning only for D-231's bounded event-first session:
+[safer synchronization plan](docs/plans/current-tv-artwork-sync.md). No routine
+reconnections or thumbnails, no boot/resume connection, no silent polling
+fallback or stale metadata presented as current. Event completeness, binding
+proof, persistent-worker bounds and natural-sleep safety remain explicit gates.
+That request did not authorize implementation, further live tests, reactivation,
+builds or release. The later local/offline implementation approval and its
+results are recorded above; live/hardware/publication gates remain closed.
+Background remains off. The user subsequently cancelled the
+passive overnight recording at about 01:13 Europe/Berlin: its heartbeat is
+paused, its collector and owned idle-sleep assertion ended, and its own temporary
+HA login was revoked. Existing diagnostic evidence is retained; no morning run
+or report is scheduled by that monitor. Earlier public-release and preparation
+snapshots below retain their original scope and are historical.
 
 ## Public beta b8 — native release verified
 

@@ -182,6 +182,7 @@ The licence column is apk's own field. It is not always an SPDX expression: "Pub
 | `libcrypto3` | 3.5.7-r0 | `Apache-2.0` | base |
 | `libcurl` | 8.21.0-r0 | `curl` | base |
 | `libexpat` | 2.8.5-r0 | `MIT` | `python3` |
+| `libexpat` | 2.9.0-r0 | `MIT` | `python3`, pinned b9; previous evidence retained |
 | `libffi` | 3.5.2-r1 | `MIT` | `python3` |
 | `libgcc` | 15.2.0-r5 | `GPL-2.0-or-later AND LGPL-2.1-or-later` | base |
 | `libidn2` | 2.3.8-r0 | `GPL-2.0-or-later OR LGPL-3.0-or-later` | base |

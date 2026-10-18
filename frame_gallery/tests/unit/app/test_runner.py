@@ -6,6 +6,7 @@ import hashlib
 import logging
 from collections.abc import Iterator, Mapping
 from datetime import datetime
+from ipaddress import IPv4Address
 from pathlib import Path
 
 import pytest
@@ -42,6 +43,7 @@ from frame_gallery.tv.port import (
     DeliveryStatus,
     Marker,
     MarkerSink,
+    target_fingerprint,
 )
 from tests.support.fakes import FakeCacheWriter, canvas_jpeg_bytes, make_candidate
 from tests.unit.app.harness import SYNTHETIC_VOCABULARY, Harness
@@ -215,6 +217,21 @@ def test_preview_bytes_equal_the_television_payload(h: Harness) -> None:
     assert h.preview.artifacts[0].sha256 == digest
     assert h.records.current[0]["sha256"] == digest
     assert h.records.current[0]["id"] == "aic:1001"
+
+
+@pytest.mark.parametrize("background", [False, True])
+def test_every_selected_send_is_associated_with_actual_device_and_target(
+    tmp_path: Path, background: bool
+) -> None:
+    h = Harness(tmp_path, raw={"background_mode": background, "tv_host": "192.168.4.30"})
+    assert h.run().outcome is Outcome.DELIVERED
+    record = h.records.current[0]
+    assert record["tv_target_sha256"] == target_fingerprint(IPv4Address("192.168.4.30"))
+    assert record["tv_device_id"] == "d" * 64
+    assert record["tv_content_id"] == "MY_F0001"
+    assert h.records.deliveries == [record]
+    assert h.events.before("records.delivery", "preview.publish")
+    assert "192.168.4.30" not in str(record)
 
 
 def test_summary_line_and_last_run_record(h: Harness, caplog: pytest.LogCaptureFixture) -> None:
@@ -862,6 +879,18 @@ def test_invalid_prepared_output_is_image_failed(h: Harness) -> None:
 
     h.executor.behaviours = [write_garbage, write_garbage]
     assert h.run().outcome is Outcome.IMAGE_FAILED
+
+
+def test_reference_for_different_jpeg_is_rejected_before_tv(h: Harness) -> None:
+    def wrong_reference(request: PrepareRequest) -> JsonObject:
+        Path(request.output_path).write_bytes(canvas_jpeg_bytes())
+        payload = h.executor.ok_result().to_json()
+        payload.update(reference_rgb="eHh4" * 2304, reference_sha256="f" * 64)
+        return payload
+
+    h.executor.behaviours = [wrong_reference, wrong_reference]
+    assert h.run().outcome is Outcome.IMAGE_FAILED
+    assert_tv_untouched(h)
 
 
 def test_rejection_by_real_dimensions_tries_the_next_candidate(h: Harness) -> None:

@@ -903,55 +903,55 @@ def translations(language: str = "en") -> dict[str, Value]:
         "en": (
             "Background mode (experimental, optional)",
             (
-                "Off by default. Keeps Frame Gallery running; Start no longer sends an artwork. "
-                "Update the existing send script once and optionally enable Start on boot. "
-                "Checks start after a successful explicit send and pause on failure. "
-                "Warning: read-only connections may wake a sleeping TV; "
-                "sleep is not yet validated. "
-                "No extra helper or integration is required."
+                "Off by default. Optional current-artwork events after a fresh explicit send; "
+                "no periodic TV queries or automatic reconnect. Update the send script once. "
+                "Start/boot alone does not contact the TV. Upload associations are saved even "
+                "with this mode off. Warning: a read-only connection can wake a TV; no general "
+                "model/firmware guarantee. No extra helper, integration or permissions."
             ),
         ),
         "de": (
             "Hintergrundmodus (experimentell, optional)",
             (
-                "Standardmäßig aus. Frame Gallery läuft dauerhaft; Start sendet dann kein Bild. "
-                "Das vorhandene Sende-Script einmal aktualisieren und optional Beim Systemstart "
-                "starten aktivieren. Abfragen starten nach erfolgreichem Senden und pausieren bei "
-                "Fehlern. Achtung: Auch lesende Verbindungen könnten den TV aufwecken; "
-                "automatisches Einschlafen ist noch nicht geprüft. Kein zusätzlicher Helfer nötig."
+                "Standardmäßig aus. Optionale aktuelle Künstlerdaten über Ereignisse nach "
+                "frischem ausdrücklichem Senden; keine regelmäßigen TV-Abfragen oder "
+                "Neuverbindungen. Sende-Script einmal aktualisieren. Start/Systemstart allein "
+                "kontaktiert den TV nicht. Bildzuordnungen werden auch bei ausgeschaltetem Modus "
+                "gespeichert. Achtung: Lesende Verbindungen können aufwecken; keine allgemeine "
+                "Modell-/Firmware-Garantie. Keine zusätzlichen Helfer, Integrationen oder Rechte."
             ),
         ),
         "fr": (
             "Mode arrière-plan (expérimental, facultatif)",
             (
-                "Désactivé par défaut. Frame Gallery reste actif ; Démarrer n'envoie plus d'œuvre. "
-                "Mettez à jour le script d'envoi une fois et activez éventuellement le démarrage "
-                "automatique. Les lectures commencent après un envoi réussi et s'arrêtent en cas "
-                "d'erreur. Attention : une connexion en lecture peut réveiller le TV ; "
-                "la veille automatique n'est pas encore validée. "
-                "Aucun autre assistant ni intégration requis."
+                "Désactivé par défaut. Événements de l'œuvre actuelle après un nouvel envoi "
+                "explicite ; aucune interrogation périodique ni reconnexion. Mettre à jour le "
+                "script une fois. Démarrer seul ne contacte pas le TV. Les associations sont "
+                "enregistrées même sans ce mode. Attention : une connexion en lecture peut "
+                "réveiller le TV ; aucune garantie générale de modèle/firmware. Aucun assistant, "
+                "intégration ou privilège supplémentaire."
             ),
         ),
         "es": (
             "Modo en segundo plano (experimental, opcional)",
             (
-                "Desactivado de forma predeterminada. Frame Gallery sigue activo; Iniciar ya no "
-                "envía una obra. Actualice una vez el script de envío y active opcionalmente el "
-                "inicio automático. Las consultas empiezan tras un envío correcto y se pausan "
-                "si fallan. Atención: una conexión de lectura podría despertar el TV; "
-                "la espera automática aún no está validada. "
-                "No necesita otro ayudante ni integración."
+                "Desactivado por defecto. Eventos de la obra actual tras un nuevo envío "
+                "explícito; sin consultas periódicas ni reconexión automática. Actualice el "
+                "script una vez. Iniciar por sí solo no contacta al TV. Las asociaciones se "
+                "guardan incluso sin este modo. Atención: una conexión de lectura puede "
+                "despertar el TV; sin garantía general de modelo/firmware. Sin ayudantes, "
+                "integraciones ni permisos adicionales."
             ),
         ),
         "it": (
             "Modalità in background (sperimentale, facoltativa)",
             (
-                "Disattivata per impostazione predefinita. Frame Gallery resta attivo; Avvia non "
-                "invia più un'opera. Aggiornare una volta lo script di invio e attivare "
-                "eventualmente l'avvio automatico. Le letture iniziano dopo un invio riuscito "
-                "e si sospendono in caso di errore. Attenzione: una connessione in lettura può "
-                "risvegliare il TV; lo standby automatico non è ancora verificato. "
-                "Nessun altro aiutante o integrazione richiesto."
+                "Disattivata per impostazione predefinita. Eventi dell'opera attuale dopo un "
+                "nuovo invio esplicito; nessuna richiesta periodica o riconnessione. Aggiornare "
+                "lo script una volta. Il solo avvio non contatta il TV. Le associazioni sono "
+                "salvate anche senza questa modalità. Attenzione: una connessione in lettura "
+                "può risvegliare il TV; nessuna garanzia generale di modello/firmware. Nessun "
+                "helper, integrazione o privilegio aggiuntivo."
             ),
         ),
     }[language]

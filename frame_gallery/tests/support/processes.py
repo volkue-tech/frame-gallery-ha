@@ -47,6 +47,7 @@ def entry(
 TEST_TASKS: Final[Mapping[str, TaskEntry]] = {
     "echo": entry("echo"),
     "events": entry("events", events=True),
+    "observe_session": entry("event_session", events=True, limits=TELEVISION_LIMITS),
     "sleep": entry("sleep"),
     "crash": entry("crash"),
     "memory": entry("memory"),

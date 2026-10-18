@@ -145,24 +145,29 @@ def _send(sock: socket.socket, message: dict[str, Any]) -> None:
 
 
 def _receive(sock: socket.socket) -> dict[str, Any] | None:
-    """One masked client text frame, or ``None`` when the client is gone."""
-    head = _exactly(sock, 2)
-    if head is None:
-        return None
-    length = head[1] & 0x7F
-    if length == 126:
-        extended = _exactly(sock, 2)
-        length = struct.unpack("!H", extended or b"\0\0")[0]
-    elif length == 127:
-        extended = _exactly(sock, 8)
-        length = struct.unpack("!Q", extended or b"\0" * 8)[0]
-    mask = _exactly(sock, 4) or b"\0\0\0\0"
-    body = _exactly(sock, length) or b""
-    text = bytes(byte ^ mask[index % 4] for index, byte in enumerate(body))
-    if head[0] & 0x0F != 0x1:
-        return None  # a close frame, or anything else: the client is done
-    result: dict[str, Any] = json.loads(text)
-    return result
+    """One text request, skipping bounded protocol pongs rather than disconnecting."""
+    for _ in range(64):
+        head = _exactly(sock, 2)
+        if head is None:
+            return None
+        length = head[1] & 0x7F
+        if length == 126:
+            extended = _exactly(sock, 2)
+            length = struct.unpack("!H", extended or b"\0\0")[0]
+        elif length == 127:
+            extended = _exactly(sock, 8)
+            length = struct.unpack("!Q", extended or b"\0" * 8)[0]
+        mask = _exactly(sock, 4) or b"\0\0\0\0"
+        body = _exactly(sock, length) or b""
+        text = bytes(byte ^ mask[index % 4] for index, byte in enumerate(body))
+        opcode = head[0] & 0x0F
+        if opcode == 0xA:
+            continue  # server ping response is not an application request or a close
+        if opcode != 0x1:
+            return None
+        result: dict[str, Any] = json.loads(text)
+        return result
+    return None
 
 
 def _exactly(sock: socket.socket, size: int) -> bytes | None:

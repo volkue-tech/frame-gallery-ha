@@ -135,6 +135,10 @@ def test_a_first_pairing_in_the_documented_order(tmp_path: Path) -> None:
     assert rig.events == [
         f"init:{HOST}:{ART_PORT}:{CONNECT_S}:0:{CLIENT_NAME}",
         f"supported:{CONNECT_S}",
+        "event:"
+        + json.dumps(
+            {"device_id": hashlib.sha256(b"uuid:synthetic-delivery-tv").hexdigest()}, sort_keys=True
+        ),
         f"init:{HOST}:{ART_PORT}:{PAIRING_WAIT_S}:0:{CLIENT_NAME}",
         f"open:ok:token=None:timeout={PAIRING_WAIT_S}",
         f"handshake:{url}",

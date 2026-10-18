@@ -1,13 +1,13 @@
 # Frame Gallery — installation et première carte
 
-> Option disponible dans la bêta b8 : [œuvre actuelle du TV](CURRENT_ARTWORK.fr.md), mode
-> arrière-plan expérimental facultatif, désactivé par défaut. Une connexion en
-> lecture pourrait réveiller le TV ; la veille automatique n'est pas vérifiée.
-> Ce guide décrit toujours le fonctionnement ponctuel inchangé.
+> Nouveau en bêta b9 : chaque envoi sélectionné mémorise automatiquement
+> titre/artiste pour ce TV, même sans arrière-plan. Option : [œuvre actuelle par événements](CURRENT_ARTWORK.fr.md),
+> expérimentale et désactivée par défaut. Pas de requêtes périodiques ni
+> reconnexion ; un réveil reste possible. Le parcours ponctuel ci-dessous ne change pas.
 
 [English](DOCS.md#installation) | [Deutsch](SETUP.de.md) | **Français** | [Español](SETUP.es.md) | [Italiano](SETUP.it.md)
 
-Guide de démarrage pour la **bêta 0.1.0b8**. La langue de cette page est choisie
+Guide de démarrage pour la **bêta 0.1.0b9**. La langue de cette page est choisie
 avec les liens ci-dessus, pas automatiquement par Home Assistant.
 Les documents techniques restent [en anglais](DOCS.md#options).
 Depuis 0.1.0b7, le formulaire propose anglais, allemand, français, espagnol et

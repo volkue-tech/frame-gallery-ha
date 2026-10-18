@@ -1,5 +1,124 @@
 # Acceptance tests
 
+## Complete upload memory/current artwork acceptance (D-235)
+
+- Every selected one-shot/background send persists per-device/ID metadata before
+  history or preview failures/cancellation. Earlier failures do not create it.
+  Actual device identity comes from the existing capability read, no extra GET.
+- Reopen across restart/update; keep different TVs/sources separate, replace
+  same-TV reused IDs, reject missing/malformed identity rather than guess by IP.
+  Damaged/future/unreadable state and stale backup fail closed. Count/byte bounds,
+  deadlines and write failures preserve existing data, with no TV retry.
+- Tiny reference matches exact output SHA; isolated initial thumbnail comparison
+  may confirm old uploads or reject contradictory metadata. No fabricated byte
+  proof, stale caption shortcut or metadata on unknown event IDs.
+- Test the actual regular entry with delivery-backed one-use grant and empty
+  reviewed registry, multiple known/unknown cycles, failure stop and no resume.
+  Default/off/boot/refresh cannot connect; target/device mismatch cannot arm.
+- Existing card/sensor/script IDs remain compatible. EN/DE/FR/ES/IT guides have
+  complete native YAML, upload-memory explanation and firmware/wake limitations.
+  Green protected packaging, unchanged special permissions, full offline gates,
+  native aarch64/amd64 tests and real image checks precede beta publication.
+- Prior known-work automatic hardware gate remains open; no replay may relabel
+  it passed. Generic experimental use remains opt-in with explicit warning.
+
+## Regular event-service integration acceptance (D-234, local)
+
+- Actual background entry/controller/backend/store/publisher wiring is exercised
+  with injected I/O and synthetic test policy only. Boot/refresh do not connect;
+  a successful fresh explicit delivery is still required.
+- New background current records hash the actual target, not plaintext address;
+  one-shot records stay unchanged. Missing/legacy/wrong target receipts cannot
+  arm the old TV, including changed address during delivery. Parse the same bytes.
+- All publication failures stop/reap the listener and prevent subsequent/final
+  write retries. Test non-auth failures, ownership refusal and 401/403 separately.
+- Exact go_to_standby pauses/clears and closes; extra/correlated/unrecognized
+  objects fail closed. Real pinned-library socketpair asserts no new connection,
+  extra getter or setter on standby.
+- Multiple unknown/known transitions and expiry preserve histories/bindings;
+  unknown works never borrow captions. Existing cards/IDs and default one-shot
+  behaviour remain compatible. No native/hardware result is inferred from replay.
+- Keep old private hardware snapshots exact; record changed runtime fingerprint.
+  Native candidate ARM/Intel are deferred to the later release round and must
+  pass before publication; no public push/release follows from local success.
+
+## Local slideshow event attribution acceptance (D-233)
+
+- Exact authored lab4 shapes decode selected/shown, matching automatic rotation
+  and on; no coercion of Yes/on/shuffleslideshow, extra fields or old replies.
+  Nav invalidates, never aliases on. Unapproved policies open no worker.
+- Enforce ordered matching IDs within five seconds; missing halves, overlap,
+  conflicting IDs, repeated rotation, future/old queued records and timeout fail
+  closed. Selection clears previous metadata before any new attribution.
+- Existing image-verified associations for the exact TV supply title/artist;
+  unknown/other-TV IDs never borrow a prior caption. Stored digest is tagged as
+  historical association evidence, not newly downloaded bytes. Snapshot input
+  cannot impersonate slideshow evidence. Existing binding/history/current files
+  remain byte-identical; no event creates a binding or verifier job.
+- Simulate multiple ten-minute cycles and returning known IDs. Listener remains
+  alive after the 90-second baseline expires; each real changed-ID triple lasts
+  at most 900 seconds from receipt. Same-ID replay/on/pong/publication cannot
+  renew it. Expired metadata clears, then later valid events can confirm again.
+- Pinned-library socketpair tests assert one REST identity read, one WebSocket,
+  five initial getters, one initial thumbnail and zero post-baseline requests,
+  even across nav and multiple changes. Off/unknown frames stop without retry.
+- Fixed owned sensor/old card/script IDs stay unchanged; five-language complete
+  native templates bound event data to 900 seconds, old snapshots to 90. Existing
+  actual cards remain untouched; no live rendering is inferred from offline tests.
+- Unchanged full typing/security/isolation/coverage gates; production profile
+  table empty, b8 remains off, no HA/TV access/build/publication. Actual ID reuse,
+  hardware multiple cycles and natural sleep/no-wake safety are not certified.
+
+## Local same-session ID probe acceptance (D-232)
+
+- Existing receive-only policies remain receive-only. Production registry empty;
+  boot/refresh/HA availability/explicit send without policy cannot open a worker.
+- One exact injected policy triggers only on mode-on in its selected value/status
+  field; off ends without probing, and unknown/malformed/duplicate-key/correlated
+  notifications fail closed.
+  Observed field names are not proof of actual firmware status-value semantics.
+- One follow-up get_current_artwork maximum on the original socket after initial
+  proof. No new client/open/connection, thumbnail, ping, mutation, polling/retry.
+  Real pinned-library/socket-pair tests assert exact request and socket counts.
+- Emit invalidation before the request; the parent clears current artist/title
+  on receipt, without a synchronous HA acknowledgement before the send. Keep
+  checking without stopping the pending worker, bounded to five seconds from
+  actual parent receipt. Expired initial proof cannot trigger a request. Exact
+  correlation and valid ID required; off/mutation/unknown/errors/timeouts/gaps
+  cancel and disarm. Repeated on cannot extend deadline or send twice.
+- Success emits bare diagnostic ID then ends/pauses. Same/old/new ID never calls
+  image verification/binding lookup or republishes artwork. Preserve cards,
+  one-shot/history and unchanged full coverage/security/typing gates.
+- Stop/cancel, partial/binary/oversized frames, ping floods, stale/future queued
+  results and missing socket cannot bypass bounds or reconnect. No hardware,
+  sleep safety, installed-app change or publication follows from offline tests.
+
+## Local event-session acceptance, 2026-10-17 (D-231; existing IDs unchanged)
+
+- Default/absent background keeps the one-shot path and existing cards. Start,
+  restart, idle and refresh open no TV connection. With no reviewed profile,
+  even successful explicit send cannot arm an observer. No profiles are approved.
+- On the exact injected offline policy, one successful explicit delivery may
+  start one bounded isolated session; subsequent events use that same socket.
+  After initial byte proof there are no GET/thumbnail/application ping requests.
+  Server ping/pong is tested as transport traffic, not a no-wake guarantee.
+- Mode-off, unknown/malformed/correlated frames, partial-frame deadlines,
+  binary/fragment/size/rate/queue bounds and disconnects clear attribution and
+  disarm without reconnecting. A known ID from an older session is not proof.
+- Only the freshly verified initial baseline supplies image identity. Changed
+  ID/mutation invalidates the epoch; same-ID/mode-on/duplicate messages cannot
+  renew its age. Queued stale/future snapshots are rejected; after 90 seconds
+  current information clears without new TV traffic. No artwork heartbeat makes
+  cached data look current on the existing last_reported-based card.
+- Stop uses the cancellation pipe and bounded close/kill/reap. A stuck/unreaped
+  worker prevents a replacement or send. Bootstrap, environment isolation,
+  resource limits, TV-only TCP guard, Linux filter and AppArmor child apply to
+  the new task. No Supervisor token or user-configurable event-policy bypass.
+- Real installed library tests run only on socket pairs/mocked network seams;
+  real worker lifecycle tests install the H2 guard. Event schemas are expressly
+  synthetic. Native Linux enforcement and actual event/sleep/mode behavior need
+  separate tests/approval; no hardware result is inferred from offline success.
+
 ## D-230 experimental activation acceptance, 2026-10-16
 
 - Off/missing/null background mode preserves one-shot behaviour; all five

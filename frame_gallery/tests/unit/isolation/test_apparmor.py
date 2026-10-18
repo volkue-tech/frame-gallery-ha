@@ -77,6 +77,7 @@ def test_missing_interface(monkeypatch: pytest.MonkeyPatch, error: Exception) ->
         ("inspect", "image_worker"),
         ("deliver", "tv_worker"),
         ("observe", "tv_worker"),
+        ("observe_session", "tv_worker"),
         ("verify_thumbnail", "image_worker"),
     ],
 )
