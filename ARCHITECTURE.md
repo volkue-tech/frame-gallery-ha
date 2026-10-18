@@ -1,5 +1,36 @@
 # Frame Gallery for Home Assistant — Architecture proposal
 
+## D-238 experimental HA-edge resume, 2026-10-18
+
+User explicitly accepts the limited connection risk and authorizes candidate
+publication without another live TV test. Installed b10/cards remain untouched.
+The saved natural-sleep capture proves server-side WebSocket closure, so
+receive-only continuity cannot by itself provide post-sleep recovery.
+
+Optional resume_state_entity selects one existing Samsung media_player/remote;
+unset/default mode preserves every old path. The trusted parent reads only that
+cached Core state at five-second intervals using the existing bounded two-second
+Supervisor HTTP seam. WakeSample checks exact entity/state/aware timestamp.
+WakeGate requires an observed off followed by a newer on received within 30s
+and after service start; unknown/gap>15s/reordered/future/duplicate data clears
+pending evidence. Consume the edge before local preparation, at most six/hour.
+Boot-on/restart alone never opens a TV. No polling or retry of the television.
+
+EventController.resume never invokes send. HostObserver.prepare_resume requires
+an intact existing address/device pin and exact-target confirmed-upload archive;
+no enrollment, repinning or last-caption restoration. The gate's new one-use
+experimental grant can start the original isolated device/Art/ID/thumbnail proof.
+Stored token corruption is distinct from absence and never authorizes tokenless
+fallback; authorization refusal latches automatic attempts off. Fresh real proof
+is required before resolving artists. All original session/queue/rate/worker/
+publication bounds stay in force. Metadata expires under unchanged 90/900 rules.
+
+This is not a no-wake/no-mode-change guarantee: HA on is not Art Mode, and even
+the read-only connection may have firmware side effects. Those remain explicit
+in all five languages. Offline cases/native Linux gates are not new hardware
+validation. The targeted artwork-deliveries.json backup-link correction grants
+only the already intended exact parent pair, no worker/capability/network change.
+
 ## Local b9 recovery candidate D-237 — not installed or published
 
 IncompleteSequence separates strictly decoded but non-confirming notification

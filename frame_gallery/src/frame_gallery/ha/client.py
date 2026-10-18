@@ -39,7 +39,12 @@ from frame_gallery import __version__
 from frame_gallery.budget.deadline import Deadline, DeadlineExceeded
 from frame_gallery.budget.limits import CONNECT_S, DNS_S, HELPER_REQUEST_S, READ_S
 from frame_gallery.config.filters import FilterField
-from frame_gallery.config.options import ARTWORK_INFO_ENTITY_ID, HELPER_ENTITY_ID, TIMER_ENTITY_ID
+from frame_gallery.config.options import (
+    ARTWORK_INFO_ENTITY_ID,
+    HELPER_ENTITY_ID,
+    RESUME_ENTITY_ID,
+    TIMER_ENTITY_ID,
+)
 from frame_gallery.errors import FrameGalleryError
 from frame_gallery.net.policy import content_length, is_private_address, media_type, path_segment
 from frame_gallery.net.wire import (
@@ -50,6 +55,8 @@ from frame_gallery.net.wire import (
     WireRequest,
     WireResponse,
 )
+from frame_gallery.observer.wake import WakeSample
+from frame_gallery.store.atomic import decode_json
 
 SUPERVISOR_HOST: Final = "supervisor"
 SUPERVISOR_PORT: Final = 80
@@ -257,8 +264,34 @@ class SupervisorHelperReader:
         addresses: Sequence[IPAddress],
         deadline: Deadline,
     ) -> str:
+        return _state(self._state_body(entity_id, token, addresses, deadline, HELPER_ENTITY_ID))
+
+    def read_wake_state(self, entity_id: str, deadline: Deadline) -> WakeSample | None:
+        """D-238: exactly one configured cached Core state; never contacts the TV."""
+        token = self._token
+        if (
+            RESUME_ENTITY_ID.fullmatch(entity_id) is None
+            or token is None
+            or _TOKEN.fullmatch(token) is None
+        ):
+            return None
         try:
-            segment = path_segment(entity_id, HELPER_ENTITY_ID)
+            addresses = self._resolve(deadline)
+            body = self._state_body(entity_id, token, addresses, deadline, RESUME_ENTITY_ID)
+            return WakeSample.from_json(decode_json(body), entity_id)
+        except (_ReadFailed, TransportFailure, DeadlineExceeded, ValueError):
+            return None
+
+    def _state_body(
+        self,
+        entity_id: str,
+        token: str,
+        addresses: Sequence[IPAddress],
+        deadline: Deadline,
+        pattern: re.Pattern[str],
+    ) -> bytes:
+        try:
+            segment = path_segment(entity_id, pattern)
         except ValueError:
             _fail("invalid entity ID")
         attempt = deadline.child(HELPER_REQUEST_S, "helper read")
@@ -288,6 +321,8 @@ class SupervisorHelperReader:
         except DeadlineExceeded:
             _fail("no time left")
         try:
+            if response.status in (401, 403):
+                self._token = None  # never repeat an authentication refusal in this reader
             if response.status != 200:
                 _fail(f"HTTP {response.status}")
             if media_type(response.header("content-type")) != "application/json":
@@ -306,7 +341,7 @@ class SupervisorHelperReader:
             response.close()
         if declared is not None and len(body) != declared:
             _fail("response shorter than declared")
-        return _state(body)
+        return body
 
     def _read_body(self, response: WireResponse, attempt: Deadline) -> bytes:
         body = bytearray()

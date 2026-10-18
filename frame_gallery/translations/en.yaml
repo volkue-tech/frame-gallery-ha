@@ -56,4 +56,7 @@ configuration:
     description: 'Optional. A dedicated Text helper, for example input_text.frame_gallery_artwork, with minimum length 0, maximum length 255 and no Initial value. The app writes title, artist and museum for the preview here. Do not use a filter helper. Leave empty to keep the existing image-only dashboard behavior.'
   background_mode:
     name: 'Background mode (experimental, optional)'
-    description: 'Off by default. Optional current-artwork events after a fresh explicit send; no periodic TV queries or automatic reconnect. Update the send script once. Start/boot alone does not contact the TV. Upload associations are saved even with this mode off. Warning: a read-only connection can wake a TV; no general model/firmware guarantee. No extra helper, integration or permissions.'
+    description: 'Off by default. Optional current-artwork events after a fresh explicit send; no periodic TV queries or blind reconnect. Update the send script once. Start/boot alone does not contact the TV. Upload associations are saved even with this mode off. Warning: a read-only connection can wake a TV; no general model/firmware guarantee. No extra helper, integration or permissions.'
+  resume_state_entity:
+    name: 'Resume after sleep (experimental, optional)'
+    description: 'Leave empty to disable. Requires background mode and an earlier successful send. Enter this TV''s existing Samsung HA media_player or remote entity ID. One fresh observed off-to-on transition permits one read-only revalidation, not an image send. No attempt just because the app starts with the TV already on; no blind retry. HA on does not prove Art Mode. Connection side effects remain unverified and may wake the TV or affect its mode. No new helper or special permissions.'

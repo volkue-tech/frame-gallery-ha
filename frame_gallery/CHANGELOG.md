@@ -1,5 +1,26 @@
 # Changelog
 
+## 0.1.0b11 (beta candidate)
+
+- Optional experimental resume after sleep: configure this TV's existing Samsung
+  HA media_player/remote in resume_state_entity and enable background mode.
+  One freshly observed off-to-on edge allows one read-only revalidation, without
+  sending an image. A prior successful pinned-target upload is required.
+- Boot-on, duplicates, stale/future/reordered states, HA gaps and invalid identity
+  do not grant reads. Six attempts/hour maximum, consumed before the attempt;
+  failure has no automatic retry. Authentication refusal latches observation off.
+- Recheck actual TV identity, Art Mode, current ID and image before displaying
+  artist/title. Unknown/replaced/other-TV images never borrow the last caption.
+  No power, Wake-on-LAN, mode, upload or selection command on the resume path.
+- Fix the missing exact parent-only AppArmor backup-link rule for the existing
+  artwork-deliveries.json file; do not broaden worker/container privileges.
+  Preserve existing cards/scripts/associations and one-shot defaults.
+- Wake/connection side effects are NOT hardware-validated for this candidate.
+  HA on is not Art Mode proof; a read-only connection may still wake or change
+  the mode of some televisions. Both options are optional/default off or unset.
+  Offline/native test and publication results are recorded separately; no new
+  live test, installed-app change or universal no-wake guarantee is claimed.
+
 ## 0.1.0b10 (public beta)
 
 - Keep the same finite event receiver after incomplete sequences of recognized

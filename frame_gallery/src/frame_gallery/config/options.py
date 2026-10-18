@@ -59,6 +59,7 @@ class Options:
     loading_timer: str | None = None
     artwork_info_helper: str | None = None
     background_mode: bool = False
+    resume_state_entity: str | None = None
 
     def helper_for(self, field: FilterField) -> str | None:
         for helper_field, entity_id in self.helpers:
@@ -81,6 +82,7 @@ HELPER_OPTION_NAMES: Final = tuple(option for _, option in _HELPER_OPTIONS)
 
 TIMER_ENTITY_ID: Final = re.compile(r"timer\.[a-z0-9_]{1,64}", re.ASCII)
 ARTWORK_INFO_ENTITY_ID: Final = re.compile(r"input_text\.[a-z0-9_]{1,64}", re.ASCII)
+RESUME_ENTITY_ID: Final = re.compile(r"(?:media_player|remote)\.[a-z0-9_]{1,64}", re.ASCII)
 
 
 def loading_timer(value: object) -> str | None:
@@ -259,6 +261,16 @@ def parse_options(
     landscape_only = _flag("landscape_only", raw.get("landscape_only"), issues, default=True)
     strict_tv_format = _flag("strict_tv_format", raw.get("strict_tv_format"), issues, default=True)
     background_mode = _flag("background_mode", raw.get("background_mode"), issues, default=False)
+    resume_entity = raw.get("resume_state_entity")
+    if resume_entity in (None, ""):
+        resume_entity = None
+    elif not isinstance(resume_entity, str) or RESUME_ENTITY_ID.fullmatch(resume_entity) is None:
+        issues.append(
+            ConfigIssue(
+                "resume_state_entity", "Use your existing Samsung media_player or remote entity ID."
+            )
+        )
+        resume_entity = None
     fit_mode = _fit_mode(raw.get("fit_mode"), issues)
     background = _background(raw.get("background_color"), issues)
     helpers = _helpers(raw, issues)
@@ -302,4 +314,5 @@ def parse_options(
         loading_timer=timer,
         artwork_info_helper=info_helper,
         background_mode=background_mode,
+        resume_state_entity=resume_entity,
     )

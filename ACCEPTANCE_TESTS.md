@@ -1,5 +1,23 @@
 # Acceptance tests
 
+## Experimental sleep/wake resume (D-238)
+
+- Default/one-shot/unconfigured mode preserves every previous path and request.
+- One configured media_player/remote Core entity only; strict entity/timestamp/
+  state/body validation. No TV polling/discovery or new permission. A 401/403
+  latches reader authentication off; missing/timeout/unknown clears pending edge.
+- Start-on, stale/future/reordered/repeated on, HA outage/gap/restart and forged
+  entity data cannot resume. Observed off/new fresh on grants one attempt,
+  consumed even on failure. Six/hour bound; no retry until a different full edge.
+- Resume validates exact target/device archive and token locally, never calls
+  send/enroll/repin, then uses real isolated initial Art/ID/image verification.
+  Unknown/reused/other-TV IDs cannot inherit an old caption. Cover multiple
+  sleep/wake cycles, TV-program mode, lost socket, cancellation/publication error.
+- Existing cards/scripts/history/source settings and installed b10 stay intact.
+  Required five locales, complete optional guide and actual regular-entry wiring
+  tests cover this option. Full host/native ARM/Intel gates precede publication;
+  physical no-wake behaviour remains unverified, never inferred from replay.
+
 ## Local b9 recovery/diagnostic regression (D-237, no live/publication gate)
 
 - Authored nav/restart cases must fail on b9 before the fix. Incomplete known

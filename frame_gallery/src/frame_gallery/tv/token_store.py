@@ -15,6 +15,7 @@ registered with the process-wide redactor, so no log line can show it
 from __future__ import annotations
 
 import logging
+import os
 from ipaddress import IPv4Address
 from pathlib import Path
 from typing import Final
@@ -84,6 +85,26 @@ class TokenStore:
         if token is None:
             _log.warning("the stored television token is invalid; pairing again")
             return None
+        _register(token)
+        return token
+
+    def load_for_observation(self) -> str | None:
+        """Absent is distinct from corrupt/unreadable; never authorize fallback."""
+        try:
+            os.lstat(self._data_root / TOKEN_DIRECTORY)
+        except FileNotFoundError:
+            return None
+        except OSError:
+            raise StateError("stored observation credential unavailable") from None
+        with open_directory(self._data_root, (TOKEN_DIRECTORY,)) as directory:
+            data = directory.read_bytes(self._name, MAX_TOKEN_FILE_BYTES)
+        if data is ReadFailure.MISSING:
+            return None
+        if not isinstance(data, bytes):
+            raise StateError("stored observation credential unreadable")
+        token = parse_token(data)
+        if token is None:
+            raise StateError("stored observation credential invalid")
         _register(token)
         return token
 

@@ -7,6 +7,8 @@ structure that the parser needs."""
 from __future__ import annotations
 
 # ruff: noqa: S108 - these are policy patterns, not temporary-file creation
+import ast
+import importlib
 import re
 from pathlib import Path
 from typing import Final
@@ -123,6 +125,10 @@ def test_backup_links_are_parent_only_and_pair_specific() -> None:
             "link subset /data/state/observer-requests.json.bak.tmp-* -> "
             "/data/state/observer-requests.json,"
         ),
+        (
+            "link subset /data/state/artwork-deliveries.json.bak.tmp-* -> "
+            "/data/state/artwork-deliveries.json,"
+        ),
     ]
     for name in ("image_worker", "tv_worker"):
         assert not any(rule.startswith("link ") for rule in child(name))
@@ -132,6 +138,35 @@ def test_nothing_runs_unconfined() -> None:
     for rule in BODY:
         assert not re.search(r"\b[uUpPcC]x\b", rule), rule
     assert "/opt/frame-gallery/** mr," in BODY
+
+
+def test_every_backup_enabled_document_has_its_own_parent_link_pair() -> None:
+    names: set[str] = set()
+    for path in (PROJECT / "src/frame_gallery/store").glob("*.py"):
+        tree = ast.parse(path.read_text())
+        values = vars(importlib.import_module("frame_gallery.store." + path.stem))
+        for node in ast.walk(tree):
+            if (
+                not isinstance(node, ast.Call)
+                or not isinstance(node.func, ast.Name)
+                or node.func.id != "DocumentFile"
+            ):
+                continue
+            if not any(
+                k.arg == "backup" and isinstance(k.value, ast.Constant) and k.value.value is True
+                for k in node.keywords
+            ):
+                continue
+            name_node = node.args[1]
+            name = (
+                values[name_node.id]
+                if isinstance(name_node, ast.Name)
+                else ast.literal_eval(name_node)
+            )
+            assert isinstance(name, str)
+            names.add(name)
+    rules = {r for r in BODY if r.startswith("link ")}
+    assert rules == {f"link subset /data/state/{n}.bak.tmp-* -> /data/state/{n}," for n in names}
 
 
 def test_child_privileges_and_one_way_transition() -> None:

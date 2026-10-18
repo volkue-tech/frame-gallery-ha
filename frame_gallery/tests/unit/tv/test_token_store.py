@@ -4,6 +4,7 @@ from __future__ import annotations
 
 import errno
 import logging
+import os
 import stat
 from ipaddress import IPv4Address
 from pathlib import Path
@@ -12,10 +13,40 @@ import pytest
 
 from frame_gallery.errors import StateError
 from frame_gallery.logs.redact import Redactor, set_active_redactor
-from frame_gallery.store.atomic import Directory
+from frame_gallery.store.atomic import Directory, ReadFailure
 from frame_gallery.tv.token_store import TokenStore, parse_token, token_file_name
 
 HOST = IPv4Address("192.168.1.20")
+
+
+def test_observation_token_absence_is_not_corruption(tmp_path: Path) -> None:
+    store = TokenStore(tmp_path, HOST)
+    assert store.load_for_observation() is None
+    (tmp_path / "tv").mkdir()
+    assert store.load_for_observation() is None
+    store.install("12345678")
+    assert store.load_for_observation() == "12345678"
+    (tmp_path / "tv/192-168-1-20.token").write_bytes(b"invalid!")
+    with pytest.raises(StateError, match="credential invalid"):
+        store.load_for_observation()
+
+
+def test_observation_token_stat_or_read_failure_never_becomes_tokenless(
+    tmp_path: Path, monkeypatch: pytest.MonkeyPatch
+) -> None:
+    store = TokenStore(tmp_path, HOST)
+
+    def deny(_path: object) -> None:
+        raise PermissionError(errno.EACCES, "synthetic")
+
+    with monkeypatch.context() as patch:
+        patch.setattr(os, "lstat", deny)
+        with pytest.raises(StateError, match="credential unavailable"):
+            store.load_for_observation()
+    store.install("12345678")
+    monkeypatch.setattr(Directory, "read_bytes", lambda *_a: ReadFailure.UNREADABLE)
+    with pytest.raises(StateError, match="credential unreadable"):
+        store.load_for_observation()
 
 
 @pytest.fixture

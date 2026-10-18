@@ -191,6 +191,8 @@ def test_optional_service_keeps_legacy_default_and_needs_no_extra_privileges() -
     assert CONFIG["stdin"] is True
     assert SCHEMA["background_mode"] == "bool?"
     assert "background_mode" not in CONFIG["options"]
+    assert SCHEMA["resume_state_entity"] == r"match(^(?:media_player|remote)\.[a-z0-9_]{1,64}$)?"
+    assert "resume_state_entity" not in CONFIG["options"]
     assert CONFIG["stage"] == "experimental"
     assert CONFIG["homeassistant"] == "2026.2.0"
     assert CONFIG["homeassistant_api"] is True

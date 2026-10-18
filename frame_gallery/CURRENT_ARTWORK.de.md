@@ -2,11 +2,33 @@
 
 [English](CURRENT_ARTWORK.md) | Deutsch | [Français](CURRENT_ARTWORK.fr.md) | [Español](CURRENT_ARTWORK.es.md) | [Italiano](CURRENT_ARTWORK.it.md)
 
-**Beta b10: experimentell und standardmäßig aus.** Bestehende b7/b8/b9-Bildkarten bleiben nutzbar. Auf Home Assistant Green/OS werden keine API-Schlüssel, zusätzlichen Helfer, HACS-Erweiterungen, Sonderrechte oder weiteren Apps benötigt.
+**Beta b11: experimentell und standardmäßig aus.** Bestehende b7/b8/b9/b10-Karten bleiben nutzbar. Auf Home Assistant Green/OS werden keine API-Schlüssel, neuen Helfer, HACS-Erweiterungen, Sonderrechte oder weiteren Apps benötigt.
 
 Auch eine lesende Verbindung kann einen Fernseher aufwecken. Kontrollierte Tests erfassten automatische Bildwechsel und einen natürlichen Einschlafvorgang an einem Frame, nicht alle Modelle oder Firmwares. Falls jedes Aufweckrisiko inakzeptabel ist, Hintergrundmodus ausgeschaltet lassen.
 
 ## Automatisches Bildgedächtnis
+
+### Nach Sleep fortsetzen — neu in b11, optional
+
+Nach einem früheren erfolgreichen Frame-Gallery-Bildversand den **Hintergrundmodus**
+aktivieren und bei **Nach Sleep fortsetzen** (`resume_state_entity`) die vorhandene
+Samsung-Entitäts-ID dieses TVs (`media_player` oder `remote`) eintragen. Sie steht
+unter Einstellungen → Geräte & Dienste → Entitäten. Danach die App neu starten.
+Keine neuen Helfer, kein erneuter Bildversand und keine Kartenänderung nötig.
+
+Die App liest nur diesen gespeicherten HA-Zustand alle fünf Sekunden. Erst ein
+beobachtetes `off` und ein neueres, höchstens 30 Sekunden altes `on` erlauben
+genau einen lesenden Versuch, höchstens sechs pro Stunde. TV-Identität, Kunstmodus
+und aktuelles Bild werden neu geprüft. Start bei schon eingeschaltetem TV,
+Neustart, doppelte/veraltete/unbekannte Zustände oder Beobachtungslücken erlauben
+keine Abfrage. Fehler werden nicht wiederholt; erst ein neuer Aus-an-Zyklus kann
+einen neuen Versuch erlauben. Abgewiesene Anmeldung sperrt weitere automatische
+Versuche in diesem Dienstprozess.
+
+HA `on` beweist keinen Kunstmodus. Bereits die Verbindung kann aufwecken oder den
+Modus beeinflussen; für diesen neuen Weg liegen Simulationen, keine neuen
+Hardware-Sicherheitsnachweise vor. Leer lassen zum Deaktivieren. Eine gestoppte
+App erkennt kein Aufwachen. Die 90-Sekunden-/15-Minuten-Anzeigegrenzen bleiben.
 
 Jeder erfolgreich ausgewählte Upload speichert automatisch TV-Bild-ID, Titel, Künstler und Quelle, auch bei **ausgeschaltetem** Hintergrundmodus. Keine IDs selbst eintragen. Die Zuordnung gehört zur tatsächlichen Geräteidentität, nicht nur zur IP-Adresse: dieselbe Bild-ID auf einem anderen TV bezeichnet nicht dasselbe Werk. Ein neuer erfolgreicher Upload ersetzt eine ältere Zuordnung für diesen TV/diese ID.
 
@@ -61,22 +83,22 @@ Werk und lösen keine weitere Abfrage aus. Unbekannte oder fehlerhafte Meldungen
 Standby, TV-Betrieb und Verbindungsverlust beenden die Sitzung weiterhin. Feste
 Fehlercodes im App-Protokoll unterscheiden Start-, Empfangs-, Dekodierungs- und
 Workerfehler, ohne rohe Nachrichten oder Zugangsdaten auszugeben. Diese
-b10-Version ist weder installiert noch am TV getestet.
+b11-Wiederanlauf-Funktion ist weder installiert noch am TV getestet.
 
 Im Protokoll bedeutet `event sequence incomplete`: Künstlerdaten ausgeblendet,
 dieselbe Verbindung wartet — kein bestätigtes Werk.
 `event session stopped: reason=...; no reconnect` bedeutet: Sitzung beendet,
-kein automatischer Neustart. Bei einer Fehlermeldung diesen festen Fehlercode,
+keine sofortige automatische Wiederholung. Bei einer Fehlermeldung diesen festen Fehlercode,
 App-Version und TV-Modell angeben, keine Zugriffstoken oder rohen TV-Daten.
 
 Eine Sitzung dauert höchstens acht Stunden und endet bei Einschlafen, TV-Betrieb
-oder Fehlern früher. Beim erneuten Aufwachen wird sie nicht heimlich fortgesetzt.
+oder Fehlern früher. Nur der ausdrücklich konfigurierte frische HA-Weckwechsel oben darf eine neue Sitzung beginnen.
 
-Nach einer anfänglichen Abfrage mit lokalem Bildvergleich hört eine einzige Verbindung auf die beobachtete Diashow-Folge: `image_selected`, passendes `auto_rotation_image_changed`, danach Kunstmodus `on`, innerhalb von fünf Sekunden. Keine wiederholten TV-Abfragen alle 30 Sekunden, späteren Vorschaubilder oder automatischen Neuverbindungen. Ein Ereignis löst die gespeicherte Upload- oder bildgeprüfte Zuordnung dieses TVs auf; unbekannte IDs leeren den Text.
+Nach einer anfänglichen Abfrage mit lokalem Bildvergleich hört eine einzige Verbindung auf die beobachtete Diashow-Folge: `image_selected`, passendes `auto_rotation_image_changed`, danach Kunstmodus `on`, innerhalb von fünf Sekunden. Innerhalb dieser Sitzung keine wiederholten TV-Abfragen, späteren Vorschaubilder oder Neuverbindungen. Ein Ereignis löst die gespeicherte Upload- oder bildgeprüfte Zuordnung dieses TVs auf; unbekannte IDs leeren den Text.
 
 Der anfängliche Bildnachweis gilt 90 Sekunden. Eine vollständige Diashow-Folge gilt höchstens **15 Minuten**, passend zur getesteten Zehn-Minuten-Diashow. Doppelte IDs, Pongs und Modus-an-Meldungen verlängern nichts. Langsamere Diashows können Lücken zeigen; manuelle Wechsel müssen diese Folge nicht liefern. Die Vorlage kann etwa eine Minute Anzeigeverzögerung hinzufügen.
 
-Einschlafen, TV-Betrieb, Verbindungsabbruch, ungültige Ereignisse oder Publikationsfehler beenden/pausieren ohne Neuverbindung. Zum Fortsetzen den TV selbst in den Kunstmodus bringen und ausdrücklich ein weiteres Werk senden. Aktualisieren verarbeitet nur bereits empfangene Ereignisse. Der Beobachter sendet keine Power-, Wake-on-LAN-, Bildauswahl- oder Modusbefehle. Trotzdem kann bereits die Verbindung Nebenwirkungen haben.
+Einschlafen, TV-Betrieb, Verbindungsabbruch, ungültige Ereignisse oder Publikationsfehler beenden/pausieren ohne sofortige Neuverbindung. Ohne die optionale Weckwechsel-Einstellung bleibt ein ausdrücklicher neuer Bildversand im sichtbaren Kunstmodus nötig. Aktualisieren verarbeitet nur bereits empfangene Ereignisse. Der Beobachter sendet keine Power-, Wake-on-LAN-, Bildauswahl- oder Modusbefehle. Trotzdem kann bereits die Verbindung Nebenwirkungen haben.
 
 Gespeicherte IDs sind historische Zuordnungen, kein fortlaufender Pixelnachweis. Unbeobachtetes externes Ersetzen/Wiederverwenden einer TV-ID ist während reinen Ereignisempfangs nicht auszuschließen. Ein widersprechender anfänglicher Bildvergleich sperrt die gespeicherte Bildunterschrift. Keine allgemeine Firmware-/Nichtaufweckgarantie (D-235).
 

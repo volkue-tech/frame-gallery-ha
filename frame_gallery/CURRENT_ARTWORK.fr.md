@@ -2,11 +2,32 @@
 
 [English](CURRENT_ARTWORK.md) | [Deutsch](CURRENT_ARTWORK.de.md) | Français | [Español](CURRENT_ARTWORK.es.md) | [Italiano](CURRENT_ARTWORK.it.md)
 
-**Bêta b10 : expérimental et désactivé par défaut.** Les cartes b7/b8/b9 restent utilisables. Aucun assistant, clé API, extension HACS, privilège spécial ou autre app n'est nécessaire sur Home Assistant Green/OS.
+**Bêta b11 : expérimental et désactivé par défaut.** Les cartes b7/b8/b9/b10 restent utilisables. Aucun nouvel assistant, clé API, extension HACS, privilège spécial ou autre app n'est nécessaire sur Home Assistant Green/OS.
 
 Même une connexion en lecture peut réveiller un TV. Les tests contrôlés couvrent des changements automatiques et un épisode de veille naturelle sur un Frame, pas tous les modèles ou firmwares. Laissez le mode désactivé si ce risque est inacceptable.
 
 ## Mémoire automatique des œuvres
+
+### Reprendre après la veille — nouveau en b11, facultatif
+
+Après un ancien envoi Frame Gallery réussi, activez le **mode arrière-plan** et
+indiquez dans **Reprendre après la veille** (`resume_state_entity`) l'entité
+Samsung HA existante de ce TV (`media_player` ou `remote`). Son ID est dans
+Paramètres → Appareils et services → Entités. Redémarrez ensuite l'app. Aucun
+nouvel assistant, envoi d'image ou changement de carte n'est nécessaire.
+
+Seul cet état HA en cache est lu toutes les cinq secondes. Un `off` observé puis
+un `on` plus récent, datant de 30 secondes au maximum, autorisent un seul essai
+en lecture, six par heure au maximum. L'identité du TV, le mode Art et l'image
+actuelle sont revérifiés. Démarrage avec TV déjà allumé, redémarrage, doublons,
+états anciens/inconnus et interruption du suivi n'autorisent pas de lecture.
+Un échec n'est pas répété : il faut un nouveau cycle arrêt-marche. Un refus
+d'authentification bloque les essais automatiques dans ce processus.
+
+HA `on` ne prouve pas le mode Art. La connexion peut réveiller le TV ou changer
+son mode ; ce nouveau chemin est simulé hors ligne, sans nouvelle validation
+matérielle. Laissez vide pour désactiver. Une app arrêtée ne suit aucun réveil.
+Les limites d'affichage de 90 secondes et 15 minutes restent inchangées.
 
 Chaque envoi sélectionné avec succès enregistre automatiquement l'ID TV, le titre, l'artiste et la source, même avec le mode arrière-plan **désactivé**. Aucun ID à saisir. L'association dépend de l'identité réelle du TV, pas seulement de son adresse IP. Le même ID sur un autre TV ne désigne pas la même œuvre. Un nouvel envoi réussi remplace l'ancienne association pour ce TV/ID.
 
@@ -61,22 +82,22 @@ aucune œuvre et ne déclenche aucune requête supplémentaire. Les messages
 inconnus ou incorrects, la veille, le mode TV et la perte de connexion terminent
 toujours la session. Des codes fixes dans le journal distinguent les erreurs de
 démarrage, réception, décodage et processus isolé, sans messages bruts ni
-identifiants secrets. Cette version b10 n'est ni installée ni testée sur le téléviseur.
+identifiants secrets. La nouvelle reprise b11 n'est ni installée ni testée sur le téléviseur.
 
 Dans le journal, `event sequence incomplete` signifie que les données sont
 masquées et que la même connexion attend, sans confirmer d'œuvre.
 `event session stopped: reason=...; no reconnect` signifie que la session est
-terminée, sans redémarrage automatique. Pour signaler un problème, indiquez ce
+terminée, sans répétition immédiate. Pour signaler un problème, indiquez ce
 code fixe, la version de l'app et le modèle du TV, jamais de jetons ni de données TV brutes.
 
 Chaque session dure au maximum huit heures et se termine plus tôt en veille,
-mode TV ou erreur. Elle ne reprend pas automatiquement au réveil du téléviseur.
+mode TV ou erreur. Seule la transition HA fraîche explicitement configurée ci-dessus peut ouvrir une nouvelle session.
 
-Après une lecture initiale et une comparaison locale d'image, une seule connexion écoute la séquence observée : `image_selected`, `auto_rotation_image_changed` du même ID, puis mode Art `on`, en cinq secondes. Pas de requêtes répétées toutes les 30 secondes, de nouvelles miniatures ni de reconnexion automatique. Un événement utilise l'association d'envoi ou d'image vérifiée de ce TV ; un ID inconnu efface le texte.
+Après une lecture initiale et une comparaison locale d'image, une seule connexion écoute la séquence observée : `image_selected`, `auto_rotation_image_changed` du même ID, puis mode Art `on`, en cinq secondes. Dans cette session, pas de requêtes répétées, de nouvelles miniatures ni de reconnexion. Un événement utilise l'association d'envoi ou d'image vérifiée de ce TV ; un ID inconnu efface le texte.
 
 La preuve initiale dure 90 secondes. La séquence complète dure au maximum **15 minutes**, adaptée au diaporama testé de dix minutes. Doublons, pongs et mode actif ne la renouvellent pas. Des cycles plus longs peuvent laisser des interruptions ; les changements manuels ne produisent pas forcément cette séquence. Le modèle peut ajouter environ une minute de retard.
 
-Veille, mode TV, déconnexion, événement invalide ou échec de publication suspend/arrête sans reconnexion. Pour reprendre, remettez vous-même le TV en mode Art et envoyez explicitement une autre œuvre. Actualiser traite seulement les événements déjà reçus. Aucune commande d'alimentation, Wake-on-LAN, sélection d'image ou changement de mode n'est envoyée ; la connexion elle-même peut toutefois avoir des effets indésirables.
+Veille, mode TV, déconnexion, événement invalide ou échec de publication suspend/arrête sans reconnexion immédiate. Sans l'option de reprise ci-dessus, un nouvel envoi explicite en mode Art visible reste nécessaire. Actualiser traite seulement les événements déjà reçus. Aucune commande d'alimentation, Wake-on-LAN, sélection d'image ou changement de mode n'est envoyée ; la connexion elle-même peut toutefois avoir des effets indésirables.
 
 Les ID enregistrés sont des correspondances historiques, pas une vérification continue des pixels. Une réutilisation externe d'ID non observée ne peut pas être exclue. Une comparaison initiale contradictoire bloque la légende enregistrée. Aucune garantie générale de non-réveil ou de firmware (D-235).
 

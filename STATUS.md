@@ -1,5 +1,95 @@
 # Project status
 
+## D-238 b11 experimental wake-edge candidate — offline implementation — 2026-10-18
+
+User requests the standard sleep/wake case, simulation and direct publication.
+After the actual saved standby/server-close evidence and missing HA Art-Mode
+signal were explained, user explicitly accepts one read-only attempt after a
+fresh configured Samsung HA off-to-on edge, with unverified connection side
+effects. No TV/HA access, installed b10 start/update, image send or card edit in
+this implementation round. The personal four-hour repository-only broker is
+ready; its credential remains in process memory only.
+
+Optional resume_state_entity is unset by default. Trusted cached-Core polling
+and pure gate reject boot-on, old/future/reordered/duplicate/unknown data and
+gaps, consume edges before attempting, six/hour maximum. Resume never calls the
+sender; it requires exact persisted target/device/upload evidence and a new real
+isolated Art/ID/thumbnail proof. Corrupt credentials never become tokenless;
+auth failures latch off. Existing 90/900 proof ages and cards remain unchanged.
+The missing exact parent backup-link pair is corrected, not broad permissions.
+
+Final full host gates pass 5865 tests/16 Linux-only skips in 51.18s, 301-file
+strict host/Linux typing and 100% whole/mandatory line/branch coverage. The two
+initially uncovered observer lines now have a corrupt-credential regression.
+Actual regular-entry fake-Core tests cover multiple no-send wake cycles and
+known/unknown/mismatched/other-TV/non-Art/auth/publication/cancel outcomes. New
+option/help and current-artwork guides are complete in all five languages.
+Native images, public sources/signatures and Store handoff are not yet done.
+No simulation is presented as hardware no-wake certification.
+Evidence: build/current-artwork-b11-release/offline-gates-final2.log. The existing
+token cannot read Actions variables (403 actions_variables=read); that API path
+is latched/no retry. Personal repository UI is available with approvals still
+disabled; use its normal exact-variable forms later, no token-right expansion.
+
+## Installed b10 controlled test — baseline confirmed / session safely stopped — 2026-10-18
+
+User installed b10 and authorizes controlled current-artist/event testing with
+all existing cards preserved. Physical Art Mode and exactly one new send were
+explicitly confirmed. UI verifies public b10 initially stopped/background ON;
+all three private test apps remain stopped. Existing current card already has
+the correct sensor and 900/90-second freshness; existing send script has the
+public slug, stdin command and bounded request ID. No card/script/options edit.
+
+One invocation at 21:25:56 UTC delivered MY_F0185/commons:22199619 at 21:26:14:
+Charles Wilson Knapp, Mountain River Scene (Autumn on the Hudson). Cached HA
+current information confirmed at 21:26:20 with verified_thumbnail. User's
+physical new-image/slideshow restart confirmation was not received in the
+window. Capture was bounded to 21:50:21 UTC but ended early after HA TV off;
+the HA-only passive collector opened no direct TV connection.
+
+Separate warning: artwork-deliveries.json backup was not refreshed (EACCES).
+No rights/file repair attempted; no clean persistence pass inferred. Preserve
+this warning separately from event recovery; no new image/reconnect requested.
+Offline source triage finds link(2) for backup refresh but no parent AppArmor
+backup-link pair for artwork-deliveries.json (four other files are enumerated).
+This is consistent with EACCES, not proof of the installed kernel denial.
+Existing targeted store/packaging tests pass 157/157; no live profile edit.
+The user asked about 15 minutes: explained D-233's own freshness policy, not
+Samsung behaviour; expiry clears caption but retains receiver without query,
+and the initial 90-second proof may leave a gap before the first slideshow.
+No automatic changed-work state was observed; further slideshow/known-
+automatic-caption/safety gates remain pending, not failed or passed by absence.
+The initial proof expired at 21:27:49 into checking as designed; the rendered
+current card then says a picture operation is running, although the upload
+already finished. This wording is a distinct UX follow-up, not a terminal
+connection-failure finding. Initial native-card rendering inside the first
+90 seconds was not independently observed; the cached HA baseline is proved.
+At 21:36:58 UTC DLNA became unavailable, the current sensor paused and Samsung
+local/remote became off within the same second. This is consistent with off
+handling, not proof of an app crash. User subsequently confirms natural sleep
+and later motion-triggered wake, and confirms the new work was visible; exact
+physical sleep/wake timestamps and slideshow restart remain unconfirmed.
+Natural sleep occurred during the receive session, but no broad no-wake or
+automatic recovery pass follows. Current-session UI
+log has no new terminal-error reason. Public b10 was visibly stopped through
+normal HA Info before 21:37:27, no retry/additional send or query.
+Collector finished at 21:37:28; after snapshot at 21:37:33. All three temporary
+HA logins revoked, exact Dashboard equality and original SHA256 confirmed.
+Exact-path elevated pgrep found no remaining task reader/wrapper. The last
+heartbeat file retains listening; final ha-monitor.json records complete/ok.
+Own native Terminal window cannot be closed by the permitted tools; no bypass
+or global setting change. Other Terminal sessions remain untouched. Final UI
+readback again showed public app stopped; the one own HA test tab was closed,
+leaving the user's original Dashboard and unrelated tabs intact.
+Follow-up question: user expects artist details to recover after motion wake.
+Local event_controller.py confirms standby PAUSED closes/disarms the source;
+restart/refresh cannot reopen it and only a fresh successful explicit delivery
+arms a new session. This is a remaining end-to-end recovery/UX gap, distinct
+from 90/900-second caption expiry. The manually stopped app is an additional
+reason recovery cannot happen now. No TV/HA connection, restart, implementation
+or publication was performed to answer the question; saved mappings/cards stay.
+Private evidence: build/b10-session-live-20261018. No GitHub/publication.
+
 ## Public beta 0.1.0b10 — verified release / Store documentation handoff — 2026-10-18
 
 The user authorized publishing D-237. All five jobs in native publisher run

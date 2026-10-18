@@ -2,11 +2,32 @@
 
 [English](CURRENT_ARTWORK.md) | [Deutsch](CURRENT_ARTWORK.de.md) | [Français](CURRENT_ARTWORK.fr.md) | [Español](CURRENT_ARTWORK.es.md) | Italiano
 
-**Beta b10: sperimentale e disattivato per impostazione predefinita.** Le schede b7/b8/b9 restano utilizzabili. Nessun aiutante, chiave API, HACS, privilegio speciale o altra app su Home Assistant Green/OS.
+**Beta b11: sperimentale e disattivato per impostazione predefinita.** Le schede b7/b8/b9/b10 restano utilizzabili. Nessun nuovo aiutante, chiave API, HACS, privilegio speciale o altra app su Home Assistant Green/OS.
 
 Anche una connessione in lettura può risvegliare il TV. I test controllati coprono cambi automatici e un episodio di sonno naturale su un Frame, non tutti i modelli o firmware. Lasciare disattivato se questo rischio è inaccettabile.
 
 ## Memoria automatica delle opere
+
+### Riprendi dopo lo standby — nuovo in b11, facoltativo
+
+Dopo un invio Frame Gallery precedente riuscito, attivare **Modalità in background**
+e inserire in **Riprendi dopo lo standby** (`resume_state_entity`) l'entità Samsung
+HA esistente di questo TV (`media_player` o `remote`). L'ID si trova in Impostazioni
+→ Dispositivi e servizi → Entità. Riavviare l'app. Nessun nuovo helper, invio di
+immagini o modifica delle schede.
+
+Viene letto solo quello stato HA in cache ogni cinque secondi. Un `off` osservato
+seguito da un `on` più recente, vecchio al massimo 30 secondi, consente un solo
+tentativo in lettura, massimo sei all'ora. Identità del TV, modalità Arte e immagine
+attuale vengono riverificate. Avvio con TV già acceso, riavvio, duplicati, stati
+vecchi/sconosciuti o interruzioni non autorizzano letture. Nessuna ripetizione
+dopo un errore: serve un nuovo ciclo spento-acceso. Un rifiuto di autenticazione
+blocca i tentativi automatici in quel processo.
+
+HA `on` non dimostra modalità Arte. La connessione può risvegliare il TV o cambiarne
+la modalità; il nuovo percorso è simulato offline, non verificato sull'hardware.
+Vuoto: disattivato. Un'app arrestata non osserva risvegli. Restano i limiti di
+visualizzazione di 90 secondi e 15 minuti.
 
 Ogni invio selezionato con successo salva automaticamente ID TV, titolo, artista e fonte, anche con la modalità in background **disattivata**. Nessun ID da inserire. L'associazione appartiene alla vera identità del TV, non solo al suo IP. Lo stesso ID su un altro TV non indica la stessa opera. Un nuovo invio riuscito sostituisce l'associazione precedente per quel TV/ID.
 
@@ -60,23 +81,23 @@ nuova sequenza completa sulla stessa connessione. Non conferma alcuna opera e
 non invia altre richieste. Messaggi sconosciuti o non validi, standby, modalità
 TV e perdita della connessione continuano a terminare la sessione. Codici fissi
 nel registro distinguono errori di avvio, ricezione, decodifica e processo
-isolato, senza messaggi grezzi o credenziali. Questa versione b10 non è installata
+isolato, senza messaggi grezzi o credenziali. La nuova ripresa b11 non è installata
 e non è stato provato sul televisore.
 
 Nel registro, `event sequence incomplete` indica che i dati sono stati nascosti
 e la stessa connessione attende, senza confermare alcuna opera.
 `event session stopped: reason=...; no reconnect` indica che la sessione è
-terminata, senza riavvio automatico. Per segnalare un problema, includi quel
+terminata, senza ripetizione immediata. Per segnalare un problema, includi quel
 codice fisso, la versione e il modello del TV, mai token o dati TV grezzi.
 
 Ogni sessione dura al massimo otto ore e termina prima con sonno, modalità TV o
-errori. Non riprende automaticamente quando il televisore si risveglia.
+errori. Solo la transizione HA recente configurata sopra può aprire una nuova sessione.
 
-Dopo una lettura iniziale e confronto locale, una connessione ascolta la sequenza osservata: `image_selected`, `auto_rotation_image_changed` con lo stesso ID e modalità Arte `on`, entro cinque secondi. Nessuna richiesta ripetuta ogni 30 secondi, miniatura successiva o riconnessione automatica. Un evento cerca l'associazione di invio o immagine verificata di quel TV; un ID sconosciuto cancella il testo.
+Dopo una lettura iniziale e confronto locale, una connessione ascolta la sequenza osservata: `image_selected`, `auto_rotation_image_changed` con lo stesso ID e modalità Arte `on`, entro cinque secondi. Nella stessa sessione nessuna richiesta ripetuta, miniatura successiva o riconnessione. Un evento cerca l'associazione di invio o immagine verificata di quel TV; un ID sconosciuto cancella il testo.
 
 La prova iniziale dura 90 secondi. Una sequenza completa dura al massimo **15 minuti**, per il ciclo testato di dieci minuti. Duplicati, pong e modalità attiva non rinnovano nulla. Cicli più lunghi possono creare intervalli vuoti; i cambi manuali non sempre producono questa sequenza. Il modello può aggiungere circa un minuto di ritardo.
 
-Sonno, modalità TV, disconnessione, eventi non validi o errore di pubblicazione sospendono/arrestano senza riconnettere. Per riprendere, portare il TV in modalità Arte e inviare esplicitamente un'altra opera. Aggiornare elabora solo eventi già ricevuti. Nessun comando di alimentazione, Wake-on-LAN, selezione immagine o cambio modalità; la connessione stessa può comunque causare effetti indesiderati.
+Sonno, modalità TV, disconnessione, eventi non validi o errore di pubblicazione sospendono/arrestano senza riconnettere subito. Senza l'opzione di ripresa sopra, serve ancora un nuovo invio esplicito in modalità Arte visibile. Aggiornare elabora solo eventi già ricevuti. Nessun comando di alimentazione, Wake-on-LAN, selezione immagine o cambio modalità; la connessione stessa può comunque causare effetti indesiderati.
 
 Gli ID salvati sono corrispondenze storiche, non verifica continua dei pixel. Un riutilizzo esterno non osservato non è escludibile. Un confronto iniziale contraddittorio blocca la didascalia salvata. Nessuna garanzia generale di firmware o mancato risveglio (D-235).
 

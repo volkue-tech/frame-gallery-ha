@@ -83,6 +83,31 @@ def test_background_mode_cannot_coerce_values(value: object) -> None:
     assert _issue(background_mode=value).option == "background_mode"
 
 
+@pytest.mark.parametrize("value", [None, "", "media_player.frame", "remote.frame"])
+def test_resume_entity_is_optional_and_never_enables_background(value: str | None) -> None:
+    options = _parse(resume_state_entity=value)
+    assert options.resume_state_entity == (value or None)
+    assert not options.background_mode
+
+
+@pytest.mark.parametrize(
+    "value",
+    [
+        1,
+        True,
+        [],
+        {},
+        "sensor.frame",
+        "media_player.F",
+        "remote.x/y",
+        " remote.x",
+        "remote." + "x" * 65,
+    ],
+)
+def test_resume_entity_is_a_single_explicit_media_player_or_remote(value: object) -> None:
+    assert _issue(resume_state_entity=value).option == "resume_state_entity"
+
+
 def test_null_optional_values_take_their_defaults() -> None:
     names = (
         "source",

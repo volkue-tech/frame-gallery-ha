@@ -2,11 +2,32 @@
 
 English | [Deutsch](CURRENT_ARTWORK.de.md) | [Français](CURRENT_ARTWORK.fr.md) | [Español](CURRENT_ARTWORK.es.md) | [Italiano](CURRENT_ARTWORK.it.md)
 
-**Beta b10: experimental and off by default.** Existing b7/b8/b9 picture cards remain usable. No API key, helper, HACS extension, special permissions or second app is needed on Home Assistant Green/OS.
+**Beta b11: experimental and off by default.** Existing b7/b8/b9/b10 cards remain usable. No API key, new helper, HACS extension, special permissions or second app is needed on Home Assistant Green/OS.
 
 A read-only connection can still wake a television. Controlled tests covered automatic slideshow changes and one natural-sleep episode on one Frame, not every model or firmware. Leave background mode off if any wake-up risk is unacceptable.
 
 ## Automatic artwork memory
+
+### Optional resume after sleep — new in b11
+
+After a previous successful Frame Gallery send, enable **Background mode** and
+enter this TV's existing Samsung HA `media_player` or `remote` entity ID in
+**Resume after sleep** (`resume_state_entity`). Find it under Settings → Devices
+& services → Entities. No new helper or image send is needed for a wake. Keep
+your existing cards and script. Restart the app after changing its options.
+
+The app reads only that cached HA state every five seconds. It must first observe
+`off`, then a newer `on` transition within 30 seconds. It permits one read-only
+attempt, at most six per hour, and verifies the pinned TV, Art Mode and actual
+image before restoring artist/title. Booting with the TV already on, a restart,
+duplicates, stale/unknown states or a monitoring gap do not authorize a read.
+A failure is not retried; a new off-to-on cycle is required. Authentication
+refusal blocks further automatic attempts in that service process.
+
+HA `on` is not Art Mode proof. A connection may still wake the TV or affect its
+mode; this new path has offline simulations, not new hardware safety evidence.
+Leave the field empty to disable it. A stopped app cannot observe a wake. The
+90-second initial and 15-minute slideshow display limits below are unchanged.
 
 Every successfully selected upload now saves its TV image ID, title, artist and source automatically, even with background mode **off**. Nothing needs to be entered manually. The association belongs to the actual TV identity, not just its IP address: the same image ID on another TV is not the same artwork. A successful new upload replaces an older association for that TV/ID.
 
@@ -60,22 +81,22 @@ connection for a new complete sequence. They never confirm an artwork or
 trigger another query. Unknown or malformed messages, standby, TV mode and
 connection loss still end the session. Fixed failure codes in the app log
 distinguish startup, receive, decoding and worker errors without raw messages
-or credentials. This b10 version has not been installed or tested on the TV.
+or credentials. The new b11 resume path has not been installed or tested on the TV.
 
 In the log, `event sequence incomplete` means the caption was cleared and the
 same connection is waiting, not that an artwork was confirmed.
 `event session stopped: reason=...; no reconnect` means the session ended;
 include that fixed reason code, app version and TV model in a bug report, not
-access tokens or raw TV data. It does not restart automatically.
+access tokens or raw TV data. That failed session is not automatically retried.
 
 Each session lasts at most eight hours and ends earlier on sleep, TV mode or
-failure. It does not silently resume when the television wakes again.
+failure. Only the explicitly configured fresh HA wake edge above may start a new session.
 
-After one initial read and local image comparison, one connection listens for the observed slideshow sequence: `image_selected`, matching `auto_rotation_image_changed`, then Art Mode `on`, within five seconds. There are no repeated 30-second TV queries, subsequent thumbnails or automatic reconnects. A later event resolves metadata from that TV's saved upload or image-verified association; an unknown ID clears the caption.
+After one initial read and local image comparison, one connection listens for the observed slideshow sequence: `image_selected`, matching `auto_rotation_image_changed`, then Art Mode `on`, within five seconds. Within that session there are no repeated TV queries, subsequent thumbnails or reconnects. A later event resolves metadata from that TV's saved upload or image-verified association; an unknown ID clears the caption.
 
 Initial image proof lasts 90 seconds. A complete slideshow sequence lasts at most **15 minutes**, intended for the tested ten-minute slideshow. Duplicate IDs, pongs and mode-on events do not renew it. Slower slideshows can therefore show gaps; manual selections need not provide this sequence. The template can add about one minute of display delay.
 
-Sleep, TV mode, disconnection, malformed events or publication failure stop/pause the session without reconnecting. To resume, put the TV in Art Mode yourself and explicitly send another artwork. Refresh only reads already received events. The observer sends no power, Wake-on-LAN, image-selection or mode-change commands. A connection itself can nevertheless cause side effects.
+Sleep, TV mode, disconnection, malformed events or publication failure stop/pause the session without an immediate reconnect. Without the optional wake-edge setting, resuming still requires an explicit new send in visible Art Mode. Refresh only reads already received events. The observer sends no power, Wake-on-LAN, image-selection or mode-change commands. A connection itself can nevertheless cause side effects.
 
 Saved IDs are historical correspondence, not continuous pixel verification. An external, unobserved replacement/reuse of a TV ID cannot be ruled out during event-only listening. A mismatching initial image comparison suppresses the saved caption. No general firmware/no-wake guarantee is claimed (D-235).
 

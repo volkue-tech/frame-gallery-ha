@@ -84,6 +84,7 @@ from frame_gallery.observer.event_backend import EventBackend
 from frame_gallery.observer.event_controller import EventController
 from frame_gallery.observer.model import Observation
 from frame_gallery.observer.service import PublicationGuard, serve
+from frame_gallery.observer.wake import WakeMonitor
 from frame_gallery.providers import aic, cma
 from frame_gallery.providers.aic import AicProvider, aic_policy
 from frame_gallery.providers.cma import CmaProvider, cma_policy
@@ -230,6 +231,20 @@ def background_main() -> int:
             )
 
         publication = PublicationGuard(publish, stopped.set)
+        wake_reader = SupervisorHelperReader(
+            token=reduced.supervisor_token,
+            resolver=resolver,
+            transport=transport,
+            networks=networks,
+        )
+        wake_monitor = WakeMonitor(
+            lambda: wake_reader.read_wake_state(
+                options.resume_state_entity or "",
+                Deadline(clock, clock.monotonic() + 2, "cached TV state"),
+            ),
+            clock.monotonic,
+            lambda: clock.utc_now().timestamp(),
+        )
 
         def send() -> int:
             before = observer.delivery_snapshot()
@@ -246,10 +261,13 @@ def background_main() -> int:
             publish=publication,
             claim=lambda command: store.claim(command, clock.utc_now().timestamp()),
             stopped=stopping,
+            prepare_resume=observer.prepare_resume,
+            monitor_wake=wake_monitor.poll,
         )
         _log.warning(
             "event background service ready; TV access requires an approved device-event profile "
-            "and a fresh explicit delivery; no polling or automatic reconnect"
+            "and an explicit delivery or configured fresh HA off-to-on edge; "
+            "no TV polling or blind retry"
         )
         serve(controller, incoming.receive, stopping)
     finally:

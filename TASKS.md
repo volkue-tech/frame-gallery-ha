@@ -1,5 +1,52 @@
 # Implementation plan and approval gates
 
+## D-238 experimental sleep/wake beta b11, authorized 2026-10-18
+
+- [x] Review actual saved standby/server-close and HA state evidence. Explain
+  physical safety cannot be proven by simulation. Obtain explicit acceptance
+  of one experimental read-only attempt per fresh configured HA off-to-on edge.
+- [x] Keep installed b10 stopped/cards intact; implement local-only cached-HA
+  gate, exact per-TV archive validation, no-send resume and auth refusal latch.
+- [x] Simulate boot-on, off/on cycles, duplicate/stale/future/reordered states,
+  HA gaps/auth, wrong identity/image, unknown art, TV-program mode and stop races.
+- [x] Correct exact parent-only artwork-deliveries backup link; inventory test
+  covers every currently backup-enabled store. No broad worker/container access.
+- [x] Complete five-language current-artwork notes/option help and full unchanged
+  lint/typing/coverage gates: 5865/16 skips, 301 files, 100% lines/branches.
+- [ ] Freeze exact personal candidate and matching source bundle. Keep tracked
+  checkout clean and unrelated docs/community untracked/untouched.
+- [ ] Native ARM/Intel validation/publisher, bounded evidence checks, public
+  matching sources, anonymous image import/pull/signature checks, then Store
+  handoff. No installed HA update or live TV test; no no-wake pass inferred.
+- [ ] Disable exact release approvals and end the four-hour memory-only broker;
+  close only identified completed own UI sessions where tools permit.
+
+## Installed b10 controlled event/current-artist test, 2026-10-18
+
+- [x] Confirm installed b10, stopped private apps and preserved existing card/
+  script contract. Passive HA-only pre-snapshot and temporary login revocation.
+- [x] Obtain physical Art Mode/one-send permission. Exactly one script invocation
+  delivered MY_F0185/Charles Wilson Knapp; initial HA image-verified caption.
+- [ ] Obtain physical new-image and random ten-minute slideshow restart
+  confirmation, observe up to two automatic cycles within 25-minute capture.
+- [x] Distinguish expected 90-second expiry from terminal errors. Later pause
+  coincides with HA Samsung off within one second; user later confirms natural
+  sleep and subsequent motion wake (exact physical times unrecorded),
+  no terminal-error reason seen. No automatic changed-work state was observed.
+  Unknown-work and known-automatic-caption hardware gates remain pending.
+- [ ] Resolve end-to-end post-sleep recovery before describing the current
+  artist feature as automatically available across sleep/wake. Installed b10
+  closes/disarms on standby and cannot rearm from refresh/app restart alone.
+  Do not substitute last-sent metadata or treat HA on as confirmed Art Mode;
+  no new connection/restart/code change is authorized by the question alone.
+- [x] Retain EACCES association-backup warning separately; no permissions repair
+  or primary persistence claim without evidence.
+- [x] Stop controlled app session, revoke all three own diagnostic logins,
+  verify exact unchanged Dashboard/hash and retain bounded session evidence.
+  Wrapper/reader completed; own Terminal window control is unavailable and
+  not bypassed. No TV power/mode command or
+  automatic retry, no publication/private-app start or configuration.yaml edit.
+
 ## Authorized beta 0.1.0b10 publication, 2026-10-18
 
 - [x] Record user's new publication request; keep installed b9 stopped/cards

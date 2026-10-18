@@ -1,5 +1,15 @@
 # Product specification
 
+## Experimental post-sleep resume, 2026-10-18 (D-238)
+
+An optional existing Samsung HA resume_state_entity, with background enabled,
+may trigger one read-only revalidation after a fresh observed off-to-on edge.
+User explicitly accepts unverified connection side effects for this experimental
+path. No new image/power/mode command, timer retry, enrollment, card edit or live
+test. Require archived target/device identity and a new real Art/image proof;
+boot-on/unknown/stale/error cannot restore a caption or authorize blind reads.
+Installed b10 stays stopped; beta publication follows green offline/native gates.
+
 ## Local b9 recovery/diagnostic fix, 2026-10-18 (D-237, unreleased)
 
 User authorizes local diagnosis and offline fix preparation only; b9 stays

@@ -1,5 +1,46 @@
 # Decision log
 
+## D-238 — explicitly accepted experimental HA-edge resume, 2026-10-18
+
+User requests all standard cases, offline simulation and direct beta publication,
+keeping installed b10 stopped/cards intact, with no live TV test or new send.
+After reviewing the saved natural-sleep trace (TV standby followed by server
+WebSocket close), user explicitly accepts ONE experimental read-only connection
+after a freshly observed off-to-on transition of one configured existing Samsung
+HA entity. Connection/mode side effects are not excluded by simulation. No power,
+mode, selection, upload, wake packet, blind reconnect or retry is authorized.
+
+Add optional resume_state_entity (media_player/remote only), unset by default;
+background_mode must also be true. Poll only that cached Core state, not the TV,
+using the existing scoped Supervisor Core API permission in the trusted parent.
+Boot-on, unknown/unavailable, stale/future/reordered state, gaps and duplicate
+on cannot grant a connection. Require an observed off, a newer on last_changed
+within 30 seconds and after service start, max six attempts/hour. Consume the
+edge before preparing/starting the worker, including failures. Another attempt
+requires another observed off/new on; a restart begins unarmed.
+
+Resume requires an intact pre-existing target/device pin and exact same-target
+confirmed-upload association; never enroll, repin, guess another TV or restore
+last-caption data. Missing/corrupt/future storage or rejected credentials fails
+closed. Reuse the existing isolated initial device/Art-mode/current-ID/thumbnail
+proof and strict slideshow receiver, with no send callback on resume. HA on
+is only the experimentally accepted connection trigger, NOT proof of Art Mode.
+Stored-token failure never falls back to tokenless. A tokenless channel may be
+authorized only by the explicit experimental edge and an archived successful
+delivery for this pinned target. Existing default/off/send/card paths remain.
+
+Retain the 90/900-second proof-age rules; do not fabricate current data to hide
+their UI limitation. Unknown works have no artist; actual device/thumbnail
+mismatch never borrows metadata. Sleep/off/publication/auth errors close and
+clear. HA auth rejection disables further wake-reader requests in that process.
+No new container privilege, network mode, helper creation or configuration.yaml.
+
+Also correct the missing parent-only, exact-pair AppArmor backup link for the
+existing artwork-deliveries.json store; no broad link/worker permission. Test
+the deployment-rule inventory against all backup-enabled documents so a new
+store cannot silently repeat the omission. Native ARM/Intel release gates
+remain required. Offline coverage is not hardware/no-wake certification.
+
 ## D-237 — local b9 recovery hardening and fixed diagnostic reasons (unreleased)
 
 User authorizes offline diagnosis/fix preparation only after the installed b9

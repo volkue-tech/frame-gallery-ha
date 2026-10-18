@@ -114,18 +114,40 @@ class HostObserver:
                 self._device = targets.get(str(self._host))
             if self._device is None and len(targets) >= MAX_TARGETS:
                 return False
-            self._tokenless = TokenStore(self._data, self._host).load() is None
+            self._tokenless = TokenStore(self._data, self._host).load_for_observation() is None
             self._enroll = self._device is None
         except StateError:
             return False
         return True
 
     def event_policy(self, device_id: str | None) -> EventPolicy | None:
-        """Consume one opt-in experimental grant, never a persisted resume right."""
+        """Consume one delivery/fresh-HA-edge grant, not the saved pin alone."""
         granted, self._delivery_device = self._delivery_device, None
         if device_id is not None and device_id == granted:
             return SLIDESHOW_POLICY
         return reviewed_policy(device_id)
+
+    def prepare_resume(self) -> bool:
+        """Local-only validation AFTER a consumed experimental HA off-to-on edge.
+
+        No enrollment, repinning, send or new binding. The caller, not stored
+        metadata or boot, must supply the separately accepted fresh-edge gate.
+        """
+        self._device, self._delivery_device = None, None
+        self._enroll, self._tokenless = False, False
+        try:
+            device = self._targets.targets().get(str(self._host))
+            if device is None:
+                return False
+            target = target_fingerprint(self._host)
+            archived = DeliveryAssociations(self._data).all()
+            if not any(a.device_id == device and a.target_sha256 == target for a in archived):
+                return False
+            self._tokenless = TokenStore(self._data, self._host).load_for_observation() is None
+        except StateError:
+            return False
+        self._device = self._delivery_device = device
+        return True
 
     def read(self) -> Observation:
         payload = self.session_request()
@@ -147,7 +169,14 @@ class HostObserver:
         """Local validation only; never starts a worker or contacts a TV."""
         if self._device is None and not self._enroll:
             return Observation(Status.VALIDATION_REQUIRED)
-        token = None if self._tokenless else TokenStore(self._data, self._host).load()
+        try:
+            token = (
+                None
+                if self._tokenless
+                else TokenStore(self._data, self._host).load_for_observation()
+            )
+        except StateError:
+            return Observation(Status.NOT_AUTHORIZED)
         if token is None and not self._tokenless:
             return Observation(Status.NOT_AUTHORIZED)
         return {
