@@ -7,13 +7,20 @@
 - [x] Version only the own project/lock/generated metadata to b10; keep
   dependencies/options/privileges unchanged. Full versioned host gates pass
   5773/16 Linux-only skips, strict host/Linux typing and 100% line/branch coverage.
-- [ ] Freeze exact clean personal commit without unrelated docs/community.
-- [ ] Verify matching sources, publish source-only package and anonymous readback.
-- [ ] Approve exact SHA/source hash and run both native validators/publishers.
-- [ ] Check four evidence archives, real isolation/root/memory measurements,
+- [x] Freeze exact clean personal commit without unrelated docs/community:
+  e2c997be97b55016c46d75941890a6324198cc05.
+- [x] Verify matching sources, publish source-only package and anonymous readback:
+  release 416618218/asset 654147081, exact full archive/member preflight passed.
+- [x] Approve exact SHA/source hash and run both native validators/publishers:
+  run 39154228750, all five jobs successful.
+- [x] Check four evidence archives, real isolation/root/memory measurements,
   anonymous image pulls/imports and exact independent signatures.
-- [ ] Publish app prerelease, then Store/main handoff only after green checks.
-- [ ] Disable temporary approvals and end memory-only personal token broker.
+- [x] Publish app prerelease v0.1.0b10/416643274 after green checks; prepare this
+  documentation-only Store/main handoff without changing the frozen runtime.
+- [x] Disable/read back both temporary approvals as DISABLED_AFTER_0.1.0b10.
+  End the memory-only broker after the final push; public byte readback,
+  additional main CI and process closure are separate post-push local receipts,
+  not results pre-claimed by this documentation snapshot.
 
 ## D-237 local b9 recovery/diagnostic candidate, 2026-10-18
 

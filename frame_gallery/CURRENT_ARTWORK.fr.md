@@ -2,7 +2,7 @@
 
 [English](CURRENT_ARTWORK.md) | [Deutsch](CURRENT_ARTWORK.de.md) | Français | [Español](CURRENT_ARTWORK.es.md) | [Italiano](CURRENT_ARTWORK.it.md)
 
-**Bêta b9 : expérimental et désactivé par défaut.** Les cartes b7/b8 restent utilisables. Aucun assistant, clé API, extension HACS, privilège spécial ou autre app n'est nécessaire sur Home Assistant Green/OS.
+**Bêta b10 : expérimental et désactivé par défaut.** Les cartes b7/b8/b9 restent utilisables. Aucun assistant, clé API, extension HACS, privilège spécial ou autre app n'est nécessaire sur Home Assistant Green/OS.
 
 Même une connexion en lecture peut réveiller un TV. Les tests contrôlés couvrent des changements automatiques et un épisode de veille naturelle sur un Frame, pas tous les modèles ou firmwares. Laissez le mode désactivé si ce risque est inacceptable.
 
@@ -54,14 +54,20 @@ content: >-
 
 ## Confirmation et limites
 
-**Correctif de reprise bêta b10 (version candidate) :** une séquence incomplète de
+**Correctif de reprise bêta b10 :** une séquence incomplète de
 notifications reconnues du diaporama masque les informations actuelles et
 attend une nouvelle séquence complète sur la même connexion. Elle ne confirme
 aucune œuvre et ne déclenche aucune requête supplémentaire. Les messages
 inconnus ou incorrects, la veille, le mode TV et la perte de connexion terminent
 toujours la session. Des codes fixes dans le journal distinguent les erreurs de
 démarrage, réception, décodage et processus isolé, sans messages bruts ni
-identifiants secrets. Ce candidat n'est ni installé ni testé sur le téléviseur.
+identifiants secrets. Cette version b10 n'est ni installée ni testée sur le téléviseur.
+
+Dans le journal, `event sequence incomplete` signifie que les données sont
+masquées et que la même connexion attend, sans confirmer d'œuvre.
+`event session stopped: reason=...; no reconnect` signifie que la session est
+terminée, sans redémarrage automatique. Pour signaler un problème, indiquez ce
+code fixe, la version de l'app et le modèle du TV, jamais de jetons ni de données TV brutes.
 
 Chaque session dure au maximum huit heures et se termine plus tôt en veille,
 mode TV ou erreur. Elle ne reprend pas automatiquement au réveil du téléviseur.

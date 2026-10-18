@@ -1,11 +1,13 @@
 # Frame Gallery
 
-> **New in beta b9:** selected uploads automatically save per-TV title/artist
-> associations, even with background mode off. Optional [event-based current-TV artwork information](CURRENT_ARTWORK.md)
-> remains experimental/off by default. No polling or automatic reconnect;
-> a connection may still wake a TV. Leave off if any wake-up risk is unacceptable.
+> **New in beta b10:** incomplete recognized slideshow sequences clear the
+> current caption and wait on the same connection for a new complete sequence;
+> fixed log codes help identify failures. No extra query or reconnect.
+> Automatic per-TV artwork memory from b9 stays unchanged. Optional
+> [current-TV information](CURRENT_ARTWORK.md) remains experimental/off by
+> default; a connection may still wake a TV. Leave off if that risk is unacceptable.
 
-> **0.1.0b9 beta candidate:** [1000 near-widescreen Wikimedia Commons works](COMMONS.md), optional Commons artist/colour selection and [native dashboard pickers](COMMONS_ARTIST.md).
+> **0.1.0b10 public beta:** [1000 near-widescreen Wikimedia Commons works](COMMONS.md), optional Commons artist/colour selection and [native dashboard pickers](COMMONS_ARTIST.md).
 > No API key is needed. Update without uninstalling; your saved sources and
 > existing camera, timer, script and optional artwork-information helper still work.
 
@@ -23,7 +25,7 @@ One start, one fresh artwork on your Samsung Frame. Choose museum artwork or you
 
 *Illustration, not a screenshot. The dashboard is optional and is configured separately; installation does not add a card automatically.*
 
-> Native ARM/Intel validators and actual publisher images, public sources, anonymous pulls/imports and independent signatures passed for b7. [Release checks](https://github.com/volkue-tech/frame-gallery-ha/blob/main/BETA7_VALIDATION.md). No new Green/TV/frontend-language test is claimed. The historical b3 passed two Commons deliveries and preview/text/loading/cleanup on Green, with physical TV confirmation of the second work. [Historical b3 evidence](https://github.com/volkue-tech/frame-gallery-ha/blob/main/BETA3_VALIDATION.md). Compatibility with every TV model is not guaranteed.
+> Native ARM/Intel validators and actual publisher images, public sources, anonymous pulls/imports and independent signatures passed for b10. [Release checks](https://github.com/volkue-tech/frame-gallery-ha/blob/main/BETA10_VALIDATION.md). The exact b9 live-abort cause remains unproven; no new b10 Green/TV/sleep test is claimed. The historical b3 passed two Commons deliveries and preview/text/loading/cleanup on Green, with physical TV confirmation of the second work. [Historical b3 evidence](https://github.com/volkue-tech/frame-gallery-ha/blob/main/BETA3_VALIDATION.md). Compatibility with every TV model is not guaranteed.
 
 **Start here:** [Install](#installation) → [Show your first artwork](#first-start-and-pairing) → [Add the dashboard card](#dashboard).
 

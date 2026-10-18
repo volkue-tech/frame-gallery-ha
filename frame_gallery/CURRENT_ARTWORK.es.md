@@ -2,7 +2,7 @@
 
 [English](CURRENT_ARTWORK.md) | [Deutsch](CURRENT_ARTWORK.de.md) | [Français](CURRENT_ARTWORK.fr.md) | Español | [Italiano](CURRENT_ARTWORK.it.md)
 
-**Beta b9: experimental y desactivado por defecto.** Las tarjetas b7/b8 siguen funcionando. No necesita ayudantes, claves API, HACS, permisos especiales ni otra app en Home Assistant Green/OS.
+**Beta b10: experimental y desactivado por defecto.** Las tarjetas b7/b8/b9 siguen funcionando. No necesita ayudantes, claves API, HACS, permisos especiales ni otra app en Home Assistant Green/OS.
 
 Incluso una conexión de lectura puede despertar el TV. Las pruebas controladas cubren cambios automáticos y un episodio de reposo natural en un Frame, no todos los modelos o firmware. Mantenga el modo desactivado si ese riesgo es inaceptable.
 
@@ -54,14 +54,20 @@ content: >-
 
 ## Confirmación y límites
 
-**Corrección de recuperación beta b10 (versión candidata):** una secuencia incompleta
+**Corrección de recuperación beta b10:** una secuencia incompleta
 de notificaciones reconocidas del pase oculta los datos actuales y espera una
 nueva secuencia completa en la misma conexión. No confirma ninguna obra ni
 envía otra consulta. Los mensajes desconocidos o incorrectos, el reposo, el modo
 TV y la pérdida de conexión siguen terminando la sesión. Los códigos fijos del
 registro distinguen errores de inicio, recepción, decodificación y proceso
-aislado, sin mensajes sin procesar ni credenciales. Este candidato no se ha
+aislado, sin mensajes sin procesar ni credenciales. Esta versión b10 no se ha
 instalado ni probado en el televisor.
+
+En el registro, `event sequence incomplete` significa que los datos se han
+ocultado y la misma conexión espera, sin confirmar ninguna obra.
+`event session stopped: reason=...; no reconnect` indica que la sesión terminó,
+sin reinicio automático. Al informar de un problema, incluya ese código fijo,
+la versión y el modelo del TV, nunca tokens ni datos sin procesar del televisor.
 
 Cada sesión dura como máximo ocho horas y termina antes con reposo, modo TV o
 errores. No se reanuda automáticamente cuando el televisor vuelve a despertar.

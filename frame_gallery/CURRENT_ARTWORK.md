@@ -2,7 +2,7 @@
 
 English | [Deutsch](CURRENT_ARTWORK.de.md) | [Français](CURRENT_ARTWORK.fr.md) | [Español](CURRENT_ARTWORK.es.md) | [Italiano](CURRENT_ARTWORK.it.md)
 
-**Beta b9: experimental and off by default.** Existing b7/b8 picture cards remain usable. No API key, helper, HACS extension, special permissions or second app is needed on Home Assistant Green/OS.
+**Beta b10: experimental and off by default.** Existing b7/b8/b9 picture cards remain usable. No API key, helper, HACS extension, special permissions or second app is needed on Home Assistant Green/OS.
 
 A read-only connection can still wake a television. Controlled tests covered automatic slideshow changes and one natural-sleep episode on one Frame, not every model or firmware. Leave background mode off if any wake-up risk is unacceptable.
 
@@ -54,13 +54,19 @@ content: >-
 
 ## How confirmation works — and its limits
 
-**Beta b10 recovery fix (release candidate):** incomplete sequences of recognized
+**Beta b10 recovery fix:** incomplete sequences of recognized
 slideshow notifications clear the current caption and wait on the same
 connection for a new complete sequence. They never confirm an artwork or
 trigger another query. Unknown or malformed messages, standby, TV mode and
 connection loss still end the session. Fixed failure codes in the app log
 distinguish startup, receive, decoding and worker errors without raw messages
-or credentials. This candidate has not been installed or tested on the TV.
+or credentials. This b10 version has not been installed or tested on the TV.
+
+In the log, `event sequence incomplete` means the caption was cleared and the
+same connection is waiting, not that an artwork was confirmed.
+`event session stopped: reason=...; no reconnect` means the session ended;
+include that fixed reason code, app version and TV model in a bug report, not
+access tokens or raw TV data. It does not restart automatically.
 
 Each session lasts at most eight hours and ends earlier on sleep, TV mode or
 failure. It does not silently resume when the television wakes again.

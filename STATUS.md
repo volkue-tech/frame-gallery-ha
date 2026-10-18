@@ -1,21 +1,39 @@
 # Project status
 
-## Beta 0.1.0b10 publication authorized — versioned host gates pass — 2026-10-18
+## Public beta 0.1.0b10 — verified release / Store documentation handoff — 2026-10-18
 
-The user now explicitly requests publishing D-237. This supersedes only the
-previous no-publication restriction: installed b9 remains stopped, no HA/TV or
-card mutation in this release round. Publish only the personal repository and
-only after exact-commit matching-source/native ARM/Intel/actual-image gates.
+The user authorized publishing D-237. All five jobs in native publisher run
+39154228750 completed successfully. Four exact provenance/hash/content-checked
+archives confirm 5781 production tests/eight root-only skips, eight separate
+root checks, real 1-GiB measurements and 150 inspections per image with no failure.
+Anonymous immutable-image pulls/inert imports and independent exact-workflow/
+commit Cosign checks passed on both architectures. See BETA10_VALIDATION.md.
+
+App prerelease v0.1.0b10 is public (416643274), targeting frozen runtime/source
+e2c997be97b55016c46d75941890a6324198cc05. This documentation-only handoff keeps
+its exact 116-file fingerprint bd374026addf0c6db02daf783d013602c52df4eea9f3043024a35345c77d600c.
 Existing release/registry tags and unrelated docs/community remain untouched.
+No HA/TV connection, installed b9 start/update or card edit in this release round.
 
 Versioned 0.1.0b10 host gates pass unchanged: 5773/16 genuine Linux-only skips,
 strict host/Linux typing on 296 files and 100% line/branch coverage. App metadata
 was regenerated; its only change is version. Dependencies, permissions, source
 catalogue, helpers and runtime defaults are unchanged. Candidate changelog and
 five-language recovery note preserve the unproved-live-cause/no-new-hardware
-limits. Personal memory-only release access is requested through the fixed
-four-hour broker; never store or print its token. Source/native/publication
-gates are still pending, not claimed green by this local result.
+limits. A complete unchanged handoff rerun also passes 5773/16 skips in 48.89s,
+296-file host/Linux typing and 100% line/branch coverage. Exact frozen commit e2c997
+is pushed. Matching source release 416618218/asset 654147081 is public, with
+anonymous full download/member preflight passed (581416960 bytes, SHA256
+1f9a341990cad9e967fe284e6fe250ea7f30fcd3b40ba7894e2125a39a3dd664).
+After the user's existing GitHub access confirmation, both exact approvals
+were saved/read back, then disabled/read back as DISABLED_AFTER_0.1.0b10 after
+the successful pipeline. No new token or scope expansion; the four-hour broker
+retains access only in process memory and is ended after the final push.
+Public byte-exact Store readback, final main-triggered native validation and
+credential/process closure are separately recorded post-push under
+build/current-artwork-b10-release. This handoff snapshot does not pre-claim
+those final operational receipts. No new b10 live/sleep pass or proof of the
+exact b9 abort cause follows; existing associations/cards remain compatible.
 
 ## D-237 local b9 recovery fix prepared — full offline gates pass — 2026-10-18
 

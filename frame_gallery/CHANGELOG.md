@@ -1,6 +1,6 @@
 # Changelog
 
-## 0.1.0b10 (release candidate)
+## 0.1.0b10 (public beta)
 
 - Keep the same finite event receiver after incomplete sequences of recognized
   slideshow notifications. Clear the current caption and discard all pending
@@ -18,7 +18,10 @@
   offline gates pass 5773 tests/16 Linux-only skips and 100% line/branch coverage.
   The actual b9 live-abort cause remains unproven because its log lacks event
   reasons; this is not a new hardware, sleep or universal compatibility pass.
-  Native ARM/Intel, matching public sources and image/signature gates are pending.
+  Native ARM/Intel validators and actual publisher images, matching public
+  sources, four verified evidence archives, anonymous image pulls/imports and
+  independent signatures passed. Publishing does not update installed HA apps
+  or edit cards. Update in place without uninstalling.
 
 ## 0.1.0b9 (public beta)
 

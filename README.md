@@ -1,13 +1,14 @@
 # Frame Gallery for Home Assistant
 
-> **New in b9:** automatic per-TV artwork memory after every selected upload,
-> even with background mode off. Optional [event-based current-TV information](frame_gallery/CURRENT_ARTWORK.md)
-> stays experimental and off by default. Connections can wake a TV; there is no
-> general model/firmware no-wake guarantee. Existing cards stay compatible.
+> **New in b10:** recover from incomplete recognized slideshow sequences on the
+> same connection, with safe fixed diagnostic codes. Automatic per-TV artwork
+> memory from b9 stays compatible. Optional [current-TV information](frame_gallery/CURRENT_ARTWORK.md)
+> remains experimental and off by default. Connections can wake a TV; there is
+> no general model/firmware no-wake guarantee. Existing cards stay compatible.
 
 Fresh artwork on your Samsung Frame. Start it with a tap from Home Assistant.
 
-> **0.1.0b9 public beta:** 1000 curated Commons works, optional artist and
+> **0.1.0b10 public beta:** 1000 curated Commons works, optional artist and
 > colour selection, and configuration in English, German, French, Spanish and Italian.
 > Update in place; saved sources, dashboard helpers and history stay compatible.
 
@@ -90,17 +91,20 @@ When reporting a problem, include the app version, TV model and the final outcom
 
 ## Public beta
 
-**[0.1.0b9 is available](https://github.com/volkue-tech/frame-gallery-ha/releases/tag/v0.1.0b9).**
-Automatic per-TV artwork memory after every selected upload, including one-shot
-operation, and optional event-based current-artwork information. No manual ID
-management, extra Green permissions or changes to existing cards. Background
-mode stays experimental and OFF by default; connections may still wake a TV.
+**[0.1.0b10 is available](https://github.com/volkue-tech/frame-gallery-ha/releases/tag/v0.1.0b10).**
+Incomplete sequences of recognized slideshow events clear the caption and wait
+on the same finite connection for a later complete sequence. Fixed diagnostic
+codes help distinguish failures, without raw TV messages or credentials.
+No new query, thumbnail request or reconnect. Per-TV artwork memory, catalogue,
+filters, permissions and existing cards remain unchanged. Background stays
+experimental and OFF by default; connections may still wake a TV.
 Both native ARM/Intel validators and actual publisher images passed, with
 matching public sources, four hash/provenance-checked evidence archives,
 anonymous image pulls/imports and independent signatures. See the
-[b9 validation report](BETA9_VALIDATION.md) and
+[b10 validation report](BETA10_VALIDATION.md) and
 [five-language current-artwork guide](frame_gallery/CURRENT_ARTWORK.md).
-No new b9 Green/TV live test or general no-wake guarantee is claimed.
+The exact b9 live-abort cause remains unproven. No new b10 Green/TV live test
+or general no-wake guarantee is claimed.
 Update in place, without uninstalling.
 
 **[0.1.0b7 is available](https://github.com/volkue-tech/frame-gallery-ha/releases/tag/v0.1.0b7).** Optional artist selection

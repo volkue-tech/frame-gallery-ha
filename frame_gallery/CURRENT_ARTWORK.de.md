@@ -2,7 +2,7 @@
 
 [English](CURRENT_ARTWORK.md) | Deutsch | [Français](CURRENT_ARTWORK.fr.md) | [Español](CURRENT_ARTWORK.es.md) | [Italiano](CURRENT_ARTWORK.it.md)
 
-**Beta b9: experimentell und standardmäßig aus.** Bestehende b7/b8-Bildkarten bleiben nutzbar. Auf Home Assistant Green/OS werden keine API-Schlüssel, zusätzlichen Helfer, HACS-Erweiterungen, Sonderrechte oder weiteren Apps benötigt.
+**Beta b10: experimentell und standardmäßig aus.** Bestehende b7/b8/b9-Bildkarten bleiben nutzbar. Auf Home Assistant Green/OS werden keine API-Schlüssel, zusätzlichen Helfer, HACS-Erweiterungen, Sonderrechte oder weiteren Apps benötigt.
 
 Auch eine lesende Verbindung kann einen Fernseher aufwecken. Kontrollierte Tests erfassten automatische Bildwechsel und einen natürlichen Einschlafvorgang an einem Frame, nicht alle Modelle oder Firmwares. Falls jedes Aufweckrisiko inakzeptabel ist, Hintergrundmodus ausgeschaltet lassen.
 
@@ -54,14 +54,20 @@ content: >-
 
 ## Bestätigung und Grenzen
 
-**Wiederanlauf-Fix in Beta b10 (Release-Kandidat):** Unvollständige Folgen
+**Wiederanlauf-Fix in Beta b10:** Unvollständige Folgen
 bekannter Diashow-Meldungen blenden die aktuellen Künstlerdaten aus und warten
 auf derselben Verbindung auf eine neue vollständige Folge. Sie bestätigen kein
 Werk und lösen keine weitere Abfrage aus. Unbekannte oder fehlerhafte Meldungen,
 Standby, TV-Betrieb und Verbindungsverlust beenden die Sitzung weiterhin. Feste
 Fehlercodes im App-Protokoll unterscheiden Start-, Empfangs-, Dekodierungs- und
-Workerfehler, ohne rohe Nachrichten oder Zugangsdaten auszugeben. Dieser
-Kandidat ist weder installiert noch am TV getestet.
+Workerfehler, ohne rohe Nachrichten oder Zugangsdaten auszugeben. Diese
+b10-Version ist weder installiert noch am TV getestet.
+
+Im Protokoll bedeutet `event sequence incomplete`: Künstlerdaten ausgeblendet,
+dieselbe Verbindung wartet — kein bestätigtes Werk.
+`event session stopped: reason=...; no reconnect` bedeutet: Sitzung beendet,
+kein automatischer Neustart. Bei einer Fehlermeldung diesen festen Fehlercode,
+App-Version und TV-Modell angeben, keine Zugriffstoken oder rohen TV-Daten.
 
 Eine Sitzung dauert höchstens acht Stunden und endet bei Einschlafen, TV-Betrieb
 oder Fehlern früher. Beim erneuten Aufwachen wird sie nicht heimlich fortgesetzt.

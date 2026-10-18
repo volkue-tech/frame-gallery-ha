@@ -2,7 +2,7 @@
 
 [English](CURRENT_ARTWORK.md) | [Deutsch](CURRENT_ARTWORK.de.md) | [Français](CURRENT_ARTWORK.fr.md) | [Español](CURRENT_ARTWORK.es.md) | Italiano
 
-**Beta b9: sperimentale e disattivato per impostazione predefinita.** Le schede b7/b8 restano utilizzabili. Nessun aiutante, chiave API, HACS, privilegio speciale o altra app su Home Assistant Green/OS.
+**Beta b10: sperimentale e disattivato per impostazione predefinita.** Le schede b7/b8/b9 restano utilizzabili. Nessun aiutante, chiave API, HACS, privilegio speciale o altra app su Home Assistant Green/OS.
 
 Anche una connessione in lettura può risvegliare il TV. I test controllati coprono cambi automatici e un episodio di sonno naturale su un Frame, non tutti i modelli o firmware. Lasciare disattivato se questo rischio è inaccettabile.
 
@@ -54,14 +54,20 @@ content: >-
 
 ## Conferma e limiti
 
-**Correzione del recupero beta b10 (versione candidata):** una sequenza incompleta di
+**Correzione del recupero beta b10:** una sequenza incompleta di
 notifiche riconosciute della presentazione nasconde i dati attuali e attende una
 nuova sequenza completa sulla stessa connessione. Non conferma alcuna opera e
 non invia altre richieste. Messaggi sconosciuti o non validi, standby, modalità
 TV e perdita della connessione continuano a terminare la sessione. Codici fissi
 nel registro distinguono errori di avvio, ricezione, decodifica e processo
-isolato, senza messaggi grezzi o credenziali. Questo candidato non è installato
+isolato, senza messaggi grezzi o credenziali. Questa versione b10 non è installata
 e non è stato provato sul televisore.
+
+Nel registro, `event sequence incomplete` indica che i dati sono stati nascosti
+e la stessa connessione attende, senza confermare alcuna opera.
+`event session stopped: reason=...; no reconnect` indica che la sessione è
+terminata, senza riavvio automatico. Per segnalare un problema, includi quel
+codice fisso, la versione e il modello del TV, mai token o dati TV grezzi.
 
 Ogni sessione dura al massimo otto ore e termina prima con sonno, modalità TV o
 errori. Non riprende automaticamente quando il televisore si risveglia.
