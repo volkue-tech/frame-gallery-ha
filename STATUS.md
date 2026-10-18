@@ -1,53 +1,67 @@
 # Project status
 
-## D-235 complete feature / authorized beta round in progress — 2026-10-18
+## Public beta 0.1.0b9 — validation complete / documentation handoff — 2026-10-18
 
-User now requests the coherent current-artwork feature, automatic per-TV upload
-memory in both one-shot/background mode, Green/HAOS without special rights, and
-build/publication after green tests. This supersedes prior no-publication scope,
-not b8 OFF, unchanged installed cards or no new development TV connections.
+[App prerelease v0.1.0b9](https://github.com/volkue-tech/frame-gallery-ha/releases/tag/v0.1.0b9)
+is public (416479944), after all five jobs of publisher 39130904153 passed for
+frozen runtime/source 234eac513427e7ef75e5cd97ce238542c33b96d7.
+Both actual native images, four evidence archives, anonymous pulls/imports and
+independent signatures match. See BETA9_VALIDATION.md for every artifact/hash.
 
-Local implementation captures actual device identity from the delivery's
-existing capability response, archives selected-upload metadata before later
-history/preview failures, and retains compact image references in bounded atomic
-private app data. Device+ID, not IP or last caption, resolves historical metadata.
-Opted-in service consumes a fresh persisted-delivery grant for one experimental
-strict slideshow session; no shipped personal identity, boot/refresh grant,
-polling or reconnect. See D-235 for the narrow superseding profile decision.
+D-235 now remembers actual TV identity + content ID + title/artist/source after
+every selected upload, including one-shot/background-off operation and later
+preview/history failures. Bounded atomic private storage (2048/32 MiB plus
+backup), compact exact-JPEG references and strict per-device resolution survive
+normal updates without manual ID management or extra Green permissions.
+The opt-in current-artwork path consumes one fresh persisted-delivery grant
+for a finite experimental event session: initial proof then exact slideshow
+events, no polling, later thumbnails, automatic reconnect or power/mode setters.
+Boot/restart/refresh cannot arm it; unknown IDs have no guessed caption.
+Background stays default OFF, empty reviewed-policy registry; no personal TV
+identity is shipped. Existing cards/script IDs, catalogue and filters remain.
 
-Full offline gates pass 5751 tests/16 Linux-only skips, strict host/Linux typing
-over 295 files, Ruff/format/licence/configuration checks and 100% whole/mandatory
-line+branch coverage. Five-language guides/configuration help are consistent.
-Version is prepared as 0.1.0b9. Corrected local native ARM container checks pass:
-5759 tests/8 root-only skips, all eight separate root checks, inventory of 61 APKs,
-11 Python packages/21 Pillow libraries, and 202 readable licence evidence files.
-Native Intel and signed publisher checks remain pending. No publication/live-TV test.
-The first ARM inventory correctly stopped release on newly supplied libexpat
-2.9.0-r0 versus old notices. D-236 pins that exact official MIT package and adds
-recipe/source SHA512 verification plus original COPYING; bundle now 202 files.
-The first run's inventory failure is preserved, not waived. Its separate R-09
-measurement completed with the same b9 runtime/actual Expat 2.9.0: all 26 extreme
-image runs passed under real 1 GiB RLIMIT_AS, maximum 1.63s / 771.6 MiB address
-space; 150 inspections/10 workers, no failures. The corrected inventory/run is
-independently green. Native CI must repeat the complete candidate measurement
-before publication. ARM log SHA256 e0a259eabde7f56b7423643f0af84210d59853a133f7f013fb55f1fb97bd9676;
-measurement SHA256 47d18ec16e16e6541ed6c6849e03b7ea8fc26ef85a20ae08b2366daa727b59a6.
+Host gates pass 5751/16 Linux-only skips, strict host/Linux typing over 295 files
+and 100% whole/mandatory line+branch coverage. Both native validators AND both
+actual publisher containers pass 5759/eight skips + eight root checks, 26 real
+1-GiB preparations and 150 inspections without failures. Actual publisher maxima:
+ARM 2.24s/771.6 MiB VM; Intel 2.78s/768.0 MiB VM.
+The final host rerun also passes unchanged outside the Codex sandbox; its first
+two group/setgid sandbox failures are retained and diagnosed, never waived.
 
-Native ARM storage stress also passed as UID 65534, network none/256 MiB cap:
-2048 worst-size records, 25.1 MB primary plus backup, replacement 1.5468s and
-138900 KiB peak RSS. This is not a Green live performance measurement.
-Code is committed personally; the exact public-source package is being frozen.
-No GitHub/registry operation has occurred. The sole external-access blocker is
-the existing personal token: Passwords is locked and the one own b9 Release
-Terminal waits for hidden human input. The user has been asked; no token has
-been retrieved, stored or printed. No Terminal-UI control is permitted.
-The earlier random known-work hardware gate below remains genuinely open; a
-synthetic test or new storage design does not close it. Historical private
-snapshots are preserved. No HA/TV mutation or credential retrieval. One own
-credential Terminal is active, not a stack of finished wrappers; it must stay
-until its input/session completes. No Terminal window is claimed closed.
+D-236 pins the newly supplied MIT libexpat 2.9.0-r0 with exact original source/
+recipe/COPYING evidence (202 readable evidence files). The first stale-notice
+inventory failure is retained; corrected native checks ran in full.
+Matching sources-v0.1.0b9 release 416381333 / asset 653191970 is public:
+581365760 bytes, SHA256 596574599fd80406355025147604687977645462e314faa1b415ee84eca35fb6.
+An anonymous full download/every-member/exact-clean-commit preflight passed.
 
-Last updated: 2026-10-18 (D-235/D-236 b9 preparation; full offline gates green; native/publication pending)
+Public immutable images:
+- ARM sha256:e3cdc11c015289c4060aa2dc4c41958f9e3518882da17a9e3fbaaad3dab1aa26
+- Intel sha256:ba02dc1aff25e6617adf32d9fc2e43984773c9498179d2ebc4d406939c15b46e
+
+Both anonymous isolated imports verify all 116 runtime files, aggregate
+034b9db98153955628f9e3a633a2ff90f7d7fee2edd741af51083f7e0f5b097f.
+Both Cosign certificates bind the exact candidate workflow, OIDC issuer and SHA.
+Emulated Intel imports on this Mac are not the separate real Intel CI proof.
+
+Both one-time GitHub approvals were visibly read back DISABLED_AFTER_0.1.0b9.
+Personal token scopes were not expanded after the two narrow API 403 findings;
+existing-password browser confirmation/dispatch succeeded. Only the personal
+volkue-tech memory-only four-hour broker was used, no token file/output.
+This documentation-only Store handoff keeps the frozen source/image/tag intact.
+Closing steps read back all 37 public metadata/guide files, observe the extra
+main-triggered native CI, and end the finite broker after the last push;
+their exact receipts are kept in build/current-artwork-b9-release.
+No Terminal-UI control is available; never claim its native window was closed.
+
+No HA/TV connection, installed app update/start or dashboard change in this
+development/release round. b8 was not reactivated. No changed-b9 live-TV pass or
+universal firmware/no-wake guarantee: the genuine automatic known-work caption
+hardware gate remains open, and only one historical natural-sleep episode exists.
+Controlled earlier private evidence is preserved below. Unrelated docs/community
+and all other user work remain untouched.
+
+Last updated: 2026-10-18 (D-235/D-236 public b9; frozen runtime/source with docs-only Store handoff)
 
 ## Known-work random follow-up complete — no known hit; both unknown cycles confirmed
 

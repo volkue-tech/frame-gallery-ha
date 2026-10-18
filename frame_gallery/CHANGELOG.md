@@ -1,6 +1,6 @@
 # Changelog
 
-## 0.1.0b9 (public beta candidate)
+## 0.1.0b9 (public beta)
 
 - Automatically remember title, artist, source and TV image ID after every
   selected upload, even with background mode off. Associations are per actual
@@ -19,8 +19,10 @@
   native card and setup/script instructions in English, German, French,
   Spanish and Italian. No new Green permissions, helpers, dependencies or
   configuration.yaml changes. Last-upload preview stays separate from current TV.
-- Native ARM/Intel and publication verification are pending for this candidate;
-  earlier private snapshots are not a changed-candidate hardware pass.
+- Matching public sources, native ARM/Intel validators and actual publisher
+  images, four bounded hash/provenance-checked evidence archives, anonymous
+  pulls/imports and independent signatures passed. Earlier private snapshots
+  are not a changed-b9 hardware pass; no new live-TV test is claimed.
 - Pin Alpine's transitive libexpat 2.9.0-r0 and retain its exact MIT licence,
   source and recipe evidence; all Python dependency versions remain unchanged.
 

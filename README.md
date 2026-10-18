@@ -7,7 +7,7 @@
 
 Fresh artwork on your Samsung Frame. Start it with a tap from Home Assistant.
 
-> **0.1.0b9 beta candidate:** 1000 curated Commons works, optional artist and
+> **0.1.0b9 public beta:** 1000 curated Commons works, optional artist and
 > colour selection, and configuration in English, German, French, Spanish and Italian.
 > Update in place; saved sources, dashboard helpers and history stay compatible.
 
@@ -89,6 +89,19 @@ The default prefers landscape works close to 16:9. If no suitable new work is fo
 When reporting a problem, include the app version, TV model and the final outcome line. Remove personal details and secrets before sharing logs. Do not include pairing tokens, passwords or access tokens.
 
 ## Public beta
+
+**[0.1.0b9 is available](https://github.com/volkue-tech/frame-gallery-ha/releases/tag/v0.1.0b9).**
+Automatic per-TV artwork memory after every selected upload, including one-shot
+operation, and optional event-based current-artwork information. No manual ID
+management, extra Green permissions or changes to existing cards. Background
+mode stays experimental and OFF by default; connections may still wake a TV.
+Both native ARM/Intel validators and actual publisher images passed, with
+matching public sources, four hash/provenance-checked evidence archives,
+anonymous image pulls/imports and independent signatures. See the
+[b9 validation report](BETA9_VALIDATION.md) and
+[five-language current-artwork guide](frame_gallery/CURRENT_ARTWORK.md).
+No new b9 Green/TV live test or general no-wake guarantee is claimed.
+Update in place, without uninstalling.
 
 **[0.1.0b7 is available](https://github.com/volkue-tech/frame-gallery-ha/releases/tag/v0.1.0b7).** Optional artist selection
 alone or combined with colour, complete native favourites cards and configuration

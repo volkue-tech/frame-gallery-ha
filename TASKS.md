@@ -18,13 +18,26 @@
   Full host gates pass 5751 tests/16 Linux-only skips, strict host/Linux typing
   over 295 files and 100% whole/mandatory line+branch coverage. Corrected native
   ARM container gates pass 5759/8 skips plus 8 root checks and full inventory.
-  Separate same-runtime/Expat R-09 passes 26 cases (max 1.63s/771.6 MiB VM),
-  150 inspections/no failure. Native Intel remains a CI gate. Own b9 Terminal
-  awaits hidden user token input; no GitHub mutation or credential loaded yet.
-- [ ] Run full offline/security/typing/coverage gates and native ARM/Intel release
+  Both native validators and actual publishers in run 39130904153 now pass
+  full gates, 5759/eight skips + eight root checks and 26/26 preparations each.
+  Actual publisher maxima: ARM 2.24s/771.6 MiB VM, Intel 2.78s/768.0 MiB VM;
+  150 inspections without failures. Four ZIPs pass exact hash/provenance and
+  bounded extraction/content checks. Matching public sources pass anonymous
+  full-download preflight; both public images/signatures and exact 116-file
+  runtime fingerprints independently match frozen 234eac5. App prerelease
+  416479944/v0.1.0b9 is public. Token scopes unchanged; both temporary approvals
+  independently read back DISABLED_AFTER_0.1.0b9. Final local rerun passes the
+  unmodified full gates outside the demonstrated sandbox group restriction;
+  original failed sandbox log retained. No HA/TV or installed-card change.
+- [x] Run full offline/security/typing/coverage gates and native ARM/Intel release
   validation; verify Green packaging/protected permissions and candidate evidence.
-- [ ] Build/publish the authorized beta only after actual green results; keep
+- [x] Build/publish the authorized beta only after actual green results; keep
   unchanged cards, no b8 reactivation and no unsupported hardware-safety claim.
+
+The docs-only Store handoff keeps runtime/source/tag 234eac5 immutable. Its
+37-file public byte readback, extra automatic main validation and finite broker
+shutdown are recorded in the local closure receipts after the final push.
+No Terminal-UI control/closed-window claim; preserve unrelated docs/community.
 
 ## Known-work random follow-up, 2026-10-18
 
