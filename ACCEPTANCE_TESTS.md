@@ -1,5 +1,26 @@
 # Acceptance tests
 
+## Local b9 recovery/diagnostic regression (D-237, no live/publication gate)
+
+- Authored nav/restart cases must fail on b9 before the fix. Incomplete known
+  sequences clear confirmation and pending state, keep exactly one receiver
+  and accept only a later whole matching five-second triple. Expired late
+  halves, duplicates and discarded events cannot supply or renew a caption.
+- Cover orphan/repeated/conflicting rotation, missing rotation, overlapping
+  selection and pending timeout. Recovered known/unknown per-device lookups
+  retain their metadata rules and byte-identical archives/history.
+- Pinned parser/socketpair replay asserts one channel, five initial getters,
+  one initial thumbnail and zero post-baseline application requests; no TCP
+  or real HA/TV. This is not captured proof of the failed b9 message.
+- Off/standby/unknown/malformed/stale/future/identity/limit/publication failures
+  still clear and disarm without reconnect. No observer settings/privileges,
+  installed cards, app version, private frozen capture or release are changed.
+- Parent accepts only fixed diagnostic enums on unavailable end records, logs
+  no arbitrary string/frame/exception/token and warns at most once per explicit
+  session about incomplete sequences. Old end/Observation shapes remain valid.
+- Full lint/host+Linux strict typing/coverage/isolation/store gates must pass;
+  native ARM/Intel and any changed-candidate live/sleep pass remain future gates.
+
 ## Complete upload memory/current artwork acceptance (D-235)
 
 - Every selected one-shot/background send persists per-device/ID metadata before

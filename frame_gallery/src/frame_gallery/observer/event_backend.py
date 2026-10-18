@@ -2,15 +2,25 @@
 
 from __future__ import annotations
 
+import logging
 from collections.abc import Callable
 from typing import Protocol
 
 from frame_gallery.errors import StateError
 from frame_gallery.isolation.executor import JsonObject
-from frame_gallery.observer.model import FRESH_S, SLIDESHOW_FRESH_S, Evidence, Observation, Status
-from frame_gallery.observer.slideshow import SlideshowSequence
+from frame_gallery.observer.model import (
+    FRESH_S,
+    SLIDESHOW_FRESH_S,
+    Evidence,
+    Observation,
+    SessionFailure,
+    Status,
+)
+from frame_gallery.observer.slideshow import IncompleteSequence, SlideshowSequence
 from frame_gallery.observer.stream import QUERY_S, Change, EventPolicy, reviewed_policy
 from frame_gallery.tv.port import CONTENT_ID_PATTERN
+
+_log = logging.getLogger(__name__)
 
 
 class SessionPort(Protocol):
@@ -43,6 +53,7 @@ class EventBackend:
         self._slideshow: SlideshowSequence | None = None
         self._slideshow_enabled = False
         self._fresh_s = FRESH_S
+        self._resync_reported = False
 
     def start(self) -> Observation:
         self.stop()
@@ -52,7 +63,7 @@ class EventBackend:
         try:
             request = self._observer.session_request()
         except (StateError, OSError, ValueError):
-            return Observation(Status.UNAVAILABLE)
+            return self._unavailable(SessionFailure.CONTRACT)
         if isinstance(request, Observation):
             return request
         self._allow_query = policy.current_id_once
@@ -65,6 +76,21 @@ class EventBackend:
         self._baseline, self._confirmed_at = None, None
         self._allow_query, self._pending_at = False, None
         self._slideshow, self._slideshow_enabled, self._fresh_s = None, False, FRESH_S
+        self._resync_reported = False
+
+    def _unavailable(self, reason: SessionFailure) -> Observation:
+        _log.warning("event session stopped: reason=%s; no reconnect", reason.value)
+        return Observation(Status.UNAVAILABLE)
+
+    def _unconfirmed(self) -> Observation:
+        self._confirmed_at = None
+        if not self._resync_reported:
+            _log.warning(
+                "event sequence incomplete; caption cleared; awaiting a full sequence "
+                "on the same connection (no query or reconnect)"
+            )
+            self._resync_reported = True
+        return Observation(Status.CHECKING)
 
     def update(self) -> Observation | None:
         """Drain bounded events; receipt time, never a publication heartbeat, ages proof."""
@@ -80,12 +106,12 @@ class EventBackend:
             try:
                 result = self._consume(value, received_at)
             except (ValueError, StateError, OSError):
-                return Observation(Status.UNAVAILABLE)
+                return self._unavailable(SessionFailure.CONTRACT)
             if result is not None:
                 seen = result
                 if result.status not in {Status.ARTWORK, Status.UNIDENTIFIED}:
                     return seen
-        return Observation(Status.UNAVAILABLE)  # flood/coalescing bound
+        return self._unavailable(SessionFailure.QUEUE)  # flood/coalescing bound
 
     def _expired(self) -> Observation | None:
         if self._confirmed_at is not None and self._now() - self._confirmed_at >= self._fresh_s:
@@ -93,12 +119,8 @@ class EventBackend:
                 return Observation(Status.PAUSED)
             self._confirmed_at = None
             return Observation(Status.CHECKING)  # clear metadata, keep receive-only session
-        if (
-            self._slideshow is not None
-            and self._slideshow.pending_at is not None
-            and (self._now() - self._slideshow.pending_at >= QUERY_S)
-        ):
-            return Observation(Status.UNAVAILABLE)
+        if self._slideshow is not None and self._slideshow.expire(self._now()):
+            return self._unconfirmed()
         if self._pending_at is not None and self._now() - self._pending_at >= QUERY_S:
             return Observation(Status.PAUSED)
         return None
@@ -121,13 +143,20 @@ class EventBackend:
             if self._baseline is None or not isinstance(raw, dict):
                 raise ValueError("event before baseline")
             return self._consume_change(Change.from_json(raw), received_at)
-        if kind == "end" and set(value) == {"kind", "status"}:
+        if kind == "end" and set(value) in ({"kind", "status"}, {"kind", "status", "reason"}):
             if not isinstance(value["status"], str) or value["status"] not in {
                 "paused",
                 "unavailable",
                 "not_authorized",
             }:
                 raise ValueError("unexpected session end")
+            reason = SessionFailure.END
+            if "reason" in value:
+                if value["status"] != "unavailable" or not isinstance(value["reason"], str):
+                    raise ValueError("invalid session reason")
+                reason = SessionFailure(value["reason"])
+            if value["status"] == "unavailable":
+                return self._unavailable(reason)
             return Observation(Status(str(value["status"])))
         raise ValueError("unexpected session event")
 
@@ -149,7 +178,10 @@ class EventBackend:
 
     def _consume_slideshow(self, change: Change, received_at: float) -> Observation | None:
         assert self._slideshow is not None  # noqa: S101
-        content_id = self._slideshow.consume(change, received_at, self._now())
+        try:
+            content_id = self._slideshow.consume(change, received_at, self._now())
+        except IncompleteSequence:
+            return self._unconfirmed()
         if change.kind in {"selected", "invalidate"}:
             self._confirmed_at = None
             return Observation(Status.CHECKING)

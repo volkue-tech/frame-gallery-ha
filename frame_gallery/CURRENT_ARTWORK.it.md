@@ -54,6 +54,15 @@ content: >-
 
 ## Conferma e limiti
 
+**Correzione del recupero beta b10 (versione candidata):** una sequenza incompleta di
+notifiche riconosciute della presentazione nasconde i dati attuali e attende una
+nuova sequenza completa sulla stessa connessione. Non conferma alcuna opera e
+non invia altre richieste. Messaggi sconosciuti o non validi, standby, modalità
+TV e perdita della connessione continuano a terminare la sessione. Codici fissi
+nel registro distinguono errori di avvio, ricezione, decodifica e processo
+isolato, senza messaggi grezzi o credenziali. Questo candidato non è installato
+e non è stato provato sul televisore.
+
 Ogni sessione dura al massimo otto ore e termina prima con sonno, modalità TV o
 errori. Non riprende automaticamente quando il televisore si risveglia.
 

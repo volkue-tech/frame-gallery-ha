@@ -54,6 +54,15 @@ content: >-
 
 ## Confirmación y límites
 
+**Corrección de recuperación beta b10 (versión candidata):** una secuencia incompleta
+de notificaciones reconocidas del pase oculta los datos actuales y espera una
+nueva secuencia completa en la misma conexión. No confirma ninguna obra ni
+envía otra consulta. Los mensajes desconocidos o incorrectos, el reposo, el modo
+TV y la pérdida de conexión siguen terminando la sesión. Los códigos fijos del
+registro distinguen errores de inicio, recepción, decodificación y proceso
+aislado, sin mensajes sin procesar ni credenciales. Este candidato no se ha
+instalado ni probado en el televisor.
+
 Cada sesión dura como máximo ocho horas y termina antes con reposo, modo TV o
 errores. No se reanuda automáticamente cuando el televisor vuelve a despertar.
 

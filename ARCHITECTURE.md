@@ -1,5 +1,26 @@
 # Frame Gallery for Home Assistant — Architecture proposal
 
+## Local b9 recovery candidate D-237 — not installed or published
+
+IncompleteSequence separates strictly decoded but non-confirming notification
+order from malformed/unknown data. SlideshowSequence clears its pending state
+before reporting an overlap/mismatch/missing rotation/expiry. EventBackend
+clears confirmation, publishes checking and retains the existing receiver;
+only a new whole five-second triple may restore attribution. It never treats
+the offending event as a new selection, reuses late halves or renews same-ID
+proof. Timeout resets pending state rather than ending the socket. Off/standby,
+malformed/stale/future/unknown data, limits and publisher errors still disarm.
+No extra query, client ping, thumbnail, reconnect or privilege is introduced.
+
+SessionFailure is a closed enum, optional only on internal unavailable end
+records. The TV worker supplies startup/receive/decode/query phase without any
+exception body; the relay supplies worker/queue failures. The trusted parent
+validates the enum and logs its fixed code, never copies a request or arbitrary
+reason. Recovery warning is once per explicit session. Old end/Observation
+records stay readable and cards/helpers/history are not migrated or modified.
+The saved b9 HA trace cannot identify its missing raw event/failure cause;
+offline authored regression and parser replay are not a new hardware pass.
+
 ## Complete selected-upload / current-artwork feature D-235, 2026-10-18
 
 This section supersedes the D-234 one-shot-no-change and empty-profile-only

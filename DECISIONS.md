@@ -1,5 +1,40 @@
 # Decision log
 
+## D-237 — local b9 recovery hardening and fixed diagnostic reasons (unreleased)
+
+User authorizes offline diagnosis/fix preparation only after the installed b9
+listener reported unavailable at 19:54:55 CEST on 2026-10-18. b9 remains stopped;
+no HA/TV access, app update, release/build/push or installed-card change follows.
+The saved HA trace proves a successful initial thumbnail/artist confirmation,
+normal expiry, then a terminal error. It contains no raw TV notification/error
+reason, so do not claim the actual failure was reproduced or caused by restart.
+
+Eight new authored restart/recovery cases fail against b9. Known, strictly
+decoded notifications with incomplete/overlapping/conflicting order or an
+expired five-second selection currently stop the whole listener. Narrowly
+amend D-233: reject their attribution, discard the entire pending sequence and
+clear the caption, but retain the SAME already established receiver. The
+offending event cannot begin a replacement proof. Only a later new complete
+selected/shown + matching rotation + on triple within five seconds can resolve
+the pinned device's ID. No guessing, partial-ID lookup or duplicate renewal.
+Malformed/unknown/correlated/stale/future messages, identity failures, off,
+standby, disconnect, resource bounds and publication failure still stop/pause;
+no new query/thumbnail/connection, retry or automatic resume is added. Lifetime,
+frame/rate/queue bounds and protected Green packaging remain unchanged.
+
+Add only fixed allowlisted terminal codes (startup/receive/decoder/query/
+worker/queue/contract/end) to the internal end record and trusted parent log.
+Reject arbitrary reason strings and never log frames, URLs, IDs, exception
+bodies or credentials. One incomplete-sequence warning per explicit session
+bounds recovery logging. Existing Observation/sensor/card IDs and JSON shape
+are unchanged; private frozen hardware snapshots remain old evidence.
+
+This prepares a demonstrable robustness fix and the diagnostics needed to tell
+remaining failure paths apart. It does NOT establish the exact 19:54:55 cause,
+new-model compatibility, natural-sleep safety, a new hardware pass or native
+ARM/Intel validation. Those remain separate future gates, not grounds for a
+blind additional live attempt or publication now.
+
 ## D-236 — pin the observed Expat build dependency and retain exact MIT evidence
 
 The first b9 ARM container inventory on 2026-10-18 rejects libexpat 2.9.0-r0:

@@ -1,5 +1,63 @@
 # Implementation plan and approval gates
 
+## Authorized beta 0.1.0b10 publication, 2026-10-18
+
+- [x] Record user's new publication request; keep installed b9 stopped/cards
+  unchanged. No live deployment/test or new TV connection authorized here.
+- [x] Version only the own project/lock/generated metadata to b10; keep
+  dependencies/options/privileges unchanged. Full versioned host gates pass
+  5773/16 Linux-only skips, strict host/Linux typing and 100% line/branch coverage.
+- [ ] Freeze exact clean personal commit without unrelated docs/community.
+- [ ] Verify matching sources, publish source-only package and anonymous readback.
+- [ ] Approve exact SHA/source hash and run both native validators/publishers.
+- [ ] Check four evidence archives, real isolation/root/memory measurements,
+  anonymous image pulls/imports and exact independent signatures.
+- [ ] Publish app prerelease, then Store/main handoff only after green checks.
+- [ ] Disable temporary approvals and end memory-only personal token broker.
+
+## D-237 local b9 recovery/diagnostic candidate, 2026-10-18
+
+- [x] Record offline-only authority; keep installed b9 stopped/cards intact,
+  no HA/TV/credential/browser/GitHub access, update/build or publication.
+- [x] Preserve exact original HA evidence; separate proven expiry/terminal
+  error from the unrecorded cause. Eight authored restart cases fail on b9.
+- [x] Discard incomplete strictly decoded sequences, clear caption and retain
+  only the same finite receiver. Require a later whole fresh matching triple;
+  no late halves, duplicate renewal, new query/thumbnail/socket or false lookup.
+- [x] Keep off/standby/unknown/malformed/stale/identity/resource/publication
+  disarm guards and original packaging/rights/card/sensor/script IDs unchanged.
+- [x] Add allowlisted fixed failure codes with no raw payload/exception/secret
+  logging; recovery warning once per explicit session. Legacy records accepted.
+- [x] Test actual parser/socketpair restart recovery, later known/unknown lookup,
+  immutable archives, diagnostic rejection/redaction and no-reconnect behaviour.
+- [x] Update technical acceptance/decision and all five current-artwork guides,
+  explicitly local/unpublished. Full unchanged host gates pass 5773/16 Linux-only
+  skips, 100% line/branch coverage and strict host/Linux typing over 296 files.
+  Retain original sandbox-only group/setgid failures; no test was excluded.
+- [ ] The exact live failure cause still lacks raw reason evidence. Future
+  native build/installed test/live/sleep/publication gates require separate
+  authority; none is claimed or performed by this local fix-preparation round.
+
+## Installed b9 setup and controlled test, 2026-10-18
+
+- [x] Verify installed b9 and stopped older test apps; preserve their data.
+- [x] Back up Dashboard, verify compatible unchanged script/helper IDs and
+  update only the existing current-artwork template for b9 freshness.
+- [x] Save background ON, start inert service and verify validation-required
+  state without sending or opening a TV session; revoke diagnostic logins.
+- [x] Obtain fresh visible Art Mode/one-send approval. One selected upload
+  MY_F0184/commons:60975719 correctly confirmed W.carter in actual HA Markdown
+  and cached sensor; physical TV confirmation received. User restarted slideshow.
+- [ ] Complete b9 automatic-slideshow test: session unexpectedly unavailable
+  at 19:54:55 CEST, before first interval. Initial 90-second expiry was normal;
+  later terminal error was not. Exact cause absent from production log; strict
+  restart-event handling only a hypothesis. b9 visibly stopped, sensor paused,
+  no retry/additional TV command; saved background ON but service stopped.
+  Existing 43 offline slideshow tests pass; no new hardware pass inferred.
+  Passive capture ended, own logins revoked, Dashboard exactly unchanged.
+- [ ] Old private-app removal requires a precise cleanup request/confirmation;
+  they remain installed and stopped, not falsely reported cleaned.
+
 ## Complete successful-send/current-artwork feature, D-235
 
 - [x] Record user authority: complete coherent feature, automatic per-TV mapping

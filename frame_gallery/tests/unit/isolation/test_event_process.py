@@ -102,7 +102,10 @@ def test_failure_does_not_leak_or_reconnect(error: Exception) -> None:
     r, w = os.pipe()
     try:
         source._run({"cancel_fd": r}, r)
-        assert source.poll() == ({"kind": "end", "status": "unavailable"}, 0)
+        assert source.poll() == (
+            {"kind": "end", "status": "unavailable", "reason": "worker_failed"},
+            0,
+        )
     finally:
         os.close(w)
 
@@ -118,7 +121,10 @@ def test_bad_terminal_response(result: JsonObject) -> None:
         item = source.poll()
         assert item is not None
         assert item[0]["kind"] == "baseline"
-        assert source.poll() == ({"kind": "end", "status": "unavailable"}, 0)
+        assert source.poll() == (
+            {"kind": "end", "status": "unavailable", "reason": "worker_failed"},
+            0,
+        )
     finally:
         os.close(w)
 
@@ -137,7 +143,7 @@ def test_bounded_queue_and_start_deadline() -> None:
         source._event({"kind": "change"})
     item = source.poll()
     assert item is not None
-    assert item[0] == {"kind": "end", "status": "unavailable"}
+    assert item[0] == {"kind": "end", "status": "unavailable", "reason": "event_queue_limit"}
     assert source.poll() is None
     source._force.set()
     assert source._expired()

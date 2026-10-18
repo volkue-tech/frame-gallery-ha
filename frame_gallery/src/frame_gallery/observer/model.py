@@ -41,6 +41,19 @@ class Evidence(enum.StrEnum):
     SLIDESHOW = "slideshow"
 
 
+class SessionFailure(enum.StrEnum):
+    """Fixed diagnostic codes only: no frame, identity, URL or exception text."""
+
+    STARTUP = "startup_failed"
+    RECEIVE = "receive_failed"
+    DECODE = "event_rejected"
+    QUERY = "id_query_failed"
+    WORKER = "worker_failed"
+    QUEUE = "event_queue_limit"
+    CONTRACT = "event_contract_rejected"
+    END = "session_ended"
+
+
 @dataclass(frozen=True, slots=True)
 class Command:
     action: Action

@@ -194,7 +194,9 @@ def test_pending_timeout_nav_reset_and_stale_or_future_events() -> None:
     add(r, Change("selected", "MY_NEXT"), 10)
     assert r.backend.update() == Observation(Status.CHECKING)
     r.now = 15
-    assert r.backend.update() == Observation(Status.UNAVAILABLE)
+    assert r.backend.update() == Observation(Status.CHECKING)
+    assert r.backend._slideshow is not None
+    assert r.backend._slideshow.pending_at is None
     state = SlideshowSequence("MY_OLD", 0)
     state.consume(Change("selected", "MY_NEXT"), 1, 1)
     with pytest.raises(ValueError, match="expired"):
@@ -270,6 +272,11 @@ def test_known_device_mapping_supplies_artist_unknown_does_not_and_store_is_unto
     backend.update()
     now[0] = 90
     assert backend.update() == Observation(Status.CHECKING)
+    session.queue.append(
+        ({"kind": "change", "change": Change("rotation", "MY_NEXT").to_json()}, now[0])
+    )
+    assert backend.update() == Observation(Status.CHECKING)
+    assert store.resolve(Observation(Status.CHECKING)) is None
     for content_id, expected in [
         ("MY_NEXT", known),
         ("MY_UNKNOWN", None),

@@ -1,5 +1,25 @@
 # Changelog
 
+## 0.1.0b10 (release candidate)
+
+- Keep the same finite event receiver after incomplete sequences of recognized
+  slideshow notifications. Clear the current caption and discard all pending
+  parts; only a later complete matching five-second sequence can confirm a work.
+  No partial-ID attribution, duplicate renewal, new query or reconnect.
+- Add fixed, allowlisted failure codes to the app log for startup, receiving,
+  event decoding, worker and parent-contract errors. No raw messages,
+  exception bodies or credentials; recovery warning is bounded per session.
+- Retain shutdown on unknown/malformed/stale messages, off/standby, identity,
+  resource and publication failures. Background remains experimental/default OFF.
+- Existing cards, script/helper IDs, per-TV associations, history, catalogue,
+  filters, dependencies and protected Green permissions remain unchanged.
+  Current-artwork guidance remains consistent across all five languages.
+- Eight authored restart regressions fail on b9 and pass with the fix. Full
+  offline gates pass 5773 tests/16 Linux-only skips and 100% line/branch coverage.
+  The actual b9 live-abort cause remains unproven because its log lacks event
+  reasons; this is not a new hardware, sleep or universal compatibility pass.
+  Native ARM/Intel, matching public sources and image/signature gates are pending.
+
 ## 0.1.0b9 (public beta)
 
 - Automatically remember title, artist, source and TV image ID after every

@@ -87,7 +87,7 @@ from frame_gallery.isolation.launch import (
     ordered_limits,
 )
 from frame_gallery.logs.summary import sanitize_for_log
-from frame_gallery.observer.model import MAX_COMMAND_BYTES, Command
+from frame_gallery.observer.model import MAX_COMMAND_BYTES, Command, SessionFailure
 from frame_gallery.observer.stream import MAX_EVENTS, SESSION_S, START_S, STOP_S
 from frame_gallery.store.atomic import decode_json
 
@@ -814,6 +814,8 @@ class SessionProcess:
             os.close(read)
             with self._mutex:
                 self._terminal = {"kind": "end", "status": status}
+                if status == "unavailable":
+                    self._terminal["reason"] = SessionFailure.WORKER.value
 
     def poll(self) -> tuple[JsonObject, float] | None:
         with self._mutex:
@@ -821,7 +823,11 @@ class SessionProcess:
                 self._failed = False
                 self._queue.clear()
                 self._terminal = None
-                return {"kind": "end", "status": "unavailable"}, self._now()
+                return {
+                    "kind": "end",
+                    "status": "unavailable",
+                    "reason": SessionFailure.QUEUE.value,
+                }, self._now()
             if self._queue:
                 return self._queue.popleft()
             value, self._terminal = self._terminal, None

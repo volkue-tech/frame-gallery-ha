@@ -1,5 +1,22 @@
 # Product specification
 
+## Local b9 recovery/diagnostic fix, 2026-10-18 (D-237, unreleased)
+
+User authorizes local diagnosis and offline fix preparation only; b9 stays
+stopped, installed cards stay unchanged, with no HA/TV call or publication.
+Do not present the missing raw cause of the 19:54:55 b9 failure as identified.
+For strictly decoded, timely slideshow notifications only, incomplete order or
+five-second pending expiry clears caption and discards pending state while
+retaining the SAME finite receiver. A later complete fresh triple is required;
+never accept late halves, the discarded event as a new selection, bare IDs or
+same-ID proof renewal. No attribution is preferable to a guessed caption.
+This narrowly replaces D-233's whole-session termination for those valid but
+non-confirming sequences, not malformed/unknown/replayed/stale/future input,
+off/standby/disconnect, identity, resource or publication failures. No new
+request, connection, automatic resume, permission, helper or card ID.
+Bound parent diagnostics to fixed allowlisted codes and one recovery warning
+per explicit session; never log raw payloads, exception bodies or credentials.
+
 ## Complete delivery associations, 2026-10-18 (D-235)
 
 Every TV-confirmed successful selection must retain a bounded, atomic local

@@ -31,7 +31,7 @@ not evidence that an image has been published or an installation has passed.
 ## Run the manual workflow
 
 Run **Publish reviewed beta images** on `main`, with the matching beta version.
-For reviewed candidates such as 0.1.0b6 through 0.1.0b9, the narrowly allowed
+For reviewed candidates such as 0.1.0b6 through 0.1.0b10, the narrowly allowed
 `codex/commons-default` branch can instead publish
 the exact approved candidate before its app metadata is merged into `main`.
 This prevents store users being offered a version whose image is still missing.

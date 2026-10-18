@@ -178,7 +178,7 @@ def test_bad_mode_is_not_a_confirmed_tv_in_use(
     )
     events: list[JsonObject] = []
     module.observe_session_task(payload(pipe[0]), events.append)
-    assert events == [{"kind": "end", "status": "unavailable"}]
+    assert events == [{"kind": "end", "status": "unavailable", "reason": "startup_failed"}]
 
 
 @pytest.mark.parametrize("error", [Unauthorized("secret"), RuntimeError("secret"), SessionClosed()])
@@ -203,7 +203,10 @@ def test_start_errors_status_only(
         if isinstance(error, SessionClosed)
         else "unavailable"
     )
-    assert events == [{"kind": "end", "status": expected}]
+    expected_end = {"kind": "end", "status": expected}
+    if expected == "unavailable":
+        expected_end["reason"] = "startup_failed"
+    assert events == [expected_end]
     assert "secret" not in str(events)
 
 
@@ -220,7 +223,7 @@ def test_no_bounded_transport_fails_closed(
     )
     out: list[JsonObject] = []
     module.observe_session_task(payload(pipe[0]), out.append)
-    assert out == [{"kind": "end", "status": "unavailable"}]
+    assert out == [{"kind": "end", "status": "unavailable", "reason": "startup_failed"}]
 
 
 def test_worker_contract_and_sink_cleanup(
@@ -309,7 +312,7 @@ def test_idle_timeout_and_bad_receive_contract(
     monkeypatch.setattr(module, "load_library", lambda: lib)
     out: list[JsonObject] = []
     module.observe_session_task(payload(pipe[0]), out.append)
-    assert out[-1] == {"kind": "end", "status": "unavailable"}
+    assert out[-1] == {"kind": "end", "status": "unavailable", "reason": "receive_failed"}
 
 
 @pytest.mark.parametrize(

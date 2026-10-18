@@ -1,5 +1,122 @@
 # Project status
 
+## Beta 0.1.0b10 publication authorized — versioned host gates pass — 2026-10-18
+
+The user now explicitly requests publishing D-237. This supersedes only the
+previous no-publication restriction: installed b9 remains stopped, no HA/TV or
+card mutation in this release round. Publish only the personal repository and
+only after exact-commit matching-source/native ARM/Intel/actual-image gates.
+Existing release/registry tags and unrelated docs/community remain untouched.
+
+Versioned 0.1.0b10 host gates pass unchanged: 5773/16 genuine Linux-only skips,
+strict host/Linux typing on 296 files and 100% line/branch coverage. App metadata
+was regenerated; its only change is version. Dependencies, permissions, source
+catalogue, helpers and runtime defaults are unchanged. Candidate changelog and
+five-language recovery note preserve the unproved-live-cause/no-new-hardware
+limits. Personal memory-only release access is requested through the fixed
+four-hour broker; never store or print its token. Source/native/publication
+gates are still pending, not claimed green by this local result.
+
+## D-237 local b9 recovery fix prepared — full offline gates pass — 2026-10-18
+
+The user authorized autonomous offline diagnosis/fix preparation, no further
+HA/TV connection, installed-card edit or publication; b9 was last verified
+stopped and was not touched in this round. No browser, credential, native
+Terminal wrapper, GitHub, container build, version bump or external access.
+Unrelated docs/community remains untouched.
+
+The saved HA trace proves the initial MY_F0184/W.carter caption, normal expiry
+and 19:54:55 terminal unavailable. It contains no raw event or failure reason;
+the actual cause remains unproved. Eight authored incomplete-restart cases
+were observed failing against unmodified b9, not mislabeled captured evidence.
+The local fix discards incomplete known sequences and clears metadata while
+retaining only the already established receiver. A later NEW whole matching
+five-second triple is required; late halves/discarded events/same-ID repeats
+cannot establish or renew attribution. Unknown/malformed/stale/future frames,
+off/standby, identity/queue/resource/publication failures still stop with no
+reconnect. No query, thumbnail, client ping, new permission or helper is added.
+
+Fixed allowlisted end-reason codes now distinguish startup, receive, decoder,
+query, worker, queue and parent-contract failures in the trusted log, without
+raw messages, exception text or credentials. Incomplete-sequence warning is
+bounded to once per explicit session. Observation/sensor/card IDs stay exact.
+Known/unknown device mapping and byte-identical history/store checks still pass.
+A real installed-library socketpair replay covers restart/incomplete events
+followed by two complete cycles, one channel/five initial getters/one initial
+thumbnail/zero post-baseline requests; this is offline transport evidence only.
+Technical constraints/acceptance and all five current-artwork guides record the
+local unpublished candidate and its limits, D-237.
+
+Unmodified scripts/check.sh passes completely outside the demonstrated sandbox
+group/setgid restriction: 5773 tests passed, 16 genuine Linux-only skips, strict
+host/Linux mypy over 296 files, ruff/format, 100% whole and mandatory line/branch
+coverage, actual repository/CI metadata and licence bundle checks. The first
+sandbox run's two unchanged workspace permission failures are retained, not
+waived; all tests were rerun without exclusions. No native ARM/Intel or live/
+sleep compatibility claim follows. Local evidence and fixed file hashes are
+under build/b9-recovery-offline-20261018; original live evidence is preserved.
+No commits/pushes/releases or new device sessions were performed. The candidate
+is ready for a separately authorized build/deployment/test round, not installed.
+
+## Installed b9 first live send — baseline passed, session aborted — 2026-10-18
+
+After the user explicitly approved one new work (noting that delivery stops the
+TV slideshow), the existing script ran once at 19:52:50 CEST. Delivery succeeded
+at 19:53:04: MY_F0184 / commons:60975719, “White blue and pink silage bales” by
+W.carter. Native HA Markdown and cached sensor agreed at 19:53:09 with
+`association_method: verified_thumbnail`; the user physically confirmed it.
+The user then reactivated ten-minute slideshow and confirmed normal Art Mode.
+
+The initial proof correctly expired to checking at 19:54:38, but at 19:54:55
+the sensor changed unexpectedly to unavailable BEFORE any automatic ten-minute
+transition could be observed. This is NOT merely expected freshness expiration.
+Production log ends at the successful delivery and exposes no event-level cause.
+Strict decoder/sequence rejection during slideshow restart is a hypothesis,
+not a proven diagnosis; socket/worker/other failures remain possible. No complete
+b9 automatic-slideshow/known-caption/no-wake pass is claimed.
+
+EventController closes its source on this terminal state and cannot reconnect.
+For explicit containment, b9 was also visibly stopped via HA UI; final HA sensor
+is paused with no ID/title/artist. Saved background option remains ON, but app
+is stopped; no auto-start setting was changed. No second send/reconnect, TV
+setter, app rebuild, private-test start, publication or configuration.yaml edit.
+The finite passive collector stopped early via its local marker, all three own
+temporary logins were revoked and its processes exited. Exact Dashboard backup
+comparison is unchanged throughout this live test. Completed native Terminal
+window cannot be closed with available tools; no cleanup claim/bypass.
+
+Read-only code analysis and the unchanged offline slideshow suite completed:
+`python -m pytest tests/unit/observer/test_slideshow.py -q` — 43 passed (0.59s).
+Those authored replays do not explain the missing real event trace. Evidence is
+private under `build/b9-session-live-20261018`; further live attempts need fresh
+scope/approval after diagnosis. Existing old test apps remain stopped/installed.
+
+## Installed b9 setup — awaiting physical readiness for live test — 2026-10-18
+
+The user installed b9 and authorized setup/testing while retaining existing cards.
+The public app was initially stopped/background OFF. Existing script
+`script.frame_gallery_new_artwork` already matches the background-send contract,
+including the public app slug, existing timer and bounded random request ID;
+no script/helper/preview/filter-card changes were needed. Only the existing
+current-artwork Markdown content was updated for 900-second slideshow freshness
+versus the initial 90-second proof. Exact full-dashboard before/after comparison
+confirms every other field unchanged; private backups are retained locally.
+
+Background is now saved ON and the b9 service is running, waiting at
+`validation_required` with `background_mode: true`. Its current startup log
+confirms event-only/fresh-delivery gating. No send or TV connection was requested
+in this setup round. A fresh physical Art Mode/one-send confirmation is pending;
+no new live pass, slideshow pass or no-wake claim is made. No auto-start setting
+was changed. Cached HA-only baseline/comparison completed and all three own
+temporary logins were revoked; the finite native-wrapper processes have exited.
+Native Terminal/window control is unavailable, so its completed window was not
+claimed closed. Evidence: `build/b9-setup-live-20261018`.
+
+The installed-app UI still lists three old private test apps (Background Test,
+Event Lab and Event Lab 6), all stopped. They have NOT been uninstalled; the
+user asked whether cleanup had happened, not to delete their private data.
+No private test app was started and no publication or GitHub access occurred.
+
 ## Public beta 0.1.0b9 — validation complete / documentation handoff — 2026-10-18
 
 [App prerelease v0.1.0b9](https://github.com/volkue-tech/frame-gallery-ha/releases/tag/v0.1.0b9)

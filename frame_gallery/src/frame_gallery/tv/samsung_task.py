@@ -60,7 +60,7 @@ from frame_gallery.config.tv_address import validate_tv_host
 from frame_gallery.imaging.contract import MAX_OUTPUT_BYTES
 from frame_gallery.isolation.executor import EventSink, JsonObject
 from frame_gallery.logs.redact import active_redactor
-from frame_gallery.observer.model import DEVICE_ID, FRESH_S, Observation, Status
+from frame_gallery.observer.model import DEVICE_ID, FRESH_S, Observation, SessionFailure, Status
 from frame_gallery.observer.stream import Change, EventPolicy, decode_event, validate_device
 from frame_gallery.tv.contract import (
     TOKEN_PATTERN,
@@ -805,13 +805,14 @@ def _session_events(
     cancel_fd: int,
 ) -> Generator[JsonObject, None, None]:
     sockets = SessionSockets(library.websocket, time.monotonic, lambda: _cancelled(cancel_fd))
+    phase = SessionFailure.STARTUP
     try:
         art = library.art_class(
             host, token=token, port=ART_PORT, timeout=2.0, key_press_delay=0, name=CLIENT_NAME
         )
         baseline = _observe_art(art, device)
         if baseline["status"] != Status.UNIDENTIFIED.value:
-            yield {"kind": "end", "status": "unavailable"}
+            yield {"kind": "end", "status": "unavailable", "reason": phase.value}
             return
         if sockets.bound is None:
             raise ValueError("missing bounded event transport")
@@ -819,6 +820,7 @@ def _session_events(
         proved_at = time.monotonic()
         yield {"kind": "baseline", "observation": baseline}
         while True:
+            phase = SessionFailure.RECEIVE
             sockets.bound.check()
             try:
                 raw = art.connection.recv()
@@ -826,12 +828,14 @@ def _session_events(
                 continue  # same socket, no GET, ping or reconnect
             if not isinstance(raw, str) or not raw:
                 raise ValueError("event connection ended")
+            phase = SessionFailure.DECODE
             change = decode_event(raw, policy)
             if policy.current_id_once and change == Change("mode", "on"):
                 if time.monotonic() - proved_at >= FRESH_S:
                     yield {"kind": "end", "status": "paused"}
                     return
                 yield {"kind": "querying"}  # clear old attribution before any extra request
+                phase = SessionFailure.QUERY
                 content_id = current_id_once(
                     art.connection,
                     sockets.bound,
@@ -849,7 +853,7 @@ def _session_events(
     except library.unauthorized:
         yield {"kind": "end", "status": "not_authorized"}
     except Exception:  # noqa: BLE001 - only fixed status, never library payloads
-        yield {"kind": "end", "status": "unavailable"}
+        yield {"kind": "end", "status": "unavailable", "reason": phase.value}
     finally:
         sockets.close()
 

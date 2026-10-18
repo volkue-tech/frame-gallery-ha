@@ -54,6 +54,15 @@ content: >-
 
 ## Bestätigung und Grenzen
 
+**Wiederanlauf-Fix in Beta b10 (Release-Kandidat):** Unvollständige Folgen
+bekannter Diashow-Meldungen blenden die aktuellen Künstlerdaten aus und warten
+auf derselben Verbindung auf eine neue vollständige Folge. Sie bestätigen kein
+Werk und lösen keine weitere Abfrage aus. Unbekannte oder fehlerhafte Meldungen,
+Standby, TV-Betrieb und Verbindungsverlust beenden die Sitzung weiterhin. Feste
+Fehlercodes im App-Protokoll unterscheiden Start-, Empfangs-, Dekodierungs- und
+Workerfehler, ohne rohe Nachrichten oder Zugangsdaten auszugeben. Dieser
+Kandidat ist weder installiert noch am TV getestet.
+
 Eine Sitzung dauert höchstens acht Stunden und endet bei Einschlafen, TV-Betrieb
 oder Fehlern früher. Beim erneuten Aufwachen wird sie nicht heimlich fortgesetzt.
 

@@ -54,6 +54,15 @@ content: >-
 
 ## Confirmation et limites
 
+**Correctif de reprise bêta b10 (version candidate) :** une séquence incomplète de
+notifications reconnues du diaporama masque les informations actuelles et
+attend une nouvelle séquence complète sur la même connexion. Elle ne confirme
+aucune œuvre et ne déclenche aucune requête supplémentaire. Les messages
+inconnus ou incorrects, la veille, le mode TV et la perte de connexion terminent
+toujours la session. Des codes fixes dans le journal distinguent les erreurs de
+démarrage, réception, décodage et processus isolé, sans messages bruts ni
+identifiants secrets. Ce candidat n'est ni installé ni testé sur le téléviseur.
+
 Chaque session dure au maximum huit heures et se termine plus tôt en veille,
 mode TV ou erreur. Elle ne reprend pas automatiquement au réveil du téléviseur.
 

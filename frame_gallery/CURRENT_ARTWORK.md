@@ -54,6 +54,14 @@ content: >-
 
 ## How confirmation works — and its limits
 
+**Beta b10 recovery fix (release candidate):** incomplete sequences of recognized
+slideshow notifications clear the current caption and wait on the same
+connection for a new complete sequence. They never confirm an artwork or
+trigger another query. Unknown or malformed messages, standby, TV mode and
+connection loss still end the session. Fixed failure codes in the app log
+distinguish startup, receive, decoding and worker errors without raw messages
+or credentials. This candidate has not been installed or tested on the TV.
+
 Each session lasts at most eight hours and ends earlier on sleep, TV mode or
 failure. It does not silently resume when the television wakes again.
 
