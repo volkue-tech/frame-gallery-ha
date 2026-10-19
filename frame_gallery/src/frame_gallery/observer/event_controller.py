@@ -34,7 +34,7 @@ class EventController:
         self._resume_auth_refused = False
 
     def start(self) -> None:
-        # Restart/idle/refresh never opens the TV, even with background=true.
+        # Only tick's separately opted-in initial-on/fresh-edge gate may read.
         self._publish(Observation(Status.VALIDATION_REQUIRED))
 
     def command(self, command: Command) -> bool:
@@ -88,7 +88,7 @@ class EventController:
             self._publish(Observation(Status.PAUSED))
 
     def resume(self) -> bool:
-        """Called once per consumed fresh HA edge; never invokes the sender."""
+        """One consumed opted-in startup/edge grant; never invokes the sender."""
         if (
             self._stopped()
             or self._active

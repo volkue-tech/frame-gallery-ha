@@ -6,6 +6,7 @@ import base64
 import json
 import signal
 from collections import deque
+from datetime import UTC, datetime
 from ipaddress import IPv4Network, ip_address
 from pathlib import Path
 from types import SimpleNamespace
@@ -30,6 +31,7 @@ from frame_gallery.store.delivery_associations import DeliveryAssociations
 from frame_gallery.store.layout import StoreLayout
 from frame_gallery.store.observer_targets import TargetStore
 from frame_gallery.tv.port import target_fingerprint
+from frame_gallery.tv.token_store import TokenStore
 
 WAKE = "media_player.existing_samsung"
 
@@ -46,10 +48,16 @@ WAKE = "media_player.existing_samsung"
         "wake_auth",
         "publish_failure",
         "stop_read",
+        "no_pin",
+        "no_archive",
+        "other_target",
+        "corrupt_token",
+        "tokenless",
     ],
 )
+@pytest.mark.parametrize("initial", [False, True])
 def test_actual_entry_wake_never_sends_and_requires_new_validated_image(
-    tmp_path: Path, monkeypatch: pytest.MonkeyPatch, case: str
+    tmp_path: Path, monkeypatch: pytest.MonkeyPatch, case: str, initial: bool
 ) -> None:
     host, clock = Rig(tmp_path), FakeClock()
     scratch = tmp_path / "tmp"
@@ -58,22 +66,29 @@ def test_actual_entry_wake_never_sends_and_requires_new_validated_image(
     (host.data / "options.json").write_text(
         json.dumps({"tv_host": str(HOST), "background_mode": True, "resume_state_entity": WAKE})
     )
-    TargetStore(host.data).pin(HOST, DEVICE)
+    if case != "no_pin":
+        TargetStore(host.data).pin(HOST, DEVICE)
     archive = DeliveryAssociations(host.data)
-    archive.remember(
-        item(
-            device_id=DEVICE,
-            content_id="MY_TEST",
-            target_sha256=target_fingerprint(HOST),
-            reference_rgb=base64.b64encode(b"x" * 6912).decode(),
-        ),
-        deadline(),
-    )
+    if case != "no_archive":
+        archive.remember(
+            item(
+                device_id=DEVICE,
+                content_id="MY_TEST",
+                target_sha256="f" * 64 if case == "other_target" else target_fingerprint(HOST),
+                reference_rgb=base64.b64encode(b"x" * 6912).decode(),
+            ),
+            deadline(),
+        )
+    if case == "corrupt_token":
+        (host.data / "tv/192-168-1-20.token").write_text("invalid!")
+    elif case == "tokenless":
+        TokenStore(host.data, HOST).remove()
     store = BindingStore(host.data)
     owner = store.owner()
     preserved = {
         name: (host.data / "state" / name).read_bytes()
         for name in ("current.json", "observer-targets.json")
+        if (host.data / "state" / name).exists()
     }
     preview = (host.preview / "latest.jpg").read_bytes()
     incoming = SimpleNamespace(closed=False, receive=lambda _timeout: None)
@@ -85,16 +100,20 @@ def test_actual_entry_wake_never_sends_and_requires_new_validated_image(
         assert request.host == "supervisor"  # no possible TV network route
         if request.target.endswith("/" + WAKE):
             wake_reads += 1
-            if case == "wake_auth" and wake_reads > 1:
+            if case == "wake_auth" and wake_reads >= (1 if initial else 2):
                 return response({}, 401)
-            if case == "stop_read" and wake_reads > 1:
+            if case == "stop_read" and wake_reads >= (1 if initial else 2):
                 incoming.closed = True
-            on = clock.elapsed in (5, 15)
+            on = initial or clock.elapsed in (5, 15)
             return response(
                 {
                     "entity_id": WAKE,
                     "state": "on" if on else "off",
-                    "last_changed": clock.utc_now().isoformat(),
+                    "last_changed": (
+                        datetime.fromtimestamp(clock.utc_now().timestamp() - 14400, UTC).isoformat()
+                        if initial
+                        else clock.utc_now().isoformat()
+                    ),
                 }
             )
         assert request.target == PATH
@@ -149,6 +168,7 @@ def test_actual_entry_wake_never_sends_and_requires_new_validated_image(
             self.starts.append(payload)
             assert payload["device_id"] == DEVICE
             assert payload["enroll_device"] is False
+            assert payload["tokenless_grant"] is (case == "tokenless")
             baseline = dict(host.executor.result)
             if case == "unknown":
                 baseline["content_id"] = "MY_UNKNOWN"
@@ -176,27 +196,34 @@ def test_actual_entry_wake_never_sends_and_requires_new_validated_image(
 
     def serve(controller: EventController, _read: Any, stopped: Any) -> None:
         controller.start()
-        controller.tick()  # observed off, no network session
-        assert not session.starts
+        controller.tick()
+        if not initial:
+            assert not session.starts  # observed off, no initial request
         for _ in range(3):
             clock.advance(5)
             controller.tick()
-        if case in {"known", "unknown", "mismatch", "other_tv", "tv_program"}:
-            assert len(session.starts) == 2
+        if case in {"known", "unknown", "mismatch", "other_tv", "tv_program", "tokenless"}:
+            assert len(session.starts) == (1 if initial else 2)
         elif case == "auth":
             assert len(session.starts) == 1  # auth refusal never retried on next wake
         else:
             assert not session.starts
-        if case == "known":
+        if case in {"known", "tokenless"}:
             assert any(
                 p["state"] == "artwork" and p["attributes"]["artist"] == "An artist" for p in posts
             )
         else:
             assert not any("artist" in p["attributes"] for p in posts)
         if case == "wake_auth":
-            assert wake_reads == 2
+            assert wake_reads == (1 if initial else 2)
         if case in {"stop_read", "publish_failure"}:
             assert stopped()
+        if initial and case in {"known", "tokenless"}:
+            clock.advance(90)  # Static Art Mode is not a renewing pixel proof.
+            controller.tick()
+            assert len(session.starts) == 1
+            assert posts[-1]["state"] == "checking"
+            assert "artist" not in posts[-1]["attributes"]
         controller.stop()
 
     monkeypatch.setattr(entry, "serve", serve)

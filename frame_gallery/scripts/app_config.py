@@ -906,7 +906,8 @@ def translations(language: str = "en") -> dict[str, Value]:
             (
                 "Off by default. Optional current-artwork events after a fresh explicit send; "
                 "no periodic TV queries or blind reconnect. Update the send script once. "
-                "Start/boot alone does not contact the TV. Upload associations are saved even "
+                "Startup contacts the TV only with the optional initial-sync/resume setting. "
+                "Upload associations are saved even "
                 "with this mode off. Warning: a read-only connection can wake a TV; no general "
                 "model/firmware guarantee. No extra helper, integration or permissions."
             ),
@@ -916,9 +917,8 @@ def translations(language: str = "en") -> dict[str, Value]:
             (
                 "Standardmäßig aus. Optionale aktuelle Künstlerdaten über Ereignisse nach "
                 "frischem ausdrücklichem Senden; keine regelmäßigen TV-Abfragen oder "
-                "blinden Neuverbindungen. Sende-Script einmal aktualisieren. Start/Systemstart "
-                "allein "
-                "kontaktiert den TV nicht. Bildzuordnungen werden auch bei ausgeschaltetem Modus "
+                "blinden Neuverbindungen. Sende-Script einmal aktualisieren. Startabgleich nur "
+                "mit der optionalen Start-/Sleep-Entität. Bildzuordnungen werden auch ohne Modus "
                 "gespeichert. Achtung: Lesende Verbindungen können aufwecken; keine allgemeine "
                 "Modell-/Firmware-Garantie. Keine zusätzlichen Helfer, Integrationen oder Rechte."
             ),
@@ -929,7 +929,8 @@ def translations(language: str = "en") -> dict[str, Value]:
                 "Désactivé par défaut. Événements de l'œuvre actuelle après un nouvel envoi "
                 "explicite ; aucune interrogation périodique ni reconnexion aveugle. Mettre à jour "
                 "le "
-                "script une fois. Démarrer seul ne contacte pas le TV. Les associations sont "
+                "script une fois. Lecture au démarrage uniquement avec l'entité de synchronisation "
+                "facultative. Les associations sont "
                 "enregistrées même sans ce mode. Attention : une connexion en lecture peut "
                 "réveiller le TV ; aucune garantie générale de modèle/firmware. Aucun assistant, "
                 "intégration ou privilège supplémentaire."
@@ -940,7 +941,8 @@ def translations(language: str = "en") -> dict[str, Value]:
             (
                 "Desactivado por defecto. Eventos de la obra actual tras un nuevo envío "
                 "explícito; sin consultas periódicas ni reconexión a ciegas. Actualice el "
-                "script una vez. Iniciar por sí solo no contacta al TV. Las asociaciones se "
+                "script una vez. Lectura al iniciar solo con la entidad de sincronización "
+                "opcional. Las asociaciones se "
                 "guardan incluso sin este modo. Atención: una conexión de lectura puede "
                 "despertar el TV; sin garantía general de modelo/firmware. Sin ayudantes, "
                 "integraciones ni permisos adicionales."
@@ -952,7 +954,8 @@ def translations(language: str = "en") -> dict[str, Value]:
                 "Disattivata per impostazione predefinita. Eventi dell'opera attuale dopo un "
                 "nuovo invio esplicito; nessuna richiesta periodica o riconnessione cieca. "
                 "Aggiornare "
-                "lo script una volta. Il solo avvio non contatta il TV. Le associazioni sono "
+                "lo script una volta. Lettura all'avvio solo con l'entità di sincronizzazione "
+                "facoltativa. Le associazioni sono "
                 "salvate anche senza questa modalità. Attenzione: una connessione in lettura "
                 "può risvegliare il TV; nessuna garanzia generale di modello/firmware. Nessun "
                 "helper, integrazione o privilegio aggiuntivo."
@@ -961,61 +964,68 @@ def translations(language: str = "en") -> dict[str, Value]:
     }[language]
     texts["resume_state_entity"] = {
         "en": (
-            "Resume after sleep (experimental, optional)",
+            "Initial sync / resume after sleep (experimental, optional)",
             (
                 "Leave empty to disable. Requires background mode and an earlier successful send. "
-                "Enter this TV's existing Samsung HA media_player or remote entity ID. One fresh "
-                "observed off-to-on transition permits one read-only revalidation, "
-                "not an image send. "
-                "No attempt just because the app starts with the TV already on; no blind retry. "
+                "Enter this TV's existing Samsung HA media_player or remote entity ID. First "
+                "HA on at app start permits one read-only initial check, even if unchanged for "
+                "hours. Off, unknown or failed initial read does not retry. Later fresh off-to-on "
+                "transitions permit one new check; no image send or blind retry. "
                 "HA on does not prove Art Mode. Connection side effects remain unverified and may "
                 "wake the TV or affect its mode. No new helper or special permissions."
             ),
         ),
         "de": (
-            "Nach Sleep fortsetzen (experimentell, optional)",
+            "Startabgleich / nach Sleep fortsetzen (experimentell, optional)",
             (
                 "Leer lassen zum Deaktivieren. Benötigt Hintergrundmodus und einen früheren "
                 "erfolgreichen Bildversand. Die vorhandene Samsung-Entitäts-ID dieses TVs "
-                "(media_player oder remote) eintragen. Ein frisch beobachteter Wechsel aus → an "
-                "erlaubt einen lesenden Abgleich, keinen Bildversand. Kein Versuch nur beim "
-                "App-Start mit bereits eingeschaltetem TV; keine blinde Wiederholung. HA an "
+                "(media_player oder remote) eintragen. Erstes HA an beim App-Start erlaubt einen "
+                "lesenden Startabgleich, auch nach Stunden ohne Zustandswechsel. Aus, unbekannt "
+                "oder erster Lesefehler: keine Wiederholung. Späterer frischer Wechsel aus → an "
+                "erlaubt einen neuen Abgleich, keinen Bildversand. HA an "
                 "beweist keinen Kunstmodus. Verbindungsnebenwirkungen sind ungetestet: Aufwecken "
                 "oder Moduswechsel sind nicht ausgeschlossen. Kein neuer Helfer oder Sonderrechte."
             ),
         ),
         "fr": (
-            "Reprendre après la veille (expérimental, facultatif)",
+            "Synchroniser au démarrage / après veille (expérimental, facultatif)",
             (
                 "Vide : désactivé. Nécessite le mode arrière-plan et un ancien envoi réussi. "
                 "Indiquez l'entité Samsung HA existante de ce TV (media_player ou remote). Une "
-                "transition arrêt → marche récemment observée autorise une vérification en "
-                "lecture, sans envoi d'image. Aucun essai au simple démarrage si le TV est déjà "
-                "allumé, aucune répétition aveugle. HA marche ne prouve pas le mode Art. Effets "
+                "première lecture HA marche au démarrage autorise une vérification, même si cet "
+                "état date de plusieurs heures. Arrêt, inconnu ou erreur initiale : aucun nouvel "
+                "essai. Une transition arrêt → marche fraîche permet ensuite une vérification, "
+                "sans envoyer d'image ni répétition aveugle. HA marche ne prouve pas le mode Art. "
+                "Effets "
                 "de connexion non vérifiés : réveil ou changement de mode possibles. Aucun "
                 "nouvel assistant ni privilège spécial."
             ),
         ),
         "es": (
-            "Reanudar tras el reposo (experimental, opcional)",
+            "Sincronizar al iniciar / tras reposo (experimental, opcional)",
             (
                 "Vacío: desactivado. Requiere modo en segundo plano y un envío anterior correcto. "
                 "Indique la entidad Samsung HA existente de este TV (media_player o remote). Un "
-                "cambio apagado → encendido observado recientemente permite una comprobación de "
-                "lectura, sin enviar imagen. Sin intento al iniciar con el TV ya encendido ni "
-                "repetición a ciegas. HA encendido no demuestra modo Arte. Efectos de conexión "
+                "primer estado HA encendido al iniciar permite una lectura, aunque lleve horas "
+                "sin cambiar. Apagado, desconocido o fallo inicial: sin reintento. Después un "
+                "cambio apagado → encendido reciente permite otra comprobación, sin enviar "
+                "imagen ni repetición a ciegas. HA encendido no demuestra modo Arte. "
+                "Efectos de conexión "
                 "no verificados: podría despertar el TV o cambiar su modo. Sin nuevo ayudante "
                 "ni permisos especiales."
             ),
         ),
         "it": (
-            "Riprendi dopo lo standby (sperimentale, facoltativo)",
+            "Sincronizza all'avvio / dopo standby (sperimentale, facoltativo)",
             (
                 "Vuoto: disattivato. Richiede modalità in background e un invio precedente "
                 "riuscito. Indicare l'entità Samsung HA esistente di questo TV (media_player o "
-                "remote). Una transizione spento → acceso appena osservata consente una verifica "
-                "in lettura, senza inviare immagini. Nessun tentativo al solo avvio con TV già "
-                "acceso, nessuna ripetizione cieca. HA acceso non dimostra la modalità Arte. "
+                "remote). Il primo stato HA acceso all'avvio consente una lettura, anche se "
+                "invariato da ore. Spento, sconosciuto o errore iniziale: nessun nuovo tentativo. "
+                "Una successiva transizione spento → acceso recente consente una nuova verifica, "
+                "senza inviare immagini né ripetere alla cieca. HA acceso non dimostra "
+                "la modalità Arte. "
                 "Effetti della connessione non verificati: risveglio o cambio modalità possibili. "
                 "Nessun nuovo helper o privilegio speciale."
             ),

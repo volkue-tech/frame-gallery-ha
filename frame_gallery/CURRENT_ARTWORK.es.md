@@ -2,27 +2,32 @@
 
 [English](CURRENT_ARTWORK.md) | [Deutsch](CURRENT_ARTWORK.de.md) | [Français](CURRENT_ARTWORK.fr.md) | Español | [Italiano](CURRENT_ARTWORK.it.md)
 
-**Beta b11: experimental y desactivado por defecto.** Las tarjetas b7/b8/b9/b10 siguen funcionando. No necesita nuevos ayudantes, claves API, HACS, permisos especiales ni otra app en Home Assistant Green/OS.
+**Beta b12: experimental y desactivado por defecto.** Las tarjetas b7/b8/b9/b10/b11 siguen funcionando. No necesita nuevos ayudantes, claves API, HACS, permisos especiales ni otra app en Home Assistant Green/OS.
 
 Incluso una conexión de lectura puede despertar el TV. Las pruebas controladas cubren cambios automáticos y un episodio de reposo natural en un Frame, no todos los modelos o firmware. Mantenga el modo desactivado si ese riesgo es inaceptable.
 
 ## Memoria automática de obras
 
-### Reanudar tras el reposo — nuevo en b11, opcional
+### Sincronización al iniciar y tras reposo — b12, opcional
 
 Tras un envío Frame Gallery anterior correcto, active el **modo en segundo plano**
-y escriba en **Reanudar tras el reposo** (`resume_state_entity`) la entidad Samsung
+y escriba en **Sincronizar al iniciar / tras reposo** (`resume_state_entity`) la entidad Samsung
 HA existente de este TV (`media_player` o `remote`). Busque su ID en Ajustes →
 Dispositivos y servicios → Entidades. Reinicie la app. No necesita otro ayudante,
 envío de imagen ni cambiar tarjetas.
 
-Solo se lee ese estado HA en caché cada cinco segundos. Un `off` observado y un
-`on` posterior de como máximo 30 segundos permiten un intento de lectura, como
-máximo seis por hora. Se verifican identidad del TV, modo Arte e imagen actual.
-Inicio con TV ya encendido, reinicio, duplicados, estados antiguos/desconocidos
-o lagunas no autorizan lecturas. Los fallos no se repiten: se necesita otro ciclo
-apagado-encendido. El rechazo de autenticación bloquea intentos automáticos en
-ese proceso.
+El primer estado HA en caché de cada inicio configurado permite **una lectura
+inicial si indica `on`**, aunque lleve horas sin cambiar. Se verifican identidad,
+modo Arte, ID e imagen antes de mostrar artista/título; no se envía una imagen.
+El primer resultado ausente, inválido, futuro, `off`, desconocido o fallido
+consume la oportunidad inicial; los `on` posteriores no la repiten.
+
+Después solo se lee ese estado HA cada cinco segundos. Un `off` observado y un
+`on` más reciente de como máximo 30 segundos permiten otra lectura. Ambas rutas
+comparten seis intentos por hora móvil **en ese proceso**. Duplicados, cambios
+antiguos y lagunas no autorizan reintentos. El rechazo de autenticación bloquea
+lecturas automáticas del proceso. Reiniciar crea una oportunidad nueva, no un
+límite persistente entre reinicios; no utilice bucles de reinicio.
 
 HA `on` no demuestra modo Arte. La conexión podría despertar el TV o cambiar su
 modo; esta ruta nueva solo tiene simulaciones, no validación física nueva.
@@ -38,9 +43,9 @@ Imágenes antiguas, envíos de otras apps y envíos sin identidad estable quedan
 ## Activar la tarjeta opcional
 
 1. Conserve cámara, temporizador, tarjetas y el ID `script.frame_gallery_new_artwork`.
-2. Active **Modo en segundo plano** y reinicie la app. Iniciar/Detener controla el servicio, no cambia la imagen. El inicio automático no contacta al TV.
+2. Active **Modo en segundo plano** y reinicie la app. Iniciar/Detener controla el servicio, no la imagen. Sin la entidad opcional anterior no se contacta al TV al iniciar; con ella el primer HA `on` puede activar la lectura.
 3. Sustituya solo el contenido del script por el [script de envío completo](examples/background-send-script.yaml). Ajuste el slug y temporizador si difieren. Las tarjetas siguen funcionando; sustituya llamadas directas a `hassio.app_start` por el script.
-4. Con una obra visible en modo Arte, solicite explícitamente una nueva obra. Un envío reciente correcto con asociación guardada autoriza una sola sesión experimental. Iniciar/reiniciar/actualizar no la activa.
+4. Tras un envío anterior correcto, configure la entidad anterior para leer la obra ya visible sin otro envío. En una instalación sin asociación TV guardada, solicite la primera obra con modo Arte visible; un envío correcto permite una sesión experimental. Actualizar por sí solo no abre una conexión.
 5. Añada una tarjeta manual con el YAML **completo** siguiente.
 
 La tarjeta de imagen/color/artista muestra la **última vista previa enviada**, no una captura en directo. Esta tarjeta nativa adicional muestra la información actual por separado.
@@ -63,9 +68,9 @@ content: >-
 
   Última confirmación: {{ as_local(item.last_reported).strftime('%H:%M:%S') }}
   {% elif item.state == 'validation_required' %}
-  Consultas bloqueadas. Revise el registro y solicite explícitamente una obra.
+  Esperando una comprobación autorizada. Revise ajustes de segundo plano/entidad y registro; la lectura inicial configurada no necesita otra imagen.
   {% elif item.state == 'checking' %}
-  Operación en curso. La imagen actual aún no está confirmada.
+  Imagen actual no confirmada. Esperando una prueba válida de imagen o pase.
   {% elif item.state == 'unidentified' %}
   La obra mostrada no tiene una asociación guardada.
   {% else %}
@@ -81,8 +86,8 @@ nueva secuencia completa en la misma conexión. No confirma ninguna obra ni
 envía otra consulta. Los mensajes desconocidos o incorrectos, el reposo, el modo
 TV y la pérdida de conexión siguen terminando la sesión. Los códigos fijos del
 registro distinguen errores de inicio, recepción, decodificación y proceso
-aislado, sin mensajes sin procesar ni credenciales. La nueva reanudación b11 no se ha
-instalado ni probado en el televisor.
+aislado, sin mensajes sin procesar ni credenciales. El inicio b12 no tiene nueva
+validación física de TV o reposo.
 
 En el registro, `event sequence incomplete` significa que los datos se han
 ocultado y la misma conexión espera, sin confirmar ninguna obra.
@@ -91,11 +96,15 @@ sin repetición inmediata. Al informar de un problema, incluya ese código fijo,
 la versión y el modelo del TV, nunca tokens ni datos sin procesar del televisor.
 
 Cada sesión dura como máximo ocho horas y termina antes con reposo, modo TV o
-errores. Solo la transición HA reciente configurada arriba permite abrir otra sesión.
+errores. Un nuevo proceso configurado o un cambio HA reciente anterior permite otra lectura; un envío explícito correcto también puede abrir una sesión.
 
 Tras una lectura inicial y comparación local, una conexión escucha la secuencia observada: `image_selected`, `auto_rotation_image_changed` con el mismo ID y modo Arte `on`, en cinco segundos. Dentro de esa sesión no hay consultas repetidas, miniaturas posteriores ni reconexión. Un evento busca la asociación de envío o imagen verificada de ese TV; un ID desconocido borra el texto.
 
 La prueba inicial dura 90 segundos. Una secuencia completa dura como máximo **15 minutos**, para el ciclo probado de diez minutos. Duplicados, pongs y modo activo no renuevan nada. Ciclos más largos pueden dejar huecos; los cambios manuales no siempre generan esta secuencia. La plantilla puede añadir aproximadamente un minuto de retraso.
+
+Una imagen fija sin cambios puede quedar sin confirmar tras 90 segundos. Este
+arreglo no prolonga la prueba ni consulta repetidamente el TV para mantener una
+leyenda artificialmente actualizada.
 
 Reposo, modo TV, desconexión, eventos inválidos o fallo de publicación pausan/detienen sin reconectar de inmediato. Sin la opción anterior de reanudación, sigue siendo necesario otro envío explícito en modo Arte visible. Actualizar solo procesa eventos ya recibidos. El observador no envía órdenes de encendido, Wake-on-LAN, selección de imagen ni cambios de modo; la propia conexión aún puede tener efectos secundarios.
 

@@ -1,5 +1,24 @@
 # Acceptance tests
 
+## Initial already-on synchronization (D-239)
+
+- Default/off/unconfigured mode still cannot connect. First valid configured
+  on sample grants one attempt even if unchanged for hours; fresh Core read
+  is a trigger, never a claim of fresh Art/pixel proof. Future/invalid data fail.
+- Consume the initial opportunity before any preparation, including missing,
+  timeout/off/unknown/auth failure. Repeated on/reports/refresh cannot retry.
+  A later genuine off/new-on uses unchanged edge rules and shared six/hour cap.
+- Actual entry with fake Core/store/receiver/publisher resolves known images,
+  leaves unknown images unidentified, rejects other-TV/changed-image/TV-mode/
+  token/archive problems, stops on publication/cancel and never invokes send.
+- Static initial proof ages out after 90 seconds with no request or fabricated
+  freshness. Retain same finite receiver for later complete slideshow events.
+  Initial on after another process start is a new permitted opportunity, not
+  certification of a persistent cross-restart throttle or physical no-wake.
+- Existing cards/scripts/data/privileges remain; complete five-language help,
+  offline quality gates and exact native ARM/Intel/source/image/signature checks
+  before publishing. Old private probe is not this candidate's hardware pass.
+
 ## Experimental sleep/wake resume (D-238)
 
 - Default/one-shot/unconfigured mode preserves every previous path and request.

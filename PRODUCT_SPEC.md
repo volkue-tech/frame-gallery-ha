@@ -1,5 +1,19 @@
 # Product specification
 
+## Explicit initial already-on synchronization, 2026-10-19 (D-239)
+
+With background mode and an existing resume_state_entity configured, the first
+cached HA on sample may authorize ONE experimental initial read, even when
+last_changed is old. The user explicitly accepts the connection-side-effect
+risk; HA on is not Art Mode proof. The first sample consumes the opportunity,
+including errors/off/unknown, so there is no delayed startup retry. Retain the
+original later fresh-edge recovery and shared per-process attempt bounds.
+No image/power/mode command, enrollment, personal ID or installed-card change.
+Require intact exact-target/device history, fresh real Art/ID/image proof and
+same finite receiver. Defaults remain passive. Preserve 90/900 proof ages and
+document static-picture age-out honestly. Offline/native gates before the
+authorized bugfix publication; no live HA/TV test in this implementation round.
+
 ## Experimental post-sleep resume, 2026-10-18 (D-238)
 
 An optional existing Samsung HA resume_state_entity, with background enabled,

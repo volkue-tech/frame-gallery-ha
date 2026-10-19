@@ -35,6 +35,13 @@ This file constrains the architecture without prescribing or copying an implemen
 
 ## Home Assistant constraints
 
+- **2026-10-19 D-239 explicit exception:** with background and the existing
+  resume entity opted in, first cached HA on may trigger one initial read even
+  with old last_changed. Consume the first sample on error/off too; no delayed
+  retry. Reuse exact archived target/device/token and isolated real Art/image
+  proof; preserve sender separation, privileges, current cards and freshness.
+  HA on is not Art Mode proof or a no-wake guarantee. Later edges retain D-238.
+
 - **2026-10-18 D-235 superseding complete-feature scope:** archive every selected
   upload in one-shot/background mode, per actual device identity captured from
   the existing capability response, with no extra TV request. Bound private

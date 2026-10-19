@@ -169,10 +169,11 @@ def _service_cleanup(layout: StoreLayout, clock: Clock) -> bool:
 
 
 def background_main() -> int:
-    """Explicit experimental service; no TV connections on start/boot/restart.
+    """Explicit experimental service; startup reads need the configured HA-on gate.
 
     D-230 accepts the unvalidated wake risk only for opt-in users. A successful
-    explicit delivery grants observation for this session; read failures disarm.
+    explicit delivery or opted-in initial-on/wake grants one verified session.
+    Read failures disarm; absent resume configuration keeps startup passive.
     """
     clock, layout = SystemClock(), StoreLayout()
     source = OptionsFile(layout.data)
@@ -244,6 +245,7 @@ def background_main() -> int:
             ),
             clock.monotonic,
             lambda: clock.utc_now().timestamp(),
+            initial_on=bool(options.resume_state_entity),
         )
 
         def send() -> int:
@@ -266,7 +268,7 @@ def background_main() -> int:
         )
         _log.warning(
             "event background service ready; TV access requires an approved device-event profile "
-            "and an explicit delivery or configured fresh HA off-to-on edge; "
+            "and an explicit delivery, configured first HA on sample or fresh off-to-on edge; "
             "no TV polling or blind retry"
         )
         serve(controller, incoming.receive, stopping)

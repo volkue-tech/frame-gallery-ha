@@ -2,28 +2,34 @@
 
 [English](CURRENT_ARTWORK.md) | Deutsch | [Français](CURRENT_ARTWORK.fr.md) | [Español](CURRENT_ARTWORK.es.md) | [Italiano](CURRENT_ARTWORK.it.md)
 
-**Beta b11: experimentell und standardmäßig aus.** Bestehende b7/b8/b9/b10-Karten bleiben nutzbar. Auf Home Assistant Green/OS werden keine API-Schlüssel, neuen Helfer, HACS-Erweiterungen, Sonderrechte oder weiteren Apps benötigt.
+**Beta b12: experimentell und standardmäßig aus.** Bestehende b7/b8/b9/b10/b11-Karten bleiben nutzbar. Auf Home Assistant Green/OS werden keine API-Schlüssel, neuen Helfer, HACS-Erweiterungen, Sonderrechte oder weiteren Apps benötigt.
 
 Auch eine lesende Verbindung kann einen Fernseher aufwecken. Kontrollierte Tests erfassten automatische Bildwechsel und einen natürlichen Einschlafvorgang an einem Frame, nicht alle Modelle oder Firmwares. Falls jedes Aufweckrisiko inakzeptabel ist, Hintergrundmodus ausgeschaltet lassen.
 
 ## Automatisches Bildgedächtnis
 
-### Nach Sleep fortsetzen — neu in b11, optional
+### Startabgleich und nach Sleep fortsetzen — b12, optional
 
 Nach einem früheren erfolgreichen Frame-Gallery-Bildversand den **Hintergrundmodus**
-aktivieren und bei **Nach Sleep fortsetzen** (`resume_state_entity`) die vorhandene
+aktivieren und bei **Startabgleich / nach Sleep fortsetzen** (`resume_state_entity`) die vorhandene
 Samsung-Entitäts-ID dieses TVs (`media_player` oder `remote`) eintragen. Sie steht
 unter Einstellungen → Geräte & Dienste → Entitäten. Danach die App neu starten.
 Keine neuen Helfer, kein erneuter Bildversand und keine Kartenänderung nötig.
 
-Die App liest nur diesen gespeicherten HA-Zustand alle fünf Sekunden. Erst ein
-beobachtetes `off` und ein neueres, höchstens 30 Sekunden altes `on` erlauben
-genau einen lesenden Versuch, höchstens sechs pro Stunde. TV-Identität, Kunstmodus
-und aktuelles Bild werden neu geprüft. Start bei schon eingeschaltetem TV,
-Neustart, doppelte/veraltete/unbekannte Zustände oder Beobachtungslücken erlauben
-keine Abfrage. Fehler werden nicht wiederholt; erst ein neuer Aus-an-Zyklus kann
-einen neuen Versuch erlauben. Abgewiesene Anmeldung sperrt weitere automatische
-Versuche in diesem Dienstprozess.
+Die erste gespeicherte HA-Abfrage bei jedem so konfigurierten App-Start erlaubt
+**genau einen Startabgleich bei `on`**, auch nach Stunden ohne Zustandswechsel.
+Vor Künstlerdaten werden Geräteidentität, Kunstmodus, aktuelle ID und Bild neu
+geprüft; kein Bild wird gesendet. Fehlender, ungültiger, zukünftiger, ausgeschalteter,
+unbekannter oder fehlgeschlagener erster Zustand verbraucht die Startgelegenheit.
+Ein späteres `on` wiederholt den Startversuch nicht.
+
+Danach liest die App nur diesen HA-Zustand alle fünf Sekunden. Ein beobachtetes
+`off` und ein neueres, höchstens 30 Sekunden altes `on` erlauben einen weiteren
+Versuch. Beide Wege teilen sich höchstens sechs Versuche pro rollender Stunde
+**in diesem Dienstprozess**. Doppelte/veraltete Weckwechsel und Beobachtungslücken
+erlauben keine Wiederholung. Abgewiesene Anmeldung sperrt automatische Abfragen
+im Prozess. Ein Neustart ist eine neue Startgelegenheit, keine dauerhafte
+Neustart-übergreifende Begrenzung; keine Neustartschleifen verwenden.
 
 HA `on` beweist keinen Kunstmodus. Bereits die Verbindung kann aufwecken oder den
 Modus beeinflussen; für diesen neuen Weg liegen Simulationen, keine neuen
@@ -39,9 +45,9 @@ Alte TV-Bilder, Uploads anderer Apps und Sendungen ohne stabile Geräteidentitä
 ## Optionale aktuelle Künstlerkarte einrichten
 
 1. Kamera, Timer, bestehende Karten und die Entitäts-ID `script.frame_gallery_new_artwork` behalten.
-2. **Hintergrundmodus** einschalten und die App neu starten. Start/Stop steuert jetzt den Dienst, keinen Bildwechsel. Optionaler Systemstart allein verbindet sich nicht mit dem TV.
+2. **Hintergrundmodus** einschalten und die App neu starten. Start/Stop steuert den Dienst, keinen Bildwechsel. Ohne optionale Entität oben keine Startverbindung; mit ihr kann das erste HA `on` den Startabgleich auslösen.
 3. Nur den Script-Inhalt durch das [vollständige Hintergrund-Sende-Script](examples/background-send-script.yaml) ersetzen. App-Slug und vorhandene Timer-ID bei Bedarf anpassen. Aufrufende Karten funktionieren weiter; direkte `hassio.app_start`-Automationen auf das Script umstellen.
-4. Bei sichtbar eingeschaltetem Kunstmodus ausdrücklich ein neues Werk anfordern. Erst ein frischer erfolgreicher Sendevorgang mit gespeicherter TV-Zuordnung erlaubt eine experimentelle Ereignissitzung. Start/Neustart/Aktualisieren allein aktiviert sie nicht.
+4. Nach einem früheren erfolgreichen Versand die optionale Entität oben konfigurieren: Das bereits sichtbare Werk wird ohne neuen Versand geprüft. Bei einer Neuinstallation ohne gespeicherte TV-Zuordnung einmal das erste neue Werk im sichtbaren Kunstmodus anfordern; ein erfolgreicher Versand erlaubt eine experimentelle Ereignissitzung. Aktualisieren allein öffnet keine Verbindung.
 5. Eine manuelle Dashboard-Karte mit dem **vollständigen** YAML unten ergänzen.
 
 Die bisherige Bild-/Farb-/Künstlerkarte zeigt weiterhin die **zuletzt gesendete Vorschau**, keinen Live-Screenshot. Diese zusätzliche native Karte zeigt davon getrennt die aktuelle Information.
@@ -64,9 +70,9 @@ content: >-
 
   Zuletzt bestätigt: {{ as_local(item.last_reported).strftime('%H:%M:%S') }}
   {% elif item.state == 'validation_required' %}
-  TV-Prüfung gesperrt. App-Protokoll prüfen und ausdrücklich ein Bild senden.
+  Warte auf einen freigegebenen Abgleich. Hintergrund-/Entitätseinstellungen und App-Protokoll prüfen; ein konfigurierter Startabgleich braucht kein neues Bild.
   {% elif item.state == 'checking' %}
-  Bildvorgang läuft. Die aktuelle Anzeige ist noch nicht bestätigt.
+  Aktuelle Anzeige noch nicht bestätigt. Warte auf einen gültigen Bild- oder Diashow-Nachweis.
   {% elif item.state == 'unidentified' %}
   Für das angezeigte Kunstwerk ist keine Zuordnung gespeichert.
   {% else %}
@@ -83,7 +89,7 @@ Werk und lösen keine weitere Abfrage aus. Unbekannte oder fehlerhafte Meldungen
 Standby, TV-Betrieb und Verbindungsverlust beenden die Sitzung weiterhin. Feste
 Fehlercodes im App-Protokoll unterscheiden Start-, Empfangs-, Dekodierungs- und
 Workerfehler, ohne rohe Nachrichten oder Zugangsdaten auszugeben. Diese
-b11-Wiederanlauf-Funktion ist weder installiert noch am TV getestet.
+b12-Startfunktion hat keinen neuen Live-TV- oder Einschlafnachweis.
 
 Im Protokoll bedeutet `event sequence incomplete`: Künstlerdaten ausgeblendet,
 dieselbe Verbindung wartet — kein bestätigtes Werk.
@@ -92,11 +98,15 @@ keine sofortige automatische Wiederholung. Bei einer Fehlermeldung diesen festen
 App-Version und TV-Modell angeben, keine Zugriffstoken oder rohen TV-Daten.
 
 Eine Sitzung dauert höchstens acht Stunden und endet bei Einschlafen, TV-Betrieb
-oder Fehlern früher. Nur der ausdrücklich konfigurierte frische HA-Weckwechsel oben darf eine neue Sitzung beginnen.
+oder Fehlern früher. Ein konfigurierter neuer Prozessstart oder späterer frischer HA-Weckwechsel oben kann eine neue Abfrage erlauben; auch ein erfolgreicher ausdrücklicher Versand kann eine Sitzung starten.
 
 Nach einer anfänglichen Abfrage mit lokalem Bildvergleich hört eine einzige Verbindung auf die beobachtete Diashow-Folge: `image_selected`, passendes `auto_rotation_image_changed`, danach Kunstmodus `on`, innerhalb von fünf Sekunden. Innerhalb dieser Sitzung keine wiederholten TV-Abfragen, späteren Vorschaubilder oder Neuverbindungen. Ein Ereignis löst die gespeicherte Upload- oder bildgeprüfte Zuordnung dieses TVs auf; unbekannte IDs leeren den Text.
 
 Der anfängliche Bildnachweis gilt 90 Sekunden. Eine vollständige Diashow-Folge gilt höchstens **15 Minuten**, passend zur getesteten Zehn-Minuten-Diashow. Doppelte IDs, Pongs und Modus-an-Meldungen verlängern nichts. Langsamere Diashows können Lücken zeigen; manuelle Wechsel müssen diese Folge nicht liefern. Die Vorlage kann etwa eine Minute Anzeigeverzögerung hinzufügen.
+
+Ein fest gewähltes unverändertes Bild kann deshalb nach 90 Sekunden wieder
+unbestätigt sein. Der Startfix verlängert keinen Bildnachweis und fragt nicht
+wiederholt ab, um einen statischen Künstlertext aktuell erscheinen zu lassen.
 
 Einschlafen, TV-Betrieb, Verbindungsabbruch, ungültige Ereignisse oder Publikationsfehler beenden/pausieren ohne sofortige Neuverbindung. Ohne die optionale Weckwechsel-Einstellung bleibt ein ausdrücklicher neuer Bildversand im sichtbaren Kunstmodus nötig. Aktualisieren verarbeitet nur bereits empfangene Ereignisse. Der Beobachter sendet keine Power-, Wake-on-LAN-, Bildauswahl- oder Modusbefehle. Trotzdem kann bereits die Verbindung Nebenwirkungen haben.
 

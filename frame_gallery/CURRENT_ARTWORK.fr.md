@@ -2,27 +2,33 @@
 
 [English](CURRENT_ARTWORK.md) | [Deutsch](CURRENT_ARTWORK.de.md) | Français | [Español](CURRENT_ARTWORK.es.md) | [Italiano](CURRENT_ARTWORK.it.md)
 
-**Bêta b11 : expérimental et désactivé par défaut.** Les cartes b7/b8/b9/b10 restent utilisables. Aucun nouvel assistant, clé API, extension HACS, privilège spécial ou autre app n'est nécessaire sur Home Assistant Green/OS.
+**Bêta b12 : expérimental et désactivé par défaut.** Les cartes b7/b8/b9/b10/b11 restent utilisables. Aucun nouvel assistant, clé API, extension HACS, privilège spécial ou autre app n'est nécessaire sur Home Assistant Green/OS.
 
 Même une connexion en lecture peut réveiller un TV. Les tests contrôlés couvrent des changements automatiques et un épisode de veille naturelle sur un Frame, pas tous les modèles ou firmwares. Laissez le mode désactivé si ce risque est inacceptable.
 
 ## Mémoire automatique des œuvres
 
-### Reprendre après la veille — nouveau en b11, facultatif
+### Synchronisation au démarrage et après veille — b12, facultatif
 
 Après un ancien envoi Frame Gallery réussi, activez le **mode arrière-plan** et
-indiquez dans **Reprendre après la veille** (`resume_state_entity`) l'entité
+indiquez dans **Synchroniser au démarrage / après veille** (`resume_state_entity`) l'entité
 Samsung HA existante de ce TV (`media_player` ou `remote`). Son ID est dans
 Paramètres → Appareils et services → Entités. Redémarrez ensuite l'app. Aucun
 nouvel assistant, envoi d'image ou changement de carte n'est nécessaire.
 
-Seul cet état HA en cache est lu toutes les cinq secondes. Un `off` observé puis
-un `on` plus récent, datant de 30 secondes au maximum, autorisent un seul essai
-en lecture, six par heure au maximum. L'identité du TV, le mode Art et l'image
-actuelle sont revérifiés. Démarrage avec TV déjà allumé, redémarrage, doublons,
-états anciens/inconnus et interruption du suivi n'autorisent pas de lecture.
-Un échec n'est pas répété : il faut un nouveau cycle arrêt-marche. Un refus
-d'authentification bloque les essais automatiques dans ce processus.
+Le premier état HA en cache à chaque démarrage ainsi configuré autorise **une
+seule lecture initiale s'il indique `on`**, même inchangé depuis des heures.
+Identité, mode Art, ID et image sont vérifiés avant toute attribution ; aucune
+image n'est envoyée. Un premier résultat absent, invalide, futur, `off`, inconnu
+ou en erreur consomme cette possibilité ; les `on` suivants ne la répètent pas.
+
+Ensuite, seul cet état HA est lu toutes les cinq secondes. Un `off` observé puis
+un `on` plus récent de 30 secondes au maximum permettent une nouvelle lecture.
+Les deux chemins partagent six essais par heure glissante **dans ce processus**.
+Doublons, anciennes transitions et lacunes n'autorisent pas de répétition. Un
+refus d'authentification bloque les lectures automatiques du processus. Un
+redémarrage est une nouvelle possibilité, pas une limite persistante entre
+redémarrages ; évitez les boucles de redémarrage.
 
 HA `on` ne prouve pas le mode Art. La connexion peut réveiller le TV ou changer
 son mode ; ce nouveau chemin est simulé hors ligne, sans nouvelle validation
@@ -38,9 +44,9 @@ Les anciennes images, les envois d'autres apps et les envois sans identité TV s
 ## Activer la carte facultative
 
 1. Conservez caméra, minuteur, cartes et ID `script.frame_gallery_new_artwork`.
-2. Activez le **mode arrière-plan**, puis redémarrez l'app. Démarrer/Arrêter contrôle le service, pas un changement d'image. Le démarrage automatique ne contacte pas le TV.
+2. Activez le **mode arrière-plan**, puis redémarrez l'app. Démarrer/Arrêter contrôle le service, pas l'image. Sans l'entité facultative ci-dessus, aucun contact au démarrage ; avec elle, le premier HA `on` peut déclencher la lecture.
 3. Remplacez uniquement le contenu du script par le [script d'envoi complet](examples/background-send-script.yaml). Adaptez le slug et le minuteur si nécessaire. Les cartes existantes fonctionnent ; remplacez les appels directs à `hassio.app_start` par le script.
-4. Avec une œuvre visible en mode Art, demandez explicitement une nouvelle œuvre. Un envoi récent réussi avec association enregistrée autorise une seule session expérimentale. Démarrer/redémarrer/actualiser seul ne l'active pas.
+4. Après un ancien envoi réussi, configurez l'entité ci-dessus pour lire l'œuvre déjà affichée sans nouvel envoi. Sur une installation sans association TV enregistrée, demandez la première œuvre en mode Art visible ; l'envoi réussi autorise une session expérimentale. Actualiser seul n'ouvre aucune connexion.
 5. Ajoutez une carte manuelle avec le YAML **complet** ci-dessous.
 
 La carte image/couleur/artiste existante montre le **dernier aperçu envoyé**, pas une capture en direct. Cette carte native supplémentaire sépare les informations actuelles.
@@ -63,9 +69,9 @@ content: >-
 
   Dernière confirmation: {{ as_local(item.last_reported).strftime('%H:%M:%S') }}
   {% elif item.state == 'validation_required' %}
-  Vérifications bloquées. Consultez le journal et demandez explicitement une œuvre.
+  En attente d'une vérification autorisée. Vérifiez les réglages arrière-plan/entité et le journal ; la lecture initiale configurée ne nécessite aucune nouvelle image.
   {% elif item.state == 'checking' %}
-  Opération en cours. L'image actuelle n'est pas encore confirmée.
+  Image actuelle non confirmée. En attente d'une preuve d'image ou de diaporama valide.
   {% elif item.state == 'unidentified' %}
   Aucune association enregistrée pour cette œuvre.
   {% else %}
@@ -82,7 +88,7 @@ aucune œuvre et ne déclenche aucune requête supplémentaire. Les messages
 inconnus ou incorrects, la veille, le mode TV et la perte de connexion terminent
 toujours la session. Des codes fixes dans le journal distinguent les erreurs de
 démarrage, réception, décodage et processus isolé, sans messages bruts ni
-identifiants secrets. La nouvelle reprise b11 n'est ni installée ni testée sur le téléviseur.
+identifiants secrets. Le nouveau démarrage b12 n'a pas de nouvelle validation TV ou veille.
 
 Dans le journal, `event sequence incomplete` signifie que les données sont
 masquées et que la même connexion attend, sans confirmer d'œuvre.
@@ -91,11 +97,15 @@ terminée, sans répétition immédiate. Pour signaler un problème, indiquez ce
 code fixe, la version de l'app et le modèle du TV, jamais de jetons ni de données TV brutes.
 
 Chaque session dure au maximum huit heures et se termine plus tôt en veille,
-mode TV ou erreur. Seule la transition HA fraîche explicitement configurée ci-dessus peut ouvrir une nouvelle session.
+mode TV ou erreur. Un nouveau processus configuré ou une transition HA fraîche ci-dessus peut autoriser une nouvelle lecture ; un envoi explicite réussi peut également ouvrir une session.
 
 Après une lecture initiale et une comparaison locale d'image, une seule connexion écoute la séquence observée : `image_selected`, `auto_rotation_image_changed` du même ID, puis mode Art `on`, en cinq secondes. Dans cette session, pas de requêtes répétées, de nouvelles miniatures ni de reconnexion. Un événement utilise l'association d'envoi ou d'image vérifiée de ce TV ; un ID inconnu efface le texte.
 
 La preuve initiale dure 90 secondes. La séquence complète dure au maximum **15 minutes**, adaptée au diaporama testé de dix minutes. Doublons, pongs et mode actif ne la renouvellent pas. Des cycles plus longs peuvent laisser des interruptions ; les changements manuels ne produisent pas forcément cette séquence. Le modèle peut ajouter environ une minute de retard.
+
+Une image fixe inchangée peut donc redevenir non confirmée après 90 secondes.
+Ce correctif ne prolonge pas la preuve et n'interroge pas le TV en boucle pour
+maintenir artificiellement une légende actuelle.
 
 Veille, mode TV, déconnexion, événement invalide ou échec de publication suspend/arrête sans reconnexion immédiate. Sans l'option de reprise ci-dessus, un nouvel envoi explicite en mode Art visible reste nécessaire. Actualiser traite seulement les événements déjà reçus. Aucune commande d'alimentation, Wake-on-LAN, sélection d'image ou changement de mode n'est envoyée ; la connexion elle-même peut toutefois avoir des effets indésirables.
 

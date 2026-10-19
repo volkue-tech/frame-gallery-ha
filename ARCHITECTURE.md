@@ -1,5 +1,20 @@
 # Frame Gallery for Home Assistant — Architecture proposal
 
+## D-239 initial already-on synchronization, 2026-10-19
+
+The user explicitly accepts one experimental initial read from configured
+cached HA on, including an old unchanged state. WakeGate's internal initial_on
+flag defaults false; regular background wiring enables it only when the existing
+resume entity is configured. First feed consumes the opportunity before checking
+the sample or local archive. A valid on may emit the original RESUME path;
+off/unknown/invalid/error cannot defer or retry the initial request. Later feeds
+retain strict fresh off/on semantics and the same per-process six/hour counter.
+No sender/enrollment/new permission; unchanged HostObserver.prepare_resume and
+real isolated Art/ID/thumbnail verification supply any current caption. Existing
+proof ages/cards/receiver bounds remain. Static age-out is not concealed by a
+heartbeat; old no-wake/boot-on statements below remain historical except for
+this narrow explicitly opted-in path. No live app/TV change during publication.
+
 ## D-238 experimental HA-edge resume, 2026-10-18
 
 User explicitly accepts the limited connection risk and authorizes candidate

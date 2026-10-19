@@ -1,5 +1,25 @@
 # Changelog
 
+## 0.1.0b12 (public beta)
+
+- Fix initial synchronization when the Frame already shows an artwork: with
+  background mode and the existing resume_state_entity configured, the first
+  cached HA on sample permits one read-only initial check, even if on has not
+  changed for hours. No new image send or off/on cycle is required. Missing,
+  invalid, off, unknown or failed first samples consume this startup opportunity.
+- Keep later fresh off-to-on recovery and the shared six-attempt per-process
+  hourly ceiling. Repeated on states, refresh and a failed initial attempt do
+  not retry. A new configured process start permits one new initial attempt.
+- Reuse exact saved TV/target/token validation and fresh isolated Art/ID/image
+  proof. No enrollment, sender, image/power/mode command, TV polling, extra
+  helper, permission or dependency. Existing cards/scripts/data stay compatible.
+- Update all five languages and new complete card examples with neutral waiting
+  text. Installed cards are never edited. Initial/slideshow proof ages remain
+  90/900 seconds; static art may become unconfirmed without a later valid event.
+- Experimental and default off/unset. HA on is not Art Mode proof and may be
+  old: a getter-only connection may still wake or affect some TVs. Offline
+  simulation is not a new hardware or standby/no-wake guarantee.
+
 ## 0.1.0b11 (public beta)
 
 - Optional experimental resume after sleep: configure this TV's existing Samsung

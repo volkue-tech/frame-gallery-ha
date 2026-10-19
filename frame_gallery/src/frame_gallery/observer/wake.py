@@ -47,8 +47,9 @@ class WakeSample:
 class WakeGate:
     """Consume an edge before any connection; failure never retries that edge."""
 
-    def __init__(self, started: float) -> None:
+    def __init__(self, started: float, *, initial_on: bool = False) -> None:
         self._started = started
+        self._initial_on = initial_on
         self._last_poll: float | None = None
         self._changed = -1.0
         self._state: str | None = None
@@ -56,6 +57,7 @@ class WakeGate:
         self._attempts: list[float] = []
 
     def feed(self, sample: WakeSample | None, now: float) -> WakeEvent:
+        initial, self._initial_on = self._initial_on, False
         gap = self._last_poll is not None and not 0 <= now - self._last_poll <= MAX_SAMPLE_GAP_S
         self._last_poll = now
         if gap:
@@ -65,7 +67,9 @@ class WakeGate:
             return WakeEvent.NONE
         if (
             not math.isfinite(now)
+            or now < self._started
             or not math.isfinite(sample.changed)
+            or sample.changed < 0
             or sample.state not in {"on", "off"}
             or sample.changed > now
             or sample.changed < self._changed
@@ -79,7 +83,7 @@ class WakeGate:
             self._off = sample.changed
             return WakeEvent.SLEEP
         self._off = None
-        if (
+        if not initial and (
             prior_off is None
             or sample.changed <= prior_off
             or sample.changed < self._started
@@ -101,9 +105,11 @@ class WakeMonitor:
         read: Callable[[], WakeSample | None],
         monotonic: Callable[[], float],
         wall: Callable[[], float],
+        *,
+        initial_on: bool = False,
     ) -> None:
         self._read, self._monotonic, self._wall = read, monotonic, wall
-        self._gate = WakeGate(wall())
+        self._gate = WakeGate(wall(), initial_on=initial_on)
         self._next = 0.0
 
     def poll(self) -> WakeEvent:

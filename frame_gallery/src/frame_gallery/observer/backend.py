@@ -121,17 +121,17 @@ class HostObserver:
         return True
 
     def event_policy(self, device_id: str | None) -> EventPolicy | None:
-        """Consume one delivery/fresh-HA-edge grant, not the saved pin alone."""
+        """Consume one delivery or opted-in HA grant, not the saved pin alone."""
         granted, self._delivery_device = self._delivery_device, None
         if device_id is not None and device_id == granted:
             return SLIDESHOW_POLICY
         return reviewed_policy(device_id)
 
     def prepare_resume(self) -> bool:
-        """Local-only validation AFTER a consumed experimental HA off-to-on edge.
+        """Local-only validation AFTER a consumed experimental initial-on/edge grant.
 
         No enrollment, repinning, send or new binding. The caller, not stored
-        metadata or boot, must supply the separately accepted fresh-edge gate.
+        metadata alone, must supply the separately accepted initial-on/edge gate.
         """
         self._device, self._delivery_device = None, None
         self._enroll, self._tokenless = False, False

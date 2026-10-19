@@ -90,6 +90,7 @@ def test_local_candidate_is_not_documented_as_live_validated(language: str) -> N
     assert "15" in guide
     assert "90" in guide
     assert "b11" in guide
+    assert "b12" in guide
     assert "resume_state_entity" in guide
     assert "`media_player`" in guide
     assert "`remote`" in guide

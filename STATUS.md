@@ -1,5 +1,104 @@
 # Project status
 
+## D-239 b12 initial already-on synchronization — local gates green — 2026-10-19
+
+User authorizes local implementation, offline tests and bugfix publication,
+without image/power/mode commands and with all existing cards preserved.
+Installed b11 and private apps remain stopped; no HA/TV access is part of this
+implementation/release round. The already-on private probe is prior evidence,
+not validation of the changed runtime or a sleep/non-wake pass.
+
+User explicitly accepts one experimental initial read from first cached HA on,
+including hours-old unchanged last_changed. Missing/off/unknown/invalid/auth
+or transport error consumes that startup opportunity; later on cannot retry.
+The original fresh off/on path and shared six/hour process bound remain.
+WakeMonitor opts in only for the configured resume entity in background mode;
+normal defaults are passive. Service consumes the initial gate before queued
+commands. Reuse exact archive/device/token and real Art/ID/thumbnail proof;
+no sender, enrollment, new field/dependency/privilege or installed-card change.
+Do not claim cached on proves Art Mode or general connection safety.
+
+Full host gates pass 5904/16 skips in 49.63s, strict host/Linux 302-file typing
+and 100% whole/mandatory line+branch coverage. The initial sandbox baseline's
+two unchanged Setgid tests fail there; all four targeted handover cases and the
+complete candidate pass outside the sandbox without changing their guards.
+An in-memory no-initial-read negative control fails eight new assertions, with
+twelve safety cases still passing; normal twenty initial cases pass. Five-
+language help and complete native examples explain initial/resume behaviour,
+neutral waiting text and unchanged 90/900 ages, including static-image age-out.
+Runtime package: 117 files, aggregate SHA256
+d04e74feaeef73e77dee0717aa6770a47f5c28e9c7d1d1af36a887dcc02f11f6.
+The existing personal b12 four-hour memory-only broker is authenticated as
+volkue-tech; token is neither stored nor printed. Candidate/source/native/
+publication gates follow. No external write, live HA/TV call or no-wake pass yet.
+Evidence: build/current-artwork-b12-release; BETA12_VALIDATION.md.
+
+## Installed b11 setup / already-on initial-ID probe — 2026-10-19
+
+User confirms b11 installed and authorizes setting up wake recovery/current
+artist information, preserving all existing cards, ideally without TV actions.
+No image, power or mode command; no artificial HA state changes. Only b11's
+already accepted experimental one-attempt/fresh-edge read is in scope.
+
+Direct elevated manifest connectivity again returned curl 7; no credentials
+were loaded through that route and no other address was guessed. The fixed
+normal-HA Terminal fallback passed its public check, normal login and cached
+state/dashboard read; its own baseline login was revoked. Existing current
+card /views/0/sections/2/cards/8 already has the correct sensor and 900/90-second
+freshness. Current dashboard equals the historical saved baseline, SHA256
+2a9b09ce8a5f8d547e0f3285a26990f35a0bb8fa8f178866fed90de5656cd0bb.
+Samsung local/remote are on, current sensor still paused; fresh power 35.54 W
+at 17:52:55 UTC. Neither cached on nor power proves visible Art Mode.
+
+User subsequently freed Firefox. An own HA tab verified the public app is b11
+and stopped, with all three older private apps stopped. Background was already
+saved ON. Only resume_state_entity was added as media_player.samsung_the_frame_50;
+page reload confirmed the value/background setting. Cached registry confirms
+this entity and remote belong to enabled samsungtv, not SmartThings.
+
+Passive capture began 18:00:12 UTC, ends at most 18:25:12. The normal Info start
+at 18:01:41 made the app running and current sensor validation_required, with
+only the expected guarded-service-ready log. No explicit send or extra TV
+request. The fresh 58.43-W reading at 17:59:14 predates the app start; no cause
+is assigned to b11. Samsung cached on dates to 14:50, not a fresh edge. Native
+existing card renders its generic validation-required/send wording; explained
+this old text does not require a new send for configured wake recovery. The
+last-delivered card remains Knapp. No card/script edits. Own HA tab closed and
+original Settings tab preserved; Firefox returned after setup.
+Passive capture ended early at 18:20:29 UTC after the user confirmed continuous
+visible Art Mode with a selected static work. No natural edge occurred. The
+after snapshot completed 18:20:34 with the exact original dashboard hash;
+all three own temporary logins revoked and exact wrapper/reader processes
+absent. Already-on/restarted service startup is an explicit product gap: b11
+deliberately does not connect, and waiting for a future edge cannot confirm an
+already displayed static work. No new image or fabricated edge used to evade
+that gate. Natural wake/current-public-artist subcases remain untested.
+
+User then explicitly requested a single controlled ID read, with visible Art
+Mode physically confirmed. Public b11 was stopped first. The existing installed
+Lab6 was armed with one fresh consumed ticket, retaining its original sole
+verified binding. One session ran 18:24:49–18:25:04 UTC. Its exact 13-row trace
+contains one channel connect and five initial coherence getters only (Art,
+ID, thumbnail, ID, Art); both Art replies on, both IDs MY_F0185, no post-proof
+application send or setter. A same-device thumbnail proof was published at
+18:24:53. Worker reaped and paused publication succeeded. User physically
+confirms unchanged picture and Art Mode without unexpected power/program
+change. This is one already-awake read trial, NOT a sleep/non-wake pass or
+b11 automatic-wake/artist integration pass.
+
+Lab6 correctly reports unidentified because its only original binding is
+MY_F0183/Jakob Alt. MY_F0185 matches the last public Knapp delivery ID, but no
+old-hash comparison/public mapping pass is inferred or association invented.
+Private app is stopped and test_ticket disarmed after independent page reload;
+public b11 stopped visually verified, saved background/resume settings retained.
+All cards/scripts preserved. Own HA tab closed, original Dashboard preserved.
+The saved 100-line private log is build/b11-initial-id-probe-20261019/probe-session.log.
+Required follow-up: an explicit safe already-on initial-read entry plus clear
+waiting-state copy, without requiring a new image send or TV power cycle.
+Native Terminal access is explicitly denied by Computer Use, even for cleanup;
+the completed own process is absent, no bypass or global-setting edit attempted.
+No GitHub/publication, new build/source transfer, rights change or configuration.yaml.
+
 ## D-238 b11 public beta — documentation-only Store handoff — 2026-10-19
 
 User requests the standard sleep/wake case, simulation and direct publication.

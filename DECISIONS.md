@@ -1,5 +1,40 @@
 # Decision log
 
+## D-239 — explicitly accepted one-time already-on startup read, 2026-10-19
+
+User authorizes local implementation, offline checks and bugfix publication,
+without new images/power/mode commands, installed-app changes or card edits.
+After the saved HA data showed hours-old unchanged on timestamps, the user
+explicitly accepts ONE experimental initial read when background mode and an
+existing resume_state_entity are configured and its first cached Core read
+reports on, including an old unchanged last_changed. HA on remains a trigger,
+not Art Mode or physical wake proof; the connection itself may have side effects.
+
+Narrowly supersede D-238's boot-on ban in that opted-in configuration only.
+Consume the startup opportunity on the first sampled result, including off,
+unknown, missing, invalid, future, timeout or auth failure. No delayed retry of
+the startup opportunity. Later identical on values cannot reconnect; a later
+fresh observed off-to-on edge retains D-238's original rules and shared six/hour
+bound. A new process gets one new explicit configured startup opportunity,
+not a claim of a durable cross-restart rate limit. Defaults/unconfigured mode
+still make no TV request. No new option, permission, helper or personal TV ID.
+
+Reuse prepare_resume's intact existing exact-target/device archive and token
+checks, with no enrollment or repinning, then the actual isolated initial Art,
+ID, thumbnail and local image verification. Only that fresh proof may resolve
+artist/title. Unknown/changed/other-TV images cannot borrow a last caption.
+No sender path, new upload, setter, client polling or post-baseline application
+requests; retain the same finite event receiver and all current resource,
+auth/publication/cancellation guards. Existing cards and 90/900-second proof
+ages stay unchanged; a fixed static picture can age out without a later event.
+Document that limitation rather than fake a proof-refresh heartbeat.
+
+Complete five-language instructions/help, including neutral waiting-state copy
+in new complete native-card examples. Do not edit installed cards. Native ARM/
+Intel, source/license/evidence/image/signature gates precede the authorized
+beta release. The prior 15-second Lab6 read of MY_F0185 was physically unchanged,
+but is not this runtime's live validation or a standby/non-wake guarantee.
+
 ## D-238 — explicitly accepted experimental HA-edge resume, 2026-10-18
 
 User requests all standard cases, offline simulation and direct beta publication,

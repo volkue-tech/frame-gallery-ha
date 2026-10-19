@@ -1,5 +1,57 @@
 # Implementation plan and approval gates
 
+## Initial already-on bugfix b12, authorized 2026-10-19
+
+- [x] Record user authority for offline implementation/test and publication;
+  preserve installed stopped apps, all cards, scripts and configuration.yaml.
+- [x] Resolve startup-trigger risk choice explicitly; cached HA on is not Art
+  Mode proof and its age cannot itself authorize a safe automatic connection.
+  User accepts one initial read from configured first HA on, including old on.
+- [x] Specify/test one consumed initial attempt, local device/target archive
+  validation, no sender path, same finite receiver and all failure/off/auth/
+  mismatch/cancel/restart/base cases. Keep existing metadata freshness honest.
+- [x] Complete five-language option/help/current-card guidance and full unchanged
+  host lint/strict typing/100% line+branch/isolation/packaging gates.
+  Actual 5904/16 skips, 302 files strict host/Linux, 100% line/branch. In-memory
+  negative control fails eight initial-read regressions; no source file modified.
+- [ ] Freeze exact personal source, native ARM/Intel validation, matching-source
+  and immutable-image/signature/evidence checks; publish only after green gates.
+- [ ] Store/docs handoff, disable exact release approvals, end memory broker,
+  verify process completion and close only allowed own completed UI sessions.
+  No installed HA change or new hardware/non-wake claim from offline success.
+
+## Installed b11 controlled setup, authorized 2026-10-19
+
+- [x] Obtain user's setup/test authority, retain no-image/power/mode boundary
+  and preserve all existing cards/configuration.yaml. No GitHub/publication.
+- [x] Normal cached-HA baseline and dashboard backup via fixed finite wrapper;
+  own temporary baseline login revoked. Existing current card is compatible,
+  full dashboard hash unchanged; HA on/power is not physical Art Mode proof.
+- [x] After Firefox is free, verify installed public b11/stopped app. Background
+  already saved ON; save only resume_state_entity to the registry-verified local
+  Samsung entity, reload/read back. All three private apps remain stopped.
+- [x] Begin bounded passive HA capture before starting the inert service.
+  Start 18:01:41 UTC: validation_required/guarded-ready, no boot-on TV session,
+  no send/artificial off/on. Own HA tab closed; native card remains unchanged.
+- [ ] Observe an actual natural off-to-on edge and fresh device/Art/image
+  revalidation, current caption for known work or unidentified for old work.
+  No natural edge means that hardware subcase remains untested, not passed.
+- [x] Close finite capture, revoke own logins, compare exact original dashboard,
+  retain logs and safe app state; close only own completed windows where tools
+  permit. Do not interfere with user-owned/running/uncertain sessions.
+  Early end 18:20:29 UTC, all three own logins revoked, exact original hash,
+  no task reader/wrapper PIDs. Native Terminal access explicitly denied; no bypass.
+- [x] After separate user authority/physical Art confirmation, pause b11 and
+  perform one short initial-ID proof with existing Lab6 (18:24:49–18:25:04).
+  One channel, five initial coherence getters, MY_F0185, Art on, worker reaped.
+  User confirms unchanged picture/mode. Stop/disarm Lab6, preserve original
+  binding and all cards; visually confirm public b11 stopped. No new build.
+- [ ] Resolve already-on/static-work startup product gap without image send,
+  artificial HA edge or power cycle. Provide a deliberate safe initial-read
+  entry and accurate waiting copy. No implementation/release in this setup round.
+  The short private ID proof does not pass automatic resume, public mapping,
+  known-artist live rendering or sleep/non-wake safety.
+
 ## D-238 experimental sleep/wake beta b11, authorized 2026-10-18
 
 - [x] Review actual saved standby/server-close and HA state evidence. Explain
