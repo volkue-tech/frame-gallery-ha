@@ -1,12 +1,14 @@
 # Frame Gallery — Installation und erste Dashboardkarte
 
-> Neu ab Beta b11: Optional nach einem frisch beobachteten Samsung-HA-Aus-an-
-> Wechsel einmal lesend fortsetzen, ohne erneut ein Bild zu senden. Vorhandene
-> TV-Entität einmal konfigurieren; Start bei schon eingeschaltetem TV verbindet
-> nicht. [Aktuelles TV-Kunstwerk](CURRENT_ARTWORK.de.md) bleibt experimentell und
+> Neu ab Beta b12: Mit Hintergrundmodus und vorhandener Samsung-TV-Entität
+> erlaubt die erste HA-Meldung „an“ beim App-Start einmal einen lesenden
+> Anfangsabgleich, auch bei länger unverändertem Zustand. Ein späterer frischer
+> Aus-an-Wechsel erlaubt einen weiteren Versuch; kein neuer Bildversand nötig.
+> [Aktuelles TV-Kunstwerk](CURRENT_ARTWORK.de.md) bleibt experimentell und
 > standardmäßig aus; bereits die Verbindung kann aufwecken oder den Modus ändern.
 > Jeder erfolgreiche Upload merkt sich Titel/Künstler für diesen TV auch ohne
-> Hintergrundmodus. Hier folgt der unveränderte Einmalbetrieb.
+> Hintergrundmodus. Ohne neue Bestätigung können statische Bilder nach 90 Sekunden
+> wieder unbestätigt sein. Hier folgt der unveränderte Einmalbetrieb.
 
 [English](DOCS.md#installation) | **Deutsch** | [Français](SETUP.fr.md) | [Español](SETUP.es.md) | [Italiano](SETUP.it.md)
 

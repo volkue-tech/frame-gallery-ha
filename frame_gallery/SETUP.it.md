@@ -1,12 +1,14 @@
 # Frame Gallery — installazione e prima scheda
 
-> Novità beta b11: ripresa facoltativa dopo una transizione spento-acceso Samsung
-> HA appena osservata, con un solo tentativo in lettura senza inviare un'altra
-> immagine. Configura una volta l'entità esistente; l'avvio con il TV già acceso
-> non apre una connessione. L'[opera attuale](CURRENT_ARTWORK.it.md) resta
+> Novità beta b12: con background ed entità Samsung esistente configurati, il
+> primo stato HA «on» all'avvio permette una sola lettura iniziale, anche se
+> invariato da ore. Una successiva transizione spento-acceso appena osservata
+> consente un altro tentativo; nessun nuovo invio di immagini.
+> L'[opera attuale](CURRENT_ARTWORK.it.md) resta
 > sperimentale e disattivata per impostazione predefinita: la connessione può
 > risvegliare il TV o cambiarne la modalità. Ogni invio riuscito memorizza
-> titolo/artista per quel TV, anche senza background. Il modo singolo seguente non cambia.
+> titolo/artista per quel TV, anche senza background. Senza nuove prove un'immagine
+> statica può tornare non confermata dopo 90 secondi. Il modo singolo seguente non cambia.
 
 [English](DOCS.md#installation) | [Deutsch](SETUP.de.md) | [Français](SETUP.fr.md) | [Español](SETUP.es.md) | **Italiano**
 

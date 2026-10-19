@@ -19,6 +19,14 @@
 - Experimental and default off/unset. HA on is not Art Mode proof and may be
   old: a getter-only connection may still wake or affect some TVs. Offline
   simulation is not a new hardware or standby/no-wake guarantee.
+- Full host gates pass 5,904 tests with 16 Linux-only skips, strict host/Linux
+  typing for 302 files and 100% line/branch coverage. An in-memory old-policy
+  negative control fails eight initial-read regressions without changing source.
+  Native ARM/Intel validators and actual publisher images pass 5,912 production
+  tests plus eight separate root tests per architecture. Matching public sources,
+  four hash/provenance-checked evidence archives, real 1-GiB checks, anonymous
+  pulls/imports and independent signatures passed. Publishing does not install
+  the update, start an HA app or modify existing cards.
 
 ## 0.1.0b11 (public beta)
 

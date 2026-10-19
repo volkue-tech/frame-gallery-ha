@@ -14,10 +14,19 @@
   host lint/strict typing/100% line+branch/isolation/packaging gates.
   Actual 5904/16 skips, 302 files strict host/Linux, 100% line/branch. In-memory
   negative control fails eight initial-read regressions; no source file modified.
-- [ ] Freeze exact personal source, native ARM/Intel validation, matching-source
+- [x] Freeze exact personal source, native ARM/Intel validation, matching-source
   and immutable-image/signature/evidence checks; publish only after green gates.
-- [ ] Store/docs handoff, disable exact release approvals, end memory broker,
-  verify process completion and close only allowed own completed UI sessions.
+  Candidate 63ae34ca764919950746740c9e7bcad6e2d88f20 pushed; source release
+  417631252/asset 657137356 anonymously verified. Exact approvals saved/read
+  back; all five jobs in native run 39330930659 pass. Four exact archives,
+  anonymous image/import checks and independent signatures passed. App
+  prerelease 417819499/v0.1.0b12 targets the frozen runtime/source commit.
+- [x] Prepare and verify the documentation-only Store handoff: twelve files,
+  eleven complete YAML/code blocks unchanged, exact runtime/config/workflows
+  unchanged. Disable both approvals and independently reload/read back
+  DISABLED_AFTER_0.1.0b12. Final public readback and broker/process/tab closure
+  are retained as local operational receipts; perform them before handback.
+  Native Terminal UI is explicitly blocked; do not bypass or claim closed windows.
   No installed HA change or new hardware/non-wake claim from offline success.
 
 ## Installed b11 controlled setup, authorized 2026-10-19
@@ -46,9 +55,10 @@
   One channel, five initial coherence getters, MY_F0185, Art on, worker reaped.
   User confirms unchanged picture/mode. Stop/disarm Lab6, preserve original
   binding and all cards; visually confirm public b11 stopped. No new build.
-- [ ] Resolve already-on/static-work startup product gap without image send,
+- [x] Resolve already-on/static-work startup product gap without image send,
   artificial HA edge or power cycle. Provide a deliberate safe initial-read
-  entry and accurate waiting copy. No implementation/release in this setup round.
+  entry and accurate waiting copy. Implemented/released separately in D-239/b12,
+  not in the earlier setup round; unchanged static-proof expiry remains a limit.
   The short private ID proof does not pass automatic resume, public mapping,
   known-artist live rendering or sleep/non-wake safety.
 

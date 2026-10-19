@@ -34,12 +34,42 @@ An in-memory negative control restores the old no-initial-read policy: eight
 new assertions fail and twelve safety cases still pass. The normal source then
 passes all twenty new initial-gate cases. No production file is mutated by it.
 
-## Release gates — pending
+## Native and public release gates — passed
 
-Exact frozen commit, matching public source package, native ARM/Intel validators
-and publisher images, four provenance/hash-checked evidence archives, anonymous
-image pull/import and independent signatures must all pass before publication.
-They are not inferred from the host result or previous beta evidence.
+Frozen runtime/source commit: `63ae34ca764919950746740c9e7bcad6e2d88f20`.
+The matching [public source package](https://github.com/volkue-tech/frame-gallery-ha/releases/tag/sources-v0.1.0b12)
+is 581,539,840 bytes, SHA256
+`9e9482938b1586a1828514e54c1b4c89ec6f8f0ad4a93b231353a0f980773227`.
+Its anonymous download and complete commit/member preflight passed before
+granting any image-publication approval. Runtime package fingerprint: 117 files,
+`d04e74feaeef73e77dee0717aa6770a47f5c28e9c7d1d1af36a887dcc02f11f6`.
+
+Exact [native run 39330930659](https://github.com/volkue-tech/frame-gallery-ha/actions/runs/39330930659)
+completed all five jobs successfully on that frozen commit. Native ARM and Intel
+validators and actual publisher images each pass **5,912 production tests / eight
+root skips**, plus **eight separate root tests**. All four GitHub artifact byte
+hashes, provenance and bounded contents were independently verified. Each includes
+26 real 1-GiB preparations (13 cases twice), ten isolated workers and 150
+inspections with zero failures. ARM peak virtual memory was 771.6 MiB; Intel
+768.0 MiB. The slowest measured cases were 2.30 and 2.78 seconds respectively.
+
+Both public version tags anonymously resolve to the verified immutable digests:
+
+- ARM: `sha256:f728c6015c0020bdb7b233c9dccf50418be871dc80f9ea29a79b9063047ffb12`
+- Intel: `sha256:e4efa8001caf76fd2cb536e294cb4845a0e5fcad4b870d4ce8b998f77098c1ab`
+
+Anonymous pulls, isolated imports, all 117 runtime-file bytes/fingerprint, version,
+1,000-work/colour/artist data and initial/resume/default guards passed. Independent
+Cosign checks pin each immutable digest, the candidate workflow branch, GitHub
+OIDC issuer and exact frozen commit. Intel import on this ARM Mac is emulated
+inspection; its native evidence is the actual GitHub Intel jobs, not that import.
+
+Public app prerelease [v0.1.0b12](https://github.com/volkue-tech/frame-gallery-ha/releases/tag/v0.1.0b12)
+(417819499) targets the frozen runtime/source commit. The final Store handoff is
+documentation-only: runtime/config/workflows and eleven complete code/YAML blocks
+remain byte-unchanged. Public readback and operational closure receipts are
+retained locally under `build/current-artwork-b12-release`; no prior beta result
+is substituted for a new gate.
 
 ## Hardware limits
 

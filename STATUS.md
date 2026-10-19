@@ -1,6 +1,6 @@
 # Project status
 
-## D-239 b12 initial already-on synchronization — local gates green — 2026-10-19
+## D-239 b12 initial already-on synchronization — public beta / docs handoff — 2026-10-20
 
 User authorizes local implementation, offline tests and bugfix publication,
 without image/power/mode commands and with all existing cards preserved.
@@ -28,9 +28,35 @@ language help and complete native examples explain initial/resume behaviour,
 neutral waiting text and unchanged 90/900 ages, including static-image age-out.
 Runtime package: 117 files, aggregate SHA256
 d04e74feaeef73e77dee0717aa6770a47f5c28e9c7d1d1af36a887dcc02f11f6.
-The existing personal b12 four-hour memory-only broker is authenticated as
-volkue-tech; token is neither stored nor printed. Candidate/source/native/
-publication gates follow. No external write, live HA/TV call or no-wake pass yet.
+The personal b12 broker authenticates only as volkue-tech; its token is neither
+stored nor printed. Frozen personal candidate
+63ae34ca764919950746740c9e7bcad6e2d88f20 is pushed to codex/commons-default.
+Clean own snapshot assembly excludes unrelated docs/community. Source-only
+release 417631252/asset 657137356 has 581539840 bytes, SHA256
+9e9482938b1586a1828514e54c1b4c89ec6f8f0ad4a93b231353a0f980773227;
+anonymous download and complete exact-commit/member preflight passed.
+User unlocked/freed Firefox. Exact approvals were saved/read back. Native run
+39330930659 completed all five jobs successfully: both native ARM/Intel validators
+and actual publisher images pass 5912 production tests/eight root skips plus
+eight separate root tests each. Four downloaded archives pass exact GitHub
+hash/provenance/content checks, including 26 real 1-GiB preparations and 150
+worker inspections with zero failures per archive. Anonymous exact-image pulls,
+runtime fingerprint/default/initial-resume imports and independent pinned
+signatures pass for both digests recorded in BETA12_VALIDATION.md. Intel import
+on this Mac is emulated inspection, not the native Intel proof.
+
+App prerelease 417819499/v0.1.0b12 targets the frozen runtime/source commit.
+The Store handoff changes documentation only: exact runtime/config/workflows
+and eleven full YAML/code examples are unchanged. The final public main/ref/
+38-file byte readback and release/source/image cross-check belong to the local
+operational closure receipts under build/current-artwork-b12-release.
+Both approval variables were disabled to DISABLED_AFTER_0.1.0b12 and confirmed
+after an independent page reload. The original broker was ended before four
+hours and exact PID 61346 was absent; the user supplied the same existing token
+to a fresh bounded session. End that remaining broker and verify exact process
+exit before handback. Native Terminal UI is explicitly prohibited, including
+window cleanup; no bypass or global Terminal preference change is allowed.
+No HA/TV access, installed app/card change or new no-wake claim in this round.
 Evidence: build/current-artwork-b12-release; BETA12_VALIDATION.md.
 
 ## Installed b11 setup / already-on initial-ID probe — 2026-10-19
@@ -93,8 +119,9 @@ Private app is stopped and test_ticket disarmed after independent page reload;
 public b11 stopped visually verified, saved background/resume settings retained.
 All cards/scripts preserved. Own HA tab closed, original Dashboard preserved.
 The saved 100-line private log is build/b11-initial-id-probe-20261019/probe-session.log.
-Required follow-up: an explicit safe already-on initial-read entry plus clear
-waiting-state copy, without requiring a new image send or TV power cycle.
+The already-on initial-read gap and waiting copy are addressed separately by
+D-239/b12 above, without a new send or TV power cycle. Its new path remains
+experimental and does not turn this prior trial into changed-runtime safety proof.
 Native Terminal access is explicitly denied by Computer Use, even for cleanup;
 the completed own process is absent, no bypass or global-setting edit attempted.
 No GitHub/publication, new build/source transfer, rights change or configuration.yaml.

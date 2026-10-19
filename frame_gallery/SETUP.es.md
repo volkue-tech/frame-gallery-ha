@@ -1,16 +1,17 @@
 # Frame Gallery — instalación y primera tarjeta
 
-> Nuevo en beta b11: reanudación opcional tras una transición apagado-encendido
-> de Samsung HA recién observada, con un único intento de lectura sin enviar
-> otra imagen. Configura una vez la entidad existente; iniciar con el TV ya
-> encendido no abre una conexión. La [obra actual](CURRENT_ARTWORK.es.md) sigue
+> Nuevo en beta b12: con el segundo plano y la entidad Samsung existente configurados,
+> el primer estado HA «on» al iniciar permite una única lectura inicial, aunque
+> lleve horas sin cambiar. Una transición apagado-encendido posterior y reciente
+> permite otro intento; no se envía otra imagen. La [obra actual](CURRENT_ARTWORK.es.md) sigue
 > siendo experimental y desactivada por defecto: la conexión puede despertar el
 > TV o cambiar su modo. Cada envío correcto guarda título/artista para ese TV,
-> incluso sin segundo plano. El modo de una ejecución siguiente no cambia.
+> incluso sin segundo plano. Sin nuevas pruebas, una imagen fija puede quedar
+> sin confirmar tras 90 segundos. El modo de una ejecución siguiente no cambia.
 
 [English](DOCS.md#installation) | [Deutsch](SETUP.de.md) | [Français](SETUP.fr.md) | **Español** | [Italiano](SETUP.it.md)
 
-Guía inicial para la **beta 0.1.0b11**. El idioma de esta página se elige con
+Guía inicial para la **beta 0.1.0b12**. El idioma de esta página se elige con
 los enlaces de arriba, no automáticamente desde Home Assistant.
 Los documentos técnicos siguen [en inglés](DOCS.md#options).
 Desde 0.1.0b7, el formulario ofrece inglés, alemán, francés, español e italiano

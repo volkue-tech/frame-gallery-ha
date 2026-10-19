@@ -1,13 +1,14 @@
 # Frame Gallery
 
-> **New in beta b11:** optional experimental recovery after a freshly observed
-> Samsung HA off-to-on transition, without another artwork send. Configure the
-> existing TV entity once; startup with an already-on TV never connects.
+> **New in beta b12:** one experimental initial read if the configured Samsung
+> HA entity already says on at app startup, plus later fresh off-to-on recovery.
+> No new image send is needed. Enable background mode and configure this TV's
+> existing entity; cached HA on is not proof of visible Art Mode.
 > [Current-TV information](CURRENT_ARTWORK.md) still requires fresh TV/image
 > evidence and remains off by default. A connection can wake the TV or affect
 > its mode. Leave off if that risk is unacceptable. Existing cards stay compatible.
 
-> **0.1.0b11 public beta:** [1000 near-widescreen Wikimedia Commons works](COMMONS.md), optional Commons artist/colour selection and [native dashboard pickers](COMMONS_ARTIST.md).
+> **0.1.0b12 public beta:** [1000 near-widescreen Wikimedia Commons works](COMMONS.md), optional Commons artist/colour selection and [native dashboard pickers](COMMONS_ARTIST.md).
 > No API key is needed. Update without uninstalling; your saved sources and
 > existing camera, timer, script and optional artwork-information helper still work.
 
@@ -25,7 +26,7 @@ One start, one fresh artwork on your Samsung Frame. Choose museum artwork or you
 
 *Illustration, not a screenshot. The dashboard is optional and is configured separately; installation does not add a card automatically.*
 
-> Native ARM/Intel validators and actual publisher images, public sources, anonymous pulls/imports and independent signatures passed for b11. [Release checks](https://github.com/volkue-tech/frame-gallery-ha/blob/main/BETA11_VALIDATION.md). No new b11 Green/TV/sleep test or universal no-wake guarantee is claimed. The historical b3 passed two Commons deliveries and preview/text/loading/cleanup on Green, with physical TV confirmation of the second work. [Historical b3 evidence](https://github.com/volkue-tech/frame-gallery-ha/blob/main/BETA3_VALIDATION.md). Compatibility with every TV model is not guaranteed.
+> Native ARM/Intel validators and actual publisher images, matching public sources, four verified evidence archives, anonymous pulls/imports and independent signatures passed for b12. [Release checks](https://github.com/volkue-tech/frame-gallery-ha/blob/main/BETA12_VALIDATION.md). No new b12 Green/TV/sleep test or universal no-wake guarantee is claimed. The historical b3 passed two Commons deliveries and preview/text/loading/cleanup on Green, with physical TV confirmation of the second work. [Historical b3 evidence](https://github.com/volkue-tech/frame-gallery-ha/blob/main/BETA3_VALIDATION.md). Compatibility with every TV model is not guaranteed.
 
 **Start here:** [Install](#installation) → [Show your first artwork](#first-start-and-pairing) → [Add the dashboard card](#dashboard).
 
@@ -266,7 +267,7 @@ mode: single
 | Margin colour | The margin colour in `contain` mode, as `#RRGGBB`. | `#000000` |
 | Source, department, period, colour and artist helpers | Optional helpers whose state replaces the matching option at every start (see below and [artist guide](COMMONS_ARTIST.md)). | empty |
 | Background mode | Optional experimental event-based current-artwork information. Keeps the service running; use the separate [complete setup and send script](CURRENT_ARTWORK.md). Connections may wake the TV or affect its mode. | off |
-| Resume after sleep (`resume_state_entity`, b11+) | Optional existing local Samsung `media_player` or `remote` entity for this TV. A freshly observed off-to-on transition permits one read-only revalidation using a prior saved upload. Not a boot-on trigger or Art Mode proof; no automatic retry after failure, at most six attempts/hour. Requires background mode. | empty |
+| Initial sync / resume after sleep (`resume_state_entity`, b12) | Optional existing local Samsung `media_player` or `remote` entity for this TV. First cached HA on at app start permits one initial read, even if unchanged for hours; missing/off/unknown/invalid/error consumes that opportunity. Later fresh off-to-on permits one revalidation. No automatic retry; both paths share six attempts/hour per process. Requires background mode and a prior saved per-TV upload. HA on is not Art Mode proof; a connection may wake or affect the TV. | empty |
 | Log detail | `info`, or `debug` for every candidate the app considered. | `info` |
 
 Version 0.1.0b5 and newer put **Wikimedia Commons first** and select it for new
