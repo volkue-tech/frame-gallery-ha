@@ -1,6 +1,6 @@
 # Project status
 
-## D-238 b11 experimental wake-edge candidate — offline implementation — 2026-10-18
+## D-238 b11 public beta — documentation-only Store handoff — 2026-10-19
 
 User requests the standard sleep/wake case, simulation and direct publication.
 After the actual saved standby/server-close evidence and missing HA Art-Mode
@@ -24,12 +24,33 @@ initially uncovered observer lines now have a corrupt-credential regression.
 Actual regular-entry fake-Core tests cover multiple no-send wake cycles and
 known/unknown/mismatched/other-TV/non-Art/auth/publication/cancel outcomes. New
 option/help and current-artwork guides are complete in all five languages.
-Native images, public sources/signatures and Store handoff are not yet done.
+Frozen candidate ee91eef7267f3a8e3d833553030f0e1a3a2db97c is on the personal
+candidate branch. Source release 416739575/asset 654593876 passed the full
+anonymous archive/member/commit preflight before image publication. Exact run
+39219940581 has green native ARM and Intel validators, each with 5873 production
+tests/eight root skips and eight separate root checks. All five jobs completed
+successfully. Four bounded evidence archives passed exact provenance/hash/content
+checks, including actual publisher root/isolation and 26 1-GiB preparations/
+150 successful inspections per archive. Both anonymous immutable-image pulls,
+117-file runtime fingerprints/defaults and independent signatures passed.
+Public app prerelease v0.1.0b11/417073722 targets the frozen candidate.
+This documentation-only Store handoff changes no runtime/config/workflow; all
+complete YAML/code blocks stay intact. Details: BETA11_VALIDATION.md.
+Final complete pre-push gates again pass 5865/16 skips in 50.00s, 301-file
+strict host/Linux typing and 100% line/branch coverage; handoff-final-gates.log.
 No simulation is presented as hardware no-wake certification.
 Evidence: build/current-artwork-b11-release/offline-gates-final2.log. The existing
 token cannot read Actions variables (403 actions_variables=read); that API path
-is latched/no retry. Personal repository UI is available with approvals still
-disabled; use its normal exact-variable forms later, no token-right expansion.
+is latched/no retry. The later actions=write dispatch refusal was also not
+retried. The ordinary personal repository UI saved/read back both exact
+approval values and dispatched the run, without token-right expansion.
+The overnight broker expired as designed; user supplied the same stored token
+to a fresh four-hour memory-only process. Both approvals were independently
+read back DISABLED_AFTER_0.1.0b11. Broker end, byte-exact public Store/profile
+readback, any additional automatic main CI and exact process closure follow
+the final push as separate local receipts, not pre-claimed here. No installed
+HA change or TV connection occurred. Native window control is unavailable;
+do not bypass it or close unrelated/running/uncertain user sessions.
 
 ## Installed b10 controlled test — baseline confirmed / session safely stopped — 2026-10-18
 

@@ -1,10 +1,12 @@
 # Frame Gallery — Installation und erste Dashboardkarte
 
-> Neu ab Beta b9: Jeder ausgewählte Upload speichert automatisch die Zuordnung
-> zu Titel/Künstler für diesen TV, auch ohne Hintergrundmodus. Optional:
-> [Aktuelles TV-Kunstwerk über Ereignisse](CURRENT_ARTWORK.de.md), experimentell
-> und standardmäßig aus. Keine regelmäßigen Abfragen/Neuverbindungen; trotzdem
-> mögliches Aufweckrisiko. Hier folgt der unveränderte Einmalbetrieb.
+> Neu ab Beta b11: Optional nach einem frisch beobachteten Samsung-HA-Aus-an-
+> Wechsel einmal lesend fortsetzen, ohne erneut ein Bild zu senden. Vorhandene
+> TV-Entität einmal konfigurieren; Start bei schon eingeschaltetem TV verbindet
+> nicht. [Aktuelles TV-Kunstwerk](CURRENT_ARTWORK.de.md) bleibt experimentell und
+> standardmäßig aus; bereits die Verbindung kann aufwecken oder den Modus ändern.
+> Jeder erfolgreiche Upload merkt sich Titel/Künstler für diesen TV auch ohne
+> Hintergrundmodus. Hier folgt der unveränderte Einmalbetrieb.
 
 [English](DOCS.md#installation) | **Deutsch** | [Français](SETUP.fr.md) | [Español](SETUP.es.md) | [Italiano](SETUP.it.md)
 

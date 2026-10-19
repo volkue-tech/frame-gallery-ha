@@ -1,9 +1,12 @@
 # Frame Gallery — installazione e prima scheda
 
-> Novità beta b9: ogni invio selezionato salva automaticamente titolo/artista
-> per quel TV, anche senza background. Opzione: [opera attuale tramite eventi](CURRENT_ARTWORK.it.md),
-> sperimentale e disattivata per impostazione predefinita. Nessuna richiesta
-> periodica o riconnessione; resta un rischio di risveglio. Il modo singolo seguente non cambia.
+> Novità beta b11: ripresa facoltativa dopo una transizione spento-acceso Samsung
+> HA appena osservata, con un solo tentativo in lettura senza inviare un'altra
+> immagine. Configura una volta l'entità esistente; l'avvio con il TV già acceso
+> non apre una connessione. L'[opera attuale](CURRENT_ARTWORK.it.md) resta
+> sperimentale e disattivata per impostazione predefinita: la connessione può
+> risvegliare il TV o cambiarne la modalità. Ogni invio riuscito memorizza
+> titolo/artista per quel TV, anche senza background. Il modo singolo seguente non cambia.
 
 [English](DOCS.md#installation) | [Deutsch](SETUP.de.md) | [Français](SETUP.fr.md) | [Español](SETUP.es.md) | **Italiano**
 

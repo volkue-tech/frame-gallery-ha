@@ -13,13 +13,18 @@
   covers every currently backup-enabled store. No broad worker/container access.
 - [x] Complete five-language current-artwork notes/option help and full unchanged
   lint/typing/coverage gates: 5865/16 skips, 301 files, 100% lines/branches.
-- [ ] Freeze exact personal candidate and matching source bundle. Keep tracked
-  checkout clean and unrelated docs/community untracked/untouched.
-- [ ] Native ARM/Intel validation/publisher, bounded evidence checks, public
-  matching sources, anonymous image import/pull/signature checks, then Store
-  handoff. No installed HA update or live TV test; no no-wake pass inferred.
-- [ ] Disable exact release approvals and end the four-hour memory-only broker;
-  close only identified completed own UI sessions where tools permit.
+- [x] Freeze exact personal candidate ee91eef7267f3a8e3d833553030f0e1a3a2db97c
+  and matching source bundle. The original tracked checkout was clean; source
+  assembly used a clean own local clone without touching docs/community.
+  Source release 416739575/asset 654593876 passed full anonymous preflight.
+- [x] Native ARM/Intel validation/publisher, bounded evidence checks, public
+  matching sources and anonymous image import/pull/signature checks: all five
+  jobs green in 39219940581. Public app prerelease 417073722/v0.1.0b11; prepare
+  docs-only Store handoff. No installed HA update/live TV or no-wake pass.
+- [x] Disable/read back both approvals as DISABLED_AFTER_0.1.0b11. End the
+  four-hour memory-only broker after the final push; public byte readback and
+  exact process closure are separate post-push receipts. Close only identified
+  completed own UI sessions where permitted; native Terminal control is not.
 
 ## Installed b10 controlled event/current-artist test, 2026-10-18
 

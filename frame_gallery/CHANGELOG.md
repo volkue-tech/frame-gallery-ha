@@ -1,6 +1,6 @@
 # Changelog
 
-## 0.1.0b11 (beta candidate)
+## 0.1.0b11 (public beta)
 
 - Optional experimental resume after sleep: configure this TV's existing Samsung
   HA media_player/remote in resume_state_entity and enable background mode.
@@ -18,8 +18,10 @@
 - Wake/connection side effects are NOT hardware-validated for this candidate.
   HA on is not Art Mode proof; a read-only connection may still wake or change
   the mode of some televisions. Both options are optional/default off or unset.
-  Offline/native test and publication results are recorded separately; no new
-  live test, installed-app change or universal no-wake guarantee is claimed.
+  Full offline gates, both native validators and actual publisher images,
+  matching public sources, four provenance/hash-verified evidence archives,
+  anonymous pulls/imports and independent signatures passed. No new live test,
+  installed-app change or universal no-wake guarantee is claimed.
 
 ## 0.1.0b10 (public beta)
 

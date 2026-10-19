@@ -1,14 +1,15 @@
 # Frame Gallery for Home Assistant
 
-> **New in b10:** recover from incomplete recognized slideshow sequences on the
-> same connection, with safe fixed diagnostic codes. Automatic per-TV artwork
-> memory from b9 stays compatible. Optional [current-TV information](frame_gallery/CURRENT_ARTWORK.md)
-> remains experimental and off by default. Connections can wake a TV; there is
-> no general model/firmware no-wake guarantee. Existing cards stay compatible.
+> **New in b11:** optional experimental recovery after a freshly observed
+> Samsung HA off-to-on transition, without sending another artwork. Configure
+> the existing TV entity once; startup with an already-on TV does not connect.
+> [Current-TV information](frame_gallery/CURRENT_ARTWORK.md) requires fresh TV/image
+> evidence and remains off by default. A connection may wake a TV or affect its
+> mode; there is no general no-wake guarantee. Existing cards stay compatible.
 
 Fresh artwork on your Samsung Frame. Start it with a tap from Home Assistant.
 
-> **0.1.0b10 public beta:** 1000 curated Commons works, optional artist and
+> **0.1.0b11 public beta:** 1000 curated Commons works, optional artist and
 > colour selection, and configuration in English, German, French, Spanish and Italian.
 > Update in place; saved sources, dashboard helpers and history stay compatible.
 
@@ -91,6 +92,23 @@ When reporting a problem, include the app version, TV model and the final outcom
 
 ## Public beta
 
+**[0.1.0b11 is available](https://github.com/volkue-tech/frame-gallery-ha/releases/tag/v0.1.0b11).**
+Optional experimental recovery after sleep: configure this TV's existing local
+Samsung HA entity in `resume_state_entity`. A freshly observed off-to-on edge
+permits one read-only attempt using an earlier saved per-TV upload association,
+without sending another artwork. Startup-on does not connect; stale/duplicate/
+unknown states do not grant retries. Fresh device/Art Mode/image proof is still
+required. The exact parent-only association-backup link rule is also corrected.
+Existing cards, sources, history and dependencies stay compatible; no extra
+helper, extension, configuration.yaml edit or Green privileges. Update in place,
+without uninstalling. Background stays experimental/default OFF; the new entity
+is unset by default. A connection may wake the TV or affect its mode. No new
+hardware/sleep or universal no-wake guarantee is claimed; display age limits stay.
+Native ARM/Intel validators and actual publisher images, matching public sources,
+four verified evidence archives, anonymous pulls/imports and independent signatures
+passed. See the [b11 validation report](BETA11_VALIDATION.md) and
+[five-language current-artwork guide](frame_gallery/CURRENT_ARTWORK.md).
+
 **[0.1.0b10 is available](https://github.com/volkue-tech/frame-gallery-ha/releases/tag/v0.1.0b10).**
 Incomplete sequences of recognized slideshow events clear the caption and wait
 on the same finite connection for a later complete sequence. Fixed diagnostic
@@ -162,7 +180,7 @@ The app runs once, then stops. It does not remove artworks already stored on you
 
 ## For contributors
 
-Frame Gallery is implemented independently. The project's own code is [Apache-2.0](LICENSE); distributed third-party components retain their own licences. The runtime is not GPL-free. [Third-party notices](THIRD_PARTY_NOTICES.md) and [matching component sources](https://github.com/volkue-tech/frame-gallery-ha/releases/tag/sources-v0.1.0b7) are available; historical b1/b2/b3/b4/b5/b6 source releases are retained.
+Frame Gallery is implemented independently. The project's own code is [Apache-2.0](LICENSE); distributed third-party components retain their own licences. The runtime is not GPL-free. [Third-party notices](THIRD_PARTY_NOTICES.md) and [matching component sources](https://github.com/volkue-tech/frame-gallery-ha/releases/tag/sources-v0.1.0b11) are available; historical source releases are retained.
 
 - [Developer setup and quality gates](frame_gallery/DEVELOPMENT.md)
 - [Product specification](PRODUCT_SPEC.md) · [Architecture](ARCHITECTURE.md) · [Acceptance tests](ACCEPTANCE_TESTS.md)

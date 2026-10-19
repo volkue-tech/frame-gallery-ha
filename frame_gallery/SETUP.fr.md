@@ -1,13 +1,16 @@
 # Frame Gallery — installation et première carte
 
-> Nouveau en bêta b9 : chaque envoi sélectionné mémorise automatiquement
-> titre/artiste pour ce TV, même sans arrière-plan. Option : [œuvre actuelle par événements](CURRENT_ARTWORK.fr.md),
-> expérimentale et désactivée par défaut. Pas de requêtes périodiques ni
-> reconnexion ; un réveil reste possible. Le parcours ponctuel ci-dessous ne change pas.
+> Nouveau en bêta b11 : reprise facultative après une transition arrêt-marche
+> Samsung HA fraîchement observée, par une seule tentative en lecture sans
+> nouvel envoi d'image. Configurez une fois l'entité existante ; un démarrage
+> avec le TV déjà allumé ne se connecte pas. L'[œuvre actuelle](CURRENT_ARTWORK.fr.md)
+> reste expérimentale et désactivée par défaut : la connexion peut réveiller le
+> TV ou modifier son mode. Chaque envoi réussi mémorise titre/artiste pour ce TV,
+> même sans arrière-plan. Le parcours ponctuel ci-dessous ne change pas.
 
 [English](DOCS.md#installation) | [Deutsch](SETUP.de.md) | **Français** | [Español](SETUP.es.md) | [Italiano](SETUP.it.md)
 
-Guide de démarrage pour la **bêta 0.1.0b9**. La langue de cette page est choisie
+Guide de démarrage pour la **bêta 0.1.0b11**. La langue de cette page est choisie
 avec les liens ci-dessus, pas automatiquement par Home Assistant.
 Les documents techniques restent [en anglais](DOCS.md#options).
 Depuis 0.1.0b7, le formulaire propose anglais, allemand, français, espagnol et
