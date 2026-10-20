@@ -273,6 +273,7 @@ def background_main() -> int:
             prepare_resume=observer.prepare_resume,
             monitor_wake=wake_monitor.poll,
             supersede_wake=wake_monitor.supersede,
+            keep_tv_session=options.current_state_refresh,
         )
         _log.warning(
             "event background service ready; TV access requires an approved device-event profile "

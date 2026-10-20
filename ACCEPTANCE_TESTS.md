@@ -1,5 +1,24 @@
 # Acceptance tests
 
+## Lost mode-on notification after navigation (D-243)
+
+- Reproduce b14's no-GET wait through the entire virtual session after nav with
+  a missing on event. b15 must recover from that same prior sequence by reading
+  current mode and then coherently matching IDs on the SAME existing socket.
+- While still in menu/unknown mode, send ONLY the bounded mode getter, no ID
+  request or caption. Later fresh mode-on replies recover without any on event.
+- Reject positive correlated/extra-field notifications as artwork evidence.
+  Preserve minute/deadline/frame/standby/HA/auth/connection boundaries.
+- Art-mode off clears metadata but keeps only opted-in same-socket mode reads;
+  fresh on recovers without an on event. Initial off/nav must defer its original
+  single thumbnail proof (fresh identity remains pinned); no ID-only first
+  baseline. Unknown initial status still fails closed. Test the actual pinned
+  library over socketpair and parent/controller, not only generator stubs.
+- Parent/backpressure delays cannot shorten actual attempt spacing. Standby
+  remains terminal; legacy event-only mode-off still terminates as before.
+- Retain b14's already public corresponding sources without rewriting them;
+  final b15 must pass a new exact source/native/image/signature release chain.
+
 ## Optional same-connection synchronization (D-242)
 
 - Strict boolean/default OFF; effective only in granted background session.

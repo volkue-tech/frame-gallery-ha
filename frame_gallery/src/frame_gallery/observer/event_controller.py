@@ -27,6 +27,7 @@ class EventController:
         prepare_resume: Callable[[], bool] = lambda: False,
         monitor_wake: Callable[[], WakeEvent] = lambda: WakeEvent.NONE,
         supersede_wake: Callable[[], None] = lambda: None,
+        keep_tv_session: bool = False,
     ) -> None:
         self._send, self._source, self._publish = send, source, publish
         self._claim, self._stopped = claim, stopped
@@ -34,6 +35,7 @@ class EventController:
         self._supersede_wake = supersede_wake
         self._active = False
         self._resume_auth_refused = False
+        self._keep_tv_session = keep_tv_session
 
     def start(self) -> None:
         # Only tick's separately opted-in initial-on/fresh-edge gate may read.
@@ -81,7 +83,9 @@ class EventController:
         self._publish(seen)
         if seen.status is Status.NOT_AUTHORIZED:
             self._resume_auth_refused = True
-        if seen.status not in {Status.ARTWORK, Status.UNIDENTIFIED, Status.CHECKING}:
+        if seen.status not in {Status.ARTWORK, Status.UNIDENTIFIED, Status.CHECKING} and not (
+            self._keep_tv_session and seen.status is Status.TV_IN_USE
+        ):
             self._active = False
             self._source.stop()
 

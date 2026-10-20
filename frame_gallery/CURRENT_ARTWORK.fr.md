@@ -55,7 +55,7 @@ Les données privées de l'app survivent aux mises à jour normales. Réinitiali
 
 Les anciennes images, les envois d'autres apps et les envois sans identité TV stable restent inconnus. Aucun artiste deviné ni reconnaissance cloud.
 
-### Actualisation facultative de l'état actuel — candidate b14
+### Actualisation facultative de l'état actuel — candidate b15
 
 `current_state_refresh` est une option distincte, **désactivée par défaut**, qui
 nécessite `background_mode`. Elle autorise au maximum une vérification en lecture
@@ -63,8 +63,18 @@ de la cohérence du mode Art actuel et de l'ID d'image par période de 60 second
 sur le **socket Art déjà connecté**. Elle vise à rétablir artiste/titre connus
 après le menu du TV ou la reprise du diaporama, même si l'image reste identique.
 Aucune nouvelle connexion ni commande d'image, d'alimentation ou de mode.
-La veille ou un état HA « off » observé ferme la session. Une image inconnue
-reste non identifiée ; aucun titre n'est inventé ou repris de l'image précédente.
+Une image inconnue reste non identifiée ; aucun titre n'est inventé ou repris
+de l'image précédente.
+
+Avec cette option, `off` ou `nav` du canal Art conserve **le même socket** ; ces
+états ne sont pas une veille physique. Hors mode Art, titre et artiste sont
+masqués. Les vérifications continuent même sans notification de retour : dans
+la même limite d'une fois par minute, seul le mode est lu tant qu'il n'est pas
+actif. Les ID d'image ne sont demandés qu'après un nouveau résultat `on` ; un cycle
+de menu seul ne confirme aucune œuvre. Si la session voit d'abord `off` ou `nav`,
+la preuve initiale unique par miniature attend le mode Art `on` sur ce socket ;
+elle n'est pas répétée. La veille, un état HA « off » observé ou une connexion
+fermée termine toujours la session, sans nouveau socket ni reconnexion aveugle.
 
 Même sur ce socket, les requêtes peuvent perturber la veille automatique.
 Laissez l'option désactivée si ce risque est inacceptable. Les tests hors ligne

@@ -1,5 +1,17 @@
 # Product specification
 
+## Missing menu-return notifications, 2026-10-20 (D-243)
+
+With current_state_refresh opted in, navigation invalidates metadata but cannot
+permanently suspend scheduled mode checks. Even without an on notification,
+each minute may read mode on the existing socket. Image-ID getters and a new
+caption require fresh coherent on/current/current/on; menu/unknown modes read
+no ID. Art-mode off keeps only mode checks and clears captions; it is not a
+physical standby report. Initial off/nav defers the original single thumbnail
+proof until fresh on, without another Art socket or repeated thumbnail.
+Reported standby/HA-off and closed transport still end without blind
+reconnect. b15 supersedes the source-only, never-installed b14 intermediate.
+
 ## Optional current-state synchronization, 2026-10-20 (D-242)
 
 current_state_refresh defaults OFF and requires background mode. Confirm

@@ -1,5 +1,18 @@
 # Implementation plan and approval gates
 
+## Final candidate b15 replaces source-only b14 — 2026-10-20
+
+- [x] Reproduce lost-on wait offline; amend same-socket menu/off recovery,
+  deferred original initial thumbnail proof, parent retention and delayed
+  attempt spacing. Preserve default-OFF risk choice and no live connections.
+- [x] Targeted final-path tests121 passed; real-library socketpair, controller
+  and unchanged legacy tests included. No claim of physical sleep safety.
+- [x] Repeat complete b15 host gates6044/16,306-file strict host/Linux typing,
+  100% whole/mandatory line/branch; preserve all original tests/guards.
+- [ ] Repeat native/source/image/signature chain for
+  exact b15 before publishing app/Store; retain immutable b14 source-only tag.
+- [ ] Complete exact release/approval/broker/UI closure, no installed changes.
+
 ## Authorized b14 current-state synchronization / publication — 2026-10-20
 
 - [x] Capture exact user authority, explicit default-OFF minute-read risk choice,

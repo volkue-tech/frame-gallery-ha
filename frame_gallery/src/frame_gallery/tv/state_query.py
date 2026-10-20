@@ -32,6 +32,24 @@ class StateInterrupted(Exception):
         self.change = change
 
 
+def _reply(raw: object, name: str, nonce: str, policy: EventPolicy) -> JsonObject | None:
+    if not isinstance(raw, str) or not raw:
+        raise ValueError("state refresh transport ended")
+    outer = _unique_object(raw.encode("utf-8"))
+    if not isinstance(outer, dict) or outer.get("event") != "d2d_service_message":
+        raise StateInterrupted(notification(raw, policy))
+    body = event_body(raw)
+    correlations = [body[k] for k in ("id", "request_id") if k in body]
+    if correlations:
+        if body.get("event") != name or any(v != nonce for v in correlations):
+            raise StateInterrupted(None)
+        return body
+    change = notification(raw, policy)
+    if change != Change("mode", "on"):
+        raise StateInterrupted(change)
+    return None
+
+
 def notification(raw: str, policy: EventPolicy) -> Change | None:
     """Unknown bounded notifications invalidate, never prove or kill a read.
 
@@ -52,14 +70,10 @@ def notification(raw: str, policy: EventPolicy) -> Change | None:
     if body.get("event") == "go_to_standby":
         return Change("standby")
     if body.get("event") == "art_mode_changed":
-        hints = {
-            "off": Change("mode", "off"),
-            "nav": Change("invalidate"),
-            "on": Change("mode", "on"),
-        }
+        hints = {"off": Change("mode", "off"), "nav": Change("invalidate")}
         status = body.get("status")
         if isinstance(status, str) and status in hints:
-            return hints[status]  # on is a read trigger, never image evidence
+            return hints[status]  # negative mode evidence only
     try:
         return decode_event(raw, policy)
     except ValueError:
@@ -71,6 +85,8 @@ def read_current_state(
     bounds: FrameBounds,
     policy: EventPolicy,
     timeout_type: type[BaseException],
+    *,
+    initial_snapshot: Callable[[], str] | None = None,
 ) -> str:
     if not policy.state_refresh or connection is not bounds.connection:
         raise ValueError("unapproved state refresh transport")
@@ -106,23 +122,12 @@ def read_current_state(
             except timeout_type:
                 continue  # never resend or extend the shared deadline
             bounds.check()
-            if not isinstance(raw, str) or not raw:
-                raise ValueError("state refresh transport ended")
             frames += 1
             if frames > MAX_EVENTS:
                 raise ValueError("state refresh frame budget")
-            outer = _unique_object(raw.encode("utf-8"))
-            if not isinstance(outer, dict) or outer.get("event") != "d2d_service_message":
-                raise StateInterrupted(notification(raw, policy))
-            body = event_body(raw)
-            correlations = [body[k] for k in ("id", "request_id") if k in body]
-            if correlations:
-                if body.get("event") != name or any(v != nonce for v in correlations):
-                    raise StateInterrupted(None)
+            body = _reply(raw, name, nonce, policy)
+            if body is not None:
                 return body
-            change = notification(raw, policy)
-            if change != Change("mode", "on"):
-                raise StateInterrupted(change)
 
     def mode() -> None:
         value = request("get_artmode_status").get("value")
@@ -139,6 +144,10 @@ def read_current_state(
 
     try:
         mode()
+        if initial_snapshot is not None:
+            initial_id = initial_snapshot()  # original one-thumbnail proof, same deadline
+            bounds.check()
+            return initial_id
         first, second = content(), content()
         mode()
         if first != second:
@@ -155,27 +164,49 @@ def current_state_events(
     timeout_type: type[BaseException],
     *,
     now: Callable[[], float] = time.monotonic,
+    initial_snapshot: Callable[[], JsonObject] | None = None,
 ) -> Generator[JsonObject, None, None]:
     """Menu/same-ID recovery and quiet-image checks; never replaces the socket."""
-    next_read, art = now() + REFRESH_S, True
+    next_read = now() + REFRESH_S
+    snapshot: JsonObject | None = None
+
+    def capture() -> str:
+        nonlocal snapshot
+        assert initial_snapshot is not None  # noqa: S101
+        snapshot = initial_snapshot()
+        content_id = snapshot.get("content_id")
+        if not isinstance(content_id, str) or CONTENT_ID_PATTERN.fullmatch(content_id) is None:
+            raise ValueError("invalid deferred snapshot ID")
+        return content_id
+
     while True:
         bounds.check()
         try:
             raw = connection.recv()
         except timeout_type:
             # Drain queued standby/nav/off before considering any outgoing GET.
-            if not art or now() < next_read:
+            if now() < next_read:
                 continue
-            next_read = now() + REFRESH_S
             yield {"kind": "state_checking"}
+            next_read = now() + REFRESH_S  # includes any parent/backpressure delay
             try:
-                content_id = read_current_state(connection, bounds, policy, timeout_type)
+                content_id = read_current_state(
+                    connection,
+                    bounds,
+                    policy,
+                    timeout_type,
+                    initial_snapshot=capture if initial_snapshot is not None else None,
+                )
             except RefreshExpired:
                 continue  # same socket, next cycle no sooner than 60 seconds
             except StateInterrupted as exc:
                 change = exc.change
             else:
-                yield {"kind": "current_state", "content_id": content_id}
+                if snapshot is not None:
+                    yield {"kind": "baseline", "observation": snapshot}
+                    snapshot, initial_snapshot = None, None
+                else:
+                    yield {"kind": "current_state", "content_id": content_id}
                 continue
         else:
             if not isinstance(raw, str) or not raw:
@@ -185,10 +216,9 @@ def current_state_events(
         if change is None:
             yield {"kind": "state_checking"}
             continue
-        if change.kind == "invalidate":
-            art = False  # never query while known navigation is active
-        elif change == Change("mode", "on"):
-            art = True  # trigger only; the new read still verifies mode/ID twice
+        # Navigation clears attribution but cannot permanently suspend mode
+        # checks: the corresponding unsolicited on notification may be lost.
+        # A cycle reads ONLY mode until that getter freshly returns on.
         yield {"kind": "change", "change": change.to_json()}
-        if change.kind == "standby" or change == Change("mode", "off"):
+        if change.kind == "standby":
             return

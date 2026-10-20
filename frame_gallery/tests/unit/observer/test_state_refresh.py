@@ -18,7 +18,8 @@ from tests.unit.store.test_delivery_associations import item
 from frame_gallery.budget.deadline import Deadline
 from frame_gallery.observer.backend import HostObserver
 from frame_gallery.observer.event_backend import EventBackend
-from frame_gallery.observer.model import Evidence, Observation, Status
+from frame_gallery.observer.event_controller import EventController
+from frame_gallery.observer.model import Action, Command, Evidence, Observation, Status
 from frame_gallery.observer.stream import SLIDESHOW_POLICY, Change, EventPolicy
 from frame_gallery.store.artwork_bindings import BindingStore
 from frame_gallery.store.delivery_associations import DeliveryAssociations
@@ -122,6 +123,56 @@ def test_notifications_are_only_hints_in_refresh_mode_never_a_false_proof() -> N
     seen = r.backend.update()
     assert seen is not None
     assert seen.evidence is Evidence.CURRENT_STATE
+
+
+@pytest.mark.parametrize("pending", [False, True])
+def test_mode_off_clears_caption_but_opted_in_controller_keeps_one_session(pending: bool) -> None:
+    r = Rig()
+    backend = EventBackend(r.host, r.session, lambda: r.now, lambda _d: POLICY)
+    publications: list[Observation] = []
+    controller = EventController(
+        send=lambda: 0,
+        source=backend,
+        publish=publications.append,
+        claim=lambda _c: True,
+        stopped=lambda: False,
+        keep_tv_session=True,
+    )
+    assert controller.command(Command(Action.NEW_ARTWORK, "request_123", 0))
+    if pending:
+        r.add({"kind": "waiting_art"})
+        controller.tick()
+        assert publications[-1].status is Status.TV_IN_USE
+        r.add({"kind": "state_checking"})
+        controller.tick()
+        r.add({"kind": "change", "change": Change("invalidate").to_json()})
+        controller.tick()
+        r.add({"kind": "change", "change": Change("mode", "on").to_json()})
+        controller.tick()
+    r.baseline()
+    controller.tick()
+    assert publications[-1] == SEEN
+    r.add({"kind": "change", "change": Change("mode", "off").to_json()})
+    controller.tick()
+    assert publications[-1] == Observation(Status.TV_IN_USE)
+    assert backend._confirmed_at is None
+    r.add({"kind": "state_checking"})
+    controller.tick()
+    r.add({"kind": "current_state", "content_id": "MY_OFFLINE"})
+    controller.tick()
+    assert publications[-1].evidence is Evidence.CURRENT_STATE
+    assert len(r.session.starts) == 1
+    r.add({"kind": "change", "change": Change("standby").to_json()})
+    controller.tick()
+    assert publications[-1].status is Status.PAUSED
+    assert not controller._active
+
+
+def test_waiting_art_is_not_authorized_by_the_default_event_only_policy() -> None:
+    r = Rig()
+    r.backend.start()
+    r.add({"kind": "waiting_art"})
+    assert r.backend.update() == Observation(Status.UNAVAILABLE)
 
 
 def test_opted_in_policy_still_requires_consumed_exact_delivery_grant(tmp_path: Path) -> None:

@@ -811,16 +811,27 @@ def _session_events(
         art = library.art_class(
             host, token=token, port=ART_PORT, timeout=2.0, key_press_delay=0, name=CLIENT_NAME
         )
-        baseline = _observe_art(art, device)
-        if baseline["status"] != Status.UNIDENTIFIED.value or sockets.bound is None:
+        baseline = (
+            _observe_art(art, device, defer_mode=True)
+            if policy.state_refresh
+            else _observe_art(art, device)
+        )
+        pending = policy.state_refresh and baseline["status"] == Status.TV_IN_USE.value
+        if (
+            baseline["status"] != Status.UNIDENTIFIED.value and not pending
+        ) or sockets.bound is None:
             raise ValueError("unconfirmed initial event transport")
         sockets.bound.passive = True
         proved_at = time.monotonic()
-        yield {"kind": "baseline", "observation": baseline}
+        yield {"kind": "waiting_art"} if pending else {"kind": "baseline", "observation": baseline}
         if policy.state_refresh:
             phase = SessionFailure.DECODE
             yield from current_state_events(
-                art.connection, sockets.bound, policy, library.websocket_timeout
+                art.connection,
+                sockets.bound,
+                policy,
+                library.websocket_timeout,
+                initial_snapshot=(lambda: _snapshot_art(art, device)) if pending else None,
             )
             return
         while True:
@@ -911,7 +922,7 @@ def _bound_observer(art: Any) -> None:
     art._send_art_request, art._recv_exact = read_request, read_exact
 
 
-def _observe_art(art: Any, device_id: str | None) -> JsonObject:
+def _observe_art(art: Any, device_id: str | None, *, defer_mode: bool = False) -> JsonObject:
     info = art._get_rest_api().rest_device_info()
     actual_device = device_digest(info)
     if actual_device is None:
@@ -920,8 +931,16 @@ def _observe_art(art: Any, device_id: str | None) -> JsonObject:
         raise ValueError("TV identity changed")
     _bound_observer(art)
     art.open()
-    if art.get_artmode() != "on":
+    mode = art.get_artmode()
+    if mode != "on":
+        if defer_mode and mode not in ("off", "nav"):
+            raise ValueError("unrecognized initial Art mode")
         return Observation(Status.TV_IN_USE).to_json()
+    return _snapshot_art(art, actual_device)
+
+
+def _snapshot_art(art: Any, actual_device: str) -> JsonObject:
+    """One initial thumbnail proof; Art socket/identity must already be established."""
     current = art.get_current()
     content_id = current.get("content_id") if isinstance(current, dict) else None
     if not isinstance(content_id, str) or CONTENT_ID_PATTERN.fullmatch(content_id) is None:

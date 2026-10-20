@@ -53,7 +53,7 @@ The private app data survives normal updates. Clearing the selection history doe
 
 Old TV pictures, uploads from other apps and deliveries without a stable TV identity remain unidentified. Frame Gallery does not guess artists or use cloud image recognition.
 
-### Optional current-state refresh — b14 candidate
+### Optional current-state refresh — b15 candidate
 
 `current_state_refresh` is a separate optional switch, **OFF by default**, and
 requires `background_mode`. It allows at most one read-only coherence check of
@@ -61,8 +61,18 @@ the current Art Mode and image ID per 60 seconds, over the **already established
 Art socket**. It is intended to restore known artist/title information after
 using the TV menu or resuming a slideshow, including when the image stays the
 same. It opens no new connection and sends no image, power or mode command.
-Standby or an observed HA-off state closes the session. An unknown image remains
-unidentified; the app never invents a title or borrows the previous one.
+An unknown image remains unidentified; the app never invents a title or borrows
+the previous one.
+
+With this option enabled, Art-channel `off` or `nav` retains the **same socket**;
+these states are not physical standby. Captions are cleared while Art Mode is
+not on. Scheduled checks continue even if the return-to-Art notification is
+missed: within the same once-per-minute limit, only the mode is read while not
+on. Image IDs are read only after a fresh `on` result, so menu-only cycles cannot
+publish artwork. If the session initially sees `off` or `nav`, the original
+one-time thumbnail proof waits for Art Mode `on` on that socket; it is not
+repeated. Standby, an observed HA-off state or a closed connection still stops
+the session, without opening a new socket or blindly reconnecting.
 
 Read requests may affect automatic sleep even on the same socket. Leave this
 option off if that risk is unacceptable. Offline tests do not certify firmware

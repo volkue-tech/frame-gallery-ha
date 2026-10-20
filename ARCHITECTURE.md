@@ -1,5 +1,20 @@
 # Frame Gallery for Home Assistant — Architecture proposal
 
+## D-243 missing-on recovery, b15
+
+Remove the permanent nav-until-unsolicited-on latch from the opted-in worker
+loop. Drain notifications first; after an idle receive timeout, a due cycle
+reads current mode. Only fresh mode-on proceeds to image-ID coherence. Other
+menu/unknown/off modes invalidate and wait at least60s. No notification can renew
+an image proof, and a missed on cannot prevent subsequent mode checks. Existing
+standby/cancel/transport and initial/wake-connection guards are unchanged.
+Only this opt-in permits TV_IN_USE without terminating the existing receiver.
+Initial off/nav yields waiting_art without metadata, then defers the original
+single thumbnail snapshot to the first freshly on mode cycle, same socket and
+shared five-second deadline. No current_state proof before that baseline.
+Cadence starts after any parent/backpressure delay, never before the actual
+GET attempt. Default event-only behaviour remains unchanged.
+
 ## D-242 optional same-transport state synchronization
 
 An explicit default-false current_state_refresh decorates only the existing

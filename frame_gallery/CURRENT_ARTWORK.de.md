@@ -56,7 +56,7 @@ Die privaten App-Daten bleiben bei normalen Updates erhalten. Das Zurücksetzen 
 
 Alte TV-Bilder, Uploads anderer Apps und Sendungen ohne stabile Geräteidentität bleiben unbekannt. Künstler werden nicht geraten; keine Cloud-Bilderkennung.
 
-### Optionale Aktualisierung des aktuellen Zustands — b14-Kandidat
+### Optionale Aktualisierung des aktuellen Zustands — b15-Kandidat
 
 `current_state_refresh` ist ein zusätzlicher optionaler Schalter, **standardmäßig
 aus**, und setzt `background_mode` voraus. Er erlaubt höchstens eine lesende
@@ -64,8 +64,19 @@ Kohärenzprüfung von aktuellem Kunstmodus und Bild-ID je 60 Sekunden über den
 **bereits verbundenen Art-Socket**. Damit sollen bekannte Künstler-/Titeldaten
 nach dem TV-Menü oder dem Fortsetzen einer Diashow wieder erscheinen, auch wenn
 dasselbe Bild bleibt. Keine neue Verbindung und keine Bild-, Power- oder
-Modusbefehle. Standby oder ein beobachtetes HA-Aus beendet die Sitzung.
+Modusbefehle.
 Unbekannte Bilder bleiben unbekannt; kein Titel wird erfunden oder übernommen.
+
+Bei eingeschalteter Option bleibt bei `off` oder `nav` des Art-Kanals **derselbe
+Socket** bestehen; diese Zustände sind kein physischer Standby. Ohne aktiven
+Kunstmodus werden Künstlerdaten ausgeblendet. Die geplanten Prüfungen laufen auch
+ohne Rückkehrmeldung weiter: Innerhalb derselben Minutengrenze wird zunächst nur
+der Modus gelesen. Bild-IDs werden erst nach einem frisch gelesenen `on` abgefragt;
+reine Menüzyklen können kein Kunstwerk bestätigen. Sieht die Sitzung anfangs
+`off` oder `nav`, wartet der ursprüngliche einmalige Vorschaubild-Nachweis auf
+Kunstmodus `on` über diesen Socket; er wird nicht wiederholt. Standby,
+beobachtetes HA-Aus oder eine geschlossene Verbindung beenden die Sitzung
+weiterhin, ohne neuen Socket oder blinde Neuverbindung.
 
 Auch lesende Anfragen über denselben Socket können das automatische Einschlafen
 beeinflussen. Falls dieses Risiko inakzeptabel ist, ausgeschaltet lassen.

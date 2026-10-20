@@ -131,7 +131,7 @@ class EventBackend:
 
     def _consume(self, value: JsonObject, received_at: float) -> Observation | None:
         kind = value.get("kind")
-        if kind in ("state_checking", "current_state"):
+        if kind in ("waiting_art", "state_checking", "current_state"):
             return self._consume_current_state(value, received_at)
         if kind in ("querying", "current_id"):
             return self._consume_query(value, received_at)
@@ -146,7 +146,7 @@ class EventBackend:
             return self._accept(raw, received_at)
         if kind == "change" and set(value) == {"kind", "change"}:
             raw = value["change"]
-            if self._baseline is None or not isinstance(raw, dict):
+            if (self._baseline is None and not self._state_refresh) or not isinstance(raw, dict):
                 raise ValueError("event before baseline")
             return self._consume_change(Change.from_json(raw), received_at)
         if kind == "end" and set(value) in ({"kind", "status"}, {"kind", "status", "reason"}):
@@ -167,17 +167,20 @@ class EventBackend:
         raise ValueError("unexpected session event")
 
     def _consume_current_state(self, value: JsonObject, at: float) -> Observation | None:
-        if not self._state_refresh or self._baseline is None or not 0 <= self._now() - at < FRESH_S:
+        if not self._state_refresh or not 0 <= self._now() - at < FRESH_S:
             raise ValueError("unapproved or stale state read")
+        if value == {"kind": "waiting_art"} and self._baseline is None:
+            return Observation(Status.TV_IN_USE)
         if value == {"kind": "state_checking"}:
-            if self._confirmed_at is None:
+            if self._confirmed_at is None or self._baseline is None:
                 return None
             self._confirmed_at = None
             self._slideshow = SlideshowSequence(str(self._baseline.content_id), at)
             return Observation(Status.CHECKING)
         content_id = value.get("content_id")
         if (
-            set(value) != {"kind", "content_id"}
+            self._baseline is None
+            or set(value) != {"kind", "content_id"}
             or value["kind"] != "current_state"
             or not isinstance(content_id, str)
             or CONTENT_ID_PATTERN.fullmatch(content_id) is None
@@ -196,14 +199,15 @@ class EventBackend:
         return seen
 
     def _consume_change(self, change: Change, received_at: float) -> Observation | None:
-        assert self._baseline is not None  # noqa: S101
         if change.kind == "standby":
             return Observation(Status.PAUSED)
         if change == Change("mode", "off"):
+            self._confirmed_at = None
             return Observation(Status.TV_IN_USE)
         if self._state_refresh:
             # Mode on is a read hint to the worker, never a new image proof.
             return None if change == Change("mode", "on") else self._unconfirmed()
+        assert self._baseline is not None  # noqa: S101
         if self._slideshow is not None:
             return self._consume_slideshow(change, received_at)
         if change.kind in {"selected", "rotation"}:

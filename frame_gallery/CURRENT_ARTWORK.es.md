@@ -54,7 +54,7 @@ Los datos privados sobreviven a las actualizaciones normales. Reiniciar el histo
 
 Imágenes antiguas, envíos de otras apps y envíos sin identidad estable quedan sin identificar. No se adivinan artistas ni se usa reconocimiento en la nube.
 
-### Actualización opcional del estado actual — candidata b14
+### Actualización opcional del estado actual — candidata b15
 
 `current_state_refresh` es un interruptor adicional, **desactivado por defecto**,
 que requiere `background_mode`. Permite como máximo una comprobación de lectura
@@ -62,8 +62,18 @@ de la coherencia del modo Arte actual y del ID de imagen cada 60 segundos, por
 el **socket Art ya conectado**. Su objetivo es recuperar artista/título conocidos
 tras usar el menú del TV o reanudar el pase, incluso si la imagen sigue siendo
 la misma. No abre otra conexión ni envía órdenes de imagen, encendido o modo.
-El reposo o un estado HA «off» observado cierra la sesión. Una imagen desconocida
-queda sin identificar; no se inventa un título ni se toma el de la imagen anterior.
+Una imagen desconocida queda sin identificar; no se inventa un título ni se toma
+el de la imagen anterior.
+
+Con esta opción, `off` o `nav` del canal Art conserva **el mismo socket**; estos
+estados no son reposo físico. Fuera del modo Arte se ocultan título y artista.
+Las comprobaciones continúan aunque falte la notificación de regreso: dentro
+del mismo límite de una vez por minuto, solo se lee el modo mientras no esté
+activo. Los ID de imagen se solicitan únicamente tras una respuesta `on` recién
+leída; un ciclo de menú no confirma ninguna obra. Si la sesión recibe primero
+`off` o `nav`, la prueba inicial única con miniatura espera al modo Arte `on` en
+ese socket; no se repite. El reposo, un estado HA «off» observado o una conexión
+cerrada sigue terminando la sesión, sin otro socket ni reconexión a ciegas.
 
 Incluso por el mismo socket, las consultas pueden afectar al reposo automático.
 Deje la opción desactivada si ese riesgo es inaceptable. Las pruebas sin conexión

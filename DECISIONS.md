@@ -1,5 +1,34 @@
 # Decision log
 
+## D-243 — missing menu-return event, final candidate b15, 2026-10-20
+
+An additional offline replay of the user's "regardless of prior events" case
+shows D-242's navigation gate can wait until the eight-hour session end if its
+unsolicited mode-on notification is lost. The already accepted minute-read
+permission is for current MODE and ID on the same connection, stopping on
+standby/HA-off; it does not require relying on that notification. Amend the
+navigation rule: keep the caption invalidated, but continue scheduled mode
+checks at the same bounded cadence. Only a freshly correlated mode-on getter
+permits any current-ID getter. Menu/unknown modes yield no artwork and wait
+until the next minute. Art-mode off is NOT physical standby: retain the same
+opted-in socket with no caption and mode-only checks until fresh on. Only
+standby/HA-off/closed transport ends. If startup sees off/nav after device
+identity/open, defer the original single initial thumbnail proof until fresh
+on, on that very socket and within the same five-second cycle. No repeated
+thumbnail download or substitute identity proof. Parent explicitly keeps only
+this opted-in TV_IN_USE session; default event-only termination is unchanged.
+Backpressure must not shorten the actual 60-second attempt spacing.
+A lost on event can no longer
+permanently suspend the existing socket's state checks. Positive correlated or
+extra-field notifications remain non-evidence and do not drive attribution.
+
+b14 was frozen and its exact sources published, but no b14 image/app/Store
+release occurred. Preserve that immutable source-only intermediate; finalize
+as 0.1.0b15 instead of rewriting published source history. Repeat all final
+host/native/source/image/signature gates. Installed b13 remains stopped; no
+HA/TV connection, card/script mutation or additional hardware claim. The same
+explicitly accepted default-OFF/experimental sleep caveat remains in force.
+
 ## D-242 — opted-in same-connection state synchronization, 2026-10-20
 
 User requests robust menu/slideshow/same-image recovery, offline simulation and

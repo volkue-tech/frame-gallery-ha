@@ -1,6 +1,20 @@
 # Changelog
 
-## 0.1.0b14 (public beta candidate)
+## 0.1.0b15 (public beta candidate)
+
+- Finalize same-connection synchronization with recovery even when the mode-on
+  notification after leaving the artwork menu is lost. Each minute first reads
+  mode; image-ID getters run only after a fresh on reply. Navigation cannot
+  leave the observer waiting indefinitely. Existing stop/standby/HA-off gates
+  and all no-new-connection/no-setter bounds remain.
+- Positive notifications containing unexpected correlation/fields never
+  substitute for a fresh coherent mode/ID response.
+- Art-mode off/menu clears captions but retains mode-only checks on the same
+  opted-in socket. Initial off/nav defers the original single thumbnail proof
+  until Art Mode is on; physical standby remains terminal. Parent processing
+  delays cannot shorten the minimum 60-second attempt interval.
+
+### Retained source-only b14 intermediate (no app/Store release)
 
 - Optional `current_state_refresh` switch, OFF by default: keep the current
   artist/title synchronized with coherent mode/current/current/mode reads on

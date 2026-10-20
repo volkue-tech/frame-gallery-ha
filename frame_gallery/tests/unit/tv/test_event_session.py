@@ -187,8 +187,10 @@ def test_real_library_opted_in_state_cycle_uses_same_socket_no_open_getter_or_se
         clock_calls += 1
         return 0 if clock_calls == 1 else 60
 
-    def events(connection: Any, bounds: Any, policy: Any, timeout: Any) -> Any:
-        return state_query.current_state_events(connection, bounds, policy, timeout, now=now)
+    def events(connection: Any, bounds: Any, policy: Any, timeout: Any, **kwargs: Any) -> Any:
+        return state_query.current_state_events(
+            connection, bounds, policy, timeout, now=now, **kwargs
+        )
 
     monkeypatch.setattr(module, "current_state_events", events)
     observed: list[JsonObject] = []
@@ -248,6 +250,91 @@ def test_bad_mode_is_not_a_confirmed_tv_in_use(
     events: list[JsonObject] = []
     module.observe_session_task(payload(pipe[0]), events.append)
     assert events == [{"kind": "end", "status": "unavailable", "reason": "startup_failed"}]
+
+
+@pytest.mark.parametrize("initial_mode", ["off", "nav", "unknown"])
+def test_real_library_defers_original_thumbnail_until_art_mode_on_without_new_socket(
+    monkeypatch: pytest.MonkeyPatch, pipe: tuple[int, int], initial_mode: str
+) -> None:
+    class DeferredTV(EventTV):
+        def _answer(self, sock: Any, message: dict[str, Any]) -> None:
+            if not self.requests:
+                request = json.loads(message["params"]["data"])
+                self.requests.append(request["request"])
+                _send(
+                    sock,
+                    {
+                        "event": "d2d_service_message",
+                        "data": json.dumps(
+                            {
+                                "event": "get_artmode_status",
+                                "request_id": request["request_id"],
+                                "value": initial_mode,
+                            }
+                        ),
+                    },
+                )
+                return
+            super()._answer(sock, message)
+
+    tv = DeferredTV([])
+    monkeypatch.setattr(websocket, "create_connection", tv.create_connection)
+    monkeypatch.setattr(SamsungTVRest, "rest_device_info", lambda _s: {"device": {"id": IDENTITY}})
+    thumbnail_calls: list[bool] = []
+
+    def thumbnail(_self: Any, _info: Any) -> D2D:
+        thumbnail_calls.append(True)
+        return D2D()
+
+    monkeypatch.setattr(samsungtvws.SamsungTVArt, "_open_d2d_socket", thumbnail)
+    times = iter([0.0, 60.0, 60.0])
+
+    def events(connection: Any, bounds: Any, policy: Any, timeout: Any, **kwargs: Any) -> Any:
+        return state_query.current_state_events(
+            connection, bounds, policy, timeout, now=lambda: next(times), **kwargs
+        )
+
+    monkeypatch.setattr(module, "current_state_events", events)
+    out: list[JsonObject] = []
+
+    def emit(value: JsonObject) -> None:
+        out.append(value)
+        if value.get("kind") == "baseline":
+            os.write(pipe[1], b"stop")
+
+    request = {
+        **payload(pipe[0]),
+        "policy": replace(SLIDESHOW_POLICY, state_refresh=True).to_json(),
+    }
+    try:
+        module.observe_session_task(request, emit)
+    finally:
+        tv.close()
+    assert len(tv.urls) == 1
+    if initial_mode == "unknown":
+        assert out == [{"kind": "end", "status": "unavailable", "reason": "startup_failed"}]
+        assert not thumbnail_calls
+        assert tv.requests == ["get_artmode_status"]
+    else:
+        assert [value["kind"] for value in out] == [
+            "waiting_art",
+            "state_checking",
+            "baseline",
+            "end",
+        ]
+        snapshot = out[2]["observation"]
+        assert isinstance(snapshot, dict)
+        assert snapshot["device_id"] == DEVICE
+        assert out[-1] == {"kind": "end", "status": "paused"}
+        assert thumbnail_calls == [True]
+        assert tv.requests == [
+            "get_artmode_status",
+            "get_artmode_status",
+            "get_current_artwork",
+            "get_thumbnail",
+            "get_current_artwork",
+            "get_artmode_status",
+        ]
 
 
 @pytest.mark.parametrize("error", [Unauthorized("secret"), RuntimeError("secret"), SessionClosed()])

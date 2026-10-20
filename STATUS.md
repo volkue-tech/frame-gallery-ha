@@ -1,5 +1,29 @@
 # Project status
 
+## D-243 final candidate b15 in progress — 2026-10-20
+
+Extra virtual missing-on replay exposed a permanent b14 menu wait. Preserve
+its already published exact source-only intermediate; no b14 app/image/Store
+was released. b15 removes that latch and distinguishes Art-mode off from
+standby: clear captions, retain only the same opted-in socket's bounded mode
+checks. Initial off/nav defers the original single thumbnail proof until on;
+never accept ID-only first metadata. Unknown startup mode still fails closed.
+Backpressure cannot shorten actual attempt spacing. Default event-only, wake,
+send and physical standby boundaries remain. No HA/TV call or installed change.
+
+Targeted final-path tests passed121. Full unchanged b15 host gates passed6044
+tests/16platform skips in50.87s, strict306-file host/Linux typing, Ruff/format,
+100% whole line/branch11700/2826 and mandatory8932/2088. Earlier typing failure
+is retained, not suppressed. No b15 native/publication result claimed yet.
+Five in-memory negative controls fail expected behaviour assertions, without
+source edits. Eight virtual hours produce479 coherent checks/1916GETs, minimum
+60s spacing and no send beyond the finite deadline; no real device claim.
+b14 local native ARM gate
+completed6039/8 plus8root checks,26 real1GiB preparations and150 inspections,
+zero failures. That is b14-only, not b15 or Intel proof. Both candidates remain
+experimental; physical sleep effects cannot be proved offline. Existing YAML,
+cards/scripts and installed b13 stopped state remain untouched.
+
 ## D-242 b14 local implementation / host gates passed — 2026-10-20
 
 User authorizes robust current-artwork synchronization, offline tests and a

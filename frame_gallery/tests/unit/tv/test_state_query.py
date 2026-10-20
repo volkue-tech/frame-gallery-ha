@@ -237,6 +237,8 @@ def test_timeout_and_frozen_clock_flood_are_bounded() -> None:
         ),
         (envelope({"event": "go_to_standby", "extra": True}), Change("standby")),
         (envelope({"event": "art_mode_changed", "status": "on"}), Change("mode", "on")),
+        (envelope({"event": "art_mode_changed", "status": "on", "id": "old"}), None),
+        (envelope({"event": "art_mode_changed", "status": "on", "extra": True}), None),
         (envelope({"event": "art_mode_changed", "status": "unknown"}), None),
     ],
 )
@@ -267,30 +269,116 @@ def test_quiet_same_image_is_reconfirmed_each_minute_without_new_transport() -> 
     stream.close()
 
 
-def test_menu_blocks_reads_until_on_and_same_id_recovers_after_expired_baseline() -> None:
+def test_menu_exit_recovers_without_any_on_notification_after_expired_baseline() -> None:
     r = Rig()
     stream = r.listening()
     r.responses = [envelope({"event": "art_mode_changed", "status": "nav"})]
     assert next(stream)["change"] == Change("invalidate").to_json()
-    r.responses = [r.at(180), envelope({"event": "art_mode_changed", "status": "on"})]
-    assert next(stream)["change"] == Change("mode", "on").to_json()
+    r.responses = [r.at(180)]  # the mode-on event was lost, TV is actually on
     assert not r.sent
     assert next(stream) == {"kind": "state_checking"}
     assert next(stream) == {"kind": "current_state", "content_id": "MY_KNOWN"}
     stream.close()
 
 
-@pytest.mark.parametrize(
-    "event", [{"event": "go_to_standby"}, {"event": "art_mode_changed", "status": "off"}]
-)
-def test_sleep_or_tv_mode_ends_without_getter(event: dict[str, Any]) -> None:
+def test_still_in_menu_reads_only_mode_then_recovers_without_a_new_on_event() -> None:
     r = Rig()
     stream = r.listening()
-    r.responses = [envelope(event)]
+    r.responses = [envelope({"event": "art_mode_changed", "status": "nav"})]
+    assert next(stream)["change"] == Change("invalidate").to_json()
+    r.responses = [r.at(60)]
+    assert next(stream) == {"kind": "state_checking"}
+    r.responses = [
+        lambda: envelope(
+            {
+                "event": "get_artmode_status",
+                "request_id": r.sent[-1]["id"],
+                "value": "nav",
+            }
+        )
+    ]
+    assert next(stream)["change"] == Change("invalidate").to_json()
+    assert [value["request"] for value in r.sent] == ["get_artmode_status"]
+    r.request, r.responses = None, [r.at(120)]
+    assert next(stream) == {"kind": "state_checking"}
+    assert next(stream) == {"kind": "current_state", "content_id": "MY_KNOWN"}
+    assert len(r.sent) == 5
+    stream.close()
+
+
+def test_standby_ends_without_getter() -> None:
+    r = Rig()
+    stream = r.listening()
+    r.responses = [envelope({"event": "go_to_standby"})]
     assert next(stream)["kind"] == "change"
     with pytest.raises(StopIteration):
         next(stream)
     assert not r.sent
+
+
+@pytest.mark.parametrize("value", ["off", "nav"])
+def test_mode_off_or_menu_does_not_end_same_socket_recovery(value: str) -> None:
+    r = Rig()
+    stream = r.listening()
+    r.responses = [envelope({"event": "art_mode_changed", "status": value})]
+    assert next(stream)["kind"] == "change"
+    r.responses = [r.at(60)]
+    assert next(stream) == {"kind": "state_checking"}
+    r.responses = [
+        lambda: envelope({"event": "get_artmode_status", "id": r.sent[-1]["id"], "value": "off"})
+    ]
+    assert next(stream)["change"] == Change("mode", "off").to_json()
+    assert len(r.sent) == 1
+    r.request, r.responses = None, [r.at(120)]
+    assert next(stream) == {"kind": "state_checking"}
+    assert next(stream)["content_id"] == "MY_KNOWN"
+    assert len(r.sent) == 5
+    stream.close()
+
+
+@pytest.mark.parametrize("bad", [False, True])
+def test_deferred_initial_thumbnail_is_once_and_only_after_mode_on(bad: bool) -> None:
+    r = Rig()
+    snapshots: list[float] = []
+
+    def snapshot() -> dict[str, Any]:
+        snapshots.append(r.now)
+        return {"content_id": None if bad else "MY_KNOWN", "thumbnail": "proof"}
+
+    stream = current_state_events(
+        r.connection, r.bounds, POLICY, TimeoutError, now=lambda: r.now, initial_snapshot=snapshot
+    )
+    r.responses = [r.at(60)]
+    assert next(stream) == {"kind": "state_checking"}
+    if bad:
+        with pytest.raises(ValueError, match="deferred"):
+            next(stream)
+        return
+    assert next(stream) == {
+        "kind": "baseline",
+        "observation": {"content_id": "MY_KNOWN", "thumbnail": "proof"},
+    }
+    assert len(r.sent) == 1
+    r.responses = [r.at(120)]
+    assert next(stream) == {"kind": "state_checking"}
+    assert next(stream)["kind"] == "current_state"
+    assert snapshots == [60]
+    assert len(r.sent) == 5
+    stream.close()
+
+
+def test_parent_backpressure_does_not_schedule_the_next_read_too_soon() -> None:
+    r = Rig()
+    stream = r.listening()
+    r.responses = [r.at(60)]
+    assert next(stream) == {"kind": "state_checking"}
+    r.now = 65
+    assert next(stream)["kind"] == "current_state"
+    r.ids, r.responses = ["MY_KNOWN", "MY_KNOWN"], [r.at(120), r.at(125)]
+    assert next(stream) == {"kind": "state_checking"}
+    assert next(stream)["kind"] == "current_state"
+    assert r.bounds._last_refresh == 125
+    stream.close()
 
 
 def test_unknown_frame_clears_then_current_state_recovers_on_same_socket() -> None:

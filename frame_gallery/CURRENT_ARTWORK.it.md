@@ -55,7 +55,7 @@ I dati privati sopravvivono agli aggiornamenti normali. Azzerare la cronologia d
 
 Vecchie immagini, invii di altre app e invii senza identità stabile rimangono sconosciuti. Nessun artista indovinato o riconoscimento cloud.
 
-### Aggiornamento facoltativo dello stato attuale — candidata b14
+### Aggiornamento facoltativo dello stato attuale — candidata b15
 
 `current_state_refresh` è un'opzione aggiuntiva, **disattivata per impostazione
 predefinita**, che richiede `background_mode`. Consente al massimo una verifica
@@ -63,9 +63,19 @@ in lettura della coerenza della modalità Arte attuale e dell'ID immagine ogni
 60 secondi, sul **socket Art già collegato**. Serve a ripristinare artista/titolo
 noti dopo il menu del TV o la ripresa della presentazione, anche con la stessa
 immagine. Nessuna nuova connessione né comando di immagine, alimentazione o
-modalità. Lo standby o uno stato HA «off» osservato chiude la sessione.
+modalità.
 Un'immagine sconosciuta resta non identificata; nessun titolo viene inventato
 o ripreso dall'immagine precedente.
+
+Con questa opzione, `off` o `nav` del canale Art mantiene **lo stesso socket**;
+questi stati non sono standby fisico. Fuori dalla modalità Arte, titolo e artista
+vengono nascosti. Le verifiche proseguono anche senza notifica di ritorno: entro
+lo stesso limite di una volta al minuto si legge solo la modalità finché non è
+attiva. Gli ID immagine vengono richiesti soltanto dopo un nuovo risultato `on`;
+un ciclo di menu non conferma un'opera. Se la sessione vede inizialmente `off` o
+`nav`, l'unica prova iniziale tramite miniatura attende la modalità Arte `on` su
+quel socket; non viene ripetuta. Standby, stato HA «off» osservato o connessione
+chiusa continuano a terminare la sessione, senza nuovo socket o riconnessione cieca.
 
 Le richieste, anche sullo stesso socket, possono influire sul sonno automatico.
 Lasciare disattivato se il rischio è inaccettabile. I test offline non certificano
