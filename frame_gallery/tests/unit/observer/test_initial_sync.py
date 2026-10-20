@@ -92,15 +92,19 @@ def test_real_monitor_passes_initial_opt_in_but_keeps_ha_poll_cadence() -> None:
         return WakeSample("on", 10)
 
     monitor = WakeMonitor(read, lambda: now, lambda: now, initial_on=True)
-    assert monitor.poll() is WakeEvent.RESUME
+    assert monitor.poll() is WakeEvent.NONE
     now = 101
     assert monitor.poll() is WakeEvent.NONE
     now = 105
     assert monitor.poll() is WakeEvent.NONE
-    assert reads == [100, 105]
+    now = 110
+    assert monitor.poll() is WakeEvent.RESUME
+    now = 115
+    assert monitor.poll() is WakeEvent.NONE
+    assert reads == [100, 105, 110, 115]
 
 
-def test_initial_gate_is_consumed_before_a_queued_command() -> None:
+def test_queued_send_supersedes_initial_gate_before_a_read() -> None:
     rig = ControllerRig()
     monitor = WakeMonitor(lambda: WakeSample("on", 50), lambda: 100, lambda: 100, initial_on=True)
     controller = EventController(
@@ -111,18 +115,19 @@ def test_initial_gate_is_consumed_before_a_queued_command() -> None:
         stopped=lambda: rig.stopped,
         prepare_resume=lambda: True,
         monitor_wake=monitor.poll,
+        supersede_wake=monitor.supersede,
     )
     received = 0
 
     def receive(_timeout: float) -> Command | None:
         nonlocal received
         received += 1
-        assert len(rig.rig.session.starts) == 1  # before command input, not after it
         if received == 1:
-            return command(Action.REFRESH_CURRENT)
+            assert not rig.rig.session.starts
+            return command(Action.NEW_ARTWORK)
         rig.stopped = True
         return None
 
     serve(controller, receive, lambda: rig.stopped)
-    assert rig.sent == 0
+    assert rig.sent == 1
     assert len(rig.rig.session.starts) == 1

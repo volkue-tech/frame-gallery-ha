@@ -1,5 +1,25 @@
 # Acceptance tests
 
+## Local startup/send arbitration (D-240)
+
+- Reproduce queued and delayed existing-script sends with initial on and without
+  it: accepted requests within the ten-second handoff have no pre-send read;
+  one successful send starts at most its one post-send receiver. Receive input
+  before any service tick; no real-time sleep or outbound network in tests.
+- Failed/no_match/unchanged-receipt sends and unavailable/auth-refused post-send
+  proof cannot fall back to an unused initial read. Cover the actual regular
+  entry, durable claim, stores, fake Core and publisher, not only a fake controller.
+- Standalone opted-in startup/refresh still has one initial read after the fixed
+  handoff. Invalid/missing/off/unknown/error, stale/reordered data and sample gaps
+  cancel pending evidence; no delayed retry. Refresh/input flood/rejected or
+  replayed commands cannot postpone the deadline or reset attempt/auth bounds.
+- Supersession clears old off-edge evidence; only a later newly observed off/on
+  may resume. Stop/publication/reap failures remain fail closed. A later send
+  after standalone initialization must reap its old worker before delivery.
+- Existing cards/scripts/options/data/worker permissions stay unchanged. Full
+  offline quality gates, no HA/TV access, no version/build/publication. Hardware
+  mode-side-effect cause and future native/live acceptance are not inferred.
+
 ## Initial already-on synchronization (D-239)
 
 - Default/off/unconfigured mode still cannot connect. First valid configured

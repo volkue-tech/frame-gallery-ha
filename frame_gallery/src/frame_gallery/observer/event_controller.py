@@ -26,10 +26,12 @@ class EventController:
         stopped: Callable[[], bool],
         prepare_resume: Callable[[], bool] = lambda: False,
         monitor_wake: Callable[[], WakeEvent] = lambda: WakeEvent.NONE,
+        supersede_wake: Callable[[], None] = lambda: None,
     ) -> None:
         self._send, self._source, self._publish = send, source, publish
         self._claim, self._stopped = claim, stopped
         self._prepare_resume, self._monitor_wake = prepare_resume, monitor_wake
+        self._supersede_wake = supersede_wake
         self._active = False
         self._resume_auth_refused = False
 
@@ -41,6 +43,9 @@ class EventController:
         if self._stopped() or not self._claim(command):
             return False
         if command.action is Action.NEW_ARTWORK:
+            # Spend the automatic startup opportunity BEFORE any send/reap/
+            # publication failure. Only the successful delivery may arm a read.
+            self._supersede_wake()
             self._active = False
             self._source.stop()  # must reap the old worker before delivery
             self._publish(Observation(Status.CHECKING))

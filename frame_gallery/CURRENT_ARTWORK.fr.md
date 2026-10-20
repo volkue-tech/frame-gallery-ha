@@ -2,7 +2,7 @@
 
 [English](CURRENT_ARTWORK.md) | [Deutsch](CURRENT_ARTWORK.de.md) | Français | [Español](CURRENT_ARTWORK.es.md) | [Italiano](CURRENT_ARTWORK.it.md)
 
-**Bêta b12 : expérimental et désactivé par défaut.** Les cartes b7/b8/b9/b10/b11 restent utilisables. Aucun nouvel assistant, clé API, extension HACS, privilège spécial ou autre app n'est nécessaire sur Home Assistant Green/OS.
+**Candidate bêta b13 : expérimental et désactivé par défaut.** Les cartes b7/b8/b9/b10/b11/b12 restent utilisables. Aucun nouvel assistant, clé API, extension HACS, privilège spécial ou autre app n'est nécessaire sur Home Assistant Green/OS.
 
 Même une connexion en lecture peut réveiller un TV. Les tests contrôlés couvrent des changements automatiques et un épisode de veille naturelle sur un Frame, pas tous les modèles ou firmwares. Laissez le mode désactivé si ce risque est inacceptable.
 
@@ -21,6 +21,20 @@ seule lecture initiale s'il indique `on`**, même inchangé depuis des heures.
 Identité, mode Art, ID et image sont vérifiés avant toute attribution ; aucune
 image n'est envoyée. Un premier résultat absent, invalide, futur, `off`, inconnu
 ou en erreur consomme cette possibilité ; les `on` suivants ne la répètent pas.
+
+**Fenêtre de démarrage — candidate b13 :** une fenêtre fixe de dix secondes donne
+la priorité à une demande de nouvelle œuvre acceptée sur la lecture initiale
+automatique. L'acceptation annule la possibilité initiale restante avant l'envoi,
+même si celui-ci échoue ensuite ou ne trouve aucune œuvre (`no_match`). Seul un
+envoi réussi et valide peut alors ouvrir sa propre session de lecture. Sans
+demande acceptée, la synchronisation initiale autonome reste possible après la
+fenêtre si l'état HA en cache reste valide et `on`. Les règles ultérieures de
+reprise après une véritable transition `off`/`on` restent inchangées.
+
+Cette fenêtre limitée ne peut pas anticiper des scripts arbitrairement retardés.
+Si un récepteur autonome a déjà démarré, un envoi ultérieur doit d'abord l'arrêter
+et attendre sa fin. Les tests hors ligne de ce correctif n'apportent aucune
+nouvelle preuve matérielle contre un réveil du TV ou un changement de mode.
 
 Ensuite, seul cet état HA est lu toutes les cinq secondes. Un `off` observé puis
 un `on` plus récent de 30 secondes au maximum permettent une nouvelle lecture.
@@ -44,7 +58,7 @@ Les anciennes images, les envois d'autres apps et les envois sans identité TV s
 ## Activer la carte facultative
 
 1. Conservez caméra, minuteur, cartes et ID `script.frame_gallery_new_artwork`.
-2. Activez le **mode arrière-plan**, puis redémarrez l'app. Démarrer/Arrêter contrôle le service, pas l'image. Sans l'entité facultative ci-dessus, aucun contact au démarrage ; avec elle, le premier HA `on` peut déclencher la lecture.
+2. Activez le **mode arrière-plan**, puis redémarrez l'app. Démarrer/Arrêter contrôle le service, pas l'image. Sans l'entité facultative ci-dessus, aucun contact au démarrage ; avec elle, le premier HA `on` peut autoriser la lecture après la fenêtre de dix secondes, sauf si une demande d'envoi acceptée la remplace.
 3. Remplacez uniquement le contenu du script par le [script d'envoi complet](examples/background-send-script.yaml). Adaptez le slug et le minuteur si nécessaire. Les cartes existantes fonctionnent ; remplacez les appels directs à `hassio.app_start` par le script.
 4. Après un ancien envoi réussi, configurez l'entité ci-dessus pour lire l'œuvre déjà affichée sans nouvel envoi. Sur une installation sans association TV enregistrée, demandez la première œuvre en mode Art visible ; l'envoi réussi autorise une session expérimentale. Actualiser seul n'ouvre aucune connexion.
 5. Ajoutez une carte manuelle avec le YAML **complet** ci-dessous.
@@ -88,7 +102,7 @@ aucune œuvre et ne déclenche aucune requête supplémentaire. Les messages
 inconnus ou incorrects, la veille, le mode TV et la perte de connexion terminent
 toujours la session. Des codes fixes dans le journal distinguent les erreurs de
 démarrage, réception, décodage et processus isolé, sans messages bruts ni
-identifiants secrets. Le nouveau démarrage b12 n'a pas de nouvelle validation TV ou veille.
+identifiants secrets. Le démarrage b12 et la fenêtre b13 n'ont pas de nouvelle validation TV ou veille.
 
 Dans le journal, `event sequence incomplete` signifie que les données sont
 masquées et que la même connexion attend, sans confirmer d'œuvre.

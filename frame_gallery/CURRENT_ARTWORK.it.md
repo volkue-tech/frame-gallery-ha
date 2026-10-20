@@ -2,7 +2,7 @@
 
 [English](CURRENT_ARTWORK.md) | [Deutsch](CURRENT_ARTWORK.de.md) | [Français](CURRENT_ARTWORK.fr.md) | [Español](CURRENT_ARTWORK.es.md) | Italiano
 
-**Beta b12: sperimentale e disattivato per impostazione predefinita.** Le schede b7/b8/b9/b10/b11 restano utilizzabili. Nessun nuovo aiutante, chiave API, HACS, privilegio speciale o altra app su Home Assistant Green/OS.
+**Candidata beta b13: sperimentale e disattivato per impostazione predefinita.** Le schede b7/b8/b9/b10/b11/b12 restano utilizzabili. Nessun nuovo aiutante, chiave API, HACS, privilegio speciale o altra app su Home Assistant Green/OS.
 
 Anche una connessione in lettura può risvegliare il TV. I test controllati coprono cambi automatici e un episodio di sonno naturale su un Frame, non tutti i modelli o firmware. Lasciare disattivato se questo rischio è inaccettabile.
 
@@ -21,6 +21,20 @@ lettura iniziale se indica `on`**, anche se invariato da ore. Identità, modalit
 Arte, ID e immagine vengono verificati prima di artista/titolo; nessuna immagine
 inviata. Un primo risultato mancante, non valido, futuro, `off`, sconosciuto o
 fallito consuma l'opportunità; i successivi `on` non la ripetono.
+
+**Finestra iniziale — candidata b13:** una finestra fissa di dieci secondi dà
+priorità a una richiesta accettata di nuova opera rispetto alla lettura iniziale
+automatica. L'accettazione annulla l'opportunità iniziale residua prima
+dell'invio, anche se poi fallisce o non trova alcuna opera (`no_match`). Solo un
+invio valido e riuscito può quindi aprire la propria sessione di lettura. Senza
+una richiesta accettata, la sincronizzazione iniziale autonoma resta possibile
+dopo la finestra se lo stato HA in cache rimane valido e `on`. Le regole
+successive di ripresa dopo vere transizioni `off`/`on` rimangono invariate.
+
+Questa finestra limitata non può anticipare script con ritardi arbitrari. Se un
+ricevitore autonomo è già partito, un invio successivo deve prima arrestarlo e
+attenderne la fine. I test offline di questa correzione non forniscono nuove
+prove hardware contro risvegli del TV o cambi di modalità.
 
 Poi viene letto solo quello stato HA ogni cinque secondi. Un `off` osservato e un
 `on` più recente di al massimo 30 secondi permettono una nuova lettura. Entrambi
@@ -44,7 +58,7 @@ Vecchie immagini, invii di altre app e invii senza identità stabile rimangono s
 ## Attivare la scheda facoltativa
 
 1. Conservare fotocamera, timer, schede e ID `script.frame_gallery_new_artwork`.
-2. Attivare **Modalità in background** e riavviare l'app. Avvia/Arresta controlla il servizio, non l'immagine. Senza l'entità facoltativa sopra nessun contatto all'avvio; con essa il primo HA `on` può attivare la lettura.
+2. Attivare **Modalità in background** e riavviare l'app. Avvia/Arresta controlla il servizio, non l'immagine. Senza l'entità facoltativa sopra nessun contatto all'avvio; con essa il primo HA `on` può consentire la lettura dopo la finestra di dieci secondi, salvo che una richiesta di invio accettata la sostituisca.
 3. Sostituire solo il contenuto dello script con lo [script di invio completo](examples/background-send-script.yaml). Adattare slug e timer se diversi. Le schede continuano a funzionare; sostituire le chiamate dirette a `hassio.app_start` con lo script.
 4. Dopo un invio precedente riuscito, configurare l'entità sopra per leggere l'opera già visibile senza un nuovo invio. Su un'installazione senza associazione TV salvata, richiedere la prima opera in modalità Arte visibile; l'invio riuscito consente una sessione sperimentale. Aggiornare da solo non apre connessioni.
 5. Aggiungere una scheda manuale con il YAML **completo** seguente.
@@ -87,7 +101,7 @@ nuova sequenza completa sulla stessa connessione. Non conferma alcuna opera e
 non invia altre richieste. Messaggi sconosciuti o non validi, standby, modalità
 TV e perdita della connessione continuano a terminare la sessione. Codici fissi
 nel registro distinguono errori di avvio, ricezione, decodifica e processo
-isolato, senza messaggi grezzi o credenziali. Il nuovo avvio b12 non ha una nuova
+isolato, senza messaggi grezzi o credenziali. L'avvio b12 e la finestra b13 non hanno una nuova
 validazione fisica TV o sonno.
 
 Nel registro, `event sequence incomplete` indica che i dati sono stati nascosti

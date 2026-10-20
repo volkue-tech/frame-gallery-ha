@@ -2,7 +2,7 @@
 
 English | [Deutsch](CURRENT_ARTWORK.de.md) | [Français](CURRENT_ARTWORK.fr.md) | [Español](CURRENT_ARTWORK.es.md) | [Italiano](CURRENT_ARTWORK.it.md)
 
-**Beta b12: experimental and off by default.** Existing b7/b8/b9/b10/b11 cards remain usable. No API key, new helper, HACS extension, special permissions or second app is needed on Home Assistant Green/OS.
+**Beta b13 candidate: experimental and off by default.** Existing b7/b8/b9/b10/b11/b12 cards remain usable. No API key, new helper, HACS extension, special permissions or second app is needed on Home Assistant Green/OS.
 
 A read-only connection can still wake a television. Controlled tests covered automatic slideshow changes and one natural-sleep episode on one Frame, not every model or firmware. Leave background mode off if any wake-up risk is unacceptable.
 
@@ -21,6 +21,19 @@ read if it says `on`**, even if unchanged for hours. The TV's identity, Art Mode
 current ID and image are verified before any artist/title is restored. There is
 no image send. A missing, invalid, future, `off`, unknown or failed first sample
 consumes the startup opportunity; later `on` samples cannot retry it.
+
+**Startup handoff — b13 candidate:** a fixed ten-second window gives an accepted
+new-artwork command priority over the automatic initial read. Acceptance cancels
+the leftover startup opportunity before sending, even if the send later fails or
+finds no match (`no_match`); only a valid successful delivery may then start its
+own read session. Without an accepted send, standalone initial synchronization
+remains available after the window if the cached HA state stays valid and `on`.
+The later genuine `off`/`on` recovery rules below remain unchanged.
+
+This bounded window cannot anticipate arbitrarily delayed scripts. Once a
+standalone receiver has started, a later send must first stop it and wait for its
+exit. Offline tests of this fix provide no new hardware proof against waking the
+TV or changing its mode.
 
 The app then reads only that cached HA state every five seconds. A later observed
 `off` followed by a newer `on` within 30 seconds permits one further read. Both
@@ -43,7 +56,7 @@ Old TV pictures, uploads from other apps and deliveries without a stable TV iden
 ## Enable the optional current-artwork card
 
 1. Keep your camera, timer, existing cards and `script.frame_gallery_new_artwork` entity ID.
-2. Enable **Background mode**, then restart the app. Start/Stop controls the service, not an image change. Without the optional entity above, startup does not contact the TV; with it, first HA `on` may trigger the initial read.
+2. Enable **Background mode**, then restart the app. Start/Stop controls the service, not an image change. Without the optional entity above, startup does not contact the TV; with it, first HA `on` may permit an initial read after the ten-second handoff, unless an accepted send supersedes it.
 3. Replace only the script body with the [complete background send script](examples/background-send-script.yaml). Adjust the app slug and existing timer ID if needed. Cards calling this script keep working; direct `hassio.app_start` automations must call the script instead.
 4. If Frame Gallery has sent successfully before, configure the optional entity above to read the already displayed artwork without a new send. On a new installation without a saved TV association, request your first new artwork in visible Art Mode; the successful send grants one experimental event session. Refresh alone cannot open a connection.
 5. Add a Manual dashboard card using the **complete** YAML below.
@@ -86,7 +99,7 @@ connection for a new complete sequence. They never confirm an artwork or
 trigger another query. Unknown or malformed messages, standby, TV mode and
 connection loss still end the session. Fixed failure codes in the app log
 distinguish startup, receive, decoding and worker errors without raw messages
-or credentials. The changed b12 startup path has no new live-TV or sleep validation.
+or credentials. The b12 startup path and b13 handoff have no new live-TV or sleep validation.
 
 In the log, `event sequence incomplete` means the caption was cleared and the
 same connection is waiting, not that an artwork was confirmed.

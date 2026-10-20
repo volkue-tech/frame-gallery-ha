@@ -35,6 +35,14 @@ This file constrains the architecture without prescribing or copying an implemen
 
 ## Home Assistant constraints
 
+- **2026-10-20 D-240 local arbitration:** defer only the initial automatic
+  read for a fixed ten-second command handoff; missing/invalid/off/error/gap
+  clears pending evidence. Claimed NEW_ARTWORK spends startup and old off-edge
+  evidence before send/reap failures without resetting attempt/auth limits.
+  No hidden startup retry after a failed/no_match send. Existing cards/scripts,
+  later genuine edges and all worker/attribution guards remain unchanged.
+  Local/offline only; installed b12 remains stopped, no TV access/publication.
+
 - **2026-10-19 D-239 explicit exception:** with background and the existing
   resume entity opted in, first cached HA on may trigger one initial read even
   with old last_changed. Consume the first sample on error/off too; no delayed

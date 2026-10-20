@@ -1,5 +1,42 @@
 # Implementation plan and approval gates
 
+## Authorized beta 0.1.0b13 publication — 2026-10-20
+
+- [x] Record exact build/publication authority, preserve stopped b12/cards/scripts
+  and unrelated docs/community; no HA/TV connection or installed-app mutation.
+- [x] Verify existing personal memory-only repository access, no new credential
+  or rights; public no-existing-b13 check. Number only own project/lock/metadata.
+- [x] Complete five-language handoff notes without changing any YAML/code block;
+  full numbered host gates pass 5943/16 skips, 303-file typing, 100% coverage.
+- [ ] Freeze exact personal candidate commit.
+- [ ] Assemble matching clean-source package, publish source-only release and
+  anonymously verify exact full archive/commit/member contents.
+- [ ] Set/read back exact one-time approvals; pass native ARM/Intel validators
+  and actual publishers, four exact evidence ZIPs and real root/memory gates.
+- [ ] Independently verify both public images, source fingerprints and signatures;
+  only then app prerelease and exact documentation-only Store main handoff.
+- [ ] Disable/read back approvals, final public byte checks, end memory-only
+  broker and confirm exact process closure; no unsupported window-cleanup claim.
+
+## D-240 local duplicate-initialization fix, authorized 2026-10-20
+
+- [x] Preserve installed b12 stopped, cards/scripts and original incident evidence;
+  no HA/TV, credentials/browser, GitHub, build, version bump or publication.
+- [x] Add fixed initial command handoff and accepted-send supersession, retaining
+  standalone initial read and future fresh-edge recovery without hidden retry.
+- [x] Cover queued/delayed sends, failed/no_match and post-send failures, invalid
+  Core/gaps, refresh/replay, stop/reap and original attempt limits offline.
+- [x] Behavioural negative controls: removing grace fails eight delayed-send
+  assertions; removing supersession fails actual regular-entry no_match coverage.
+  Tick-before-input also fails queued-command/deadline coverage. Controls modify
+  only process memory, no production source/evidence rewrite.
+- [x] Run full unchanged lint/format, strict host/Linux typing and line/branch
+  coverage/isolation/store/packaging gates; record observed final results.
+  Final 5943/16 platform skips, 303-file typing, 100% line/branch coverage. Both
+  original sandbox group/setgid failures preserved; no exclusions/relaxed guard.
+- [x] Review final diff for unchanged public version/metadata, cards/scripts,
+  dependency/permission contracts and leave this correction unpublished.
+
 ## Initial already-on bugfix b12, authorized 2026-10-19
 
 - [x] Record user authority for offline implementation/test and publication;

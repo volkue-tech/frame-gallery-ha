@@ -1,5 +1,64 @@
 # Decision log
 
+## D-241 — authorized b13 build and publication, 2026-10-20
+
+User explicitly authorizes a new beta for D-240 under personal
+volkue-tech/frame-gallery-ha. Installed b12 stays stopped, existing cards/scripts
+preserved; no HA/TV connection or installed update/test in this release task.
+Assign 0.1.0b13 and retain every earlier release/image/source. Only own project
+version fields change in the lock; dependencies/options/privileges stay intact.
+
+Five current-artwork guides explain the fixed ten-second handoff and its limits,
+retaining byte-identical complete YAML and technical IDs. Full numbered host
+gates pass 5943/16 platform skips, 303-file strict host/Linux typing and 100%
+line/branch coverage. Freeze personally authored exact source and publish its
+hash/member-verified corresponding sources before any image distribution.
+Native ARM/Intel validators, actual image/root/memory checks, four exact evidence
+archives, anonymous image/import/fingerprint and independent signature checks
+remain mandatory before app/Store handoff. Disable/read back both exact release
+approvals and end the constrained four-hour memory-only broker at completion.
+No credential persistence/scope expansion or new physical-safety claim. Native
+Terminal UI is prohibited: no bypass or false window-cleanup assertion.
+
+## D-240 — startup/send arbitration, local only, 2026-10-20
+
+User authorizes fixing duplicate initialization locally with offline tests.
+Installed b12 remains stopped; no HA/TV connection, card/script change, build,
+version bump, public push or release. Existing ignored incident evidence stays
+intact. The physical cause of the reported Art-to-program switch is not proven:
+the saved log has only event_rejected, not the rejected raw event or a precise
+physical transition timestamp. This fix removes a reproduced dispatch pattern,
+not a demonstrated firmware-side-effect cause.
+
+b12's service tick before stdin can start an initial read, only to stop/reap it
+for the arriving explicit send and start another read afterward. The controller
+now handles received commands before its regular tick. WakeMonitor reserves a
+fixed ten-second monotonic startup handoff for the existing script (up to five
+seconds waiting for readiness, then stdin). It continues the same bounded
+five-second cached-Core cadence, not TV requests. WakeGate consumes the first
+sample as before: only a valid initial on can remain pending; missing, invalid,
+off, unknown, auth/transport failure or a sampling gap clears it. Pending on
+must still pass validation on each later sampled result. No attempt is emitted
+until the grace has elapsed; the shared six/hour budget counts emitted grants.
+Refresh, malformed input or rejected/replayed commands cannot extend the grace.
+
+After durable claim of NEW_ARTWORK, cancel both the unused initial grant and
+old off-edge evidence BEFORE reap/publication/send. Failure, no_match, unchanged
+receipt, cancellation, unavailable or refused post-send proof must not revive
+that startup grant. Only a fresh successful exact-target delivery can start its
+post-send receiver. Supersession does not reset authentication refusal or the
+attempt counter. A genuinely new later off/on edge retains the original rules.
+An unreaped worker still forbids delivery; publication/identity/archive/freshness
+and default-off guards are unchanged. No new field, dependency or privilege.
+
+This is bounded arbitration, not indefinite prediction of user intent. An
+explicit send arriving after an independent initial receiver is already running
+must still stop/reap that receiver before sending. Ten seconds is a handoff
+allowance, not a guarantee for arbitrary delayed/custom scripts or a TV safety
+claim. The known incident's approximately two-second ready-to-send interval is
+inside it. Existing cards/scripts need no migration. Native and hardware tests,
+new version/build and publication remain separately gated.
+
 ## D-239 — explicitly accepted one-time already-on startup read, 2026-10-19
 
 User authorizes local implementation, offline checks and bugfix publication,

@@ -26,6 +26,8 @@ from frame_gallery.isolation.executor import JsonObject
 from frame_gallery.isolation.process import Launch
 from frame_gallery.net.wire import WireRequest
 from frame_gallery.observer.event_controller import EventController
+from frame_gallery.observer.model import Action, Command
+from frame_gallery.observer.service import serve as actual_serve
 from frame_gallery.store.artwork_bindings import BindingStore
 from frame_gallery.store.delivery_associations import DeliveryAssociations
 from frame_gallery.store.layout import StoreLayout
@@ -57,7 +59,20 @@ WAKE = "media_player.existing_samsung"
 )
 @pytest.mark.parametrize("initial", [False, True])
 def test_actual_entry_wake_never_sends_and_requires_new_validated_image(
-    tmp_path: Path, monkeypatch: pytest.MonkeyPatch, case: str, initial: bool
+    tmp_path: Path,
+    monkeypatch: pytest.MonkeyPatch,
+    case: str,
+    initial: bool,
+) -> None:
+    _check_actual_entry(tmp_path, monkeypatch, case, initial)
+
+
+def _check_actual_entry(
+    tmp_path: Path,
+    monkeypatch: pytest.MonkeyPatch,
+    case: str,
+    initial: bool,
+    startup_send: bool = False,
 ) -> None:
     host, clock = Rig(tmp_path), FakeClock()
     scratch = tmp_path / "tmp"
@@ -154,8 +169,15 @@ def test_actual_entry_wake_never_sends_and_requires_new_validated_image(
     monkeypatch.setattr(Launch, "production", lambda: SimpleNamespace(enforced=True))
     monkeypatch.setattr(entry, "ProcessExecutor", lambda *_a: host.executor)
 
+    sends = 0
+
     def forbid_send() -> int:
-        pytest.fail("resume must never invoke delivery")
+        nonlocal sends
+        if not startup_send:
+            pytest.fail("resume must never invoke delivery")
+        sends += 1
+        clock.advance(10)
+        return 0  # no_match/unchanged receipt, not a fresh delivery grant
 
     monkeypatch.setattr(entry, "DeliveryProcess", lambda *_a: SimpleNamespace(run=forbid_send))
 
@@ -195,6 +217,26 @@ def test_actual_entry_wake_never_sends_and_requires_new_validated_image(
     monkeypatch.setattr(entry, "ServiceInput", lambda _fd: incoming)
 
     def serve(controller: EventController, _read: Any, stopped: Any) -> None:
+        if startup_send:
+            issued = False
+
+            def receive(timeout: float) -> Command | None:
+                nonlocal issued
+                clock.advance(timeout)
+                if not issued and clock.elapsed >= 2:
+                    issued = True
+                    return Command(
+                        Action.NEW_ARTWORK, "startup_send_001", clock.utc_now().timestamp()
+                    )
+                if clock.elapsed >= 30:
+                    incoming.closed = True
+                return None
+
+            actual_serve(controller, receive, stopped)
+            assert sends == 1
+            assert not session.starts  # neither pre-send initial nor no_match retry
+            assert not any("artist" in p["attributes"] for p in posts)
+            return
         controller.start()
         controller.tick()
         if not initial:
@@ -231,3 +273,9 @@ def test_actual_entry_wake_never_sends_and_requires_new_validated_image(
     assert preserved == {name: (host.data / "state" / name).read_bytes() for name in preserved}
     assert (host.preview / "latest.jpg").read_bytes() == preview
     assert not any(task in {"send", "upload", "select"} for task, _ in host.executor.calls)
+
+
+def test_actual_entry_startup_send_consumes_automatic_read_even_on_no_match(
+    tmp_path: Path, monkeypatch: pytest.MonkeyPatch
+) -> None:
+    _check_actual_entry(tmp_path, monkeypatch, case="known", initial=True, startup_send=True)

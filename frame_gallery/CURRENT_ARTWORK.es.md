@@ -2,7 +2,7 @@
 
 [English](CURRENT_ARTWORK.md) | [Deutsch](CURRENT_ARTWORK.de.md) | [Français](CURRENT_ARTWORK.fr.md) | Español | [Italiano](CURRENT_ARTWORK.it.md)
 
-**Beta b12: experimental y desactivado por defecto.** Las tarjetas b7/b8/b9/b10/b11 siguen funcionando. No necesita nuevos ayudantes, claves API, HACS, permisos especiales ni otra app en Home Assistant Green/OS.
+**Candidata beta b13: experimental y desactivado por defecto.** Las tarjetas b7/b8/b9/b10/b11/b12 siguen funcionando. No necesita nuevos ayudantes, claves API, HACS, permisos especiales ni otra app en Home Assistant Green/OS.
 
 Incluso una conexión de lectura puede despertar el TV. Las pruebas controladas cubren cambios automáticos y un episodio de reposo natural en un Frame, no todos los modelos o firmware. Mantenga el modo desactivado si ese riesgo es inaceptable.
 
@@ -21,6 +21,20 @@ inicial si indica `on`**, aunque lleve horas sin cambiar. Se verifican identidad
 modo Arte, ID e imagen antes de mostrar artista/título; no se envía una imagen.
 El primer resultado ausente, inválido, futuro, `off`, desconocido o fallido
 consume la oportunidad inicial; los `on` posteriores no la repiten.
+
+**Ventana de inicio — candidata b13:** una ventana fija de diez segundos da
+prioridad a una solicitud aceptada de nueva obra frente a la lectura inicial
+automática. La aceptación cancela la oportunidad inicial pendiente antes del
+envío, aunque este falle después o no encuentre ninguna obra (`no_match`). Solo
+un envío válido y correcto puede entonces abrir su propia sesión de lectura.
+Sin una solicitud aceptada, la sincronización inicial independiente sigue
+disponible tras la ventana si el estado HA en caché sigue válido y `on`. Las
+reglas posteriores de recuperación tras cambios reales `off`/`on` no cambian.
+
+Esta ventana limitada no puede anticipar scripts con retrasos arbitrarios. Si
+ya se ha iniciado un receptor independiente, un envío posterior debe detenerlo
+primero y esperar a que termine. Las pruebas sin conexión de este arreglo no
+aportan nuevas pruebas físicas contra despertares del TV o cambios de modo.
 
 Después solo se lee ese estado HA cada cinco segundos. Un `off` observado y un
 `on` más reciente de como máximo 30 segundos permiten otra lectura. Ambas rutas
@@ -43,7 +57,7 @@ Imágenes antiguas, envíos de otras apps y envíos sin identidad estable quedan
 ## Activar la tarjeta opcional
 
 1. Conserve cámara, temporizador, tarjetas y el ID `script.frame_gallery_new_artwork`.
-2. Active **Modo en segundo plano** y reinicie la app. Iniciar/Detener controla el servicio, no la imagen. Sin la entidad opcional anterior no se contacta al TV al iniciar; con ella el primer HA `on` puede activar la lectura.
+2. Active **Modo en segundo plano** y reinicie la app. Iniciar/Detener controla el servicio, no la imagen. Sin la entidad opcional anterior no se contacta al TV al iniciar; con ella el primer HA `on` puede permitir la lectura tras la ventana de diez segundos, salvo que una solicitud de envío aceptada la sustituya.
 3. Sustituya solo el contenido del script por el [script de envío completo](examples/background-send-script.yaml). Ajuste el slug y temporizador si difieren. Las tarjetas siguen funcionando; sustituya llamadas directas a `hassio.app_start` por el script.
 4. Tras un envío anterior correcto, configure la entidad anterior para leer la obra ya visible sin otro envío. En una instalación sin asociación TV guardada, solicite la primera obra con modo Arte visible; un envío correcto permite una sesión experimental. Actualizar por sí solo no abre una conexión.
 5. Añada una tarjeta manual con el YAML **completo** siguiente.
@@ -86,7 +100,7 @@ nueva secuencia completa en la misma conexión. No confirma ninguna obra ni
 envía otra consulta. Los mensajes desconocidos o incorrectos, el reposo, el modo
 TV y la pérdida de conexión siguen terminando la sesión. Los códigos fijos del
 registro distinguen errores de inicio, recepción, decodificación y proceso
-aislado, sin mensajes sin procesar ni credenciales. El inicio b12 no tiene nueva
+aislado, sin mensajes sin procesar ni credenciales. El inicio b12 y la ventana b13 no tienen nueva
 validación física de TV o reposo.
 
 En el registro, `event sequence incomplete` significa que los datos se han

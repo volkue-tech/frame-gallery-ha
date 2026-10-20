@@ -1,5 +1,67 @@
 # Project status
 
+## Authorized D-240 beta b13 release — preparing, 2026-10-20
+
+User explicitly authorizes building/publishing the local fix under personal
+volkue-tech/frame-gallery-ha. Installed b12 stays stopped and all existing
+cards/scripts remain intact. No HA/TV access or live deployment/test authorized.
+Prepare new 0.1.0b13, never overwrite b12 or older source/image/release tags.
+The existing personal token is authenticated as volkue-tech in the constrained
+four-hour memory-only broker; no token persistence/output or scope expansion.
+Public metadata confirms no existing b13 app release. Numbered host/native,
+matching-source, evidence/image/signature gates precede public app/Store handoff.
+Both exact approvals must be disabled/read back and the broker demonstrably
+ended before handback. Native Terminal control remains prohibited; do not bypass.
+Five-language guides explain the fixed handoff; every full YAML block is
+byte-identical. Numbered host gates pass 5943/16 platform skips in 58.48s,
+303-file strict host/Linux typing, Ruff/format and 100% whole/mandatory
+line/branch coverage. Native/source/image/publication gates remain pending.
+No new physical-safety or incident-root-cause claim from offline tests.
+
+## D-240 duplicate initialization fixed locally — offline gates pass — 2026-10-20
+
+User authorizes local fix/offline tests only. Installed official b12 remains
+stopped (last live verification 14:23:11.067 CEST); saved background option is
+ON, not falsely relabelled OFF. No HA/TV/browser/credential/GitHub access, native
+Terminal window, app/card/script change, build, version bump or publication in
+this round. Unrelated docs/community and original incident evidence are untouched.
+
+The prior offline dispatch replay proves an extra automatic read/cancel before
+one explicit startup send. Physical Art-to-TV cause remains unproved; production
+event_rejected retained no raw offending event. D-240 removes that startup pattern:
+receive command before tick, fixed ten-second initial handoff, and accepted-send
+supersession before reap/publication/send. A failed/no_match send or refused
+post-send proof cannot revive initial evidence. Without a send, opted-in startup
+still reads once after the handoff and continued valid cached on. Later genuine
+off/on and six/hour/auth limits remain. Existing cards/scripts need no migration.
+
+New fake-clock/controller cases cover delayed startup sends, failures, missing/
+invalid Core/gaps, standalone/refresh/replay, stop/reap and future wake. Actual
+entry with fake Core/store/publisher and unchanged no_match receipt verifies
+the production cancellation wiring. Removing grace in memory fails eight
+behaviour assertions (12 controls pass); removing supersession fails that actual
+entry test. Restoring tick-before-input fails the queued-command/deadline case.
+No source file was changed by the controls. An earlier focused run passed 497
+observer/TV-session tests. Final unchanged scripts/check.sh passes completely:
+5943 passed/16 genuine Linux/root-only skips in 49.21s, Ruff/303 formatted files,
+strict host and Linux-platform typing over 303 files, 100% whole line/branch
+coverage (11491 statements/2744 branches), mandatory subset 100% (8769/2028).
+The first confined run's two unchanged group/setgid failures remain retained;
+both full normal-permissions reruns passed without test or permission changes.
+No native Linux/ARM/Intel or physical-TV result is inferred from host checks.
+
+Final diff review confirms version/config/lock/dependencies/translations,
+AppArmor, complete card/script examples and all TV/isolation modules unchanged.
+Only four runtime modules change startup arbitration/wiring. No commit/push or
+external state mutation. All own tool test sessions demonstrably completed;
+no native Terminal windows were created or controlled in this round.
+
+The handoff is bounded, not arbitrary-latency intent prediction: a later explicit
+send must still reap an already established standalone receiver. Offline success
+cannot certify firmware/no-wake/no-mode-change safety or the incident's cause.
+Native/live/build/publication remain separately gated. Evidence and logs:
+build/startup-arbitration-20261020; original build/tv-mode-incident-20261020 intact.
+
 ## D-239 b12 initial already-on synchronization — public beta / docs handoff — 2026-10-20
 
 User authorizes local implementation, offline tests and bugfix publication,

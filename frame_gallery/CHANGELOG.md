@@ -1,5 +1,28 @@
 # Changelog
 
+## 0.1.0b13 (beta candidate)
+
+- Avoid duplicate initialization around a dashboard-started image request.
+  Reserve a fixed ten-second initial handoff and process input before ticking.
+  An accepted new-artwork request consumes the unused initial/old-edge evidence
+  before cleanup, publication or delivery; failure and no_match cannot leave a
+  hidden initial read behind. A fresh successful delivery may start its receiver.
+- Preserve one standalone initial read after the handoff and continued valid
+  cached HA on, plus later genuine off/on recovery and existing attempt/auth
+  limits. Invalid/off/unknown/error/gap clears pending startup evidence. Refresh
+  and rejected/replayed input cannot postpone the deadline or reopen a failure.
+- Keep existing cards, scripts, per-TV memory, history, catalogue, dependencies,
+  permissions and default-off mode. No new image/power/mode command or TV polling.
+  Five-language guides explain the handoff; existing complete YAML is unchanged.
+- The grace is bounded, not prediction of arbitrarily delayed user actions.
+  A later send still reaps an already running independent receiver. The reported
+  physical Art-to-TV transition's cause remains unproved; no new hardware or
+  universal no-wake/no-mode-change guarantee is claimed.
+- Local unnumbered gates passed 5,943 tests/16 platform skips and 100% line/branch
+  coverage. Numbered-candidate/native ARM/Intel, matching sources, actual images,
+  evidence and signature checks remain pending before publication. Publishing
+  does not update or start an installed HA app or change dashboard configuration.
+
 ## 0.1.0b12 (public beta)
 
 - Fix initial synchronization when the Frame already shows an artwork: with

@@ -1,5 +1,24 @@
 # Frame Gallery for Home Assistant — Architecture proposal
 
+## D-240 local startup arbitration, 2026-10-20 (unpublished)
+
+The service receives commands before ticking. WakeMonitor's initial-on path
+has a ten-second monotonic command handoff; ordinary bounded Core sampling
+continues, but no initial TV-read grant is emitted before the deadline. The
+pure gate retains only a valid pending initial on and discards it on missing,
+invalid, off/unknown/error or a >15-second sample gap. Later valid sampling is
+required, not a blind delayed callback. The grace is fixed, never extended by
+input, and uses no sleep thread, extra request or TV polling.
+
+EventController's accepted NEW_ARTWORK invokes WakeMonitor.supersede before
+reap/publication/send, spending initial and old off-edge evidence without I/O
+or resetting attempt/auth limits. Thus failed/no_match sends cannot leave an
+automatic initial read behind; fresh successful delivery alone arms the existing
+post-send receiver. Future genuinely observed off/on retains D-238 semantics.
+Already-running independent receivers still must be reaped before later sends.
+The installed app/cards/scripts, isolation and per-TV attribution remain intact;
+this local correction is not proof of physical Art-to-TV incident causality.
+
 ## D-239 initial already-on synchronization, 2026-10-19
 
 The user explicitly accepts one experimental initial read from configured

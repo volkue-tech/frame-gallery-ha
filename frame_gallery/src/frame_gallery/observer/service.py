@@ -37,8 +37,6 @@ def serve(
 ) -> None:
     controller.start()
     try:
-        if not stopped():
-            controller.tick()  # consume startup read before a queued delivery command
         while not stopped():
             command = receive(0.5)
             if stopped():

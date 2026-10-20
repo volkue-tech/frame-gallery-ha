@@ -13,6 +13,9 @@ FRESH_ON_S: Final = 30.0
 MAX_SAMPLE_GAP_S: Final = 15.0
 MAX_WAKES_PER_HOUR: Final = 6
 HA_POLL_S: Final = 5.0
+# The existing dashboard script waits up to five seconds for service readiness
+# before stdin delivery. Leave room for that handoff, not an extra TV session.
+INITIAL_COMMAND_GRACE_S: Final = 10.0
 
 
 class WakeEvent(enum.Enum):
@@ -50,18 +53,28 @@ class WakeGate:
     def __init__(self, started: float, *, initial_on: bool = False) -> None:
         self._started = started
         self._initial_on = initial_on
+        self._initial_pending = False
         self._last_poll: float | None = None
         self._changed = -1.0
         self._state: str | None = None
         self._off: float | None = None
         self._attempts: list[float] = []
 
-    def feed(self, sample: WakeSample | None, now: float) -> WakeEvent:
-        initial, self._initial_on = self._initial_on, False
+    def supersede(self) -> None:
+        """An accepted send spends startup/old-edge evidence, never the budget."""
+        self._initial_on = self._initial_pending = False
+        self._off = None
+
+    def feed(
+        self, sample: WakeSample | None, now: float, *, initial_ready: bool = True
+    ) -> WakeEvent:
+        initial = self._initial_on or self._initial_pending
+        self._initial_on = self._initial_pending = False
         gap = self._last_poll is not None and not 0 <= now - self._last_poll <= MAX_SAMPLE_GAP_S
         self._last_poll = now
         if gap:
             self._off = None
+            initial = False
         if sample is None or sample.state in {"unknown", "unavailable"}:
             self._off = None
             return WakeEvent.NONE
@@ -83,11 +96,15 @@ class WakeGate:
             self._off = sample.changed
             return WakeEvent.SLEEP
         self._off = None
-        if not initial and (
-            prior_off is None
-            or sample.changed <= prior_off
-            or sample.changed < self._started
-            or now - sample.changed > FRESH_ON_S
+        self._initial_pending = initial and not initial_ready
+        if self._initial_pending or (
+            not initial
+            and (
+                prior_off is None
+                or sample.changed <= prior_off
+                or sample.changed < self._started
+                or now - sample.changed > FRESH_ON_S
+            )
         ):
             return WakeEvent.NONE
         self._attempts = [at for at in self._attempts if now - at < 3600]
@@ -110,11 +127,16 @@ class WakeMonitor:
     ) -> None:
         self._read, self._monotonic, self._wall = read, monotonic, wall
         self._gate = WakeGate(wall(), initial_on=initial_on)
+        self._initial_after = monotonic() + INITIAL_COMMAND_GRACE_S
         self._next = 0.0
+
+    def supersede(self) -> None:
+        """Cancel deferred startup on an accepted explicit send; no I/O."""
+        self._gate.supersede()
 
     def poll(self) -> WakeEvent:
         now = self._monotonic()
         if now < self._next:
             return WakeEvent.NONE
         self._next = now + HA_POLL_S
-        return self._gate.feed(self._read(), self._wall())
+        return self._gate.feed(self._read(), self._wall(), initial_ready=now >= self._initial_after)

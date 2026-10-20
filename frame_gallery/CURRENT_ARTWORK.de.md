@@ -2,7 +2,7 @@
 
 [English](CURRENT_ARTWORK.md) | Deutsch | [Français](CURRENT_ARTWORK.fr.md) | [Español](CURRENT_ARTWORK.es.md) | [Italiano](CURRENT_ARTWORK.it.md)
 
-**Beta b12: experimentell und standardmäßig aus.** Bestehende b7/b8/b9/b10/b11-Karten bleiben nutzbar. Auf Home Assistant Green/OS werden keine API-Schlüssel, neuen Helfer, HACS-Erweiterungen, Sonderrechte oder weiteren Apps benötigt.
+**Beta-b13-Kandidat: experimentell und standardmäßig aus.** Bestehende b7/b8/b9/b10/b11/b12-Karten bleiben nutzbar. Auf Home Assistant Green/OS werden keine API-Schlüssel, neuen Helfer, HACS-Erweiterungen, Sonderrechte oder weiteren Apps benötigt.
 
 Auch eine lesende Verbindung kann einen Fernseher aufwecken. Kontrollierte Tests erfassten automatische Bildwechsel und einen natürlichen Einschlafvorgang an einem Frame, nicht alle Modelle oder Firmwares. Falls jedes Aufweckrisiko inakzeptabel ist, Hintergrundmodus ausgeschaltet lassen.
 
@@ -22,6 +22,20 @@ Vor Künstlerdaten werden Geräteidentität, Kunstmodus, aktuelle ID und Bild ne
 geprüft; kein Bild wird gesendet. Fehlender, ungültiger, zukünftiger, ausgeschalteter,
 unbekannter oder fehlgeschlagener erster Zustand verbraucht die Startgelegenheit.
 Ein späteres `on` wiederholt den Startversuch nicht.
+
+**Startfenster — b13-Kandidat:** Ein festes Zeitfenster von zehn Sekunden gibt
+einem angenommenen neuen Bildauftrag Vorrang vor dem automatischen Startabgleich.
+Mit der Annahme verfällt die übrig gebliebene Startgelegenheit vor dem Versand,
+auch wenn dieser später fehlschlägt oder kein passendes Bild findet (`no_match`).
+Nur ein gültiger erfolgreicher Versand darf danach seine eigene Lesesitzung
+starten. Ohne angenommenen Bildauftrag bleibt der eigenständige Startabgleich
+nach dem Fenster möglich, solange der gespeicherte HA-Zustand gültig und `on`
+bleibt. Die späteren Regeln für echte `off`/`on`-Wechsel bleiben unverändert.
+
+Dieses begrenzte Fenster kann beliebig verspätete Scripte nicht vorhersagen.
+Läuft bereits ein eigenständiger Empfänger, muss ein späterer Versand ihn zuerst
+stoppen und sein Ende abwarten. Die Offline-Tests dieses Fixes liefern keinen
+neuen Hardware-Nachweis gegen Aufwecken oder einen Moduswechsel des TVs.
 
 Danach liest die App nur diesen HA-Zustand alle fünf Sekunden. Ein beobachtetes
 `off` und ein neueres, höchstens 30 Sekunden altes `on` erlauben einen weiteren
@@ -45,7 +59,7 @@ Alte TV-Bilder, Uploads anderer Apps und Sendungen ohne stabile Geräteidentitä
 ## Optionale aktuelle Künstlerkarte einrichten
 
 1. Kamera, Timer, bestehende Karten und die Entitäts-ID `script.frame_gallery_new_artwork` behalten.
-2. **Hintergrundmodus** einschalten und die App neu starten. Start/Stop steuert den Dienst, keinen Bildwechsel. Ohne optionale Entität oben keine Startverbindung; mit ihr kann das erste HA `on` den Startabgleich auslösen.
+2. **Hintergrundmodus** einschalten und die App neu starten. Start/Stop steuert den Dienst, keinen Bildwechsel. Ohne optionale Entität oben keine Startverbindung; mit ihr kann das erste HA `on` nach dem Zehn-Sekunden-Fenster einen Startabgleich erlauben, sofern kein angenommener Bildauftrag ihn ersetzt.
 3. Nur den Script-Inhalt durch das [vollständige Hintergrund-Sende-Script](examples/background-send-script.yaml) ersetzen. App-Slug und vorhandene Timer-ID bei Bedarf anpassen. Aufrufende Karten funktionieren weiter; direkte `hassio.app_start`-Automationen auf das Script umstellen.
 4. Nach einem früheren erfolgreichen Versand die optionale Entität oben konfigurieren: Das bereits sichtbare Werk wird ohne neuen Versand geprüft. Bei einer Neuinstallation ohne gespeicherte TV-Zuordnung einmal das erste neue Werk im sichtbaren Kunstmodus anfordern; ein erfolgreicher Versand erlaubt eine experimentelle Ereignissitzung. Aktualisieren allein öffnet keine Verbindung.
 5. Eine manuelle Dashboard-Karte mit dem **vollständigen** YAML unten ergänzen.
@@ -88,8 +102,8 @@ auf derselben Verbindung auf eine neue vollständige Folge. Sie bestätigen kein
 Werk und lösen keine weitere Abfrage aus. Unbekannte oder fehlerhafte Meldungen,
 Standby, TV-Betrieb und Verbindungsverlust beenden die Sitzung weiterhin. Feste
 Fehlercodes im App-Protokoll unterscheiden Start-, Empfangs-, Dekodierungs- und
-Workerfehler, ohne rohe Nachrichten oder Zugangsdaten auszugeben. Diese
-b12-Startfunktion hat keinen neuen Live-TV- oder Einschlafnachweis.
+Workerfehler, ohne rohe Nachrichten oder Zugangsdaten auszugeben. Die
+b12-Startfunktion und das b13-Startfenster haben keinen neuen Live-TV- oder Einschlafnachweis.
 
 Im Protokoll bedeutet `event sequence incomplete`: Künstlerdaten ausgeblendet,
 dieselbe Verbindung wartet — kein bestätigtes Werk.

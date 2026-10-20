@@ -1,5 +1,19 @@
 # Product specification
 
+## Local startup/send arbitration, 2026-10-20 (D-240, unreleased)
+
+Avoid an automatic initial read immediately before the existing dashboard's
+explicit send. Reserve a fixed ten-second startup handoff, retaining bounded
+cached-HA checks and fail-closed initial-sample rules. An accepted new-artwork
+command spends the unused initial/old-edge evidence before any send or failure;
+it cannot cause an automatic startup retry after no_match or failed delivery.
+Only its fresh successful delivery may arm the existing post-send receiver.
+Without a send, the opted-in standalone initial read remains available once,
+after the handoff and renewed valid cached on. Later natural-edge rules remain.
+No new setup, privilege, card/script change or TV command. Installed b12 stays
+stopped; local/offline only, no publication. This bounded handoff cannot predict
+arbitrary later user actions and is not proof of a physical mode-switch fix.
+
 ## Explicit initial already-on synchronization, 2026-10-19 (D-239)
 
 With background mode and an existing resume_state_entity configured, the first
