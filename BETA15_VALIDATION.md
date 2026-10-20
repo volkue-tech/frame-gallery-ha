@@ -32,18 +32,19 @@ certify physical no-wake or sleep behaviour across firmware/configurations.
 
 ## Observed offline evidence
 
-- Full unchanged check.sh:6044 passed/16 platform skips in50.87s.
+- Final unchanged check.sh:6045 passed/16 platform skips in52.31s.
 - Ruff/306 formatted files and strict host/Linux typing passed.
-- Whole line/branch100%:11700 statements/2826 branches.
-- Mandatory100%:8932 statements/2088 branches.
+- Whole line/branch100%:11703 statements/2826 branches.
+- Mandatory100%:8935 statements/2088 branches.
 - Actual pinned library over socketpair checks same Art URL, fixed getters,
   one original thumbnail, deferred off/nav startup, exact device and shutdown.
 - Parent/controller covers caption clearing, single retained opted-in session,
   deferred baseline, known/unknown metadata and terminal standby.
-- Earlier development typing failure retained, not skipped or weakened.
-- Five in-memory guard-removal controls produce expected failures: coherent
+- Earlier development typing/style failures retained, not skipped or weakened.
+- Six in-memory guard-removal controls produce expected failures: coherent
   equal IDs, correlation, explicit policy, Art-off recovery and actual attempt
-  spacing. They do not modify production or test source files.
+  spacing and no repeated thumbnail after initial-proof expiry. They do not
+  modify production or test source files.
 - Eight virtual hours through the actual worker loop:479 coherent reads,
   1916 read requests, minimum60s spacing and finite shutdown without another
   send at the deadline. No real device or sleep-safety claim.

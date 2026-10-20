@@ -17,6 +17,8 @@ identity/open, defer the original single initial thumbnail proof until fresh
 on, on that very socket and within the same five-second cycle. No repeated
 thumbnail download or substitute identity proof. Parent explicitly keeps only
 this opted-in TV_IN_USE session; default event-only termination is unchanged.
+If the deferred thumbnail itself expires, end rather than repeating it on the
+next minute; only a pre-thumbnail mode-read timeout remains recoverable.
 Backpressure must not shorten the actual 60-second attempt spacing.
 A lost on event can no longer
 permanently suspend the existing socket's state checks. Positive correlated or

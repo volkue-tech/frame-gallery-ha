@@ -7,7 +7,7 @@
   attempt spacing. Preserve default-OFF risk choice and no live connections.
 - [x] Targeted final-path tests121 passed; real-library socketpair, controller
   and unchanged legacy tests included. No claim of physical sleep safety.
-- [x] Repeat complete b15 host gates6044/16,306-file strict host/Linux typing,
+- [x] Repeat final complete b15 host gates6045/16,306-file strict host/Linux typing,
   100% whole/mandatory line/branch; preserve all original tests/guards.
 - [ ] Repeat native/source/image/signature chain for
   exact b15 before publishing app/Store; retain immutable b14 source-only tag.

@@ -381,6 +381,26 @@ def test_parent_backpressure_does_not_schedule_the_next_read_too_soon() -> None:
     stream.close()
 
 
+def test_expired_initial_snapshot_ends_instead_of_downloading_thumbnail_again() -> None:
+    r = Rig()
+    attempts: list[float] = []
+
+    def snapshot() -> dict[str, Any]:
+        attempts.append(r.now)
+        r.now += 5
+        return {"content_id": "MY_KNOWN"}
+
+    stream = current_state_events(
+        r.connection, r.bounds, POLICY, TimeoutError, now=lambda: r.now, initial_snapshot=snapshot
+    )
+    r.responses = [r.at(60)]
+    assert next(stream) == {"kind": "state_checking"}
+    with pytest.raises(ValueError, match="no repeated thumbnail"):
+        next(stream)
+    assert attempts == [60]
+    assert len(r.sent) == 1
+
+
 def test_unknown_frame_clears_then_current_state_recovers_on_same_socket() -> None:
     r = Rig()
     stream = r.listening()

@@ -14,6 +14,7 @@
   single thumbnail proof (fresh identity remains pinned); no ID-only first
   baseline. Unknown initial status still fails closed. Test the actual pinned
   library over socketpair and parent/controller, not only generator stubs.
+  Expiry during the deferred thumbnail must end, never download it repeatedly.
 - Parent/backpressure delays cannot shorten actual attempt spacing. Standby
   remains terminal; legacy event-only mode-off still terminates as before.
 - Retain b14's already public corresponding sources without rewriting them;

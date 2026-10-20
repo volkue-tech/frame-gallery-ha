@@ -11,13 +11,16 @@ never accept ID-only first metadata. Unknown startup mode still fails closed.
 Backpressure cannot shorten actual attempt spacing. Default event-only, wake,
 send and physical standby boundaries remain. No HA/TV call or installed change.
 
-Targeted final-path tests passed121. Full unchanged b15 host gates passed6044
-tests/16platform skips in50.87s, strict306-file host/Linux typing, Ruff/format,
-100% whole line/branch11700/2826 and mandatory8932/2088. Earlier typing failure
+Targeted final-path tests passed121 before the added single-thumbnail expiry
+case. Final unchanged b15 host gates passed6045
+tests/16platform skips in52.31s, strict306-file host/Linux typing, Ruff/format,
+100% whole line/branch11703/2826 and mandatory8935/2088. Earlier typing/style failures
 is retained, not suppressed. No b15 native/publication result claimed yet.
-Five in-memory negative controls fail expected behaviour assertions, without
+Six in-memory negative controls fail expected behaviour assertions, without
 source edits. Eight virtual hours produce479 coherent checks/1916GETs, minimum
 60s spacing and no send beyond the finite deadline; no real device claim.
+An expired deferred initial thumbnail is terminal, not retried on the next
+minute. No recurring thumbnail can hide behind a recoverable mode-read timeout.
 b14 local native ARM gate
 completed6039/8 plus8root checks,26 real1GiB preparations and150 inspections,
 zero failures. That is b14-only, not b15 or Intel proof. Both candidates remain

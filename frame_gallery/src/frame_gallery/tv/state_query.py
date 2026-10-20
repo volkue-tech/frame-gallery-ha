@@ -145,8 +145,11 @@ def read_current_state(
     try:
         mode()
         if initial_snapshot is not None:
-            initial_id = initial_snapshot()  # original one-thumbnail proof, same deadline
-            bounds.check()
+            try:
+                initial_id = initial_snapshot()  # original one-thumbnail proof, same deadline
+                bounds.check()
+            except RefreshExpired:
+                raise ValueError("initial snapshot expired; no repeated thumbnail") from None
             return initial_id
         first, second = content(), content()
         mode()
