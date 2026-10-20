@@ -1,22 +1,31 @@
 # Implementation plan and approval gates
 
-## Authorized beta 0.1.0b13 publication — 2026-10-20
+## Authorized beta 0.1.0b13 publication — release gates passed, closure remaining
 
-- [x] Record exact build/publication authority, preserve stopped b12/cards/scripts
-  and unrelated docs/community; no HA/TV connection or installed-app mutation.
-- [x] Verify existing personal memory-only repository access, no new credential
-  or rights; public no-existing-b13 check. Number only own project/lock/metadata.
-- [x] Complete five-language handoff notes without changing any YAML/code block;
-  full numbered host gates pass 5943/16 skips, 303-file typing, 100% coverage.
-- [ ] Freeze exact personal candidate commit.
-- [ ] Assemble matching clean-source package, publish source-only release and
-  anonymously verify exact full archive/commit/member contents.
-- [ ] Set/read back exact one-time approvals; pass native ARM/Intel validators
-  and actual publishers, four exact evidence ZIPs and real root/memory gates.
-- [ ] Independently verify both public images, source fingerprints and signatures;
-  only then app prerelease and exact documentation-only Store main handoff.
-- [ ] Disable/read back approvals, final public byte checks, end memory-only
-  broker and confirm exact process closure; no unsupported window-cleanup claim.
+- [x] Preserve exact build/publication authority, stopped b12/cards/scripts and
+  unrelated docs/community; no HA/TV or installed-app mutation in this round.
+- [x] Pass numbered host gates: 5943/16 platform skips, strict 303-file typing,
+  Ruff/format and 100% line/branch coverage. Preserve every complete YAML block.
+- [x] Freeze/push cb4c2e10ddf8e0f0315a7303f126f75883794f1d; publish matching source-only
+  release 418431356/asset 659404550 and verify the complete anonymous
+  archive, frozen project snapshot and all 174 retained source archives.
+- [x] Pass all five native jobs in 39474600949, both validators and actual
+  publishers: 5951/eight root skips plus eight separate root tests each.
+  Four exact-run archives pass hash/provenance/content checks, each with
+  26 real 1-GiB preparations and 150 inspections/zero failures.
+- [x] Independently verify both anonymous images, exact runtime fingerprints,
+  D-240 import probes and pinned immutable-digest signatures.
+- [x] Publish app prerelease 418764916/v0.1.0b13 at the frozen source/runtime.
+  Independently reload/read back both approvals as DISABLED_AFTER_0.1.0b13.
+- [ ] Finish exactly 17 documentation-only Store files, preserve all 16 complete
+  YAML/code blocks and runtime/config/workflows/dependencies, then verify the
+  final pushed main and all 38 public files against the exact release/source/images.
+  Retain the actual final commit and cross-check receipts after the push.
+- [ ] End broker and verify exact PID absence before handback. The earlier
+  memory session expired and a renewed personal four-hour session is in use;
+  do not claim it has ended before observing closure. Close only own permitted
+  completed UI sessions. Native Terminal control remains technically prohibited.
+  No installed-app/card change or new physical-safety conclusion is authorized.
 
 ## D-240 local duplicate-initialization fix, authorized 2026-10-20
 

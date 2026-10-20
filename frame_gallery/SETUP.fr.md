@@ -1,18 +1,25 @@
 # Frame Gallery — installation et première carte
 
-> Nouveau en bêta b12 : avec l'arrière-plan et l'entité Samsung existante configurés,
-> le premier état HA « on » au démarrage autorise une seule lecture initiale,
-> même s'il est inchangé depuis longtemps. Une transition arrêt-marche fraîche
-> ultérieure permet une autre tentative ; aucun nouvel envoi d'image.
-> L'[œuvre actuelle](CURRENT_ARTWORK.fr.md)
-> reste expérimentale et désactivée par défaut : la connexion peut réveiller le
-> TV ou modifier son mode. Chaque envoi réussi mémorise titre/artiste pour ce TV,
-> même sans arrière-plan. Sans nouvelle preuve, une image fixe peut redevenir
-> non confirmée après 90 secondes. Le parcours ponctuel ci-dessous ne change pas.
+> Nouveau en bêta b13 : une fenêtre fixe de dix secondes donne la priorité à
+> une demande de nouvelle œuvre acceptée sur la lecture initiale automatique
+> facultative. L'acceptation consomme la possibilité initiale restante, même en
+> cas de `no_match` ou d'échec ; aucune lecture initiale résiduelle ne suit.
+> Sans demande acceptée, la synchronisation autonome reste possible avec un état
+> HA en cache valide « on » ; les vraies transitions arrêt-marche ultérieures
+> gardent leurs règles. La fenêtre ne peut pas anticiper des scripts arbitrairement
+> retardés : un envoi ultérieur doit d'abord arrêter un récepteur déjà actif.
+> Les cartes et scripts restent compatibles. L'[œuvre actuelle](CURRENT_ARTWORK.fr.md)
+> reste expérimentale et désactivée par défaut. Aucune correction du changement
+> physique en mode TV n'est prouvée, ni nouvelle sécurité matérielle : la connexion
+> peut encore réveiller le TV ou modifier son mode. [Rapport b13](https://github.com/volkue-tech/frame-gallery-ha/blob/main/BETA13_VALIDATION.md)
+> et [sources correspondantes](https://github.com/volkue-tech/frame-gallery-ha/releases/tag/sources-v0.1.0b13).
+> Chaque envoi réussi mémorise titre/artiste, même sans arrière-plan. Sans nouvelle
+> preuve, une image fixe peut redevenir non confirmée après 90 secondes.
+> Le parcours ponctuel ci-dessous ne change pas.
 
 [English](DOCS.md#installation) | [Deutsch](SETUP.de.md) | **Français** | [Español](SETUP.es.md) | [Italiano](SETUP.it.md)
 
-Guide de démarrage pour la **bêta 0.1.0b12**. La langue de cette page est choisie
+Guide de démarrage pour la **bêta 0.1.0b13**. La langue de cette page est choisie
 avec les liens ci-dessus, pas automatiquement par Home Assistant.
 Les documents techniques restent [en anglais](DOCS.md#options).
 Depuis 0.1.0b7, le formulaire propose anglais, allemand, français, espagnol et

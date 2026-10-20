@@ -2,7 +2,7 @@
 
 English | [Deutsch](CURRENT_ARTWORK.de.md) | [Français](CURRENT_ARTWORK.fr.md) | [Español](CURRENT_ARTWORK.es.md) | [Italiano](CURRENT_ARTWORK.it.md)
 
-**Beta b13 candidate: experimental and off by default.** Existing b7/b8/b9/b10/b11/b12 cards remain usable. No API key, new helper, HACS extension, special permissions or second app is needed on Home Assistant Green/OS.
+**Public beta b13: experimental and off by default.** Existing b7/b8/b9/b10/b11/b12 cards remain usable. No API key, new helper, HACS extension, special permissions or second app is needed on Home Assistant Green/OS.
 
 A read-only connection can still wake a television. Controlled tests covered automatic slideshow changes and one natural-sleep episode on one Frame, not every model or firmware. Leave background mode off if any wake-up risk is unacceptable.
 
@@ -22,7 +22,7 @@ current ID and image are verified before any artist/title is restored. There is
 no image send. A missing, invalid, future, `off`, unknown or failed first sample
 consumes the startup opportunity; later `on` samples cannot retry it.
 
-**Startup handoff — b13 candidate:** a fixed ten-second window gives an accepted
+**Startup handoff — b13:** a fixed ten-second window gives an accepted
 new-artwork command priority over the automatic initial read. Acceptance cancels
 the leftover startup opportunity before sending, even if the send later fails or
 finds no match (`no_match`); only a valid successful delivery may then start its

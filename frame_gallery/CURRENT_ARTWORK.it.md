@@ -2,7 +2,7 @@
 
 [English](CURRENT_ARTWORK.md) | [Deutsch](CURRENT_ARTWORK.de.md) | [Français](CURRENT_ARTWORK.fr.md) | [Español](CURRENT_ARTWORK.es.md) | Italiano
 
-**Candidata beta b13: sperimentale e disattivato per impostazione predefinita.** Le schede b7/b8/b9/b10/b11/b12 restano utilizzabili. Nessun nuovo aiutante, chiave API, HACS, privilegio speciale o altra app su Home Assistant Green/OS.
+**Beta pubblica b13: sperimentale e disattivato per impostazione predefinita.** Le schede b7/b8/b9/b10/b11/b12 restano utilizzabili. Nessun nuovo aiutante, chiave API, HACS, privilegio speciale o altra app su Home Assistant Green/OS.
 
 Anche una connessione in lettura può risvegliare il TV. I test controllati coprono cambi automatici e un episodio di sonno naturale su un Frame, non tutti i modelli o firmware. Lasciare disattivato se questo rischio è inaccettabile.
 
@@ -22,7 +22,7 @@ Arte, ID e immagine vengono verificati prima di artista/titolo; nessuna immagine
 inviata. Un primo risultato mancante, non valido, futuro, `off`, sconosciuto o
 fallito consuma l'opportunità; i successivi `on` non la ripetono.
 
-**Finestra iniziale — candidata b13:** una finestra fissa di dieci secondi dà
+**Finestra iniziale — b13:** una finestra fissa di dieci secondi dà
 priorità a una richiesta accettata di nuova opera rispetto alla lettura iniziale
 automatica. L'accettazione annulla l'opportunità iniziale residua prima
 dell'invio, anche se poi fallisce o non trova alcuna opera (`no_match`). Solo un

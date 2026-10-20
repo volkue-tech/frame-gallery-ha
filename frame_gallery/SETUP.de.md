@@ -1,14 +1,21 @@
 # Frame Gallery — Installation und erste Dashboardkarte
 
-> Neu ab Beta b12: Mit Hintergrundmodus und vorhandener Samsung-TV-Entität
-> erlaubt die erste HA-Meldung „an“ beim App-Start einmal einen lesenden
-> Anfangsabgleich, auch bei länger unverändertem Zustand. Ein späterer frischer
-> Aus-an-Wechsel erlaubt einen weiteren Versuch; kein neuer Bildversand nötig.
+> Neu ab Beta b13: Ein festes Startfenster von zehn Sekunden gibt einem
+> angenommenen Bildauftrag Vorrang vor dem optionalen automatischen Startabgleich.
+> Die Annahme verbraucht die übrige Startgelegenheit auch bei `no_match` oder Fehlern;
+> danach folgt kein übrig gebliebener Initialabruf. Ohne Bildauftrag bleibt der
+> eigenständige Startabgleich bei gültigem gespeichertem HA „an“ möglich; spätere
+> echte Aus-an-Wechsel folgen den bisherigen Regeln. Beliebig verspätete Scripte
+> kann das Fenster nicht vorhersagen: Ein späterer Versand muss einen bereits
+> laufenden Empfänger erst stoppen. Karten und Scripte bleiben kompatibel.
 > [Aktuelles TV-Kunstwerk](CURRENT_ARTWORK.de.md) bleibt experimentell und
-> standardmäßig aus; bereits die Verbindung kann aufwecken oder den Modus ändern.
-> Jeder erfolgreiche Upload merkt sich Titel/Künstler für diesen TV auch ohne
-> Hintergrundmodus. Ohne neue Bestätigung können statische Bilder nach 90 Sekunden
-> wieder unbestätigt sein. Hier folgt der unveränderte Einmalbetrieb.
+> standardmäßig aus. Kein belegter Fix für den physischen Wechsel in den TV-Modus
+> und kein neuer Hardware-Nachweis: Eine Verbindung kann weiter aufwecken oder
+> den Modus beeinflussen. [b13-Prüfbericht](https://github.com/volkue-tech/frame-gallery-ha/blob/main/BETA13_VALIDATION.md)
+> und [passende Quellen](https://github.com/volkue-tech/frame-gallery-ha/releases/tag/sources-v0.1.0b13).
+> Jeder erfolgreiche Versand merkt sich Titel/Künstler auch ohne Hintergrundmodus.
+> Ohne neue Bestätigung können statische Bilder nach 90 Sekunden unbestätigt sein.
+> Der hier beschriebene Einmalbetrieb bleibt unverändert.
 
 [English](DOCS.md#installation) | **Deutsch** | [Français](SETUP.fr.md) | [Español](SETUP.es.md) | [Italiano](SETUP.it.md)
 

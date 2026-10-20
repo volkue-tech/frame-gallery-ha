@@ -1,22 +1,39 @@
 # Project status
 
-## Authorized D-240 beta b13 release — preparing, 2026-10-20
+## D-240 beta b13 — public prerelease, documentation handoff — 2026-10-20
 
-User explicitly authorizes building/publishing the local fix under personal
-volkue-tech/frame-gallery-ha. Installed b12 stays stopped and all existing
-cards/scripts remain intact. No HA/TV access or live deployment/test authorized.
-Prepare new 0.1.0b13, never overwrite b12 or older source/image/release tags.
-The existing personal token is authenticated as volkue-tech in the constrained
-four-hour memory-only broker; no token persistence/output or scope expansion.
-Public metadata confirms no existing b13 app release. Numbered host/native,
-matching-source, evidence/image/signature gates precede public app/Store handoff.
-Both exact approvals must be disabled/read back and the broker demonstrably
-ended before handback. Native Terminal control remains prohibited; do not bypass.
-Five-language guides explain the fixed handoff; every full YAML block is
-byte-identical. Numbered host gates pass 5943/16 platform skips in 58.48s,
-303-file strict host/Linux typing, Ruff/format and 100% whole/mandatory
-line/branch coverage. Native/source/image/publication gates remain pending.
-No new physical-safety or incident-root-cause claim from offline tests.
+User authorizes this personal build/publication, not an installed-app change.
+No HA/TV connection, app start/update or card/script mutation is part of this
+round; installed b12 remains untouched and stopped. The saved background option
+is not relabelled OFF. Unrelated docs/community and earlier evidence are preserved.
+
+D-240 gives an accepted send priority within a fixed ten-second startup window;
+failure/no_match cannot leave an initial read behind. Standalone startup and
+later genuine off/on recovery remain guarded as before. Arbitrarily late sends
+must still stop an existing receiver. The physical Art-to-TV cause is unproved;
+offline/native gates are not new hardware/no-wake or mode-safety evidence.
+
+Numbered host gates passed 5943 tests/16 platform skips in 58.48s, 303-file
+strict host/Linux typing, Ruff/format and 100% whole/mandatory line/branch
+coverage. Frozen source cb4c2e10ddf8e0f0315a7303f126f75883794f1d, matching public sources,
+all five native jobs in 39474600949, four bounded hash/provenance/content
+archives, both anonymous exact images and independent signatures passed.
+Each native production suite passed 5951/eight root skips plus eight separate
+root tests. Each archive verifies 26 preparations and 150 inspections, zero
+failures. Full hashes/digests and limits are canonical in BETA13_VALIDATION.md.
+
+App prerelease 418764916/v0.1.0b13 targets that frozen source/runtime commit.
+Both exact approvals were independently reloaded/read back as
+DISABLED_AFTER_0.1.0b13. This 17-file documentation-only Store handoff preserves
+all 16 complete YAML/code blocks and runtime/config/workflows/dependencies.
+Its final main SHA and public 38-file/main/release cross-check are recorded
+after the final push in the local handoff/public closure receipts, not invented
+in advance here.
+
+An earlier memory-only session expired; personal access was renewed for four
+hours without token persistence or additional rights. End broker and verify
+exact PID absence before handback. Native Terminal UI control is technically
+prohibited; no native-window cleanup is claimed or bypassed.
 
 ## D-240 duplicate initialization fixed locally — offline gates pass — 2026-10-20
 

@@ -1,6 +1,6 @@
 # Changelog
 
-## 0.1.0b13 (beta candidate)
+## 0.1.0b13 (public beta)
 
 - Avoid duplicate initialization around a dashboard-started image request.
   Reserve a fixed ten-second initial handoff and process input before ticking.
@@ -18,10 +18,14 @@
   A later send still reaps an already running independent receiver. The reported
   physical Art-to-TV transition's cause remains unproved; no new hardware or
   universal no-wake/no-mode-change guarantee is claimed.
-- Local unnumbered gates passed 5,943 tests/16 platform skips and 100% line/branch
-  coverage. Numbered-candidate/native ARM/Intel, matching sources, actual images,
-  evidence and signature checks remain pending before publication. Publishing
-  does not update or start an installed HA app or change dashboard configuration.
+- Numbered host gates passed 5,943 tests/16 platform skips, strict typing and
+  100% line/branch coverage. Both native validators and actual publisher images
+  passed 5,951 production tests/eight root skips plus eight separate root tests
+  each. Matching public sources, four hash/provenance/content-checked archives,
+  both anonymous exact-image imports and independent signatures passed. See the
+  [b13 validation report](https://github.com/volkue-tech/frame-gallery-ha/blob/main/BETA13_VALIDATION.md).
+  Publishing does not update or start an installed HA app or change dashboard
+  configuration. These gates do not prove a physical TV-mode safety fix.
 
 ## 0.1.0b12 (public beta)
 

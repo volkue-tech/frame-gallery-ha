@@ -2,7 +2,7 @@
 
 [English](CURRENT_ARTWORK.md) | Deutsch | [Français](CURRENT_ARTWORK.fr.md) | [Español](CURRENT_ARTWORK.es.md) | [Italiano](CURRENT_ARTWORK.it.md)
 
-**Beta-b13-Kandidat: experimentell und standardmäßig aus.** Bestehende b7/b8/b9/b10/b11/b12-Karten bleiben nutzbar. Auf Home Assistant Green/OS werden keine API-Schlüssel, neuen Helfer, HACS-Erweiterungen, Sonderrechte oder weiteren Apps benötigt.
+**Öffentliche Beta b13: experimentell und standardmäßig aus.** Bestehende b7/b8/b9/b10/b11/b12-Karten bleiben nutzbar. Auf Home Assistant Green/OS werden keine API-Schlüssel, neuen Helfer, HACS-Erweiterungen, Sonderrechte oder weiteren Apps benötigt.
 
 Auch eine lesende Verbindung kann einen Fernseher aufwecken. Kontrollierte Tests erfassten automatische Bildwechsel und einen natürlichen Einschlafvorgang an einem Frame, nicht alle Modelle oder Firmwares. Falls jedes Aufweckrisiko inakzeptabel ist, Hintergrundmodus ausgeschaltet lassen.
 
@@ -23,7 +23,7 @@ geprüft; kein Bild wird gesendet. Fehlender, ungültiger, zukünftiger, ausgesc
 unbekannter oder fehlgeschlagener erster Zustand verbraucht die Startgelegenheit.
 Ein späteres `on` wiederholt den Startversuch nicht.
 
-**Startfenster — b13-Kandidat:** Ein festes Zeitfenster von zehn Sekunden gibt
+**Startfenster — b13:** Ein festes Zeitfenster von zehn Sekunden gibt
 einem angenommenen neuen Bildauftrag Vorrang vor dem automatischen Startabgleich.
 Mit der Annahme verfällt die übrig gebliebene Startgelegenheit vor dem Versand,
 auch wenn dieser später fehlschlägt oder kein passendes Bild findet (`no_match`).

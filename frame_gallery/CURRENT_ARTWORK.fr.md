@@ -2,7 +2,7 @@
 
 [English](CURRENT_ARTWORK.md) | [Deutsch](CURRENT_ARTWORK.de.md) | Français | [Español](CURRENT_ARTWORK.es.md) | [Italiano](CURRENT_ARTWORK.it.md)
 
-**Candidate bêta b13 : expérimental et désactivé par défaut.** Les cartes b7/b8/b9/b10/b11/b12 restent utilisables. Aucun nouvel assistant, clé API, extension HACS, privilège spécial ou autre app n'est nécessaire sur Home Assistant Green/OS.
+**Bêta publique b13 : expérimental et désactivé par défaut.** Les cartes b7/b8/b9/b10/b11/b12 restent utilisables. Aucun nouvel assistant, clé API, extension HACS, privilège spécial ou autre app n'est nécessaire sur Home Assistant Green/OS.
 
 Même une connexion en lecture peut réveiller un TV. Les tests contrôlés couvrent des changements automatiques et un épisode de veille naturelle sur un Frame, pas tous les modèles ou firmwares. Laissez le mode désactivé si ce risque est inacceptable.
 
@@ -22,7 +22,7 @@ Identité, mode Art, ID et image sont vérifiés avant toute attribution ; aucun
 image n'est envoyée. Un premier résultat absent, invalide, futur, `off`, inconnu
 ou en erreur consomme cette possibilité ; les `on` suivants ne la répètent pas.
 
-**Fenêtre de démarrage — candidate b13 :** une fenêtre fixe de dix secondes donne
+**Fenêtre de démarrage — b13 :** une fenêtre fixe de dix secondes donne
 la priorité à une demande de nouvelle œuvre acceptée sur la lecture initiale
 automatique. L'acceptation annule la possibilité initiale restante avant l'envoi,
 même si celui-ci échoue ensuite ou ne trouve aucune œuvre (`no_match`). Seul un

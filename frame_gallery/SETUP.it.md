@@ -1,14 +1,21 @@
 # Frame Gallery — installazione e prima scheda
 
-> Novità beta b12: con background ed entità Samsung esistente configurati, il
-> primo stato HA «on» all'avvio permette una sola lettura iniziale, anche se
-> invariato da ore. Una successiva transizione spento-acceso appena osservata
-> consente un altro tentativo; nessun nuovo invio di immagini.
-> L'[opera attuale](CURRENT_ARTWORK.it.md) resta
-> sperimentale e disattivata per impostazione predefinita: la connessione può
-> risvegliare il TV o cambiarne la modalità. Ogni invio riuscito memorizza
-> titolo/artista per quel TV, anche senza background. Senza nuove prove un'immagine
-> statica può tornare non confermata dopo 90 secondi. Il modo singolo seguente non cambia.
+> Novità beta b13: una finestra fissa di dieci secondi dà priorità a una
+> richiesta accettata di nuova opera rispetto alla lettura iniziale automatica
+> facoltativa. L'accettazione consuma l'opportunità iniziale residua anche con
+> `no_match` o errori; non segue alcuna lettura iniziale residua. Senza richiesta
+> accettata, la sincronizzazione autonoma resta possibile con uno stato HA in cache
+> valido «on»; le successive vere transizioni spento-acceso mantengono le regole.
+> La finestra non può anticipare script con ritardi arbitrari: un invio successivo
+> deve prima arrestare un ricevitore già attivo. Le schede e gli script restano
+> compatibili. L'[opera attuale](CURRENT_ARTWORK.it.md) resta sperimentale e
+> disattivata per impostazione predefinita. Non è dimostrata una correzione del
+> cambio fisico alla modalità TV né nuova sicurezza hardware: la connessione può
+> ancora risvegliare il TV o cambiarne la modalità. [Rapporto b13](https://github.com/volkue-tech/frame-gallery-ha/blob/main/BETA13_VALIDATION.md)
+> e [sorgenti corrispondenti](https://github.com/volkue-tech/frame-gallery-ha/releases/tag/sources-v0.1.0b13).
+> Ogni invio riuscito memorizza titolo/artista anche senza background. Senza nuove
+> prove un'immagine statica può tornare non confermata dopo 90 secondi.
+> Il modo singolo seguente non cambia.
 
 [English](DOCS.md#installation) | [Deutsch](SETUP.de.md) | [Français](SETUP.fr.md) | [Español](SETUP.es.md) | **Italiano**
 

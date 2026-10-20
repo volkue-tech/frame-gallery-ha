@@ -2,7 +2,7 @@
 
 [English](CURRENT_ARTWORK.md) | [Deutsch](CURRENT_ARTWORK.de.md) | [Français](CURRENT_ARTWORK.fr.md) | Español | [Italiano](CURRENT_ARTWORK.it.md)
 
-**Candidata beta b13: experimental y desactivado por defecto.** Las tarjetas b7/b8/b9/b10/b11/b12 siguen funcionando. No necesita nuevos ayudantes, claves API, HACS, permisos especiales ni otra app en Home Assistant Green/OS.
+**Beta pública b13: experimental y desactivado por defecto.** Las tarjetas b7/b8/b9/b10/b11/b12 siguen funcionando. No necesita nuevos ayudantes, claves API, HACS, permisos especiales ni otra app en Home Assistant Green/OS.
 
 Incluso una conexión de lectura puede despertar el TV. Las pruebas controladas cubren cambios automáticos y un episodio de reposo natural en un Frame, no todos los modelos o firmware. Mantenga el modo desactivado si ese riesgo es inaceptable.
 
@@ -22,7 +22,7 @@ modo Arte, ID e imagen antes de mostrar artista/título; no se envía una imagen
 El primer resultado ausente, inválido, futuro, `off`, desconocido o fallido
 consume la oportunidad inicial; los `on` posteriores no la repiten.
 
-**Ventana de inicio — candidata b13:** una ventana fija de diez segundos da
+**Ventana de inicio — b13:** una ventana fija de diez segundos da
 prioridad a una solicitud aceptada de nueva obra frente a la lectura inicial
 automática. La aceptación cancela la oportunidad inicial pendiente antes del
 envío, aunque este falle después o no encuentre ninguna obra (`no_match`). Solo

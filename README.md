@@ -1,16 +1,21 @@
 # Frame Gallery for Home Assistant
 
-> **New in b12:** one optional initial read when the configured Samsung HA
-> entity already says on at app startup, plus later fresh off-to-on recovery.
-> No new artwork send is needed. Enable background mode and configure the
-> existing TV entity once; cached on is only a trigger, not Art Mode proof.
-> [Current-TV information](frame_gallery/CURRENT_ARTWORK.md) requires fresh TV/image
-> evidence and remains off by default. A connection may wake a TV or affect its
-> mode; there is no general no-wake guarantee. Existing cards stay compatible.
+> **New in b13 — startup/send handoff:** the optional automatic initial read
+> waits for a fixed ten-second window. An accepted new-artwork command takes
+> priority and consumes the remaining initial opportunity, even if its send
+> fails or finds no match (`no_match`); no leftover initial read follows.
+> Without an accepted send, standalone initial synchronization remains available
+> with valid cached HA on; later genuine off-to-on recovery is unchanged.
+> The window cannot anticipate arbitrarily delayed scripts: a later send must
+> first stop an already running receiver. Existing cards and scripts stay compatible.
+> This fixes an offline-proven startup pattern, not a proven physical mode-switch
+> cause. A read connection may still wake the TV or affect its mode.
+> See the [b13 checks](BETA13_VALIDATION.md) and
+> [matching sources](https://github.com/volkue-tech/frame-gallery-ha/releases/tag/sources-v0.1.0b13).
 
 Fresh artwork on your Samsung Frame. Start it with a tap from Home Assistant.
 
-> **0.1.0b12 public beta:** 1000 curated Commons works, optional artist and
+> **0.1.0b13 public beta:** 1000 curated Commons works, optional artist and
 > colour selection, and configuration in English, German, French, Spanish and Italian.
 > Update in place; saved sources, dashboard helpers and history stay compatible.
 
@@ -92,6 +97,21 @@ The default prefers landscape works close to 16:9. If no suitable new work is fo
 When reporting a problem, include the app version, TV model and the final outcome line. Remove personal details and secrets before sharing logs. Do not include pairing tokens, passwords or access tokens.
 
 ## Public beta
+
+**[0.1.0b13](https://github.com/volkue-tech/frame-gallery-ha/releases/tag/v0.1.0b13)** adds the
+D-240 startup/send handoff. The optional initial read waits for a fixed ten-second
+window, giving an accepted new-artwork command priority. Acceptance consumes the
+initial opportunity even when delivery fails or returns `no_match`; no leftover
+startup read runs afterward. Without an accepted send, standalone initial
+synchronization remains possible with valid cached HA on, and later genuine
+off-to-on recovery is unchanged. The bounded window cannot anticipate arbitrarily
+delayed scripts; a later send must first stop an already running receiver.
+Cards, scripts, saved settings and per-TV associations stay compatible.
+This is not a proven fix for the reported physical switch into TV mode, nor new
+hardware/no-wake evidence. Connections may still have side effects. See the
+[b13 validation report](BETA13_VALIDATION.md) for exact checks and limits, and the
+[matching public sources](https://github.com/volkue-tech/frame-gallery-ha/releases/tag/sources-v0.1.0b13).
+Publication does not start or update an installed app or change dashboard cards.
 
 **[0.1.0b12 is available](https://github.com/volkue-tech/frame-gallery-ha/releases/tag/v0.1.0b12).**
 Initial synchronization for an already-on TV, without
@@ -197,7 +217,7 @@ The app runs once, then stops. It does not remove artworks already stored on you
 
 ## For contributors
 
-Frame Gallery is implemented independently. The project's own code is [Apache-2.0](LICENSE); distributed third-party components retain their own licences. The runtime is not GPL-free. [Third-party notices](THIRD_PARTY_NOTICES.md) and [matching component sources](https://github.com/volkue-tech/frame-gallery-ha/releases/tag/sources-v0.1.0b12) are available; historical source releases are retained.
+Frame Gallery is implemented independently. The project's own code is [Apache-2.0](LICENSE); distributed third-party components retain their own licences. The runtime is not GPL-free. [Third-party notices](THIRD_PARTY_NOTICES.md) and [matching component sources](https://github.com/volkue-tech/frame-gallery-ha/releases/tag/sources-v0.1.0b13) are available; historical source releases are retained.
 
 - [Developer setup and quality gates](frame_gallery/DEVELOPMENT.md)
 - [Product specification](PRODUCT_SPEC.md) · [Architecture](ARCHITECTURE.md) · [Acceptance tests](ACCEPTANCE_TESTS.md)

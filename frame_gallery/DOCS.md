@@ -1,14 +1,19 @@
 # Frame Gallery
 
-> **New in beta b12:** one experimental initial read if the configured Samsung
-> HA entity already says on at app startup, plus later fresh off-to-on recovery.
-> No new image send is needed. Enable background mode and configure this TV's
-> existing entity; cached HA on is not proof of visible Art Mode.
-> [Current-TV information](CURRENT_ARTWORK.md) still requires fresh TV/image
-> evidence and remains off by default. A connection can wake the TV or affect
-> its mode. Leave off if that risk is unacceptable. Existing cards stay compatible.
+> **New in b13 — startup/send handoff:** the optional automatic initial read
+> waits for a fixed ten-second window. An accepted new-artwork command takes
+> priority and consumes the remaining initial opportunity, even if its send
+> fails or finds no match (`no_match`); no leftover initial read follows.
+> Without an accepted send, standalone initial synchronization remains available
+> with valid cached HA on; later genuine off-to-on recovery is unchanged.
+> The window cannot anticipate arbitrarily delayed scripts: a later send must
+> first stop an already running receiver. Existing cards and scripts stay compatible.
+> This fixes an offline-proven startup pattern, not a proven physical mode-switch
+> cause. A read connection may still wake the TV or affect its mode.
+> See the [b13 checks](https://github.com/volkue-tech/frame-gallery-ha/blob/main/BETA13_VALIDATION.md) and
+> [matching sources](https://github.com/volkue-tech/frame-gallery-ha/releases/tag/sources-v0.1.0b13).
 
-> **0.1.0b12 public beta:** [1000 near-widescreen Wikimedia Commons works](COMMONS.md), optional Commons artist/colour selection and [native dashboard pickers](COMMONS_ARTIST.md).
+> **0.1.0b13 public beta:** [1000 near-widescreen Wikimedia Commons works](COMMONS.md), optional Commons artist/colour selection and [native dashboard pickers](COMMONS_ARTIST.md).
 > No API key is needed. Update without uninstalling; your saved sources and
 > existing camera, timer, script and optional artwork-information helper still work.
 
@@ -323,9 +328,9 @@ Every run ends with one line such as `outcome=delivered exit=0 elapsed=23.4`. Wh
 
 | Outcome | Meaning | What to do |
 | --- | --- | --- |
-| `delivered` | The TV shows the new artwork. | Nothing. |
-| `delivered_with_warnings` | The TV shows it, but the preview or a record could not be written. | Check that Home Assistant's media storage is available. |
-| `delivered_unrecorded` | The TV shows it, but the history could not be saved. | Check the free space of the Home Assistant system. The work is still not sent again. |
+| `delivered` | The TV protocol confirmed upload and selection; the selection history was saved. | Verify the visible artwork; protocol confirmation is not a visual observation. |
+| `delivered_with_warnings` | The TV protocol confirmed upload and selection; history was saved, but a follow-up check or preview, caption, association or other record update reported a warning. | Verify the visible artwork and inspect the specific warning. Check the media or app storage named by the log. |
+| `delivered_unrecorded` | The TV protocol confirmed upload and selection, but the normal selection-history write failed. The uploaded-work ledger still prevents resending the work. | Verify the visible artwork; inspect the app-storage error and free space. |
 | `no_match` | Nothing new matched. The last line has a hint: "filters too restrictive", "nothing new left for these filters", "search limits reached", or, for your own images, "no usable JPEG or PNG images in /media/frame_gallery/library". | Loosen the filters, or add images (for your own images: JPEG or PNG files in that folder). "Search limits reached" can work on the next start. |
 | `config_invalid` | An option is invalid; the log names it. | Correct the option and save. |
 | `tv_unreachable` | The TV did not answer, or the connection broke. | Check that the TV is on and on the same subnet, and that its address is right. |

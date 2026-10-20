@@ -5,6 +5,22 @@ Assistant's app store; they do not run these commands or edit HA configuration.
 STATUS/TASKS remain the authoritative current status. A committed workflow is
 not evidence that an image has been published or an installation has passed.
 
+## b13 startup/send arbitration scope
+
+The b13 handoff changes only startup ordering: a fixed ten-second window gives an
+accepted new-artwork command priority, consuming the remaining initial read
+opportunity even on `no_match` or delivery failure. Standalone initial sync and
+later genuine off-to-on recovery remain available under their existing guards.
+An arbitrarily delayed script can arrive after the window and must first stop
+an already running receiver. Keep existing cards and scripts unchanged.
+The [b13 validation report](BETA13_VALIDATION.md) must record the observed host,
+native ARM/Intel, source, evidence, image and signature checks before handoff;
+do not infer green results or hardware safety from the scope description.
+The [matching b13 source release](https://github.com/volkue-tech/frame-gallery-ha/releases/tag/sources-v0.1.0b13)
+must precede image distribution. This release does not establish the cause of
+the reported physical switch into TV mode or a general no-wake/mode-safety fix.
+No live HA/TV action, app start/update or card/script change is part of publication.
+
 ## Before enabling publication
 
 1. Finish the engineering licence assessment and the source/notices obligations
@@ -31,12 +47,12 @@ not evidence that an image has been published or an installation has passed.
 ## Run the manual workflow
 
 Run **Publish reviewed beta images** on `main`, with the matching beta version.
-For reviewed candidates such as 0.1.0b6 through 0.1.0b12, the narrowly allowed
+For reviewed candidates such as 0.1.0b6 through 0.1.0b13, the narrowly allowed
 `codex/commons-default` branch can instead publish
 the exact approved candidate before its app metadata is merged into `main`.
 This prevents store users being offered a version whose image is still missing.
 Repository, exact-commit/source-hash, native validation and non-overwrite gates
-remain identical. Signatures identify the actual workflow branch; b6 through b12 use
+remain identical. Signatures identify the actual workflow branch; b6 through b13 use
 `https://github.com/volkue-tech/frame-gallery-ha/.github/workflows/publish.yml@refs/heads/codex/commons-default`.
 Historical b3/b4/b5 used
 `https://github.com/volkue-tech/frame-gallery-ha/.github/workflows/publish.yml@refs/heads/codex/commons-curated`.
