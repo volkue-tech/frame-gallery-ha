@@ -78,6 +78,18 @@ def test_background_mode_is_opt_in(value: bool | None) -> None:
     assert _parse(background_mode=value).background_mode is (value is True)
 
 
+@pytest.mark.parametrize("value", [None, False, True])
+def test_current_state_refresh_is_separate_default_off(value: bool | None) -> None:
+    options = _parse(current_state_refresh=value)
+    assert options.current_state_refresh is (value is True)
+    assert not options.background_mode
+
+
+@pytest.mark.parametrize("value", [0, 1, "true", "false", [], {}])
+def test_current_state_refresh_does_not_coerce_values(value: object) -> None:
+    assert _issue(current_state_refresh=value).option == "current_state_refresh"
+
+
 @pytest.mark.parametrize("value", [0, 1, "true", "false", [], {}])
 def test_background_mode_cannot_coerce_values(value: object) -> None:
     assert _issue(background_mode=value).option == "background_mode"

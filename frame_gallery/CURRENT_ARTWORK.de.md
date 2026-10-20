@@ -56,6 +56,22 @@ Die privaten App-Daten bleiben bei normalen Updates erhalten. Das Zurücksetzen 
 
 Alte TV-Bilder, Uploads anderer Apps und Sendungen ohne stabile Geräteidentität bleiben unbekannt. Künstler werden nicht geraten; keine Cloud-Bilderkennung.
 
+### Optionale Aktualisierung des aktuellen Zustands — b14-Kandidat
+
+`current_state_refresh` ist ein zusätzlicher optionaler Schalter, **standardmäßig
+aus**, und setzt `background_mode` voraus. Er erlaubt höchstens eine lesende
+Kohärenzprüfung von aktuellem Kunstmodus und Bild-ID je 60 Sekunden über den
+**bereits verbundenen Art-Socket**. Damit sollen bekannte Künstler-/Titeldaten
+nach dem TV-Menü oder dem Fortsetzen einer Diashow wieder erscheinen, auch wenn
+dasselbe Bild bleibt. Keine neue Verbindung und keine Bild-, Power- oder
+Modusbefehle. Standby oder ein beobachtetes HA-Aus beendet die Sitzung.
+Unbekannte Bilder bleiben unbekannt; kein Titel wird erfunden oder übernommen.
+
+Auch lesende Anfragen über denselben Socket können das automatische Einschlafen
+beeinflussen. Falls dieses Risiko inakzeptabel ist, ausgeschaltet lassen.
+Offline-Tests bestätigen weder Firmware-Kompatibilität noch Nichtaufwecken.
+Bestehende Karten und Scripte brauchen keine Änderung.
+
 ## Optionale aktuelle Künstlerkarte einrichten
 
 1. Kamera, Timer, bestehende Karten und die Entitäts-ID `script.frame_gallery_new_artwork` behalten.
@@ -114,15 +130,16 @@ App-Version und TV-Modell angeben, keine Zugriffstoken oder rohen TV-Daten.
 Eine Sitzung dauert höchstens acht Stunden und endet bei Einschlafen, TV-Betrieb
 oder Fehlern früher. Ein konfigurierter neuer Prozessstart oder späterer frischer HA-Weckwechsel oben kann eine neue Abfrage erlauben; auch ein erfolgreicher ausdrücklicher Versand kann eine Sitzung starten.
 
-Nach einer anfänglichen Abfrage mit lokalem Bildvergleich hört eine einzige Verbindung auf die beobachtete Diashow-Folge: `image_selected`, passendes `auto_rotation_image_changed`, danach Kunstmodus `on`, innerhalb von fünf Sekunden. Innerhalb dieser Sitzung keine wiederholten TV-Abfragen, späteren Vorschaubilder oder Neuverbindungen. Ein Ereignis löst die gespeicherte Upload- oder bildgeprüfte Zuordnung dieses TVs auf; unbekannte IDs leeren den Text.
+Nach einer anfänglichen Abfrage mit lokalem Bildvergleich hört eine einzige Verbindung auf die beobachtete Diashow-Folge: `image_selected`, passendes `auto_rotation_image_changed`, danach Kunstmodus `on`, innerhalb von fünf Sekunden. Bei ausgeschaltetem `current_state_refresh` gibt es innerhalb dieser Sitzung keine wiederholten TV-Abfragen, späteren Vorschaubilder oder Neuverbindungen. Eingeschaltet sind nur die begrenzten Prüfungen oben erlaubt, keine neuen Vorschaubilder oder Verbindungen. Ein Ereignis löst die gespeicherte Upload- oder bildgeprüfte Zuordnung dieses TVs auf; unbekannte IDs leeren den Text.
 
 Der anfängliche Bildnachweis gilt 90 Sekunden. Eine vollständige Diashow-Folge gilt höchstens **15 Minuten**, passend zur getesteten Zehn-Minuten-Diashow. Doppelte IDs, Pongs und Modus-an-Meldungen verlängern nichts. Langsamere Diashows können Lücken zeigen; manuelle Wechsel müssen diese Folge nicht liefern. Die Vorlage kann etwa eine Minute Anzeigeverzögerung hinzufügen.
 
-Ein fest gewähltes unverändertes Bild kann deshalb nach 90 Sekunden wieder
-unbestätigt sein. Der Startfix verlängert keinen Bildnachweis und fragt nicht
+Bei ausgeschalteter Zustandsaktualisierung oder ohne erfolgreiche neue Prüfung
+kann ein fest gewähltes unverändertes Bild nach 90 Sekunden unbestätigt sein.
+Der Startfix allein verlängert keinen Bildnachweis und fragt nicht
 wiederholt ab, um einen statischen Künstlertext aktuell erscheinen zu lassen.
 
-Einschlafen, TV-Betrieb, Verbindungsabbruch, ungültige Ereignisse oder Publikationsfehler beenden/pausieren ohne sofortige Neuverbindung. Ohne die optionale Weckwechsel-Einstellung bleibt ein ausdrücklicher neuer Bildversand im sichtbaren Kunstmodus nötig. Aktualisieren verarbeitet nur bereits empfangene Ereignisse. Der Beobachter sendet keine Power-, Wake-on-LAN-, Bildauswahl- oder Modusbefehle. Trotzdem kann bereits die Verbindung Nebenwirkungen haben.
+Einschlafen, TV-Betrieb, Verbindungsabbruch, ungültige Ereignisse oder Publikationsfehler beenden/pausieren ohne sofortige Neuverbindung. Ohne die optionale Weckwechsel-Einstellung bleibt ein ausdrücklicher neuer Bildversand im sichtbaren Kunstmodus nötig. Manuelles Aktualisieren verarbeitet nur bereits empfangene Ereignisse. Der Beobachter sendet keine Power-, Wake-on-LAN-, Bildauswahl- oder Modusbefehle. Trotzdem kann bereits die Verbindung Nebenwirkungen haben.
 
 Gespeicherte IDs sind historische Zuordnungen, kein fortlaufender Pixelnachweis. Unbeobachtetes externes Ersetzen/Wiederverwenden einer TV-ID ist während reinen Ereignisempfangs nicht auszuschließen. Ein widersprechender anfänglicher Bildvergleich sperrt die gespeicherte Bildunterschrift. Keine allgemeine Firmware-/Nichtaufweckgarantie (D-235).
 

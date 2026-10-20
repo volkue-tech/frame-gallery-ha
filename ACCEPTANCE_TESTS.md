@@ -1,5 +1,20 @@
 # Acceptance tests
 
+## Optional same-connection synchronization (D-242)
+
+- Strict boolean/default OFF; effective only in granted background session.
+- Simulate static/same/changed/unknown art, repeated menu/slideshow episodes,
+  late/incomplete notifications, and unknown bounded frames on ONE socket.
+- Require fresh correlated on/current/current/on and equal IDs; wrong device,
+  stale/replayed/error/ambiguous data never resolve a caption.
+- At most one attempt/60 seconds, 480/session, five seconds/64 frames per cycle;
+  no immediate resend, new client/socket, thumbnail, setter or keepalive.
+- Navigation suspends; standby/HA-off/cancel/auth/closed transport stops without
+  blind reconnect. Preserve old once-only query, initial/wake/send gates and
+  90-second current-state age. Existing cards/scripts remain byte-identical.
+- Native/host offline gates do not claim physical sleep/no-wake safety or a
+  reproduction of the unrecorded b13 rejected event.
+
 ## Local startup/send arbitration (D-240)
 
 - Reproduce queued and delayed existing-script sends with initial on and without

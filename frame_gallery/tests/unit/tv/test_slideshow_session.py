@@ -157,6 +157,11 @@ def test_restart_notifications_then_complete_cycles_use_one_real_parser_socket(
                 Status.UNIDENTIFIED, self.device_id, content_id, None, Evidence.SLIDESHOW
             )
 
+        def accept_current_state(self, content_id: str) -> Observation:
+            return Observation(
+                Status.UNIDENTIFIED, self.device_id, content_id, None, Evidence.CURRENT_STATE
+            )
+
     session = Session()
     backend = EventBackend(Observer(), session, lambda: 10, lambda _d: SLIDESHOW_POLICY)
     assert backend.start() == Observation(Status.CHECKING)

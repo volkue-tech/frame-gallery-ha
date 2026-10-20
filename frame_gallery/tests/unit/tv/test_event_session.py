@@ -12,6 +12,7 @@ import os
 import socket
 import time
 from collections.abc import Callable, Generator
+from dataclasses import replace
 from pathlib import Path
 from types import SimpleNamespace
 from typing import Any, cast
@@ -23,8 +24,9 @@ from samsungtvws.rest import SamsungTVRest
 
 from frame_gallery.isolation.executor import JsonObject
 from frame_gallery.observer.model import FRESH_S
-from frame_gallery.observer.stream import EventPolicy
+from frame_gallery.observer.stream import SLIDESHOW_POLICY, EventPolicy
 from frame_gallery.tv import samsung_task as module
+from frame_gallery.tv import state_query
 from frame_gallery.tv.event_frames import SessionClosed
 from tests.support.socket_tv import SocketTV, TvScript, _send
 from tests.unit.tv.test_event_frames import Connection
@@ -161,6 +163,73 @@ def test_real_library_one_connection_initial_proof_then_only_events(
     assert d2d.closed
     assert events[0]["kind"] == "baseline"
     assert [x["kind"] for x in events] == ["baseline", "change", "change", "change"]
+
+
+@pytest.mark.parametrize("ending", ["cancel", "standby"])
+def test_real_library_opted_in_state_cycle_uses_same_socket_no_open_getter_or_setter(
+    monkeypatch: pytest.MonkeyPatch, pipe: tuple[int, int], ending: str
+) -> None:
+    tv = EventTV([{"event": "go_to_standby"}] if ending == "standby" else [])
+    monkeypatch.setattr(websocket, "create_connection", tv.create_connection)
+    monkeypatch.setattr(SamsungTVRest, "rest_device_info", lambda _s: {"device": {"id": IDENTITY}})
+    thumbnail = D2D()
+    thumbnail_calls: list[bool] = []
+
+    def d2d(_self: Any, _info: Any) -> D2D:
+        thumbnail_calls.append(True)
+        return thumbnail
+
+    monkeypatch.setattr(samsungtvws.SamsungTVArt, "_open_d2d_socket", d2d)
+    clock_calls = 0
+
+    def now() -> float:
+        nonlocal clock_calls
+        clock_calls += 1
+        return 0 if clock_calls == 1 else 60
+
+    def events(connection: Any, bounds: Any, policy: Any, timeout: Any) -> Any:
+        return state_query.current_state_events(connection, bounds, policy, timeout, now=now)
+
+    monkeypatch.setattr(module, "current_state_events", events)
+    observed: list[JsonObject] = []
+
+    def emit(value: JsonObject) -> None:
+        observed.append(value)
+        if value.get("kind") == "current_state":
+            os.write(pipe[1], b"stop")
+
+    request = {
+        **payload(pipe[0]),
+        "policy": replace(SLIDESHOW_POLICY, state_refresh=True).to_json(),
+    }
+    try:
+        assert module.observe_session_task(request, emit) == {"status": "paused"}
+    finally:
+        tv.close()
+    assert len(tv.urls) == 1
+    initial = [
+        "get_artmode_status",
+        "get_current_artwork",
+        "get_thumbnail",
+        "get_current_artwork",
+        "get_artmode_status",
+    ]
+    extra = [
+        "get_artmode_status",
+        "get_current_artwork",
+        "get_current_artwork",
+        "get_artmode_status",
+    ]
+    assert tv.requests == initial + (extra if ending == "cancel" else [])
+    assert thumbnail_calls == [True]
+    if ending == "cancel":
+        assert observed[1:3] == [
+            {"kind": "state_checking"},
+            {"kind": "current_state", "content_id": "MY_OFFLINE"},
+        ]
+        assert observed[-1] == {"kind": "end", "status": "paused"}
+    else:
+        assert observed[-1] == {"kind": "change", "change": {"kind": "standby", "value": ""}}
 
 
 @pytest.mark.parametrize("value", [None, True, 1, "unknown"])

@@ -35,6 +35,7 @@ class SnapshotSource(Protocol):
     def session_request(self) -> JsonObject | Observation: ...
     def accept_snapshot(self, result: JsonObject) -> Observation: ...
     def accept_slideshow(self, content_id: str) -> Observation: ...
+    def accept_current_state(self, content_id: str) -> Observation: ...
 
 
 class EventBackend:
@@ -54,6 +55,7 @@ class EventBackend:
         self._slideshow_enabled = False
         self._fresh_s = FRESH_S
         self._resync_reported = False
+        self._state_refresh = False
 
     def start(self) -> Observation:
         self.stop()
@@ -68,6 +70,7 @@ class EventBackend:
             return request
         self._allow_query = policy.current_id_once
         self._slideshow_enabled = policy.slideshow
+        self._state_refresh = policy.state_refresh
         self._session.start({**request, "policy": policy.to_json()})
         return Observation(Status.CHECKING)
 
@@ -77,6 +80,7 @@ class EventBackend:
         self._allow_query, self._pending_at = False, None
         self._slideshow, self._slideshow_enabled, self._fresh_s = None, False, FRESH_S
         self._resync_reported = False
+        self._state_refresh = False
 
     def _unavailable(self, reason: SessionFailure) -> Observation:
         _log.warning("event session stopped: reason=%s; no reconnect", reason.value)
@@ -127,6 +131,8 @@ class EventBackend:
 
     def _consume(self, value: JsonObject, received_at: float) -> Observation | None:
         kind = value.get("kind")
+        if kind in ("state_checking", "current_state"):
+            return self._consume_current_state(value, received_at)
         if kind in ("querying", "current_id"):
             return self._consume_query(value, received_at)
         if kind == "baseline" and set(value) == {"kind", "observation"}:
@@ -160,12 +166,44 @@ class EventBackend:
             return Observation(Status(str(value["status"])))
         raise ValueError("unexpected session event")
 
+    def _consume_current_state(self, value: JsonObject, at: float) -> Observation | None:
+        if not self._state_refresh or self._baseline is None or not 0 <= self._now() - at < FRESH_S:
+            raise ValueError("unapproved or stale state read")
+        if value == {"kind": "state_checking"}:
+            if self._confirmed_at is None:
+                return None
+            self._confirmed_at = None
+            self._slideshow = SlideshowSequence(str(self._baseline.content_id), at)
+            return Observation(Status.CHECKING)
+        content_id = value.get("content_id")
+        if (
+            set(value) != {"kind", "content_id"}
+            or value["kind"] != "current_state"
+            or not isinstance(content_id, str)
+            or CONTENT_ID_PATTERN.fullmatch(content_id) is None
+        ):
+            raise ValueError("invalid current state record")
+        seen = self._observer.accept_current_state(content_id)
+        if (
+            seen.device_id != self._baseline.device_id
+            or seen.content_id != content_id
+            or seen.evidence is not Evidence.CURRENT_STATE
+        ):
+            raise ValueError("state read lookup changed identity")
+        self._confirmed_at, self._fresh_s = at, FRESH_S
+        self._slideshow = SlideshowSequence(content_id, at)
+        self._resync_reported = False
+        return seen
+
     def _consume_change(self, change: Change, received_at: float) -> Observation | None:
         assert self._baseline is not None  # noqa: S101
         if change.kind == "standby":
             return Observation(Status.PAUSED)
         if change == Change("mode", "off"):
             return Observation(Status.TV_IN_USE)
+        if self._state_refresh:
+            # Mode on is a read hint to the worker, never a new image proof.
+            return None if change == Change("mode", "on") else self._unconfirmed()
         if self._slideshow is not None:
             return self._consume_slideshow(change, received_at)
         if change.kind in {"selected", "rotation"}:

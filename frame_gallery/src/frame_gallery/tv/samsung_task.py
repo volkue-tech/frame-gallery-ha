@@ -74,6 +74,7 @@ from frame_gallery.tv.event_frames import SessionClosed, SessionSockets
 from frame_gallery.tv.event_query import current_id_once
 from frame_gallery.tv.identity import device_digest
 from frame_gallery.tv.port import CONTENT_ID_PATTERN, DeliveryStatus, Marker
+from frame_gallery.tv.state_query import current_state_events
 
 ART_PORT: Final = 8002
 """The TLS art channel, which carries the pairing token."""
@@ -811,14 +812,17 @@ def _session_events(
             host, token=token, port=ART_PORT, timeout=2.0, key_press_delay=0, name=CLIENT_NAME
         )
         baseline = _observe_art(art, device)
-        if baseline["status"] != Status.UNIDENTIFIED.value:
-            yield {"kind": "end", "status": "unavailable", "reason": phase.value}
-            return
-        if sockets.bound is None:
-            raise ValueError("missing bounded event transport")
+        if baseline["status"] != Status.UNIDENTIFIED.value or sockets.bound is None:
+            raise ValueError("unconfirmed initial event transport")
         sockets.bound.passive = True
         proved_at = time.monotonic()
         yield {"kind": "baseline", "observation": baseline}
+        if policy.state_refresh:
+            phase = SessionFailure.DECODE
+            yield from current_state_events(
+                art.connection, sockets.bound, policy, library.websocket_timeout
+            )
+            return
         while True:
             phase = SessionFailure.RECEIVE
             sockets.bound.check()

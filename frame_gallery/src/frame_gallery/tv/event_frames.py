@@ -10,11 +10,24 @@ import contextlib
 from collections.abc import Callable
 from typing import Any
 
-from frame_gallery.observer.stream import IDLE_S, MAX_EVENTS, MAX_FRAME, QUERY_S, SESSION_S, START_S
+from frame_gallery.observer.stream import (
+    IDLE_S,
+    MAX_EVENTS,
+    MAX_FRAME,
+    MAX_REFRESHES,
+    QUERY_S,
+    REFRESH_S,
+    SESSION_S,
+    START_S,
+)
 
 
 class SessionClosed(Exception):
     """Cancellation/finite lifetime, not permission to reconnect."""
+
+
+class RefreshExpired(Exception):
+    """One read expired; retain this transport without immediate retry."""
 
 
 class FrameBounds:
@@ -32,6 +45,9 @@ class FrameBounds:
         self.passive = False
         self._closing: float | None = None
         self._query_until: float | None = None
+        self._refresh_until: float | None = None
+        self._last_refresh: float | None = None
+        self._refreshes = 0
         buffer = connection.frame_buffer
         self._read, self._length, self._frame = (
             buffer.recv,
@@ -50,6 +66,8 @@ class FrameBounds:
             raise SessionClosed
         if self._query_until is not None and now >= self._query_until:
             raise ValueError("event query deadline")
+        if self._refresh_until is not None and now >= self._refresh_until:
+            raise RefreshExpired
         if (not self.passive and now - self._started >= START_S) or (
             self._partial is not None and now - self._partial >= START_S
         ):
@@ -60,6 +78,8 @@ class FrameBounds:
         timeout = IDLE_S if self.passive else min(2.0, START_S - (self._now() - self._started))
         if self._query_until is not None:
             timeout = min(timeout, max(0.001, self._query_until - self._now()))
+        if self._refresh_until is not None:
+            timeout = min(timeout, max(0.001, self._refresh_until - self._now()))
         if self._closing is not None:
             timeout = min(timeout, max(0.001, self._closing - self._now()))
         self.connection.settimeout(max(0.001, timeout))
@@ -100,6 +120,23 @@ class FrameBounds:
             raise ValueError("event query must be once on an established session")
         self._query_until = self._now() + QUERY_S
         self.connection.settimeout(IDLE_S)
+
+    def begin_refresh(self) -> None:
+        self.check()
+        now = self._now()
+        if (
+            not self.passive
+            or self._query_until is not None
+            or self._refresh_until is not None
+            or self._refreshes >= MAX_REFRESHES
+            or (self._last_refresh is not None and now - self._last_refresh < REFRESH_S)
+        ):
+            raise ValueError("state refresh budget or transport phase")
+        self._last_refresh, self._refresh_until = now, now + QUERY_S
+        self._refreshes += 1
+
+    def finish_refresh(self) -> None:
+        self._refresh_until = None
 
     def close(self) -> None:
         self._closing = self._now() + IDLE_S

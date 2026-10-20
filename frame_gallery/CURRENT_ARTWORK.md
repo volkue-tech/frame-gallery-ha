@@ -53,6 +53,21 @@ The private app data survives normal updates. Clearing the selection history doe
 
 Old TV pictures, uploads from other apps and deliveries without a stable TV identity remain unidentified. Frame Gallery does not guess artists or use cloud image recognition.
 
+### Optional current-state refresh — b14 candidate
+
+`current_state_refresh` is a separate optional switch, **OFF by default**, and
+requires `background_mode`. It allows at most one read-only coherence check of
+the current Art Mode and image ID per 60 seconds, over the **already established
+Art socket**. It is intended to restore known artist/title information after
+using the TV menu or resuming a slideshow, including when the image stays the
+same. It opens no new connection and sends no image, power or mode command.
+Standby or an observed HA-off state closes the session. An unknown image remains
+unidentified; the app never invents a title or borrows the previous one.
+
+Read requests may affect automatic sleep even on the same socket. Leave this
+option off if that risk is unacceptable. Offline tests do not certify firmware
+compatibility or no-wake behaviour. Existing cards and scripts need no changes.
+
 ## Enable the optional current-artwork card
 
 1. Keep your camera, timer, existing cards and `script.frame_gallery_new_artwork` entity ID.
@@ -110,15 +125,16 @@ access tokens or raw TV data. That failed session is not automatically retried.
 Each session lasts at most eight hours and ends earlier on sleep, TV mode or
 failure. A configured new process start or later fresh HA wake edge above can permit a new read; an explicit successful send can also start a session.
 
-After one initial read and local image comparison, one connection listens for the observed slideshow sequence: `image_selected`, matching `auto_rotation_image_changed`, then Art Mode `on`, within five seconds. Within that session there are no repeated TV queries, subsequent thumbnails or reconnects. A later event resolves metadata from that TV's saved upload or image-verified association; an unknown ID clears the caption.
+After one initial read and local image comparison, one connection listens for the observed slideshow sequence: `image_selected`, matching `auto_rotation_image_changed`, then Art Mode `on`, within five seconds. With `current_state_refresh` off, there are no repeated TV queries, subsequent thumbnails or reconnects within that session. Enabling it permits only the bounded checks above, not new thumbnails or connections. A later event resolves metadata from that TV's saved upload or image-verified association; an unknown ID clears the caption.
 
 Initial image proof lasts 90 seconds. A complete slideshow sequence lasts at most **15 minutes**, intended for the tested ten-minute slideshow. Duplicate IDs, pongs and mode-on events do not renew it. Slower slideshows can therefore show gaps; manual selections need not provide this sequence. The template can add about one minute of display delay.
 
-A fixed, unchanged picture can therefore become unconfirmed after 90 seconds.
-The initial-start fix does not extend proof age or repeatedly query the TV to
+With current-state refresh off, or without a successful fresh check, a fixed,
+unchanged picture can become unconfirmed after 90 seconds.
+The initial-start fix alone does not extend proof age or repeatedly query the TV to
 keep a static caption alive.
 
-Sleep, TV mode, disconnection, malformed events or publication failure stop/pause the session without an immediate reconnect. Without the optional wake-edge setting, resuming still requires an explicit new send in visible Art Mode. Refresh only reads already received events. The observer sends no power, Wake-on-LAN, image-selection or mode-change commands. A connection itself can nevertheless cause side effects.
+Sleep, TV mode, disconnection, malformed events or publication failure stop/pause the session without an immediate reconnect. Without the optional wake-edge setting, resuming still requires an explicit new send in visible Art Mode. Manual Refresh only reads already received events. The observer sends no power, Wake-on-LAN, image-selection or mode-change commands. A connection itself can nevertheless cause side effects.
 
 Saved IDs are historical correspondence, not continuous pixel verification. An external, unobserved replacement/reuse of a TV ID cannot be ruled out during event-only listening. A mismatching initial image comparison suppresses the saved caption. No general firmware/no-wake guarantee is claimed (D-235).
 

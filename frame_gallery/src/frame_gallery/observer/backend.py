@@ -41,6 +41,7 @@ class HostObserver:
         device_id: str | None = None,
         tokenless_grant: bool = False,
         stopped: Callable[[], bool] = lambda: False,
+        current_state_refresh: bool = False,
     ) -> None:
         self._executor, self._data, self._media, self._host = executor, data, media, host
         self._device, self._stopped = device_id, stopped
@@ -51,6 +52,7 @@ class HostObserver:
         self._delivery_device: str | None = None
         self._targets = TargetStore(data)
         self._enroll = False
+        self._state_refresh = current_state_refresh
 
     def delivery_snapshot(self) -> bytes | None:
         """A bounded before/after receipt; exit 0 alone also includes no_match.
@@ -124,7 +126,7 @@ class HostObserver:
         """Consume one delivery or opted-in HA grant, not the saved pin alone."""
         granted, self._delivery_device = self._delivery_device, None
         if device_id is not None and device_id == granted:
-            return SLIDESHOW_POLICY
+            return replace(SLIDESHOW_POLICY, state_refresh=self._state_refresh)
         return reviewed_policy(device_id)
 
     def prepare_resume(self) -> bool:
@@ -232,6 +234,10 @@ class HostObserver:
             None if binding is None else binding.thumbnail_sha256,
             Evidence.SLIDESHOW,
         )
+
+    def accept_current_state(self, content_id: str) -> Observation:
+        """Pinned-device lookup after a coherent fresh same-socket state read."""
+        return replace(self.accept_slideshow(content_id), evidence=Evidence.CURRENT_STATE)
 
     def _capture(self, observation: Observation, thumbnail: str) -> None:
         archived = DeliveryAssociations(self._data)

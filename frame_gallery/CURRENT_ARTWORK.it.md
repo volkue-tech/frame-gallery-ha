@@ -55,6 +55,23 @@ I dati privati sopravvivono agli aggiornamenti normali. Azzerare la cronologia d
 
 Vecchie immagini, invii di altre app e invii senza identità stabile rimangono sconosciuti. Nessun artista indovinato o riconoscimento cloud.
 
+### Aggiornamento facoltativo dello stato attuale — candidata b14
+
+`current_state_refresh` è un'opzione aggiuntiva, **disattivata per impostazione
+predefinita**, che richiede `background_mode`. Consente al massimo una verifica
+in lettura della coerenza della modalità Arte attuale e dell'ID immagine ogni
+60 secondi, sul **socket Art già collegato**. Serve a ripristinare artista/titolo
+noti dopo il menu del TV o la ripresa della presentazione, anche con la stessa
+immagine. Nessuna nuova connessione né comando di immagine, alimentazione o
+modalità. Lo standby o uno stato HA «off» osservato chiude la sessione.
+Un'immagine sconosciuta resta non identificata; nessun titolo viene inventato
+o ripreso dall'immagine precedente.
+
+Le richieste, anche sullo stesso socket, possono influire sul sonno automatico.
+Lasciare disattivato se il rischio è inaccettabile. I test offline non certificano
+la compatibilità dei firmware né l'assenza di risvegli del TV.
+Le schede e gli script esistenti non richiedono modifiche.
+
 ## Attivare la scheda facoltativa
 
 1. Conservare fotocamera, timer, schede e ID `script.frame_gallery_new_artwork`.
@@ -113,15 +130,16 @@ codice fisso, la versione e il modello del TV, mai token o dati TV grezzi.
 Ogni sessione dura al massimo otto ore e termina prima con sonno, modalità TV o
 errori. Un nuovo processo configurato o una transizione HA recente sopra può consentire una lettura; anche un invio esplicito riuscito può aprire una sessione.
 
-Dopo una lettura iniziale e confronto locale, una connessione ascolta la sequenza osservata: `image_selected`, `auto_rotation_image_changed` con lo stesso ID e modalità Arte `on`, entro cinque secondi. Nella stessa sessione nessuna richiesta ripetuta, miniatura successiva o riconnessione. Un evento cerca l'associazione di invio o immagine verificata di quel TV; un ID sconosciuto cancella il testo.
+Dopo una lettura iniziale e confronto locale, una connessione ascolta la sequenza osservata: `image_selected`, `auto_rotation_image_changed` con lo stesso ID e modalità Arte `on`, entro cinque secondi. Con `current_state_refresh` disattivato, nella stessa sessione nessuna richiesta ripetuta, miniatura successiva o riconnessione. Attivarlo consente solo le verifiche limitate sopra, non nuove miniature o connessioni. Un evento cerca l'associazione di invio o immagine verificata di quel TV; un ID sconosciuto cancella il testo.
 
 La prova iniziale dura 90 secondi. Una sequenza completa dura al massimo **15 minuti**, per il ciclo testato di dieci minuti. Duplicati, pong e modalità attiva non rinnovano nulla. Cicli più lunghi possono creare intervalli vuoti; i cambi manuali non sempre producono questa sequenza. Il modello può aggiungere circa un minuto di ritardo.
 
-Un'immagine fissa invariata può quindi tornare non confermata dopo 90 secondi.
-Questa correzione non estende la prova né interroga ripetutamente il TV per
+Con l'aggiornamento disattivato o senza una nuova verifica riuscita, un'immagine
+fissa invariata può tornare non confermata dopo 90 secondi.
+La sola correzione dell'avvio non estende la prova né interroga ripetutamente il TV per
 mantenere una didascalia artificialmente aggiornata.
 
-Sonno, modalità TV, disconnessione, eventi non validi o errore di pubblicazione sospendono/arrestano senza riconnettere subito. Senza l'opzione di ripresa sopra, serve ancora un nuovo invio esplicito in modalità Arte visibile. Aggiornare elabora solo eventi già ricevuti. Nessun comando di alimentazione, Wake-on-LAN, selezione immagine o cambio modalità; la connessione stessa può comunque causare effetti indesiderati.
+Sonno, modalità TV, disconnessione, eventi non validi o errore di pubblicazione sospendono/arrestano senza riconnettere subito. Senza l'opzione di ripresa sopra, serve ancora un nuovo invio esplicito in modalità Arte visibile. L'azione manuale Aggiornare elabora solo eventi già ricevuti. Nessun comando di alimentazione, Wake-on-LAN, selezione immagine o cambio modalità; la connessione stessa può comunque causare effetti indesiderati.
 
 Gli ID salvati sono corrispondenze storiche, non verifica continua dei pixel. Un riutilizzo esterno non osservato non è escludibile. Un confronto iniziale contraddittorio blocca la didascalia salvata. Nessuna garanzia generale di firmware o mancato risveglio (D-235).
 

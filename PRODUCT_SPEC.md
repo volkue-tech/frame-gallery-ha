@@ -1,5 +1,15 @@
 # Product specification
 
+## Optional current-state synchronization, 2026-10-20 (D-242)
+
+current_state_refresh defaults OFF and requires background mode. Confirm
+mode/current/current/mode on the EXISTING Art socket at most once per minute,
+not by refreshing old metadata. Recover from navigation/slideshow changes and
+identical images; resolve only the pinned TV's known IDs. Unknown works have no
+fabricated caption. Standby, HA off, auth or transport loss does not grant blind
+reconnection. Existing cards/scripts and privileges stay unchanged. Read requests
+may affect automatic sleep; offline tests do not prove firmware/no-wake safety.
+
 ## Local startup/send arbitration, 2026-10-20 (D-240, unreleased)
 
 Avoid an automatic initial read immediately before the existing dashboard's

@@ -1,5 +1,18 @@
 # Frame Gallery for Home Assistant — Architecture proposal
 
+## D-242 optional same-transport state synchronization
+
+An explicit default-false current_state_refresh decorates only the existing
+granted slideshow policy. Retain the same Art socket for correlated
+mode/current/current/mode getters, at least 60 seconds between attempts, shared
+five-second/64-frame bound, at most 480 per existing eight-hour session. No new
+client/socket, thumbnail or setter. Navigation suspends until on; standby/off/
+cancel/auth/transport loss ends. Unknown bounded notifications invalidate, not
+confirm. A coherent equal-ID/on result becomes current_state evidence; parent
+validates time/device/ID and resolves the per-device archive. Publisher age90
+works with unchanged cards. Failure never renews proof or grants a connection.
+Legacy once-only query and default event-only paths remain untouched.
+
 ## D-240 local startup arbitration, 2026-10-20 (unpublished)
 
 The service receives commands before ticking. WakeMonitor's initial-on path

@@ -92,6 +92,7 @@ def schema() -> dict[str, Value]:
         "loading_timer": r"match(^timer\.[a-z0-9_]{1,64}$)?",
         "artwork_info_helper": r"match(^input_text\.[a-z0-9_]{1,64}$)?",
         "background_mode": "bool?",
+        "current_state_refresh": "bool?",
         "resume_state_entity": r"match(^(?:media_player|remote)\.[a-z0-9_]{1,64}$)?",
     }
 
@@ -905,7 +906,8 @@ def translations(language: str = "en") -> dict[str, Value]:
             "Background mode (experimental, optional)",
             (
                 "Off by default. Optional current-artwork events after a fresh explicit send; "
-                "no periodic TV queries or blind reconnect. Update the send script once. "
+                "Periodic TV reads require the separate current-state refresh option; "
+                "no blind reconnect. Update the send script once. "
                 "Startup contacts the TV only with the optional initial-sync/resume setting. "
                 "Upload associations are saved even "
                 "with this mode off. Warning: a read-only connection can wake a TV; no general "
@@ -916,8 +918,10 @@ def translations(language: str = "en") -> dict[str, Value]:
             "Hintergrundmodus (experimentell, optional)",
             (
                 "Standardmäßig aus. Optionale aktuelle Künstlerdaten über Ereignisse nach "
-                "frischem ausdrücklichem Senden; keine regelmäßigen TV-Abfragen oder "
-                "blinden Neuverbindungen. Sende-Script einmal aktualisieren. Startabgleich nur "
+                "frischem ausdrücklichem Senden. Regelmäßige TV-Abfragen nur mit dem separaten "
+                "Zustandsabgleich, keine blinden Neuverbindungen. Sende-Script einmal "
+                "aktualisieren. "
+                "Startabgleich nur "
                 "mit der optionalen Start-/Sleep-Entität. Bildzuordnungen werden auch ohne Modus "
                 "gespeichert. Achtung: Lesende Verbindungen können aufwecken; keine allgemeine "
                 "Modell-/Firmware-Garantie. Keine zusätzlichen Helfer, Integrationen oder Rechte."
@@ -927,7 +931,8 @@ def translations(language: str = "en") -> dict[str, Value]:
             "Mode arrière-plan (expérimental, facultatif)",
             (
                 "Désactivé par défaut. Événements de l'œuvre actuelle après un nouvel envoi "
-                "explicite ; aucune interrogation périodique ni reconnexion aveugle. Mettre à jour "
+                "explicite ; lectures périodiques seulement avec l'option de synchronisation ; "
+                "aucune reconnexion aveugle. Mettre à jour "
                 "le "
                 "script une fois. Lecture au démarrage uniquement avec l'entité de synchronisation "
                 "facultative. Les associations sont "
@@ -940,7 +945,8 @@ def translations(language: str = "en") -> dict[str, Value]:
             "Modo en segundo plano (experimental, opcional)",
             (
                 "Desactivado por defecto. Eventos de la obra actual tras un nuevo envío "
-                "explícito; sin consultas periódicas ni reconexión a ciegas. Actualice el "
+                "explícito; consultas periódicas solo con la opción de sincronización; "
+                "sin reconexión a ciegas. Actualice el "
                 "script una vez. Lectura al iniciar solo con la entidad de sincronización "
                 "opcional. Las asociaciones se "
                 "guardan incluso sin este modo. Atención: una conexión de lectura puede "
@@ -952,13 +958,70 @@ def translations(language: str = "en") -> dict[str, Value]:
             "Modalità in background (sperimentale, facoltativa)",
             (
                 "Disattivata per impostazione predefinita. Eventi dell'opera attuale dopo un "
-                "nuovo invio esplicito; nessuna richiesta periodica o riconnessione cieca. "
+                "nuovo invio esplicito; letture periodiche solo con l'opzione di sincronizzazione; "
+                "nessuna riconnessione cieca. "
                 "Aggiornare "
                 "lo script una volta. Lettura all'avvio solo con l'entità di sincronizzazione "
                 "facoltativa. Le associazioni sono "
                 "salvate anche senza questa modalità. Attenzione: una connessione in lettura "
                 "può risvegliare il TV; nessuna garanzia generale di modello/firmware. Nessun "
                 "helper, integrazione o privilegio aggiuntivo."
+            ),
+        ),
+    }[language]
+    texts["current_state_refresh"] = {
+        "en": (
+            "Keep current artwork synchronized (experimental)",
+            (
+                "Off by default; requires background mode. At most once per minute, reads mode and "
+                "image ID coherently on the existing Art connection only. Recovers after menu and "
+                "slideshow changes, including the same image. No new connection, image, power or "
+                "mode command. Stops on reported standby/HA off. Read requests may affect "
+                "automatic "
+                "sleep; offline tests cannot guarantee model/firmware safety."
+            ),
+        ),
+        "de": (
+            "Aktuelles Kunstwerk synchron halten (experimentell)",
+            (
+                "Standardmäßig aus; benötigt Hintergrundmodus. Liest höchstens einmal pro Minute "
+                "Modus und Bild-ID konsistent nur über die bestehende Art-Verbindung. Erholt sich "
+                "nach Menü- und Diashowwechseln, auch beim gleichen Bild. Keine neue Verbindung, "
+                "Bild-, Power- oder Modusbefehle. Stoppt bei gemeldetem Standby/HA aus. Abfragen "
+                "können das automatische Einschlafen beeinflussen; offline keine Firmware-Garantie."
+            ),
+        ),
+        "fr": (
+            "Synchroniser l'œuvre actuelle (expérimental)",
+            (
+                "Désactivé par défaut ; nécessite le mode arrière-plan. Au maximum une lecture "
+                "cohérente du mode et de l'identifiant par minute, sur la connexion Art existante. "
+                "Reprise après les menus et le diaporama, même pour la même image. Aucune nouvelle "
+                "connexion ni commande d'image, d'alimentation ou de mode. Arrêt en veille "
+                "signalée "
+                "ou HA éteint. Peut affecter la veille automatique ; aucune garantie hors ligne."
+            ),
+        ),
+        "es": (
+            "Sincronizar la obra actual (experimental)",
+            (
+                "Desactivado por defecto; requiere el modo en segundo plano. Como máximo una "
+                "lectura coherente del modo e ID por minuto, solo en la conexión Art existente. "
+                "Recupera tras menús y diapositivas, incluso la misma imagen. Sin conexión nueva "
+                "ni órdenes de imagen, encendido o modo. Se detiene con reposo notificado o HA "
+                "apagado. Puede afectar al reposo automático; sin garantía de firmware offline."
+            ),
+        ),
+        "it": (
+            "Sincronizza l'opera attuale (sperimentale)",
+            (
+                "Disattivata per impostazione predefinita; richiede il background. Al massimo una "
+                "lettura coerente di modalità e ID al minuto, solo sulla connessione Art "
+                "esistente. "
+                "Riprende dopo menu e presentazioni, anche con la stessa immagine. Nessuna nuova "
+                "connessione o comando di immagine, accensione o modalità. Arresto con standby "
+                "segnalato o HA spento. Può influire sul sonno automatico; nessuna garanzia "
+                "offline."
             ),
         ),
     }[language]

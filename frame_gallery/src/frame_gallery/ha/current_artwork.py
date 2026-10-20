@@ -16,7 +16,13 @@ from frame_gallery.budget.deadline import Deadline, DeadlineExceeded
 from frame_gallery.ha.client import SupervisorHelperReader, _ReadFailed
 from frame_gallery.net.policy import media_type
 from frame_gallery.net.wire import IPAddress, TransportFailure, WireRequest
-from frame_gallery.observer.model import DEVICE_ID, SLIDESHOW_FRESH_S, Evidence, Observation
+from frame_gallery.observer.model import (
+    DEVICE_ID,
+    FRESH_S,
+    SLIDESHOW_FRESH_S,
+    Evidence,
+    Observation,
+)
 from frame_gallery.store.artwork_bindings import Binding
 from frame_gallery.store.atomic import decode_json
 from frame_gallery.store.delivery_associations import DeliveryAssociation
@@ -60,6 +66,9 @@ class CurrentArtworkPublisher(SupervisorHelperReader):
         if observation.evidence is Evidence.SLIDESHOW:
             attributes["confirmation_method"] = "slideshow_events"
             attributes["confirmation_max_age"] = int(SLIDESHOW_FRESH_S)
+        elif observation.evidence is Evidence.CURRENT_STATE:
+            attributes["confirmation_method"] = "current_state_read"
+            attributes["confirmation_max_age"] = int(FRESH_S)
         status = observation.status.value
         if binding is not None:
             attributes["association_method"] = (

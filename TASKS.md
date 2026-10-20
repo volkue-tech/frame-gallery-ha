@@ -1,5 +1,45 @@
 # Implementation plan and approval gates
 
+## Authorized b14 current-state synchronization / publication — 2026-10-20
+
+- [x] Capture exact user authority, explicit default-OFF minute-read risk choice,
+  stopped installed b13, no TV/HA access or card/script/configuration.yaml edits.
+- [x] Implement fresh same-socket state proof, menu/same-image/unknown recovery,
+  strict identity/correlation/deadline/rate bounds and no blind reconnect/setter.
+- [x] Preserve default event-only/once-only query/initial-wake/send arbitration;
+  five-language option help/guides, all existing complete YAML byte-identical.
+- [x] Simulate exact protocol and real pinned-library socketpair/entry wiring;
+  full host gates6031/16, strict306-file host+Linux typing, 100% line/branch.
+  Three in-memory guard-removal controls fail the relevant behaviour assertions.
+- [ ] Freeze exact personal candidate and corresponding licensed sources; verify
+  anonymous full source content before image distribution.
+- [ ] Pass native ARM/Intel validators and actual publisher memory/root/image
+  tests, exact artifact provenance, anonymous image/import and signature checks.
+- [ ] Publish personal prerelease/Store handoff only after those gates; retain
+  prior releases/source/images. No installed update, app start or new TV test.
+- [ ] Disable/read back exact approvals, end four-hour memory-only broker and
+  verify process exit; close only own allowed completed UI. Native Terminal
+  window control remains prohibited: no bypass or false cleanup claim.
+
+## Installed b13 controlled send and current-caption check — 2026-10-20
+
+- [x] Verify installed official b13/stopped state and saved options; preserve
+  existing card/script/configuration.yaml. One send separately approved with
+  human-visible Art Mode and observation.
+- [x] Send once via unchanged existing card/script; Renoir Pomegranates selected
+  at 23:12:04 CEST. User confirms new image and unchanged Art Mode; distinct
+  current card showed matching title/artist and confirmation at 23:12:09.
+- [x] User approves bounded 25-minute slideshow continuation. Detect
+  event_rejected at 23:14:07 and stop early: app UI-stopped/current sensor paused
+  at 23:16:46; no new send/TV connection, options unchanged. Before/after exact
+  dashboard hash matches; passive readers ended and own logins revoked.
+- [x] Record remote-menu slideshow-start workflow and current nav/same-ID/proof
+  expiry behaviour; rerun existing offline slideshow/recovery tests (64 passed).
+- [ ] Resolve menu-to-slideshow recovery and same-image confirmation gap under
+  separate fix authority. Rejected frame was not saved; do not invent its event
+  name, claim existing tests reproduce it, or mark automatic cycles passed.
+  No implementation/publication is included in this controlled live test.
+
 ## Authorized beta 0.1.0b13 publication — release gates passed, closure remaining
 
 - [x] Preserve exact build/publication authority, stopped b12/cards/scripts and

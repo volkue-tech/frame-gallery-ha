@@ -39,6 +39,7 @@ class Action(enum.StrEnum):
 class Evidence(enum.StrEnum):
     THUMBNAIL = "thumbnail"
     SLIDESHOW = "slideshow"
+    CURRENT_STATE = "current_state"
 
 
 class SessionFailure(enum.StrEnum):
@@ -104,7 +105,10 @@ class Observation:
             or CONTENT_ID_PATTERN.fullmatch(self.content_id) is None
             or (
                 self.thumbnail_sha256 is None
-                and not (self.evidence is Evidence.SLIDESHOW and self.status is Status.UNIDENTIFIED)
+                and not (
+                    self.evidence in {Evidence.SLIDESHOW, Evidence.CURRENT_STATE}
+                    and self.status is Status.UNIDENTIFIED
+                )
             )
             or (
                 self.thumbnail_sha256 is not None

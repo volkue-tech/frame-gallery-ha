@@ -106,7 +106,7 @@ class DeliveryAssociation:
     def matches(self, observation: Observation) -> bool:
         # A send receipt is historical correspondence, not a fresh thumbnail.
         return (
-            observation.evidence is Evidence.SLIDESHOW
+            observation.evidence in {Evidence.SLIDESHOW, Evidence.CURRENT_STATE}
             and not self.image_rejected
             and self.device_id == observation.device_id
             and self.content_id == observation.content_id

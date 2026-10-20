@@ -1,5 +1,72 @@
 # Project status
 
+## D-242 b14 local implementation / host gates passed — 2026-10-20
+
+User authorizes robust current-artwork synchronization, offline tests and a
+personal beta, explicitly accepting a separate experimental default-OFF
+current_state_refresh option for at most one mode/ID coherence cycle/minute
+over the existing Art connection. Installed b13 remains stopped: no HA/TV call,
+card/script/configuration.yaml edit or extra live test in this task.
+
+Implemented bounded mode/current/current/mode replies, exact same-socket and
+correlation guards, 60-second attempt spacing, shared five seconds/64 frames,
+480/session ceiling and original eight-hour lifetime. Drain queued negative
+mode events before any GET; navigation suspends until on. Unknown valid
+notifications invalidate without killing the opted-in receiver. Interrupted/
+expired reads wait until the next bounded cycle. Same image, changed and unknown
+images use explicit fresh current_state proof and the pinned per-TV archive;
+no fake timestamp, new thumbnail, client/socket, image/power/mode command or
+keepalive. Standby/HA-off/cancel/auth/transport stops without blind reconnect.
+Existing event-only, once-only probe, startup/send and wake gates are preserved.
+
+Five-language option help/guides keep all existing native YAML unchanged.
+Complete unchanged host gates pass: 6031 tests/16 platform skips in 50.96s,
+306-file strict host/Linux typing, Ruff/format, 100% whole line/branch coverage
+(11674 statements/2818 branches), mandatory subset100% (8910/2082).
+Real pinned-library socketpair checks prove one URL and only five initial
+getters/one thumbnail plus the four same-socket getters; queued standby sends
+none of the extra getters. Actual entry simulates known/unknown metadata.
+In-memory removal of coherence, correlation and policy guards makes the
+behaviour tests fail; no production/test source was modified by those controls.
+Earlier style/test assertion and coverage failures are retained, not suppressed.
+
+Assign candidate 0.1.0b14. Native ARM/Intel/source/image/signature and public
+release/Store gates remain pending. These offline tests do not reconstruct the
+unrecorded b13 frame or certify physical sleep/no-wake/all-firmware recovery.
+Personal token verified as volkue-tech by the fixed four-hour memory-only broker;
+no token is stored or printed. End it and verify its PID before handback.
+Evidence: build/current-artwork-b14-release. Unrelated docs/community preserved.
+
+## Installed b13 controlled send / slideshow abort — 2026-10-20
+
+User confirms installed b13, visible Art Mode, and exactly one send through the
+existing card/script; existing cards and scripts must remain intact. At 23:12:04
+CEST the send selected commons:67540189, Pomegranates by Pierre-Auguste Renoir.
+User saw the new work with unchanged Art Mode. The distinct current-artwork
+card showed the matching title/artist and fresh 23:12:09 confirmation. This one
+awake send/initial caption case passed, not a general firmware/no-wake test.
+
+User then enabled the random ten-minute slideshow and allowed up to 25 minutes.
+The card had cleared and logs show event_rejected at 23:14:07; cached Core
+unavailable last_updated is 21:14:07.912591 UTC. The raw offending frame was not
+retained, so the exact event and any menu causation remain unknown. User explains
+slideshow is enabled through the remote's image-selection menu, possibly leaving
+and resuming Art Mode with the same picture. Current code invalidates on known
+nav; mode-on alone or a same-ID sequence does not refresh proof. Initial/rotation
+ages remain 90/900 seconds. Existing offline slideshow/recovery tests pass
+64/64 in 0.76s; they do not reproduce the unrecorded rejected frame or validate
+the physical menu-to-slideshow workflow.
+
+Test was stopped early rather than starting another receiver. Official b13 is
+UI-verified stopped; current sensor paused at 23:16:46. Saved background option
+remains ON, resume entity unchanged. Dashboard SHA256 remains exactly
+2a9b09ce8a5f8d547e0f3285a26990f35a0bb8fa8f178866fed90de5656cd0bb.
+No card/script/configuration.yaml/runtime edit, extra image, independent TV
+query, new app, GitHub access or publication. All own finite passive HA readers
+ended and temporary logins were revoked. Three completed native Terminal wrappers
+cannot be closed through the prohibited UI-control path; no cleanup is claimed.
+Evidence: build/b13-send-live-20261020/test-review.json and before/after/capture.
+
 ## D-240 beta b13 — public prerelease, documentation handoff — 2026-10-20
 
 User authorizes this personal build/publication, not an installed-app change.

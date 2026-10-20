@@ -136,6 +136,9 @@ class Source:
     def accept_slideshow(self, content_id: str) -> Observation:
         return Observation(Status.UNIDENTIFIED, DEVICE, content_id, None, Evidence.SLIDESHOW)
 
+    def accept_current_state(self, content_id: str) -> Observation:
+        return Observation(Status.UNIDENTIFIED, DEVICE, content_id, None, Evidence.CURRENT_STATE)
+
 
 class Session:
     def __init__(self) -> None:

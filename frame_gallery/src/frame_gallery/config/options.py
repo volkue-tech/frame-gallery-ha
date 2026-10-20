@@ -59,6 +59,7 @@ class Options:
     loading_timer: str | None = None
     artwork_info_helper: str | None = None
     background_mode: bool = False
+    current_state_refresh: bool = False
     resume_state_entity: str | None = None
 
     def helper_for(self, field: FilterField) -> str | None:
@@ -261,6 +262,9 @@ def parse_options(
     landscape_only = _flag("landscape_only", raw.get("landscape_only"), issues, default=True)
     strict_tv_format = _flag("strict_tv_format", raw.get("strict_tv_format"), issues, default=True)
     background_mode = _flag("background_mode", raw.get("background_mode"), issues, default=False)
+    current_state_refresh = _flag(
+        "current_state_refresh", raw.get("current_state_refresh"), issues, default=False
+    )
     resume_entity = raw.get("resume_state_entity")
     if resume_entity in (None, ""):
         resume_entity = None
@@ -314,5 +318,6 @@ def parse_options(
         loading_timer=timer,
         artwork_info_helper=info_helper,
         background_mode=background_mode,
+        current_state_refresh=current_state_refresh,
         resume_state_entity=resume_entity,
     )

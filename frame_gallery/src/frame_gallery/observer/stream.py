@@ -25,6 +25,8 @@ MAX_EVENTS: Final = 64
 MAX_FRAME: Final = 64 * 1024
 IDLE_S: Final = 0.25
 QUERY_S: Final = 5.0
+REFRESH_S: Final = 60.0
+MAX_REFRESHES: Final = 480
 _NAME: Final = re.compile(r"[A-Za-z_][A-Za-z0-9_.]{0,63}")
 
 
@@ -42,8 +44,11 @@ class EventPolicy:
     mode_field: str = "value"
     current_id_once: bool = False
     slideshow: bool = False
+    state_refresh: bool = False
 
     def __post_init__(self) -> None:
+        if not isinstance(self.state_refresh, bool) or (self.state_refresh and not self.slideshow):
+            raise ValueError("invalid state refresh policy")
         names = (self.mode_event, self.content_event, self.invalidation_event)
         if len(set(names)) != 3 or any(_NAME.fullmatch(name) is None for name in names):
             raise ValueError("invalid event schema")
@@ -69,13 +74,20 @@ class EventPolicy:
             result.update(mode_field=self.mode_field, current_id_once=self.current_id_once)
         if self.slideshow:
             result["slideshow"] = True
+        if self.state_refresh:
+            result["state_refresh"] = True
         return result
 
     @classmethod
     def from_json(cls, value: JsonObject) -> EventPolicy:
         fields = {"mode", "content", "invalidate"}
         extended = fields | {"mode_field", "current_id_once"}
-        if set(value) not in (fields, extended, extended | {"slideshow"}):
+        if set(value) not in (
+            fields,
+            extended,
+            extended | {"slideshow"},
+            extended | {"slideshow", "state_refresh"},
+        ):
             raise ValueError("invalid event schema fields")
         mode, content, invalidate = value["mode"], value["content"], value["invalidate"]
         if (
@@ -90,7 +102,10 @@ class EventPolicy:
         slideshow = value.get("slideshow", False)
         if not isinstance(slideshow, bool):
             raise ValueError("invalid slideshow event schema")
-        return cls(mode, content, invalidate, mode_field, once, slideshow)
+        refresh = value.get("state_refresh", False)
+        if not isinstance(refresh, bool):
+            raise ValueError("invalid state refresh policy")
+        return cls(mode, content, invalidate, mode_field, once, slideshow, refresh)
 
 
 SLIDESHOW_POLICY: Final = EventPolicy(

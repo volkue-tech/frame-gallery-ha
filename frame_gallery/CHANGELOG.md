@@ -1,5 +1,23 @@
 # Changelog
 
+## 0.1.0b14 (public beta candidate)
+
+- Optional `current_state_refresh` switch, OFF by default: keep the current
+  artist/title synchronized with coherent mode/current/current/mode reads on
+  the already established Art socket, at most one cycle per minute.
+- Recover after menu/slideshow changes and unchanged images without sending
+  another artwork. Unknown valid notifications clear attribution instead of
+  automatically killing the opted-in receiver; unknown images have no invented
+  artist/title. Default event-only behaviour remains available.
+- Fresh correlated replies, exact per-TV associations, shared five-second/
+  64-frame cycles and finite budgets. Drain queued off/standby/navigation before
+  sending a read. No new connection, thumbnail, power/mode command or keepalive.
+- Existing cards, scripts, helper IDs, sources, history and privileges unchanged;
+  English/German/French/Spanish/Italian option help and setup notes included.
+- Experimental: read requests may affect automatic sleep. Offline and native
+  builds are not physical firmware/no-wake validation. Connection loss/auth
+  refusal still waits for a separately valid start/wake grant, not blind retry.
+
 ## 0.1.0b13 (public beta)
 
 - Avoid duplicate initialization around a dashboard-started image request.

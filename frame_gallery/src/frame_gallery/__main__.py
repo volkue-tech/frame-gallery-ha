@@ -214,7 +214,14 @@ def background_main() -> int:
     )
     store, lock = BindingStore(layout.data), ObserverLock(layout.data)
     executor = ProcessExecutor(launch, clock)
-    observer = HostObserver(executor, layout.data, layout.media, options.tv_host, stopped=stopping)
+    observer = HostObserver(
+        executor,
+        layout.data,
+        layout.media,
+        options.tv_host,
+        stopped=stopping,
+        current_state_refresh=options.current_state_refresh,
+    )
     session = SessionProcess(ProcessExecutor(launch, clock), clock.monotonic)
     previous = signal.signal(signal.SIGTERM, lambda _signum, _frame: stopped.set())
     try:
@@ -270,7 +277,7 @@ def background_main() -> int:
         _log.warning(
             "event background service ready; TV access requires an approved device-event profile "
             "and an explicit delivery, configured first HA on sample or fresh off-to-on edge; "
-            "no TV polling or blind retry"
+            "no blind reconnect; same-socket minute checks require current_state_refresh"
         )
         serve(controller, incoming.receive, stopping)
     finally:

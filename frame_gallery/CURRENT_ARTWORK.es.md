@@ -54,6 +54,22 @@ Los datos privados sobreviven a las actualizaciones normales. Reiniciar el histo
 
 Imágenes antiguas, envíos de otras apps y envíos sin identidad estable quedan sin identificar. No se adivinan artistas ni se usa reconocimiento en la nube.
 
+### Actualización opcional del estado actual — candidata b14
+
+`current_state_refresh` es un interruptor adicional, **desactivado por defecto**,
+que requiere `background_mode`. Permite como máximo una comprobación de lectura
+de la coherencia del modo Arte actual y del ID de imagen cada 60 segundos, por
+el **socket Art ya conectado**. Su objetivo es recuperar artista/título conocidos
+tras usar el menú del TV o reanudar el pase, incluso si la imagen sigue siendo
+la misma. No abre otra conexión ni envía órdenes de imagen, encendido o modo.
+El reposo o un estado HA «off» observado cierra la sesión. Una imagen desconocida
+queda sin identificar; no se inventa un título ni se toma el de la imagen anterior.
+
+Incluso por el mismo socket, las consultas pueden afectar al reposo automático.
+Deje la opción desactivada si ese riesgo es inaceptable. Las pruebas sin conexión
+no garantizan compatibilidad con el firmware ni que el TV no se despierte.
+No hay que cambiar las tarjetas ni los scripts existentes.
+
 ## Activar la tarjeta opcional
 
 1. Conserve cámara, temporizador, tarjetas y el ID `script.frame_gallery_new_artwork`.
@@ -112,15 +128,16 @@ la versión y el modelo del TV, nunca tokens ni datos sin procesar del televisor
 Cada sesión dura como máximo ocho horas y termina antes con reposo, modo TV o
 errores. Un nuevo proceso configurado o un cambio HA reciente anterior permite otra lectura; un envío explícito correcto también puede abrir una sesión.
 
-Tras una lectura inicial y comparación local, una conexión escucha la secuencia observada: `image_selected`, `auto_rotation_image_changed` con el mismo ID y modo Arte `on`, en cinco segundos. Dentro de esa sesión no hay consultas repetidas, miniaturas posteriores ni reconexión. Un evento busca la asociación de envío o imagen verificada de ese TV; un ID desconocido borra el texto.
+Tras una lectura inicial y comparación local, una conexión escucha la secuencia observada: `image_selected`, `auto_rotation_image_changed` con el mismo ID y modo Arte `on`, en cinco segundos. Con `current_state_refresh` desactivado, no hay consultas repetidas, miniaturas posteriores ni reconexión dentro de esa sesión. Activarlo solo permite las comprobaciones limitadas anteriores, no nuevas miniaturas ni conexiones. Un evento busca la asociación de envío o imagen verificada de ese TV; un ID desconocido borra el texto.
 
 La prueba inicial dura 90 segundos. Una secuencia completa dura como máximo **15 minutos**, para el ciclo probado de diez minutos. Duplicados, pongs y modo activo no renuevan nada. Ciclos más largos pueden dejar huecos; los cambios manuales no siempre generan esta secuencia. La plantilla puede añadir aproximadamente un minuto de retraso.
 
-Una imagen fija sin cambios puede quedar sin confirmar tras 90 segundos. Este
-arreglo no prolonga la prueba ni consulta repetidamente el TV para mantener una
+Con la actualización desactivada o sin una nueva comprobación correcta, una
+imagen fija sin cambios puede quedar sin confirmar tras 90 segundos. El arreglo
+de inicio por sí solo no prolonga la prueba ni consulta repetidamente el TV para mantener una
 leyenda artificialmente actualizada.
 
-Reposo, modo TV, desconexión, eventos inválidos o fallo de publicación pausan/detienen sin reconectar de inmediato. Sin la opción anterior de reanudación, sigue siendo necesario otro envío explícito en modo Arte visible. Actualizar solo procesa eventos ya recibidos. El observador no envía órdenes de encendido, Wake-on-LAN, selección de imagen ni cambios de modo; la propia conexión aún puede tener efectos secundarios.
+Reposo, modo TV, desconexión, eventos inválidos o fallo de publicación pausan/detienen sin reconectar de inmediato. Sin la opción anterior de reanudación, sigue siendo necesario otro envío explícito en modo Arte visible. La acción manual Actualizar solo procesa eventos ya recibidos. El observador no envía órdenes de encendido, Wake-on-LAN, selección de imagen ni cambios de modo; la propia conexión aún puede tener efectos secundarios.
 
 Los ID guardados son correspondencias históricas, no comprobación continua de píxeles. No se puede descartar una reutilización externa no observada de un ID. Una comparación inicial contradictoria bloquea la leyenda guardada. Sin garantía general de firmware ni de no despertar el TV (D-235).
 

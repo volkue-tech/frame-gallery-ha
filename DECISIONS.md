@@ -1,5 +1,35 @@
 # Decision log
 
+## D-242 — opted-in same-connection state synchronization, 2026-10-20
+
+User requests robust menu/slideshow/same-image recovery, offline simulation and
+a new personal beta. Installed b13 remains stopped; no HA/TV connection or card/
+script change in this task. The rejected b13 frame was not saved: its event name
+and relation to menu navigation remain unknown. User separately accepts a
+default-OFF experimental current_state_refresh option: at most one coherent
+mode/current/current/mode read per minute over the EXISTING Art socket, with
+explicit possible automatic-sleep effects and no offline firmware/no-wake claim.
+
+Retain background-mode, pinned-device/target/archive, startup/send arbitration,
+auth/publication/isolation and initial-on/fresh-off-on gates. No new dependency,
+helper, privilege or configuration.yaml. A cycle uses fresh correlated replies,
+five seconds/64 frames shared, at least 60 seconds between attempts, at most
+480 within the existing eight-hour session. No new client/socket, thumbnail,
+image/upload/select/power/mode command or client keepalive. Known navigation
+suspends reads until on; reported standby/off/cancel/auth/transport loss ends
+without blind reconnect. Unknown well-formed notifications invalidate captions,
+never confirm them, and retain the receiver. Malformed/flooded traffic stops.
+
+Only a fresh on/current/current/on cycle with equal IDs resolves the pinned
+device's archive, including the same image. Interrupted/expired cycles cannot
+confirm or retry immediately. Unknown/rejected/other-TV works borrow no title.
+New current_state evidence publishes current_state_read with 90-second age,
+compatible with unchanged existing cards. The old strict event-only mode and
+once-per-session query latch remain when the new option is off. No artificial
+timestamp/proof renewal. Native release/source/license/signature gates remain;
+offline results cannot establish hardware sleep safety or unconditional recovery
+after loss/auth failure without a separately valid connection grant.
+
 ## D-241 — authorized b13 build and publication, 2026-10-20
 
 User explicitly authorizes a new beta for D-240 under personal
