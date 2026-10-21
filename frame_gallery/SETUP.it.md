@@ -1,21 +1,17 @@
 # Frame Gallery — installazione e prima scheda
 
-> Novità beta b13: una finestra fissa di dieci secondi dà priorità a una
-> richiesta accettata di nuova opera rispetto alla lettura iniziale automatica
-> facoltativa. L'accettazione consuma l'opportunità iniziale residua anche con
-> `no_match` o errori; non segue alcuna lettura iniziale residua. Senza richiesta
-> accettata, la sincronizzazione autonoma resta possibile con uno stato HA in cache
-> valido «on»; le successive vere transizioni spento-acceso mantengono le regole.
-> La finestra non può anticipare script con ritardi arbitrari: un invio successivo
-> deve prima arrestare un ricevitore già attivo. Le schede e gli script restano
-> compatibili. L'[opera attuale](CURRENT_ARTWORK.it.md) resta sperimentale e
-> disattivata per impostazione predefinita. Non è dimostrata una correzione del
-> cambio fisico alla modalità TV né nuova sicurezza hardware: la connessione può
-> ancora risvegliare il TV o cambiarne la modalità. [Rapporto b13](https://github.com/volkue-tech/frame-gallery-ha/blob/main/BETA13_VALIDATION.md)
-> e [sorgenti corrispondenti](https://github.com/volkue-tech/frame-gallery-ha/releases/tag/sources-v0.1.0b13).
-> Ogni invio riuscito memorizza titolo/artista anche senza background. Senza nuove
-> prove un'immagine statica può tornare non confermata dopo 90 secondi.
-> Il modo singolo seguente non cambia.
+> **Beta pubblica b15 — aggiornamento facoltativo:** l'opzione aggiuntiva
+> `current_state_refresh`, disattivata per impostazione predefinita, richiede il background.
+> Può ripristinare titolo/artista noti dopo il menu, la ripresa della presentazione
+> o con la stessa immagine: al massimo una volta al minuto sulla connessione Art
+> già stabilita, leggendo prima la modalità e gli ID solo dopo una nuova conferma di modalità Arte.
+> Nessuna nuova connessione o comando di immagine, accensione o modalità; un'opera
+> sconosciuta resta non identificata. Standby, HA osservato spento e connessione
+> chiusa continuano ad arrestare la sessione. Le letture possono influire sullo
+> standby automatico; i test offline non certificano firmware o assenza di risvegli.
+> Schede e script restano compatibili. [Guida](CURRENT_ARTWORK.it.md) ·
+> [Rapporto b15](https://github.com/volkue-tech/frame-gallery-ha/blob/main/BETA15_VALIDATION.md)
+> · [sorgenti corrispondenti](https://github.com/volkue-tech/frame-gallery-ha/releases/tag/sources-v0.1.0b15).
 
 [English](DOCS.md#installation) | [Deutsch](SETUP.de.md) | [Français](SETUP.fr.md) | [Español](SETUP.es.md) | **Italiano**
 

@@ -1,25 +1,21 @@
 # Frame Gallery — instalación y primera tarjeta
 
-> Nuevo en beta b13: una ventana fija de diez segundos da prioridad a una
-> solicitud aceptada de nueva obra frente a la lectura inicial automática opcional.
-> La aceptación consume la oportunidad inicial pendiente, incluso con `no_match`
-> o errores; después no queda ninguna lectura inicial pendiente. Sin una solicitud
-> aceptada, la sincronización independiente sigue disponible con un estado HA
-> en caché válido «on»; los cambios reales apagado-encendido posteriores conservan
-> sus reglas. La ventana no puede anticipar scripts con retrasos arbitrarios:
-> un envío posterior debe detener primero un receptor ya activo.
-> Las tarjetas y scripts siguen siendo compatibles. La [obra actual](CURRENT_ARTWORK.es.md)
-> sigue siendo experimental y desactivada por defecto. No se ha demostrado una
-> solución del cambio físico al modo TV ni nueva seguridad de hardware: la
-> conexión aún puede despertar el TV o cambiar su modo. [Informe b13](https://github.com/volkue-tech/frame-gallery-ha/blob/main/BETA13_VALIDATION.md)
-> y [fuentes correspondientes](https://github.com/volkue-tech/frame-gallery-ha/releases/tag/sources-v0.1.0b13).
-> Cada envío correcto guarda título/artista, incluso sin segundo plano. Sin nuevas
-> pruebas, una imagen fija puede quedar sin confirmar tras 90 segundos.
-> El modo de una ejecución siguiente no cambia.
+> **Beta pública b15 — actualización opcional:** el ajuste adicional
+> `current_state_refresh`, desactivado por defecto, requiere el modo en segundo plano.
+> Puede recuperar título/artista conocidos tras usar el menú, reanudar la presentación
+> o mantener la misma imagen: como máximo una vez por minuto sobre la conexión Art
+> ya establecida, leyendo primero el modo y los ID solo tras confirmar el modo Arte de nuevo.
+> No abre otra conexión ni envía órdenes de imagen, encendido o modo; una obra
+> desconocida sigue sin identificar. Reposo, HA observado en apagado y conexión
+> cerrada siguen deteniendo la sesión. Las lecturas pueden afectar el reposo
+> automático; las pruebas sin conexión no certifican firmware ni ausencia de despertar.
+> Tarjetas y scripts siguen siendo compatibles. [Guía](CURRENT_ARTWORK.es.md) ·
+> [Informe b15](https://github.com/volkue-tech/frame-gallery-ha/blob/main/BETA15_VALIDATION.md)
+> · [fuentes correspondientes](https://github.com/volkue-tech/frame-gallery-ha/releases/tag/sources-v0.1.0b15).
 
 [English](DOCS.md#installation) | [Deutsch](SETUP.de.md) | [Français](SETUP.fr.md) | **Español** | [Italiano](SETUP.it.md)
 
-Guía inicial para la **beta 0.1.0b13**. El idioma de esta página se elige con
+Guía inicial para la **beta 0.1.0b15**. El idioma de esta página se elige con
 los enlaces de arriba, no automáticamente desde Home Assistant.
 Los documentos técnicos siguen [en inglés](DOCS.md#options).
 Desde 0.1.0b7, el formulario ofrece inglés, alemán, francés, español e italiano

@@ -2,7 +2,9 @@
 
 [English](CURRENT_ARTWORK.md) | Deutsch | [Français](CURRENT_ARTWORK.fr.md) | [Español](CURRENT_ARTWORK.es.md) | [Italiano](CURRENT_ARTWORK.it.md)
 
-**Öffentliche Beta b13: experimentell und standardmäßig aus.** Bestehende b7/b8/b9/b10/b11/b12-Karten bleiben nutzbar. Auf Home Assistant Green/OS werden keine API-Schlüssel, neuen Helfer, HACS-Erweiterungen, Sonderrechte oder weiteren Apps benötigt.
+**Öffentliche Beta b15: experimentell und standardmäßig aus.** Bestehende b7/b8/b9/b10/b11/b12/b13-Karten bleiben nutzbar. Auf Home Assistant Green/OS werden keine API-Schlüssel, neuen Helfer, HACS-Erweiterungen, Sonderrechte oder weiteren Apps benötigt.
+
+[b15-Prüfbericht](https://github.com/volkue-tech/frame-gallery-ha/blob/main/BETA15_VALIDATION.md) · [Passende Quellen](https://github.com/volkue-tech/frame-gallery-ha/releases/tag/sources-v0.1.0b15).
 
 Auch eine lesende Verbindung kann einen Fernseher aufwecken. Kontrollierte Tests erfassten automatische Bildwechsel und einen natürlichen Einschlafvorgang an einem Frame, nicht alle Modelle oder Firmwares. Falls jedes Aufweckrisiko inakzeptabel ist, Hintergrundmodus ausgeschaltet lassen.
 
@@ -37,7 +39,9 @@ Läuft bereits ein eigenständiger Empfänger, muss ein späterer Versand ihn zu
 stoppen und sein Ende abwarten. Die Offline-Tests dieses Fixes liefern keinen
 neuen Hardware-Nachweis gegen Aufwecken oder einen Moduswechsel des TVs.
 
-Danach liest die App nur diesen HA-Zustand alle fünf Sekunden. Ein beobachtetes
+Die Wiederanlauf-Überwachung liest diesen gespeicherten HA-Zustand alle fünf
+Sekunden; das ist getrennt von den optionalen Art-Socket-Prüfungen unten.
+Ein beobachtetes
 `off` und ein neueres, höchstens 30 Sekunden altes `on` erlauben einen weiteren
 Versuch. Beide Wege teilen sich höchstens sechs Versuche pro rollender Stunde
 **in diesem Dienstprozess**. Doppelte/veraltete Weckwechsel und Beobachtungslücken
@@ -56,7 +60,7 @@ Die privaten App-Daten bleiben bei normalen Updates erhalten. Das Zurücksetzen 
 
 Alte TV-Bilder, Uploads anderer Apps und Sendungen ohne stabile Geräteidentität bleiben unbekannt. Künstler werden nicht geraten; keine Cloud-Bilderkennung.
 
-### Optionale Aktualisierung des aktuellen Zustands — b15-Kandidat
+### Optionale Aktualisierung des aktuellen Zustands — b15
 
 `current_state_refresh` ist ein zusätzlicher optionaler Schalter, **standardmäßig
 aus**, und setzt `background_mode` voraus. Er erlaubt höchstens eine lesende
@@ -66,6 +70,9 @@ nach dem TV-Menü oder dem Fortsetzen einer Diashow wieder erscheinen, auch wenn
 dasselbe Bild bleibt. Keine neue Verbindung und keine Bild-, Power- oder
 Modusbefehle.
 Unbekannte Bilder bleiben unbekannt; kein Titel wird erfunden oder übernommen.
+
+Ein frischer erfolgreicher `current_state_read`-Nachweis gilt 90 Sekunden.
+Doppelte IDs, Pongs oder Modus-an-Meldungen allein verlängern ihn nicht.
 
 Bei eingeschalteter Option bleibt bei `off` oder `nav` des Art-Kanals **derselbe
 Socket** bestehen; diese Zustände sind kein physischer Standby. Ohne aktiven
@@ -123,7 +130,7 @@ content: >-
 
 ## Bestätigung und Grenzen
 
-**Wiederanlauf-Fix in Beta b10:** Unvollständige Folgen
+**Historischer b10-Wiederanlauf — reiner Ereignismodus (`current_state_refresh` aus):** Unvollständige Folgen
 bekannter Diashow-Meldungen blenden die aktuellen Künstlerdaten aus und warten
 auf derselben Verbindung auf eine neue vollständige Folge. Sie bestätigen kein
 Werk und lösen keine weitere Abfrage aus. Unbekannte oder fehlerhafte Meldungen,
@@ -132,14 +139,22 @@ Fehlercodes im App-Protokoll unterscheiden Start-, Empfangs-, Dekodierungs- und
 Workerfehler, ohne rohe Nachrichten oder Zugangsdaten auszugeben. Die
 b12-Startfunktion und das b13-Startfenster haben keinen neuen Live-TV- oder Einschlafnachweis.
 
+Bei eingeschaltetem `current_state_refresh` blenden strukturell gültige, aber
+unbekannte Meldungen sowie `off`/`nav` des Art-Kanals die Künstlerdaten aus und
+behalten denselben Socket nach den begrenzten Regeln oben. Sie bestätigen kein
+Kunstwerk und erlauben keine neue Verbindung. Physischer Standby, abgewiesene
+Anmeldung, fehlerhafte Protokolldaten und ein geschlossener Transport beenden
+die Sitzung weiterhin.
+
 Im Protokoll bedeutet `event sequence incomplete`: Künstlerdaten ausgeblendet,
 dieselbe Verbindung wartet — kein bestätigtes Werk.
 `event session stopped: reason=...; no reconnect` bedeutet: Sitzung beendet,
 keine sofortige automatische Wiederholung. Bei einer Fehlermeldung diesen festen Fehlercode,
 App-Version und TV-Modell angeben, keine Zugriffstoken oder rohen TV-Daten.
 
-Eine Sitzung dauert höchstens acht Stunden und endet bei Einschlafen, TV-Betrieb
-oder Fehlern früher. Ein konfigurierter neuer Prozessstart oder späterer frischer HA-Weckwechsel oben kann eine neue Abfrage erlauben; auch ein erfolgreicher ausdrücklicher Versand kann eine Sitzung starten.
+Eine Sitzung dauert höchstens acht Stunden. Im reinen Ereignismodus
+(`current_state_refresh` aus) können Einschlafen, TV-Betrieb oder Fehler sie
+früher beenden. Die Opt-in-Ausnahmen und endgültigen Stop-Bedingungen oben gelten weiter. Ein konfigurierter neuer Prozessstart oder späterer frischer HA-Weckwechsel oben kann eine neue Abfrage erlauben; auch ein erfolgreicher ausdrücklicher Versand kann eine Sitzung starten.
 
 Nach einer anfänglichen Abfrage mit lokalem Bildvergleich hört eine einzige Verbindung auf die beobachtete Diashow-Folge: `image_selected`, passendes `auto_rotation_image_changed`, danach Kunstmodus `on`, innerhalb von fünf Sekunden. Bei ausgeschaltetem `current_state_refresh` gibt es innerhalb dieser Sitzung keine wiederholten TV-Abfragen, späteren Vorschaubilder oder Neuverbindungen. Eingeschaltet sind nur die begrenzten Prüfungen oben erlaubt, keine neuen Vorschaubilder oder Verbindungen. Ein Ereignis löst die gespeicherte Upload- oder bildgeprüfte Zuordnung dieses TVs auf; unbekannte IDs leeren den Text.
 
@@ -150,7 +165,7 @@ kann ein fest gewähltes unverändertes Bild nach 90 Sekunden unbestätigt sein.
 Der Startfix allein verlängert keinen Bildnachweis und fragt nicht
 wiederholt ab, um einen statischen Künstlertext aktuell erscheinen zu lassen.
 
-Einschlafen, TV-Betrieb, Verbindungsabbruch, ungültige Ereignisse oder Publikationsfehler beenden/pausieren ohne sofortige Neuverbindung. Ohne die optionale Weckwechsel-Einstellung bleibt ein ausdrücklicher neuer Bildversand im sichtbaren Kunstmodus nötig. Manuelles Aktualisieren verarbeitet nur bereits empfangene Ereignisse. Der Beobachter sendet keine Power-, Wake-on-LAN-, Bildauswahl- oder Modusbefehle. Trotzdem kann bereits die Verbindung Nebenwirkungen haben.
+**Reiner Ereignismodus (`current_state_refresh` aus):** Einschlafen, TV-Betrieb, Verbindungsabbruch, ungültige Ereignisse oder Publikationsfehler beenden/pausieren ohne sofortige Neuverbindung. Bei Opt-in gelten stattdessen die begrenzten Same-Socket-Regeln und endgültigen Stop-Bedingungen oben. Erst nach tatsächlichem Sitzungsende bleibt ohne optionale Weckwechsel-Einstellung ein ausdrücklicher neuer Bildversand im sichtbaren Kunstmodus nötig. Manuelles Aktualisieren verarbeitet nur bereits empfangene Ereignisse. Der Beobachter sendet keine Power-, Wake-on-LAN-, Bildauswahl- oder Modusbefehle. Trotzdem kann bereits die Verbindung Nebenwirkungen haben.
 
 Gespeicherte IDs sind historische Zuordnungen, kein fortlaufender Pixelnachweis. Unbeobachtetes externes Ersetzen/Wiederverwenden einer TV-ID ist während reinen Ereignisempfangs nicht auszuschließen. Ein widersprechender anfänglicher Bildvergleich sperrt die gespeicherte Bildunterschrift. Keine allgemeine Firmware-/Nichtaufweckgarantie (D-235).
 

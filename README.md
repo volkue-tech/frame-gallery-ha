@@ -1,21 +1,21 @@
 # Frame Gallery for Home Assistant
 
-> **New in b13 — startup/send handoff:** the optional automatic initial read
-> waits for a fixed ten-second window. An accepted new-artwork command takes
-> priority and consumes the remaining initial opportunity, even if its send
-> fails or finds no match (`no_match`); no leftover initial read follows.
-> Without an accepted send, standalone initial synchronization remains available
-> with valid cached HA on; later genuine off-to-on recovery is unchanged.
-> The window cannot anticipate arbitrarily delayed scripts: a later send must
-> first stop an already running receiver. Existing cards and scripts stay compatible.
-> This fixes an offline-proven startup pattern, not a proven physical mode-switch
-> cause. A read connection may still wake the TV or affect its mode.
-> See the [b13 checks](BETA13_VALIDATION.md) and
-> [matching sources](https://github.com/volkue-tech/frame-gallery-ha/releases/tag/sources-v0.1.0b13).
+> **New in b15 — optional same-connection refresh:** with background mode enabled,
+> the separate `current_state_refresh` switch (default OFF) can revalidate known
+> artist/title information after menu use, slideshow restart or an unchanged image.
+> It reads mode and, only after fresh Art Mode on, coherent image IDs at most once
+> per minute over the already established Art socket; it opens no new connection
+> and sends no image, power or mode command. Unknown artwork stays unidentified.
+> Standby, observed HA off and a closed connection still stop the session.
+> Read requests may affect automatic sleep; offline tests are not firmware or
+> no-wake certification. Existing cards and scripts stay compatible.
+> See the [b15 checks](BETA15_VALIDATION.md),
+> [current-artwork guide](frame_gallery/CURRENT_ARTWORK.md) and
+> [matching sources](https://github.com/volkue-tech/frame-gallery-ha/releases/tag/sources-v0.1.0b15).
 
 Fresh artwork on your Samsung Frame. Start it with a tap from Home Assistant.
 
-> **0.1.0b13 public beta:** 1000 curated Commons works, optional artist and
+> **0.1.0b15 public beta:** 1000 curated Commons works, optional artist and
 > colour selection, and configuration in English, German, French, Spanish and Italian.
 > Update in place; saved sources, dashboard helpers and history stay compatible.
 
@@ -98,36 +98,19 @@ When reporting a problem, include the app version, TV model and the final outcom
 
 ## Public beta
 
-**[0.1.0b13](https://github.com/volkue-tech/frame-gallery-ha/releases/tag/v0.1.0b13)** adds the
-D-240 startup/send handoff. The optional initial read waits for a fixed ten-second
-window, giving an accepted new-artwork command priority. Acceptance consumes the
-initial opportunity even when delivery fails or returns `no_match`; no leftover
-startup read runs afterward. Without an accepted send, standalone initial
-synchronization remains possible with valid cached HA on, and later genuine
-off-to-on recovery is unchanged. The bounded window cannot anticipate arbitrarily
-delayed scripts; a later send must first stop an already running receiver.
-Cards, scripts, saved settings and per-TV associations stay compatible.
-This is not a proven fix for the reported physical switch into TV mode, nor new
-hardware/no-wake evidence. Connections may still have side effects. See the
-[b13 validation report](BETA13_VALIDATION.md) for exact checks and limits, and the
-[matching public sources](https://github.com/volkue-tech/frame-gallery-ha/releases/tag/sources-v0.1.0b13).
-Publication does not start or update an installed app or change dashboard cards.
-
-**[0.1.0b12 is available](https://github.com/volkue-tech/frame-gallery-ha/releases/tag/v0.1.0b12).**
-Initial synchronization for an already-on TV, without
-another artwork send or an off/on cycle. With background mode and this TV's
-existing local Samsung entity configured, its first cached HA on sample permits
-one experimental read. Missing/invalid/off/unknown/error consumes that startup
-opportunity; repeated on samples do not retry. Later fresh off-to-on recovery
-and the shared six-attempt per-process hourly ceiling stay unchanged.
-Fresh TV/Art Mode/ID/image proof is required; unknown pictures stay unidentified.
-No new helper, dependency or Green privilege; existing cards/data stay compatible.
-Initial/slideshow display limits remain 90/900 seconds: static art can age out.
-Background remains off by default; a read connection may wake or affect a TV's
-mode. No new hardware or universal no-wake guarantee is claimed.
-Native ARM/Intel validators and actual publisher images, matching public sources,
-four hash/provenance-checked evidence archives, anonymous image pulls/imports and
-independent signatures passed; see [b12 validation](BETA12_VALIDATION.md).
+**[0.1.0b15](https://github.com/volkue-tech/frame-gallery-ha/releases/tag/v0.1.0b15)** adds
+optional same-connection current-state refresh. With background mode and the
+separate default-OFF `current_state_refresh` option enabled, bounded mode/ID
+checks can refresh known captions after menu/slideshow navigation or an unchanged
+image. Checks use the existing Art socket at most once per minute, never another
+connection or an image/power/mode command; unknown art has no invented caption.
+Art-channel off/navigation clears captions while retaining mode-only checks;
+physical standby, HA off or a closed socket still stops. Requests may affect
+automatic sleep. Offline checks do not certify all firmware or no-wake behaviour.
+See [b15 validation](BETA15_VALIDATION.md) and the
+[matching sources](https://github.com/volkue-tech/frame-gallery-ha/releases/tag/sources-v0.1.0b15).
+Existing cards, scripts and per-TV memory remain compatible; publication alone
+does not update or start your installed app.
 
 **[0.1.0b11 is available](https://github.com/volkue-tech/frame-gallery-ha/releases/tag/v0.1.0b11).**
 Optional experimental recovery after sleep: configure this TV's existing local
@@ -217,7 +200,7 @@ The app runs once, then stops. It does not remove artworks already stored on you
 
 ## For contributors
 
-Frame Gallery is implemented independently. The project's own code is [Apache-2.0](LICENSE); distributed third-party components retain their own licences. The runtime is not GPL-free. [Third-party notices](THIRD_PARTY_NOTICES.md) and [matching component sources](https://github.com/volkue-tech/frame-gallery-ha/releases/tag/sources-v0.1.0b13) are available; historical source releases are retained.
+Frame Gallery is implemented independently. The project's own code is [Apache-2.0](LICENSE); distributed third-party components retain their own licences. The runtime is not GPL-free. [Third-party notices](THIRD_PARTY_NOTICES.md) and [matching component sources](https://github.com/volkue-tech/frame-gallery-ha/releases/tag/sources-v0.1.0b15) are available; historical source releases are retained.
 
 - [Developer setup and quality gates](frame_gallery/DEVELOPMENT.md)
 - [Product specification](PRODUCT_SPEC.md) · [Architecture](ARCHITECTURE.md) · [Acceptance tests](ACCEPTANCE_TESTS.md)

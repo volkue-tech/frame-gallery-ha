@@ -5,6 +5,31 @@ Assistant's app store; they do not run these commands or edit HA configuration.
 STATUS/TASKS remain the authoritative current status. A committed workflow is
 not evidence that an image has been published or an installation has passed.
 
+## b15 optional same-connection synchronization scope
+
+The separate `current_state_refresh` option is experimental, default OFF and
+requires background mode. It permits bounded mode/ID coherence checks at most
+once per minute over an established Art socket, not a new connection, upload or
+power/mode command. Menu/Art-off clears captions while retaining mode-only checks;
+fresh Art Mode on is required before IDs, and unknown art gets no borrowed title.
+Physical standby, observed HA off and a closed socket still stop the session.
+Read requests can affect automatic sleep; offline evidence cannot certify firmware
+or no-wake behaviour. Keep existing cards, scripts and installed state unchanged.
+
+For this documentation handoff, the [b15 validation report](BETA15_VALIDATION.md)
+must cite the actual final source, native ARM/Intel validator and publisher
+artifacts, anonymous images/imports, independent signatures and final main/release
+cross-check. Observed b15 run39562816594/all five jobs and four native archives,
+both anonymous exact-image imports and independent signatures passed; app
+prerelease419307088 targets frozen source ab9e65cb313a8ef05560f182e958a441bc8a44c6.
+Both exact approvals were disabled/read back. After the17-document handoff is
+pushed to main, record the final anonymous38-file/main/Store readback and exact
+broker-PID exit locally before handback; do not claim future closure in a commit.
+Do not infer green results or hardware safety from the scope description.
+[Matching b15 sources](https://github.com/volkue-tech/frame-gallery-ha/releases/tag/sources-v0.1.0b15)
+must be verified publicly before image distribution. Retain b14 only as its
+source-only intermediate; it was not an app/image/Store release.
+
 ## b13 startup/send arbitration scope
 
 The b13 handoff changes only startup ordering: a fixed ten-second window gives an
@@ -47,12 +72,12 @@ No live HA/TV action, app start/update or card/script change is part of publicat
 ## Run the manual workflow
 
 Run **Publish reviewed beta images** on `main`, with the matching beta version.
-For reviewed candidates such as 0.1.0b6 through 0.1.0b13, the narrowly allowed
+For reviewed candidates such as 0.1.0b6 through 0.1.0b13 and 0.1.0b15, the narrowly allowed
 `codex/commons-default` branch can instead publish
 the exact approved candidate before its app metadata is merged into `main`.
 This prevents store users being offered a version whose image is still missing.
 Repository, exact-commit/source-hash, native validation and non-overwrite gates
-remain identical. Signatures identify the actual workflow branch; b6 through b13 use
+remain identical. Signatures identify the actual workflow branch; b6 through b13 and b15 use
 `https://github.com/volkue-tech/frame-gallery-ha/.github/workflows/publish.yml@refs/heads/codex/commons-default`.
 Historical b3/b4/b5 used
 `https://github.com/volkue-tech/frame-gallery-ha/.github/workflows/publish.yml@refs/heads/codex/commons-curated`.

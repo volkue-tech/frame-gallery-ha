@@ -2,7 +2,9 @@
 
 [English](CURRENT_ARTWORK.md) | [Deutsch](CURRENT_ARTWORK.de.md) | [Français](CURRENT_ARTWORK.fr.md) | Español | [Italiano](CURRENT_ARTWORK.it.md)
 
-**Beta pública b13: experimental y desactivado por defecto.** Las tarjetas b7/b8/b9/b10/b11/b12 siguen funcionando. No necesita nuevos ayudantes, claves API, HACS, permisos especiales ni otra app en Home Assistant Green/OS.
+**Beta pública b15: experimental y desactivado por defecto.** Las tarjetas b7/b8/b9/b10/b11/b12/b13 siguen funcionando. No necesita nuevos ayudantes, claves API, HACS, permisos especiales ni otra app en Home Assistant Green/OS.
+
+[Informe b15](https://github.com/volkue-tech/frame-gallery-ha/blob/main/BETA15_VALIDATION.md) · [Fuentes correspondientes](https://github.com/volkue-tech/frame-gallery-ha/releases/tag/sources-v0.1.0b15).
 
 Incluso una conexión de lectura puede despertar el TV. Las pruebas controladas cubren cambios automáticos y un episodio de reposo natural en un Frame, no todos los modelos o firmware. Mantenga el modo desactivado si ese riesgo es inaceptable.
 
@@ -36,7 +38,9 @@ ya se ha iniciado un receptor independiente, un envío posterior debe detenerlo
 primero y esperar a que termine. Las pruebas sin conexión de este arreglo no
 aportan nuevas pruebas físicas contra despertares del TV o cambios de modo.
 
-Después solo se lee ese estado HA cada cinco segundos. Un `off` observado y un
+El monitor de reanudación lee ese estado HA en caché cada cinco segundos;
+es independiente de las comprobaciones opcionales del socket Art descritas abajo.
+Un `off` observado y un
 `on` más reciente de como máximo 30 segundos permiten otra lectura. Ambas rutas
 comparten seis intentos por hora móvil **en ese proceso**. Duplicados, cambios
 antiguos y lagunas no autorizan reintentos. El rechazo de autenticación bloquea
@@ -54,7 +58,7 @@ Los datos privados sobreviven a las actualizaciones normales. Reiniciar el histo
 
 Imágenes antiguas, envíos de otras apps y envíos sin identidad estable quedan sin identificar. No se adivinan artistas ni se usa reconocimiento en la nube.
 
-### Actualización opcional del estado actual — candidata b15
+### Actualización opcional del estado actual — b15
 
 `current_state_refresh` es un interruptor adicional, **desactivado por defecto**,
 que requiere `background_mode`. Permite como máximo una comprobación de lectura
@@ -64,6 +68,9 @@ tras usar el menú del TV o reanudar el pase, incluso si la imagen sigue siendo
 la misma. No abre otra conexión ni envía órdenes de imagen, encendido o modo.
 Una imagen desconocida queda sin identificar; no se inventa un título ni se toma
 el de la imagen anterior.
+
+Una prueba nueva y correcta `current_state_read` es válida durante 90 segundos.
+Los ID duplicados, pongs o avisos de modo activo por sí solos no la renuevan.
 
 Con esta opción, `off` o `nav` del canal Art conserva **el mismo socket**; estos
 estados no son reposo físico. Fuera del modo Arte se ocultan título y artista.
@@ -120,7 +127,7 @@ content: >-
 
 ## Confirmación y límites
 
-**Corrección de recuperación beta b10:** una secuencia incompleta
+**Recuperación histórica b10 — solo eventos (`current_state_refresh` desactivado):** una secuencia incompleta
 de notificaciones reconocidas del pase oculta los datos actuales y espera una
 nueva secuencia completa en la misma conexión. No confirma ninguna obra ni
 envía otra consulta. Los mensajes desconocidos o incorrectos, el reposo, el modo
@@ -129,14 +136,21 @@ registro distinguen errores de inicio, recepción, decodificación y proceso
 aislado, sin mensajes sin procesar ni credenciales. El inicio b12 y la ventana b13 no tienen nueva
 validación física de TV o reposo.
 
+Con `current_state_refresh` activado, las notificaciones estructuralmente válidas
+pero no reconocidas y `off`/`nav` del canal Art ocultan los datos y conservan el
+mismo socket según las reglas limitadas anteriores. No confirman ninguna obra
+ni permiten otra conexión. El reposo físico, el rechazo de autenticación, los
+datos de protocolo mal formados y un transporte cerrado siguen terminando la sesión.
+
 En el registro, `event sequence incomplete` significa que los datos se han
 ocultado y la misma conexión espera, sin confirmar ninguna obra.
 `event session stopped: reason=...; no reconnect` indica que la sesión terminó,
 sin repetición inmediata. Al informar de un problema, incluya ese código fijo,
 la versión y el modelo del TV, nunca tokens ni datos sin procesar del televisor.
 
-Cada sesión dura como máximo ocho horas y termina antes con reposo, modo TV o
-errores. Un nuevo proceso configurado o un cambio HA reciente anterior permite otra lectura; un envío explícito correcto también puede abrir una sesión.
+Cada sesión dura como máximo ocho horas. En el modo de solo eventos
+(`current_state_refresh` desactivado), el reposo, el modo TV o los errores pueden
+terminarla antes. Siguen aplicándose las excepciones opcionales y paradas definitivas anteriores. Un nuevo proceso configurado o un cambio HA reciente anterior permite otra lectura; un envío explícito correcto también puede abrir una sesión.
 
 Tras una lectura inicial y comparación local, una conexión escucha la secuencia observada: `image_selected`, `auto_rotation_image_changed` con el mismo ID y modo Arte `on`, en cinco segundos. Con `current_state_refresh` desactivado, no hay consultas repetidas, miniaturas posteriores ni reconexión dentro de esa sesión. Activarlo solo permite las comprobaciones limitadas anteriores, no nuevas miniaturas ni conexiones. Un evento busca la asociación de envío o imagen verificada de ese TV; un ID desconocido borra el texto.
 
@@ -147,7 +161,7 @@ imagen fija sin cambios puede quedar sin confirmar tras 90 segundos. El arreglo
 de inicio por sí solo no prolonga la prueba ni consulta repetidamente el TV para mantener una
 leyenda artificialmente actualizada.
 
-Reposo, modo TV, desconexión, eventos inválidos o fallo de publicación pausan/detienen sin reconectar de inmediato. Sin la opción anterior de reanudación, sigue siendo necesario otro envío explícito en modo Arte visible. La acción manual Actualizar solo procesa eventos ya recibidos. El observador no envía órdenes de encendido, Wake-on-LAN, selección de imagen ni cambios de modo; la propia conexión aún puede tener efectos secundarios.
+**Solo eventos (`current_state_refresh` desactivado):** Reposo, modo TV, desconexión, eventos inválidos o fallo de publicación pausan/detienen sin reconectar de inmediato. Si se activa la opción, se aplican las reglas limitadas del mismo socket y las paradas definitivas anteriores. Una vez terminada realmente la sesión, sin la opción anterior de reanudación sigue siendo necesario otro envío explícito en modo Arte visible. La acción manual Actualizar solo procesa eventos ya recibidos. El observador no envía órdenes de encendido, Wake-on-LAN, selección de imagen ni cambios de modo; la propia conexión aún puede tener efectos secundarios.
 
 Los ID guardados son correspondencias históricas, no comprobación continua de píxeles. No se puede descartar una reutilización externa no observada de un ID. Una comparación inicial contradictoria bloquea la leyenda guardada. Sin garantía general de firmware ni de no despertar el TV (D-235).
 

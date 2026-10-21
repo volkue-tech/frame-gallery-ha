@@ -2,7 +2,9 @@
 
 English | [Deutsch](CURRENT_ARTWORK.de.md) | [Français](CURRENT_ARTWORK.fr.md) | [Español](CURRENT_ARTWORK.es.md) | [Italiano](CURRENT_ARTWORK.it.md)
 
-**Public beta b13: experimental and off by default.** Existing b7/b8/b9/b10/b11/b12 cards remain usable. No API key, new helper, HACS extension, special permissions or second app is needed on Home Assistant Green/OS.
+**Public beta b15: experimental and off by default.** Existing b7/b8/b9/b10/b11/b12/b13 cards remain usable. No API key, new helper, HACS extension, special permissions or second app is needed on Home Assistant Green/OS.
+
+[b15 validation](https://github.com/volkue-tech/frame-gallery-ha/blob/main/BETA15_VALIDATION.md) · [Matching sources](https://github.com/volkue-tech/frame-gallery-ha/releases/tag/sources-v0.1.0b15).
 
 A read-only connection can still wake a television. Controlled tests covered automatic slideshow changes and one natural-sleep episode on one Frame, not every model or firmware. Leave background mode off if any wake-up risk is unacceptable.
 
@@ -35,7 +37,8 @@ standalone receiver has started, a later send must first stop it and wait for it
 exit. Offline tests of this fix provide no new hardware proof against waking the
 TV or changing its mode.
 
-The app then reads only that cached HA state every five seconds. A later observed
+The resume monitor reads this cached HA state every five seconds; this is
+separate from the optional Art-socket checks below. A later observed
 `off` followed by a newer `on` within 30 seconds permits one further read. Both
 paths share at most six attempts per rolling hour **in that service process**.
 Duplicates, stale wake edges or monitoring gaps do not retry. Authentication
@@ -53,7 +56,7 @@ The private app data survives normal updates. Clearing the selection history doe
 
 Old TV pictures, uploads from other apps and deliveries without a stable TV identity remain unidentified. Frame Gallery does not guess artists or use cloud image recognition.
 
-### Optional current-state refresh — b15 candidate
+### Optional current-state refresh — b15
 
 `current_state_refresh` is a separate optional switch, **OFF by default**, and
 requires `background_mode`. It allows at most one read-only coherence check of
@@ -63,6 +66,9 @@ using the TV menu or resuming a slideshow, including when the image stays the
 same. It opens no new connection and sends no image, power or mode command.
 An unknown image remains unidentified; the app never invents a title or borrows
 the previous one.
+
+A fresh successful `current_state_read` proof is valid for 90 seconds.
+Duplicate IDs, pongs or mode-on notifications alone do not renew it.
 
 With this option enabled, Art-channel `off` or `nav` retains the **same socket**;
 these states are not physical standby. Captions are cleared while Art Mode is
@@ -118,7 +124,7 @@ content: >-
 
 ## How confirmation works — and its limits
 
-**Beta b10 recovery fix:** incomplete sequences of recognized
+**Historical b10 recovery — event-only mode (`current_state_refresh` off):** incomplete sequences of recognized
 slideshow notifications clear the current caption and wait on the same
 connection for a new complete sequence. They never confirm an artwork or
 trigger another query. Unknown or malformed messages, standby, TV mode and
@@ -126,14 +132,21 @@ connection loss still end the session. Fixed failure codes in the app log
 distinguish startup, receive, decoding and worker errors without raw messages
 or credentials. The b12 startup path and b13 handoff have no new live-TV or sleep validation.
 
+With `current_state_refresh` on, structurally valid but unrecognized
+notifications and Art-channel `off`/`nav` clear the caption while retaining the
+same socket under the bounded rules above. They do not confirm artwork or grant
+a new connection. Physical standby, authentication refusal, malformed protocol
+data and a closed transport still stop the session.
+
 In the log, `event sequence incomplete` means the caption was cleared and the
 same connection is waiting, not that an artwork was confirmed.
 `event session stopped: reason=...; no reconnect` means the session ended;
 include that fixed reason code, app version and TV model in a bug report, not
 access tokens or raw TV data. That failed session is not automatically retried.
 
-Each session lasts at most eight hours and ends earlier on sleep, TV mode or
-failure. A configured new process start or later fresh HA wake edge above can permit a new read; an explicit successful send can also start a session.
+Each session lasts at most eight hours. In event-only mode
+(`current_state_refresh` off), sleep, TV mode or failure can end it earlier.
+The opt-in exceptions and terminal stops above still apply. A configured new process start or later fresh HA wake edge above can permit a new read; an explicit successful send can also start a session.
 
 After one initial read and local image comparison, one connection listens for the observed slideshow sequence: `image_selected`, matching `auto_rotation_image_changed`, then Art Mode `on`, within five seconds. With `current_state_refresh` off, there are no repeated TV queries, subsequent thumbnails or reconnects within that session. Enabling it permits only the bounded checks above, not new thumbnails or connections. A later event resolves metadata from that TV's saved upload or image-verified association; an unknown ID clears the caption.
 
@@ -144,7 +157,7 @@ unchanged picture can become unconfirmed after 90 seconds.
 The initial-start fix alone does not extend proof age or repeatedly query the TV to
 keep a static caption alive.
 
-Sleep, TV mode, disconnection, malformed events or publication failure stop/pause the session without an immediate reconnect. Without the optional wake-edge setting, resuming still requires an explicit new send in visible Art Mode. Manual Refresh only reads already received events. The observer sends no power, Wake-on-LAN, image-selection or mode-change commands. A connection itself can nevertheless cause side effects.
+**Event-only (`current_state_refresh` off):** Sleep, TV mode, disconnection, malformed events or publication failure stop/pause the session without an immediate reconnect. When opted in, the bounded same-socket rules and terminal stops above apply instead. After a session has actually ended, without the optional wake-edge setting a new explicit send in visible Art Mode is still required. Manual Refresh only reads already received events. The observer sends no power, Wake-on-LAN, image-selection or mode-change commands. A connection itself can nevertheless cause side effects.
 
 Saved IDs are historical correspondence, not continuous pixel verification. An external, unobserved replacement/reuse of a TV ID cannot be ruled out during event-only listening. A mismatching initial image comparison suppresses the saved caption. No general firmware/no-wake guarantee is claimed (D-235).
 

@@ -1,17 +1,45 @@
 # Implementation plan and approval gates
 
-## Final candidate b15 replaces source-only b14 — 2026-10-20
+## b15 public beta / publication handoff — 2026-10-21
 
-- [x] Reproduce lost-on wait offline; amend same-socket menu/off recovery,
-  deferred original initial thumbnail proof, parent retention and delayed
-  attempt spacing. Preserve default-OFF risk choice and no live connections.
-- [x] Targeted final-path tests121 passed; real-library socketpair, controller
-  and unchanged legacy tests included. No claim of physical sleep safety.
-- [x] Repeat final complete b15 host gates6045/16,306-file strict host/Linux typing,
-  100% whole/mandatory line/branch; preserve all original tests/guards.
-- [ ] Repeat native/source/image/signature chain for
-  exact b15 before publishing app/Store; retain immutable b14 source-only tag.
-- [ ] Complete exact release/approval/broker/UI closure, no installed changes.
+### Observed local completion
+
+- [x] Implement bounded same-socket current-state refresh with default-OFF risk
+  choice, menu/off recovery, deferred single initial thumbnail and spacing under
+  backpressure. No HA/TV call or installed card/script/configuration.yaml edit.
+- [x] Final unchanged host gates: 6045 tests/16 platform skips; 306-file strict
+  host/Linux typing and 100% whole/mandatory line/branch. Six expected-failing
+  in-memory controls and eight-hour virtual session recorded; no hardware claim.
+- [x] Freeze final source `ab9e65cb313a8ef05560f182e958a441bc8a44c6`.
+  Retain b14 as source-only; never substitute its evidence or the older b15 candidate.
+- [x] Prepare this exact 17-document handoff; all complete fenced code/YAML
+  remains byte-identical. Current guide labels target b15; b12/b13 history remains.
+
+### Observed release gates
+
+- [x] Verify public matching sources release419269918/asset661711952, full
+  anonymous hash/member/frozen-project check before image distribution.
+- [x] Verify exact native run39562816594/all five jobs and all four ARM/Intel
+  archives:6053 tests +8 separate root checks each, 26 preparations under1GiB,
+  150 inspections/zero failures. Exact archive hashes in BETA15_VALIDATION.md.
+- [x] Verify both immutable public images/imports and independent signatures;
+  exact118-file runtime,1000 works, new refresh and background defaults OFF.
+- [x] Publish app prerelease419307088 at exact frozen source only after those
+  gates. Prepare this runtime-identical Store/docs handoff with16 unchanged fences.
+  No installed update/start or new TV test is included.
+
+### Required operational closure
+
+- [x] Disable/read back both exact approvals: DISABLED_AFTER_0.1.0b15.
+- [ ] Immediately after this commit/push, perform final anonymous38-file/main/
+  release/Store readback and save the exact main SHA in local closure receipts.
+- [ ] End the memory-only release broker and verify exact PID absence before
+  handback; save broker-exit-receipt.json. These post-commit operations are
+  checked in the local release plan, not pre-claimed complete in this commit.
+- [ ] Close only own completed permitted UI. Native Terminal window control is
+  prohibited; report any remaining task-owned windows rather than bypassing it.
+- [ ] Recheck tracked scope and preserve unrelated work, all existing live cards,
+  scripts/data, and stopped installed app state. Save final closure receipts.
 
 ## Authorized b14 current-state synchronization / publication — 2026-10-20
 

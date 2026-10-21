@@ -2,7 +2,9 @@
 
 [English](CURRENT_ARTWORK.md) | [Deutsch](CURRENT_ARTWORK.de.md) | [Français](CURRENT_ARTWORK.fr.md) | [Español](CURRENT_ARTWORK.es.md) | Italiano
 
-**Beta pubblica b13: sperimentale e disattivato per impostazione predefinita.** Le schede b7/b8/b9/b10/b11/b12 restano utilizzabili. Nessun nuovo aiutante, chiave API, HACS, privilegio speciale o altra app su Home Assistant Green/OS.
+**Beta pubblica b15: sperimentale e disattivato per impostazione predefinita.** Le schede b7/b8/b9/b10/b11/b12/b13 restano utilizzabili. Nessun nuovo aiutante, chiave API, HACS, privilegio speciale o altra app su Home Assistant Green/OS.
+
+[Rapporto b15](https://github.com/volkue-tech/frame-gallery-ha/blob/main/BETA15_VALIDATION.md) · [Sorgenti corrispondenti](https://github.com/volkue-tech/frame-gallery-ha/releases/tag/sources-v0.1.0b15).
 
 Anche una connessione in lettura può risvegliare il TV. I test controllati coprono cambi automatici e un episodio di sonno naturale su un Frame, non tutti i modelli o firmware. Lasciare disattivato se questo rischio è inaccettabile.
 
@@ -36,7 +38,9 @@ ricevitore autonomo è già partito, un invio successivo deve prima arrestarlo e
 attenderne la fine. I test offline di questa correzione non forniscono nuove
 prove hardware contro risvegli del TV o cambi di modalità.
 
-Poi viene letto solo quello stato HA ogni cinque secondi. Un `off` osservato e un
+Il monitor di ripresa legge quello stato HA in cache ogni cinque secondi;
+è distinto dalle verifiche facoltative del socket Art descritte sotto.
+Un `off` osservato e un
 `on` più recente di al massimo 30 secondi permettono una nuova lettura. Entrambi
 i percorsi condividono sei tentativi per ora mobile **in questo processo**.
 Duplicati, transizioni vecchie e interruzioni non consentono nuovi tentativi.
@@ -55,7 +59,7 @@ I dati privati sopravvivono agli aggiornamenti normali. Azzerare la cronologia d
 
 Vecchie immagini, invii di altre app e invii senza identità stabile rimangono sconosciuti. Nessun artista indovinato o riconoscimento cloud.
 
-### Aggiornamento facoltativo dello stato attuale — candidata b15
+### Aggiornamento facoltativo dello stato attuale — b15
 
 `current_state_refresh` è un'opzione aggiuntiva, **disattivata per impostazione
 predefinita**, che richiede `background_mode`. Consente al massimo una verifica
@@ -66,6 +70,9 @@ immagine. Nessuna nuova connessione né comando di immagine, alimentazione o
 modalità.
 Un'immagine sconosciuta resta non identificata; nessun titolo viene inventato
 o ripreso dall'immagine precedente.
+
+Una prova nuova e valida `current_state_read` vale 90 secondi.
+ID duplicati, pong o notifiche di modalità attiva da soli non la rinnovano.
 
 Con questa opzione, `off` o `nav` del canale Art mantiene **lo stesso socket**;
 questi stati non sono standby fisico. Fuori dalla modalità Arte, titolo e artista
@@ -122,7 +129,7 @@ content: >-
 
 ## Conferma e limiti
 
-**Correzione del recupero beta b10:** una sequenza incompleta di
+**Recupero storico b10 — soli eventi (`current_state_refresh` disattivato):** una sequenza incompleta di
 notifiche riconosciute della presentazione nasconde i dati attuali e attende una
 nuova sequenza completa sulla stessa connessione. Non conferma alcuna opera e
 non invia altre richieste. Messaggi sconosciuti o non validi, standby, modalità
@@ -131,14 +138,21 @@ nel registro distinguono errori di avvio, ricezione, decodifica e processo
 isolato, senza messaggi grezzi o credenziali. L'avvio b12 e la finestra b13 non hanno una nuova
 validazione fisica TV o sonno.
 
+Con `current_state_refresh` attivo, le notifiche strutturalmente valide ma non
+riconosciute e `off`/`nav` del canale Art nascondono i dati e mantengono lo stesso
+socket secondo le regole limitate sopra. Non confermano opere né autorizzano
+nuove connessioni. Standby fisico, rifiuto di autenticazione, dati di protocollo
+malformati e trasporto chiuso continuano a terminare la sessione.
+
 Nel registro, `event sequence incomplete` indica che i dati sono stati nascosti
 e la stessa connessione attende, senza confermare alcuna opera.
 `event session stopped: reason=...; no reconnect` indica che la sessione è
 terminata, senza ripetizione immediata. Per segnalare un problema, includi quel
 codice fisso, la versione e il modello del TV, mai token o dati TV grezzi.
 
-Ogni sessione dura al massimo otto ore e termina prima con sonno, modalità TV o
-errori. Un nuovo processo configurato o una transizione HA recente sopra può consentire una lettura; anche un invio esplicito riuscito può aprire una sessione.
+Ogni sessione dura al massimo otto ore. Nel modo a soli eventi
+(`current_state_refresh` disattivato), sonno, modalità TV o errori possono terminarla
+prima. Restano applicabili le eccezioni facoltative e gli arresti definitivi sopra. Un nuovo processo configurato o una transizione HA recente sopra può consentire una lettura; anche un invio esplicito riuscito può aprire una sessione.
 
 Dopo una lettura iniziale e confronto locale, una connessione ascolta la sequenza osservata: `image_selected`, `auto_rotation_image_changed` con lo stesso ID e modalità Arte `on`, entro cinque secondi. Con `current_state_refresh` disattivato, nella stessa sessione nessuna richiesta ripetuta, miniatura successiva o riconnessione. Attivarlo consente solo le verifiche limitate sopra, non nuove miniature o connessioni. Un evento cerca l'associazione di invio o immagine verificata di quel TV; un ID sconosciuto cancella il testo.
 
@@ -149,7 +163,7 @@ fissa invariata può tornare non confermata dopo 90 secondi.
 La sola correzione dell'avvio non estende la prova né interroga ripetutamente il TV per
 mantenere una didascalia artificialmente aggiornata.
 
-Sonno, modalità TV, disconnessione, eventi non validi o errore di pubblicazione sospendono/arrestano senza riconnettere subito. Senza l'opzione di ripresa sopra, serve ancora un nuovo invio esplicito in modalità Arte visibile. L'azione manuale Aggiornare elabora solo eventi già ricevuti. Nessun comando di alimentazione, Wake-on-LAN, selezione immagine o cambio modalità; la connessione stessa può comunque causare effetti indesiderati.
+**Soli eventi (`current_state_refresh` disattivato):** Sonno, modalità TV, disconnessione, eventi non validi o errore di pubblicazione sospendono/arrestano senza riconnettere subito. Con l'opzione attiva, si applicano le regole limitate dello stesso socket e gli arresti definitivi sopra. Dopo l'effettiva fine della sessione, senza l'opzione di ripresa sopra serve ancora un nuovo invio esplicito in modalità Arte visibile. L'azione manuale Aggiornare elabora solo eventi già ricevuti. Nessun comando di alimentazione, Wake-on-LAN, selezione immagine o cambio modalità; la connessione stessa può comunque causare effetti indesiderati.
 
 Gli ID salvati sono corrispondenze storiche, non verifica continua dei pixel. Un riutilizzo esterno non osservato non è escludibile. Un confronto iniziale contraddittorio blocca la didascalia salvata. Nessuna garanzia generale di firmware o mancato risveglio (D-235).
 

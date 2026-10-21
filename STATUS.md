@@ -1,31 +1,48 @@
 # Project status
 
-## D-243 final candidate b15 in progress — 2026-10-20
+## D-243 b15 public beta / documentation handoff — 2026-10-21
 
-Extra virtual missing-on replay exposed a permanent b14 menu wait. Preserve
-its already published exact source-only intermediate; no b14 app/image/Store
-was released. b15 removes that latch and distinguishes Art-mode off from
-standby: clear captions, retain only the same opted-in socket's bounded mode
-checks. Initial off/nav defers the original single thumbnail proof until on;
-never accept ID-only first metadata. Unknown startup mode still fails closed.
-Backpressure cannot shorten actual attempt spacing. Default event-only, wake,
-send and physical standby boundaries remain. No HA/TV call or installed change.
+The final b15 candidate adds the separate default-OFF `current_state_refresh`
+option for bounded same-Art-socket mode/ID proof, including menu/slideshow and
+same-image recovery. Art-off/navigation clears captions but keeps mode-only reads;
+physical standby/HA-off/closed transport stops. Deferred startup uses the original
+single thumbnail proof, never a recurring download. Unknown works have no invented
+title. No new connection, image/power/mode command, Green privilege or dependency.
+No HA/TV call, installed start/update, or card/script/configuration.yaml change.
 
-Targeted final-path tests passed121 before the added single-thumbnail expiry
-case. Final unchanged b15 host gates passed6045
-tests/16platform skips in52.31s, strict306-file host/Linux typing, Ruff/format,
-100% whole line/branch11703/2826 and mandatory8935/2088. Earlier typing/style failures
-is retained, not suppressed. No b15 native/publication result claimed yet.
-Six in-memory negative controls fail expected behaviour assertions, without
-source edits. Eight virtual hours produce479 coherent checks/1916GETs, minimum
-60s spacing and no send beyond the finite deadline; no real device claim.
-An expired deferred initial thumbnail is terminal, not retried on the next
-minute. No recurring thumbnail can hide behind a recoverable mode-read timeout.
-b14 local native ARM gate
-completed6039/8 plus8root checks,26 real1GiB preparations and150 inspections,
-zero failures. That is b14-only, not b15 or Intel proof. Both candidates remain
-experimental; physical sleep effects cannot be proved offline. Existing YAML,
-cards/scripts and installed b13 stopped state remain untouched.
+Observed final local host gates: 6045 tests/16 platform skips in 52.31s;
+306-file strict host/Linux typing, Ruff/format; 100% whole line/branch
+11703/2826 and mandatory 8935/2088. Six in-memory negative controls fail their
+expected assertions; eight virtual hours give 479 coherent checks/1916 GETs
+with minimum 60s actual spacing and no post-deadline send. Earlier development
+failures are retained, not suppressed. These are offline results, not a new
+hardware/firmware/no-wake or physical mode-switch claim.
+
+The post-documentation host repeat had two Mac-sandbox workspace group/mode
+failures; the unchanged full suite outside that sandbox then passed6045/16 in
+73.91s with identical100% coverage/type/format gates. Both logs are retained;
+no source/test changes or added skips. All four native Linux suites passed.
+
+Frozen source is `ab9e65cb313a8ef05560f182e958a441bc8a44c6`; use only its
+corresponding source/runtime hashes recorded in BETA15_VALIDATION.md.
+b14 remains a retained source-only intermediate, not an app/image/Store release.
+Do not substitute older unpublished b15 native evidence for the final candidate.
+
+Release gates passed: exact native publisher run `39562816594`, all five jobs,
+and all four independently verified ARM/Intel validator/publisher archives.
+Each suite passed 6053 tests plus 8 separate root checks; 26 preparations stayed
+under 1 GiB (peak 771.6/768.0 MiB), 150 inspections each had zero failures.
+Both exact public-image anonymous imports and independent digest signatures
+passed. Complete hashes/IDs are in BETA15_VALIDATION.md. App prerelease
+`419307088` targets the frozen source; matching public sources were fully checked
+before image distribution. Both exact approvals are UI-read back disabled.
+
+This 17-document handoff changes no runtime/config/workflow/dependency or complete
+YAML. Final anonymous 38-file/main/Store readback and exact broker-PID exit occur
+after this commit, before user handback; inspect the local release plan and
+closure receipts rather than infer their completion from this commit. Close
+only identifiable completed task-owned UI where allowed. Native Terminal window
+control is prohibited; report that limit. No new hardware/no-wake result.
 
 ## D-242 b14 local implementation / host gates passed — 2026-10-20
 

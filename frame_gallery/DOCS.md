@@ -1,19 +1,19 @@
 # Frame Gallery
 
-> **New in b13 — startup/send handoff:** the optional automatic initial read
-> waits for a fixed ten-second window. An accepted new-artwork command takes
-> priority and consumes the remaining initial opportunity, even if its send
-> fails or finds no match (`no_match`); no leftover initial read follows.
-> Without an accepted send, standalone initial synchronization remains available
-> with valid cached HA on; later genuine off-to-on recovery is unchanged.
-> The window cannot anticipate arbitrarily delayed scripts: a later send must
-> first stop an already running receiver. Existing cards and scripts stay compatible.
-> This fixes an offline-proven startup pattern, not a proven physical mode-switch
-> cause. A read connection may still wake the TV or affect its mode.
-> See the [b13 checks](https://github.com/volkue-tech/frame-gallery-ha/blob/main/BETA13_VALIDATION.md) and
-> [matching sources](https://github.com/volkue-tech/frame-gallery-ha/releases/tag/sources-v0.1.0b13).
+> **New in b15 — optional same-connection refresh:** with background mode enabled,
+> the separate `current_state_refresh` switch (default OFF) can revalidate known
+> artist/title information after menu use, slideshow restart or an unchanged image.
+> It reads mode and, only after fresh Art Mode on, coherent image IDs at most once
+> per minute over the already established Art socket; it opens no new connection
+> and sends no image, power or mode command. Unknown artwork stays unidentified.
+> Standby, observed HA off and a closed connection still stop the session.
+> Read requests may affect automatic sleep; offline tests are not firmware or
+> no-wake certification. Existing cards and scripts stay compatible.
+> See the [b15 checks](https://github.com/volkue-tech/frame-gallery-ha/blob/main/BETA15_VALIDATION.md),
+> [current-artwork guide](CURRENT_ARTWORK.md) and
+> [matching sources](https://github.com/volkue-tech/frame-gallery-ha/releases/tag/sources-v0.1.0b15).
 
-> **0.1.0b13 public beta:** [1000 near-widescreen Wikimedia Commons works](COMMONS.md), optional Commons artist/colour selection and [native dashboard pickers](COMMONS_ARTIST.md).
+> **0.1.0b15 public beta:** [1000 near-widescreen Wikimedia Commons works](COMMONS.md), optional Commons artist/colour selection and [native dashboard pickers](COMMONS_ARTIST.md).
 > No API key is needed. Update without uninstalling; your saved sources and
 > existing camera, timer, script and optional artwork-information helper still work.
 
@@ -30,8 +30,6 @@ One start, one fresh artwork on your Samsung Frame. Choose museum artwork or you
 ![Product illustration: a framed TV and its optional dashboard preview. Not a screenshot.](https://raw.githubusercontent.com/volkue-tech/frame-gallery-ha/main/docs/images/frame-gallery-overview.png)
 
 *Illustration, not a screenshot. The dashboard is optional and is configured separately; installation does not add a card automatically.*
-
-> Native ARM/Intel validators and actual publisher images, matching public sources, four verified evidence archives, anonymous pulls/imports and independent signatures passed for b12. [Release checks](https://github.com/volkue-tech/frame-gallery-ha/blob/main/BETA12_VALIDATION.md). No new b12 Green/TV/sleep test or universal no-wake guarantee is claimed. The historical b3 passed two Commons deliveries and preview/text/loading/cleanup on Green, with physical TV confirmation of the second work. [Historical b3 evidence](https://github.com/volkue-tech/frame-gallery-ha/blob/main/BETA3_VALIDATION.md). Compatibility with every TV model is not guaranteed.
 
 **Start here:** [Install](#installation) → [Show your first artwork](#first-start-and-pairing) → [Add the dashboard card](#dashboard).
 

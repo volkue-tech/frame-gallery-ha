@@ -1,21 +1,16 @@
 # Frame Gallery — Installation und erste Dashboardkarte
 
-> Neu ab Beta b13: Ein festes Startfenster von zehn Sekunden gibt einem
-> angenommenen Bildauftrag Vorrang vor dem optionalen automatischen Startabgleich.
-> Die Annahme verbraucht die übrige Startgelegenheit auch bei `no_match` oder Fehlern;
-> danach folgt kein übrig gebliebener Initialabruf. Ohne Bildauftrag bleibt der
-> eigenständige Startabgleich bei gültigem gespeichertem HA „an“ möglich; spätere
-> echte Aus-an-Wechsel folgen den bisherigen Regeln. Beliebig verspätete Scripte
-> kann das Fenster nicht vorhersagen: Ein späterer Versand muss einen bereits
-> laufenden Empfänger erst stoppen. Karten und Scripte bleiben kompatibel.
-> [Aktuelles TV-Kunstwerk](CURRENT_ARTWORK.de.md) bleibt experimentell und
-> standardmäßig aus. Kein belegter Fix für den physischen Wechsel in den TV-Modus
-> und kein neuer Hardware-Nachweis: Eine Verbindung kann weiter aufwecken oder
-> den Modus beeinflussen. [b13-Prüfbericht](https://github.com/volkue-tech/frame-gallery-ha/blob/main/BETA13_VALIDATION.md)
-> und [passende Quellen](https://github.com/volkue-tech/frame-gallery-ha/releases/tag/sources-v0.1.0b13).
-> Jeder erfolgreiche Versand merkt sich Titel/Künstler auch ohne Hintergrundmodus.
-> Ohne neue Bestätigung können statische Bilder nach 90 Sekunden unbestätigt sein.
-> Der hier beschriebene Einmalbetrieb bleibt unverändert.
+> **Öffentliche Beta b15 — optionaler Zustandsabgleich:** Der zusätzliche Schalter
+> `current_state_refresh` ist standardmäßig aus und benötigt den Hintergrundmodus.
+> Er kann bekannte Künstler-/Titeldaten nach Menü, Diashow-Neustart oder bei
+> unverändertem Bild erneuern: höchstens einmal pro Minute über die bereits
+> bestehende Art-Verbindung, zuerst Modus, Bild-IDs erst nach frischem Kunstmodus-Nachweis.
+> Keine neue Verbindung, kein Bild-, Power- oder Modusbefehl; unbekannte Werke
+> bleiben unbenannt. Standby, beobachtetes HA-Aus und Verbindungsende stoppen weiter.
+> Leseabfragen können automatisches Einschlafen beeinflussen; Offline-Tests sind
+> kein Firmware- oder Nichtaufwecknachweis. Karten und Scripte bleiben kompatibel.
+> [Anleitung](CURRENT_ARTWORK.de.md) · [b15-Prüfbericht](https://github.com/volkue-tech/frame-gallery-ha/blob/main/BETA15_VALIDATION.md)
+> · [passende Quellen](https://github.com/volkue-tech/frame-gallery-ha/releases/tag/sources-v0.1.0b15).
 
 [English](DOCS.md#installation) | **Deutsch** | [Français](SETUP.fr.md) | [Español](SETUP.es.md) | [Italiano](SETUP.it.md)
 

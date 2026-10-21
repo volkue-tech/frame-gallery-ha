@@ -1,6 +1,6 @@
 # Changelog
 
-## 0.1.0b15 (public beta candidate)
+## 0.1.0b15 (public beta)
 
 - Finalize same-connection synchronization with recovery even when the mode-on
   notification after leaving the artwork menu is lost. Each minute first reads
