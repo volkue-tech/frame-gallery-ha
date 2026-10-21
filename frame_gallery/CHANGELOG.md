@@ -1,5 +1,21 @@
 # Changelog
 
+## 0.1.0b16 (public beta)
+
+- Fix fresh current-artwork confirmation: distinguish request names from the
+  Frame's actual reply events (`artmode_status` and `current_artwork`). The
+  previous parser rejected these correctly correlated responses, so optional
+  minute synchronization could remain unconfirmed even with a known artwork.
+- Replay the already recorded real replies and complete four-getter cycle,
+  including the installed library over offline socketpairs. Correct synthetic
+  responders so they no longer hide the request/reply-name mismatch.
+- Preserve strict fresh request-ID correlation, same-connection mode/ID proof,
+  all rate/deadline/standby guards, default-off options, stored per-TV mappings,
+  permissions and existing cards/scripts. No new connection or TV command.
+- This is an offline-verified protocol fix, not a new physical no-wake or
+  automatic-sleep guarantee. Publication does not start or update an installed
+  Home Assistant app or modify its dashboard.
+
 ## 0.1.0b15 (public beta)
 
 - Finalize same-connection synchronization with recovery even when the mode-on

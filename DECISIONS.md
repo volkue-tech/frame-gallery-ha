@@ -1,5 +1,60 @@
 # Decision log
 
+## D-245 — authorized b16 protocol-fix publication, 2026-10-21
+
+User explicitly requests a new beta under personal volkue-tech/frame-gallery-ha
+after D-244's local replay and full offline gates. Build and publish 0.1.0b16
+without any TV/HA connection, installed update/start, card/script/configuration
+change or additional feature. Retain all previous sources/releases/images.
+Only own version metadata changes in the lock; dependencies, options, defaults,
+privileges, per-TV storage and complete card YAML remain unchanged.
+
+Freeze the personal exact source, assemble and anonymously verify matching
+licensed sources BEFORE image distribution. Pass native ARM/Intel validators
+and actual publisher image/root/memory gates, independently verify all four
+run/source/hash-bound archives, then verify both public immutable images and
+signatures before app/Store promotion. A host or recorded-frame test is not a
+substitute for native checks or evidence of current hardware/no-wake behaviour.
+Use only the existing personal token, maximum four hours in process memory;
+no credential persistence, scope expansion or corporate identity. Set only the
+two existing exact release approval values, then disable/read back both at
+completion. End the broker, verify its exact PID absence, and close only own
+completed UI where permitted; never bypass native Terminal control limits.
+
+## D-244 — recorded state-response names, local parser fix, 2026-10-21
+
+User authorizes correcting the parser/tests locally against existing real
+recordings only. No TV/HA/GitHub access, installed restart, send, publication,
+card/script/configuration change or version bump is included. Published b15
+is unchanged by this local working-tree fix.
+
+D-242/D-243's same-socket state reader must distinguish outgoing request names
+from incoming reply event names. The four already-recorded 17-Oct exchanges
+pair get_artmode_status with artmode_status and get_current_artwork with
+current_artwork. Use only these two explicit pairs, not string-prefix removal,
+an arbitrary correlated event, or accepting the outgoing request as a reply.
+An unknown request cannot confirm anything. As before, at least one id or
+request_id must exist and EVERY present correlation field must equal that
+specific request's fresh nonce. The mode/on, equal two-ID, device/archive,
+deadline/frame/rate/standby/cancellation and same-connection guards remain.
+Existing bounded extra body fields such as matte/target-client metadata are
+not artist evidence and do not weaken correlation. No extra request, getter,
+connection, retry, thumbnail, setter or keepalive is introduced. The unrelated
+legacy one-shot synthetic-policy path and official event-only policy are not
+changed by this fix.
+
+The previous synthetic state Rig mirrored event=request, hiding the defect.
+Correct it and the installed-library socketpair responder independently of
+the production mapping. Add literal sanitized recorded bodies with provenance
+and original id-only correlation, plus wrong-name, cross-command, unknown,
+stale/missing/conflicting-correlation controls and a whole four-getter replay.
+Replace only nonce/client identifiers; retain the actual body keys, reply
+names, mode/content/matte values. A separate ignored local replay checks those
+fixtures against the original capture and tests the unmodified recorded frames
+as well. No raw private capture, token, thumbnail or connection key is added to
+the test fixture. Passing offline replay is not proof of the current live image,
+stored association availability, automatic-sleep safety or other firmware.
+
 ## D-243 — missing menu-return event, final candidate b15, 2026-10-20
 
 An additional offline replay of the user's "regardless of prior events" case

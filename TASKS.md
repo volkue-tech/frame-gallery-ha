@@ -1,5 +1,56 @@
 # Implementation plan and approval gates
 
+## D-245 b16 personal beta publication — authorized, 2026-10-21
+
+- [x] Capture exact scope/authority: D-244 parser fix, no additional feature,
+  HA/TV connection, installed update/start or existing card/script change.
+- [ ] Re-run exact versioned host gates; freeze personal source and preserve
+  all unrelated work, previous releases and unchanged complete card YAML.
+- [ ] Assemble/hash-check matching licensed source package and independently
+  verify its public full contents before any registry image distribution.
+- [ ] Pass exact native ARM/Intel validator and actual publisher image/root/
+  memory checks; independently verify all four evidence archives/provenance.
+- [ ] Verify both immutable public images/imports and independent signatures;
+  only then publish the app prerelease and promote Store/main documentation.
+- [ ] Disable/read back both exact approvals, end memory-only broker and verify
+  exact PID absence. Close own completed permitted UI; report Terminal limits.
+
+## D-244 authorized parser correction — local only, 2026-10-21
+
+- [x] Correct only the same-socket state reader's explicit request/reply name
+  mapping, preserving every existing correlation and safety guard.
+- [x] Add sanitized literal recorded-body regressions and correct synthetic
+  state responders independently; observe red before fix (21 failed/24 passed).
+- [x] Verify all four original captured replies, exact sanitized-fixture
+  provenance and whole-cycle success offline; wrong mirrored names stay rejected.
+  Test real installed-library/socketpair variants without TCP/TLS/TV access.
+- [x] Pass full local gates: 6095 tests/16 existing skips, 308-file strict
+  host+Linux typing/Ruff/format, whole and mandatory100% line/branch coverage.
+- [x] Preserve published/installed b15, every live card/script/configuration and
+  unrelated local work; no external access, native Terminal, commit or release.
+- [ ] A new build/publication or live validation requires separate authority.
+  Current completion proves the recorded-protocol fix offline, not live
+  association availability or physical no-wake behaviour.
+
+## Installed b15 caption diagnosis — read-only, 2026-10-21
+
+- [x] Read only cached HA sensor/update/helper state and existing app UI/logs;
+  saved background/refresh ON, existing Samsung entity, sensor checking/no ID.
+  Match Firefox card to Core state; no restart/send/TV query or card edit.
+- [x] Replay four 17-Oct correlated replies: real artmode_status/current_artwork
+  names are rejected by the current getter-name expectation; event-name-only
+  controls are accepted. Synthetic fake replies mirrored the same wrong name.
+- [x] Preserve unchanged b13 association format, no claimed mapping deletion or
+  private-file inspection. Revoke own HA login, verify finite reader exit and
+  close only own browser tab; native Terminal window cleanup remains prohibited.
+- [x] On separate fix authority, correct strict request-to-reply name mapping
+  and add faithful recorded-protocol regressions without relaxing correlation,
+  same socket, minute budget, terminal standby or no-reconnect restrictions.
+  Completed locally under D-244; installed/published b15 remains unchanged.
+- [ ] Separately address misleading checking/"Bildvorgang läuft" wording;
+  current read-only step changes neither live card nor production code.
+- [ ] New live test/publication needs its own authorization; none in this step.
+
 ## b15 public beta / publication handoff — 2026-10-21
 
 ### Observed local completion

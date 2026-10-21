@@ -1,5 +1,85 @@
 # Project status
 
+## D-245 b16 release preparation — authorized, 2026-10-21
+
+User authorizes personal build/publication of D-244 as a new beta; no HA/TV
+connection, installed start/update or card/script/configuration change. Version
+0.1.0b16 retains prior releases and all existing storage/defaults/privileges.
+The existing personal token is being prepared in the same fixed-repository,
+four-hour memory-only broker; account/repository guards passed. Exact versioned
+host gates passed6095/16 in56.94s, strict308-file host/Linux typing, Ruff/format
+and100% whole/mandatory line/branch coverage. Matching source/native/image/
+signature gates and approval/broker cleanup remain pending, not pre-claimed.
+Unrelated docs/community/ remains untouched and must not enter the source
+snapshot. See the current b16 task gate and ignored release-plan receipts.
+
+## D-244 local state-parser fix — offline verified, 2026-10-21
+
+User separately authorized the diagnosed parser/test correction with existing
+real recorded replies, and no TV/HA access or publication. The local state
+reader now explicitly pairs get_artmode_status -> artmode_status and
+get_current_artwork -> current_artwork. Unknown requests, mirrored request names,
+cross-command replies and stale/missing/conflicting correlations cannot confirm
+an image. Same-connection, four-getter/on/ID coherence, minute/deadline/frame,
+standby/cancellation and default-OFF guards are unchanged. No new requests,
+dependencies, privileges, storage migration or version bump.
+
+Added 48 recorded-protocol regressions plus two installed-library/socketpair
+variants. Before the source fix, the new initial regression set produced
+21 failures/24 passes, including rejection of all four real reply bodies and
+wrong acceptance of the mirrored request-name controls. The corrected direct
+replay accepts all four ORIGINAL captured replies and rejects all four wrong-
+name controls; the complete four-getter cycle succeeds. Committed fixtures are
+checked against the original capture with only nonce/client identifiers changed.
+The original negative replay report is preserved. Existing synthetic state
+responders now use the actual mode/current response names independently.
+
+Full local gates outside the Mac filesystem sandbox passed: 6095 tests,
+16 existing platform skips, 308-file Ruff/format and strict host/Linux typing;
+100% whole line/branch coverage (11705 statements/2826 branches) and mandatory
+100% (8937/2088). See build/b15-mapping-readonly-20261021-2012/
+parser-regression-before.log, parser-full-gates.log and
+reply-replay-fixed-result.json. No new native ARM/Intel or hardware/no-wake
+claim: this is host/offline evidence only.
+
+Published/installed b15 is NOT changed by this local fix. No live connection,
+restart, send, credential access, card/script/configuration edit, commit, push
+or release occurred. Misleading checking-card wording is still a separate task.
+No native Terminal window was opened for this offline task. Unrelated
+docs/community/ work is preserved and was not inspected.
+
+## Installed b15 — read-only caption diagnosis, 2026-10-21
+
+User reports Pomegranates visibly back on the Frame but no current association,
+and asks for cached HA/app-log/card inspection only: no new TV connection,
+restart or send. The finite normal HA reader completed 20:13:30 CEST, revoked
+its own temporary login and exited. It confirmed installed b15 and cached
+sensor `checking` with no tv_content_id. Firefox renders that same state as
+"Bildvorgang läuft"; that wording is misleading, not evidence of an upload.
+Saved app UI options background/current_state_refresh are ON and the existing
+Samsung resume entity is set. Save remains disabled; no options/card/script
+were changed. Runtime-loaded options were not separately inspected. Do not
+infer a dead session solely from the cached REST last_reported timestamp.
+
+Confirmed offline defect: state_query._reply requires the reply event to equal
+the getter request name. The already-recorded 17-Oct device exchange instead
+replies artmode_status to get_artmode_status, and current_artwork to
+get_current_artwork. All four real replies have correct request correlation
+but current b15 rejects them. Changing ONLY each reply's event to the incorrect
+request name makes the same parser accept all four. Synthetic Rig.recv had
+modelled that wrong event=request assumption, so prior coverage missed it.
+This explains a failure to recover fresh minute confirmation; no new current
+raw TV response was collected. The storage format is unchanged from b13;
+private association files were not read and mapping loss is not established.
+
+Evidence: build/b15-mapping-readonly-20261021-2012/ cached HA report, diagnosis
+and reply-replay-result. No production/test implementation, HA mutation, extra
+TV query, commit or publication. Own diagnostic browser tab closed; original
+dashboard and user Drive tab preserved. Native Terminal window control remains
+prohibited; the completed wrapper window is not falsely claimed closed.
+Next fix requires separate authority and recorded-protocol regression tests;
+retain request correlation, same-socket/rate/deadline/standby safety guards.
+
 ## D-243 b15 public beta / documentation handoff — 2026-10-21
 
 The final b15 candidate adds the separate default-OFF `current_state_refresh`

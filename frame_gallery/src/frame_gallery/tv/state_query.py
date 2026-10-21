@@ -10,7 +10,7 @@ import json
 import secrets
 import time
 from collections.abc import Callable, Generator
-from typing import Any
+from typing import Any, Final
 
 from frame_gallery.isolation.executor import JsonObject
 from frame_gallery.observer.stream import (
@@ -25,6 +25,11 @@ from frame_gallery.observer.stream import (
 )
 from frame_gallery.tv.event_frames import FrameBounds, RefreshExpired
 from frame_gallery.tv.port import CONTENT_ID_PATTERN
+
+_RESPONSE_EVENTS: Final = {
+    "get_artmode_status": "artmode_status",
+    "get_current_artwork": "current_artwork",
+}
 
 
 class StateInterrupted(Exception):
@@ -41,7 +46,12 @@ def _reply(raw: object, name: str, nonce: str, policy: EventPolicy) -> JsonObjec
     body = event_body(raw)
     correlations = [body[k] for k in ("id", "request_id") if k in body]
     if correlations:
-        if body.get("event") != name or any(v != nonce for v in correlations):
+        expected = _RESPONSE_EVENTS.get(name)
+        if (
+            expected is None
+            or body.get("event") != expected
+            or any(v != nonce for v in correlations)
+        ):
             raise StateInterrupted(None)
         return body
     change = notification(raw, policy)

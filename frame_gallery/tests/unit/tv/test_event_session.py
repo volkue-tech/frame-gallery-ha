@@ -28,6 +28,7 @@ from frame_gallery.observer.stream import SLIDESHOW_POLICY, EventPolicy
 from frame_gallery.tv import samsung_task as module
 from frame_gallery.tv import state_query
 from frame_gallery.tv.event_frames import SessionClosed
+from tests.support.recorded_state_replies import RECORDED_STATE_REPLIES
 from tests.support.socket_tv import SocketTV, TvScript, _send
 from tests.unit.tv.test_event_frames import Connection
 from tests.unit.tv.test_observation import Art, Unauthorized, library
@@ -97,9 +98,9 @@ class EventTV(SocketTV):
         self.requests.append(name)
         body: dict[str, Any] = {"request_id": request_id, "event": name}
         if name == "get_artmode_status":
-            body["value"] = "on"
+            body.update(event="artmode_status", value="on")
         elif name == "get_current_artwork":
-            body["content_id"] = "MY_OFFLINE"
+            body.update(event="current_artwork", content_id="MY_OFFLINE")
         elif name == "get_thumbnail":
             body["conn_info"] = {}
         else:
@@ -110,6 +111,27 @@ class EventTV(SocketTV):
             sock.sendall(b"\x89\x00")
             for event in self.notifications:
                 _send(sock, {"event": "d2d_service_message", "data": json.dumps(event)})
+
+
+class RecordedRefreshTV(EventTV):
+    """Original baseline, then the four recorded mode/ID replies over one socket."""
+
+    def _answer(self, sock: Any, message: dict[str, Any]) -> None:
+        if len(self.requests) < 5:
+            super()._answer(sock, message)
+            return
+        name, _nonce, body = RECORDED_STATE_REPLIES[len(self.requests) - 5]
+        request = json.loads(message["params"]["data"])
+        assert request["request"] == name
+        assert request["id"] == request["request_id"]
+        self.requests.append(name)
+        _send(
+            sock,
+            {
+                "event": "d2d_service_message",
+                "data": json.dumps({**body, "id": request["id"]}),
+            },
+        )
 
 
 def test_real_library_one_connection_initial_proof_then_only_events(
@@ -166,10 +188,12 @@ def test_real_library_one_connection_initial_proof_then_only_events(
 
 
 @pytest.mark.parametrize("ending", ["cancel", "standby"])
+@pytest.mark.parametrize("recorded", [False, True])
 def test_real_library_opted_in_state_cycle_uses_same_socket_no_open_getter_or_setter(
-    monkeypatch: pytest.MonkeyPatch, pipe: tuple[int, int], ending: str
+    monkeypatch: pytest.MonkeyPatch, pipe: tuple[int, int], ending: str, recorded: bool
 ) -> None:
-    tv = EventTV([{"event": "go_to_standby"}] if ending == "standby" else [])
+    tv_class = RecordedRefreshTV if recorded else EventTV
+    tv = tv_class([{"event": "go_to_standby"}] if ending == "standby" else [])
     monkeypatch.setattr(websocket, "create_connection", tv.create_connection)
     monkeypatch.setattr(SamsungTVRest, "rest_device_info", lambda _s: {"device": {"id": IDENTITY}})
     thumbnail = D2D()
@@ -227,7 +251,7 @@ def test_real_library_opted_in_state_cycle_uses_same_socket_no_open_getter_or_se
     if ending == "cancel":
         assert observed[1:3] == [
             {"kind": "state_checking"},
-            {"kind": "current_state", "content_id": "MY_OFFLINE"},
+            {"kind": "current_state", "content_id": "MY_F0015" if recorded else "MY_OFFLINE"},
         ]
         assert observed[-1] == {"kind": "end", "status": "paused"}
     else:
@@ -267,7 +291,7 @@ def test_real_library_defers_original_thumbnail_until_art_mode_on_without_new_so
                         "event": "d2d_service_message",
                         "data": json.dumps(
                             {
-                                "event": "get_artmode_status",
+                                "event": "artmode_status",
                                 "request_id": request["request_id"],
                                 "value": initial_mode,
                             }

@@ -58,11 +58,12 @@ class Rig:
             self.now += 1
             raise TimeoutError
         request, self.request = self.request, None
-        body = {"event": request["request"], "request_id": request["id"]}
+        body = {"request_id": request["id"]}
         if request["request"] == "get_artmode_status":
-            body["value"] = "on"
+            body.update(event="artmode_status", value="on")
         else:
-            body["content_id"] = self.ids.pop(0)
+            assert request["request"] == "get_current_artwork"
+            body.update(event="current_artwork", content_id=self.ids.pop(0))
         return envelope(body)
 
     def query(self) -> str:
@@ -128,7 +129,7 @@ def test_no_send_without_explicit_policy_and_bounds(change: str) -> None:
 def test_mode_must_be_on_before_any_id_request(value: Any) -> None:
     r = Rig()
     r.responses = [
-        lambda: envelope({"event": "get_artmode_status", "id": r.sent[-1]["id"], "value": value})
+        lambda: envelope({"event": "artmode_status", "id": r.sent[-1]["id"], "value": value})
     ]
     with pytest.raises(StateInterrupted) as caught:
         r.query()
@@ -179,7 +180,7 @@ def test_wrong_or_replayed_correlation_does_not_confirm(field: str) -> None:
     r.responses = [
         lambda: envelope(
             {
-                "event": "get_artmode_status",
+                "event": "artmode_status",
                 "request_id": r.sent[-1]["id"],
                 field: "wrong",
                 "value": "on",
@@ -291,7 +292,7 @@ def test_still_in_menu_reads_only_mode_then_recovers_without_a_new_on_event() ->
     r.responses = [
         lambda: envelope(
             {
-                "event": "get_artmode_status",
+                "event": "artmode_status",
                 "request_id": r.sent[-1]["id"],
                 "value": "nav",
             }
@@ -325,7 +326,7 @@ def test_mode_off_or_menu_does_not_end_same_socket_recovery(value: str) -> None:
     r.responses = [r.at(60)]
     assert next(stream) == {"kind": "state_checking"}
     r.responses = [
-        lambda: envelope({"event": "get_artmode_status", "id": r.sent[-1]["id"], "value": "off"})
+        lambda: envelope({"event": "artmode_status", "id": r.sent[-1]["id"], "value": "off"})
     ]
     assert next(stream)["change"] == Change("mode", "off").to_json()
     assert len(r.sent) == 1
