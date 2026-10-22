@@ -2,7 +2,16 @@
 
 [English](CURRENT_PREVIEW.md) | [Deutsch](CURRENT_PREVIEW.de.md) | [Français](CURRENT_PREVIEW.fr.md) | [Español](CURRENT_PREVIEW.es.md) | **Italiano**
 
-**Funzione locale non pubblicata — non ancora inclusa nella versione b16 installata.**
+**Beta pubblica 0.1.0b17 — anteprima attuale separata e facoltativa.**
+
+**Limitazione di sicurezza (D-247):** la modalità in background resta sperimentale
+e disattivata per impostazione predefinita. Connessioni automatiche all'avvio/
+risveglio e letture al minuto sono sospese, anche con opzioni salvate. Solo un
+nuovo invio esplicito riuscito può avviare l'osservazione passiva della
+presentazione. Le immagini immutate scadono; nessuna ripresa automatica dopo
+menu/modalità TV, standby o perdita della connessione. La connessione può ancora
+influire sul TV: nessuna garanzia di mancato risveglio. Leggere prima
+[configurazione e limiti](CURRENT_ARTWORK.it.md).
 
 La scheda immagine esistente continua a mostrare l’ultima opera inviata. Questa scheda facoltativa mostra un’anteprima salvata solo con titolo e artista attuali confermati di recente. Non è una schermata in diretta.
 

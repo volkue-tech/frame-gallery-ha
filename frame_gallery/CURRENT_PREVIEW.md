@@ -2,7 +2,15 @@
 
 **English** | [Deutsch](CURRENT_PREVIEW.de.md) | [Français](CURRENT_PREVIEW.fr.md) | [Español](CURRENT_PREVIEW.es.md) | [Italiano](CURRENT_PREVIEW.it.md)
 
-**Local, unreleased feature — not part of the installed b16 release yet.**
+**0.1.0b17 public beta — separate optional current-image preview.**
+
+**Observer safety hold (D-247):** background mode remains experimental and off by
+default. Automatic startup/wake connections and minute reads are suspended,
+including saved opt-ins. Only a fresh explicitly requested successful send can
+start passive slideshow observation. Unchanged pictures expire; menu/TV mode,
+sleep or connection loss does not recover automatically. A connection can still
+affect the TV: this is not a no-wake guarantee. Read the
+[current-artwork setup and limits](CURRENT_ARTWORK.md) first.
 
 The existing image card remains the last artwork sent. This separate optional card shows a cached preview only when the current artist/title state is freshly confirmed. It is not a live screenshot.
 

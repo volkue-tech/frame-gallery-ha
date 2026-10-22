@@ -1,5 +1,22 @@
 # Implementation plan and approval gates
 
+## b17 documentation/runtime handoff — observed release gates
+
+- [x] Freeze source edae2271dbd103edd80db629d097f91e895d97a2 after 6228/16 host
+  gates; preserve runtime 121/f7ef6bf86dd28d69f86ed22b8d7dd912dce8f29390afa5158b15531b4033679b.
+- [x] Anonymously verify matching 581,888,000-byte public source asset 666336778,
+  SHA256 2f31e831713e3702f1fbd12d38fb273e7a2a677d3a07a412f594e7b428a61e46,
+  including exact clean-source/member preflight before native CI dispatch.
+- [x] Exact [run 39825989063](https://github.com/volkue-tech/frame-gallery-ha/actions/runs/39825989063) completed all five jobs successfully. Both native validators and both actual publisher images each passed 6,236 production tests with eight root skips and eight separate root checks; all four archives passed independent provenance/hash/content checks. Matching public sources, both anonymous immutable-image safety/preview probes and independent source/workflow-bound signatures passed. Evidence is retained in BETA17_VALIDATION.md.
+- [x] Record app [prerelease 421060980](https://github.com/volkue-tech/frame-gallery-ha/releases/tag/v0.1.0b17) at the frozen source and disable/read back
+  both exact build approvals.
+- [ ] Apply/commit/push exactly 22 documentation files with 21 unchanged complete
+  code fences; this draft does not pre-claim that later operation.
+- [ ] Verify final anonymous main/Store/source/docs and runtime identity, then
+  end the exact memory-only broker; do not claim future closure in this commit.
+- [x] Keep HA/TV uncontacted and installed app stopped; no existing-card/script
+  mutation, no automatic-I/O reactivation and no new firmware/no-wake claim.
+
 ## D-248 b17 personal beta publication — authorized
 
 - [x] Record explicit personal native/publication authority, safety hold and

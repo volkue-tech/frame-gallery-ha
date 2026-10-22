@@ -2,7 +2,15 @@
 
 [English](CURRENT_PREVIEW.md) | [Deutsch](CURRENT_PREVIEW.de.md) | [Français](CURRENT_PREVIEW.fr.md) | **Español** | [Italiano](CURRENT_PREVIEW.it.md)
 
-**Función local sin publicar — aún no incluida en la versión b16 instalada.**
+**Beta pública 0.1.0b17 — vista previa actual separada y opcional.**
+
+**Restricción de seguridad (D-247):** el modo en segundo plano sigue siendo
+experimental y desactivado por defecto. Se suspenden las conexiones automáticas
+al iniciar/despertar y las consultas por minuto, incluso con opciones guardadas.
+Solo un nuevo envío explícito correcto puede iniciar la observación pasiva del
+pase. Una imagen sin cambios caduca; no hay recuperación automática tras menú/
+modo TV, reposo o pérdida de conexión. La conexión aún puede afectar al TV: no es
+garantía de que no despierte. Lea primero la [configuración y límites](CURRENT_ARTWORK.es.md).
 
 La tarjeta de imagen existente sigue mostrando la última obra enviada. Esta tarjeta opcional muestra una vista previa guardada solo cuando el título y artista actuales están confirmados recientemente. No es una captura en directo.
 

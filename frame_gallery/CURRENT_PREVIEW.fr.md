@@ -2,7 +2,15 @@
 
 [English](CURRENT_PREVIEW.md) | [Deutsch](CURRENT_PREVIEW.de.md) | **Français** | [Español](CURRENT_PREVIEW.es.md) | [Italiano](CURRENT_PREVIEW.it.md)
 
-**Fonction locale non publiée — pas encore incluse dans la version b16 installée.**
+**Bêta publique 0.1.0b17 — aperçu actuel séparé et facultatif.**
+
+**Restriction de sécurité (D-247) :** le mode arrière-plan reste expérimental et
+désactivé par défaut. Connexions automatiques au démarrage/réveil et lectures par
+minute suspendues, même avec les options enregistrées. Seul un nouvel envoi
+explicite réussi peut démarrer l'observation passive du diaporama. Une image
+inchangée expire ; aucune reprise automatique après menu/mode TV, veille ou perte
+de connexion. La connexion peut encore affecter le TV : aucune garantie de
+non-réveil. Lire d'abord la [configuration et les limites](CURRENT_ARTWORK.fr.md).
 
 La carte d’image existante reste celle de la dernière œuvre envoyée. Cette carte facultative affiche un aperçu enregistré uniquement lorsque le titre et l’artiste actuels sont confirmés récemment. Ce n’est pas une capture en direct.
 

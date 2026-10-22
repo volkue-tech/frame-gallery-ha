@@ -1,6 +1,6 @@
 # Frame Gallery for Home Assistant
 
-> **b17 candidate — conservative observer safety hold:** automatic startup/wake
+> **0.1.0b17 — conservative observer safety hold:** automatic startup/wake
 > connections and minute state reads are suspended, including saved opt-ins.
 > The optional Samsung entity is a stop signal only. A fresh, explicitly requested
 > successful send can start passive slideshow observation; unchanged pictures
@@ -8,11 +8,11 @@
 > recovery is intentional while a reported wake/mode incident remains unresolved;
 > it is not a firmware/no-wake guarantee. Existing cards, scripts and stored
 > associations remain compatible. An [optional bounded current-image preview](frame_gallery/CURRENT_PREVIEW.md)
-> is available separately. Native/publication gates are still pending.
+> is available separately. See the exact [b17 validation scope](BETA17_VALIDATION.md).
 
 Fresh artwork on your Samsung Frame. Start it with a tap from Home Assistant.
 
-> **0.1.0b17 release candidate:** 1000 curated Commons works, optional artist and
+> **0.1.0b17 public beta:** 1000 curated Commons works, optional artist and
 > colour selection, and configuration in English, German, French, Spanish and Italian.
 > Update in place; saved sources, dashboard helpers and history stay compatible.
 
@@ -95,11 +95,15 @@ When reporting a problem, include the app version, TV model and the final outcom
 
 ## Public beta
 
-The **b17 candidate** suspends automatic initial/wake synchronization and minute
+**[0.1.0b17](https://github.com/volkue-tech/frame-gallery-ha/releases/tag/v0.1.0b17)** suspends automatic initial/wake synchronization and minute
 reads, including saved opt-ins. Only a fresh, explicitly requested successful
 send may start passive slideshow observation. Sleep, menu/TV mode or connection
-loss does not grant recovery; unchanged pictures expire. Publication/native gates
-are pending. This is a conservative restriction, not a no-wake guarantee.
+loss does not grant recovery; unchanged pictures expire. It adds a separate
+bounded optional current-image preview. Existing cards and scripts remain
+compatible. See [b17 validation](BETA17_VALIDATION.md) and the
+[matching sources](https://github.com/volkue-tech/frame-gallery-ha/releases/tag/sources-v0.1.0b17).
+This is a conservative restriction, not a no-wake guarantee. Publication alone
+does not update or start an installed app.
 
 ### Historical releases — not the b17 observer instructions
 
@@ -210,7 +214,7 @@ The app runs once, then stops. It does not remove artworks already stored on you
 
 ## For contributors
 
-Frame Gallery is implemented independently. The project's own code is [Apache-2.0](LICENSE); distributed third-party components retain their own licences. The runtime is not GPL-free. [Third-party notices](THIRD_PARTY_NOTICES.md) and [matching component sources](https://github.com/volkue-tech/frame-gallery-ha/releases/tag/sources-v0.1.0b16) are available; historical source releases are retained.
+Frame Gallery is implemented independently. The project's own code is [Apache-2.0](LICENSE); distributed third-party components retain their own licences. The runtime is not GPL-free. [Third-party notices](THIRD_PARTY_NOTICES.md) and [matching component sources](https://github.com/volkue-tech/frame-gallery-ha/releases/tag/sources-v0.1.0b17) are available; historical source releases are retained.
 
 - [Developer setup and quality gates](frame_gallery/DEVELOPMENT.md)
 - [Product specification](PRODUCT_SPEC.md) · [Architecture](ARCHITECTURE.md) · [Acceptance tests](ACCEPTANCE_TESTS.md)

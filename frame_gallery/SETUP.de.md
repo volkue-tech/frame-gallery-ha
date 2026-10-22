@@ -1,6 +1,6 @@
 # Frame Gallery — Installation und erste Dashboardkarte
 
-> **b17-Kandidat — Sicherheitsbegrenzung des Abgleichs:** Automatische Start-/
+> **0.1.0b17 — Sicherheitsbegrenzung des Abgleichs:** Automatische Start-/
 > Wiederanlaufverbindungen und Minutenabfragen bleiben auch bei gespeicherter
 > Freigabe aus. Die Samsung-Entität dient nur noch zum Stoppen. Ein ausdrücklich
 > angeforderter erfolgreicher Bildversand kann passive Diashow-Ereignisse verfolgen.
@@ -8,7 +8,7 @@
 > automatischer Wiederanlauf. Die physische Aufweck-/Modusursache ist ungeklärt;
 > dies ist keine Nichtaufweckgarantie. Karten, Scripte und Zuordnungen bleiben erhalten.
 > [Aktuelles Kunstwerk](CURRENT_ARTWORK.de.md) · [optionale Bildvorschau](CURRENT_PREVIEW.de.md).
-> Native Prüfungen und Veröffentlichung stehen noch aus.
+> [b17-Prüfbericht und Grenzen](https://github.com/volkue-tech/frame-gallery-ha/blob/main/BETA17_VALIDATION.md).
 
 [English](DOCS.md#installation) | **Deutsch** | [Français](SETUP.fr.md) | [Español](SETUP.es.md) | [Italiano](SETUP.it.md)
 

@@ -1,6 +1,6 @@
 # Frame Gallery — instalación y primera tarjeta
 
-> **Candidato b17 — restricción de seguridad:** se suspenden las conexiones
+> **0.1.0b17 — restricción de seguridad:** se suspenden las conexiones
 > automáticas al iniciar/despertar y las lecturas por minuto, incluso con opciones
 > guardadas. La entidad Samsung solo detiene la observación. Un envío explícito
 > correcto puede seguir eventos pasivos de la presentación. Una imagen sin cambios
@@ -8,11 +8,11 @@
 > del despertar/cambio de modo sigue sin aclarar; no es garantía de que no despierte.
 > Se conservan tarjetas, scripts y asociaciones.
 > [Obra actual](CURRENT_ARTWORK.es.md) · [vista previa opcional](CURRENT_PREVIEW.es.md).
-> Verificación nativa y publicación pendientes.
+> [Validación b17 y límites](https://github.com/volkue-tech/frame-gallery-ha/blob/main/BETA17_VALIDATION.md).
 
 [English](DOCS.md#installation) | [Deutsch](SETUP.de.md) | [Français](SETUP.fr.md) | **Español** | [Italiano](SETUP.it.md)
 
-Guía inicial para el **candidato 0.1.0b17**. El idioma de esta página se elige con
+Guía inicial para la **beta pública 0.1.0b17**. El idioma de esta página se elige con
 los enlaces de arriba, no automáticamente desde Home Assistant.
 Los documentos técnicos siguen [en inglés](DOCS.md#options).
 Desde 0.1.0b7, el formulario ofrece inglés, alemán, francés, español e italiano

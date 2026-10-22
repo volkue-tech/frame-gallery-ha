@@ -1,6 +1,6 @@
 # Obra actual y modo opcional en segundo plano
 
-> **Candidato de seguridad b17 (D-247) — sin publicar:** se suspenden las
+> **Restricción de seguridad 0.1.0b17 (D-247):** se suspenden las
 > conexiones automáticas al iniciar/despertar y las consultas periódicas
 > `current_state_refresh`, incluso con opciones guardadas. `resume_state_entity`
 > solo puede detener, nunca iniciar. Tras un nuevo envío explícito correcto,
@@ -10,7 +10,7 @@
 > Se mantienen tarjetas, IDs de script y asociaciones. No se garantiza la
 > ausencia de efectos secundarios de conexión.
 
-Local, sin publicar: [vista previa opcional de la obra actual](CURRENT_PREVIEW.es.md). Las tarjetas existentes no cambian.
+Desde 0.1.0b17: [vista previa opcional de la obra actual](CURRENT_PREVIEW.es.md). Las tarjetas existentes no cambian. [Validación b17 y límites](https://github.com/volkue-tech/frame-gallery-ha/blob/main/BETA17_VALIDATION.md).
 
 [English](CURRENT_ARTWORK.md) | [Deutsch](CURRENT_ARTWORK.de.md) | [Français](CURRENT_ARTWORK.fr.md) | Español | [Italiano](CURRENT_ARTWORK.it.md)
 
@@ -18,7 +18,7 @@ Local, sin publicar: [vista previa opcional de la obra actual](CURRENT_PREVIEW.e
 `artmode_status` / `current_artwork`, comprobando estrictamente el ID de solicitud.
 Sin nuevas opciones, conexiones, formatos de asociación ni cambios de tarjeta.
 
-**Candidato b17: experimental y desactivado por defecto; comprobaciones de publicación pendientes.** Las tarjetas b7/b8/b9/b10/b11/b12/b13/b16 siguen funcionando. No necesita nuevos ayudantes, claves API, HACS, permisos especiales ni otra app en Home Assistant Green/OS.
+**Beta pública 0.1.0b17: experimental y desactivado por defecto.** Las tarjetas b7/b8/b9/b10/b11/b12/b13/b16 siguen funcionando. No necesita nuevos ayudantes, claves API, HACS, permisos especiales ni otra app en Home Assistant Green/OS.
 
 [Informe histórico b16](https://github.com/volkue-tech/frame-gallery-ha/blob/main/BETA16_VALIDATION.md) · [Fuentes históricas correspondientes](https://github.com/volkue-tech/frame-gallery-ha/releases/tag/sources-v0.1.0b16).
 

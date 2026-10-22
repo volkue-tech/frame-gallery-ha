@@ -2,7 +2,16 @@
 
 [English](CURRENT_PREVIEW.md) | **Deutsch** | [Français](CURRENT_PREVIEW.fr.md) | [Español](CURRENT_PREVIEW.es.md) | [Italiano](CURRENT_PREVIEW.it.md)
 
-**Lokale, noch unveröffentlichte Funktion – noch nicht Teil der installierten b16.**
+**Öffentliche Beta 0.1.0b17 — separate optionale aktuelle Bildvorschau.**
+
+**Sicherheitsbegrenzung des Abgleichs (D-247):** Der Hintergrundmodus bleibt
+experimentell und standardmäßig aus. Automatische Start-/Aufwach-Verbindungen
+und Minutenabfragen sind auch bei gespeicherter Freigabe gesperrt. Nur ein
+frischer ausdrücklich angeforderter erfolgreicher Versand kann passive Diashow-
+Ereignisse verfolgen. Unveränderte Bilder veralten; nach Menü/TV-Modus, Sleep oder
+Verbindungsverlust gibt es keinen automatischen Wiederanlauf. Eine Verbindung
+kann den TV trotzdem beeinflussen: keine Nichtaufweckgarantie. Zuerst die
+[Einrichtung und Grenzen der aktuellen Künstleranzeige](CURRENT_ARTWORK.de.md) lesen.
 
 Die bisherige Bildkarte bleibt die Vorschau des zuletzt gesendeten Werks. Diese zusätzliche optionale Karte zeigt eine gespeicherte Vorschau nur bei frisch bestätigten aktuellen Künstler-/Titeldaten. Sie ist kein Live-Screenshot.
 

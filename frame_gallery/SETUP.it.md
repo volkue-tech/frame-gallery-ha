@@ -1,6 +1,6 @@
 # Frame Gallery — installazione e prima scheda
 
-> **Candidato b17 — limitazione di sicurezza:** connessioni automatiche all'avvio/
+> **0.1.0b17 — limitazione di sicurezza:** connessioni automatiche all'avvio/
 > risveglio e letture al minuto sono sospese, anche con opzioni già salvate.
 > L'entità Samsung serve soltanto ad arrestare l'osservazione. Un invio esplicito
 > riuscito può seguire eventi passivi della presentazione. Le immagini immutate
@@ -8,7 +8,7 @@
 > del risveglio/cambio di modalità non è chiarita; nessuna garanzia di mancato risveglio.
 > Schede, script e associazioni restano invariati.
 > [Opera attuale](CURRENT_ARTWORK.it.md) · [anteprima facoltativa](CURRENT_PREVIEW.it.md).
-> Verifiche native e pubblicazione ancora in attesa.
+> [Validazione b17 e limiti](https://github.com/volkue-tech/frame-gallery-ha/blob/main/BETA17_VALIDATION.md).
 
 [English](DOCS.md#installation) | [Deutsch](SETUP.de.md) | [Français](SETUP.fr.md) | [Español](SETUP.es.md) | **Italiano**
 

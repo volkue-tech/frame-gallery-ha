@@ -1,6 +1,6 @@
 # Opera attuale e modalità in background facoltativa
 
-> **Candidato di sicurezza b17 (D-247) — non pubblicato:** connessioni automatiche
+> **Limitazione di sicurezza 0.1.0b17 (D-247):** connessioni automatiche
 > all'avvio/risveglio e letture periodiche `current_state_refresh` sospese, anche
 > con opzioni salvate. `resume_state_entity` può solo arrestare, mai avviare.
 > Dopo un nuovo invio esplicito riuscito, il ricevitore passivo esistente può
@@ -10,7 +10,7 @@
 > script e associazioni restano invariati. L'assenza di effetti collaterali
 > della connessione non è garantita.
 
-Locale, non pubblicato: [anteprima facoltativa dell’opera attuale](CURRENT_PREVIEW.it.md). Le schede esistenti restano invariate.
+Dalla 0.1.0b17: [anteprima facoltativa dell’opera attuale](CURRENT_PREVIEW.it.md). Le schede esistenti restano invariate. [Validazione b17 e limiti](https://github.com/volkue-tech/frame-gallery-ha/blob/main/BETA17_VALIDATION.md).
 
 [English](CURRENT_ARTWORK.md) | [Deutsch](CURRENT_ARTWORK.de.md) | [Français](CURRENT_ARTWORK.fr.md) | [Español](CURRENT_ARTWORK.es.md) | Italiano
 
@@ -18,7 +18,7 @@ Locale, non pubblicato: [anteprima facoltativa dell’opera attuale](CURRENT_PRE
 `artmode_status` / `current_artwork`, verificando rigorosamente l'ID della richiesta.
 Nessuna nuova opzione, connessione, formato di associazione o modifica delle schede.
 
-**Candidato b17: sperimentale e disattivato per impostazione predefinita; verifiche di pubblicazione in attesa.** Le schede b7/b8/b9/b10/b11/b12/b13/b16 restano utilizzabili. Nessun nuovo aiutante, chiave API, HACS, privilegio speciale o altra app su Home Assistant Green/OS.
+**Beta pubblica 0.1.0b17: sperimentale e disattivato per impostazione predefinita.** Le schede b7/b8/b9/b10/b11/b12/b13/b16 restano utilizzabili. Nessun nuovo aiutante, chiave API, HACS, privilegio speciale o altra app su Home Assistant Green/OS.
 
 [Rapporto storico b16](https://github.com/volkue-tech/frame-gallery-ha/blob/main/BETA16_VALIDATION.md) · [Sorgenti storici corrispondenti](https://github.com/volkue-tech/frame-gallery-ha/releases/tag/sources-v0.1.0b16).
 

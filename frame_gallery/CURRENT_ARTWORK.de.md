@@ -1,6 +1,6 @@
 # Aktuelles Kunstwerk und optionaler Hintergrundmodus
 
-> **b17-Sicherheitskandidat (D-247) — unveröffentlicht:** Automatische Start-/
+> **0.1.0b17-Sicherheitsbegrenzung (D-247):** Automatische Start-/
 > Aufwach-Verbindungen und Minutenabfragen über `current_state_refresh` sind
 > gesperrt, auch bei gespeicherter Freigabe. `resume_state_entity` ist nur noch
 > ein Stoppsignal, niemals eine Startfreigabe. Nach einem frischen erfolgreichen
@@ -10,7 +10,7 @@
 > Wiederanlauf-Anweisungen unten. Karten, Script-IDs und Bildzuordnungen bleiben
 > erhalten. Verbindungsnebenwirkungen sind damit nicht allgemein ausgeschlossen.
 
-Lokal, noch unveröffentlicht: [optionale aktuelle Bildvorschau](CURRENT_PREVIEW.de.md). Bestehende Karten bleiben unverändert.
+Ab 0.1.0b17: [optionale aktuelle Bildvorschau](CURRENT_PREVIEW.de.md). Bestehende Karten bleiben unverändert. [b17-Prüfbericht und Grenzen](https://github.com/volkue-tech/frame-gallery-ha/blob/main/BETA17_VALIDATION.md).
 
 [English](CURRENT_ARTWORK.md) | Deutsch | [Français](CURRENT_ARTWORK.fr.md) | [Español](CURRENT_ARTWORK.es.md) | [Italiano](CURRENT_ARTWORK.it.md)
 
@@ -18,7 +18,7 @@ Lokal, noch unveröffentlicht: [optionale aktuelle Bildvorschau](CURRENT_PREVIEW
 Antworten `artmode_status` / `current_artwork` mit strenger Anfrage-ID-Prüfung.
 Keine neue Option, Verbindung, Zuordnungsdatei oder Kartenänderung nötig.
 
-**b17-Kandidat: experimentell und standardmäßig aus; Veröffentlichungsprüfungen stehen noch aus.** Bestehende b7/b8/b9/b10/b11/b12/b13/b16-Karten bleiben nutzbar. Auf Home Assistant Green/OS werden keine API-Schlüssel, neuen Helfer, HACS-Erweiterungen, Sonderrechte oder weiteren Apps benötigt.
+**Öffentliche Beta 0.1.0b17: experimentell und standardmäßig aus.** Bestehende b7/b8/b9/b10/b11/b12/b13/b16-Karten bleiben nutzbar. Auf Home Assistant Green/OS werden keine API-Schlüssel, neuen Helfer, HACS-Erweiterungen, Sonderrechte oder weiteren Apps benötigt.
 
 [Historischer b16-Prüfbericht](https://github.com/volkue-tech/frame-gallery-ha/blob/main/BETA16_VALIDATION.md) · [Historische passende Quellen](https://github.com/volkue-tech/frame-gallery-ha/releases/tag/sources-v0.1.0b16).
 

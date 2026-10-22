@@ -1,6 +1,6 @@
 # Œuvre actuelle et mode arrière-plan facultatif
 
-> **Candidat de sécurité b17 (D-247) — non publié :** les connexions automatiques
+> **Restriction de sécurité 0.1.0b17 (D-247) :** les connexions automatiques
 > au démarrage/réveil et les lectures périodiques `current_state_refresh` sont
 > suspendues, même avec les options enregistrées. `resume_state_entity` sert
 > uniquement à arrêter, jamais à démarrer. Après un nouvel envoi explicite réussi,
@@ -10,7 +10,7 @@
 > Cartes, identifiants de script et associations restent inchangés. L'absence
 > d'effets secondaires de connexion n'est pas garantie.
 
-Local, non publié : [aperçu facultatif de l’œuvre actuelle](CURRENT_PREVIEW.fr.md). Les cartes existantes restent inchangées.
+Depuis 0.1.0b17 : [aperçu facultatif de l’œuvre actuelle](CURRENT_PREVIEW.fr.md). Les cartes existantes restent inchangées. [Validation b17 et limites](https://github.com/volkue-tech/frame-gallery-ha/blob/main/BETA17_VALIDATION.md).
 
 [English](CURRENT_ARTWORK.md) | [Deutsch](CURRENT_ARTWORK.de.md) | Français | [Español](CURRENT_ARTWORK.es.md) | [Italiano](CURRENT_ARTWORK.it.md)
 
@@ -18,7 +18,7 @@ Local, non publié : [aperçu facultatif de l’œuvre actuelle](CURRENT_PREVIEW
 `artmode_status` / `current_artwork`, avec contrôle strict de l'ID de requête.
 Aucun nouveau réglage, connexion, format d'association ou changement de carte.
 
-**Candidat b17 : expérimental et désactivé par défaut ; vérifications de publication en attente.** Les cartes b7/b8/b9/b10/b11/b12/b13/b16 restent utilisables. Aucun nouvel assistant, clé API, extension HACS, privilège spécial ou autre app n'est nécessaire sur Home Assistant Green/OS.
+**Bêta publique 0.1.0b17 : expérimental et désactivé par défaut.** Les cartes b7/b8/b9/b10/b11/b12/b13/b16 restent utilisables. Aucun nouvel assistant, clé API, extension HACS, privilège spécial ou autre app n'est nécessaire sur Home Assistant Green/OS.
 
 [Rapport historique b16](https://github.com/volkue-tech/frame-gallery-ha/blob/main/BETA16_VALIDATION.md) · [Sources historiques correspondantes](https://github.com/volkue-tech/frame-gallery-ha/releases/tag/sources-v0.1.0b16).
 

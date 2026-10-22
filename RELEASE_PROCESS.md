@@ -5,6 +5,34 @@ Assistant's app store; they do not run these commands or edit HA configuration.
 STATUS/TASKS remain the authoritative current status. A committed workflow is
 not evidence that an image has been published or an installation has passed.
 
+## b17 observer safety hold and bounded current preview
+
+**Observed b17 gate evidence:** Exact [run 39825989063](https://github.com/volkue-tech/frame-gallery-ha/actions/runs/39825989063) completed all five jobs successfully. Both native validators and both actual publisher images each passed 6,236 production tests with eight root skips and eight separate root checks; all four archives passed independent provenance/hash/content checks. Matching public sources, both anonymous immutable-image safety/preview probes and independent source/workflow-bound signatures passed. App [prerelease 421060980](https://github.com/volkue-tech/frame-gallery-ha/releases/tag/v0.1.0b17)
+targets the frozen source and both build approvals are disabled/read back.
+See [BETA17_VALIDATION.md](BETA17_VALIDATION.md); final handoff commit/push,
+public Store readback and broker exit remain separate later checks.
+
+Frozen source edae2271dbd103edd80db629d097f91e895d97a2 contains 121 runtime files
+with aggregate f7ef6bf86dd28d69f86ed22b8d7dd912dce8f29390afa5158b15531b4033679b.
+It suspends automatic startup/wake Art connections and minute GETs even for saved
+opt-ins. The existing Samsung entity is stop-only. A fresh explicit successful
+send can start passive observation; static images expire and sleeping/lost
+sessions do not recover automatically. Keep this loss of recovery prominent in
+all five setup/current-artwork/current-preview guides. Do not claim the original
+physical wake/mode cause is resolved or that a read connection cannot wake a TV.
+
+The optional bounded preview derives only from uploaded bytes and adds no TV
+query, dependency, privilege or existing-card migration. Independently probe the
+actual published images, including the real initial-thumbnail-to-preview path,
+exact delivery identity and negative controls; a green cache-only test is not
+enough. Retain the 21 complete card/script code fences and the exact 121-file
+runtime across the 22-document handoff. Preserve historical validation reports.
+
+Disable and read back the exact build approvals before the final handoff. After
+the doc commit/push, independently verify final main/Store/source/docs and end
+the exact memory-only broker. Do not pre-claim those later closures. Publication alone must not connect to
+HA/TV, install/start the app or alter existing cards/scripts.
+
 ## b16 recorded-response parser correction
 
 b16 is the narrow protocol correction to the existing optional state refresh:
@@ -92,12 +120,12 @@ No live HA/TV action, app start/update or card/script change is part of publicat
 ## Run the manual workflow
 
 Run **Publish reviewed beta images** on `main`, with the matching beta version.
-For reviewed candidates such as 0.1.0b6 through 0.1.0b13, 0.1.0b15 and 0.1.0b16, the narrowly allowed
+For reviewed candidates such as 0.1.0b6 through 0.1.0b13, 0.1.0b15, 0.1.0b16 and 0.1.0b17, the narrowly allowed
 `codex/commons-default` branch can instead publish
 the exact approved candidate before its app metadata is merged into `main`.
 This prevents store users being offered a version whose image is still missing.
 Repository, exact-commit/source-hash, native validation and non-overwrite gates
-remain identical. Signatures identify the actual workflow branch; b6 through b13, b15 and b16 use
+remain identical. Signatures identify the actual workflow branch; b6 through b13, b15, b16 and b17 use
 `https://github.com/volkue-tech/frame-gallery-ha/.github/workflows/publish.yml@refs/heads/codex/commons-default`.
 Historical b3/b4/b5 used
 `https://github.com/volkue-tech/frame-gallery-ha/.github/workflows/publish.yml@refs/heads/codex/commons-curated`.

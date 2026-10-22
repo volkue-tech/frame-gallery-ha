@@ -1,6 +1,6 @@
 # Frame Gallery
 
-> **b17 candidate — observer safety hold:** automatic startup/wake connections
+> **0.1.0b17 — observer safety hold:** automatic startup/wake connections
 > and minute state reads are suspended, even for saved opt-ins. The Samsung
 > entity only stops observation; HA on never starts it. After a fresh explicit
 > successful send, passive complete slideshow events can confirm known artwork.
@@ -8,9 +8,10 @@
 > The reported physical wake/mode cause remains unresolved. This is a conservative
 > software restriction, not a no-wake guarantee. Existing cards/scripts are unchanged.
 > See [current artwork](CURRENT_ARTWORK.md) and the separate
-> [optional bounded current-image preview](CURRENT_PREVIEW.md). Release gates are pending.
+> [optional bounded current-image preview](CURRENT_PREVIEW.md).
+> [b17 validation and limits](https://github.com/volkue-tech/frame-gallery-ha/blob/main/BETA17_VALIDATION.md).
 
-> **0.1.0b17 release candidate:** [1000 near-widescreen Wikimedia Commons works](COMMONS.md), optional Commons artist/colour selection and [native dashboard pickers](COMMONS_ARTIST.md).
+> **0.1.0b17 public beta:** [1000 near-widescreen Wikimedia Commons works](COMMONS.md), optional Commons artist/colour selection and [native dashboard pickers](COMMONS_ARTIST.md).
 > No API key is needed. Update without uninstalling; your saved sources and
 > existing camera, timer, script and optional artwork-information helper still work.
 

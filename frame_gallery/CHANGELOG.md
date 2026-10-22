@@ -1,6 +1,10 @@
 # Changelog
 
-## 0.1.0b17 (release candidate)
+## 0.1.0b17 (public beta)
+
+Exact [run 39825989063](https://github.com/volkue-tech/frame-gallery-ha/actions/runs/39825989063) completed all five jobs successfully. Both native validators and both actual publisher images each passed 6,236 production tests with eight root skips and eight separate root checks; all four archives passed independent provenance/hash/content checks. Matching public sources, both anonymous immutable-image safety/preview probes and independent source/workflow-bound signatures passed. App [prerelease 421060980](https://github.com/volkue-tech/frame-gallery-ha/releases/tag/v0.1.0b17) targets the verified source.
+See the [b17 validation report](https://github.com/volkue-tech/frame-gallery-ha/blob/main/BETA17_VALIDATION.md).
+No physical firmware/no-wake guarantee is inferred from these checks.
 
 ### Automatic observer I/O safety hold
 
@@ -14,8 +18,7 @@
   Unchanged images can expire; automatic recovery after sleep/connection loss
   is intentionally suspended. No card/script or permission change is required.
 - Explain the temporary restriction consistently in all five configuration
-  locales and current-artwork guides. Native release validation is required
-  before publication; no hardware no-wake guarantee is claimed.
+  locales and current-artwork guides. No new hardware no-wake guarantee is claimed.
 
 ### Optional current-artwork preview
 
@@ -32,6 +35,9 @@
   special permission, dependency, HACS requirement or existing-card migration.
 - Optional native card setup is separate; no automatic change to installed
   cards. Old/uncached works have no preview, without suppressing known metadata.
+- Preserve the initial thumbnail caption's provenance while allowing only its
+  exact session-verified upload preview. A same-ID same-work replacement cannot
+  borrow cached bytes solely because its title/artist match.
 
 ## 0.1.0b16 (public beta)
 

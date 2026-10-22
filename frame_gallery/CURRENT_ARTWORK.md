@@ -1,6 +1,6 @@
 # Current artwork and optional background mode
 
-> **b17 safety candidate (D-247) — not published:** automatic startup/wake
+> **0.1.0b17 safety hold (D-247):** automatic startup/wake
 > connections and `current_state_refresh` minute reads are suspended, including
 > saved opt-ins. `resume_state_entity` is now a stop signal only, never a start
 > grant. After a fresh explicit successful send, the existing passive receiver
@@ -9,7 +9,7 @@
 > older b11–b16 recovery instructions below. Cards, script IDs and saved artwork
 > associations are unchanged. Connection side effects are not certified absent.
 
-Local, unreleased: [optional current-image preview](CURRENT_PREVIEW.md). Existing cards stay unchanged.
+From 0.1.0b17: [optional current-image preview](CURRENT_PREVIEW.md). Existing cards stay unchanged. [b17 validation and limits](https://github.com/volkue-tech/frame-gallery-ha/blob/main/BETA17_VALIDATION.md).
 
 English | [Deutsch](CURRENT_ARTWORK.de.md) | [Français](CURRENT_ARTWORK.fr.md) | [Español](CURRENT_ARTWORK.es.md) | [Italiano](CURRENT_ARTWORK.it.md)
 
@@ -17,7 +17,7 @@ English | [Deutsch](CURRENT_ARTWORK.de.md) | [Français](CURRENT_ARTWORK.fr.md) 
 `artmode_status` / `current_artwork` replies with strict fresh request-ID checks.
 No new option, connection, stored-ID format or card change is needed.
 
-**b17 candidate: experimental and off by default; publication gates pending.** Existing b7/b8/b9/b10/b11/b12/b13/b16 cards remain usable. No API key, new helper, HACS extension, special permissions or second app is needed on Home Assistant Green/OS.
+**0.1.0b17 public beta: experimental and off by default.** Existing b7/b8/b9/b10/b11/b12/b13/b16 cards remain usable. No API key, new helper, HACS extension, special permissions or second app is needed on Home Assistant Green/OS.
 
 [Historical b16 validation](https://github.com/volkue-tech/frame-gallery-ha/blob/main/BETA16_VALIDATION.md) · [Historical matching sources](https://github.com/volkue-tech/frame-gallery-ha/releases/tag/sources-v0.1.0b16).
 

@@ -1,5 +1,26 @@
 # Project status
 
+## b17 release handoff — observed native/public gates passed
+
+Exact [run 39825989063](https://github.com/volkue-tech/frame-gallery-ha/actions/runs/39825989063) completed all five jobs successfully. Both native validators and both actual publisher images each passed 6,236 production tests with eight root skips and eight separate root checks; all four archives passed independent provenance/hash/content checks. Matching public sources, both anonymous immutable-image safety/preview probes and independent source/workflow-bound signatures passed. Frozen source edae2271dbd103edd80db629d097f91e895d97a2,
+runtime 121/f7ef6bf86dd28d69f86ed22b8d7dd912dce8f29390afa5158b15531b4033679b.
+Host 6228/16, typing 318 and whole/mandatory 100% are observed; native 6236 plus 8
+separate root checks are verified independently in all four exact archives.
+No HA/TV or installed/card/script mutation; installed app stays stopped.
+
+App [prerelease 421060980](https://github.com/volkue-tech/frame-gallery-ha/releases/tag/v0.1.0b17) targets exact source `edae2271dbd103edd80db629d097f91e895d97a2`; both approvals are
+disabled and read back. The 22-document, 21-fence handoff is prepared but its
+commit/push and final public readback are still subsequent operations.
+Final public main/Store/source/docs readback and exact broker exit are still
+future operational checks here, not pre-claimed successes. Retain all previous
+releases/sources and the unresolved physical wake/mode limitation.
+
+Matching public sources are verified: 581,888,000-byte archive SHA256
+2f31e831713e3702f1fbd12d38fb273e7a2a677d3a07a412f594e7b428a61e46,
+source-only release 420919092, asset 666336778. Anonymous download and all-member
+snapshot verification, including 174 retained dependency-source archives,
+passed before native CI dispatch.
+
 ## D-248 b17 release preparation — authorized, 2026-10-22
 
 User approves exact native ARM/Intel checks and green-gate-only publication of
