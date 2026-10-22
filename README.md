@@ -1,22 +1,18 @@
 # Frame Gallery for Home Assistant
 
-> **b16 bugfix — corrected state replies:** the existing optional refresh now
-> recognizes the Frame's actual reply events rather than outgoing request names.
-> With background mode enabled, `current_state_refresh` (default OFF) can revalidate known
-> artist/title information after menu use, slideshow restart or an unchanged image.
-> It reads mode and, only after fresh Art Mode on, coherent image IDs at most once
-> per minute over the already established Art socket; it opens no new connection
-> and sends no image, power or mode command. Unknown artwork stays unidentified.
-> Standby, observed HA off and a closed connection still stop the session.
-> Read requests may affect automatic sleep; offline tests are not firmware or
-> no-wake certification. Existing cards and scripts stay compatible.
-> See the [b16 checks](BETA16_VALIDATION.md),
-> [current-artwork guide](frame_gallery/CURRENT_ARTWORK.md) and
-> [matching sources](https://github.com/volkue-tech/frame-gallery-ha/releases/tag/sources-v0.1.0b16).
+> **b17 candidate — conservative observer safety hold:** automatic startup/wake
+> connections and minute state reads are suspended, including saved opt-ins.
+> The optional Samsung entity is a stop signal only. A fresh, explicitly requested
+> successful send can start passive slideshow observation; unchanged pictures
+> expire and a lost/sleeping session does not recover automatically. This reduced
+> recovery is intentional while a reported wake/mode incident remains unresolved;
+> it is not a firmware/no-wake guarantee. Existing cards, scripts and stored
+> associations remain compatible. An [optional bounded current-image preview](frame_gallery/CURRENT_PREVIEW.md)
+> is available separately. Native/publication gates are still pending.
 
 Fresh artwork on your Samsung Frame. Start it with a tap from Home Assistant.
 
-> **0.1.0b16 public beta:** 1000 curated Commons works, optional artist and
+> **0.1.0b17 release candidate:** 1000 curated Commons works, optional artist and
 > colour selection, and configuration in English, German, French, Spanish and Italian.
 > Update in place; saved sources, dashboard helpers and history stay compatible.
 
@@ -98,6 +94,18 @@ The default prefers landscape works close to 16:9. If no suitable new work is fo
 When reporting a problem, include the app version, TV model and the final outcome line. Remove personal details and secrets before sharing logs. Do not include pairing tokens, passwords or access tokens.
 
 ## Public beta
+
+The **b17 candidate** suspends automatic initial/wake synchronization and minute
+reads, including saved opt-ins. Only a fresh, explicitly requested successful
+send may start passive slideshow observation. Sleep, menu/TV mode or connection
+loss does not grant recovery; unchanged pictures expire. Publication/native gates
+are pending. This is a conservative restriction, not a no-wake guarantee.
+
+### Historical releases — not the b17 observer instructions
+
+The recovery and minute-read features described below belong to earlier releases
+and are suspended in b17. Use the current safety notice and
+[current-artwork guide](frame_gallery/CURRENT_ARTWORK.md) for b17.
 
 **[0.1.0b16](https://github.com/volkue-tech/frame-gallery-ha/releases/tag/v0.1.0b16)** fixes
 reply-name parsing in the existing optional same-connection refresh. Recorded

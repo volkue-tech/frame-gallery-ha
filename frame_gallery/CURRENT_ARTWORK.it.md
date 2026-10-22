@@ -1,6 +1,6 @@
 # Opera attuale e modalità in background facoltativa
 
-> **Candidato di sicurezza locale D-247 — non pubblicato:** connessioni automatiche
+> **Candidato di sicurezza b17 (D-247) — non pubblicato:** connessioni automatiche
 > all'avvio/risveglio e letture periodiche `current_state_refresh` sospese, anche
 > con opzioni salvate. `resume_state_entity` può solo arrestare, mai avviare.
 > Dopo un nuovo invio esplicito riuscito, il ricevitore passivo esistente può
@@ -14,19 +14,22 @@ Locale, non pubblicato: [anteprima facoltativa dell’opera attuale](CURRENT_PRE
 
 [English](CURRENT_ARTWORK.md) | [Deutsch](CURRENT_ARTWORK.de.md) | [Français](CURRENT_ARTWORK.fr.md) | [Español](CURRENT_ARTWORK.es.md) | Italiano
 
-**Corretto in b16:** l'aggiornamento facoltativo accetta le risposte reali
+**Correzione storica del parser b16 — aggiornamento sospeso in b17:** l'aggiornamento facoltativo accetta le risposte reali
 `artmode_status` / `current_artwork`, verificando rigorosamente l'ID della richiesta.
 Nessuna nuova opzione, connessione, formato di associazione o modifica delle schede.
 
-**Beta pubblica b16: sperimentale e disattivato per impostazione predefinita.** Le schede b7/b8/b9/b10/b11/b12/b13 restano utilizzabili. Nessun nuovo aiutante, chiave API, HACS, privilegio speciale o altra app su Home Assistant Green/OS.
+**Candidato b17: sperimentale e disattivato per impostazione predefinita; verifiche di pubblicazione in attesa.** Le schede b7/b8/b9/b10/b11/b12/b13/b16 restano utilizzabili. Nessun nuovo aiutante, chiave API, HACS, privilegio speciale o altra app su Home Assistant Green/OS.
 
-[Rapporto b16](https://github.com/volkue-tech/frame-gallery-ha/blob/main/BETA16_VALIDATION.md) · [Sorgenti corrispondenti](https://github.com/volkue-tech/frame-gallery-ha/releases/tag/sources-v0.1.0b16).
+[Rapporto storico b16](https://github.com/volkue-tech/frame-gallery-ha/blob/main/BETA16_VALIDATION.md) · [Sorgenti storici corrispondenti](https://github.com/volkue-tech/frame-gallery-ha/releases/tag/sources-v0.1.0b16).
 
 Anche una connessione in lettura può risvegliare il TV. I test controllati coprono cambi automatici e un episodio di sonno naturale su un Frame, non tutti i modelli o firmware. Lasciare disattivato se questo rischio è inaccettabile.
 
 ## Memoria automatica delle opere
 
 ### Sincronizzazione all'avvio e dopo standby — b12, facoltativo
+
+<details>
+<summary>Comportamento storico b12–b16 — sospeso in b17, non sono istruzioni attuali</summary>
 
 Dopo un invio Frame Gallery precedente riuscito, attivare **Modalità in background**
 e inserire in **Sincronizza all'avvio / dopo standby** (`resume_state_entity`) l'entità Samsung
@@ -69,6 +72,8 @@ la modalità; il nuovo percorso è simulato offline, non verificato sull'hardwar
 Vuoto: disattivato. Un'app arrestata non osserva risvegli. Restano i limiti di
 visualizzazione di 90 secondi e 15 minuti.
 
+</details>
+
 Ogni invio selezionato con successo salva automaticamente ID TV, titolo, artista e fonte, anche con la modalità in background **disattivata**. Nessun ID da inserire. L'associazione appartiene alla vera identità del TV, non solo al suo IP. Lo stesso ID su un altro TV non indica la stessa opera. Un nuovo invio riuscito sostituisce l'associazione precedente per quel TV/ID.
 
 I dati privati sopravvivono agli aggiornamenti normali. Azzerare la cronologia di selezione non elimina le associazioni; disinstallare cancellando i dati sì. Conservare un backup prima della reinstallazione. Limite: le ultime 2.048 associazioni e 32 MiB, più un backup. Il riferimento è un piccolo campione RGB di 64×36 pixel, non un archivio ad alta risoluzione. Le vecchie associazioni verificate tramite immagine restano compatibili.
@@ -76,6 +81,9 @@ I dati privati sopravvivono agli aggiornamenti normali. Azzerare la cronologia d
 Vecchie immagini, invii di altre app e invii senza identità stabile rimangono sconosciuti. Nessun artista indovinato o riconoscimento cloud.
 
 ### Aggiornamento facoltativo dello stato attuale — b16
+
+<details>
+<summary>Letture storiche al minuto — sospese in b17, anche se salvate come attive</summary>
 
 `current_state_refresh` è un'opzione aggiuntiva, **disattivata per impostazione
 predefinita**, che richiede `background_mode`. Consente al massimo una verifica
@@ -105,15 +113,19 @@ Lasciare disattivato se il rischio è inaccettabile. I test offline non certific
 la compatibilità dei firmware né l'assenza di risvegli del TV.
 Le schede e gli script esistenti non richiedono modifiche.
 
+</details>
+
 ## Attivare la scheda facoltativa
 
 1. Conservare fotocamera, timer, schede e ID `script.frame_gallery_new_artwork`.
-2. Attivare **Modalità in background** e riavviare l'app. Avvia/Arresta controlla il servizio, non l'immagine. Senza l'entità facoltativa sopra nessun contatto all'avvio; con essa il primo HA `on` può consentire la lettura dopo la finestra di dieci secondi, salvo che una richiesta di invio accettata la sostituisca.
+2. Attivare **Modalità in background** e riavviare l'app. Avvia/Arresta controlla il servizio, non l'immagine. In b17 né l'avvio né HA `on` contattano il TV, anche con opzioni di ripresa/aggiornamento salvate. L'entità Samsung facoltativa può soltanto arrestare l'osservazione.
 3. Sostituire solo il contenuto dello script con lo [script di invio completo](examples/background-send-script.yaml). Adattare slug e timer se diversi. Le schede continuano a funzionare; sostituire le chiamate dirette a `hassio.app_start` con lo script.
-4. Dopo un invio precedente riuscito, configurare l'entità sopra per leggere l'opera già visibile senza un nuovo invio. Su un'installazione senza associazione TV salvata, richiedere la prima opera in modalità Arte visibile; l'invio riuscito consente una sessione sperimentale. Aggiornare da solo non apre connessioni.
+4. Con la modalità Arte visibilmente attiva, richiedere esplicitamente una nuova opera tramite lo script. Solo un nuovo invio riuscito autorizza una sessione passiva sperimentale. Avviare il servizio o Aggiornare non legge l'immagine già mostrata. Dopo menu/modalità TV, standby o perdita della connessione non c'è recupero automatico; occorre un altro invio esplicito riuscito.
 5. Aggiungere una scheda manuale con il YAML **completo** seguente.
 
 La scheda immagine/colore/artista mostra l'**ultima anteprima inviata**, non una schermata dal vivo. Questa scheda nativa aggiuntiva presenta separatamente le informazioni attuali.
+
+La scheda invariata sotto conserva un vecchio messaggio `validation_required` sulla lettura iniziale. Quel percorso è sospeso in b17: ora serve un nuovo invio esplicito riuscito; configurare un'entità non avvia alcuna lettura.
 
 ```yaml
 type: markdown
@@ -144,6 +156,25 @@ content: >-
 ```
 
 ## Conferma e limiti
+
+In b17, un nuovo invio esplicito riuscito può avviare una sessione Art passiva.
+Il confronto iniziale della miniatura conferma un'opera nota per 90 secondi;
+una nuova sequenza completa (`image_selected`, `auto_rotation_image_changed`
+dello stesso ID, poi modalità Arte `on` entro cinque secondi) dura al massimo
+15 minuti. Duplicati, pong e modalità attiva da soli non rinnovano la prova.
+Un'immagine fissa diventa non confermata; un ID sconosciuto non prende mai i
+dati di un'altra opera.
+
+Non ci sono letture al minuto né connessioni automatiche all'avvio/risveglio,
+anche con opzioni salvate. Menu/modalità TV, standby, perdita della connessione
+ed errori possono terminare la sessione; non segue alcuna riconnessione. L'entità
+Samsung in cache serve solo ad arrestare. Aggiornare elabora eventi già ricevuti,
+senza nuove richieste TV. Ogni sessione dura al massimo otto ore. La connessione
+può avere effetti collaterali: non è una garanzia di mancato risveglio. Schede,
+script e associazioni esistenti restano compatibili.
+
+<details>
+<summary>Dettagli storici b10–b16 di conferma/ripresa — i percorsi sospesi non sono istruzioni b17</summary>
 
 **Recupero storico b10 — soli eventi (`current_state_refresh` disattivato):** una sequenza incompleta di
 notifiche riconosciute della presentazione nasconde i dati attuali e attende una
@@ -184,3 +215,5 @@ mantenere una didascalia artificialmente aggiornata.
 Gli ID salvati sono corrispondenze storiche, non verifica continua dei pixel. Un riutilizzo esterno non osservato non è escludibile. Un confronto iniziale contraddittorio blocca la didascalia salvata. Nessuna garanzia generale di firmware o mancato risveglio (D-235).
 
 Il sensore è uno stato pubblicato dall'app, non un'integrazione registrata. Può mancare dopo un riavvio di Core. Dati scaduti/sospesi nascondono il titolo. Per tornare al funzionamento singolo, disattivare, riavviare e ripristinare lo script originale. Non cancellare cronologia o identità per forzare una connessione.
+
+</details>

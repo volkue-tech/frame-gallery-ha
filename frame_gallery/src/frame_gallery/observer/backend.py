@@ -24,7 +24,7 @@ from frame_gallery.observer.model import DEVICE_ID, READ_S, Evidence, Observatio
 from frame_gallery.observer.stream import SLIDESHOW_POLICY, EventPolicy, reviewed_policy
 from frame_gallery.store.artwork_bindings import Binding, BindingStore
 from frame_gallery.store.atomic import ReadFailure, decode_json, open_directory
-from frame_gallery.store.delivery_associations import DeliveryAssociations
+from frame_gallery.store.delivery_associations import DeliveryAssociation, DeliveryAssociations
 from frame_gallery.store.observer_targets import MAX_TARGETS, TargetStore
 from frame_gallery.tv.port import CONTENT_ID_PATTERN, target_fingerprint
 from frame_gallery.tv.token_store import TokenStore
@@ -53,6 +53,7 @@ class HostObserver:
         self._targets = TargetStore(data)
         self._enroll = False
         self._state_refresh = current_state_refresh
+        self._preview_proof: tuple[Observation, DeliveryAssociation] | None = None
 
     def delivery_snapshot(self) -> bytes | None:
         """A bounded before/after receipt; exit 0 alone also includes no_match.
@@ -77,6 +78,7 @@ class HostObserver:
         """
         self._device, self._enroll, self._tokenless = None, False, False
         self._delivery_device = None
+        self._preview_proof = None
         try:
             after = self.delivery_snapshot()
             record = self._current(after) if after else None
@@ -137,6 +139,7 @@ class HostObserver:
         """
         self._device, self._delivery_device = None, None
         self._enroll, self._tokenless = False, False
+        self._preview_proof = None
         try:
             device = self._targets.targets().get(str(self._host))
             if device is None:
@@ -169,6 +172,7 @@ class HostObserver:
 
     def session_request(self) -> JsonObject | Observation:
         """Local validation only; never starts a worker or contacts a TV."""
+        self._preview_proof = None
         if self._device is None and not self._enroll:
             return Observation(Status.VALIDATION_REQUIRED)
         try:
@@ -191,6 +195,7 @@ class HostObserver:
 
     def accept_snapshot(self, result: JsonObject) -> Observation:
         """Accept initial byte proof once; events cannot manufacture a digest."""
+        self._preview_proof = None
         result = dict(result)
         thumbnail = result.pop("thumbnail", None)
         observation = Observation.from_json(result)
@@ -203,9 +208,50 @@ class HostObserver:
         if self._enroll and observation.device_id is not None:
             self._targets.pin(self._host, observation.device_id)
             self._device, self._enroll = observation.device_id, False
-        if observation.content_id is not None and self._bindings.resolve(observation) is None:
-            self._capture(observation, cast(str, thumbnail))
+        if observation.content_id is not None:
+            self._capture(observation, cast(str, thumbnail), self._bindings.resolve(observation))
         return observation
+
+    def preview_association(
+        self, observation: Observation, caption: Binding | DeliveryAssociation | None
+    ) -> DeliveryAssociation | None:
+        """Select cached upload bytes only with this session's exact image proof.
+
+        A thumbnail caption remains a Binding: this does not turn an upload
+        receipt into thumbnail evidence or infer image identity from metadata.
+        The already received thumbnail must have matched this exact receipt's
+        reference, and replacing that receipt invalidates the in-memory grant.
+        """
+        proof = self._preview_proof
+        if proof is None or proof[0] != observation:
+            self._preview_proof = None
+            return (
+                caption
+                if isinstance(caption, DeliveryAssociation) and caption.matches(observation)
+                else None
+            )
+        seen, delivered = proof
+        if (
+            not isinstance(caption, Binding)
+            or not caption.matches(seen)
+            or seen.device_id != self._device
+            or any(
+                getattr(caption, name) != getattr(delivered, name)
+                for name in ("work_id", "title", "artist", "source", "detail_url")
+            )
+        ):
+            self._preview_proof = None
+            return None
+        try:
+            current = DeliveryAssociations(self._data).find(
+                delivered.device_id, delivered.content_id
+            )
+        except (StateError, OSError):
+            current = None
+        if current != delivered:
+            self._preview_proof = None
+            return None
+        return delivered
 
     def accept_slideshow(self, content_id: str) -> Observation:
         """Local lookup ONLY after a corroborated triple on the pinned session.
@@ -239,23 +285,38 @@ class HostObserver:
         """Pinned-device lookup after a coherent fresh same-socket state read."""
         return replace(self.accept_slideshow(content_id), evidence=Evidence.CURRENT_STATE)
 
-    def _capture(self, observation: Observation, thumbnail: str) -> None:
+    def _capture(
+        self,
+        observation: Observation,
+        thumbnail: str,
+        existing: Binding | DeliveryAssociation | None,
+    ) -> None:
         archived = DeliveryAssociations(self._data)
-        delivered = archived.find(observation.device_id or "", observation.content_id or "")
+        try:
+            delivered = archived.find(observation.device_id or "", observation.content_id or "")
+        except (StateError, OSError):
+            if existing is None:
+                raise
+            return  # The optional preview read cannot invalidate an already verified caption.
         if delivered is not None and delivered.reference_rgb is not None:
-            verified = self._executor.run(
-                "verify_thumbnail",
-                {"reference_rgb": delivered.reference_rgb, "thumbnail": thumbnail},
-                timeout=5.0,
-                should_stop=self._stopped,
-            )
+            try:
+                verified = self._executor.run(
+                    "verify_thumbnail",
+                    {"reference_rgb": delivered.reference_rgb, "thumbnail": thumbnail},
+                    timeout=5.0,
+                    should_stop=self._stopped,
+                )
+            except (WorkerError, ValueError, StateError, OSError):
+                if existing is None:
+                    raise
+                return  # No new image proof; keep the prior exact-thumbnail caption only.
             matched = verified == {"matched": True}
             if delivered.image_rejected == matched:
                 archived.remember(
                     replace(delivered, image_rejected=not matched),
                     Deadline.after(SystemClock(), 2.0, "association verification"),
                 )
-            if matched:
+            if matched and existing is None:
                 self._bindings.remember(
                     Binding.from_json(
                         {
@@ -271,7 +332,13 @@ class HostObserver:
                         }
                     )
                 )
+            if matched:
+                self._preview_proof = (observation, replace(delivered, image_rejected=False))
             return
+        if existing is None:
+            self._capture_legacy(observation, thumbnail)
+
+    def _capture_legacy(self, observation: Observation, thumbnail: str) -> None:
         record = self._current()
         if (
             record is None

@@ -1,20 +1,16 @@
 # Frame Gallery
 
-> **b16 bugfix — corrected state replies:** the existing optional refresh now
-> recognizes the Frame's actual reply events rather than outgoing request names.
-> With background mode enabled, `current_state_refresh` (default OFF) can revalidate known
-> artist/title information after menu use, slideshow restart or an unchanged image.
-> It reads mode and, only after fresh Art Mode on, coherent image IDs at most once
-> per minute over the already established Art socket; it opens no new connection
-> and sends no image, power or mode command. Unknown artwork stays unidentified.
-> Standby, observed HA off and a closed connection still stop the session.
-> Read requests may affect automatic sleep; offline tests are not firmware or
-> no-wake certification. Existing cards and scripts stay compatible.
-> See the [b16 checks](https://github.com/volkue-tech/frame-gallery-ha/blob/main/BETA16_VALIDATION.md),
-> [current-artwork guide](CURRENT_ARTWORK.md) and
-> [matching sources](https://github.com/volkue-tech/frame-gallery-ha/releases/tag/sources-v0.1.0b16).
+> **b17 candidate — observer safety hold:** automatic startup/wake connections
+> and minute state reads are suspended, even for saved opt-ins. The Samsung
+> entity only stops observation; HA on never starts it. After a fresh explicit
+> successful send, passive complete slideshow events can confirm known artwork.
+> Unchanged images expire; sleep/connection loss requires another explicit send.
+> The reported physical wake/mode cause remains unresolved. This is a conservative
+> software restriction, not a no-wake guarantee. Existing cards/scripts are unchanged.
+> See [current artwork](CURRENT_ARTWORK.md) and the separate
+> [optional bounded current-image preview](CURRENT_PREVIEW.md). Release gates are pending.
 
-> **0.1.0b16 public beta:** [1000 near-widescreen Wikimedia Commons works](COMMONS.md), optional Commons artist/colour selection and [native dashboard pickers](COMMONS_ARTIST.md).
+> **0.1.0b17 release candidate:** [1000 near-widescreen Wikimedia Commons works](COMMONS.md), optional Commons artist/colour selection and [native dashboard pickers](COMMONS_ARTIST.md).
 > No API key is needed. Update without uninstalling; your saved sources and
 > existing camera, timer, script and optional artwork-information helper still work.
 
@@ -271,7 +267,8 @@ mode: single
 | Margin colour | The margin colour in `contain` mode, as `#RRGGBB`. | `#000000` |
 | Source, department, period, colour and artist helpers | Optional helpers whose state replaces the matching option at every start (see below and [artist guide](COMMONS_ARTIST.md)). | empty |
 | Background mode | Optional experimental event-based current-artwork information. Keeps the service running; use the separate [complete setup and send script](CURRENT_ARTWORK.md). Connections may wake the TV or affect its mode. | off |
-| Initial sync / resume after sleep (`resume_state_entity`, b12) | Optional existing local Samsung `media_player` or `remote` entity for this TV. First cached HA on at app start permits one initial read, even if unchanged for hours; missing/off/unknown/invalid/error consumes that opportunity. Later fresh off-to-on permits one revalidation. No automatic retry; both paths share six attempts/hour per process. Requires background mode and a prior saved per-TV upload. HA on is not Art Mode proof; a connection may wake or affect the TV. | empty |
+| Initial sync / resume after sleep (`resume_state_entity`, historical label) | In b17 this optional existing Samsung `media_player` or `remote` entity is a **stop signal only**. HA off, unavailable/invalid state or a monitoring gap can stop observation; HA on never starts or resumes a TV connection. Automatic startup/wake synchronization is suspended, including saved opt-ins. | empty |
+| Current-state refresh (`current_state_refresh`, historical label) | In b17 minute mode/ID reads are **suspended**, including saved enabled values. After a fresh explicit successful send, only the passive slideshow receiver can confirm later known works. Static pictures expire; menu/sleep/connection loss does not trigger automatic recovery. | off |
 | Log detail | `info`, or `debug` for every candidate the app considered. | `info` |
 
 Version 0.1.0b5 and newer put **Wikimedia Commons first** and select it for new

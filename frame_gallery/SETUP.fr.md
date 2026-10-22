@@ -1,25 +1,18 @@
 # Frame Gallery — installation et première carte
 
-**Corrigé dans b16 :** l'actualisation facultative reconnaît les vrais noms des
-réponses du Frame. Cartes, scripts, associations et réglages restent compatibles ;
-aucune réinstallation n'est nécessaire.
-
-> **Bêta publique b16 — actualisation facultative :** le réglage
-> `current_state_refresh`, désactivé par défaut, nécessite le mode arrière-plan.
-> Il peut rétablir les titre/artiste connus après le menu, une reprise du diaporama
-> ou avec la même image : au plus une fois par minute sur la connexion Art déjà
-> établie, en lisant d'abord le mode, puis les ID seulement après une preuve fraîche du mode Art.
-> Aucune nouvelle connexion ni commande d'image, d'alimentation ou de mode ; une
-> œuvre inconnue reste non identifiée. Veille, HA observé à l'arrêt et connexion
-> fermée arrêtent toujours la session. Les lectures peuvent affecter la veille
-> automatique ; les tests hors ligne ne certifient ni firmware ni absence de réveil.
-> Cartes et scripts restent compatibles. [Guide](CURRENT_ARTWORK.fr.md) ·
-> [Rapport b16](https://github.com/volkue-tech/frame-gallery-ha/blob/main/BETA16_VALIDATION.md)
-> · [sources correspondantes](https://github.com/volkue-tech/frame-gallery-ha/releases/tag/sources-v0.1.0b16).
+> **Candidat b17 — restriction de sécurité :** les connexions automatiques au
+> démarrage/réveil et les lectures par minute sont suspendues, même si activées
+> auparavant. L'entité Samsung sert uniquement à arrêter l'observation. Un envoi
+> explicite réussi peut suivre les événements passifs du diaporama. Une image
+> inchangée expire ; aucune reprise automatique après veille ou déconnexion.
+> La cause physique du réveil/changement de mode reste inconnue ; aucune garantie
+> d'absence de réveil. Cartes, scripts et associations sont conservés.
+> [Œuvre actuelle](CURRENT_ARTWORK.fr.md) · [aperçu facultatif](CURRENT_PREVIEW.fr.md).
+> Vérifications natives et publication encore en attente.
 
 [English](DOCS.md#installation) | [Deutsch](SETUP.de.md) | **Français** | [Español](SETUP.es.md) | [Italiano](SETUP.it.md)
 
-Guide de démarrage pour la **bêta 0.1.0b16**. La langue de cette page est choisie
+Guide de démarrage pour le **candidat 0.1.0b17**. La langue de cette page est choisie
 avec les liens ci-dessus, pas automatiquement par Home Assistant.
 Les documents techniques restent [en anglais](DOCS.md#options).
 Depuis 0.1.0b7, le formulaire propose anglais, allemand, français, espagnol et

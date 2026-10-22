@@ -238,7 +238,9 @@ def background_main() -> int:
                 observation,
                 store.resolve(observation),
                 Deadline(clock, clock.monotonic() + 2, "current artwork"),
-                prepare_preview=CurrentPreview(layout.data, layout.media).publish,
+                prepare_preview=lambda binding, deadline: CurrentPreview(
+                    layout.data, layout.media
+                ).publish(observer.preview_association(observation, binding), deadline),
             )
 
         publication = PublicationGuard(publish, stopped.set)

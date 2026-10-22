@@ -1,5 +1,26 @@
 # Implementation plan and approval gates
 
+## D-248 b17 personal beta publication — authorized
+
+- [x] Record explicit personal native/publication authority, safety hold and
+  bounded preview scope; no HA/TV or installed/card/script mutation.
+- [x] Verify unused version0.1.0b17 and prepare existing personal memory-only
+  access without adding credentials or permissions.
+- [x] Correct D-249 initial-thumbnail preview with exact session-local byte
+  proof, unchanged caption provenance and fail-open optional image verification
+  for already valid captions.6228/16 full host gates, whole/mandatory100%,
+  strict host/Linux typing318 files; independent exact-probe negatives pass.
+- [ ] Freeze versioned source after full host gates and preserve unrelated
+  docs/community, complete YAML, dependencies, schema and privileges.
+- [ ] Assemble and anonymously verify exact matching licensed sources before
+  registry distribution; pass native ARM/Intel plus actual-image/root/memory.
+- [ ] Independently verify four source/run/hash-bound archives, both public
+  immutable images (including positive preview/safety probes) and signatures.
+- [ ] Publish prerelease and runtime-identical Store/documentation handoff
+  only after all gates; explain loss of automatic recovery, preview limits.
+- [ ] Disable/read back both build approvals, verify public Store/source/docs
+  and end the exact personal broker; clean up only permitted own completed UI.
+
 ## D-247 safety mitigation — local/offline only
 
 - [x] Separate known software authorization weakness from the unresolved

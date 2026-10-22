@@ -1,20 +1,14 @@
 # Frame Gallery — Installation und erste Dashboardkarte
 
-**In b16 korrigiert:** Der optionale Zustandsabgleich erkennt jetzt die echten
-Antwortnamen des Frames. Karten, Scripte, gespeicherte Zuordnungen und
-Einstellungen bleiben kompatibel; keine Neuinstallation nötig.
-
-> **Öffentliche Beta b16 — optionaler Zustandsabgleich:** Der zusätzliche Schalter
-> `current_state_refresh` ist standardmäßig aus und benötigt den Hintergrundmodus.
-> Er kann bekannte Künstler-/Titeldaten nach Menü, Diashow-Neustart oder bei
-> unverändertem Bild erneuern: höchstens einmal pro Minute über die bereits
-> bestehende Art-Verbindung, zuerst Modus, Bild-IDs erst nach frischem Kunstmodus-Nachweis.
-> Keine neue Verbindung, kein Bild-, Power- oder Modusbefehl; unbekannte Werke
-> bleiben unbenannt. Standby, beobachtetes HA-Aus und Verbindungsende stoppen weiter.
-> Leseabfragen können automatisches Einschlafen beeinflussen; Offline-Tests sind
-> kein Firmware- oder Nichtaufwecknachweis. Karten und Scripte bleiben kompatibel.
-> [Anleitung](CURRENT_ARTWORK.de.md) · [b16-Prüfbericht](https://github.com/volkue-tech/frame-gallery-ha/blob/main/BETA16_VALIDATION.md)
-> · [passende Quellen](https://github.com/volkue-tech/frame-gallery-ha/releases/tag/sources-v0.1.0b16).
+> **b17-Kandidat — Sicherheitsbegrenzung des Abgleichs:** Automatische Start-/
+> Wiederanlaufverbindungen und Minutenabfragen bleiben auch bei gespeicherter
+> Freigabe aus. Die Samsung-Entität dient nur noch zum Stoppen. Ein ausdrücklich
+> angeforderter erfolgreicher Bildversand kann passive Diashow-Ereignisse verfolgen.
+> Unveränderte Bilder veralten; nach Schlaf oder Verbindungsabbruch erfolgt kein
+> automatischer Wiederanlauf. Die physische Aufweck-/Modusursache ist ungeklärt;
+> dies ist keine Nichtaufweckgarantie. Karten, Scripte und Zuordnungen bleiben erhalten.
+> [Aktuelles Kunstwerk](CURRENT_ARTWORK.de.md) · [optionale Bildvorschau](CURRENT_PREVIEW.de.md).
+> Native Prüfungen und Veröffentlichung stehen noch aus.
 
 [English](DOCS.md#installation) | **Deutsch** | [Français](SETUP.fr.md) | [Español](SETUP.es.md) | [Italiano](SETUP.it.md)
 

@@ -1,25 +1,18 @@
 # Frame Gallery — instalación y primera tarjeta
 
-**Corregido en b16:** la actualización opcional reconoce los nombres reales de
-las respuestas del Frame. Tarjetas, scripts, asociaciones y ajustes siguen
-siendo compatibles; no hace falta reinstalar.
-
-> **Beta pública b16 — actualización opcional:** el ajuste adicional
-> `current_state_refresh`, desactivado por defecto, requiere el modo en segundo plano.
-> Puede recuperar título/artista conocidos tras usar el menú, reanudar la presentación
-> o mantener la misma imagen: como máximo una vez por minuto sobre la conexión Art
-> ya establecida, leyendo primero el modo y los ID solo tras confirmar el modo Arte de nuevo.
-> No abre otra conexión ni envía órdenes de imagen, encendido o modo; una obra
-> desconocida sigue sin identificar. Reposo, HA observado en apagado y conexión
-> cerrada siguen deteniendo la sesión. Las lecturas pueden afectar el reposo
-> automático; las pruebas sin conexión no certifican firmware ni ausencia de despertar.
-> Tarjetas y scripts siguen siendo compatibles. [Guía](CURRENT_ARTWORK.es.md) ·
-> [Informe b16](https://github.com/volkue-tech/frame-gallery-ha/blob/main/BETA16_VALIDATION.md)
-> · [fuentes correspondientes](https://github.com/volkue-tech/frame-gallery-ha/releases/tag/sources-v0.1.0b16).
+> **Candidato b17 — restricción de seguridad:** se suspenden las conexiones
+> automáticas al iniciar/despertar y las lecturas por minuto, incluso con opciones
+> guardadas. La entidad Samsung solo detiene la observación. Un envío explícito
+> correcto puede seguir eventos pasivos de la presentación. Una imagen sin cambios
+> caduca; no hay recuperación automática tras reposo o desconexión. La causa física
+> del despertar/cambio de modo sigue sin aclarar; no es garantía de que no despierte.
+> Se conservan tarjetas, scripts y asociaciones.
+> [Obra actual](CURRENT_ARTWORK.es.md) · [vista previa opcional](CURRENT_PREVIEW.es.md).
+> Verificación nativa y publicación pendientes.
 
 [English](DOCS.md#installation) | [Deutsch](SETUP.de.md) | [Français](SETUP.fr.md) | **Español** | [Italiano](SETUP.it.md)
 
-Guía inicial para la **beta 0.1.0b16**. El idioma de esta página se elige con
+Guía inicial para el **candidato 0.1.0b17**. El idioma de esta página se elige con
 los enlaces de arriba, no automáticamente desde Home Assistant.
 Los documentos técnicos siguen [en inglés](DOCS.md#options).
 Desde 0.1.0b7, el formulario ofrece inglés, alemán, francés, español e italiano

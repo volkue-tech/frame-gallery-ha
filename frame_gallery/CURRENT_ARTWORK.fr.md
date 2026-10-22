@@ -1,6 +1,6 @@
 # Œuvre actuelle et mode arrière-plan facultatif
 
-> **Candidat de sécurité local D-247 — non publié :** les connexions automatiques
+> **Candidat de sécurité b17 (D-247) — non publié :** les connexions automatiques
 > au démarrage/réveil et les lectures périodiques `current_state_refresh` sont
 > suspendues, même avec les options enregistrées. `resume_state_entity` sert
 > uniquement à arrêter, jamais à démarrer. Après un nouvel envoi explicite réussi,
@@ -14,19 +14,22 @@ Local, non publié : [aperçu facultatif de l’œuvre actuelle](CURRENT_PREVIEW
 
 [English](CURRENT_ARTWORK.md) | [Deutsch](CURRENT_ARTWORK.de.md) | Français | [Español](CURRENT_ARTWORK.es.md) | [Italiano](CURRENT_ARTWORK.it.md)
 
-**Corrigé dans b16 :** l'actualisation facultative accepte les vraies réponses
+**Correction historique du parseur b16 — actualisation suspendue en b17 :** l'actualisation facultative accepte les vraies réponses
 `artmode_status` / `current_artwork`, avec contrôle strict de l'ID de requête.
 Aucun nouveau réglage, connexion, format d'association ou changement de carte.
 
-**Bêta publique b16 : expérimental et désactivé par défaut.** Les cartes b7/b8/b9/b10/b11/b12/b13 restent utilisables. Aucun nouvel assistant, clé API, extension HACS, privilège spécial ou autre app n'est nécessaire sur Home Assistant Green/OS.
+**Candidat b17 : expérimental et désactivé par défaut ; vérifications de publication en attente.** Les cartes b7/b8/b9/b10/b11/b12/b13/b16 restent utilisables. Aucun nouvel assistant, clé API, extension HACS, privilège spécial ou autre app n'est nécessaire sur Home Assistant Green/OS.
 
-[Rapport b16](https://github.com/volkue-tech/frame-gallery-ha/blob/main/BETA16_VALIDATION.md) · [Sources correspondantes](https://github.com/volkue-tech/frame-gallery-ha/releases/tag/sources-v0.1.0b16).
+[Rapport historique b16](https://github.com/volkue-tech/frame-gallery-ha/blob/main/BETA16_VALIDATION.md) · [Sources historiques correspondantes](https://github.com/volkue-tech/frame-gallery-ha/releases/tag/sources-v0.1.0b16).
 
 Même une connexion en lecture peut réveiller un TV. Les tests contrôlés couvrent des changements automatiques et un épisode de veille naturelle sur un Frame, pas tous les modèles ou firmwares. Laissez le mode désactivé si ce risque est inacceptable.
 
 ## Mémoire automatique des œuvres
 
 ### Synchronisation au démarrage et après veille — b12, facultatif
+
+<details>
+<summary>Comportement historique b12–b16 — suspendu en b17, pas des instructions actuelles</summary>
 
 Après un ancien envoi Frame Gallery réussi, activez le **mode arrière-plan** et
 indiquez dans **Synchroniser au démarrage / après veille** (`resume_state_entity`) l'entité
@@ -69,6 +72,8 @@ son mode ; ce nouveau chemin est simulé hors ligne, sans nouvelle validation
 matérielle. Laissez vide pour désactiver. Une app arrêtée ne suit aucun réveil.
 Les limites d'affichage de 90 secondes et 15 minutes restent inchangées.
 
+</details>
+
 Chaque envoi sélectionné avec succès enregistre automatiquement l'ID TV, le titre, l'artiste et la source, même avec le mode arrière-plan **désactivé**. Aucun ID à saisir. L'association dépend de l'identité réelle du TV, pas seulement de son adresse IP. Le même ID sur un autre TV ne désigne pas la même œuvre. Un nouvel envoi réussi remplace l'ancienne association pour ce TV/ID.
 
 Les données privées de l'app survivent aux mises à jour normales. Réinitialiser l'historique de sélection ne supprime pas les associations ; désinstaller avec suppression des données les efface. Gardez une sauvegarde avant réinstallation. Limite : les 2 048 dernières associations et 32 MiB, plus une sauvegarde. La référence est un petit échantillon RGB de 64×36 pixels, pas une archive haute résolution. Les anciennes associations vérifiées par image restent compatibles.
@@ -76,6 +81,9 @@ Les données privées de l'app survivent aux mises à jour normales. Réinitiali
 Les anciennes images, les envois d'autres apps et les envois sans identité TV stable restent inconnus. Aucun artiste deviné ni reconnaissance cloud.
 
 ### Actualisation facultative de l'état actuel — b16
+
+<details>
+<summary>Lectures historiques par minute — suspendues en b17, même si enregistrées comme actives</summary>
 
 `current_state_refresh` est une option distincte, **désactivée par défaut**, qui
 nécessite `background_mode`. Elle autorise au maximum une vérification en lecture
@@ -104,15 +112,19 @@ Laissez l'option désactivée si ce risque est inacceptable. Les tests hors lign
 ne garantissent ni compatibilité des firmwares ni absence de réveil.
 Les cartes et scripts existants n'ont pas besoin de modification.
 
+</details>
+
 ## Activer la carte facultative
 
 1. Conservez caméra, minuteur, cartes et ID `script.frame_gallery_new_artwork`.
-2. Activez le **mode arrière-plan**, puis redémarrez l'app. Démarrer/Arrêter contrôle le service, pas l'image. Sans l'entité facultative ci-dessus, aucun contact au démarrage ; avec elle, le premier HA `on` peut autoriser la lecture après la fenêtre de dix secondes, sauf si une demande d'envoi acceptée la remplace.
+2. Activez le **mode arrière-plan**, puis redémarrez l'app. Démarrer/Arrêter contrôle le service, pas l'image. En b17, ni le démarrage ni HA `on` ne contactent le TV, même avec les options de reprise/actualisation enregistrées. L'entité Samsung facultative peut uniquement arrêter l'observation.
 3. Remplacez uniquement le contenu du script par le [script d'envoi complet](examples/background-send-script.yaml). Adaptez le slug et le minuteur si nécessaire. Les cartes existantes fonctionnent ; remplacez les appels directs à `hassio.app_start` par le script.
-4. Après un ancien envoi réussi, configurez l'entité ci-dessus pour lire l'œuvre déjà affichée sans nouvel envoi. Sur une installation sans association TV enregistrée, demandez la première œuvre en mode Art visible ; l'envoi réussi autorise une session expérimentale. Actualiser seul n'ouvre aucune connexion.
+4. Avec le mode Art visiblement actif, demandez explicitement une nouvelle œuvre via le script. Seul un nouvel envoi réussi autorise une session passive expérimentale. Démarrer le service ou Actualiser ne lit pas l'image déjà affichée. Après le menu/mode TV, la veille ou une perte de connexion, aucune reprise automatique : un nouvel envoi explicite réussi est nécessaire.
 5. Ajoutez une carte manuelle avec le YAML **complet** ci-dessous.
 
 La carte image/couleur/artiste existante montre le **dernier aperçu envoyé**, pas une capture en direct. Cette carte native supplémentaire sépare les informations actuelles.
+
+La carte inchangée ci-dessous conserve un ancien texte d'aide `validation_required` sur la lecture initiale. Ce chemin est suspendu en b17 : il faut désormais un nouvel envoi explicite réussi ; configurer une entité ne lance aucune lecture.
 
 ```yaml
 type: markdown
@@ -143,6 +155,24 @@ content: >-
 ```
 
 ## Confirmation et limites
+
+En b17, un nouvel envoi explicite réussi peut démarrer une session Art passive.
+La comparaison initiale de miniature confirme une œuvre connue pendant 90 secondes ;
+une nouvelle séquence complète (`image_selected`, `auto_rotation_image_changed`
+du même ID, puis mode Art `on` en cinq secondes) est valable au plus 15 minutes.
+Doublons, pongs et mode actif seul ne renouvellent rien. Une image fixe devient
+donc non confirmée ; une ID inconnue n'emprunte jamais les données d'une autre œuvre.
+
+Il n'y a aucune lecture par minute ni connexion automatique au démarrage/réveil,
+même avec les options enregistrées. Menu/mode TV, veille, perte de connexion et
+erreurs peuvent terminer la session ; aucune reconnexion ne suit. L'entité Samsung
+en cache sert uniquement à arrêter. Actualiser traite les événements déjà reçus,
+sans nouvelle requête TV. Une session dure au plus huit heures. La connexion peut
+elle-même avoir des effets : aucune garantie de non-réveil. Cartes, scripts et
+associations existants restent compatibles.
+
+<details>
+<summary>Détails historiques b10–b16 de confirmation/reprise — les chemins suspendus ne sont pas des instructions b17</summary>
 
 **Reprise historique b10 — événements seuls (`current_state_refresh` désactivé) :** une séquence incomplète de
 notifications reconnues du diaporama masque les informations actuelles et
@@ -184,3 +214,5 @@ maintenir artificiellement une légende actuelle.
 Les ID enregistrés sont des correspondances historiques, pas une vérification continue des pixels. Une réutilisation externe d'ID non observée ne peut pas être exclue. Une comparaison initiale contradictoire bloque la légende enregistrée. Aucune garantie générale de non-réveil ou de firmware (D-235).
 
 Le capteur est un état publié par l'app, pas une intégration d'appareil enregistrée. Il peut manquer après un redémarrage de Core. Les données périmées/suspendues masquent le titre. Pour revenir au mode ponctuel : désactivez le mode, redémarrez et restaurez le script initial. N'effacez pas l'historique ou les identités pour forcer la connexion.
+
+</details>

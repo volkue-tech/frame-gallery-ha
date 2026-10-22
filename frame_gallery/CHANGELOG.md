@@ -1,6 +1,8 @@
 # Changelog
 
-## Unreleased — automatic observer I/O safety hold
+## 0.1.0b17 (release candidate)
+
+### Automatic observer I/O safety hold
 
 - Suspend automatic initial/wake Art connections and scheduled current-state
   reads, including saved experimental opt-ins, after an unresolved wake/mode
@@ -12,9 +14,10 @@
   Unchanged images can expire; automatic recovery after sleep/connection loss
   is intentionally suspended. No card/script or permission change is required.
 - Explain the temporary restriction consistently in all five configuration
-  locales and current-artwork guides. Local/offline only; no new public beta.
+  locales and current-artwork guides. Native release validation is required
+  before publication; no hardware no-wake guarantee is claimed.
 
-## Unreleased — optional current-artwork preview
+### Optional current-artwork preview
 
 - Cache a small worker-derived JPEG after each successfully associated upload,
   including one-shot runs. No additional TV connection, thumbnail or download.
@@ -27,8 +30,8 @@
 - Add a complete optional native current-picture/artist card and Local File
   setup in English, German, French, Spanish and Italian. No new app option,
   special permission, dependency, HACS requirement or existing-card migration.
-- Local implementation and offline checks only; not a published beta, installed
-  update, new TV test or hardware-sleep guarantee.
+- Optional native card setup is separate; no automatic change to installed
+  cards. Old/uncached works have no preview, without suppressing known metadata.
 
 ## 0.1.0b16 (public beta)
 

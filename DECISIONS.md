@@ -1,5 +1,49 @@
 # Decision log
 
+## D-249 — first-preview byte proof before the b17 freeze, 2026-10-22
+
+Independent release review found that the normal initial thumbnail resolves to
+a legacy verified Binding, while the new cache accepted only a DeliveryAssociation.
+Consequently the first confirmed artist caption could lack its cached image.
+Do not broaden association.matches or infer exact delivered bytes from matching
+title/artist, reused TV IDs or a historical receipt alone.
+
+Reuse only the thumbnail already received by the authorized initial proof and
+the existing isolated local reference verifier. Keep a session-local grant for
+the exact observation and verified delivery receipt; invalidate it on session,
+delivery or receipt changes. Pass this grant only to optional preview lookup,
+retaining the original caption Binding and verified_thumbnail provenance.
+No extra TV query, connection, stored-schema migration or HA mutation is added.
+Require real prepare/send/cache/initial-proof/publication integration tests,
+same-work replacement and per-TV collision negatives before freezing b17.
+
+## D-248 — authorized b17 native checks and publication, 2026-10-22
+
+User explicitly approves native ARM/Intel verification and, only after green
+release gates, a new beta in personal volkue-tech/frame-gallery-ha. Include the
+local D-247 automatic-I/O safety hold and D-246 bounded optional current preview.
+No HA/TV connection, installed update/start, or card/script mutation. Keep the
+live app stopped. Do not reactivate suspended recovery, claim the physical
+cause is proven, or present native simulation as a no-wake certificate.
+
+Public release/tag metadata confirms 0.1.0b17 unused. Retain previous sources,
+tags, releases and images. Only own version metadata changes in the lock; no
+dependency, Supervisor permission, complete card/script YAML or catalogue
+change. Explain the intentionally suspended initial/wake/minute reads and
+optional preview setup explicitly in release notes and all five guides.
+
+Freeze exact personal source and runtime hash, publish/verify matching licensed
+sources before image distribution, run both real native architectures and
+actual-image/root/memory checks, independently verify all four exact artifact
+archives, then both immutable public images and source-bound signatures.
+Preview encoding remains optional in worst-case memory measurements; do not
+claim every case stored an image merely from a successful delivery result.
+Add a bounded preview-positive and actual safety-wiring image probe. Promote
+Store/main only after those gates and preserve their evidence. Use only the
+existing personal token with the fixed-repository four-hour memory lease;
+disable/read back both one-time build approvals at completion. No token on
+disk, credential expansion, corporate account or HA/TV live test.
+
 ## D-247 — suspend unproven automatic observer I/O, local/offline, 2026-10-22
 
 User authorizes further code/existing-log diagnosis and preparation/testing of

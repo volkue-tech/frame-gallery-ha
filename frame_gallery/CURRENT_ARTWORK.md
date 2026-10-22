@@ -1,6 +1,6 @@
 # Current artwork and optional background mode
 
-> **Local safety candidate D-247 — not published:** automatic startup/wake
+> **b17 safety candidate (D-247) — not published:** automatic startup/wake
 > connections and `current_state_refresh` minute reads are suspended, including
 > saved opt-ins. `resume_state_entity` is now a stop signal only, never a start
 > grant. After a fresh explicit successful send, the existing passive receiver
@@ -13,19 +13,22 @@ Local, unreleased: [optional current-image preview](CURRENT_PREVIEW.md). Existin
 
 English | [Deutsch](CURRENT_ARTWORK.de.md) | [Français](CURRENT_ARTWORK.fr.md) | [Español](CURRENT_ARTWORK.es.md) | [Italiano](CURRENT_ARTWORK.it.md)
 
-**Fixed in b16:** the optional current-state refresh accepts the Frame's real
+**Historical b16 parser correction — refresh is suspended in b17:** the optional current-state refresh accepts the Frame's real
 `artmode_status` / `current_artwork` replies with strict fresh request-ID checks.
 No new option, connection, stored-ID format or card change is needed.
 
-**Public beta b16: experimental and off by default.** Existing b7/b8/b9/b10/b11/b12/b13 cards remain usable. No API key, new helper, HACS extension, special permissions or second app is needed on Home Assistant Green/OS.
+**b17 candidate: experimental and off by default; publication gates pending.** Existing b7/b8/b9/b10/b11/b12/b13/b16 cards remain usable. No API key, new helper, HACS extension, special permissions or second app is needed on Home Assistant Green/OS.
 
-[b16 validation](https://github.com/volkue-tech/frame-gallery-ha/blob/main/BETA16_VALIDATION.md) · [Matching sources](https://github.com/volkue-tech/frame-gallery-ha/releases/tag/sources-v0.1.0b16).
+[Historical b16 validation](https://github.com/volkue-tech/frame-gallery-ha/blob/main/BETA16_VALIDATION.md) · [Historical matching sources](https://github.com/volkue-tech/frame-gallery-ha/releases/tag/sources-v0.1.0b16).
 
 A read-only connection can still wake a television. Controlled tests covered automatic slideshow changes and one natural-sleep episode on one Frame, not every model or firmware. Leave background mode off if any wake-up risk is unacceptable.
 
 ## Automatic artwork memory
 
 ### Optional initial synchronization and resume — b12
+
+<details>
+<summary>Historical b12–b16 behaviour — suspended in b17; not current setup instructions</summary>
 
 After a previous successful Frame Gallery send, enable **Background mode** and
 enter this TV's existing Samsung HA `media_player` or `remote` entity ID in
@@ -65,6 +68,8 @@ mode; this new path has offline simulations, not new hardware safety evidence.
 Leave the field empty to disable it. A stopped app cannot observe a wake. The
 90-second initial and 15-minute slideshow display limits below are unchanged.
 
+</details>
+
 Every successfully selected upload now saves its TV image ID, title, artist and source automatically, even with background mode **off**. Nothing needs to be entered manually. The association belongs to the actual TV identity, not just its IP address: the same image ID on another TV is not the same artwork. A successful new upload replaces an older association for that TV/ID.
 
 The private app data survives normal updates. Clearing the selection history does not erase associations; uninstalling with app-data deletion does. Keep an app backup before reinstalling. Storage is bounded to the latest 2,048 upload associations and 32 MiB, plus one backup. Each reference is a tiny 64×36 RGB sample, not a full-resolution artwork archive. Older image-verified associations remain compatible.
@@ -72,6 +77,9 @@ The private app data survives normal updates. Clearing the selection history doe
 Old TV pictures, uploads from other apps and deliveries without a stable TV identity remain unidentified. Frame Gallery does not guess artists or use cloud image recognition.
 
 ### Optional current-state refresh — b16
+
+<details>
+<summary>Historical minute-read behaviour — suspended in b17, even when saved as enabled</summary>
 
 `current_state_refresh` is a separate optional switch, **OFF by default**, and
 requires `background_mode`. It allows at most one read-only coherence check of
@@ -99,15 +107,19 @@ Read requests may affect automatic sleep even on the same socket. Leave this
 option off if that risk is unacceptable. Offline tests do not certify firmware
 compatibility or no-wake behaviour. Existing cards and scripts need no changes.
 
+</details>
+
 ## Enable the optional current-artwork card
 
 1. Keep your camera, timer, existing cards and `script.frame_gallery_new_artwork` entity ID.
-2. Enable **Background mode**, then restart the app. Start/Stop controls the service, not an image change. Without the optional entity above, startup does not contact the TV; with it, first HA `on` may permit an initial read after the ten-second handoff, unless an accepted send supersedes it.
+2. Enable **Background mode**, then restart the app. Start/Stop controls the service, not an image change. Startup and HA `on` do not contact the TV in b17, even with saved resume/refresh options. The optional Samsung entity can only stop observation.
 3. Replace only the script body with the [complete background send script](examples/background-send-script.yaml). Adjust the app slug and existing timer ID if needed. Cards calling this script keep working; direct `hassio.app_start` automations must call the script instead.
-4. If Frame Gallery has sent successfully before, configure the optional entity above to read the already displayed artwork without a new send. On a new installation without a saved TV association, request your first new artwork in visible Art Mode; the successful send grants one experimental event session. Refresh alone cannot open a connection.
+4. With Art Mode visibly on, explicitly request one new artwork through the script. Only a fresh successful send grants one experimental passive event session. Starting the service or selecting Refresh does not read an already displayed picture. After menu/TV mode, sleep or connection loss, there is no automatic recovery; another explicit successful send is required.
 5. Add a Manual dashboard card using the **complete** YAML below.
 
 The existing picture/colour/artist card shows the **last sent preview**, not a live TV screenshot. This additional native card shows current information separately.
+
+The unchanged card below retains an older `validation_required` help message about initial reads. In b17 that path is suspended: the message means a fresh explicit successful send is required, not that configuring an entity will start a read.
 
 ```yaml
 type: markdown
@@ -138,6 +150,23 @@ content: >-
 ```
 
 ## How confirmation works — and its limits
+
+In b17, a fresh explicit successful send can start one passive Art session. Its
+initial thumbnail comparison confirms a known work for 90 seconds; a new complete
+slideshow sequence (`image_selected`, matching `auto_rotation_image_changed`,
+then Art Mode `on` within five seconds) confirms it for at most 15 minutes.
+Duplicate IDs, pongs and mode-on alone do not renew evidence. A fixed picture
+therefore becomes unconfirmed; unknown IDs never borrow another work's caption.
+
+There are no minute GETs or automatic initial/wake connections, even if their
+saved options are enabled. Menu/TV mode, standby, connection loss and errors can
+end the session; no reconnect follows. The cached Samsung entity is stop-only.
+Manual Refresh drains existing events, not a new TV query. Sessions last at most
+eight hours. A connection itself can still affect the TV; this is not a no-wake
+guarantee. Existing cards, scripts and stored associations remain compatible.
+
+<details>
+<summary>Historical b10–b16 confirmation/recovery details — suspended paths are not b17 instructions</summary>
 
 **Historical b10 recovery — event-only mode (`current_state_refresh` off):** incomplete sequences of recognized
 slideshow notifications clear the current caption and wait on the same
@@ -177,3 +206,5 @@ keep a static caption alive.
 Saved IDs are historical correspondence, not continuous pixel verification. An external, unobserved replacement/reuse of a TV ID cannot be ruled out during event-only listening. A mismatching initial image comparison suppresses the saved caption. No general firmware/no-wake guarantee is claimed (D-235).
 
 The sensor is an app-published HA state, not a registered device integration; it may temporarily disappear after a Core restart. Stale or paused data hides the title. To return to one-shot operation, disable background mode, restart and restore the one-shot send script. Do not delete history or device pins to force a connection.
+
+</details>

@@ -1,5 +1,26 @@
 # Project status
 
+## D-248 b17 release preparation — authorized, 2026-10-22
+
+User approves exact native ARM/Intel checks and green-gate-only publication of
+D-247 safety hold plus D-246 optional bounded current preview as a new personal
+beta. Public metadata shows 0.1.0b17 unused; prior releases/sources are retained.
+The existing personal account is verified by the fixed-repository memory-only
+broker. No HA/TV access, live update/start or card/script change is authorized.
+The app remains stopped; no automatic recovery or firmware-safety claim is made.
+
+Versioned host gates passed6228/16 in57.69s with318 typed/formatted files,
+whole100% line/branch (11984/2918) and mandatory100% (9132/2148). Independent
+review caught and corrected the initial-thumbnail preview gap (D-249); exact
+offline image-probe QA and its original-defect negative control passed under
+H2 without network/external commands. Source/native/archive/image/signature
+gates remain pending and must be observed, not copied from b16.
+Runtime contains121 files; expected native suite count is6236 plus8 separate
+root checks, to be verified in actual output.
+The source package must be publicly verified before distribution. Adapt exact
+gate identities/counts without weakening them; all five current-preview guides
+and clear safety limitations belong in the release handoff.
+
 ## D-247 local automatic-I/O safety hold — offline verified, 2026-10-22
 
 User authorizes code/existing-log diagnosis and a safe local mitigation with

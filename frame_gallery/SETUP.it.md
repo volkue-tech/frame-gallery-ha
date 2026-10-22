@@ -1,21 +1,14 @@
 # Frame Gallery — installazione e prima scheda
 
-**Corretto in b16:** l'aggiornamento facoltativo riconosce i nomi reali delle
-risposte del Frame. Schede, script, associazioni e impostazioni restano
-compatibili; non è necessario reinstallare.
-
-> **Beta pubblica b16 — aggiornamento facoltativo:** l'opzione aggiuntiva
-> `current_state_refresh`, disattivata per impostazione predefinita, richiede il background.
-> Può ripristinare titolo/artista noti dopo il menu, la ripresa della presentazione
-> o con la stessa immagine: al massimo una volta al minuto sulla connessione Art
-> già stabilita, leggendo prima la modalità e gli ID solo dopo una nuova conferma di modalità Arte.
-> Nessuna nuova connessione o comando di immagine, accensione o modalità; un'opera
-> sconosciuta resta non identificata. Standby, HA osservato spento e connessione
-> chiusa continuano ad arrestare la sessione. Le letture possono influire sullo
-> standby automatico; i test offline non certificano firmware o assenza di risvegli.
-> Schede e script restano compatibili. [Guida](CURRENT_ARTWORK.it.md) ·
-> [Rapporto b16](https://github.com/volkue-tech/frame-gallery-ha/blob/main/BETA16_VALIDATION.md)
-> · [sorgenti corrispondenti](https://github.com/volkue-tech/frame-gallery-ha/releases/tag/sources-v0.1.0b16).
+> **Candidato b17 — limitazione di sicurezza:** connessioni automatiche all'avvio/
+> risveglio e letture al minuto sono sospese, anche con opzioni già salvate.
+> L'entità Samsung serve soltanto ad arrestare l'osservazione. Un invio esplicito
+> riuscito può seguire eventi passivi della presentazione. Le immagini immutate
+> scadono; nessuna ripresa automatica dopo standby o disconnessione. La causa fisica
+> del risveglio/cambio di modalità non è chiarita; nessuna garanzia di mancato risveglio.
+> Schede, script e associazioni restano invariati.
+> [Opera attuale](CURRENT_ARTWORK.it.md) · [anteprima facoltativa](CURRENT_PREVIEW.it.md).
+> Verifiche native e pubblicazione ancora in attesa.
 
 [English](DOCS.md#installation) | [Deutsch](SETUP.de.md) | [Français](SETUP.fr.md) | [Español](SETUP.es.md) | **Italiano**
 

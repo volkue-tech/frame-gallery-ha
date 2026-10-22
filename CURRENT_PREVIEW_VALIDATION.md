@@ -5,6 +5,27 @@ installed update/restart, image send or installed card/script/configuration chan
 is included. The user's installed b16 remains outside this implementation task.
 No native Terminal window or credential session was opened for this feature.
 
+## D-249 release-candidate correction
+
+Independent b17 review found that the normal first thumbnail caption resolves
+to a Binding, not a DeliveryAssociation, so the initial image could be absent.
+Keep caption provenance unchanged and verify the already received thumbnail
+against the exact archived delivered reference locally. Only a session-local
+observation/receipt proof can select its matching preview; a changed receipt,
+TV, content, digest or session invalidates it. No additional TV I/O or stored
+schema is added. Matching title/artist alone is insufficient for reused IDs.
+Optional verification/read failure preserves an already valid caption without
+granting an image; a definitive mismatch remains rejected.
+
+22 new cases were observed red before the fix.568 focused observer/pipeline
+cases pass, including real prepare/send/cache/thumbnail-verification/publication
+paths in both modes. Final versioned b17 host gates:6228 passed/16 existing
+skips in57.69s; Ruff and strict host/Linux mypy318 files; whole100% (11984
+statements/2918 branches), mandatory100% (9132/2148). The exact expanded image
+probe also executes under H2 with zero network/external-command attempts and
+fails when an in-memory negative control reinstates the original preview gap.
+These are offline results, not native-image or physical no-wake claims.
+
 ## Implemented behaviour
 
 - Derive a JPEG from the exact encoded delivery inside the existing isolated
