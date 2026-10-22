@@ -1,5 +1,14 @@
 # Current artwork and optional background mode
 
+> **Local safety candidate D-247 — not published:** automatic startup/wake
+> connections and `current_state_refresh` minute reads are suspended, including
+> saved opt-ins. `resume_state_entity` is now a stop signal only, never a start
+> grant. After a fresh explicit successful send, the existing passive receiver
+> can follow complete slideshow events. Unchanged images expire; sleep or a
+> lost session does not recover automatically. These restrictions override the
+> older b11–b16 recovery instructions below. Cards, script IDs and saved artwork
+> associations are unchanged. Connection side effects are not certified absent.
+
 Local, unreleased: [optional current-image preview](CURRENT_PREVIEW.md). Existing cards stay unchanged.
 
 English | [Deutsch](CURRENT_ARTWORK.de.md) | [Français](CURRENT_ARTWORK.fr.md) | [Español](CURRENT_ARTWORK.es.md) | [Italiano](CURRENT_ARTWORK.it.md)

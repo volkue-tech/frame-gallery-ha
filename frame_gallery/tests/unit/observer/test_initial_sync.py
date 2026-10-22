@@ -1,4 +1,4 @@
-"""Explicit initial-on gate regressions; synthetic cached Core states, no network."""
+"""Historical initial-on gate replays, not D-247 production authorization."""
 
 from __future__ import annotations
 

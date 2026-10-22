@@ -1,4 +1,4 @@
-"""Offline startup/send arbitration; fake clock and I/O, session H2 guard active."""
+"""Historical experimental arbitration; no D-247 production opt-in or network."""
 
 from __future__ import annotations
 

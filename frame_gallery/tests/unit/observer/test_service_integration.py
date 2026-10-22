@@ -5,7 +5,6 @@ from __future__ import annotations
 import json
 import signal
 from collections import deque
-from dataclasses import replace
 from ipaddress import IPv4Address, IPv4Network, ip_address
 from pathlib import Path
 from types import SimpleNamespace
@@ -34,7 +33,7 @@ from frame_gallery.store.observer_targets import TargetStore
 from frame_gallery.tv.port import target_fingerprint
 
 
-@pytest.mark.parametrize("refresh", [False])
+@pytest.mark.parametrize("refresh", [False, True])
 @pytest.mark.parametrize(
     ("gate", "fail_at", "failure_kind"),
     [
@@ -149,7 +148,8 @@ def test_regular_entry_multiple_cycles_failures_and_no_resume(
         def start(self, payload: JsonObject) -> None:
             self.starts.append(payload)
             assert payload["device_id"] == DEVICE
-            assert payload["policy"] == replace(SLIDESHOW_POLICY, state_refresh=refresh).to_json()
+            # Saved refresh=True is retained but cannot enable background GETs.
+            assert payload["policy"] == SLIDESHOW_POLICY.to_json()
             self.queue.append(
                 (
                     {
@@ -223,11 +223,6 @@ def test_regular_entry_multiple_cycles_failures_and_no_resume(
         if step in {4, 6} and session.starts:
             clock.advance(600)
             content_id = "MY_UNKNOWN" if step == 4 else "MY_TEST"
-            if refresh:
-                session.queue.append(
-                    ({"kind": "current_state", "content_id": content_id}, clock.monotonic())
-                )
-                return None
             bodies: tuple[JsonObject, ...] = (
                 selected(content_id),
                 rotation(content_id),
@@ -267,9 +262,7 @@ def test_regular_entry_multiple_cycles_failures_and_no_resume(
         captions = [post for post in posts if post["state"] == "artwork"]
         assert len(captions) == 2
         assert captions[0]["attributes"]["title"] == "Synthetic work"
-        assert captions[1]["attributes"]["confirmation_method"] == (
-            "current_state_read" if refresh else "slideshow_events"
-        )
+        assert captions[1]["attributes"]["confirmation_method"] == "slideshow_events"
         assert captions[1]["attributes"]["artist"] == "Synthetic Artist"
         unknown = next(post for post in posts if post["state"] == "unidentified")
         assert "title" not in unknown["attributes"]
@@ -284,7 +277,7 @@ def test_regular_entry_multiple_cycles_failures_and_no_resume(
     assert not session.queue
 
 
-def test_real_entry_wires_explicit_state_refresh_and_known_unknown_artwork(
+def test_real_entry_retains_passive_known_unknown_artwork_with_saved_refresh(
     tmp_path: Path, monkeypatch: pytest.MonkeyPatch
 ) -> None:
     test_regular_entry_multiple_cycles_failures_and_no_resume(

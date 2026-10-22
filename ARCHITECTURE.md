@@ -1,5 +1,28 @@
 # Frame Gallery for Home Assistant — Architecture proposal
 
+## D-247 automatic-I/O safety hold (local/offline)
+
+The real background entry no longer wires HostObserver.prepare_resume into the
+controller, so its default-deny resume hook cannot start a session. Replace the
+production WakeMonitor with CachedStateStopMonitor: an optional configured Core
+entity is sampled at most every5s solely to stop on off/missing/invalid/error or
+an observation gap. It never emits RESUME. No configured entity means no such
+Core reads, not denial of the explicit-send receiver. Historical WakeGate/
+WakeMonitor and injected current-state readers remain replayable offline;
+they are not selectable by saved options or stdin in production.
+
+The real entry constructs HostObserver with current_state_refresh=False and
+does not select keep_tv_session. Thus both saved opt-ins are retained but cannot
+enable new automatic sockets or minute getters. Only the existing changed,
+acknowledged explicit-delivery grant can arm SLIDESHOW_POLICY without refresh.
+The initial pinned identity/mode/ID/thumbnail proof and receive-only slideshow
+path stay intact; off/standby/auth/transport/publication failures close/disarm.
+Existing freshness gates clear unchanged/stale captions rather than query.
+Config help and all five guides clearly override the older automatic-recovery
+instructions, without rewriting complete card/script blocks or saved state.
+This is a conservative mitigation of an unresolved incident, not a root-cause
+proof, no-wake certification or a promise of automatic recovery after anything.
+
 ## D-246 separate current preview (local/offline)
 
 `imaging/worker_tasks` derives a small JPEG during the existing exact-delivery

@@ -28,6 +28,7 @@ from frame_gallery.net.wire import WireRequest
 from frame_gallery.observer.event_controller import EventController
 from frame_gallery.observer.model import Action, Command
 from frame_gallery.observer.service import serve as actual_serve
+from frame_gallery.observer.wake import CachedStateStopMonitor, WakeEvent
 from frame_gallery.store.artwork_bindings import BindingStore
 from frame_gallery.store.delivery_associations import DeliveryAssociations
 from frame_gallery.store.layout import StoreLayout
@@ -58,7 +59,7 @@ WAKE = "media_player.existing_samsung"
     ],
 )
 @pytest.mark.parametrize("initial", [False, True])
-def test_actual_entry_wake_never_sends_and_requires_new_validated_image(
+def test_actual_entry_saved_resume_cannot_start_a_tv_session(
     tmp_path: Path,
     monkeypatch: pytest.MonkeyPatch,
     case: str,
@@ -79,7 +80,14 @@ def _check_actual_entry(
     scratch.mkdir()
     paths = StoreLayout(data=host.data, media=host.media, tmp=scratch)
     (host.data / "options.json").write_text(
-        json.dumps({"tv_host": str(HOST), "background_mode": True, "resume_state_entity": WAKE})
+        json.dumps(
+            {
+                "tv_host": str(HOST),
+                "background_mode": True,
+                "resume_state_entity": WAKE,
+                "current_state_refresh": True,
+            }
+        )
     )
     if case != "no_pin":
         TargetStore(host.data).pin(HOST, DEVICE)
@@ -134,7 +142,7 @@ def _check_actual_entry(
         assert request.target == PATH
         if request.method == "POST":
             posts.append(json.loads(request.body or b""))
-            if case == "publish_failure" and posts[-1]["state"] == "checking":
+            if case == "publish_failure":
                 return response({}, 500)
             return response({})
         return response({"attributes": {OWNER_KEY: owner}})
@@ -244,18 +252,11 @@ def _check_actual_entry(
         for _ in range(3):
             clock.advance(5)
             controller.tick()
-        if case in {"known", "unknown", "mismatch", "other_tv", "tv_program", "tokenless"}:
-            assert len(session.starts) == (1 if initial else 2)
-        elif case == "auth":
-            assert len(session.starts) == 1  # auth refusal never retried on next wake
-        else:
-            assert not session.starts
-        if case in {"known", "tokenless"}:
-            assert any(
-                p["state"] == "artwork" and p["attributes"]["artist"] == "An artist" for p in posts
-            )
-        else:
-            assert not any("artist" in p["attributes"] for p in posts)
+        # D-247: saved experimental options and even an intact archive do not
+        # make HA on a sufficient authorization to open another Art socket.
+        assert not session.starts
+        assert not controller.resume()
+        assert not any("artist" in p["attributes"] for p in posts)
         if case == "wake_auth":
             assert wake_reads == (1 if initial else 2)
         if case in {"stop_read", "publish_failure"}:
@@ -263,8 +264,7 @@ def _check_actual_entry(
         if initial and case in {"known", "tokenless"}:
             clock.advance(90)  # Static Art Mode is not a renewing pixel proof.
             controller.tick()
-            assert len(session.starts) == 1
-            assert posts[-1]["state"] == "checking"
+            assert not session.starts
             assert "artist" not in posts[-1]["attributes"]
         controller.stop()
 
@@ -279,3 +279,12 @@ def test_actual_entry_startup_send_consumes_automatic_read_even_on_no_match(
     tmp_path: Path, monkeypatch: pytest.MonkeyPatch
 ) -> None:
     _check_actual_entry(tmp_path, monkeypatch, case="known", initial=True, startup_send=True)
+
+
+def test_production_resume_hook_stays_denied_even_if_a_monitor_emits_resume(
+    tmp_path: Path, monkeypatch: pytest.MonkeyPatch
+) -> None:
+    # Independent second barrier: even a broken/replaced monitor cannot make
+    # the production controller call HostObserver.prepare_resume/open a socket.
+    monkeypatch.setattr(CachedStateStopMonitor, "poll", lambda _self: WakeEvent.RESUME)
+    _check_actual_entry(tmp_path, monkeypatch, case="known", initial=True)

@@ -35,6 +35,14 @@ This file constrains the architecture without prescribing or copying an implemen
 
 ## Home Assistant constraints
 
+- **2026-10-22 D-247 safety hold:** suspend production startup/wake Art
+  connections and scheduled current-state reads, even for saved true options.
+  Cached Samsung state may only stop, never grant/resume. Keep one explicit
+  successful-send passive session, exact-device associations and normal worker
+  limits. Preserve all saved options/data and complete card/script examples.
+  This supersedes D-238/D-239/D-242/D-243 automatic-I/O exceptions in production;
+  isolated historical replays cannot re-enable them. Local/offline only.
+
 - **2026-10-22 D-246 local current preview:** allow a bounded private runtime
   cache of worker-derived small JPEGs from successful associated deliveries.
   No extra TV/provider query, parent image decoder, helper, privilege or option.

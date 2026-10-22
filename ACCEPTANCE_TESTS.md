@@ -1,5 +1,29 @@
 # Acceptance tests
 
+## Automatic observer I/O safety hold (D-247)
+
+- Actual regular entry with both saved experimental options, old/new HA on,
+  repeated off/on, unknown/unavailable/error, existing/missing/corrupt target,
+  token and association data must start zero automatic TV workers or senders.
+  Direct refresh commands and restart/long virtual sessions cannot bypass it.
+- A cached-HA stop-only monitor returns NONE or SLEEP, never RESUME. Preserve
+  five-second Core cadence; missing/off/invalid/future samples, clock faults,
+  auth refusal and >15-second observation gaps disarm and never auto-recover.
+  With no entity configured it makes no Core reads and does not block a fresh
+  explicit-send passive session.
+- Fresh successful sends still start one passive session with state_refresh
+  absent/false, even if saved true. Full regular-entry known/unknown slideshow
+  cycles retain per-device caption lookup, metadata expiry and failure latches.
+  Pinned-library socketpair tests assert one Art socket, one initial thumbnail,
+  five baseline getters and zero later application queries/setters/reconnects.
+- Replay the already saved incident state timeline offline and compare old
+  edge grants to stop-only results. Record cause uncertainty; do not equate
+  software mitigation with reproduction or exclusion of firmware side effects.
+- Preserve schema/options/defaults, runtime permissions, bindings/history,
+  last-sent preview and complete installed/example cards/scripts. Five-language
+  help must state the temporary suspension and loss of automatic recovery.
+  No HA/TV access, installed start, version/public push or release is included.
+
 ## Current-preview cache and native card (D-246)
 
 - Real prepare/output validation, selected delivery, durable association and

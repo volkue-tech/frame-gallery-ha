@@ -1,5 +1,15 @@
 # Obra actual y modo opcional en segundo plano
 
+> **Candidato de seguridad local D-247 — sin publicar:** se suspenden las
+> conexiones automáticas al iniciar/despertar y las consultas periódicas
+> `current_state_refresh`, incluso con opciones guardadas. `resume_state_entity`
+> solo puede detener, nunca iniciar. Tras un nuevo envío explícito correcto,
+> el receptor pasivo existente puede seguir eventos completos de diapositivas.
+> Una imagen sin cambios caduca; no hay recuperación automática tras reposo o
+> pérdida de sesión. Esto sustituye las instrucciones antiguas b11–b16 de abajo.
+> Se mantienen tarjetas, IDs de script y asociaciones. No se garantiza la
+> ausencia de efectos secundarios de conexión.
+
 Local, sin publicar: [vista previa opcional de la obra actual](CURRENT_PREVIEW.es.md). Las tarjetas existentes no cambian.
 
 [English](CURRENT_ARTWORK.md) | [Deutsch](CURRENT_ARTWORK.de.md) | [Français](CURRENT_ARTWORK.fr.md) | Español | [Italiano](CURRENT_ARTWORK.it.md)

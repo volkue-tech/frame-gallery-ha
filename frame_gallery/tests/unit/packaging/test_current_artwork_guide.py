@@ -22,6 +22,10 @@ def name(language: str) -> str:
 @pytest.mark.parametrize("language", LANGUAGES)
 def test_guides_have_complete_native_cards_and_matching_language_links(language: str) -> None:
     guide = (ROOT / name(language)).read_text()
+    warning = guide.split("\n\n", 2)[1]
+    assert "D-247" in warning
+    assert "current_state_refresh" in warning
+    assert "resume_state_entity" in warning
     assert "!" + name(language) in (ROOT / ".dockerignore").read_text().splitlines()
     for other, label in LANGUAGES.items():
         if other != language:

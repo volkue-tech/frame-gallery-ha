@@ -1,5 +1,19 @@
 # Changelog
 
+## Unreleased — automatic observer I/O safety hold
+
+- Suspend automatic initial/wake Art connections and scheduled current-state
+  reads, including saved experimental opt-ins, after an unresolved wake/mode
+  report. This is a conservative mitigation, not a proven firmware-cause fix.
+- Retain the optional Samsung entity as a stop signal only. Off, unknown,
+  unavailable, failed reads or observation gaps close the passive receiver;
+  HA on cannot restart it. Saved values and all artwork associations remain.
+- Keep explicit successful sends and passive known/unknown slideshow captions.
+  Unchanged images can expire; automatic recovery after sleep/connection loss
+  is intentionally suspended. No card/script or permission change is required.
+- Explain the temporary restriction consistently in all five configuration
+  locales and current-artwork guides. Local/offline only; no new public beta.
+
 ## Unreleased — optional current-artwork preview
 
 - Cache a small worker-derived JPEG after each successfully associated upload,

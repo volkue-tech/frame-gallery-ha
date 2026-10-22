@@ -47,8 +47,57 @@ class WakeSample:
         return cls(state, stamp)
 
 
+class CachedStateStopMonitor:
+    """Cached HA state may STOP a session, never grant a TV connection.
+
+    D-247 suspends automatic initial/edge reads after an unresolved mode-change
+    incident. A saved resume entity stays useful as a fail-closed stop signal.
+    Missing/unavailable/invalid samples and observation gaps also disarm; an on
+    sample (however recent) is not independent physical Art Mode evidence.
+    """
+
+    def __init__(
+        self,
+        read: Callable[[], WakeSample | None],
+        monotonic: Callable[[], float],
+        wall: Callable[[], float],
+        *,
+        enabled: bool,
+    ) -> None:
+        self._read, self._monotonic, self._wall = read, monotonic, wall
+        self._enabled = enabled
+        self._next = 0.0
+        self._last: float | None = None
+
+    def poll(self) -> WakeEvent:
+        if not self._enabled:
+            return WakeEvent.NONE
+        now = self._monotonic()
+        if not math.isfinite(now) or now < 0 or (self._last is not None and now < self._last):
+            return WakeEvent.SLEEP
+        if now < self._next:
+            return WakeEvent.NONE
+        gap = self._last is not None and now - self._last > MAX_SAMPLE_GAP_S
+        self._last, self._next = now, now + HA_POLL_S
+        sample, wall = self._read(), self._wall()
+        if (
+            gap
+            or sample is None
+            or sample.state != "on"
+            or not math.isfinite(wall)
+            or not math.isfinite(sample.changed)
+            or not 0 <= sample.changed <= wall
+        ):
+            return WakeEvent.SLEEP
+        return WakeEvent.NONE
+
+
 class WakeGate:
-    """Consume an edge before any connection; failure never retries that edge."""
+    """Historical experimental gate, NOT wired into production after D-247.
+
+    Retained for offline replay of the old initial/edge authorization policy.
+    An accepted edge cannot certify physical Art Mode or no-wake safety.
+    """
 
     def __init__(self, started: float, *, initial_on: bool = False) -> None:
         self._started = started

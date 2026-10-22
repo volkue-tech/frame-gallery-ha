@@ -1,5 +1,15 @@
 # Œuvre actuelle et mode arrière-plan facultatif
 
+> **Candidat de sécurité local D-247 — non publié :** les connexions automatiques
+> au démarrage/réveil et les lectures périodiques `current_state_refresh` sont
+> suspendues, même avec les options enregistrées. `resume_state_entity` sert
+> uniquement à arrêter, jamais à démarrer. Après un nouvel envoi explicite réussi,
+> le récepteur passif existant peut suivre les événements complets du diaporama.
+> Une image inchangée expire ; aucune reprise automatique après veille ou perte
+> de session. Ceci remplace les anciennes instructions de reprise b11–b16 ci-dessous.
+> Cartes, identifiants de script et associations restent inchangés. L'absence
+> d'effets secondaires de connexion n'est pas garantie.
+
 Local, non publié : [aperçu facultatif de l’œuvre actuelle](CURRENT_PREVIEW.fr.md). Les cartes existantes restent inchangées.
 
 [English](CURRENT_ARTWORK.md) | [Deutsch](CURRENT_ARTWORK.de.md) | Français | [Español](CURRENT_ARTWORK.es.md) | [Italiano](CURRENT_ARTWORK.it.md)

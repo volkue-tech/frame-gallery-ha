@@ -905,192 +905,165 @@ def translations(language: str = "en") -> dict[str, Value]:
         "en": (
             "Background mode (experimental, optional)",
             (
-                "Off by default. Optional current-artwork events after a fresh explicit send; "
-                "Periodic TV reads require the separate current-state refresh option; "
-                "no blind reconnect. Update the send script once. "
-                "Startup contacts the TV only with the optional initial-sync/resume setting. "
-                "Upload associations are saved even "
-                "with this mode off. Warning: a read-only connection can wake a TV; no general "
-                "model/firmware guarantee. No extra helper, integration or permissions."
+                "Off by default. Passive current-artwork events after a fresh explicit send; "
+                "update the send script once. Safety hold: no automatic startup/wake "
+                "connections or minute reads, even with saved opt-ins. Upload associations "
+                "are saved with this mode off too. A connection can still have firmware side "
+                "effects; no general no-wake guarantee. No extra helper, integration or "
+                "permissions."
             ),
         ),
         "de": (
             "Hintergrundmodus (experimentell, optional)",
             (
-                "Standardmäßig aus. Optionale aktuelle Künstlerdaten über Ereignisse nach "
-                "frischem ausdrücklichem Senden. Regelmäßige TV-Abfragen nur mit dem separaten "
-                "Zustandsabgleich, keine blinden Neuverbindungen. Sende-Script einmal "
-                "aktualisieren. "
-                "Startabgleich nur "
-                "mit der optionalen Start-/Sleep-Entität. Bildzuordnungen werden auch ohne Modus "
-                "gespeichert. Achtung: Lesende Verbindungen können aufwecken; keine allgemeine "
-                "Modell-/Firmware-Garantie. Keine zusätzlichen Helfer, Integrationen oder Rechte."
+                "Standardmäßig aus. Passive Kunstwerk-Ereignisse nach frischem ausdrücklichem "
+                "Bildversand; Sende-Script einmal aktualisieren. Sicherheitsbremse: keine "
+                "automatischen Start-/Aufwach-Verbindungen oder Minutenabfragen, auch bei "
+                "gespeicherter Freigabe. Bildzuordnungen werden auch ohne diesen Modus "
+                "gespeichert. Verbindungen können Firmware-Nebenwirkungen haben; keine "
+                "allgemeine Nichtaufweck-Garantie. Keine zusätzlichen Helfer, Integrationen "
+                "oder Rechte."
             ),
         ),
         "fr": (
             "Mode arrière-plan (expérimental, facultatif)",
             (
-                "Désactivé par défaut. Événements de l'œuvre actuelle après un nouvel envoi "
-                "explicite ; lectures périodiques seulement avec l'option de synchronisation ; "
-                "aucune reconnexion aveugle. Mettre à jour "
-                "le "
-                "script une fois. Lecture au démarrage uniquement avec l'entité de synchronisation "
-                "facultative. Les associations sont "
-                "enregistrées même sans ce mode. Attention : une connexion en lecture peut "
-                "réveiller le TV ; aucune garantie générale de modèle/firmware. Aucun assistant, "
-                "intégration ou privilège supplémentaire."
+                "Désactivé par défaut. Événements passifs après un nouvel envoi explicite ; "
+                "mettre à jour le script une fois. Mesure de sécurité : aucune connexion "
+                "automatique au démarrage/réveil ni lecture périodique, même avec les options "
+                "enregistrées. Les associations sont aussi enregistrées sans ce mode. Une "
+                "connexion peut avoir des effets liés au micrologiciel ; aucune garantie "
+                "générale de non-réveil. Aucun assistant, intégration ou privilège "
+                "supplémentaire."
             ),
         ),
         "es": (
             "Modo en segundo plano (experimental, opcional)",
             (
-                "Desactivado por defecto. Eventos de la obra actual tras un nuevo envío "
-                "explícito; consultas periódicas solo con la opción de sincronización; "
-                "sin reconexión a ciegas. Actualice el "
-                "script una vez. Lectura al iniciar solo con la entidad de sincronización "
-                "opcional. Las asociaciones se "
-                "guardan incluso sin este modo. Atención: una conexión de lectura puede "
-                "despertar el TV; sin garantía general de modelo/firmware. Sin ayudantes, "
-                "integraciones ni permisos adicionales."
+                "Desactivado por defecto. Eventos pasivos tras un nuevo envío explícito; "
+                "actualice el script una vez. Medida de seguridad: sin conexiones automáticas "
+                "al iniciar/despertar ni consultas periódicas, incluso con opciones "
+                "guardadas. Las asociaciones también se guardan sin este modo. Una conexión "
+                "puede tener efectos del firmware; no se garantiza que nunca despierte el TV. "
+                "Sin ayudantes, integraciones ni permisos adicionales."
             ),
         ),
         "it": (
             "Modalità in background (sperimentale, facoltativa)",
             (
-                "Disattivata per impostazione predefinita. Eventi dell'opera attuale dopo un "
-                "nuovo invio esplicito; letture periodiche solo con l'opzione di sincronizzazione; "
-                "nessuna riconnessione cieca. "
-                "Aggiornare "
-                "lo script una volta. Lettura all'avvio solo con l'entità di sincronizzazione "
-                "facoltativa. Le associazioni sono "
-                "salvate anche senza questa modalità. Attenzione: una connessione in lettura "
-                "può risvegliare il TV; nessuna garanzia generale di modello/firmware. Nessun "
-                "helper, integrazione o privilegio aggiuntivo."
+                "Disattivata per impostazione predefinita. Eventi passivi dopo un nuovo invio "
+                "esplicito; aggiornare lo script una volta. Misura di sicurezza: nessuna "
+                "connessione automatica all'avvio/risveglio né lettura periodica, anche con "
+                "opzioni salvate. Le associazioni sono salvate anche senza questa modalità. "
+                "Una connessione può avere effetti del firmware; nessuna garanzia generale di "
+                "mancato risveglio. Nessun helper, integrazione o privilegio aggiuntivo."
             ),
         ),
     }[language]
     texts["current_state_refresh"] = {
         "en": (
-            "Keep current artwork synchronized (experimental)",
+            "Periodic synchronization (temporarily suspended)",
             (
-                "Off by default; requires background mode. At most once per minute, reads mode and "
-                "image ID coherently on the existing Art connection only. Recovers after menu and "
-                "slideshow changes, including the same image. No new connection, image, power or "
-                "mode command. Stops on reported standby/HA off. Read requests may affect "
-                "automatic "
-                "sleep; offline tests cannot guarantee model/firmware safety."
+                "Saved for compatibility, but ignored during the safety hold. No scheduled "
+                "mode or image-ID reads. Only passively received, complete slideshow events "
+                "can renew current artwork after the initial post-send proof. Unchanged or "
+                "unconfirmed images can expire; no automatic recovery query."
             ),
         ),
         "de": (
-            "Aktuelles Kunstwerk synchron halten (experimentell)",
+            "Regelmäßiger Abgleich (vorübergehend gesperrt)",
             (
-                "Standardmäßig aus; benötigt Hintergrundmodus. Liest höchstens einmal pro Minute "
-                "Modus und Bild-ID konsistent nur über die bestehende Art-Verbindung. Erholt sich "
-                "nach Menü- und Diashowwechseln, auch beim gleichen Bild. Keine neue Verbindung, "
-                "Bild-, Power- oder Modusbefehle. Stoppt bei gemeldetem Standby/HA aus. Abfragen "
-                "können das automatische Einschlafen beeinflussen; offline keine Firmware-Garantie."
+                "Aus Kompatibilitätsgründen gespeichert, während der Sicherheitsbremse aber "
+                "ohne Wirkung. Keine zeitgesteuerten Modus- oder Bild-ID-Abfragen. Nach dem "
+                "ersten Nachweis nach Bildversand erneuern nur passiv empfangene vollständige "
+                "Diashow-Ereignisse die Anzeige. Unveränderte oder unbestätigte Bilder können "
+                "veralten; keine automatische Wiederherstellungsabfrage."
             ),
         ),
         "fr": (
-            "Synchroniser l'œuvre actuelle (expérimental)",
+            "Synchronisation périodique (temporairement suspendue)",
             (
-                "Désactivé par défaut ; nécessite le mode arrière-plan. Au maximum une lecture "
-                "cohérente du mode et de l'identifiant par minute, sur la connexion Art existante. "
-                "Reprise après les menus et le diaporama, même pour la même image. Aucune nouvelle "
-                "connexion ni commande d'image, d'alimentation ou de mode. Arrêt en veille "
-                "signalée "
-                "ou HA éteint. Peut affecter la veille automatique ; aucune garantie hors ligne."
+                "Valeur conservée pour compatibilité, mais ignorée pendant la mesure de "
+                "sécurité. Aucune lecture programmée du mode ou de l'identifiant. Après la "
+                "preuve initiale suivant un envoi, seuls les événements complets du diaporama "
+                "reçus passivement peuvent actualiser l'œuvre. Une image inchangée ou non "
+                "confirmée peut expirer ; aucune requête de récupération automatique."
             ),
         ),
         "es": (
-            "Sincronizar la obra actual (experimental)",
+            "Sincronización periódica (suspendida temporalmente)",
             (
-                "Desactivado por defecto; requiere el modo en segundo plano. Como máximo una "
-                "lectura coherente del modo e ID por minuto, solo en la conexión Art existente. "
-                "Recupera tras menús y diapositivas, incluso la misma imagen. Sin conexión nueva "
-                "ni órdenes de imagen, encendido o modo. Se detiene con reposo notificado o HA "
-                "apagado. Puede afectar al reposo automático; sin garantía de firmware offline."
+                "Valor conservado por compatibilidad, pero ignorado durante la medida de "
+                "seguridad. Sin consultas programadas del modo o ID. Tras la prueba inicial "
+                "posterior a un envío, solo los eventos completos de diapositivas recibidos "
+                "pasivamente pueden actualizar la obra. Una imagen sin cambios o sin "
+                "confirmar puede caducar; no hay consulta automática de recuperación."
             ),
         ),
         "it": (
-            "Sincronizza l'opera attuale (sperimentale)",
+            "Sincronizzazione periodica (temporaneamente sospesa)",
             (
-                "Disattivata per impostazione predefinita; richiede il background. Al massimo una "
-                "lettura coerente di modalità e ID al minuto, solo sulla connessione Art "
-                "esistente. "
-                "Riprende dopo menu e presentazioni, anche con la stessa immagine. Nessuna nuova "
-                "connessione o comando di immagine, accensione o modalità. Arresto con standby "
-                "segnalato o HA spento. Può influire sul sonno automatico; nessuna garanzia "
-                "offline."
+                "Valore conservato per compatibilità, ma ignorato durante la misura di "
+                "sicurezza. Nessuna lettura programmata di modalità o ID. Dopo la verifica "
+                "iniziale successiva a un invio, solo gli eventi completi della presentazione "
+                "ricevuti passivamente possono aggiornare l'opera. Le immagini invariate o "
+                "non confermate possono scadere; nessuna richiesta automatica di recupero."
             ),
         ),
     }[language]
     texts["resume_state_entity"] = {
         "en": (
-            "Initial sync / resume after sleep (experimental, optional)",
+            "Samsung status entity (stop signal only, optional)",
             (
-                "Leave empty to disable. Requires background mode and an earlier successful send. "
-                "Enter this TV's existing Samsung HA media_player or remote entity ID. First "
-                "HA on at app start permits one read-only initial check, even if unchanged for "
-                "hours. Off, unknown or failed initial read does not retry. Later fresh off-to-on "
-                "transitions permit one new check; no image send or blind retry. "
-                "HA on does not prove Art Mode. Connection side effects remain unverified and may "
-                "wake the TV or affect its mode. No new helper or special permissions."
+                "Leave empty to omit this extra stop signal. An existing Samsung HA "
+                "media_player or remote ID is retained. Off, unknown, unavailable, read "
+                "failure or an observation gap stops the receiver. HA on never starts or "
+                "resumes a TV connection; automatic initial/sleep recovery is suspended. HA "
+                "on is not Art Mode proof. No new helper or special permissions."
             ),
         ),
         "de": (
-            "Startabgleich / nach Sleep fortsetzen (experimentell, optional)",
+            "Samsung-Zustandsentität (nur Stoppsignal, optional)",
             (
-                "Leer lassen zum Deaktivieren. Benötigt Hintergrundmodus und einen früheren "
-                "erfolgreichen Bildversand. Die vorhandene Samsung-Entitäts-ID dieses TVs "
-                "(media_player oder remote) eintragen. Erstes HA an beim App-Start erlaubt einen "
-                "lesenden Startabgleich, auch nach Stunden ohne Zustandswechsel. Aus, unbekannt "
-                "oder erster Lesefehler: keine Wiederholung. Späterer frischer Wechsel aus → an "
-                "erlaubt einen neuen Abgleich, keinen Bildversand. HA an "
-                "beweist keinen Kunstmodus. Verbindungsnebenwirkungen sind ungetestet: Aufwecken "
-                "oder Moduswechsel sind nicht ausgeschlossen. Kein neuer Helfer oder Sonderrechte."
+                "Leer lassen, um dieses zusätzliche Stoppsignal wegzulassen. Eine vorhandene "
+                "Samsung-HA-ID (media_player oder remote) bleibt erhalten. Aus, unbekannt, "
+                "nicht verfügbar, Lesefehler oder Beobachtungslücke stoppt den Empfänger. HA "
+                "an startet oder erneuert niemals eine TV-Verbindung; automatischer "
+                "Start-/Sleep-Wiederanlauf ist gesperrt. HA an beweist keinen Kunstmodus. "
+                "Kein neuer Helfer oder Sonderrechte."
             ),
         ),
         "fr": (
-            "Synchroniser au démarrage / après veille (expérimental, facultatif)",
+            "État Samsung (signal d'arrêt uniquement, facultatif)",
             (
-                "Vide : désactivé. Nécessite le mode arrière-plan et un ancien envoi réussi. "
-                "Indiquez l'entité Samsung HA existante de ce TV (media_player ou remote). Une "
-                "première lecture HA marche au démarrage autorise une vérification, même si cet "
-                "état date de plusieurs heures. Arrêt, inconnu ou erreur initiale : aucun nouvel "
-                "essai. Une transition arrêt → marche fraîche permet ensuite une vérification, "
-                "sans envoyer d'image ni répétition aveugle. HA marche ne prouve pas le mode Art. "
-                "Effets "
-                "de connexion non vérifiés : réveil ou changement de mode possibles. Aucun "
-                "nouvel assistant ni privilège spécial."
+                "Laisser vide pour omettre ce signal supplémentaire. L'identifiant Samsung HA "
+                "existant (media_player ou remote) reste conservé. Arrêt, inconnu, "
+                "indisponibilité, échec de lecture ou interruption d'observation arrête le "
+                "récepteur. HA marche ne démarre ni ne reprend une connexion TV ; la reprise "
+                "automatique est suspendue. HA marche ne prouve pas le mode Art. Aucun nouvel "
+                "assistant ni privilège spécial."
             ),
         ),
         "es": (
-            "Sincronizar al iniciar / tras reposo (experimental, opcional)",
+            "Estado Samsung (solo señal de parada, opcional)",
             (
-                "Vacío: desactivado. Requiere modo en segundo plano y un envío anterior correcto. "
-                "Indique la entidad Samsung HA existente de este TV (media_player o remote). Un "
-                "primer estado HA encendido al iniciar permite una lectura, aunque lleve horas "
-                "sin cambiar. Apagado, desconocido o fallo inicial: sin reintento. Después un "
-                "cambio apagado → encendido reciente permite otra comprobación, sin enviar "
-                "imagen ni repetición a ciegas. HA encendido no demuestra modo Arte. "
-                "Efectos de conexión "
-                "no verificados: podría despertar el TV o cambiar su modo. Sin nuevo ayudante "
-                "ni permisos especiales."
+                "Vacío: omite esta señal adicional. Se conserva el ID Samsung HA existente "
+                "(media_player o remote). Apagado, desconocido, no disponible, error de "
+                "lectura o interrupción de observación detiene el receptor. HA encendido "
+                "nunca inicia ni reanuda una conexión TV; la recuperación automática está "
+                "suspendida. HA encendido no demuestra modo Arte. Sin nuevo ayudante ni "
+                "permisos especiales."
             ),
         ),
         "it": (
-            "Sincronizza all'avvio / dopo standby (sperimentale, facoltativo)",
+            "Stato Samsung (solo segnale di arresto, facoltativo)",
             (
-                "Vuoto: disattivato. Richiede modalità in background e un invio precedente "
-                "riuscito. Indicare l'entità Samsung HA esistente di questo TV (media_player o "
-                "remote). Il primo stato HA acceso all'avvio consente una lettura, anche se "
-                "invariato da ore. Spento, sconosciuto o errore iniziale: nessun nuovo tentativo. "
-                "Una successiva transizione spento → acceso recente consente una nuova verifica, "
-                "senza inviare immagini né ripetere alla cieca. HA acceso non dimostra "
-                "la modalità Arte. "
-                "Effetti della connessione non verificati: risveglio o cambio modalità possibili. "
-                "Nessun nuovo helper o privilegio speciale."
+                "Vuoto: omette questo segnale aggiuntivo. L'ID Samsung HA esistente "
+                "(media_player o remote) viene conservato. Spento, sconosciuto, non "
+                "disponibile, errore di lettura o interruzione di osservazione arresta il "
+                "ricevitore. HA acceso non avvia né riprende mai una connessione TV; il "
+                "recupero automatico è sospeso. HA acceso non prova la modalità Arte. Nessun "
+                "nuovo helper o privilegio speciale."
             ),
         ),
     }[language]

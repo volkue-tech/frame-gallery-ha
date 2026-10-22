@@ -1,5 +1,39 @@
 # Implementation plan and approval gates
 
+## D-247 safety mitigation — local/offline only
+
+- [x] Separate known software authorization weakness from the unresolved
+  physical wake/mode cause; reuse only existing private evidence.
+- [x] Quarantine production initial/wake connections and scheduled GETs even
+  for saved opt-ins; use cached HA state only for conservative disarming.
+- [x] Retain fresh explicit sends, exact-device associations, passive known/
+  unknown slideshow captions, finite worker limits and failure latches.
+- [x] Preserve schema/defaults/rights/data and all complete card/script YAML;
+  disclose the reduced recovery behaviour in all five configuration locales.
+- [x] Observe red-before-green real-entry tests, recorded incident replay,
+  eight virtual hours and three guard-removal negative controls.
+- [x] Finish exact full host/type/coverage gates:6197 passed/16 unchanged skips,
+  317 typed files, whole/mandatory100% line/branch coverage. Retain evidence and
+  mitigation limits. Native/hardware validation/publication are not this task.
+- [ ] Original physical cause remains unresolved; no hardware-safety claim or
+  automatic-I/O reactivation is authorized by passing offline tests.
+
+## b16 wake/mode incident — safety gate before conditional release
+
+- [x] Read cached Frame/Recorder data and existing app/logbook UI only; retain
+  source evidence, revoke own HA login and verify finite reader/helper exit.
+- [x] Stop the live app only after fresh explicit approval; UI confirms stopped.
+  Preserve saved settings, all cards/scripts/automations and configuration.yaml.
+- [x] Record the two HA off/on transitions and subsequent observer starts;
+  distinguish temporal correlation from cause and physical mode from art IDs.
+- [x] Record the user's subsequent manual return from TV programme to Art Mode;
+  do not treat later art IDs as a contradiction of the original incident.
+- [ ] Resolve the unknown wake/mode cause or agree an explicit safety change
+  before treating the user's conditional publication gate as satisfied.
+- [ ] Only if no blocker remains, freeze a new beta and run exact native
+  ARM/Intel/source/image/signature gates before personal publication.
+  No TV test or connection is authorized by this request.
+
 ## D-246 bounded current preview — local/offline only
 
 - [x] Record explicit scope, separate last-sent/current semantics,128 MiB cap,

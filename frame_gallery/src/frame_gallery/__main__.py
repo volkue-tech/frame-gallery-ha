@@ -84,7 +84,7 @@ from frame_gallery.observer.event_backend import EventBackend
 from frame_gallery.observer.event_controller import EventController
 from frame_gallery.observer.model import Observation
 from frame_gallery.observer.service import PublicationGuard, serve
-from frame_gallery.observer.wake import WakeMonitor
+from frame_gallery.observer.wake import CachedStateStopMonitor
 from frame_gallery.providers import aic, cma
 from frame_gallery.providers.aic import AicProvider, aic_policy
 from frame_gallery.providers.cma import CmaProvider, cma_policy
@@ -170,11 +170,11 @@ def _service_cleanup(layout: StoreLayout, clock: Clock) -> bool:
 
 
 def background_main() -> int:
-    """Explicit experimental service; startup reads need the configured HA-on gate.
+    """Explicit experimental service with D-247's automatic-I/O safety hold.
 
-    D-230 accepts the unvalidated wake risk only for opt-in users. A successful
-    explicit delivery or opted-in initial-on/wake grants one verified session.
-    Read failures disarm; absent resume configuration keeps startup passive.
+    Only a fresh successful explicit delivery may arm one passive event session.
+    Saved resume/refresh options cannot authorize automatic connections or GETs.
+    A configured cached HA entity is a stop signal only, never Art Mode proof.
     """
     clock, layout = SystemClock(), StoreLayout()
     source = OptionsFile(layout.data)
@@ -221,7 +221,8 @@ def background_main() -> int:
         layout.media,
         options.tv_host,
         stopped=stopping,
-        current_state_refresh=options.current_state_refresh,
+        # D-247: retain the saved option but quarantine outgoing minute GETs.
+        current_state_refresh=False,
     )
     session = SessionProcess(ProcessExecutor(launch, clock), clock.monotonic)
     previous = signal.signal(signal.SIGTERM, lambda _signum, _frame: stopped.set())
@@ -247,14 +248,14 @@ def background_main() -> int:
             transport=transport,
             networks=networks,
         )
-        wake_monitor = WakeMonitor(
+        wake_monitor = CachedStateStopMonitor(
             lambda: wake_reader.read_wake_state(
                 options.resume_state_entity or "",
                 Deadline(clock, clock.monotonic() + 2, "cached TV state"),
             ),
             clock.monotonic,
             lambda: clock.utc_now().timestamp(),
-            initial_on=bool(options.resume_state_entity),
+            enabled=bool(options.resume_state_entity),
         )
 
         def send() -> int:
@@ -272,15 +273,13 @@ def background_main() -> int:
             publish=publication,
             claim=lambda command: store.claim(command, clock.utc_now().timestamp()),
             stopped=stopping,
-            prepare_resume=observer.prepare_resume,
             monitor_wake=wake_monitor.poll,
-            supersede_wake=wake_monitor.supersede,
-            keep_tv_session=options.current_state_refresh,
         )
         _log.warning(
-            "event background service ready; TV access requires an approved device-event profile "
-            "and an explicit delivery, configured first HA on sample or fresh off-to-on edge; "
-            "no blind reconnect; same-socket minute checks require current_state_refresh"
+            "event background service ready; safety hold: automatic initial/wake connections "
+            "and current_state_refresh reads are suspended, including saved opt-ins; "
+            "HA state can only stop; passive receiver requires a fresh explicit delivery; "
+            "connection side effects remain unverified"
         )
         serve(controller, incoming.receive, stopping)
     finally:

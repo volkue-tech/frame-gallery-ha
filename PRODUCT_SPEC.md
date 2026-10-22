@@ -1,5 +1,25 @@
 # Product specification
 
+## Automatic observer I/O safety hold (D-247, local/offline, 2026-10-22)
+
+After another unexplained TV-programme incident, prepare a conservative local
+mitigation, not a claim of proven cause or firmware safety. Supersede D-238,
+D-239 and D-242/D-243 in production: no automatic initial/wake Art connection
+and no scheduled mode/ID getters, including previously saved opt-ins. Keep the
+options/schema/defaults and all archives intact for upgrade compatibility.
+The existing optional Samsung HA entity is a stop signal only; off, missing,
+unknown, unavailable, read failure or a sampling gap disarms the receiver.
+An on state can never start/restart it or prove physical Art Mode.
+
+A fresh successfully acknowledged explicit send may still arm one existing
+bounded passive receiver with its initial image proof and strict changed-ID
+slideshow events. Existing delivery/attribution/cards/scripts keep working.
+Mode-off, standby, auth/transport/publication failure stop without reconnection.
+Unchanged images age out; menu/sleep/connection loss need a later explicit send
+for a new session, not a hidden retry. Clearly document this safety/functionality
+tradeoff in all five supported languages. No new option, permission, dependency,
+HA change, TV connection, release or native/hardware safety claim in this task.
+
 ## Optional current preview, local feature (D-246, 2026-10-22)
 
 Keep the existing last-sent preview/card unchanged. An optional current-artwork

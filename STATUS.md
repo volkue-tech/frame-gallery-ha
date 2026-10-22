@@ -1,5 +1,66 @@
 # Project status
 
+## D-247 local automatic-I/O safety hold — offline verified, 2026-10-22
+
+User authorizes code/existing-log diagnosis and a safe local mitigation with
+offline tests only. No new HA/TV access, installed start, card/script change,
+GitHub credential access, push or publication. Installed b16 remains stopped.
+The physical incident cause is not proven: observed HA on precedes revalidation;
+subsequent manual return to Art Mode explains why later art IDs cannot be used
+as an independent mode contradiction. No observer setter was found, but
+connection/getter side effects are not excluded by these logs.
+
+Real entry now uses CachedStateStopMonitor (never RESUME), default-deny resume
+wiring, and current_state_refresh=False even for saved true options. Existing
+Samsung state only stops on off/invalid/missing/unavailable/error or gaps. No
+configured entity means no extra Core read. A fresh explicit successful send
+still arms one initial-proof/passive-slideshow receiver. Saved options, data,
+all complete card/script YAML and privileges remain compatible. Unchanged
+images expire and automatic startup/sleep recovery is deliberately suspended;
+five-language help/guide notices disclose this loss of recovery functionality.
+
+Real-entry red-before-green:21 failed/35 passed before,56 passed after; extended
+targeted140 passed. Existing incident replay:1698 virtual samples, old3 resume
+grants versus new0. Three in-memory negative controls fail their intended tests.
+Final frozen full host gates passed6197/16 in54.99s, Ruff/format and strict
+host/Linux typing317 files; whole100% line/branch (11947/2904) and mandatory
+100% (9132/2148). No added skips or weakened thresholds. Compatibility checks
+confirm unchanged schema/defaults/profile/full script and all five card blocks.
+See OBSERVER_SAFETY_HOLD_VALIDATION.md and ignored
+build/b16-safety-fix-20261022-29tRyg/. No native/Green/no-wake claim is inferred.
+
+## Installed b16 wake/mode incident — conditional release held, 2026-10-22
+
+User returned after about an hour and reports TV programme, not Art Mode;
+prior visible mode was probably Art Mode, with intervening sleep unobserved.
+Finite normal Core/Recorder reads and existing app/logbook UI only: no TV
+connection, image, power, mode, refresh or restart. Own HA login revoked and
+finite reader/helper exit checked. After separate explicit approval, stopped
+the live app in its normal UI and verified Gestoppt. Saved options, cards,
+scripts, automations and configuration.yaml remain unchanged.
+
+Recorder shows Samsung off at16:13:29/on16:20:05, then off16:35:09/on16:36:29
+CEST. Power was0.71/0.78W at16:15:52/16:17:57, then81.53W at16:20:33;
+the second off transition has25.03W sampled, not deep-sleep proof. Observer
+checking follows HA on at16:20:10 and16:36:30. Both activity details record no
+reason; no new send is recorded in the incident window. These facts neither
+prove the observer caused the initial wake nor exclude an Art-channel side
+effect after HA on. User subsequently confirmed switching the TV programme
+off manually, returning the Frame to Art Mode; exact time is unknown. Later
+rotating art-ID reports may reflect this intervention and are not an
+independent contradiction of the earlier TV-programme report or physical-screen
+proof. The original wake/mode cause remains unresolved.
+No explicit observer power/mode setter was found, but GET/open is not certified
+side-effect-free. Existing logs do not record every successful reconnect.
+
+Treat the unresolved incident as a provisional safety release blocker. The
+user's native-build/publication approval is conditional on no blocker, so no
+new native CI, GitHub credential retrieval, push, image or release is started.
+The preview commit b688665 remains local/uninstalled and cannot cause this
+installed-b16 incident. Evidence/limits and exact times are in ignored
+build/b16-incident-20261022-FHCLuD/assessment.json. Native Terminal control
+remains prohibited; its completed wrapper window was not claimed closed.
+
 ## D-246 current preview — locally complete, offline gates passed, 2026-10-22
 
 User approves building the theoretical bounded preview. No new HA/TV access,

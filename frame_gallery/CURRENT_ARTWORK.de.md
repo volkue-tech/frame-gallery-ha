@@ -1,5 +1,15 @@
 # Aktuelles Kunstwerk und optionaler Hintergrundmodus
 
+> **Lokaler Sicherheitskandidat D-247 — unveröffentlicht:** Automatische Start-/
+> Aufwach-Verbindungen und Minutenabfragen über `current_state_refresh` sind
+> gesperrt, auch bei gespeicherter Freigabe. `resume_state_entity` ist nur noch
+> ein Stoppsignal, niemals eine Startfreigabe. Nach einem frischen erfolgreichen
+> ausdrücklichen Bildversand kann der passive Empfänger vollständigen Diashow-
+> Ereignissen folgen. Unveränderte Bilder veralten; nach Sleep oder Sitzungsverlust
+> gibt es keine automatische Wiederherstellung. Dies ersetzt die älteren b11–b16-
+> Wiederanlauf-Anweisungen unten. Karten, Script-IDs und Bildzuordnungen bleiben
+> erhalten. Verbindungsnebenwirkungen sind damit nicht allgemein ausgeschlossen.
+
 Lokal, noch unveröffentlicht: [optionale aktuelle Bildvorschau](CURRENT_PREVIEW.de.md). Bestehende Karten bleiben unverändert.
 
 [English](CURRENT_ARTWORK.md) | Deutsch | [Français](CURRENT_ARTWORK.fr.md) | [Español](CURRENT_ARTWORK.es.md) | [Italiano](CURRENT_ARTWORK.it.md)

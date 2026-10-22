@@ -1,4 +1,4 @@
-"""Authored offline sleep/wake cases; not proof of physical no-wake behaviour."""
+"""Historical edge-policy replay; not D-247 production or no-wake evidence."""
 
 from __future__ import annotations
 

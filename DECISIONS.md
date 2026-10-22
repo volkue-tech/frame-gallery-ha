@@ -1,5 +1,42 @@
 # Decision log
 
+## D-247 — suspend unproven automatic observer I/O, local/offline, 2026-10-22
+
+User authorizes further code/existing-log diagnosis and preparation/testing of
+a safe local bugfix; no HA/TV connection, live start, card/script mutation or
+publication. Installed b16 remains stopped after the separately approved stop.
+
+Existing Recorder shows HA on before each observed revalidation; this does not
+prove the observer caused the original wake. Nor does it exclude a connection
+side effect after HA on. Both existing activity details have no reason; app logs
+omit routine successful opens/getter payloads. The user subsequently manually
+returned from TV programme to Art Mode, so later art IDs are not an independent
+physical-mode contradiction. Do not invent the missing causal evidence.
+
+Confirmed software weakness: generic HA on/off cannot distinguish physical Art
+Mode from TV programme, a transient network state or early wake. Yet D-238/239
+permits a new Art connection from it, and D-242/243 keeps minute reads through
+off/nav when no independent physical state is available. Neither the absence
+of a power/mode setter nor offline coverage proves those connections/GETs safe
+on the user's firmware. Instead of guessing a watt/delay threshold, quarantine
+these automatic paths in production, including old saved opt-ins.
+
+Real entry uses a stop-only cached Core monitor, default-deny resume hook,
+current_state_refresh=False and no keep-TV-session exception. Old setting keys
+remain parseable/unchanged; the Samsung entity now only stops on off/invalid/
+missing/auth failure or gaps. No entity means no extra Core read. Fresh explicit
+successful sends retain the existing initial proof and passive slideshow
+receiver, per-TV associations, loading/last-sent outputs and worker limits.
+Do not silently restore a caption after sleep/menu or an unchanged-image expiry.
+State the reduced recovery behaviour in five-language config help and guides.
+
+Keep historical pure gates/readers for offline comparison, not a production
+option bypass. Require red-before-green actual-entry regressions, saved-option
+coverage, known/unknown passive cycles, pinned-library socketpair request counts,
+recorded incident timeline replay and complete host gates. Native/hardware
+validation and any publication need later authority; this task certifies only
+the software's reduced I/O policy, not a physical no-wake guarantee.
+
 ## D-246 — bounded current-artwork preview, local/offline, 2026-10-22
 
 User approves building the discussed current-image preview. Implement locally

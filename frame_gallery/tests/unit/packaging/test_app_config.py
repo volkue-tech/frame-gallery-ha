@@ -45,6 +45,28 @@ SCRIPT: Final = _script()
 CONFIG: Final[dict[str, Any]] = SCRIPT.config()
 SCHEMA: Final[dict[str, str]] = CONFIG["schema"]
 OPTIONS: Final[dict[str, object]] = CONFIG["options"]
+
+
+@pytest.mark.parametrize(
+    ("language", "suspended", "stop_only", "hold"),
+    [
+        ("en", "suspended", "stop signal only", "Safety hold"),
+        ("de", "gesperrt", "nur Stoppsignal", "Sicherheitsbremse"),
+        ("fr", "suspendue", "arrêt uniquement", "Mesure de sécurité"),
+        ("es", "suspendida", "solo señal de parada", "Medida de seguridad"),
+        ("it", "sospesa", "solo segnale di arresto", "Misura di sicurezza"),
+    ],
+)
+def test_all_configuration_locales_disclose_the_safety_hold_without_migrating_options(
+    language: str, suspended: str, stop_only: str, hold: str
+) -> None:
+    fields = SCRIPT.translations(language)["configuration"]
+    assert suspended in fields["current_state_refresh"]["name"]
+    assert stop_only in fields["resume_state_entity"]["name"]
+    assert hold in fields["background_mode"]["description"]
+    assert SCRIPT.config() == CONFIG
+
+
 TEXTS: Final[dict[str, dict[str, str]]] = SCRIPT.translations()["configuration"]
 
 

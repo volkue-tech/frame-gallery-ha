@@ -1,5 +1,15 @@
 # Opera attuale e modalità in background facoltativa
 
+> **Candidato di sicurezza locale D-247 — non pubblicato:** connessioni automatiche
+> all'avvio/risveglio e letture periodiche `current_state_refresh` sospese, anche
+> con opzioni salvate. `resume_state_entity` può solo arrestare, mai avviare.
+> Dopo un nuovo invio esplicito riuscito, il ricevitore passivo esistente può
+> seguire eventi completi della presentazione. Le immagini invariate scadono;
+> nessun recupero automatico dopo standby o perdita della sessione. Questo
+> sostituisce le precedenti istruzioni b11–b16 riportate sotto. Schede, ID degli
+> script e associazioni restano invariati. L'assenza di effetti collaterali
+> della connessione non è garantita.
+
 Locale, non pubblicato: [anteprima facoltativa dell’opera attuale](CURRENT_PREVIEW.it.md). Le schede esistenti restano invariate.
 
 [English](CURRENT_ARTWORK.md) | [Deutsch](CURRENT_ARTWORK.de.md) | [Français](CURRENT_ARTWORK.fr.md) | [Español](CURRENT_ARTWORK.es.md) | Italiano
