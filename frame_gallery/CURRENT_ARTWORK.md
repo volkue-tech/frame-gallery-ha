@@ -1,5 +1,7 @@
 # Current artwork and optional background mode
 
+Local, unreleased: [optional current-image preview](CURRENT_PREVIEW.md). Existing cards stay unchanged.
+
 English | [Deutsch](CURRENT_ARTWORK.de.md) | [Français](CURRENT_ARTWORK.fr.md) | [Español](CURRENT_ARTWORK.es.md) | [Italiano](CURRENT_ARTWORK.it.md)
 
 **Fixed in b16:** the optional current-state refresh accepts the Frame's real

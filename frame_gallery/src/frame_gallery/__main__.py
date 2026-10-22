@@ -92,6 +92,7 @@ from frame_gallery.providers.commons import CommonsProvider, commons_policy
 from frame_gallery.providers.local_media import LocalInspectionProbe, LocalMediaProvider
 from frame_gallery.randomness import RandomSource, SystemRandomSource
 from frame_gallery.store.artwork_bindings import BindingStore, ObserverLock
+from frame_gallery.store.current_preview import CurrentPreview
 from frame_gallery.store.diagnostics import log_storage
 from frame_gallery.store.layout import StoreLayout
 from frame_gallery.store.options_file import OptionsFile
@@ -236,6 +237,7 @@ def background_main() -> int:
                 observation,
                 store.resolve(observation),
                 Deadline(clock, clock.monotonic() + 2, "current artwork"),
+                prepare_preview=CurrentPreview(layout.data, layout.media).publish,
             )
 
         publication = PublicationGuard(publish, stopped.set)

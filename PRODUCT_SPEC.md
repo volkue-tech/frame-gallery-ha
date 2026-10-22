@@ -1,5 +1,26 @@
 # Product specification
 
+## Optional current preview, local feature (D-246, 2026-10-22)
+
+Keep the existing last-sent preview/card unchanged. An optional current-artwork
+card may show a small cached JPEG only together with fresh current-state or
+slideshow evidence and the exact per-TV upload association. Derive the JPEG
+inside the existing image worker from the actual delivery bytes; never add a
+TV connection, thumbnail request, cloud recognition or provider download.
+Cache all successful associated deliveries, even without background mode.
+The disposable private cache is capped at 128 MiB of files including JSON/base64,
+4,096 entries and 32 KiB per JPEG (at most 640x360); no association/history eviction.
+Unknown, old, rejected, evicted or uncached works have no invented image. Cache
+or low-disk failure must not block artist metadata. Preserve existing archives,
+helpers, cards, scripts, privileges, options and configuration.yaml.
+
+Display uses an optional separately named Local File camera and a complete native
+Markdown card in all five supported languages. Its image and artist text share
+the current-sensor freshness gate; a file surviving a crash is not current proof.
+Clear/acknowledge HA image availability before replacing current.jpg, then publish
+only a verified digest. The original latest.jpg keeps its last-sent meaning.
+This approval is local/offline only, not a release or live-system change.
+
 ## Missing menu-return notifications, 2026-10-20 (D-243)
 
 With current_state_refresh opted in, navigation invalidates metadata but cannot

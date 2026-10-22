@@ -1,5 +1,7 @@
 # Œuvre actuelle et mode arrière-plan facultatif
 
+Local, non publié : [aperçu facultatif de l’œuvre actuelle](CURRENT_PREVIEW.fr.md). Les cartes existantes restent inchangées.
+
 [English](CURRENT_ARTWORK.md) | [Deutsch](CURRENT_ARTWORK.de.md) | Français | [Español](CURRENT_ARTWORK.es.md) | [Italiano](CURRENT_ARTWORK.it.md)
 
 **Corrigé dans b16 :** l'actualisation facultative accepte les vraies réponses

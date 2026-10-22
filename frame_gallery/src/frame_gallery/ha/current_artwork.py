@@ -10,6 +10,7 @@ from __future__ import annotations
 import html
 import json
 import re
+from collections.abc import Callable
 from typing import Final
 
 from frame_gallery.budget.deadline import Deadline, DeadlineExceeded
@@ -47,6 +48,9 @@ class CurrentArtworkPublisher(SupervisorHelperReader):
         observation: Observation,
         binding: Binding | DeliveryAssociation | None,
         deadline: Deadline,
+        *,
+        prepare_preview: Callable[[Binding | DeliveryAssociation | None, Deadline], str | None]
+        | None = None,
     ) -> bool:
         token = self._token
         if token is None or _TOKEN.fullmatch(token) is None:
@@ -60,6 +64,7 @@ class CurrentArtworkPublisher(SupervisorHelperReader):
             "friendly_name": "Frame Gallery current artwork",
             "icon": "mdi:television-ambient-light",
             "background_mode": True,
+            "preview_available": False,
         }
         if observation.content_id is not None:
             attributes["tv_content_id"] = observation.content_id
@@ -99,9 +104,31 @@ class CurrentArtworkPublisher(SupervisorHelperReader):
                 if not isinstance(attrs, dict) or attrs.get(OWNER_KEY) != owner:
                     return False
             self._exchange("POST", payload, addresses[0], deadline)
+            self._complete_preview(addresses[0], payload, binding, deadline, prepare_preview)
         except (_ReadFailed, TransportFailure, DeadlineExceeded, ValueError):
             return False
         return True
+
+    def _complete_preview(
+        self,
+        address: IPAddress,
+        payload: bytes,
+        binding: Binding | DeliveryAssociation | None,
+        deadline: Deadline,
+        prepare: Callable[[Binding | DeliveryAssociation | None, Deadline], str | None] | None,
+    ) -> None:
+        if prepare is None:
+            return
+        # The first POST acknowledged preview_available=false BEFORE replacement.
+        # If the final POST fails, the old title cannot advertise changed bytes.
+        digest = prepare(binding, deadline)
+        if digest is None:
+            return
+        if binding is None or re.fullmatch(r"[0-9a-f]{64}", digest) is None:
+            raise ValueError("invalid current preview publication")
+        document = json.loads(payload)
+        document["attributes"].update(preview_available=True, preview_sha256=digest)
+        self._exchange("POST", json.dumps(document).encode("utf-8"), address, deadline)
 
     def _exchange(
         self, method: str, body: bytes | None, address: IPAddress, deadline: Deadline

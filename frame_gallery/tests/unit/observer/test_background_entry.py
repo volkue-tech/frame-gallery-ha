@@ -99,7 +99,12 @@ def test_background_entry_waits_for_explicit_successful_send_before_reading(
             pass
 
         def publish(
-            self, _owner: str, seen: Observation, _binding: object, _deadline: object
+            self,
+            _owner: str,
+            seen: Observation,
+            _binding: object,
+            _deadline: object,
+            **_kwargs: object,
         ) -> bool:
             published.append(seen)
             self.authorization_refused = refuse and auth_failure

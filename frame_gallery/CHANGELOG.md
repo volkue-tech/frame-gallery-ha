@@ -1,5 +1,21 @@
 # Changelog
 
+## Unreleased — optional current-artwork preview
+
+- Cache a small worker-derived JPEG after each successfully associated upload,
+  including one-shot runs. No additional TV connection, thumbnail or download.
+- Key previews by actual TV identity, content/work IDs and delivered bytes.
+  Bound the private cache to 128 MiB including JSON/base64 and 4,096 entries;
+  eviction never clears associations or selection history.
+- Publish a separate current.jpg only behind acknowledged preview-availability
+  invalidation. Unknown/uncached/stale works never borrow the last-sent image;
+  optional-cache failures preserve artist metadata. latest.jpg is unchanged.
+- Add a complete optional native current-picture/artist card and Local File
+  setup in English, German, French, Spanish and Italian. No new app option,
+  special permission, dependency, HACS requirement or existing-card migration.
+- Local implementation and offline checks only; not a published beta, installed
+  update, new TV test or hardware-sleep guarantee.
+
 ## 0.1.0b16 (public beta)
 
 - Fix fresh current-artwork confirmation: distinguish request names from the

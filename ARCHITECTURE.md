@@ -1,5 +1,43 @@
 # Frame Gallery for Home Assistant — Architecture proposal
 
+## D-246 separate current preview (local/offline)
+
+`imaging/worker_tasks` derives a small JPEG during the existing exact-delivery
+decode, after the source has closed. Resize before RGB conversion to avoid
+another full-size 4K buffer. Four finite encodes at decreasing maximum
+size/quality yield at most 32 KiB; failure yields no optional image. Standard-
+library `imaging/preview_codec` validates canonical base64, bounded baseline RGB
+JPEG headers and dimensions. `PrepareResult`/`DeliveryArtifact` carry the
+optional value with the existing matching delivery SHA; no parent Pillow, new
+worker task, network request, dependency or larger IPC/resource allowance.
+
+After the selected upload's association is persisted, `store/records` passes the
+transient preview to `store/preview_cache`. The normal association/current/run
+documents never store its JPEG. Private `/data/preview-cache` files have a
+canonical key from actual TV identity/content/work/delivery hash, a strict
+versioned envelope and image SHA. Atomically stored files include their JSON/
+base64 overhead in the 128 MiB cap, with 4,096 entries, bounded scans, a nonblocking
+writer lock, safe relative no-follow paths and LRU-only preview eviction.
+Current preview reads never create missing associations or scan the catalogue.
+
+The background entry injects `store/current_preview` into the existing owned
+`ha/current_artwork` publisher. First verify ownership and acknowledge a POST
+with `preview_available=false`; only then may the callback replace the separate
+`/media/frame_gallery/preview/current.jpg` atomically. A final POST advertises
+the image SHA only after success. Failure/absence keeps the first metadata state
+and image hidden; an HA publication refusal retains the existing stop/no-retry
+policy. Unknown/non-art states neutralize the file best-effort. Public media
+files are display output, never proof of current mode or artist identity.
+
+The optional Local File camera requires only existing media read access. Its
+full native Markdown example gates both image URL and caption on owned current
+state freshness and preview availability; camera failures omit only the image.
+The URL uses HA's existing camera picture reference and a digest cache-buster,
+not a saved credential in YAML or a new web service. No new option, mount,
+privilege, helper, TV query or change to latest.jpg/existing cards. Old uncached
+uploads are not silently backfilled. Native release and live visual checks are
+separate future gates; this change is not firmware/no-wake certification.
+
 ## D-243 missing-on recovery, b15
 
 Remove the permanent nav-until-unsolicited-on latch from the opted-in worker

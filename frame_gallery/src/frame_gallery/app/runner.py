@@ -779,7 +779,9 @@ class Runner:
             )
             return None
         note.result = "prepared"
-        return replace(artifact, reference_rgb=result.reference_rgb)
+        return replace(
+            artifact, reference_rgb=result.reference_rgb, preview_jpeg=result.preview_jpeg
+        )
 
     def _log_chosen(self, entry: ShortlistEntry, artifact: DeliveryArtifact) -> None:
         attribution = entry.candidate.attribution
@@ -1000,6 +1002,8 @@ class Runner:
         archived = dict(record)
         if artifact.reference_rgb is not None:
             archived["delivery_reference_rgb"] = artifact.reference_rgb
+        if artifact.preview_jpeg is not None:
+            archived["delivery_preview_jpeg"] = artifact.preview_jpeg
         try:
             self._ports.records.write_delivery(
                 archived,

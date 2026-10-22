@@ -14,6 +14,7 @@ from pathlib import Path
 from typing import Final
 
 from frame_gallery.domain import CANVAS, FitMode, Rgb, Size
+from frame_gallery.imaging.preview_codec import MAX_PREVIEW_TEXT, decode_preview
 from frame_gallery.imaging.reference import valid_reference
 from frame_gallery.isolation.executor import MAX_PASSED_FILES, JsonObject, JsonValue
 from frame_gallery.selection.geometry import Rejection
@@ -251,8 +252,13 @@ class PrepareResult:
     colour: ColourHandling | None = None
     reference_rgb: str | None = None
     reference_sha256: str | None = None
+    preview_jpeg: str | None = None
 
     def __post_init__(self) -> None:
+        if self.preview_jpeg is not None:
+            if self.reference_rgb is None or self.status is not PrepareStatus.OK:
+                raise ValueError("small preview requires a successful delivery reference")
+            decode_preview(self.preview_jpeg)
         if (self.reference_rgb is not None or self.reference_sha256 is not None) and (
             self.status is not PrepareStatus.OK
             or not valid_reference(self.reference_rgb)
@@ -304,6 +310,8 @@ class PrepareResult:
         }
         if self.reference_rgb is not None:
             result.update(reference_rgb=self.reference_rgb, reference_sha256=self.reference_sha256)
+        if self.preview_jpeg is not None:
+            result["preview_jpeg"] = self.preview_jpeg
         return result
 
     @classmethod
@@ -324,6 +332,9 @@ class PrepareResult:
             else None,
             reference_sha256=_optional_str(obj, "reference_sha256", 64)
             if "reference_sha256" in obj
+            else None,
+            preview_jpeg=_optional_str(obj, "preview_jpeg", MAX_PREVIEW_TEXT)
+            if "preview_jpeg" in obj
             else None,
         )
 
@@ -473,3 +484,4 @@ class DeliveryArtifact:
     """The D-118 fingerprint of the same bytes, recorded for each published
     preview so the local library never offers a copy of it (F7)."""
     reference_rgb: str | None = None
+    preview_jpeg: str | None = None

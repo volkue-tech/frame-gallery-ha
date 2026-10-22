@@ -1,5 +1,28 @@
 # Project status
 
+## D-246 current preview — locally complete, offline gates passed, 2026-10-22
+
+User approves building the theoretical bounded preview. No new HA/TV access,
+installed change or publication is included. Keep current and last-sent previews
+separate, derive tiny JPEGs inside the existing isolated delivery worker, bind
+cache entries to exact per-TV delivered identity, and fail closed on stale or
+unavailable preview while preserving artist metadata. Cache cap 128 MiB includes
+JSON/base64 overhead; no new rights/dependencies/config option. D-246 records the
+publication ordering and optional native-card contract. Existing cards/scripts
+and unrelated docs/community/ remain unchanged. No HA/TV call, credential access,
+native Terminal, installed mutation, version bump, public push or release.
+
+Final frozen full host gates: 6154 passed / 16 existing platform skips in53.20s;
+316-file strict host/Linux typing and Ruff/format;100% whole line/branch
+(11927 statements/2896 branches) and mandatory100% (9132/2148). Real offline
+prepare/send/store/restart/caption scenarios passed in both modes. Four
+in-memory negative controls fail their intended assertions without source edits.
+Five new optional preview guides preserve the five original complete artist-card
+blocks and full background script. See CURRENT_PREVIEW_VALIDATION.md for exact
+evidence, retained intermediate failures, logical cache accounting and limits.
+Native ARM/Intel/image release and actual HA card rendering remain future gates;
+no hardware/sleep guarantee or current installed preview is claimed.
+
 ## b16 release evidence — independently verified, 2026-10-22
 
 Public prerelease420465314 (`v0.1.0b16`) targets the exact frozen source below,

@@ -46,7 +46,7 @@ The current `samsungtvws` package may be evaluated. Its current published licens
 - Do not bundle third-party artworks in application source code or runtime/release images.
 - User-authorized documentation screenshots of the current independent app may depict verified CC0 artwork. Keep them outside the runtime build context, remove private UI details, record the capture and official rights source, and provide an artwork credit. This does not authorize bundling a provider collection, default artwork, predecessor assets, or restricted images.
 - Download artwork only at runtime on the user's Home Assistant system.
-- Retain only the selected preview, bounded metadata cache, and identifiers required for duplicate prevention.
+- Retain only the selected preview, bounded metadata cache, and identifiers required for duplicate prevention. D-246 additionally authorizes a private, bounded runtime cache of small previews from successfully associated user deliveries, solely for current-image display; no artwork is bundled in source or images.
 - Preserve provider attribution or rights information when required and practical.
 - Provider connectors must respect applicable access terms, request limits, and technical restrictions.
 - The existence of a publicly reachable image does not imply a right to redistribute it.

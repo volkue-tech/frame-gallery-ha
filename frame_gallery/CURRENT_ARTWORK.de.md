@@ -1,5 +1,7 @@
 # Aktuelles Kunstwerk und optionaler Hintergrundmodus
 
+Lokal, noch unveröffentlicht: [optionale aktuelle Bildvorschau](CURRENT_PREVIEW.de.md). Bestehende Karten bleiben unverändert.
+
 [English](CURRENT_ARTWORK.md) | Deutsch | [Français](CURRENT_ARTWORK.fr.md) | [Español](CURRENT_ARTWORK.es.md) | [Italiano](CURRENT_ARTWORK.it.md)
 
 **In b16 korrigiert:** Der optionale Zustandsabgleich akzeptiert die echten

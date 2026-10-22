@@ -1,5 +1,23 @@
 # Implementation plan and approval gates
 
+## D-246 bounded current preview — local/offline only
+
+- [x] Record explicit scope, separate last-sent/current semantics,128 MiB cap,
+  exact per-TV identity and no-extra-TV/privilege/dependency contract.
+- [x] Generate a bounded optional JPEG in the existing isolated prepare task;
+  carry it through the validated selected-delivery receipt only.
+- [x] Add an atomic, bounded, identity-safe private preview cache with isolated
+  eviction and safe handling of corruption, symlinks, full disks and deadlines.
+- [x] Add current-file publication with acknowledged availability invalidation
+  before file changes; cache failures must not suppress artist information.
+- [x] Supply complete optional native card and five-language setup instructions;
+  leave installed cards/scripts and all existing example blocks unchanged.
+- [x] Run targeted regressions, real offline prepare/send/store/reopen/caption
+  scenarios and all host quality/type/coverage gates:6154/16,316 typed files,
+  whole/mandatory100%. Four guard-removal controls fail as intended. Record
+  actual evidence and remaining gates in CURRENT_PREVIEW_VALIDATION.md.
+- [ ] Native builds, public beta and live HA/TV tests require separate approval.
+
 ## b16 operational closure — independently checked gates
 
 - [x] Exact five-job run39676527130/all native validators and actual publishers

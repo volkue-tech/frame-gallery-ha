@@ -1,5 +1,7 @@
 # Opera attuale e modalità in background facoltativa
 
+Locale, non pubblicato: [anteprima facoltativa dell’opera attuale](CURRENT_PREVIEW.it.md). Le schede esistenti restano invariate.
+
 [English](CURRENT_ARTWORK.md) | [Deutsch](CURRENT_ARTWORK.de.md) | [Français](CURRENT_ARTWORK.fr.md) | [Español](CURRENT_ARTWORK.es.md) | Italiano
 
 **Corretto in b16:** l'aggiornamento facoltativo accetta le risposte reali

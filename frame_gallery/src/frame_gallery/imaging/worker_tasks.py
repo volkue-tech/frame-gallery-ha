@@ -66,6 +66,7 @@ from frame_gallery.imaging.contract import (
     inspected_event,
 )
 from frame_gallery.imaging.fit import contain_layout, cover_crop, scaled_source
+from frame_gallery.imaging.preview_codec import MAX_PREVIEW_BYTES
 from frame_gallery.imaging.reference import valid_reference
 from frame_gallery.imaging.source_scan import SourceLimitError, SourceScanError, scan_source
 from frame_gallery.isolation.executor import EventSink, JsonObject
@@ -383,6 +384,7 @@ def _prepare(request: PrepareRequest, known: _Known, max_output_bytes: int) -> P
         reference = (
             encoded_image.convert("RGB").resize((64, 36), Image.Resampling.LANCZOS).tobytes()
         )
+        small_preview = _small_preview(encoded_image)
     return PrepareResult(
         status=PrepareStatus.OK,
         source_size=source_size,
@@ -393,7 +395,35 @@ def _prepare(request: PrepareRequest, known: _Known, max_output_bytes: int) -> P
         colour=colour,
         reference_rgb=base64.b64encode(reference).decode("ascii"),
         reference_sha256=hashlib.sha256(data).hexdigest(),
+        preview_jpeg=small_preview,
     )
+
+
+def _small_preview(image: Image.Image) -> str | None:
+    """Four finite encodes; optional display failure never rejects a delivery."""
+    try:
+        scale = min(1.0, 640 / image.width, 360 / image.height)
+        size = (max(1, int(image.width * scale)), max(1, int(image.height * scale)))
+        # Resize before conversion: do not allocate another full 4K RGB buffer.
+        with (
+            image.resize(size, Image.Resampling.LANCZOS) as resized,
+            resized.convert("RGB") as small,
+        ):
+            for width, height, quality in (
+                (640, 360, 75),
+                (480, 270, 65),
+                (320, 180, 50),
+                (320, 180, 30),
+            ):
+                small.thumbnail((width, height), Image.Resampling.LANCZOS)
+                output = io.BytesIO()
+                small.save(output, format="JPEG", quality=quality, progressive=False)
+                data = output.getvalue()
+                if len(data) <= MAX_PREVIEW_BYTES:
+                    return base64.b64encode(data).decode("ascii")
+    except (OSError, ValueError, MemoryError):
+        return None
+    return None
 
 
 def _open_source(path: str) -> IO[bytes]:

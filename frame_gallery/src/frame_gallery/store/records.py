@@ -22,7 +22,7 @@ from pathlib import Path
 from typing import Final
 
 from frame_gallery.budget.clock import Clock
-from frame_gallery.budget.deadline import Deadline
+from frame_gallery.budget.deadline import Deadline, DeadlineExceeded
 from frame_gallery.errors import StateError
 from frame_gallery.store.atomic import (
     CommitError,
@@ -34,6 +34,7 @@ from frame_gallery.store.atomic import (
 )
 from frame_gallery.store.delivery_associations import DeliveryAssociation, DeliveryAssociations
 from frame_gallery.store.fields import parse_qualified_id, parse_timestamp
+from frame_gallery.store.preview_cache import PreviewCache
 
 STATE_DIRECTORY: Final = "state"
 CURRENT_FILE: Final = "current.json"
@@ -126,6 +127,14 @@ class RunRecordStore:
         except ValueError as exc:
             raise StateError(str(exc)) from None
         DeliveryAssociations(self._data_root).remember(association, deadline)
+        encoded = record.get("delivery_preview_jpeg")
+        if encoded is not None:
+            try:
+                if not isinstance(encoded, str):
+                    raise ValueError("invalid optional preview")
+                PreviewCache(self._data_root).remember(association, encoded, deadline)
+            except (StateError, DeadlineExceeded, OSError, ValueError):
+                _log.warning("optional delivery preview was not cached; association is retained")
 
     def preview_fingerprints(self) -> tuple[str, ...]:
         """The fingerprints of the last published previews, newest first, for

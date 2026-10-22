@@ -35,6 +35,15 @@ This file constrains the architecture without prescribing or copying an implemen
 
 ## Home Assistant constraints
 
+- **2026-10-22 D-246 local current preview:** allow a bounded private runtime
+  cache of worker-derived small JPEGs from successful associated deliveries.
+  No extra TV/provider query, parent image decoder, helper, privilege or option.
+  Preserve last-sent latest.jpg. Acknowledge owned preview-availability
+  invalidation before replacing current.jpg; advertise only verified output,
+  and gate optional native image display on the current caption's freshness.
+  Cache failure cannot block metadata. Existing cards/scripts remain intact.
+  Local/offline only; publication/live installation need separate authority.
+
 - **2026-10-20 D-240 local arbitration:** defer only the initial automatic
   read for a fixed ten-second command handoff; missing/invalid/off/error/gap
   clears pending evidence. Claimed NEW_ARTWORK spends startup and old off-edge

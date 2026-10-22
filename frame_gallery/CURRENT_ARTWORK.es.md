@@ -1,5 +1,7 @@
 # Obra actual y modo opcional en segundo plano
 
+Local, sin publicar: [vista previa opcional de la obra actual](CURRENT_PREVIEW.es.md). Las tarjetas existentes no cambian.
+
 [English](CURRENT_ARTWORK.md) | [Deutsch](CURRENT_ARTWORK.de.md) | [Français](CURRENT_ARTWORK.fr.md) | Español | [Italiano](CURRENT_ARTWORK.it.md)
 
 **Corregido en b16:** la actualización opcional acepta las respuestas reales

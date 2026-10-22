@@ -1,5 +1,43 @@
 # Decision log
 
+## D-246 — bounded current-artwork preview, local/offline, 2026-10-22
+
+User approves building the discussed current-image preview. Implement locally
+and test offline only: no HA/TV connection, installed update/start, card/script
+mutation, version bump, push or publication. Preserve unrelated docs/community/.
+
+Derive a small optional JPEG from the exact delivery bytes inside the existing
+isolated image worker; no extra TV thumbnail, provider download or parent Pillow
+import. Keep the encoded worker message below its existing 64 KiB limit. Cache
+only successful, durably associated uploads, keyed by actual TV identity, content
+ID, work ID and delivered-byte SHA. Never confuse repeated IDs on different TVs
+or replacement uploads. Existing archives need no migration; old/unknown/evicted
+works without a matching cached image have no current preview. Artist metadata
+does not depend on this optional cache. Do not bundle third-party artworks.
+
+Cache only app-owned files in a new private data namespace: bounded regular-file
+reads, no symlink following, nonblocking writer lock, atomic writes and a hard
+128 MiB total / 4096-entry ceiling including JSON/base64 overhead. Small JPEGs
+are at most 32 KiB and 640x360; bounded lower-resolution encodes may satisfy the
+cap. LRU eviction affects previews only, never associations/history. No disk-full
+or corrupt-cache fallback may serve another work's image or block metadata.
+This explicitly amends the old selected-preview-only retention rule for this
+bounded user-approved runtime cache, not for bundled collections or downloads.
+
+Publish a separate /media/frame_gallery/preview/current.jpg; latest.jpg and its
+existing card retain last-sent semantics. Before changing the current file,
+acknowledge an owned HA state with preview_available false, then atomically write
+the file and only then advertise its verified digest. Publication failure must
+never leave a newly changed image advertised with the preceding title. Unknown,
+paused/checking/expired state has no advertised preview; the file is neutralized
+best-effort. The optional native card must gate image display on the same current
+state/freshness and availability as the artist text, including after a crash.
+Use the existing Local File integration for optional image display, with no new
+app option, privilege, dependency, HA config access, web server or HACS extension.
+Provide complete optional card YAML and consistent five-language instructions;
+do not edit users' installed cards. Native ARM/Intel and live visual validation
+remain separate future release gates, not inferred from host tests.
+
 ## D-245 — authorized b16 protocol-fix publication, 2026-10-21
 
 User explicitly requests a new beta under personal volkue-tech/frame-gallery-ha

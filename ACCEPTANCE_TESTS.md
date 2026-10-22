@@ -1,5 +1,29 @@
 # Acceptance tests
 
+## Current-preview cache and native card (D-246)
+
+- Real prepare/output validation, selected delivery, durable association and
+  reopened cache must round-trip the correct small JPEG in one-shot AND
+  background mode with injected TV/Core transports and networking disabled.
+- The small preview is optional, bounded to 32 KiB/640x360, derived from the
+  exact encoded delivery and carried below the unchanged 64 KiB IPC ceiling.
+  Finite downsize/encode fallback and encoder failure cannot reject an otherwise
+  valid send. The original source is closed before either JPEG encode.
+- Different TV, reused/replaced content ID, different work or delivery hash,
+  corrupt JSON/JPEG/hash, missing/newer/foreign entries and rejected associations
+  cannot borrow another image. Cache survives restart without a schema migration.
+- Exercise byte/count caps, LRU eviction, low disk, busy lock, symlinks/FIFO,
+  interrupted staging, readback mismatch, deadlines and failed cleanup/eviction.
+  Never delete associations, history, foreign files or the last-sent preview.
+- HA ownership/authentication and the first invalidating state POST must succeed
+  BEFORE current-file replacement. A failed final POST leaves preview hidden.
+  Missing/cache/disk failures retain artist metadata and advertise no image.
+- All five guides contain one complete native optional card, language links,
+  fixed current-file/camera instructions, a shared current/freshness gate for
+  image and caption, camera-unavailable handling and digest cache busting.
+  Existing full card/script YAML remains unchanged. Structural offline checks
+  are not a live Home Assistant rendering or hardware-sleep validation claim.
+
 ## Lost mode-on notification after navigation (D-243)
 
 - Reproduce b14's no-GET wait through the entire virtual session after nav with
