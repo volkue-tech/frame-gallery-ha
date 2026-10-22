@@ -15,6 +15,11 @@
 - This is an offline-verified protocol fix, not a new physical no-wake or
   automatic-sleep guarantee. Publication does not start or update an installed
   Home Assistant app or modify its dashboard.
+- Exact native ARM/Intel validators and actual publisher images each passed
+  6,103 production tests plus eight separate root checks. Four independently
+  hash/provenance/content-checked archives, the public matching sources, both
+  anonymous exact-image imports/parser checks and independent signatures passed.
+  See the [b16 validation report](https://github.com/volkue-tech/frame-gallery-ha/blob/main/BETA16_VALIDATION.md).
 
 ## 0.1.0b15 (public beta)
 

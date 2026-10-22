@@ -1,7 +1,8 @@
 # Frame Gallery
 
-> **New in b15 — optional same-connection refresh:** with background mode enabled,
-> the separate `current_state_refresh` switch (default OFF) can revalidate known
+> **b16 bugfix — corrected state replies:** the existing optional refresh now
+> recognizes the Frame's actual reply events rather than outgoing request names.
+> With background mode enabled, `current_state_refresh` (default OFF) can revalidate known
 > artist/title information after menu use, slideshow restart or an unchanged image.
 > It reads mode and, only after fresh Art Mode on, coherent image IDs at most once
 > per minute over the already established Art socket; it opens no new connection
@@ -9,11 +10,11 @@
 > Standby, observed HA off and a closed connection still stop the session.
 > Read requests may affect automatic sleep; offline tests are not firmware or
 > no-wake certification. Existing cards and scripts stay compatible.
-> See the [b15 checks](https://github.com/volkue-tech/frame-gallery-ha/blob/main/BETA15_VALIDATION.md),
+> See the [b16 checks](https://github.com/volkue-tech/frame-gallery-ha/blob/main/BETA16_VALIDATION.md),
 > [current-artwork guide](CURRENT_ARTWORK.md) and
-> [matching sources](https://github.com/volkue-tech/frame-gallery-ha/releases/tag/sources-v0.1.0b15).
+> [matching sources](https://github.com/volkue-tech/frame-gallery-ha/releases/tag/sources-v0.1.0b16).
 
-> **0.1.0b15 public beta:** [1000 near-widescreen Wikimedia Commons works](COMMONS.md), optional Commons artist/colour selection and [native dashboard pickers](COMMONS_ARTIST.md).
+> **0.1.0b16 public beta:** [1000 near-widescreen Wikimedia Commons works](COMMONS.md), optional Commons artist/colour selection and [native dashboard pickers](COMMONS_ARTIST.md).
 > No API key is needed. Update without uninstalling; your saved sources and
 > existing camera, timer, script and optional artwork-information helper still work.
 

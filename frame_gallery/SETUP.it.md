@@ -1,6 +1,10 @@
 # Frame Gallery — installazione e prima scheda
 
-> **Beta pubblica b15 — aggiornamento facoltativo:** l'opzione aggiuntiva
+**Corretto in b16:** l'aggiornamento facoltativo riconosce i nomi reali delle
+risposte del Frame. Schede, script, associazioni e impostazioni restano
+compatibili; non è necessario reinstallare.
+
+> **Beta pubblica b16 — aggiornamento facoltativo:** l'opzione aggiuntiva
 > `current_state_refresh`, disattivata per impostazione predefinita, richiede il background.
 > Può ripristinare titolo/artista noti dopo il menu, la ripresa della presentazione
 > o con la stessa immagine: al massimo una volta al minuto sulla connessione Art
@@ -10,8 +14,8 @@
 > chiusa continuano ad arrestare la sessione. Le letture possono influire sullo
 > standby automatico; i test offline non certificano firmware o assenza di risvegli.
 > Schede e script restano compatibili. [Guida](CURRENT_ARTWORK.it.md) ·
-> [Rapporto b15](https://github.com/volkue-tech/frame-gallery-ha/blob/main/BETA15_VALIDATION.md)
-> · [sorgenti corrispondenti](https://github.com/volkue-tech/frame-gallery-ha/releases/tag/sources-v0.1.0b15).
+> [Rapporto b16](https://github.com/volkue-tech/frame-gallery-ha/blob/main/BETA16_VALIDATION.md)
+> · [sorgenti corrispondenti](https://github.com/volkue-tech/frame-gallery-ha/releases/tag/sources-v0.1.0b16).
 
 [English](DOCS.md#installation) | [Deutsch](SETUP.de.md) | [Français](SETUP.fr.md) | [Español](SETUP.es.md) | **Italiano**
 

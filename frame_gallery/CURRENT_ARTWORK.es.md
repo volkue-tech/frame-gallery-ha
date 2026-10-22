@@ -2,9 +2,13 @@
 
 [English](CURRENT_ARTWORK.md) | [Deutsch](CURRENT_ARTWORK.de.md) | [Français](CURRENT_ARTWORK.fr.md) | Español | [Italiano](CURRENT_ARTWORK.it.md)
 
-**Beta pública b15: experimental y desactivado por defecto.** Las tarjetas b7/b8/b9/b10/b11/b12/b13 siguen funcionando. No necesita nuevos ayudantes, claves API, HACS, permisos especiales ni otra app en Home Assistant Green/OS.
+**Corregido en b16:** la actualización opcional acepta las respuestas reales
+`artmode_status` / `current_artwork`, comprobando estrictamente el ID de solicitud.
+Sin nuevas opciones, conexiones, formatos de asociación ni cambios de tarjeta.
 
-[Informe b15](https://github.com/volkue-tech/frame-gallery-ha/blob/main/BETA15_VALIDATION.md) · [Fuentes correspondientes](https://github.com/volkue-tech/frame-gallery-ha/releases/tag/sources-v0.1.0b15).
+**Beta pública b16: experimental y desactivado por defecto.** Las tarjetas b7/b8/b9/b10/b11/b12/b13 siguen funcionando. No necesita nuevos ayudantes, claves API, HACS, permisos especiales ni otra app en Home Assistant Green/OS.
+
+[Informe b16](https://github.com/volkue-tech/frame-gallery-ha/blob/main/BETA16_VALIDATION.md) · [Fuentes correspondientes](https://github.com/volkue-tech/frame-gallery-ha/releases/tag/sources-v0.1.0b16).
 
 Incluso una conexión de lectura puede despertar el TV. Las pruebas controladas cubren cambios automáticos y un episodio de reposo natural en un Frame, no todos los modelos o firmware. Mantenga el modo desactivado si ese riesgo es inaceptable.
 
@@ -58,7 +62,7 @@ Los datos privados sobreviven a las actualizaciones normales. Reiniciar el histo
 
 Imágenes antiguas, envíos de otras apps y envíos sin identidad estable quedan sin identificar. No se adivinan artistas ni se usa reconocimiento en la nube.
 
-### Actualización opcional del estado actual — b15
+### Actualización opcional del estado actual — b16
 
 `current_state_refresh` es un interruptor adicional, **desactivado por defecto**,
 que requiere `background_mode`. Permite como máximo una comprobación de lectura

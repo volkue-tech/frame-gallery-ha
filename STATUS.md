@@ -1,15 +1,50 @@
 # Project status
 
+## b16 release evidence — independently verified, 2026-10-22
+
+Public prerelease420465314 (`v0.1.0b16`) targets the exact frozen source below,
+after all mandatory source/native/archive/image/signature gates passed. Both
+build approvals were saved and read back as DISABLED_AFTER_0.1.0b16. This
+17-document Store handoff changes no runtime/config/workflow/dependency byte;
+all16 complete code/YAML fences are unchanged. Final main/38-file anonymous
+readback and exact renewed-broker exit occur after this commit and are recorded
+in the ignored release closure receipts, not pre-claimed here.
+
+Exact publisher run39676527130 completed successfully: all five jobs, both
+native validators and both actual-image publishers. Both public immutable
+images were anonymously pulled, isolated with network none/read-only/non-root,
+and matched the exact118-file runtime hash and corrected reply-parser checks.
+Independent signatures match source542f30c36a66aece9834c458cd4ea2da474947a5.
+Matching public sources were fully verified before distribution. No HA/TV call,
+installed update/start, card/script change or credential persistence occurred.
+
+After the Mac was unlocked, all four exact protected ZIPs were independently
+downloaded and hash/provenance/content checked:6103 production tests,8 root-only
+skips and8 separate root checks each. All13 preparation cases ran twice below
+the real1GiB address-space limit (ARM771.6MiB,Intel768.0MiB),150 inspections/
+zero failures each. Both publisher ZIP digests match the independently pulled
+and signed public images. See BETA16_VALIDATION.md for exact artifact identities.
+
+The overnight personal broker lease expired; one subsequent malformed input
+was rejected locally before any network request. No credential was printed or
+saved and no permissions were expanded. The existing token lacks
+actions_variables=read (one403 metadata probe, no retry), so exact approval
+closure uses the authorized GitHub UI. Watcher29567 completed. Native Terminal
+window control remains prohibited; do not claim those windows were closed.
+Unrelated docs/community/ and user browser tabs are preserved. No HA/TV contact
+or installed/card/script mutation is part of this publication.
+
 ## D-245 b16 release preparation — authorized, 2026-10-21
 
 User authorizes personal build/publication of D-244 as a new beta; no HA/TV
 connection, installed start/update or card/script/configuration change. Version
 0.1.0b16 retains prior releases and all existing storage/defaults/privileges.
-The existing personal token is being prepared in the same fixed-repository,
-four-hour memory-only broker; account/repository guards passed. Exact versioned
+The existing personal token uses the fixed-repository, four-hour memory-only
+broker with personal account/repository guards. Exact versioned
 host gates passed6095/16 in56.94s, strict308-file host/Linux typing, Ruff/format
 and100% whole/mandatory line/branch coverage. Matching source/native/image/
-signature gates and approval/broker cleanup remain pending, not pre-claimed.
+signature gates subsequently passed as recorded above; post-commit public
+readback and broker exit are recorded separately in the ignored release plan.
 Unrelated docs/community/ remains untouched and must not enter the source
 snapshot. See the current b16 task gate and ignored release-plan receipts.
 

@@ -2,9 +2,13 @@
 
 [English](CURRENT_ARTWORK.md) | [Deutsch](CURRENT_ARTWORK.de.md) | [Français](CURRENT_ARTWORK.fr.md) | [Español](CURRENT_ARTWORK.es.md) | Italiano
 
-**Beta pubblica b15: sperimentale e disattivato per impostazione predefinita.** Le schede b7/b8/b9/b10/b11/b12/b13 restano utilizzabili. Nessun nuovo aiutante, chiave API, HACS, privilegio speciale o altra app su Home Assistant Green/OS.
+**Corretto in b16:** l'aggiornamento facoltativo accetta le risposte reali
+`artmode_status` / `current_artwork`, verificando rigorosamente l'ID della richiesta.
+Nessuna nuova opzione, connessione, formato di associazione o modifica delle schede.
 
-[Rapporto b15](https://github.com/volkue-tech/frame-gallery-ha/blob/main/BETA15_VALIDATION.md) · [Sorgenti corrispondenti](https://github.com/volkue-tech/frame-gallery-ha/releases/tag/sources-v0.1.0b15).
+**Beta pubblica b16: sperimentale e disattivato per impostazione predefinita.** Le schede b7/b8/b9/b10/b11/b12/b13 restano utilizzabili. Nessun nuovo aiutante, chiave API, HACS, privilegio speciale o altra app su Home Assistant Green/OS.
+
+[Rapporto b16](https://github.com/volkue-tech/frame-gallery-ha/blob/main/BETA16_VALIDATION.md) · [Sorgenti corrispondenti](https://github.com/volkue-tech/frame-gallery-ha/releases/tag/sources-v0.1.0b16).
 
 Anche una connessione in lettura può risvegliare il TV. I test controllati coprono cambi automatici e un episodio di sonno naturale su un Frame, non tutti i modelli o firmware. Lasciare disattivato se questo rischio è inaccettabile.
 
@@ -59,7 +63,7 @@ I dati privati sopravvivono agli aggiornamenti normali. Azzerare la cronologia d
 
 Vecchie immagini, invii di altre app e invii senza identità stabile rimangono sconosciuti. Nessun artista indovinato o riconoscimento cloud.
 
-### Aggiornamento facoltativo dello stato attuale — b15
+### Aggiornamento facoltativo dello stato attuale — b16
 
 `current_state_refresh` è un'opzione aggiuntiva, **disattivata per impostazione
 predefinita**, che richiede `background_mode`. Consente al massimo una verifica

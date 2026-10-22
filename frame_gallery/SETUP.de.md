@@ -1,6 +1,10 @@
 # Frame Gallery — Installation und erste Dashboardkarte
 
-> **Öffentliche Beta b15 — optionaler Zustandsabgleich:** Der zusätzliche Schalter
+**In b16 korrigiert:** Der optionale Zustandsabgleich erkennt jetzt die echten
+Antwortnamen des Frames. Karten, Scripte, gespeicherte Zuordnungen und
+Einstellungen bleiben kompatibel; keine Neuinstallation nötig.
+
+> **Öffentliche Beta b16 — optionaler Zustandsabgleich:** Der zusätzliche Schalter
 > `current_state_refresh` ist standardmäßig aus und benötigt den Hintergrundmodus.
 > Er kann bekannte Künstler-/Titeldaten nach Menü, Diashow-Neustart oder bei
 > unverändertem Bild erneuern: höchstens einmal pro Minute über die bereits
@@ -9,8 +13,8 @@
 > bleiben unbenannt. Standby, beobachtetes HA-Aus und Verbindungsende stoppen weiter.
 > Leseabfragen können automatisches Einschlafen beeinflussen; Offline-Tests sind
 > kein Firmware- oder Nichtaufwecknachweis. Karten und Scripte bleiben kompatibel.
-> [Anleitung](CURRENT_ARTWORK.de.md) · [b15-Prüfbericht](https://github.com/volkue-tech/frame-gallery-ha/blob/main/BETA15_VALIDATION.md)
-> · [passende Quellen](https://github.com/volkue-tech/frame-gallery-ha/releases/tag/sources-v0.1.0b15).
+> [Anleitung](CURRENT_ARTWORK.de.md) · [b16-Prüfbericht](https://github.com/volkue-tech/frame-gallery-ha/blob/main/BETA16_VALIDATION.md)
+> · [passende Quellen](https://github.com/volkue-tech/frame-gallery-ha/releases/tag/sources-v0.1.0b16).
 
 [English](DOCS.md#installation) | **Deutsch** | [Français](SETUP.fr.md) | [Español](SETUP.es.md) | [Italiano](SETUP.it.md)
 

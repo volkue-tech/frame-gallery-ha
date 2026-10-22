@@ -5,6 +5,26 @@ Assistant's app store; they do not run these commands or edit HA configuration.
 STATUS/TASKS remain the authoritative current status. A committed workflow is
 not evidence that an image has been published or an installation has passed.
 
+## b16 recorded-response parser correction
+
+b16 is the narrow protocol correction to the existing optional state refresh:
+pair outgoing getters with the observed artmode_status/current_artwork reply
+events, retaining every fresh-ID, same-socket, mode/ID and finite safety guard.
+No new option, dependency, privilege, storage format or card/script migration.
+Recorded real-reply fixtures must fail against the old request-name comparison;
+matching synthetic fakes alone are not sufficient protocol evidence.
+
+The [b16 validation report](BETA16_VALIDATION.md) records the exact source,
+native ARM/Intel validators and actual publisher image/root/memory suites,
+four independently verified artifacts, public images/imports and signatures.
+[Matching b16 sources](https://github.com/volkue-tech/frame-gallery-ha/releases/tag/sources-v0.1.0b16)
+must be fully anonymously verified before image distribution. Neither this
+procedure nor a green native build establishes a new physical no-wake result.
+Publish no installed update/start or HA/TV call. Before handback, disable and
+read back both exact approvals, verify final public main/Store/release content
+and end the memory-only broker with exact PID-absence evidence. Never pre-claim
+those later operational closures in an earlier commit.
+
 ## b15 optional same-connection synchronization scope
 
 The separate `current_state_refresh` option is experimental, default OFF and
@@ -72,12 +92,12 @@ No live HA/TV action, app start/update or card/script change is part of publicat
 ## Run the manual workflow
 
 Run **Publish reviewed beta images** on `main`, with the matching beta version.
-For reviewed candidates such as 0.1.0b6 through 0.1.0b13 and 0.1.0b15, the narrowly allowed
+For reviewed candidates such as 0.1.0b6 through 0.1.0b13, 0.1.0b15 and 0.1.0b16, the narrowly allowed
 `codex/commons-default` branch can instead publish
 the exact approved candidate before its app metadata is merged into `main`.
 This prevents store users being offered a version whose image is still missing.
 Repository, exact-commit/source-hash, native validation and non-overwrite gates
-remain identical. Signatures identify the actual workflow branch; b6 through b13 and b15 use
+remain identical. Signatures identify the actual workflow branch; b6 through b13, b15 and b16 use
 `https://github.com/volkue-tech/frame-gallery-ha/.github/workflows/publish.yml@refs/heads/codex/commons-default`.
 Historical b3/b4/b5 used
 `https://github.com/volkue-tech/frame-gallery-ha/.github/workflows/publish.yml@refs/heads/codex/commons-curated`.

@@ -1,6 +1,10 @@
 # Frame Gallery — installation et première carte
 
-> **Bêta publique b15 — actualisation facultative :** le nouveau réglage
+**Corrigé dans b16 :** l'actualisation facultative reconnaît les vrais noms des
+réponses du Frame. Cartes, scripts, associations et réglages restent compatibles ;
+aucune réinstallation n'est nécessaire.
+
+> **Bêta publique b16 — actualisation facultative :** le réglage
 > `current_state_refresh`, désactivé par défaut, nécessite le mode arrière-plan.
 > Il peut rétablir les titre/artiste connus après le menu, une reprise du diaporama
 > ou avec la même image : au plus une fois par minute sur la connexion Art déjà
@@ -10,12 +14,12 @@
 > fermée arrêtent toujours la session. Les lectures peuvent affecter la veille
 > automatique ; les tests hors ligne ne certifient ni firmware ni absence de réveil.
 > Cartes et scripts restent compatibles. [Guide](CURRENT_ARTWORK.fr.md) ·
-> [Rapport b15](https://github.com/volkue-tech/frame-gallery-ha/blob/main/BETA15_VALIDATION.md)
-> · [sources correspondantes](https://github.com/volkue-tech/frame-gallery-ha/releases/tag/sources-v0.1.0b15).
+> [Rapport b16](https://github.com/volkue-tech/frame-gallery-ha/blob/main/BETA16_VALIDATION.md)
+> · [sources correspondantes](https://github.com/volkue-tech/frame-gallery-ha/releases/tag/sources-v0.1.0b16).
 
 [English](DOCS.md#installation) | [Deutsch](SETUP.de.md) | **Français** | [Español](SETUP.es.md) | [Italiano](SETUP.it.md)
 
-Guide de démarrage pour la **bêta 0.1.0b15**. La langue de cette page est choisie
+Guide de démarrage pour la **bêta 0.1.0b16**. La langue de cette page est choisie
 avec les liens ci-dessus, pas automatiquement par Home Assistant.
 Les documents techniques restent [en anglais](DOCS.md#options).
 Depuis 0.1.0b7, le formulaire propose anglais, allemand, français, espagnol et

@@ -1,19 +1,41 @@
 # Implementation plan and approval gates
 
+## b16 operational closure — independently checked gates
+
+- [x] Exact five-job run39676527130/all native validators and actual publishers
+  succeeded. Verify both public exact images/runtime/parser and independent
+  digest/workflow/source signatures; full matching-source verification passed.
+- [x] Seven in-memory negative controls and eight virtual hours passed their
+  intended checks without source edits or any HA/TV connection.
+- [x] After manual Mac unlock, download all four exact protected artifact ZIPs
+  and run bounded provenance/hash/content verification; publisher digests match
+  both independent public-image/signature references. No archive-gate bypass.
+- [x] Disable/read back both existing approvals in GitHub UI. Existing token
+  denied actions_variables=read once; do not retry or expand its permissions.
+- [x] Only after all required gates, create app prerelease420465314 at exact
+  source542f30c and prepare this17-document runtime-identical handoff.
+- [ ] After this handoff commit/push, independently read back main/Store and
+  all38 exact public files; save the final SHA in ignored closure receipts.
+- [ ] End the exact renewed broker, verify it and finished watcher29567 absent,
+  close only own permitted completed UI; no false Terminal cleanup claim.
+- [x] Keep installed HA/app, all cards/scripts and TV untouched throughout.
+
 ## D-245 b16 personal beta publication — authorized, 2026-10-21
 
 - [x] Capture exact scope/authority: D-244 parser fix, no additional feature,
   HA/TV connection, installed update/start or existing card/script change.
-- [ ] Re-run exact versioned host gates; freeze personal source and preserve
+- [x] Re-run exact versioned host gates; freeze personal source and preserve
   all unrelated work, previous releases and unchanged complete card YAML.
-- [ ] Assemble/hash-check matching licensed source package and independently
+- [x] Assemble/hash-check matching licensed source package and independently
   verify its public full contents before any registry image distribution.
-- [ ] Pass exact native ARM/Intel validator and actual publisher image/root/
+- [x] Pass exact native ARM/Intel validator and actual publisher image/root/
   memory checks; independently verify all four evidence archives/provenance.
-- [ ] Verify both immutable public images/imports and independent signatures;
-  only then publish the app prerelease and promote Store/main documentation.
-- [ ] Disable/read back both exact approvals, end memory-only broker and verify
-  exact PID absence. Close own completed permitted UI; report Terminal limits.
+- [x] Verify both immutable public images/imports and independent signatures;
+  only then publish app prerelease420465314 and prepare Store/main documentation.
+- [x] Disable/read back both exact approvals: DISABLED_AFTER_0.1.0b16.
+- [ ] After this commit/push, end memory-only broker28359 and verify exact PID
+  absence. Close own completed permitted UI; report Terminal limits. These
+  post-commit operations are checked in local receipts, not pre-claimed here.
 
 ## D-244 authorized parser correction — local only, 2026-10-21
 

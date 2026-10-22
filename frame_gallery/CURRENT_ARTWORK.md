@@ -2,9 +2,13 @@
 
 English | [Deutsch](CURRENT_ARTWORK.de.md) | [Français](CURRENT_ARTWORK.fr.md) | [Español](CURRENT_ARTWORK.es.md) | [Italiano](CURRENT_ARTWORK.it.md)
 
-**Public beta b15: experimental and off by default.** Existing b7/b8/b9/b10/b11/b12/b13 cards remain usable. No API key, new helper, HACS extension, special permissions or second app is needed on Home Assistant Green/OS.
+**Fixed in b16:** the optional current-state refresh accepts the Frame's real
+`artmode_status` / `current_artwork` replies with strict fresh request-ID checks.
+No new option, connection, stored-ID format or card change is needed.
 
-[b15 validation](https://github.com/volkue-tech/frame-gallery-ha/blob/main/BETA15_VALIDATION.md) · [Matching sources](https://github.com/volkue-tech/frame-gallery-ha/releases/tag/sources-v0.1.0b15).
+**Public beta b16: experimental and off by default.** Existing b7/b8/b9/b10/b11/b12/b13 cards remain usable. No API key, new helper, HACS extension, special permissions or second app is needed on Home Assistant Green/OS.
+
+[b16 validation](https://github.com/volkue-tech/frame-gallery-ha/blob/main/BETA16_VALIDATION.md) · [Matching sources](https://github.com/volkue-tech/frame-gallery-ha/releases/tag/sources-v0.1.0b16).
 
 A read-only connection can still wake a television. Controlled tests covered automatic slideshow changes and one natural-sleep episode on one Frame, not every model or firmware. Leave background mode off if any wake-up risk is unacceptable.
 
@@ -56,7 +60,7 @@ The private app data survives normal updates. Clearing the selection history doe
 
 Old TV pictures, uploads from other apps and deliveries without a stable TV identity remain unidentified. Frame Gallery does not guess artists or use cloud image recognition.
 
-### Optional current-state refresh — b15
+### Optional current-state refresh — b16
 
 `current_state_refresh` is a separate optional switch, **OFF by default**, and
 requires `background_mode`. It allows at most one read-only coherence check of

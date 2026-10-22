@@ -1,7 +1,8 @@
 # Frame Gallery for Home Assistant
 
-> **New in b15 — optional same-connection refresh:** with background mode enabled,
-> the separate `current_state_refresh` switch (default OFF) can revalidate known
+> **b16 bugfix — corrected state replies:** the existing optional refresh now
+> recognizes the Frame's actual reply events rather than outgoing request names.
+> With background mode enabled, `current_state_refresh` (default OFF) can revalidate known
 > artist/title information after menu use, slideshow restart or an unchanged image.
 > It reads mode and, only after fresh Art Mode on, coherent image IDs at most once
 > per minute over the already established Art socket; it opens no new connection
@@ -9,13 +10,13 @@
 > Standby, observed HA off and a closed connection still stop the session.
 > Read requests may affect automatic sleep; offline tests are not firmware or
 > no-wake certification. Existing cards and scripts stay compatible.
-> See the [b15 checks](BETA15_VALIDATION.md),
+> See the [b16 checks](BETA16_VALIDATION.md),
 > [current-artwork guide](frame_gallery/CURRENT_ARTWORK.md) and
-> [matching sources](https://github.com/volkue-tech/frame-gallery-ha/releases/tag/sources-v0.1.0b15).
+> [matching sources](https://github.com/volkue-tech/frame-gallery-ha/releases/tag/sources-v0.1.0b16).
 
 Fresh artwork on your Samsung Frame. Start it with a tap from Home Assistant.
 
-> **0.1.0b15 public beta:** 1000 curated Commons works, optional artist and
+> **0.1.0b16 public beta:** 1000 curated Commons works, optional artist and
 > colour selection, and configuration in English, German, French, Spanish and Italian.
 > Update in place; saved sources, dashboard helpers and history stay compatible.
 
@@ -98,8 +99,9 @@ When reporting a problem, include the app version, TV model and the final outcom
 
 ## Public beta
 
-**[0.1.0b15](https://github.com/volkue-tech/frame-gallery-ha/releases/tag/v0.1.0b15)** adds
-optional same-connection current-state refresh. With background mode and the
+**[0.1.0b16](https://github.com/volkue-tech/frame-gallery-ha/releases/tag/v0.1.0b16)** fixes
+reply-name parsing in the existing optional same-connection refresh. Recorded
+real responses now pass strict correlation instead of being rejected. With background mode and the
 separate default-OFF `current_state_refresh` option enabled, bounded mode/ID
 checks can refresh known captions after menu/slideshow navigation or an unchanged
 image. Checks use the existing Art socket at most once per minute, never another
@@ -107,8 +109,8 @@ connection or an image/power/mode command; unknown art has no invented caption.
 Art-channel off/navigation clears captions while retaining mode-only checks;
 physical standby, HA off or a closed socket still stops. Requests may affect
 automatic sleep. Offline checks do not certify all firmware or no-wake behaviour.
-See [b15 validation](BETA15_VALIDATION.md) and the
-[matching sources](https://github.com/volkue-tech/frame-gallery-ha/releases/tag/sources-v0.1.0b15).
+See [b16 validation](BETA16_VALIDATION.md) and the
+[matching sources](https://github.com/volkue-tech/frame-gallery-ha/releases/tag/sources-v0.1.0b16).
 Existing cards, scripts and per-TV memory remain compatible; publication alone
 does not update or start your installed app.
 
@@ -200,7 +202,7 @@ The app runs once, then stops. It does not remove artworks already stored on you
 
 ## For contributors
 
-Frame Gallery is implemented independently. The project's own code is [Apache-2.0](LICENSE); distributed third-party components retain their own licences. The runtime is not GPL-free. [Third-party notices](THIRD_PARTY_NOTICES.md) and [matching component sources](https://github.com/volkue-tech/frame-gallery-ha/releases/tag/sources-v0.1.0b15) are available; historical source releases are retained.
+Frame Gallery is implemented independently. The project's own code is [Apache-2.0](LICENSE); distributed third-party components retain their own licences. The runtime is not GPL-free. [Third-party notices](THIRD_PARTY_NOTICES.md) and [matching component sources](https://github.com/volkue-tech/frame-gallery-ha/releases/tag/sources-v0.1.0b16) are available; historical source releases are retained.
 
 - [Developer setup and quality gates](frame_gallery/DEVELOPMENT.md)
 - [Product specification](PRODUCT_SPEC.md) · [Architecture](ARCHITECTURE.md) · [Acceptance tests](ACCEPTANCE_TESTS.md)

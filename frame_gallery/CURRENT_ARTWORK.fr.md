@@ -2,9 +2,13 @@
 
 [English](CURRENT_ARTWORK.md) | [Deutsch](CURRENT_ARTWORK.de.md) | Français | [Español](CURRENT_ARTWORK.es.md) | [Italiano](CURRENT_ARTWORK.it.md)
 
-**Bêta publique b15 : expérimental et désactivé par défaut.** Les cartes b7/b8/b9/b10/b11/b12/b13 restent utilisables. Aucun nouvel assistant, clé API, extension HACS, privilège spécial ou autre app n'est nécessaire sur Home Assistant Green/OS.
+**Corrigé dans b16 :** l'actualisation facultative accepte les vraies réponses
+`artmode_status` / `current_artwork`, avec contrôle strict de l'ID de requête.
+Aucun nouveau réglage, connexion, format d'association ou changement de carte.
 
-[Rapport b15](https://github.com/volkue-tech/frame-gallery-ha/blob/main/BETA15_VALIDATION.md) · [Sources correspondantes](https://github.com/volkue-tech/frame-gallery-ha/releases/tag/sources-v0.1.0b15).
+**Bêta publique b16 : expérimental et désactivé par défaut.** Les cartes b7/b8/b9/b10/b11/b12/b13 restent utilisables. Aucun nouvel assistant, clé API, extension HACS, privilège spécial ou autre app n'est nécessaire sur Home Assistant Green/OS.
+
+[Rapport b16](https://github.com/volkue-tech/frame-gallery-ha/blob/main/BETA16_VALIDATION.md) · [Sources correspondantes](https://github.com/volkue-tech/frame-gallery-ha/releases/tag/sources-v0.1.0b16).
 
 Même une connexion en lecture peut réveiller un TV. Les tests contrôlés couvrent des changements automatiques et un épisode de veille naturelle sur un Frame, pas tous les modèles ou firmwares. Laissez le mode désactivé si ce risque est inacceptable.
 
@@ -59,7 +63,7 @@ Les données privées de l'app survivent aux mises à jour normales. Réinitiali
 
 Les anciennes images, les envois d'autres apps et les envois sans identité TV stable restent inconnus. Aucun artiste deviné ni reconnaissance cloud.
 
-### Actualisation facultative de l'état actuel — b15
+### Actualisation facultative de l'état actuel — b16
 
 `current_state_refresh` est une option distincte, **désactivée par défaut**, qui
 nécessite `background_mode`. Elle autorise au maximum une vérification en lecture

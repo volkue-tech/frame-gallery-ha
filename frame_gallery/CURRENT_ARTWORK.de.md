@@ -2,9 +2,13 @@
 
 [English](CURRENT_ARTWORK.md) | Deutsch | [Français](CURRENT_ARTWORK.fr.md) | [Español](CURRENT_ARTWORK.es.md) | [Italiano](CURRENT_ARTWORK.it.md)
 
-**Öffentliche Beta b15: experimentell und standardmäßig aus.** Bestehende b7/b8/b9/b10/b11/b12/b13-Karten bleiben nutzbar. Auf Home Assistant Green/OS werden keine API-Schlüssel, neuen Helfer, HACS-Erweiterungen, Sonderrechte oder weiteren Apps benötigt.
+**In b16 korrigiert:** Der optionale Zustandsabgleich akzeptiert die echten
+Antworten `artmode_status` / `current_artwork` mit strenger Anfrage-ID-Prüfung.
+Keine neue Option, Verbindung, Zuordnungsdatei oder Kartenänderung nötig.
 
-[b15-Prüfbericht](https://github.com/volkue-tech/frame-gallery-ha/blob/main/BETA15_VALIDATION.md) · [Passende Quellen](https://github.com/volkue-tech/frame-gallery-ha/releases/tag/sources-v0.1.0b15).
+**Öffentliche Beta b16: experimentell und standardmäßig aus.** Bestehende b7/b8/b9/b10/b11/b12/b13-Karten bleiben nutzbar. Auf Home Assistant Green/OS werden keine API-Schlüssel, neuen Helfer, HACS-Erweiterungen, Sonderrechte oder weiteren Apps benötigt.
+
+[b16-Prüfbericht](https://github.com/volkue-tech/frame-gallery-ha/blob/main/BETA16_VALIDATION.md) · [Passende Quellen](https://github.com/volkue-tech/frame-gallery-ha/releases/tag/sources-v0.1.0b16).
 
 Auch eine lesende Verbindung kann einen Fernseher aufwecken. Kontrollierte Tests erfassten automatische Bildwechsel und einen natürlichen Einschlafvorgang an einem Frame, nicht alle Modelle oder Firmwares. Falls jedes Aufweckrisiko inakzeptabel ist, Hintergrundmodus ausgeschaltet lassen.
 
@@ -60,7 +64,7 @@ Die privaten App-Daten bleiben bei normalen Updates erhalten. Das Zurücksetzen 
 
 Alte TV-Bilder, Uploads anderer Apps und Sendungen ohne stabile Geräteidentität bleiben unbekannt. Künstler werden nicht geraten; keine Cloud-Bilderkennung.
 
-### Optionale Aktualisierung des aktuellen Zustands — b15
+### Optionale Aktualisierung des aktuellen Zustands — b16
 
 `current_state_refresh` ist ein zusätzlicher optionaler Schalter, **standardmäßig
 aus**, und setzt `background_mode` voraus. Er erlaubt höchstens eine lesende

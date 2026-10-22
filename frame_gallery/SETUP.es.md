@@ -1,6 +1,10 @@
 # Frame Gallery — instalación y primera tarjeta
 
-> **Beta pública b15 — actualización opcional:** el ajuste adicional
+**Corregido en b16:** la actualización opcional reconoce los nombres reales de
+las respuestas del Frame. Tarjetas, scripts, asociaciones y ajustes siguen
+siendo compatibles; no hace falta reinstalar.
+
+> **Beta pública b16 — actualización opcional:** el ajuste adicional
 > `current_state_refresh`, desactivado por defecto, requiere el modo en segundo plano.
 > Puede recuperar título/artista conocidos tras usar el menú, reanudar la presentación
 > o mantener la misma imagen: como máximo una vez por minuto sobre la conexión Art
@@ -10,12 +14,12 @@
 > cerrada siguen deteniendo la sesión. Las lecturas pueden afectar el reposo
 > automático; las pruebas sin conexión no certifican firmware ni ausencia de despertar.
 > Tarjetas y scripts siguen siendo compatibles. [Guía](CURRENT_ARTWORK.es.md) ·
-> [Informe b15](https://github.com/volkue-tech/frame-gallery-ha/blob/main/BETA15_VALIDATION.md)
-> · [fuentes correspondientes](https://github.com/volkue-tech/frame-gallery-ha/releases/tag/sources-v0.1.0b15).
+> [Informe b16](https://github.com/volkue-tech/frame-gallery-ha/blob/main/BETA16_VALIDATION.md)
+> · [fuentes correspondientes](https://github.com/volkue-tech/frame-gallery-ha/releases/tag/sources-v0.1.0b16).
 
 [English](DOCS.md#installation) | [Deutsch](SETUP.de.md) | [Français](SETUP.fr.md) | **Español** | [Italiano](SETUP.it.md)
 
-Guía inicial para la **beta 0.1.0b15**. El idioma de esta página se elige con
+Guía inicial para la **beta 0.1.0b16**. El idioma de esta página se elige con
 los enlaces de arriba, no automáticamente desde Home Assistant.
 Los documentos técnicos siguen [en inglés](DOCS.md#options).
 Desde 0.1.0b7, el formulario ofrece inglés, alemán, francés, español e italiano
