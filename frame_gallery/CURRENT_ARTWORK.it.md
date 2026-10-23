@@ -1,14 +1,6 @@
 # Opera attuale e modalità in background facoltativa
 
-> **Limitazione di sicurezza 0.1.0b17 (D-247):** connessioni automatiche
-> all'avvio/risveglio e letture periodiche `current_state_refresh` sospese, anche
-> con opzioni salvate. `resume_state_entity` può solo arrestare, mai avviare.
-> Dopo un nuovo invio esplicito riuscito, il ricevitore passivo esistente può
-> seguire eventi completi della presentazione. Le immagini invariate scadono;
-> nessun recupero automatico dopo standby o perdita della sessione. Questo
-> sostituisce le precedenti istruzioni b11–b16 riportate sotto. Schede, ID degli
-> script e associazioni restano invariati. L'assenza di effetti collaterali
-> della connessione non è garantita.
+> **0.1.0b18 — ripresa facoltativa e limitata dopo standby (D-247/D-250).** Le vecchie opzioni non autorizzano letture automatiche: `current_state_refresh` e la lettura iniziale con TV già acceso restano sospese. Il NUOVO `standby_resume` è disattivato per impostazione predefinita; richiede background ed entità Samsung esistente `resume_state_entity`. L'app attiva deve osservare 30 secondi di spento continuo, poi un'accensione realmente recente e stabile per 10 secondi, prima di una sola verifica del TV e dell'immagine. Massimo sei tentativi all'ora, distanziati di almeno 60 secondi anche dopo normali riavvii. La ripresa non aggiunge comandi immagine, power o modalità, nuovi abbinamenti o ripetizioni cieche. Dopo disconnessione senza nuovo standby occorre un altro ciclo completo. Gli effetti fisici della connessione restano irrisolti: nessuna garanzia di non risveglio. Carte/script conservati. [Carta di stato completa facoltativa](CURRENT_STATUS.it.md) · [anteprima attuale](CURRENT_PREVIEW.it.md) · [prove e limiti b18](https://github.com/volkue-tech/frame-gallery-ha/blob/main/BETA18_VALIDATION.md).
 
 Dalla 0.1.0b17: [anteprima facoltativa dell’opera attuale](CURRENT_PREVIEW.it.md). Le schede esistenti restano invariate. [Validazione b17 e limiti](https://github.com/volkue-tech/frame-gallery-ha/blob/main/BETA17_VALIDATION.md).
 
@@ -74,7 +66,7 @@ visualizzazione di 90 secondi e 15 minuti.
 
 </details>
 
-Candidato locale non pubblicato: [ripresa limitata dopo standby e carta di stato completa](CURRENT_STATUS.it.md). YAML esistente conservato; nessuna modifica installata o pubblicazione.
+**0.1.0b18 — ripresa facoltativa e limitata dopo standby (D-247/D-250).** Le vecchie opzioni non autorizzano letture automatiche: `current_state_refresh` e la lettura iniziale con TV già acceso restano sospese. Il NUOVO `standby_resume` è disattivato per impostazione predefinita; richiede background ed entità Samsung esistente `resume_state_entity`. L'app attiva deve osservare 30 secondi di spento continuo, poi un'accensione realmente recente e stabile per 10 secondi, prima di una sola verifica del TV e dell'immagine. Massimo sei tentativi all'ora, distanziati di almeno 60 secondi anche dopo normali riavvii. La ripresa non aggiunge comandi immagine, power o modalità, nuovi abbinamenti o ripetizioni cieche. Dopo disconnessione senza nuovo standby occorre un altro ciclo completo. Gli effetti fisici della connessione restano irrisolti: nessuna garanzia di non risveglio. Carte/script conservati. [Carta di stato completa facoltativa](CURRENT_STATUS.it.md) · [anteprima attuale](CURRENT_PREVIEW.it.md) · [prove e limiti b18](https://github.com/volkue-tech/frame-gallery-ha/blob/main/BETA18_VALIDATION.md).
 
 Ogni invio selezionato con successo salva automaticamente ID TV, titolo, artista e fonte, anche con la modalità in background **disattivata**. Nessun ID da inserire. L'associazione appartiene alla vera identità del TV, non solo al suo IP. Lo stesso ID su un altro TV non indica la stessa opera. Un nuovo invio riuscito sostituisce l'associazione precedente per quel TV/ID.
 

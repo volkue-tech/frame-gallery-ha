@@ -1,13 +1,6 @@
 # Current artwork and optional background mode
 
-> **0.1.0b17 safety hold (D-247):** automatic startup/wake
-> connections and `current_state_refresh` minute reads are suspended, including
-> saved opt-ins. `resume_state_entity` is now a stop signal only, never a start
-> grant. After a fresh explicit successful send, the existing passive receiver
-> can follow complete slideshow events. Unchanged images expire; sleep or a
-> lost session does not recover automatically. These restrictions override the
-> older b11–b16 recovery instructions below. Cards, script IDs and saved artwork
-> associations are unchanged. Connection side effects are not certified absent.
+> **0.1.0b18 — optional bounded standby recovery (D-247/D-250).** Old saved switches still do not authorize automatic reads: `current_state_refresh` and initial-on reads remain suspended. NEW `standby_resume` is OFF by default and requires background mode plus an existing Samsung `resume_state_entity`. The running app must observe off continuously for 30 seconds, then a genuinely fresh on stable for 10 seconds, before one exact-device/image revalidation; at most six attempts/hour, at least 60 seconds apart across ordinary restarts. No image, power or mode commands, enrollment or blind retries are added by recovery. Lost sessions while HA stays on need a new complete cycle. Physical connection side effects remain unresolved; this is NOT a no-wake guarantee. Existing cards/scripts remain unchanged. See the [complete optional status card](CURRENT_STATUS.md), [current preview](CURRENT_PREVIEW.md) and [b18 evidence/limits](https://github.com/volkue-tech/frame-gallery-ha/blob/main/BETA18_VALIDATION.md).
 
 From 0.1.0b17: [optional current-image preview](CURRENT_PREVIEW.md). Existing cards stay unchanged. [b17 validation and limits](https://github.com/volkue-tech/frame-gallery-ha/blob/main/BETA17_VALIDATION.md).
 
@@ -17,7 +10,7 @@ English | [Deutsch](CURRENT_ARTWORK.de.md) | [Français](CURRENT_ARTWORK.fr.md) 
 `artmode_status` / `current_artwork` replies with strict fresh request-ID checks.
 No new option, connection, stored-ID format or card change is needed.
 
-**0.1.0b17 public beta: experimental and off by default.** Existing b7/b8/b9/b10/b11/b12/b13/b16 cards remain usable. No API key, new helper, HACS extension, special permissions or second app is needed on Home Assistant Green/OS.
+**0.1.0b18 public beta: experimental and off by default.** Existing b7/b8/b9/b10/b11/b12/b13/b16 cards remain usable. No API key, new helper, HACS extension, special permissions or second app is needed on Home Assistant Green/OS.
 
 [Historical b16 validation](https://github.com/volkue-tech/frame-gallery-ha/blob/main/BETA16_VALIDATION.md) · [Historical matching sources](https://github.com/volkue-tech/frame-gallery-ha/releases/tag/sources-v0.1.0b16).
 
@@ -70,7 +63,7 @@ Leave the field empty to disable it. A stopped app cannot observe a wake. The
 
 </details>
 
-Local unpublished candidate: [bounded standby recovery and complete status card](CURRENT_STATUS.md). Existing complete YAML below remains unchanged; no installed change or release.
+**0.1.0b18 — optional bounded standby recovery (D-247/D-250).** Old saved switches still do not authorize automatic reads: `current_state_refresh` and initial-on reads remain suspended. NEW `standby_resume` is OFF by default and requires background mode plus an existing Samsung `resume_state_entity`. The running app must observe off continuously for 30 seconds, then a genuinely fresh on stable for 10 seconds, before one exact-device/image revalidation; at most six attempts/hour, at least 60 seconds apart across ordinary restarts. No image, power or mode commands, enrollment or blind retries are added by recovery. Lost sessions while HA stays on need a new complete cycle. Physical connection side effects remain unresolved; this is NOT a no-wake guarantee. Existing cards/scripts remain unchanged. See the [complete optional status card](CURRENT_STATUS.md), [current preview](CURRENT_PREVIEW.md) and [b18 evidence/limits](https://github.com/volkue-tech/frame-gallery-ha/blob/main/BETA18_VALIDATION.md).
 
 Every successfully selected upload now saves its TV image ID, title, artist and source automatically, even with background mode **off**. Nothing needs to be entered manually. The association belongs to the actual TV identity, not just its IP address: the same image ID on another TV is not the same artwork. A successful new upload replaces an older association for that TV/ID.
 

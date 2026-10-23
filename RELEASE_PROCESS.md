@@ -1,5 +1,11 @@
 # Releasing a reviewed beta
 
+## b18 observed release gates
+
+Exact [native run 39931258791](https://github.com/volkue-tech/frame-gallery-ha/actions/runs/39931258791) passed all five jobs. Both native validators and both actual publisher images each passed 6,362 production tests with eight root skips plus eight separate root checks. All four exact archives passed independent provenance/byte-hash/content checks; matching public sources, both immutable public-image recovery/status/preview probes and independent source/workflow-bound signatures passed. No physical no-wake claim.
+
+Matching sources preceded distribution; both exact approvals are disabled/read back. New recovery is separately default OFF. Store/docs promotion, final public readback and broker exit are later checks, not pre-claimed here. No HA/TV or installed changes.
+
 This is the maintainer procedure. Users install the pre-built app through Home
 Assistant's app store; they do not run these commands or edit HA configuration.
 STATUS/TASKS remain the authoritative current status. A committed workflow is

@@ -1,14 +1,6 @@
 # Frame Gallery — installation et première carte
 
-> **0.1.0b17 — restriction de sécurité :** les connexions automatiques au
-> démarrage/réveil et les lectures par minute sont suspendues, même si activées
-> auparavant. L'entité Samsung sert uniquement à arrêter l'observation. Un envoi
-> explicite réussi peut suivre les événements passifs du diaporama. Une image
-> inchangée expire ; aucune reprise automatique après veille ou déconnexion.
-> La cause physique du réveil/changement de mode reste inconnue ; aucune garantie
-> d'absence de réveil. Cartes, scripts et associations sont conservés.
-> [Œuvre actuelle](CURRENT_ARTWORK.fr.md) · [aperçu facultatif](CURRENT_PREVIEW.fr.md).
-> [Validation b17 et limites](https://github.com/volkue-tech/frame-gallery-ha/blob/main/BETA17_VALIDATION.md).
+> **0.1.0b18 — reprise facultative et limitée après veille (D-247/D-250).** Les anciens réglages n'autorisent toujours pas de lecture automatique : `current_state_refresh` et la lecture au démarrage lorsque le TV est déjà allumé restent suspendus. Le NOUVEAU `standby_resume` est désactivé par défaut ; il exige le mode arrière-plan et l'entité Samsung existante `resume_state_entity`. L'application active doit observer 30 secondes d'arrêt continu, puis un allumage réellement récent et stable pendant 10 secondes, avant une seule revalidation du téléviseur et de l'image. Au maximum six tentatives par heure, espacées d'au moins 60 secondes, même après un redémarrage normal. La reprise n'ajoute aucune commande d'image, d'alimentation ou de mode, aucun nouvel appairage ni répétition aveugle. Une déconnexion sans nouvel arrêt exige un nouveau cycle complet. Les effets physiques de connexion restent incertains : aucune garantie de non-réveil. Cartes/scripts conservés. [Carte d'état complète facultative](CURRENT_STATUS.fr.md) · [aperçu actuel](CURRENT_PREVIEW.fr.md) · [preuves et limites b18](https://github.com/volkue-tech/frame-gallery-ha/blob/main/BETA18_VALIDATION.md).
 
 [English](DOCS.md#installation) | [Deutsch](SETUP.de.md) | **Français** | [Español](SETUP.es.md) | [Italiano](SETUP.it.md)
 

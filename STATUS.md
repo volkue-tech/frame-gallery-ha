@@ -1,5 +1,16 @@
 # Project status
 
+## b18 release gates — observed native/public results
+
+Exact [native run 39931258791](https://github.com/volkue-tech/frame-gallery-ha/actions/runs/39931258791) passed all five jobs. Both native validators and both actual publisher images each passed 6,362 production tests with eight root skips plus eight separate root checks. All four exact archives passed independent provenance/byte-hash/content checks; matching public sources, both immutable public-image recovery/status/preview probes and independent source/workflow-bound signatures passed. No physical no-wake claim.
+Frozen source `b37b4f4932997050db028c35423573d6cced1574`, runtime123/`5ba2b96d4c12c5f0b86f361ed9a4f2aa61ed016818671485433b6a7fd2cf9f16`.
+App [prerelease 421778494](https://github.com/volkue-tech/frame-gallery-ha/releases/tag/v0.1.0b18); both build approvals disabled/read back.
+Matching sources and all four native/public-image/signature receipts are retained
+in BETA18_VALIDATION.md. This documentation-only handoff has 28 files and 26
+unchanged complete code blocks; its commit/push, final public readback and exact
+credential-process exit are subsequent checks, not pre-claimed here.
+No HA/TV contact, installed mutation or physical firmware/no-wake claim.
+
 ## D-251 b18 native/release gate — authorized, 2026-10-23
 
 User authorizes native ARM/Intel validation and green-gate-only publication of

@@ -1,14 +1,6 @@
 # Obra actual y modo opcional en segundo plano
 
-> **Restricción de seguridad 0.1.0b17 (D-247):** se suspenden las
-> conexiones automáticas al iniciar/despertar y las consultas periódicas
-> `current_state_refresh`, incluso con opciones guardadas. `resume_state_entity`
-> solo puede detener, nunca iniciar. Tras un nuevo envío explícito correcto,
-> el receptor pasivo existente puede seguir eventos completos de diapositivas.
-> Una imagen sin cambios caduca; no hay recuperación automática tras reposo o
-> pérdida de sesión. Esto sustituye las instrucciones antiguas b11–b16 de abajo.
-> Se mantienen tarjetas, IDs de script y asociaciones. No se garantiza la
-> ausencia de efectos secundarios de conexión.
+> **0.1.0b18 — recuperación opcional y limitada tras reposo (D-247/D-250).** Los ajustes antiguos no autorizan lecturas automáticas: `current_state_refresh` y la consulta inicial con el TV ya encendido siguen suspendidos. El NUEVO `standby_resume` está desactivado por defecto; requiere segundo plano y la entidad Samsung existente `resume_state_entity`. La app en ejecución debe observar 30 segundos de apagado continuo y después un encendido realmente reciente y estable durante 10 segundos, antes de una única validación del TV y la imagen. Máximo seis intentos por hora, separados al menos 60 segundos incluso tras reinicios normales. La recuperación no añade órdenes de imagen, encendido o modo, emparejamiento ni reintentos ciegos. Tras desconexión sin nuevo apagado se requiere otro ciclo completo. Los efectos físicos de la conexión siguen sin resolverse: no hay garantía de que no despierte. Tarjetas/scripts conservados. [Tarjeta de estado completa opcional](CURRENT_STATUS.es.md) · [vista previa actual](CURRENT_PREVIEW.es.md) · [pruebas y límites b18](https://github.com/volkue-tech/frame-gallery-ha/blob/main/BETA18_VALIDATION.md).
 
 Desde 0.1.0b17: [vista previa opcional de la obra actual](CURRENT_PREVIEW.es.md). Las tarjetas existentes no cambian. [Validación b17 y límites](https://github.com/volkue-tech/frame-gallery-ha/blob/main/BETA17_VALIDATION.md).
 
@@ -73,7 +65,7 @@ visualización de 90 segundos y 15 minutos no cambian.
 
 </details>
 
-Candidato local sin publicar: [recuperación limitada tras espera y tarjeta de estado completa](CURRENT_STATUS.es.md). YAML existente conservado; sin cambios instalados ni publicación.
+**0.1.0b18 — recuperación opcional y limitada tras reposo (D-247/D-250).** Los ajustes antiguos no autorizan lecturas automáticas: `current_state_refresh` y la consulta inicial con el TV ya encendido siguen suspendidos. El NUEVO `standby_resume` está desactivado por defecto; requiere segundo plano y la entidad Samsung existente `resume_state_entity`. La app en ejecución debe observar 30 segundos de apagado continuo y después un encendido realmente reciente y estable durante 10 segundos, antes de una única validación del TV y la imagen. Máximo seis intentos por hora, separados al menos 60 segundos incluso tras reinicios normales. La recuperación no añade órdenes de imagen, encendido o modo, emparejamiento ni reintentos ciegos. Tras desconexión sin nuevo apagado se requiere otro ciclo completo. Los efectos físicos de la conexión siguen sin resolverse: no hay garantía de que no despierte. Tarjetas/scripts conservados. [Tarjeta de estado completa opcional](CURRENT_STATUS.es.md) · [vista previa actual](CURRENT_PREVIEW.es.md) · [pruebas y límites b18](https://github.com/volkue-tech/frame-gallery-ha/blob/main/BETA18_VALIDATION.md).
 
 Cada envío seleccionado correctamente guarda automáticamente el ID del TV, título, artista y fuente, incluso con el modo en segundo plano **desactivado**. No hay que introducir ID. La asociación pertenece a la identidad real del TV, no solo a su IP. El mismo ID en otro TV no es la misma obra. Un nuevo envío correcto sustituye la asociación anterior de ese TV/ID.
 

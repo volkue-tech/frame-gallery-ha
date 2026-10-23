@@ -1,5 +1,17 @@
 # Implementation plan and approval gates
 
+## b18 handoff — observed gates, closure follows
+
+- [x] Freeze source `b37b4f4932997050db028c35423573d6cced1574` after host6354/16.
+- [x] Public matching sources were anonymously downloaded and fully checked
+  before native CI; all five jobs and all four archives passed. See BETA18_VALIDATION.md.
+- [x] Both immutable images/runtime probes and independent signatures verified.
+- [x] App [prerelease 421778494](https://github.com/volkue-tech/frame-gallery-ha/releases/tag/v0.1.0b18) created; exact approvals disabled/read back.
+- [ ] Commit/push only the 28-file documentation handoff with 26 unchanged
+  complete examples; verify final anonymous 51-file Store/docs readback and
+  exact credential-process exit. Those later operations are not pre-claimed.
+- [x] No HA/TV or installed card/script change; NEW recovery OFF by default.
+
 ## D-251 b18 personal publication — authorized, 2026-10-23
 
 - [ ] Version/freeze the D-250 candidate after full host gates; keep 21 original

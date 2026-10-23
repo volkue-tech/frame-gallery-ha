@@ -1,17 +1,8 @@
 # Frame Gallery
 
-> **0.1.0b17 — observer safety hold:** automatic startup/wake connections
-> and minute state reads are suspended, even for saved opt-ins. The Samsung
-> entity only stops observation; HA on never starts it. After a fresh explicit
-> successful send, passive complete slideshow events can confirm known artwork.
-> Unchanged images expire; sleep/connection loss requires another explicit send.
-> The reported physical wake/mode cause remains unresolved. This is a conservative
-> software restriction, not a no-wake guarantee. Existing cards/scripts are unchanged.
-> See [current artwork](CURRENT_ARTWORK.md) and the separate
-> [optional bounded current-image preview](CURRENT_PREVIEW.md).
-> [b17 validation and limits](https://github.com/volkue-tech/frame-gallery-ha/blob/main/BETA17_VALIDATION.md).
+> **0.1.0b18 — optional bounded standby recovery (D-247/D-250).** Old saved switches still do not authorize automatic reads: `current_state_refresh` and initial-on reads remain suspended. NEW `standby_resume` is OFF by default and requires background mode plus an existing Samsung `resume_state_entity`. The running app must observe off continuously for 30 seconds, then a genuinely fresh on stable for 10 seconds, before one exact-device/image revalidation; at most six attempts/hour, at least 60 seconds apart across ordinary restarts. No image, power or mode commands, enrollment or blind retries are added by recovery. Lost sessions while HA stays on need a new complete cycle. Physical connection side effects remain unresolved; this is NOT a no-wake guarantee. Existing cards/scripts remain unchanged. See the [complete optional status card](CURRENT_STATUS.md), [current preview](CURRENT_PREVIEW.md) and [b18 evidence/limits](https://github.com/volkue-tech/frame-gallery-ha/blob/main/BETA18_VALIDATION.md).
 
-> **0.1.0b17 public beta:** [1000 near-widescreen Wikimedia Commons works](COMMONS.md), optional Commons artist/colour selection and [native dashboard pickers](COMMONS_ARTIST.md).
+> **0.1.0b18 public beta:** [1000 near-widescreen Wikimedia Commons works](COMMONS.md), optional Commons artist/colour selection and [native dashboard pickers](COMMONS_ARTIST.md).
 > No API key is needed. Update without uninstalling; your saved sources and
 > existing camera, timer, script and optional artwork-information helper still work.
 

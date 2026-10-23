@@ -1,14 +1,6 @@
 # Frame Gallery — installazione e prima scheda
 
-> **0.1.0b17 — limitazione di sicurezza:** connessioni automatiche all'avvio/
-> risveglio e letture al minuto sono sospese, anche con opzioni già salvate.
-> L'entità Samsung serve soltanto ad arrestare l'osservazione. Un invio esplicito
-> riuscito può seguire eventi passivi della presentazione. Le immagini immutate
-> scadono; nessuna ripresa automatica dopo standby o disconnessione. La causa fisica
-> del risveglio/cambio di modalità non è chiarita; nessuna garanzia di mancato risveglio.
-> Schede, script e associazioni restano invariati.
-> [Opera attuale](CURRENT_ARTWORK.it.md) · [anteprima facoltativa](CURRENT_PREVIEW.it.md).
-> [Validazione b17 e limiti](https://github.com/volkue-tech/frame-gallery-ha/blob/main/BETA17_VALIDATION.md).
+> **0.1.0b18 — ripresa facoltativa e limitata dopo standby (D-247/D-250).** Le vecchie opzioni non autorizzano letture automatiche: `current_state_refresh` e la lettura iniziale con TV già acceso restano sospese. Il NUOVO `standby_resume` è disattivato per impostazione predefinita; richiede background ed entità Samsung esistente `resume_state_entity`. L'app attiva deve osservare 30 secondi di spento continuo, poi un'accensione realmente recente e stabile per 10 secondi, prima di una sola verifica del TV e dell'immagine. Massimo sei tentativi all'ora, distanziati di almeno 60 secondi anche dopo normali riavvii. La ripresa non aggiunge comandi immagine, power o modalità, nuovi abbinamenti o ripetizioni cieche. Dopo disconnessione senza nuovo standby occorre un altro ciclo completo. Gli effetti fisici della connessione restano irrisolti: nessuna garanzia di non risveglio. Carte/script conservati. [Carta di stato completa facoltativa](CURRENT_STATUS.it.md) · [anteprima attuale](CURRENT_PREVIEW.it.md) · [prove e limiti b18](https://github.com/volkue-tech/frame-gallery-ha/blob/main/BETA18_VALIDATION.md).
 
 [English](DOCS.md#installation) | [Deutsch](SETUP.de.md) | [Français](SETUP.fr.md) | [Español](SETUP.es.md) | **Italiano**
 

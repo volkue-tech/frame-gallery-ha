@@ -1,14 +1,6 @@
 # Œuvre actuelle et mode arrière-plan facultatif
 
-> **Restriction de sécurité 0.1.0b17 (D-247) :** les connexions automatiques
-> au démarrage/réveil et les lectures périodiques `current_state_refresh` sont
-> suspendues, même avec les options enregistrées. `resume_state_entity` sert
-> uniquement à arrêter, jamais à démarrer. Après un nouvel envoi explicite réussi,
-> le récepteur passif existant peut suivre les événements complets du diaporama.
-> Une image inchangée expire ; aucune reprise automatique après veille ou perte
-> de session. Ceci remplace les anciennes instructions de reprise b11–b16 ci-dessous.
-> Cartes, identifiants de script et associations restent inchangés. L'absence
-> d'effets secondaires de connexion n'est pas garantie.
+> **0.1.0b18 — reprise facultative et limitée après veille (D-247/D-250).** Les anciens réglages n'autorisent toujours pas de lecture automatique : `current_state_refresh` et la lecture au démarrage lorsque le TV est déjà allumé restent suspendus. Le NOUVEAU `standby_resume` est désactivé par défaut ; il exige le mode arrière-plan et l'entité Samsung existante `resume_state_entity`. L'application active doit observer 30 secondes d'arrêt continu, puis un allumage réellement récent et stable pendant 10 secondes, avant une seule revalidation du téléviseur et de l'image. Au maximum six tentatives par heure, espacées d'au moins 60 secondes, même après un redémarrage normal. La reprise n'ajoute aucune commande d'image, d'alimentation ou de mode, aucun nouvel appairage ni répétition aveugle. Une déconnexion sans nouvel arrêt exige un nouveau cycle complet. Les effets physiques de connexion restent incertains : aucune garantie de non-réveil. Cartes/scripts conservés. [Carte d'état complète facultative](CURRENT_STATUS.fr.md) · [aperçu actuel](CURRENT_PREVIEW.fr.md) · [preuves et limites b18](https://github.com/volkue-tech/frame-gallery-ha/blob/main/BETA18_VALIDATION.md).
 
 Depuis 0.1.0b17 : [aperçu facultatif de l’œuvre actuelle](CURRENT_PREVIEW.fr.md). Les cartes existantes restent inchangées. [Validation b17 et limites](https://github.com/volkue-tech/frame-gallery-ha/blob/main/BETA17_VALIDATION.md).
 
@@ -74,7 +66,7 @@ Les limites d'affichage de 90 secondes et 15 minutes restent inchangées.
 
 </details>
 
-Candidat local non publié : [reprise limitée après veille et carte de statut complète](CURRENT_STATUS.fr.md). YAML existant ci-dessous conservé ; aucune modification installée ni publication.
+**0.1.0b18 — reprise facultative et limitée après veille (D-247/D-250).** Les anciens réglages n'autorisent toujours pas de lecture automatique : `current_state_refresh` et la lecture au démarrage lorsque le TV est déjà allumé restent suspendus. Le NOUVEAU `standby_resume` est désactivé par défaut ; il exige le mode arrière-plan et l'entité Samsung existante `resume_state_entity`. L'application active doit observer 30 secondes d'arrêt continu, puis un allumage réellement récent et stable pendant 10 secondes, avant une seule revalidation du téléviseur et de l'image. Au maximum six tentatives par heure, espacées d'au moins 60 secondes, même après un redémarrage normal. La reprise n'ajoute aucune commande d'image, d'alimentation ou de mode, aucun nouvel appairage ni répétition aveugle. Une déconnexion sans nouvel arrêt exige un nouveau cycle complet. Les effets physiques de connexion restent incertains : aucune garantie de non-réveil. Cartes/scripts conservés. [Carte d'état complète facultative](CURRENT_STATUS.fr.md) · [aperçu actuel](CURRENT_PREVIEW.fr.md) · [preuves et limites b18](https://github.com/volkue-tech/frame-gallery-ha/blob/main/BETA18_VALIDATION.md).
 
 Chaque envoi sélectionné avec succès enregistre automatiquement l'ID TV, le titre, l'artiste et la source, même avec le mode arrière-plan **désactivé**. Aucun ID à saisir. L'association dépend de l'identité réelle du TV, pas seulement de son adresse IP. Le même ID sur un autre TV ne désigne pas la même œuvre. Un nouvel envoi réussi remplace l'ancienne association pour ce TV/ID.
 

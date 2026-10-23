@@ -1,6 +1,8 @@
 # Changelog
 
-## 0.1.0b18 (candidate; publication gates pending)
+## 0.1.0b18 (public beta)
+
+Exact [native run 39931258791](https://github.com/volkue-tech/frame-gallery-ha/actions/runs/39931258791) passed all five jobs. Both native validators and both actual publisher images each passed 6,362 production tests with eight root skips plus eight separate root checks. All four exact archives passed independent provenance/byte-hash/content checks; matching public sources, both immutable public-image recovery/status/preview probes and independent source/workflow-bound signatures passed. No physical no-wake claim. App [prerelease](https://github.com/volkue-tech/frame-gallery-ha/releases/tag/v0.1.0b18). See [b18 validation](https://github.com/volkue-tech/frame-gallery-ha/blob/main/BETA18_VALIDATION.md).
 
 - Add a NEW default-off experimental standby_resume consent, independent of
   saved old switches. Observe cached HA off continuously for 30 seconds and a

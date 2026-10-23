@@ -1,14 +1,6 @@
 # Frame Gallery — Installation und erste Dashboardkarte
 
-> **0.1.0b17 — Sicherheitsbegrenzung des Abgleichs:** Automatische Start-/
-> Wiederanlaufverbindungen und Minutenabfragen bleiben auch bei gespeicherter
-> Freigabe aus. Die Samsung-Entität dient nur noch zum Stoppen. Ein ausdrücklich
-> angeforderter erfolgreicher Bildversand kann passive Diashow-Ereignisse verfolgen.
-> Unveränderte Bilder veralten; nach Schlaf oder Verbindungsabbruch erfolgt kein
-> automatischer Wiederanlauf. Die physische Aufweck-/Modusursache ist ungeklärt;
-> dies ist keine Nichtaufweckgarantie. Karten, Scripte und Zuordnungen bleiben erhalten.
-> [Aktuelles Kunstwerk](CURRENT_ARTWORK.de.md) · [optionale Bildvorschau](CURRENT_PREVIEW.de.md).
-> [b17-Prüfbericht und Grenzen](https://github.com/volkue-tech/frame-gallery-ha/blob/main/BETA17_VALIDATION.md).
+> **0.1.0b18 — optionaler begrenzter Wiederanlauf (D-247/D-250).** Alte gespeicherte Schalter erlauben weiterhin keine automatischen Abfragen: `current_state_refresh` und Startabrufe bei bereits eingeschaltetem TV bleiben gesperrt. NEU ist `standby_resume`, standardmäßig AUS; erforderlich sind Hintergrundmodus und die vorhandene Samsung-Entität `resume_state_entity`. Die laufende App muss 30 Sekunden durchgehend Aus und danach ein frisches An für 10 Sekunden stabil beobachten, bevor genau eine geräte-/bildgeprüfte Lesesitzung erlaubt wird. Höchstens sechs Versuche pro Stunde, mindestens 60 Sekunden Abstand auch über normale Neustarts. Der Wiederanlauf sendet keine Bild-, Power- oder Modusbefehle, koppelt nicht neu und wiederholt Fehler nicht blind. Bei Verbindungsverlust und weiter bestehendem HA-An ist ein neuer vollständiger Wechsel nötig. Physische Verbindungsnebenwirkungen sind ungeklärt; keine Nichtaufweckgarantie. Karten/Scripte bleiben erhalten. [Vollständige optionale Statuskarte](CURRENT_STATUS.de.md) · [aktuelle Bildvorschau](CURRENT_PREVIEW.de.md) · [b18-Prüfbericht und Grenzen](https://github.com/volkue-tech/frame-gallery-ha/blob/main/BETA18_VALIDATION.md).
 
 [English](DOCS.md#installation) | **Deutsch** | [Français](SETUP.fr.md) | [Español](SETUP.es.md) | [Italiano](SETUP.it.md)
 

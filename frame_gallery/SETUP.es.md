@@ -1,14 +1,6 @@
 # Frame Gallery — instalación y primera tarjeta
 
-> **0.1.0b17 — restricción de seguridad:** se suspenden las conexiones
-> automáticas al iniciar/despertar y las lecturas por minuto, incluso con opciones
-> guardadas. La entidad Samsung solo detiene la observación. Un envío explícito
-> correcto puede seguir eventos pasivos de la presentación. Una imagen sin cambios
-> caduca; no hay recuperación automática tras reposo o desconexión. La causa física
-> del despertar/cambio de modo sigue sin aclarar; no es garantía de que no despierte.
-> Se conservan tarjetas, scripts y asociaciones.
-> [Obra actual](CURRENT_ARTWORK.es.md) · [vista previa opcional](CURRENT_PREVIEW.es.md).
-> [Validación b17 y límites](https://github.com/volkue-tech/frame-gallery-ha/blob/main/BETA17_VALIDATION.md).
+> **0.1.0b18 — recuperación opcional y limitada tras reposo (D-247/D-250).** Los ajustes antiguos no autorizan lecturas automáticas: `current_state_refresh` y la consulta inicial con el TV ya encendido siguen suspendidos. El NUEVO `standby_resume` está desactivado por defecto; requiere segundo plano y la entidad Samsung existente `resume_state_entity`. La app en ejecución debe observar 30 segundos de apagado continuo y después un encendido realmente reciente y estable durante 10 segundos, antes de una única validación del TV y la imagen. Máximo seis intentos por hora, separados al menos 60 segundos incluso tras reinicios normales. La recuperación no añade órdenes de imagen, encendido o modo, emparejamiento ni reintentos ciegos. Tras desconexión sin nuevo apagado se requiere otro ciclo completo. Los efectos físicos de la conexión siguen sin resolverse: no hay garantía de que no despierte. Tarjetas/scripts conservados. [Tarjeta de estado completa opcional](CURRENT_STATUS.es.md) · [vista previa actual](CURRENT_PREVIEW.es.md) · [pruebas y límites b18](https://github.com/volkue-tech/frame-gallery-ha/blob/main/BETA18_VALIDATION.md).
 
 [English](DOCS.md#installation) | [Deutsch](SETUP.de.md) | [Français](SETUP.fr.md) | **Español** | [Italiano](SETUP.it.md)
 

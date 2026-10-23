@@ -1,5 +1,7 @@
 # Current artwork preview
 
+> **0.1.0b18 — optional bounded standby recovery (D-247/D-250).** Old saved switches still do not authorize automatic reads: `current_state_refresh` and initial-on reads remain suspended. NEW `standby_resume` is OFF by default and requires background mode plus an existing Samsung `resume_state_entity`. The running app must observe off continuously for 30 seconds, then a genuinely fresh on stable for 10 seconds, before one exact-device/image revalidation; at most six attempts/hour, at least 60 seconds apart across ordinary restarts. No image, power or mode commands, enrollment or blind retries are added by recovery. Lost sessions while HA stays on need a new complete cycle. Physical connection side effects remain unresolved; this is NOT a no-wake guarantee. Existing cards/scripts remain unchanged. See the [complete optional status card](CURRENT_STATUS.md), [current preview](CURRENT_PREVIEW.md) and [b18 evidence/limits](https://github.com/volkue-tech/frame-gallery-ha/blob/main/BETA18_VALIDATION.md).
+
 **English** | [Deutsch](CURRENT_PREVIEW.de.md) | [Français](CURRENT_PREVIEW.fr.md) | [Español](CURRENT_PREVIEW.es.md) | [Italiano](CURRENT_PREVIEW.it.md)
 
 **0.1.0b17 public beta — separate optional current-image preview.**
@@ -63,4 +65,4 @@ Use the complete guarded card, not an unguarded standalone current-file camera: 
 
 [Current-artwork guide](CURRENT_ARTWORK.md)
 
-Local unpublished candidate: [bounded standby recovery and complete status card](CURRENT_STATUS.md). Existing complete YAML below remains unchanged; no installed change or release.
+**0.1.0b18 — optional bounded standby recovery (D-247/D-250).** Old saved switches still do not authorize automatic reads: `current_state_refresh` and initial-on reads remain suspended. NEW `standby_resume` is OFF by default and requires background mode plus an existing Samsung `resume_state_entity`. The running app must observe off continuously for 30 seconds, then a genuinely fresh on stable for 10 seconds, before one exact-device/image revalidation; at most six attempts/hour, at least 60 seconds apart across ordinary restarts. No image, power or mode commands, enrollment or blind retries are added by recovery. Lost sessions while HA stays on need a new complete cycle. Physical connection side effects remain unresolved; this is NOT a no-wake guarantee. Existing cards/scripts remain unchanged. See the [complete optional status card](CURRENT_STATUS.md), [current preview](CURRENT_PREVIEW.md) and [b18 evidence/limits](https://github.com/volkue-tech/frame-gallery-ha/blob/main/BETA18_VALIDATION.md).

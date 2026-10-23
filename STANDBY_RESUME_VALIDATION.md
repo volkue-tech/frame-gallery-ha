@@ -1,5 +1,7 @@
 # D-250 standby recovery — local/offline validation
 
+Historical local implementation evidence; subsequently released as 0.1.0b18. See [observed native/public b18 results](BETA18_VALIDATION.md). The original local scope/results below are retained; release checks do not certify physical no-wake safety.
+
 Local candidate, 2026-10-23. Not installed, versioned, committed, published or
 hardware-tested by this task. No Home Assistant/TV connection, credential,
 power/mode/image command or installed card/script change was made.

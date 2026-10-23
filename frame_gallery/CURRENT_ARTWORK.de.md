@@ -1,14 +1,6 @@
 # Aktuelles Kunstwerk und optionaler Hintergrundmodus
 
-> **0.1.0b17-Sicherheitsbegrenzung (D-247):** Automatische Start-/
-> Aufwach-Verbindungen und Minutenabfragen über `current_state_refresh` sind
-> gesperrt, auch bei gespeicherter Freigabe. `resume_state_entity` ist nur noch
-> ein Stoppsignal, niemals eine Startfreigabe. Nach einem frischen erfolgreichen
-> ausdrücklichen Bildversand kann der passive Empfänger vollständigen Diashow-
-> Ereignissen folgen. Unveränderte Bilder veralten; nach Sleep oder Sitzungsverlust
-> gibt es keine automatische Wiederherstellung. Dies ersetzt die älteren b11–b16-
-> Wiederanlauf-Anweisungen unten. Karten, Script-IDs und Bildzuordnungen bleiben
-> erhalten. Verbindungsnebenwirkungen sind damit nicht allgemein ausgeschlossen.
+> **0.1.0b18 — optionaler begrenzter Wiederanlauf (D-247/D-250).** Alte gespeicherte Schalter erlauben weiterhin keine automatischen Abfragen: `current_state_refresh` und Startabrufe bei bereits eingeschaltetem TV bleiben gesperrt. NEU ist `standby_resume`, standardmäßig AUS; erforderlich sind Hintergrundmodus und die vorhandene Samsung-Entität `resume_state_entity`. Die laufende App muss 30 Sekunden durchgehend Aus und danach ein frisches An für 10 Sekunden stabil beobachten, bevor genau eine geräte-/bildgeprüfte Lesesitzung erlaubt wird. Höchstens sechs Versuche pro Stunde, mindestens 60 Sekunden Abstand auch über normale Neustarts. Der Wiederanlauf sendet keine Bild-, Power- oder Modusbefehle, koppelt nicht neu und wiederholt Fehler nicht blind. Bei Verbindungsverlust und weiter bestehendem HA-An ist ein neuer vollständiger Wechsel nötig. Physische Verbindungsnebenwirkungen sind ungeklärt; keine Nichtaufweckgarantie. Karten/Scripte bleiben erhalten. [Vollständige optionale Statuskarte](CURRENT_STATUS.de.md) · [aktuelle Bildvorschau](CURRENT_PREVIEW.de.md) · [b18-Prüfbericht und Grenzen](https://github.com/volkue-tech/frame-gallery-ha/blob/main/BETA18_VALIDATION.md).
 
 Ab 0.1.0b17: [optionale aktuelle Bildvorschau](CURRENT_PREVIEW.de.md). Bestehende Karten bleiben unverändert. [b17-Prüfbericht und Grenzen](https://github.com/volkue-tech/frame-gallery-ha/blob/main/BETA17_VALIDATION.md).
 
@@ -75,7 +67,7 @@ App erkennt kein Aufwachen. Die 90-Sekunden-/15-Minuten-Anzeigegrenzen bleiben.
 
 </details>
 
-Lokaler unveröffentlichter Kandidat: [begrenzter Standby-Wiederanlauf und vollständige Statuskarte](CURRENT_STATUS.de.md). Das bestehende vollständige YAML unten bleibt unverändert; keine Live-Änderung oder Veröffentlichung.
+**0.1.0b18 — optionaler begrenzter Wiederanlauf (D-247/D-250).** Alte gespeicherte Schalter erlauben weiterhin keine automatischen Abfragen: `current_state_refresh` und Startabrufe bei bereits eingeschaltetem TV bleiben gesperrt. NEU ist `standby_resume`, standardmäßig AUS; erforderlich sind Hintergrundmodus und die vorhandene Samsung-Entität `resume_state_entity`. Die laufende App muss 30 Sekunden durchgehend Aus und danach ein frisches An für 10 Sekunden stabil beobachten, bevor genau eine geräte-/bildgeprüfte Lesesitzung erlaubt wird. Höchstens sechs Versuche pro Stunde, mindestens 60 Sekunden Abstand auch über normale Neustarts. Der Wiederanlauf sendet keine Bild-, Power- oder Modusbefehle, koppelt nicht neu und wiederholt Fehler nicht blind. Bei Verbindungsverlust und weiter bestehendem HA-An ist ein neuer vollständiger Wechsel nötig. Physische Verbindungsnebenwirkungen sind ungeklärt; keine Nichtaufweckgarantie. Karten/Scripte bleiben erhalten. [Vollständige optionale Statuskarte](CURRENT_STATUS.de.md) · [aktuelle Bildvorschau](CURRENT_PREVIEW.de.md) · [b18-Prüfbericht und Grenzen](https://github.com/volkue-tech/frame-gallery-ha/blob/main/BETA18_VALIDATION.md).
 
 Jeder erfolgreich ausgewählte Upload speichert automatisch TV-Bild-ID, Titel, Künstler und Quelle, auch bei **ausgeschaltetem** Hintergrundmodus. Keine IDs selbst eintragen. Die Zuordnung gehört zur tatsächlichen Geräteidentität, nicht nur zur IP-Adresse: dieselbe Bild-ID auf einem anderen TV bezeichnet nicht dasselbe Werk. Ein neuer erfolgreicher Upload ersetzt eine ältere Zuordnung für diesen TV/diese ID.
 
