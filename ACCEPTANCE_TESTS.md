@@ -1,5 +1,23 @@
 # Acceptance tests
 
+## Bounded standby recovery and card status (D-250, local/offline)
+
+- Defaults/old flags/boot-on/unconfigured/one-shot start zero automatic workers.
+  Only new opt-in + continuous30s off + fresh10s stable on grants one attempt.
+  Cover short flaps, replay/future/reordered timestamps, clocks, gaps and outages.
+- Consume before preparation; enforce durable six/hour/min60s across restarts.
+  Corrupt/newer/future/symlink/FIFO/unwritable budget denies I/O. Auth refusal
+  latches until explicit successful delivery, which retains rate limits.
+- Exercise actual entry with fake Core/store/isolated TV transports: known,
+  unknown, wrong device/image, lost/static/menu/diashow/standby/cancel/publish
+  failure; no send/setter/enrollment/retry or minute read. Preserve fresh proof.
+- Bound validated reason codes; distinguish stopped, standby/waiting, hold,
+  settling, missing setup, rate/storage/auth and real connection errors.
+  Complete five-language optional cards preserve IDs and shared freshness,
+  safely handle old sensors; keep all original cards/scripts unchanged.
+- Full offline quality/type/coverage gates, no weaker default-safety tests,
+  external I/O, live changes, native/release or physical no-wake claims.
+
 ## Automatic observer I/O safety hold (D-247)
 
 - Actual regular entry with both saved experimental options, old/new HA on,

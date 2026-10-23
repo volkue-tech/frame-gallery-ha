@@ -62,3 +62,5 @@ Les aperçus sont limités à 640×360 pixels et 32 KiB de JPEG. Le cache privé
 Utiliser la carte complète avec contrôle de fraîcheur, pas une caméra seule : après un arrêt brutal, le fichier peut conserver sa dernière image, mais la carte masque les preuves périmées. La disponibilité est désactivée dans HA avant le changement de fichier et réactivée après une écriture atomique vérifiée. L’empreinte évite le cache du navigateur ; ce n’est pas une nouvelle observation TV. latest.jpg et les cartes existantes restent inchangés. Aucun téléchargement d’aperçu TV, reconnaissance cloud ou nouvelle connexion.
 
 [Guide de l’œuvre actuelle](CURRENT_ARTWORK.fr.md)
+
+Candidat local non publié : [reprise limitée après veille et carte de statut complète](CURRENT_STATUS.fr.md). YAML existant ci-dessous conservé ; aucune modification installée ni publication.

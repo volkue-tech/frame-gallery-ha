@@ -1,5 +1,34 @@
 # Project status
 
+## D-251 b18 native/release gate — authorized, 2026-10-23
+
+User authorizes native ARM/Intel validation and green-gate-only publication of
+the D-250 candidate under volkue-tech/frame-gallery-ha. No HA/TV connection,
+installed-app operation, card or script change is authorized. Public metadata
+shows b17 is the latest app beta; b18 is being prepared. New standby_resume
+remains default OFF, old automatic opt-ins stay held, and no physical no-wake
+claim is made. The D-250 results below are local evidence, not native evidence.
+Source, native archives, public image/signature and Store gates remain pending.
+
+## D-250 standby recovery — local/offline complete, 2026-10-23
+
+User approves local/offline-only recovery and clear card statuses. No HA/TV
+connection, installed start/card/script change, credentials, version or release.
+New default-off standby_resume requires observed30s off/settled fresh10s on,
+one consumed grant, durable max6/hour/min60s budget and auth latch before the
+existing exact-device/image receiver. Old opt-ins and minute reads stay under
+D-247. Five-language optional status cards preserve original examples/IDs.
+Full host gates passed6354/16 in56.23s;323-file Ruff/format and strict host/Linux
+typing, whole100% line/branch(12228/2992) and mandatory100%(9206/2170).
+Actual-entry new-consent/default cases, durable budget/auth, proof/status/cards,
+20-hour recorded eligibility replay(14401 polls,9 grants,0off/duplicate-restart)
+and three in-memory guard-removal negatives passed their intended checks.
+All21 original YAML/code blocks and10 critical privilege/dependency/script/
+workflow/version files are unchanged. Five complete new native status cards
+are optional and have not been installed. See STANDBY_RESUME_VALIDATION.md.
+No HA/TV/credential access, build/release/version/commit or live mutation was
+performed in this task; no native Green/Intel or physical no-wake claim.
+
 ## b17 release handoff — observed native/public gates passed
 
 Exact [run 39825989063](https://github.com/volkue-tech/frame-gallery-ha/actions/runs/39825989063) completed all five jobs successfully. Both native validators and both actual publisher images each passed 6,236 production tests with eight root skips and eight separate root checks; all four archives passed independent provenance/hash/content checks. Matching public sources, both anonymous immutable-image safety/preview probes and independent source/workflow-bound signatures passed. Frozen source edae2271dbd103edd80db629d097f91e895d97a2,

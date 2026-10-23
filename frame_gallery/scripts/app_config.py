@@ -92,6 +92,7 @@ def schema() -> dict[str, Value]:
         "loading_timer": r"match(^timer\.[a-z0-9_]{1,64}$)?",
         "artwork_info_helper": r"match(^input_text\.[a-z0-9_]{1,64}$)?",
         "background_mode": "bool?",
+        "standby_resume": "bool?",
         "current_state_refresh": "bool?",
         "resume_state_entity": r"match(^(?:media_player|remote)\.[a-z0-9_]{1,64}$)?",
     }
@@ -1067,6 +1068,145 @@ def translations(language: str = "en") -> dict[str, Value]:
             ),
         ),
     }[language]
+    # D-250 is a NEW consent. Old saved settings retain the D-247 hold.
+    label, description, background_description, entity_label, entity_description = {
+        "en": (
+            "Resume after standby (experimental, separate opt-in)",
+            (
+                "OFF by default. Requires Background mode and your existing Samsung status entity. "
+                "After 30 s of continuously observed off and a fresh on stable for 10 s, permit "
+                "one read-only revalidation. Max 6/hour, at least 60 s apart, across restarts. "
+                "No startup read, retries, image/power/mode commands or minute reads. A connection "
+                "itself may affect the TV; no firmware/no-wake guarantee. Old "
+                "saved flags do not enable this."
+            ),
+            (
+                "Off by default. Passive events after a successful explicit send. Safety hold: "
+                "no automatic startup/minute reads. Only the NEW standby_resume opt-in permits "
+                "bounded settled-wake recovery. Update the send script once; no extra rights."
+            ),
+            "Samsung status entity (optional)",
+            (
+                "Existing Samsung media_player or remote ID. Off/unknown/unavailable/errors/gaps "
+                "stop the receiver. Stop signal only without standby_resume. With that NEW opt-in, "
+                "a clean settled off/on edge may grant one read. HA on is not Art Mode proof."
+            ),
+        ),
+        "de": (
+            "Nach Standby fortsetzen (experimentell, separate Freigabe)",
+            (
+                "Standardmäßig AUS. Benötigt Hintergrundmodus und vorhandene "
+                "Samsung-Zustandsentität. "
+                "Nach 30 s durchgehend beobachtetem Aus und frischem, 10 s stabilem An genau ein "
+                "Leseversuch. Max. 6/Stunde, mindestens 60 s Abstand, auch über Neustarts. Kein "
+                "Startabruf, Wiederholungsversuch, Bild-/Power-/Modusbefehl oder Minutenabgleich. "
+                "Schon die Verbindung kann den TV beeinflussen; keine Nichtaufweck-Garantie. "
+                "Alte gespeicherte Schalter aktivieren dies nicht."
+            ),
+            (
+                "Standardmäßig aus. Passive Ereignisse nach erfolgreichem ausdrücklichem Versand. "
+                "Sicherheitsbremse: keine automatischen Start-/Minutenabfragen. Nur die NEUE "
+                "Freigabe standby_resume erlaubt begrenzten Wiederanlauf nach stabilem Aufwachen. "
+                "Sende-Script einmal aktualisieren; keine Sonderrechte."
+            ),
+            "Samsung-Zustandsentität (optional)",
+            (
+                "Vorhandene Samsung-ID (media_player oder remote). Aus/unbekannt/nicht verfügbar, "
+                "Fehler oder Beobachtungslücke stoppen. Ohne standby_resume nur Stoppsignal. "
+                "Mit der NEUEN Freigabe kann ein stabiler frischer Aus/An-Wechsel "
+                "einen Leseversuch "
+                "erlauben. HA an beweist keinen Kunstmodus."
+            ),
+        ),
+        "fr": (
+            "Reprendre après veille (expérimental, accord distinct)",
+            (
+                "Désactivé par défaut. Nécessite le mode arrière-plan et l'entité "
+                "Samsung existante. "
+                "Après 30 s d'arrêt observé sans interruption puis un réveil récent stable 10 s, "
+                "une seule vérification en lecture. Max. 6/h, espacées de 60 s, "
+                "même après redémarrage. "
+                "Aucune lecture initiale/périodique, répétition ou commande "
+                "image/alimentation/mode. "
+                "La connexion peut affecter le téléviseur ; aucune garantie de non-réveil. "
+                "Les anciens réglages ne l'activent pas."
+            ),
+            (
+                "Désactivé par défaut. Événements passifs après envoi explicite réussi. Mesure de "
+                "sécurité : aucune lecture initiale/périodique. Seul le NOUVEL "
+                "accord standby_resume "
+                "permet une reprise limitée après réveil stable. Aucun privilège supplémentaire."
+            ),
+            "Entité d'état Samsung (facultative)",
+            (
+                "ID Samsung existant media_player ou remote. Arrêt/inconnu/indisponibilité/erreur "
+                "ou interruption arrête le récepteur. Sans standby_resume : arrêt uniquement. "
+                "Avec le NOUVEL accord, un arrêt/réveil récent et stable permet une lecture. "
+                "HA marche ne prouve pas le mode Art."
+            ),
+        ),
+        "es": (
+            "Reanudar tras espera (experimental, permiso separado)",
+            (
+                "Desactivado por defecto. Requiere modo en segundo plano y "
+                "entidad Samsung existente. "
+                "Tras 30 s de apagado observado sin interrupciones y un encendido reciente estable "
+                "10 s, permite una lectura. Máx. 6/h, separadas 60 s, incluso tras reinicios. Sin "
+                "lectura inicial/periódica, reintentos ni órdenes de "
+                "imagen/encendido/modo. La conexión "
+                "puede afectar al TV; no se garantiza que no despierte. Los "
+                "ajustes antiguos no lo activan."
+            ),
+            (
+                "Desactivado por defecto. Eventos pasivos tras envío explícito correcto. Medida de "
+                "seguridad: sin lecturas iniciales/periódicas. Solo el NUEVO "
+                "permiso standby_resume "
+                "permite recuperación limitada tras despertar estable. Sin permisos adicionales."
+            ),
+            "Entidad de estado Samsung (opcional)",
+            (
+                "ID Samsung existente media_player o remote. "
+                "Apagado/desconocido/no disponible/error "
+                "o interrupción detiene el receptor. Sin standby_resume: solo señal de parada. "
+                "Con el NUEVO permiso, una transición reciente y estable permite una lectura. "
+                "HA encendido no demuestra modo Arte."
+            ),
+        ),
+        "it": (
+            "Riprendi dopo standby (sperimentale, consenso separato)",
+            (
+                "Disattivato per impostazione predefinita. Richiede modalità in "
+                "background ed entità "
+                "Samsung esistente. Dopo 30 s di spento osservato senza "
+                "interruzioni e un'accensione "
+                "recente stabile 10 s, una sola lettura. Max 6/ora, almeno 60 s "
+                "tra tentativi, anche "
+                "dopo riavvii. Nessuna lettura iniziale/periodica, ripetizione o "
+                "comando immagine/power/"
+                "modalità. La connessione può influire sul TV; nessuna garanzia di non risveglio. "
+                "Le vecchie opzioni non lo attivano."
+            ),
+            (
+                "Disattivato per impostazione predefinita. Eventi passivi dopo "
+                "invio esplicito riuscito. "
+                "Misura di sicurezza: nessuna lettura iniziale/periodica. Solo il NUOVO consenso "
+                "standby_resume permette ripresa limitata dopo risveglio stabile. "
+                "Nessun privilegio extra."
+            ),
+            "Entità di stato Samsung (facoltativa)",
+            (
+                "ID Samsung esistente media_player o remote. "
+                "Spento/sconosciuto/non disponibile/errore "
+                "o interruzione arresta il ricevitore. Senza standby_resume: solo "
+                "segnale di arresto. "
+                "Con il NUOVO consenso, una transizione recente e stabile permette una lettura. "
+                "HA acceso non prova la modalità Arte."
+            ),
+        ),
+    }[language]
+    texts["standby_resume"] = (label, description)
+    texts["background_mode"] = (texts["background_mode"][0], background_description)
+    texts["resume_state_entity"] = (entity_label, entity_description)
     return {
         "configuration": {
             option: {"name": name, "description": description}

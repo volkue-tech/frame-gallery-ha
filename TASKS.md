@@ -1,5 +1,33 @@
 # Implementation plan and approval gates
 
+## D-251 b18 personal publication — authorized, 2026-10-23
+
+- [ ] Version/freeze the D-250 candidate after full host gates; keep 21 original
+  complete examples and the five new complete status-card blocks unchanged.
+- [ ] Publish and anonymously verify the matching source package first.
+- [ ] Run the existing native ARM/Intel workflow and independently verify all
+  four validator/publisher archives, both immutable images and signatures.
+- [ ] Publish the app beta and runtime-identical Store/documentation handoff
+  only after those gates pass; disable/read back both build approvals.
+- [ ] Verify anonymous final public metadata/docs and end the exact temporary
+  credential process. Preserve unrelated docs/community without inspection.
+- [x] No HA/TV contact or installed card/script/app mutations. New recovery
+  defaults OFF; old opt-ins held; firmware/no-wake safety remains unproven.
+
+## D-250 local standby recovery/status — authorized 2026-10-23
+
+- [x] Record new default-off consent, no-live/public scope and safety limits.
+- [x] Implement settled wake, durable attempt/auth bounds and exact-device
+  production integration; keep initial-on/minute reads and old opt-ins denied.
+- [x] Add finite reasons and complete optional five-language status cards/help;
+  preserve original examples, installed cards/scripts, data and privileges.
+- [x] Run offline base cases/restarts/replay/actual entry and all host gates;
+  record observed results without physical/native/release claims.
+  Observed6354/16,323 typed files, whole/mandatory100%; recorded20h replay and
+  three guard-removal negatives. See STANDBY_RESUME_VALIDATION.md.
+- [ ] A native candidate build, publication, installed setup or physical test
+  is a separate approval gate. New consent stays default OFF; old flags held.
+
 ## b17 documentation/runtime handoff — observed release gates
 
 - [x] Freeze source edae2271dbd103edd80db629d097f91e895d97a2 after 6228/16 host

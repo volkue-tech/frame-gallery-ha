@@ -61,6 +61,7 @@ class Options:
     background_mode: bool = False
     current_state_refresh: bool = False
     resume_state_entity: str | None = None
+    standby_resume: bool = False
 
     def helper_for(self, field: FilterField) -> str | None:
         for helper_field, entity_id in self.helpers:
@@ -265,6 +266,7 @@ def parse_options(
     current_state_refresh = _flag(
         "current_state_refresh", raw.get("current_state_refresh"), issues, default=False
     )
+    standby_resume = _flag("standby_resume", raw.get("standby_resume"), issues, default=False)
     resume_entity = raw.get("resume_state_entity")
     if resume_entity in (None, ""):
         resume_entity = None
@@ -320,4 +322,5 @@ def parse_options(
         background_mode=background_mode,
         current_state_refresh=current_state_refresh,
         resume_state_entity=resume_entity,
+        standby_resume=standby_resume,
     )

@@ -75,6 +75,8 @@ App erkennt kein Aufwachen. Die 90-Sekunden-/15-Minuten-Anzeigegrenzen bleiben.
 
 </details>
 
+Lokaler unveröffentlichter Kandidat: [begrenzter Standby-Wiederanlauf und vollständige Statuskarte](CURRENT_STATUS.de.md). Das bestehende vollständige YAML unten bleibt unverändert; keine Live-Änderung oder Veröffentlichung.
+
 Jeder erfolgreich ausgewählte Upload speichert automatisch TV-Bild-ID, Titel, Künstler und Quelle, auch bei **ausgeschaltetem** Hintergrundmodus. Keine IDs selbst eintragen. Die Zuordnung gehört zur tatsächlichen Geräteidentität, nicht nur zur IP-Adresse: dieselbe Bild-ID auf einem anderen TV bezeichnet nicht dasselbe Werk. Ein neuer erfolgreicher Upload ersetzt eine ältere Zuordnung für diesen TV/diese ID.
 
 Die privaten App-Daten bleiben bei normalen Updates erhalten. Das Zurücksetzen des Auswahlverlaufs löscht keine Zuordnungen; eine Deinstallation mit Datenlöschung dagegen schon. Vor Neuinstallation eine App-Sicherung behalten. Gespeichert werden höchstens die neuesten 2.048 Upload-Zuordnungen und 32 MiB, plus eine Sicherungskopie. Die Bildreferenz ist nur eine kleine RGB-Probe mit 64×36 Pixeln, kein hochauflösendes Bildarchiv. Ältere bildgeprüfte Zuordnungen bleiben kompatibel.

@@ -63,3 +63,5 @@ Anteprime fino a 640×360 pixel e 32 KiB di JPEG. Cache privata limitata a 128 M
 Usare la scheda completa con controllo di freschezza, non una camera senza protezione: dopo un arresto anomalo il file può conservare l’immagine, ma la scheda nasconde le prove scadute. La disponibilità viene disattivata in HA prima di cambiare il file e riattivata solo dopo una scrittura atomica verificata. L’impronta evita la cache del browser; non è una nuova osservazione TV. latest.jpg e le schede esistenti restano invariati. Nessun download aggiuntivo di miniature TV, riconoscimento cloud o nuova connessione.
 
 [Guida dell’opera attuale](CURRENT_ARTWORK.it.md)
+
+Candidato locale non pubblicato: [ripresa limitata dopo standby e carta di stato completa](CURRENT_STATUS.it.md). YAML esistente conservato; nessuna modifica installata o pubblicazione.

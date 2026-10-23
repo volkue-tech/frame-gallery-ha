@@ -1,5 +1,29 @@
 # Decision log
 
+## D-251 — b18 green-gated personal beta publication
+
+2026-10-23. User approves native ARM/Intel checks and publication of D-250 as
+a new personal beta if all gates pass. Keep the exact existing validation and
+publisher workflows, dependencies, privileges and card/script examples. Publish
+and anonymously preflight matching sources before images. Independently check
+all four native artifacts, both immutable public images and signatures before
+the app release/Store handoff. No HA/TV contact, installed app operation or live
+card/script changes. NEW standby_resume remains default OFF, old saved opt-ins
+remain suspended, and firmware/no-wake behavior is not certified by offline CI.
+
+## D-250 — New explicit standby recovery consent and honest status
+
+2026-10-23. Local/offline only. Add default-off standby_resume, independent of
+old saved flags. Require observed30s off, fresh10s settled on, consumed edge and
+durable max6/hour/min60s budget before exact-device isolated image revalidation.
+No boot-on, minute getter, sender/setter/enrollment or error retry. Auth refusal
+latches until explicit successful delivery; keep rate limits. Invalid storage,
+HA gaps and clocks deny. Add finite status reasons and five-language complete
+optional card variants, preserving originals/scripts/installed state and rights.
+No TV/HA/credential access, version/build/release. Physical wake/mode cause is
+unresolved; these bounds cannot certify firmware/no-wake safety. D-247 remains
+in force without the NEW opt-in. User observation now is not a test of local code.
+
 ## D-249 — first-preview byte proof before the b17 freeze, 2026-10-22
 
 Independent release review found that the normal initial thumbnail resolves to

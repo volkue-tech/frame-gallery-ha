@@ -56,10 +56,13 @@ configuration:
     description: 'Facoltativo. Helper Testo dedicato, ad esempio input_text.frame_gallery_artwork. Lunghezza minima 0, massima 255, senza valore iniziale. L''app scrive il titolo, l''artista e la fonte dell''anteprima. Non usare un helper di filtro. Lascia vuoto per mantenere la scheda con la sola immagine.'
   background_mode:
     name: 'Modalità in background (sperimentale, facoltativa)'
-    description: 'Disattivata per impostazione predefinita. Eventi passivi dopo un nuovo invio esplicito; aggiornare lo script una volta. Misura di sicurezza: nessuna connessione automatica all''avvio/risveglio né lettura periodica, anche con opzioni salvate. Le associazioni sono salvate anche senza questa modalità. Una connessione può avere effetti del firmware; nessuna garanzia generale di mancato risveglio. Nessun helper, integrazione o privilegio aggiuntivo.'
+    description: 'Disattivato per impostazione predefinita. Eventi passivi dopo invio esplicito riuscito. Misura di sicurezza: nessuna lettura iniziale/periodica. Solo il NUOVO consenso standby_resume permette ripresa limitata dopo risveglio stabile. Nessun privilegio extra.'
   current_state_refresh:
     name: 'Sincronizzazione periodica (temporaneamente sospesa)'
     description: 'Valore conservato per compatibilità, ma ignorato durante la misura di sicurezza. Nessuna lettura programmata di modalità o ID. Dopo la verifica iniziale successiva a un invio, solo gli eventi completi della presentazione ricevuti passivamente possono aggiornare l''opera. Le immagini invariate o non confermate possono scadere; nessuna richiesta automatica di recupero.'
   resume_state_entity:
-    name: 'Stato Samsung (solo segnale di arresto, facoltativo)'
-    description: 'Vuoto: omette questo segnale aggiuntivo. L''ID Samsung HA esistente (media_player o remote) viene conservato. Spento, sconosciuto, non disponibile, errore di lettura o interruzione di osservazione arresta il ricevitore. HA acceso non avvia né riprende mai una connessione TV; il recupero automatico è sospeso. HA acceso non prova la modalità Arte. Nessun nuovo helper o privilegio speciale.'
+    name: 'Entità di stato Samsung (facoltativa)'
+    description: 'ID Samsung esistente media_player o remote. Spento/sconosciuto/non disponibile/errore o interruzione arresta il ricevitore. Senza standby_resume: solo segnale di arresto. Con il NUOVO consenso, una transizione recente e stabile permette una lettura. HA acceso non prova la modalità Arte.'
+  standby_resume:
+    name: 'Riprendi dopo standby (sperimentale, consenso separato)'
+    description: 'Disattivato per impostazione predefinita. Richiede modalità in background ed entità Samsung esistente. Dopo 30 s di spento osservato senza interruzioni e un''accensione recente stabile 10 s, una sola lettura. Max 6/ora, almeno 60 s tra tentativi, anche dopo riavvii. Nessuna lettura iniziale/periodica, ripetizione o comando immagine/power/modalità. La connessione può influire sul TV; nessuna garanzia di non risveglio. Le vecchie opzioni non lo attivano.'

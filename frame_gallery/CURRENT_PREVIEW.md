@@ -62,3 +62,5 @@ Previews are at most 640×360 pixels and 32 KiB of JPEG data. The private cache 
 Use the complete guarded card, not an unguarded standalone current-file camera: after a crash the file can retain its last contents, while the card hides stale evidence. Availability is cleared in HA before the file changes and advertised only after a verified atomic write. The checksum busts browser image caches; it is not a new TV observation. The old latest.jpg and existing cards are untouched. No TV thumbnail download, cloud recognition or new connection is added.
 
 [Current-artwork guide](CURRENT_ARTWORK.md)
+
+Local unpublished candidate: [bounded standby recovery and complete status card](CURRENT_STATUS.md). Existing complete YAML below remains unchanged; no installed change or release.

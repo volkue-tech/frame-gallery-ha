@@ -15,6 +15,7 @@ from frame_gallery.observer.model import (
     Observation,
     SessionFailure,
     Status,
+    StatusReason,
 )
 from frame_gallery.observer.slideshow import IncompleteSequence, SlideshowSequence
 from frame_gallery.observer.stream import QUERY_S, Change, EventPolicy, reviewed_policy
@@ -45,6 +46,8 @@ class EventBackend:
         session: SessionPort,
         now: Callable[[], float],
         policy: Callable[[str | None], EventPolicy | None] = reviewed_policy,
+        *,
+        diagnostics: bool = False,
     ) -> None:
         self._observer, self._session, self._now, self._policy = observer, session, now, policy
         self._baseline: Observation | None = None
@@ -56,6 +59,7 @@ class EventBackend:
         self._fresh_s = FRESH_S
         self._resync_reported = False
         self._state_refresh = False
+        self._diagnostics = diagnostics
 
     def start(self) -> Observation:
         self.stop()
@@ -84,7 +88,12 @@ class EventBackend:
 
     def _unavailable(self, reason: SessionFailure) -> Observation:
         _log.warning("event session stopped: reason=%s; no reconnect", reason.value)
-        return Observation(Status.UNAVAILABLE)
+        detail = (
+            StatusReason.CONNECTION_FAILED
+            if reason in {SessionFailure.STARTUP, SessionFailure.RECEIVE, SessionFailure.END}
+            else StatusReason.SESSION_FAILED
+        )
+        return Observation(Status.UNAVAILABLE, reason=detail if self._diagnostics else None)
 
     def _unconfirmed(self) -> Observation:
         self._confirmed_at = None
@@ -94,7 +103,9 @@ class EventBackend:
                 "on the same connection (no query or reconnect)"
             )
             self._resync_reported = True
-        return Observation(Status.CHECKING)
+        return Observation(
+            Status.CHECKING, reason=StatusReason.WAITING_FOR_EVENT if self._diagnostics else None
+        )
 
     def update(self) -> Observation | None:
         """Drain bounded events; receipt time, never a publication heartbeat, ages proof."""
@@ -120,13 +131,19 @@ class EventBackend:
     def _expired(self) -> Observation | None:
         if self._confirmed_at is not None and self._now() - self._confirmed_at >= self._fresh_s:
             if not self._slideshow_enabled:
-                return Observation(Status.PAUSED)
+                return Observation(
+                    Status.PAUSED, reason=StatusReason.PROOF_EXPIRED if self._diagnostics else None
+                )
             self._confirmed_at = None
-            return Observation(Status.CHECKING)  # clear metadata, keep receive-only session
+            return Observation(
+                Status.CHECKING, reason=StatusReason.PROOF_EXPIRED if self._diagnostics else None
+            )  # keep receive-only session
         if self._slideshow is not None and self._slideshow.expire(self._now()):
             return self._unconfirmed()
         if self._pending_at is not None and self._now() - self._pending_at >= QUERY_S:
-            return Observation(Status.PAUSED)
+            return Observation(
+                Status.PAUSED, reason=StatusReason.PROOF_EXPIRED if self._diagnostics else None
+            )
         return None
 
     def _consume(self, value: JsonObject, received_at: float) -> Observation | None:
@@ -163,7 +180,13 @@ class EventBackend:
                 reason = SessionFailure(value["reason"])
             if value["status"] == "unavailable":
                 return self._unavailable(reason)
-            return Observation(Status(str(value["status"])))
+            status = Status(str(value["status"]))
+            return Observation(
+                status,
+                reason=StatusReason.PROOF_EXPIRED
+                if self._diagnostics and status is Status.PAUSED
+                else None,
+            )
         raise ValueError("unexpected session event")
 
     def _consume_current_state(self, value: JsonObject, at: float) -> Observation | None:
@@ -200,7 +223,9 @@ class EventBackend:
 
     def _consume_change(self, change: Change, received_at: float) -> Observation | None:
         if change.kind == "standby":
-            return Observation(Status.PAUSED)
+            return Observation(
+                Status.PAUSED, reason=StatusReason.STANDBY if self._diagnostics else None
+            )
         if change == Change("mode", "off"):
             self._confirmed_at = None
             return Observation(Status.TV_IN_USE)

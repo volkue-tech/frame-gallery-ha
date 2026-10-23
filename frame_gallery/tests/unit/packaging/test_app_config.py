@@ -62,7 +62,12 @@ def test_all_configuration_locales_disclose_the_safety_hold_without_migrating_op
 ) -> None:
     fields = SCRIPT.translations(language)["configuration"]
     assert suspended in fields["current_state_refresh"]["name"]
-    assert stop_only in fields["resume_state_entity"]["name"]
+    assert stop_only.casefold() in fields["resume_state_entity"]["description"].casefold()
+    assert "standby_resume" in fields["resume_state_entity"]["description"]
+    assert "30" in fields["standby_resume"]["description"]
+    assert "10" in fields["standby_resume"]["description"]
+    assert SCHEMA["standby_resume"] == "bool?"
+    assert "standby_resume" not in OPTIONS  # upgrades do not acquire new consent
     assert hold in fields["background_mode"]["description"]
     assert SCRIPT.config() == CONFIG
 

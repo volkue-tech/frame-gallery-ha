@@ -36,6 +36,27 @@ class Action(enum.StrEnum):
     REFRESH_CURRENT = "refresh_current"
 
 
+class StatusReason(enum.StrEnum):
+    """Allowlisted diagnostics, not raw remote/error text or artwork proof."""
+
+    SAFETY_HOLD = "safety_hold"
+    CONFIGURATION_REQUIRED = "configuration_required"
+    WAITING_FOR_STANDBY = "waiting_for_standby"
+    STANDBY = "standby"
+    WAKE_SETTLING = "wake_settling"
+    WAKE_REVALIDATION = "wake_revalidation"
+    HA_STATE_UNAVAILABLE = "ha_state_unavailable"
+    RATE_LIMITED = "rate_limited"
+    BUDGET_UNAVAILABLE = "budget_unavailable"
+    TV_AUTHORIZATION = "tv_authorization"
+    ASSOCIATION_REQUIRED = "association_required"
+    CONNECTION_FAILED = "connection_failed"
+    SESSION_FAILED = "session_failed"
+    PROOF_EXPIRED = "proof_expired"
+    WAITING_FOR_EVENT = "waiting_for_event"
+    SERVICE_STOPPED = "service_stopped"
+
+
 class Evidence(enum.StrEnum):
     THUMBNAIL = "thumbnail"
     SLIDESHOW = "slideshow"
@@ -88,8 +109,14 @@ class Observation:
     content_id: str | None = None
     thumbnail_sha256: str | None = None
     evidence: Evidence = Evidence.THUMBNAIL
+    reason: StatusReason | None = None
 
     def __post_init__(self) -> None:
+        if self.reason is not None and (
+            not isinstance(self.reason, StatusReason)
+            or self.status in {Status.ARTWORK, Status.UNIDENTIFIED}
+        ):
+            raise ValueError("invalid observation reason")
         if not isinstance(self.evidence, Evidence):
             raise ValueError("invalid observation evidence")
         if self.status not in {Status.ARTWORK, Status.UNIDENTIFIED}:
@@ -120,8 +147,11 @@ class Observation:
     @classmethod
     def from_json(cls, value: JsonObject) -> Observation:
         fields_set = {"status", "device_id", "content_id", "thumbnail_sha256"}
-        if set(value) not in (fields_set, fields_set | {"evidence"}):
+        if not fields_set <= set(value) <= fields_set | {"evidence", "reason"}:
             raise ValueError("invalid observation fields")
+        reason = value.get("reason")
+        if reason is not None and not isinstance(reason, str):
+            raise ValueError("invalid observation reason")
         evidence = value.get("evidence", Evidence.THUMBNAIL.value)
         if not isinstance(evidence, str):
             raise ValueError("invalid observation evidence")
@@ -135,7 +165,14 @@ class Observation:
         assert device_id is None or isinstance(device_id, str)  # noqa: S101
         assert content_id is None or isinstance(content_id, str)  # noqa: S101
         assert thumbnail is None or isinstance(thumbnail, str)  # noqa: S101
-        return cls(Status(status), device_id, content_id, thumbnail, Evidence(evidence))
+        return cls(
+            Status(status),
+            device_id,
+            content_id,
+            thumbnail,
+            Evidence(evidence),
+            StatusReason(reason) if reason is not None else None,
+        )
 
     def to_json(self) -> JsonObject:
         value: JsonObject = {
@@ -146,4 +183,6 @@ class Observation:
         }
         if self.evidence is not Evidence.THUMBNAIL:
             value["evidence"] = self.evidence.value
+        if self.reason is not None:
+            value["reason"] = self.reason.value
         return value

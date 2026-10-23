@@ -1,5 +1,21 @@
 # Changelog
 
+## 0.1.0b18 (candidate; publication gates pending)
+
+- Add a NEW default-off experimental standby_resume consent, independent of
+  saved old switches. Observe cached HA off continuously for 30 seconds and a
+  fresh on stable for 10 seconds before one exact-device/image revalidation.
+- Consume each edge once; persist at most six reservations per rolling hour,
+  at least 60 seconds apart across restarts. Invalid storage or HA/clock gaps
+  deny recovery; TV authorization refusal latches. No boot-on/minute TV reads,
+  send, power, mode, enrollment or blind retry is added by recovery.
+- Add explicit status reasons and complete optional native status cards in
+  English, German, French, Spanish and Italian. Existing cards, scripts and
+  associations remain compatible and unchanged; unknown works stay unknown.
+- The app must stay running to observe a full standby/wake cycle. Lost sessions
+  while HA remains on need a new cycle; static image proofs still expire.
+  Connection side effects on physical firmware remain unproven, not eliminated.
+
 ## 0.1.0b17 (public beta)
 
 Exact [run 39825989063](https://github.com/volkue-tech/frame-gallery-ha/actions/runs/39825989063) completed all five jobs successfully. Both native validators and both actual publisher images each passed 6,236 production tests with eight root skips and eight separate root checks; all four archives passed independent provenance/hash/content checks. Matching public sources, both anonymous immutable-image safety/preview probes and independent source/workflow-bound signatures passed. App [prerelease 421060980](https://github.com/volkue-tech/frame-gallery-ha/releases/tag/v0.1.0b17) targets the verified source.

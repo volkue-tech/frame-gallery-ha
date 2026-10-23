@@ -66,6 +66,8 @@ class CurrentArtworkPublisher(SupervisorHelperReader):
             "background_mode": True,
             "preview_available": False,
         }
+        if observation.reason is not None:
+            attributes["status_reason"] = observation.reason.value
         if observation.content_id is not None:
             attributes["tv_content_id"] = observation.content_id
         if observation.evidence is Evidence.SLIDESHOW:

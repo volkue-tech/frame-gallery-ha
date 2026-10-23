@@ -35,6 +35,14 @@ This file constrains the architecture without prescribing or copying an implemen
 
 ## Home Assistant constraints
 
+- **2026-10-23 D-250 local exception:** NEW default-off standby_resume may grant
+  one isolated revalidation after observed30s off/settled fresh10s on, durable
+  max6/hour/min60s budget and exact local identity/history checks. Consume before
+  any preparation. No initial-on, repeated error retry, send/setter/enrollment or
+  minute read. Old options remain under D-247. Add finite status reasons and
+  optional five-language card variants without altering originals/rights or
+  installed HA. No external I/O, release or physical no-wake claim.
+
 - **2026-10-22 D-247 safety hold:** suspend production startup/wake Art
   connections and scheduled current-state reads, even for saved true options.
   Cached Samsung state may only stop, never grant/resume. Keep one explicit

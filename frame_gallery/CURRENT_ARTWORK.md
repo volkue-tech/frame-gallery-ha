@@ -70,6 +70,8 @@ Leave the field empty to disable it. A stopped app cannot observe a wake. The
 
 </details>
 
+Local unpublished candidate: [bounded standby recovery and complete status card](CURRENT_STATUS.md). Existing complete YAML below remains unchanged; no installed change or release.
+
 Every successfully selected upload now saves its TV image ID, title, artist and source automatically, even with background mode **off**. Nothing needs to be entered manually. The association belongs to the actual TV identity, not just its IP address: the same image ID on another TV is not the same artwork. A successful new upload replaces an older association for that TV/ID.
 
 The private app data survives normal updates. Clearing the selection history does not erase associations; uninstalling with app-data deletion does. Keep an app backup before reinstalling. Storage is bounded to the latest 2,048 upload associations and 32 MiB, plus one backup. Each reference is a tiny 64×36 RGB sample, not a full-resolution artwork archive. Older image-verified associations remain compatible.

@@ -56,10 +56,13 @@ configuration:
     description: 'Entitäts-ID eines Dropdown- oder Text-Helfers, z. B. input_select.frame_gallery_artist. Er ersetzt den Künstlerwunsch bei jedem Start. Ungültige oder nicht lesbare Werte fallen mit einer Warnung auf den gespeicherten Künstlerwunsch zurück.'
   background_mode:
     name: 'Hintergrundmodus (experimentell, optional)'
-    description: 'Standardmäßig aus. Passive Kunstwerk-Ereignisse nach frischem ausdrücklichem Bildversand; Sende-Script einmal aktualisieren. Sicherheitsbremse: keine automatischen Start-/Aufwach-Verbindungen oder Minutenabfragen, auch bei gespeicherter Freigabe. Bildzuordnungen werden auch ohne diesen Modus gespeichert. Verbindungen können Firmware-Nebenwirkungen haben; keine allgemeine Nichtaufweck-Garantie. Keine zusätzlichen Helfer, Integrationen oder Rechte.'
+    description: 'Standardmäßig aus. Passive Ereignisse nach erfolgreichem ausdrücklichem Versand. Sicherheitsbremse: keine automatischen Start-/Minutenabfragen. Nur die NEUE Freigabe standby_resume erlaubt begrenzten Wiederanlauf nach stabilem Aufwachen. Sende-Script einmal aktualisieren; keine Sonderrechte.'
   current_state_refresh:
     name: 'Regelmäßiger Abgleich (vorübergehend gesperrt)'
     description: 'Aus Kompatibilitätsgründen gespeichert, während der Sicherheitsbremse aber ohne Wirkung. Keine zeitgesteuerten Modus- oder Bild-ID-Abfragen. Nach dem ersten Nachweis nach Bildversand erneuern nur passiv empfangene vollständige Diashow-Ereignisse die Anzeige. Unveränderte oder unbestätigte Bilder können veralten; keine automatische Wiederherstellungsabfrage.'
   resume_state_entity:
-    name: 'Samsung-Zustandsentität (nur Stoppsignal, optional)'
-    description: 'Leer lassen, um dieses zusätzliche Stoppsignal wegzulassen. Eine vorhandene Samsung-HA-ID (media_player oder remote) bleibt erhalten. Aus, unbekannt, nicht verfügbar, Lesefehler oder Beobachtungslücke stoppt den Empfänger. HA an startet oder erneuert niemals eine TV-Verbindung; automatischer Start-/Sleep-Wiederanlauf ist gesperrt. HA an beweist keinen Kunstmodus. Kein neuer Helfer oder Sonderrechte.'
+    name: 'Samsung-Zustandsentität (optional)'
+    description: 'Vorhandene Samsung-ID (media_player oder remote). Aus/unbekannt/nicht verfügbar, Fehler oder Beobachtungslücke stoppen. Ohne standby_resume nur Stoppsignal. Mit der NEUEN Freigabe kann ein stabiler frischer Aus/An-Wechsel einen Leseversuch erlauben. HA an beweist keinen Kunstmodus.'
+  standby_resume:
+    name: 'Nach Standby fortsetzen (experimentell, separate Freigabe)'
+    description: 'Standardmäßig AUS. Benötigt Hintergrundmodus und vorhandene Samsung-Zustandsentität. Nach 30 s durchgehend beobachtetem Aus und frischem, 10 s stabilem An genau ein Leseversuch. Max. 6/Stunde, mindestens 60 s Abstand, auch über Neustarts. Kein Startabruf, Wiederholungsversuch, Bild-/Power-/Modusbefehl oder Minutenabgleich. Schon die Verbindung kann den TV beeinflussen; keine Nichtaufweck-Garantie. Alte gespeicherte Schalter aktivieren dies nicht.'

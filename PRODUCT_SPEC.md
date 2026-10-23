@@ -1,5 +1,22 @@
 # Product specification
 
+## Bounded standby recovery/status (D-250, local/offline, 2026-10-23)
+
+Add a NEW default-OFF standby_resume opt-in; old saved flags must not restore
+automatic I/O. With background mode and the existing Samsung entity, require
+30s continuously observed valid off, then a fresh off-to-on edge stable10s.
+Boot-on, invalid/reordered/future samples, gaps and clock faults grant nothing.
+Consume each edge before local exact-target/device/archive/token preparation;
+reserve a private atomic max6/hour/min60s attempt budget across restarts before
+the existing bounded image/mode/identity-proving receiver. No send/setter,
+enrollment, initial-on, periodic getter or automatic failure retry. TV auth
+refusal latches until successful explicit delivery; that never resets limits.
+Corrupt/unwritable budget denies I/O. Unknown art never borrows metadata/preview.
+Add finite status reasons and complete optional native card variants in all
+five languages; preserve original cards/scripts/IDs. No dependency/privilege,
+live access, version or release in this task. This is risk reduction, not a
+physical no-wake guarantee; existing D-247 applies without the new opt-in.
+
 ## Automatic observer I/O safety hold (D-247, local/offline, 2026-10-22)
 
 After another unexplained TV-programme incident, prepare a conservative local

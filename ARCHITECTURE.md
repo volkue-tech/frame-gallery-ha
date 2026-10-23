@@ -1,5 +1,36 @@
 # Frame Gallery for Home Assistant — Architecture proposal
 
+## D-250 settled standby recovery/status (local/offline, 2026-10-23)
+
+The NEW default-off standby_resume option independently selects
+StandbyResumeMonitor. Old saved resume/refresh flags still select stop-only
+CachedStateStopMonitor; no startup connection or periodic TV getter is restored.
+The monitor requires continuously sampled30s off then10s stable fresh on, at
+most5s Core cadence, <=15s gaps and coherent monotonic/wall/source timestamps.
+Each edge is spent before the durable reservation, local preparation or worker.
+A second one-use <=5s claim guards production prepare_resume independently of
+the emitted event. Existing exact target/device/archive/token and image proof
+are reused, with no sender, repin, enrollment or old-caption restoration.
+
+ResumeBudget uses the existing exclusive observer lease and no-follow atomic
+state primitive. Its strict2048-byte primary stores at most6 reservations/hour,
+minimum60s apart, plus an auth-denial latch. No backup fallback/repair, history
+reset, explicit send or process restart resets limits. Corrupt/newer/future or
+unwritable state denies; TV auth refusal persists, cleared only by successful
+explicit delivery, not a timer. Receiver errors do not grant retries while HA
+stays on; another fully observed clean cycle is required. A stopped app cannot
+observe a cycle. Physical connection side effects remain unknown.
+
+Optional finite StatusReason values retain all original Status/identity/IPC
+semantics, reject unknown text and cannot accompany artwork proof. The owned HA
+publisher exposes status_reason, while non-art states clear artist and preview.
+Controller stop reports service_stopped; passive waiting, expiry, HA gaps,
+standby, limits, auth and actual session faults have distinct codes. Five new
+CURRENT_STATUS guides provide complete optional native cards with one shared
+90/900s artist/preview gate, safe legacy fallbacks and no extra helper/HACS/API
+key. Original complete card/script blocks remain byte-identical; nothing is
+installed or published and no new permission/dependency is introduced.
+
 ## D-247 automatic-I/O safety hold (local/offline)
 
 The real background entry no longer wires HostObserver.prepare_resume into the

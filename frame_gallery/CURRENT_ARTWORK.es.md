@@ -73,6 +73,8 @@ visualización de 90 segundos y 15 minutos no cambian.
 
 </details>
 
+Candidato local sin publicar: [recuperación limitada tras espera y tarjeta de estado completa](CURRENT_STATUS.es.md). YAML existente conservado; sin cambios instalados ni publicación.
+
 Cada envío seleccionado correctamente guarda automáticamente el ID del TV, título, artista y fuente, incluso con el modo en segundo plano **desactivado**. No hay que introducir ID. La asociación pertenece a la identidad real del TV, no solo a su IP. El mismo ID en otro TV no es la misma obra. Un nuevo envío correcto sustituye la asociación anterior de ese TV/ID.
 
 Los datos privados sobreviven a las actualizaciones normales. Reiniciar el historial de selección no borra asociaciones; desinstalar eliminando los datos sí. Conserve una copia antes de reinstalar. Límite: las últimas 2.048 asociaciones y 32 MiB, más una copia. La referencia es una muestra RGB de 64×36 píxeles, no un archivo de alta resolución. Las asociaciones antiguas verificadas por imagen siguen siendo compatibles.

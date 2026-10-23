@@ -74,6 +74,7 @@ def _check_actual_entry(
     case: str,
     initial: bool,
     startup_send: bool = False,
+    standby: bool = False,
 ) -> None:
     host, clock = Rig(tmp_path), FakeClock()
     scratch = tmp_path / "tmp"
@@ -84,8 +85,9 @@ def _check_actual_entry(
             {
                 "tv_host": str(HOST),
                 "background_mode": True,
-                "resume_state_entity": WAKE,
+                "resume_state_entity": None if case == "unconfigured" else WAKE,
                 "current_state_refresh": True,
+                "standby_resume": standby,
             }
         )
     )
@@ -101,6 +103,18 @@ def _check_actual_entry(
                 reference_rgb=base64.b64encode(b"x" * 6912).decode(),
             ),
             deadline(),
+        )
+    if case in {"budget_corrupt", "budget_limited"}:
+        attempts = [clock.utc_now().timestamp() - 5] if case == "budget_limited" else "bad"
+        (host.data / "state/standby-resume-budget.json").write_text(
+            json.dumps(
+                {
+                    "format": "frame-gallery-standby-budget",
+                    "version": 1,
+                    "attempts": attempts,
+                    "auth_blocked": False,
+                }
+            )
         )
     if case == "corrupt_token":
         (host.data / "tv/192-168-1-20.token").write_text("invalid!")
@@ -127,7 +141,9 @@ def _check_actual_entry(
                 return response({}, 401)
             if case == "stop_read" and wake_reads >= (1 if initial else 2):
                 incoming.closed = True
-            on = initial or clock.elapsed in (5, 15)
+            on = (
+                (initial or clock.elapsed >= 35) if standby else initial or clock.elapsed in (5, 15)
+            )
             return response(
                 {
                     "entity_id": WAKE,
@@ -135,6 +151,10 @@ def _check_actual_entry(
                     "last_changed": (
                         datetime.fromtimestamp(clock.utc_now().timestamp() - 14400, UTC).isoformat()
                         if initial
+                        else datetime.fromtimestamp(
+                            clock.utc_now().timestamp() - clock.elapsed + (35 if on else 0), UTC
+                        ).isoformat()
+                        if standby
                         else clock.utc_now().isoformat()
                     ),
                 }
@@ -196,6 +216,9 @@ def _check_actual_entry(
 
         def start(self, payload: JsonObject) -> None:
             self.starts.append(payload)
+            policy = payload.get("policy", {})
+            assert isinstance(policy, dict)
+            assert policy.get("state_refresh", False) is False
             assert payload["device_id"] == DEVICE
             assert payload["enroll_device"] is False
             assert payload["tokenless_grant"] is (case == "tokenless")
@@ -224,7 +247,46 @@ def _check_actual_entry(
     monkeypatch.setattr(entry, "SessionProcess", lambda *_a: session)
     monkeypatch.setattr(entry, "ServiceInput", lambda _fd: incoming)
 
+    def serve_standby(controller: EventController) -> None:
+        controller.start()
+        controller.tick()
+        for _ in range(10):
+            clock.advance(5)
+            controller.tick()
+        denied = {
+            "no_pin",
+            "no_archive",
+            "other_target",
+            "corrupt_token",
+            "wake_auth",
+            "stop_read",
+            "publish_failure",
+            "unconfigured",
+            "budget_corrupt",
+            "budget_limited",
+        }
+        expected = 0 if initial or case in denied else 1
+        assert len(session.starts) == expected
+        assert not controller.resume()  # a consumed grant cannot be reused directly
+        for _ in range(20):
+            clock.advance(5)
+            controller.tick()
+        assert len(session.starts) == expected
+        if case == "auth" and not initial:
+            saved_budget = json.loads((host.data / "state/standby-resume-budget.json").read_text())
+            assert saved_budget["auth_blocked"] is True
+        if not initial and case in {"known", "tokenless"}:
+            assert any(p["state"] == "artwork" for p in posts)
+        elif case in {"unknown", "other_tv", "mismatch", "tv_program", "auth"}:
+            assert not any("artist" in p["attributes"] for p in posts)
+        controller.stop()
+        if case not in {"publish_failure"}:
+            assert posts[-1]["attributes"]["status_reason"] == "service_stopped"
+
     def serve(controller: EventController, _read: Any, stopped: Any) -> None:
+        if standby:
+            serve_standby(controller)
+            return
         if startup_send:
             issued = False
 
@@ -279,6 +341,38 @@ def test_actual_entry_startup_send_consumes_automatic_read_even_on_no_match(
     tmp_path: Path, monkeypatch: pytest.MonkeyPatch
 ) -> None:
     _check_actual_entry(tmp_path, monkeypatch, case="known", initial=True, startup_send=True)
+
+
+@pytest.mark.parametrize(
+    "case",
+    [
+        "known",
+        "unknown",
+        "mismatch",
+        "other_tv",
+        "tv_program",
+        "auth",
+        "wake_auth",
+        "publish_failure",
+        "stop_read",
+        "no_pin",
+        "no_archive",
+        "other_target",
+        "corrupt_token",
+        "tokenless",
+        "unconfigured",
+        "budget_corrupt",
+        "budget_limited",
+    ],
+)
+@pytest.mark.parametrize("initial", [False, True])
+def test_actual_entry_new_consent_one_settled_standby_attempt(
+    tmp_path: Path,
+    monkeypatch: pytest.MonkeyPatch,
+    case: str,
+    initial: bool,
+) -> None:
+    _check_actual_entry(tmp_path, monkeypatch, case=case, initial=initial, standby=True)
 
 
 def test_production_resume_hook_stays_denied_even_if_a_monitor_emits_resume(

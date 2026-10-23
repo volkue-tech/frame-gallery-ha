@@ -62,3 +62,5 @@ Vistas previas de hasta 640×360 píxeles y 32 KiB de JPEG. Caché privada limit
 Usar la tarjeta completa con control de antigüedad, no una cámara sin protección: tras un cierre inesperado el archivo puede conservar su contenido, pero la tarjeta oculta las pruebas caducadas. La disponibilidad se desactiva en HA antes de cambiar el archivo y solo se activa después de una escritura atómica verificada. La huella evita la caché del navegador; no es una nueva observación del TV. latest.jpg y las tarjetas existentes no cambian. Sin descarga adicional de miniaturas del TV, reconocimiento en la nube ni nuevas conexiones.
 
 [Guía de la obra actual](CURRENT_ARTWORK.es.md)
+
+Candidato local sin publicar: [recuperación limitada tras espera y tarjeta de estado completa](CURRENT_STATUS.es.md). YAML existente conservado; sin cambios instalados ni publicación.

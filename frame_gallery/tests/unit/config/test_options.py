@@ -79,6 +79,22 @@ def test_background_mode_is_opt_in(value: bool | None) -> None:
 
 
 @pytest.mark.parametrize("value", [None, False, True])
+def test_standby_resume_is_new_consent_not_old_flags(value: bool | None) -> None:
+    assert not _parse(
+        background_mode=True, current_state_refresh=True, resume_state_entity="remote.frame"
+    ).standby_resume
+    options = _parse(standby_resume=value)
+    assert options.standby_resume is (value is True)
+    assert not options.background_mode
+    assert options.resume_state_entity is None
+
+
+@pytest.mark.parametrize("value", [0, 1, "true", "false", [], {}])
+def test_standby_resume_never_coerces_values(value: object) -> None:
+    assert _issue(standby_resume=value).option == "standby_resume"
+
+
+@pytest.mark.parametrize("value", [None, False, True])
 def test_current_state_refresh_is_separate_default_off(value: bool | None) -> None:
     options = _parse(current_state_refresh=value)
     assert options.current_state_refresh is (value is True)

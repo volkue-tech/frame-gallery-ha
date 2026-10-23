@@ -57,7 +57,7 @@ from frame_gallery.budget.clock import Clock, SystemClock
 from frame_gallery.budget.deadline import Deadline
 from frame_gallery.budget.limits import METADATA_REQUEST_ALLOWANCE
 from frame_gallery.budget.watchdog import RunWatchdog
-from frame_gallery.config.options import ConfigError, LogLevel, parse_options
+from frame_gallery.config.options import ConfigError, LogLevel, Options, parse_options
 from frame_gallery.config.vocabulary import BUILTIN_VOCABULARY
 from frame_gallery.domain import SourceKey
 from frame_gallery.errors import AlreadyRunning, StateError
@@ -82,8 +82,9 @@ from frame_gallery.net.wire import Resolver, Transport
 from frame_gallery.observer.backend import HostObserver
 from frame_gallery.observer.event_backend import EventBackend
 from frame_gallery.observer.event_controller import EventController
-from frame_gallery.observer.model import Observation
+from frame_gallery.observer.model import Observation, StatusReason
 from frame_gallery.observer.service import PublicationGuard, serve
+from frame_gallery.observer.standby import StandbyResumeMonitor
 from frame_gallery.observer.wake import CachedStateStopMonitor
 from frame_gallery.providers import aic, cma
 from frame_gallery.providers.aic import AicProvider, aic_policy
@@ -97,6 +98,7 @@ from frame_gallery.store.diagnostics import log_storage
 from frame_gallery.store.layout import StoreLayout
 from frame_gallery.store.options_file import OptionsFile
 from frame_gallery.store.preview import PREVIEW_PARTS
+from frame_gallery.store.resume_budget import ResumeBudget
 from frame_gallery.tv.port import Television
 from frame_gallery.tv.samsung import HostTelevision
 
@@ -169,11 +171,59 @@ def _service_cleanup(layout: StoreLayout, clock: Clock) -> bool:
     return True
 
 
+def _standby_recovery(
+    options: Options,
+    layout: StoreLayout,
+    reader: SupervisorHelperReader,
+    clock: Clock,
+) -> StandbyResumeMonitor | None:
+    if not options.standby_resume:
+        return None
+    budget = ResumeBudget(layout.data)
+    return StandbyResumeMonitor(
+        lambda: reader.read_wake_state(
+            options.resume_state_entity or "",
+            Deadline(clock, clock.monotonic() + 2, "cached TV state"),
+        ),
+        clock.monotonic,
+        lambda: clock.utc_now().timestamp(),
+        reserve=budget.reserve,
+        block_auth=budget.block_auth,
+        clear_auth=budget.clear_auth,
+        configured=bool(options.resume_state_entity),
+    )
+
+
+def _prepare_standby(recovery: StandbyResumeMonitor | None, observer: HostObserver) -> bool:
+    return recovery is not None and recovery.claim() and observer.prepare_resume()
+
+
+def _recovery_status(recovery: StandbyResumeMonitor | None) -> Callable[[], StatusReason | None]:
+    if recovery is not None:
+        return recovery.take_status
+    held = iter((StatusReason.SAFETY_HOLD,))
+    return lambda: next(held, None)
+
+
+def _send_for_observer(
+    child: DeliveryProcess,
+    observer: HostObserver,
+    stopping: Callable[[], bool],
+) -> int:
+    before = observer.delivery_snapshot()
+    code = child.run()
+    if code == 0 and not stopping() and observer.after_delivery(before):
+        return 0
+    # One-shot exit 0 includes no_match, TV errors and cancellation.
+    # Never turn those into authorization to read a sleeping TV.
+    return 1
+
+
 def background_main() -> int:
     """Explicit experimental service with D-247's automatic-I/O safety hold.
 
-    Only a fresh successful explicit delivery may arm one passive event session.
-    Saved resume/refresh options cannot authorize automatic connections or GETs.
+    A fresh successful delivery or NEW settled standby consent may arm one session.
+    Old saved resume/refresh options cannot authorize automatic connections or GETs.
     A configured cached HA entity is a stop signal only, never Art Mode proof.
     """
     clock, layout = SystemClock(), StoreLayout()
@@ -259,29 +309,29 @@ def background_main() -> int:
             lambda: clock.utc_now().timestamp(),
             enabled=bool(options.resume_state_entity),
         )
-
-        def send() -> int:
-            before = observer.delivery_snapshot()
-            code = child.run()
-            if code == 0 and not stopping() and observer.after_delivery(before):
-                return 0
-            # One-shot exit 0 includes no_match, TV errors and cancellation.
-            # Never turn those into authorization to read a sleeping TV.
-            return 1
+        recovery = _standby_recovery(options, layout, wake_reader, clock)
 
         controller = EventController(
-            send=send,
-            source=EventBackend(observer, session, clock.monotonic, policy=observer.event_policy),
+            send=functools.partial(_send_for_observer, child, observer, stopping),
+            source=EventBackend(
+                observer, session, clock.monotonic, policy=observer.event_policy, diagnostics=True
+            ),
             publish=publication,
             claim=lambda command: store.claim(command, clock.utc_now().timestamp()),
             stopped=stopping,
-            monitor_wake=wake_monitor.poll,
+            monitor_wake=recovery.poll if recovery is not None else wake_monitor.poll,
+            prepare_resume=functools.partial(_prepare_standby, recovery, observer),
+            supersede_wake=recovery.supersede if recovery is not None else lambda: None,
+            idle_status=_recovery_status(recovery),
+            observe_result=recovery.observe if recovery is not None else lambda _seen: None,
+            delivered=recovery.delivered if recovery is not None else lambda: None,
+            report_reasons=True,
         )
         _log.warning(
-            "event background service ready; safety hold: automatic initial/wake connections "
-            "and current_state_refresh reads are suspended, including saved opt-ins; "
-            "HA state can only stop; passive receiver requires a fresh explicit delivery; "
-            "connection side effects remain unverified"
+            "event background service ready; no automatic initial or minute reads; "
+            "old opt-ins remain suspended; standby_resume=%s requires a new settled "
+            "off/on edge and durable bounded grant; connection side effects remain unverified",
+            options.standby_resume,
         )
         serve(controller, incoming.receive, stopping)
     finally:

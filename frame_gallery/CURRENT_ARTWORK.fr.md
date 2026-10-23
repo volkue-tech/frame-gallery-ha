@@ -74,6 +74,8 @@ Les limites d'affichage de 90 secondes et 15 minutes restent inchangées.
 
 </details>
 
+Candidat local non publié : [reprise limitée après veille et carte de statut complète](CURRENT_STATUS.fr.md). YAML existant ci-dessous conservé ; aucune modification installée ni publication.
+
 Chaque envoi sélectionné avec succès enregistre automatiquement l'ID TV, le titre, l'artiste et la source, même avec le mode arrière-plan **désactivé**. Aucun ID à saisir. L'association dépend de l'identité réelle du TV, pas seulement de son adresse IP. Le même ID sur un autre TV ne désigne pas la même œuvre. Un nouvel envoi réussi remplace l'ancienne association pour ce TV/ID.
 
 Les données privées de l'app survivent aux mises à jour normales. Réinitialiser l'historique de sélection ne supprime pas les associations ; désinstaller avec suppression des données les efface. Gardez une sauvegarde avant réinstallation. Limite : les 2 048 dernières associations et 32 MiB, plus une sauvegarde. La référence est un petit échantillon RGB de 64×36 pixels, pas une archive haute résolution. Les anciennes associations vérifiées par image restent compatibles.

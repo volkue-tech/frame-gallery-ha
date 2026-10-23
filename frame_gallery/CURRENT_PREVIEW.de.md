@@ -63,3 +63,5 @@ Vorschauen haben höchstens 640×360 Pixel und 32 KiB JPEG-Daten. Der private Ca
 Die vollständige abgesicherte Karte verwenden, keine ungeschützte Einzelkamera für current.jpg: Nach einem Absturz kann die Datei den letzten Inhalt behalten, die Karte blendet jedoch veraltete Nachweise aus. Vor dem Dateitausch wird die Vorschau in HA deaktiviert und erst nach geprüftem atomarem Schreiben wieder freigegeben. Die Prüfsumme umgeht den Browser-Bildcache; sie ist kein neuer TV-Nachweis. latest.jpg und bestehende Karten bleiben unberührt. Keine zusätzliche TV-Vorschaubildabfrage, Cloud-Erkennung oder Verbindung.
 
 [Anleitung zur aktuellen Künstleranzeige](CURRENT_ARTWORK.de.md)
+
+Lokaler unveröffentlichter Kandidat: [begrenzter Standby-Wiederanlauf und vollständige Statuskarte](CURRENT_STATUS.de.md). Das bestehende vollständige YAML unten bleibt unverändert; keine Live-Änderung oder Veröffentlichung.
