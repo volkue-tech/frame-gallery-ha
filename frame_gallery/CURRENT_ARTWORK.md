@@ -1,6 +1,6 @@
 # Current artwork and optional background mode
 
-> **0.1.0b18 — optional bounded standby recovery (D-247/D-250).** Old saved switches still do not authorize automatic reads: `current_state_refresh` and initial-on reads remain suspended. NEW `standby_resume` is OFF by default and requires background mode plus an existing Samsung `resume_state_entity`. The running app must observe off continuously for 30 seconds, then a genuinely fresh on stable for 10 seconds, before one exact-device/image revalidation; at most six attempts/hour, at least 60 seconds apart across ordinary restarts. No image, power or mode commands, enrollment or blind retries are added by recovery. Lost sessions while HA stays on need a new complete cycle. Physical connection side effects remain unresolved; this is NOT a no-wake guarantee. Existing cards/scripts remain unchanged. See the [complete optional status card](CURRENT_STATUS.md), [current preview](CURRENT_PREVIEW.md) and [b18 evidence/limits](https://github.com/volkue-tech/frame-gallery-ha/blob/main/BETA18_VALIDATION.md).
+> **0.1.0b19 — optional unchanged-artwork confirmation (D-247/D-250/D-252).** NEW `confirm_current_artwork` is experimental and OFF by default; it requires background mode and the existing Samsung `resume_state_entity`. Only an independently granted, verified Art session may confirm Art-on/current-ID on its SAME socket, at most four GETs per minute. No new connection, startup/recovery permission, image/power/mode command or blind retry. Quiet valid reads keep still-fresh artist/title/preview visible. Off/menu/standby, stale HA/proof/clock state or connection/query failure end the session. The eight-hour limit remains; a lost session needs a later independent grant. Old `current_state_refresh` and initial-on reads remain suspended. Optional b18 `standby_resume` is separate/default OFF: the running app must observe 30 s off then fresh stable 10 s on, with at most six attempts/hour and60s spacing. Reads can still affect firmware or sleep; this is NOT a no-wake guarantee. Existing cards/scripts/data/permissions remain compatible. [b19 evidence and limits](https://github.com/volkue-tech/frame-gallery-ha/blob/main/BETA19_VALIDATION.md).
 
 From 0.1.0b17: [optional current-image preview](CURRENT_PREVIEW.md). Existing cards stay unchanged. [b17 validation and limits](https://github.com/volkue-tech/frame-gallery-ha/blob/main/BETA17_VALIDATION.md).
 
@@ -10,7 +10,7 @@ English | [Deutsch](CURRENT_ARTWORK.de.md) | [Français](CURRENT_ARTWORK.fr.md) 
 `artmode_status` / `current_artwork` replies with strict fresh request-ID checks.
 No new option, connection, stored-ID format or card change is needed.
 
-**0.1.0b18 public beta: experimental and off by default.** Existing b7/b8/b9/b10/b11/b12/b13/b16 cards remain usable. No API key, new helper, HACS extension, special permissions or second app is needed on Home Assistant Green/OS.
+**0.1.0b19 public beta: experimental and off by default.** Existing b7/b8/b9/b10/b11/b12/b13/b16 cards remain usable. No API key, new helper, HACS extension, special permissions or second app is needed on Home Assistant Green/OS.
 
 [Historical b16 validation](https://github.com/volkue-tech/frame-gallery-ha/blob/main/BETA16_VALIDATION.md) · [Historical matching sources](https://github.com/volkue-tech/frame-gallery-ha/releases/tag/sources-v0.1.0b16).
 

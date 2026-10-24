@@ -1,6 +1,8 @@
 # Changelog
 
-## 0.1.0b19 (candidate; publication gates pending)
+## 0.1.0b19 (public beta)
+
+Exact [native run 40100876404](https://github.com/volkue-tech/frame-gallery-ha/actions/runs/40100876404) passed all five jobs. Both native validators and both actual publisher images each passed 6,435 production tests with eight root skips plus eight separate root checks. All four exact archives passed independent provenance/byte-hash/content checks; matching public sources, both immutable public-image steady-confirmation/recovery/preview probes and independent source/workflow-bound signatures passed. No physical no-wake guarantee. See [b19 validation](https://github.com/volkue-tech/frame-gallery-ha/blob/main/BETA19_VALIDATION.md).
 
 - Add separate experimental/default-OFF confirm_current_artwork consent for
   coherent mode/ID confirmation of an unchanged artwork on its already verified

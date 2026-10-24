@@ -1,5 +1,7 @@
 # D-250 standby recovery — local/offline validation
 
+Historical local evidence retained below. Its implemented runtime is included in public beta0.1.0b19; see [observed native/public gates](BETA19_VALIDATION.md). This does not add a physical no-wake guarantee.
+
 Historical local implementation evidence; subsequently released as 0.1.0b18. See [observed native/public b18 results](BETA18_VALIDATION.md). The original local scope/results below are retained; release checks do not certify physical no-wake safety.
 
 Local candidate, 2026-10-23. Not installed, versioned, committed, published or

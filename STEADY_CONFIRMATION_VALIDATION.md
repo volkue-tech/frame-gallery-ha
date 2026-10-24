@@ -1,5 +1,7 @@
 # D-252 — Art-only steady confirmation, local/offline candidate
 
+Historical local evidence retained below. Its implemented runtime is included in public beta0.1.0b19; see [observed native/public gates](BETA19_VALIDATION.md). This does not add a physical no-wake guarantee.
+
 2026-10-24. Not installed, published or assigned a new version. Existing live
 cards/scripts/app settings were not accessed or changed during this task.
 

@@ -1,5 +1,11 @@
 # Releasing a reviewed beta
 
+## b19 observed native/public gates — handoff closure follows
+
+Exact [native run 40100876404](https://github.com/volkue-tech/frame-gallery-ha/actions/runs/40100876404) passed all five jobs. Both native validators and both actual publisher images each passed 6,435 production tests with eight root skips plus eight separate root checks. All four exact archives passed independent provenance/byte-hash/content checks; matching public sources, both immutable public-image steady-confirmation/recovery/preview probes and independent source/workflow-bound signatures passed. No physical no-wake guarantee.
+
+Frozen source `0716050082ddb5eb0b08f73ce2d1eb5024987028`, runtime124/`4b3cfe7c0df058093160f2c0c8e026738d0d8ecb80a565bb15e8961eff979414`. App [prerelease 422786520](https://github.com/volkue-tech/frame-gallery-ha/releases/tag/v0.1.0b19); exact approvals disabled/read back.29-file documentation-only promotion preserves26 complete examples. Final main/Store readback and exact broker exit remain subsequent checks. No HA/TV or installed changes; new flag default OFF. See [b19 validation](BETA19_VALIDATION.md).
+
 ## b18 observed release gates
 
 Exact [native run 39931258791](https://github.com/volkue-tech/frame-gallery-ha/actions/runs/39931258791) passed all five jobs. Both native validators and both actual publisher images each passed 6,362 production tests with eight root skips plus eight separate root checks. All four exact archives passed independent provenance/byte-hash/content checks; matching public sources, both immutable public-image recovery/status/preview probes and independent source/workflow-bound signatures passed. No physical no-wake claim.
