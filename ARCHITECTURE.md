@@ -1,5 +1,22 @@
 # Frame Gallery for Home Assistant — Architecture proposal
 
+## D-252 Art-only steady confirmation (local/offline, 2026-10-24)
+
+The separately default-off confirm_current_artwork selects an art_only_refresh
+policy only after an independent delivery/standby grant and verified baseline.
+The existing background entry still ignores old current_state_refresh and never
+keeps TV/menu sessions. A dedicated same-socket generator reuses the correlated
+four-GET reader, but terminates instead of retrying failures or waiting in menu.
+It drains notifications before due reads and refuses reads after90s proof gaps
+or reversed clocks. Baseline-to-first-read and each attempt spacing are60s;
+the existing FrameBounds imposes480 cycles/eight hours and5s/64 frames/cycle.
+No additional factory, thumbnail, setters or permissions. During an ordinary
+quiet check, the prior still-fresh proof remains visible; only a complete new
+response renews its receipt. Passive changing-ID triples still carry900s
+evidence; unknown works never borrow a known caption/preview. HA off/gap and
+manual-send arbitration retain their existing stop/reap behavior. Simulations
+are not physical no-wake/sleep evidence. Nothing installed is modified.
+
 ## D-250 settled standby recovery/status (local/offline, 2026-10-23)
 
 The NEW default-off standby_resume option independently selects

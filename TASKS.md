@@ -1,5 +1,33 @@
 # Implementation plan and approval gates
 
+## D-253 b19 native/publication gate — authorized, 2026-10-24
+
+- [x] Verify explicit personal release authority and unused b19/source tags.
+- [ ] Freeze versioned D-252 after all host gates; preserve26 complete examples,
+  unrelated docs/community, dependencies, privileges and live state.
+- [ ] Assemble/publicly verify exact matching sources before distribution.
+- [ ] Pass native ARM/Intel validators and actual publisher image/root/memory
+  suites; independently verify all four exact provenance/content archives.
+- [ ] Verify both immutable public-image confirmation/default-deny/preview
+  probes and independent source/workflow/digest-bound signatures.
+- [ ] Publish app/Store only after green gates; update five-language guides,
+  disable/read back approvals, verify public docs/main and end exact broker.
+- [x] No HA/TV or installed/card/script changes authorized; new flag default OFF.
+
+## D-252 unchanged-image confirmation — local/offline, 2026-10-24
+
+- [x] Record separate default-off consent, strict existing-Art-socket boundary
+  and preservation of live cards/scripts; no live access/publication.
+- [x] Implement strict confirmation, fresh per-TV proof and real entry wiring;
+  preserve old flag quarantine, standby budgets and existing resource guards.
+- [x] Add recorded/synthetic quiet-image, mutation, sleep, clock, failure,
+  cancellation, schema/default and actual-entry/socketpair regressions.
+- [x] Run complete offline quality gates and document observed results/limits.
+  Observed6427/16,326 typed files, whole/mandatory100%; three negative controls,
+  seven-hour quiet proof and26 unchanged complete examples. See
+  STEADY_CONFIRMATION_VALIDATION.md; native/hardware claims remain excluded.
+- [ ] Native builds, release and any installed activation remain separate gates.
+
 ## b18 handoff — observed gates, closure follows
 
 - [x] Freeze source `b37b4f4932997050db028c35423573d6cced1574` after host6354/16.

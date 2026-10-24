@@ -42,6 +42,7 @@ class HostObserver:
         tokenless_grant: bool = False,
         stopped: Callable[[], bool] = lambda: False,
         current_state_refresh: bool = False,
+        art_only_refresh: bool = False,
     ) -> None:
         self._executor, self._data, self._media, self._host = executor, data, media, host
         self._device, self._stopped = device_id, stopped
@@ -53,6 +54,7 @@ class HostObserver:
         self._targets = TargetStore(data)
         self._enroll = False
         self._state_refresh = current_state_refresh
+        self._art_only_refresh = art_only_refresh
         self._preview_proof: tuple[Observation, DeliveryAssociation] | None = None
 
     def delivery_snapshot(self) -> bytes | None:
@@ -128,7 +130,11 @@ class HostObserver:
         """Consume one delivery or opted-in HA grant, not the saved pin alone."""
         granted, self._delivery_device = self._delivery_device, None
         if device_id is not None and device_id == granted:
-            return replace(SLIDESHOW_POLICY, state_refresh=self._state_refresh)
+            return replace(
+                SLIDESHOW_POLICY,
+                state_refresh=self._state_refresh or self._art_only_refresh,
+                art_only_refresh=self._art_only_refresh,
+            )
         return reviewed_policy(device_id)
 
     def prepare_resume(self) -> bool:

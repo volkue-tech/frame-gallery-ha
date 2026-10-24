@@ -56,13 +56,16 @@ configuration:
     description: 'Opcional. Ayudante Texto dedicado, por ejemplo input_text.frame_gallery_artwork. Longitud mínima 0, máxima 255, sin valor inicial. La aplicación escribe el título, el artista y la fuente de la vista previa. No uses un ayudante de filtro. Deja vacío para conservar la tarjeta con imagen solamente.'
   background_mode:
     name: 'Modo en segundo plano (experimental, opcional)'
-    description: 'Desactivado por defecto. Eventos pasivos tras envío explícito correcto. Medida de seguridad: sin lecturas iniciales/periódicas. Solo el NUEVO permiso standby_resume permite recuperación limitada tras despertar estable. Sin permisos adicionales.'
+    description: 'Desactivado por defecto. Eventos pasivos tras envío explícito correcto. Medida de seguridad: sin lecturas iniciales/periódicas. Solo el NUEVO permiso standby_resume permite recuperación limitada tras despertar estable. Sin permisos adicionales. Solo el NUEVO permiso confirm_current_artwork permite comprobaciones Arte periódicas en la misma conexión.'
   current_state_refresh:
     name: 'Sincronización periódica (suspendida temporalmente)'
-    description: 'Valor conservado por compatibilidad, pero ignorado durante la medida de seguridad. Sin consultas programadas del modo o ID. Tras la prueba inicial posterior a un envío, solo los eventos completos de diapositivas recibidos pasivamente pueden actualizar la obra. Una imagen sin cambios o sin confirmar puede caducar; no hay consulta automática de recuperación.'
+    description: 'Valor conservado por compatibilidad, pero ignorado durante la medida de seguridad. Sin consultas programadas del modo o ID. Tras la prueba inicial posterior a un envío, solo los eventos completos de diapositivas recibidos pasivamente pueden actualizar la obra. Una imagen sin cambios o sin confirmar puede caducar; no hay consulta automática de recuperación. Solo el NUEVO permiso confirm_current_artwork permite comprobaciones Arte periódicas en la misma conexión.'
   resume_state_entity:
     name: 'Entidad de estado Samsung (opcional)'
     description: 'ID Samsung existente media_player o remote. Apagado/desconocido/no disponible/error o interrupción detiene el receptor. Sin standby_resume: solo señal de parada. Con el NUEVO permiso, una transición reciente y estable permite una lectura. HA encendido no demuestra modo Arte.'
   standby_resume:
     name: 'Reanudar tras espera (experimental, permiso separado)'
     description: 'Desactivado por defecto. Requiere modo en segundo plano y entidad Samsung existente. Tras 30 s de apagado observado sin interrupciones y un encendido reciente estable 10 s, permite una lectura. Máx. 6/h, separadas 60 s, incluso tras reinicios. Sin lectura inicial/periódica, reintentos ni órdenes de imagen/encendido/modo. La conexión puede afectar al TV; no se garantiza que no despierte. Los ajustes antiguos no lo activan.'
+  confirm_current_artwork:
+    name: 'Confirmar obra sin cambios (experimental, permiso separado)'
+    description: 'Desactivado por defecto. Requiere segundo plano y la entidad Samsung existente. Solo en la conexión Arte ya verificada: como máximo cuatro GET coherentes/60 s. Sin conexión nueva, órdenes de imagen/encendido/modo ni reintentos. Apagado/menú/espera, interrupción HA o error detiene la lectura. Los ajustes antiguos no lo activan. La lectura puede afectar al sueño; no se garantiza que no despierte.'

@@ -59,6 +59,8 @@ class EventBackend:
         self._fresh_s = FRESH_S
         self._resync_reported = False
         self._state_refresh = False
+        self._art_only_refresh = False
+        self._last_confirmation: float | None = None
         self._diagnostics = diagnostics
 
     def start(self) -> Observation:
@@ -75,6 +77,7 @@ class EventBackend:
         self._allow_query = policy.current_id_once
         self._slideshow_enabled = policy.slideshow
         self._state_refresh = policy.state_refresh
+        self._art_only_refresh = policy.art_only_refresh
         self._session.start({**request, "policy": policy.to_json()})
         return Observation(Status.CHECKING)
 
@@ -85,6 +88,8 @@ class EventBackend:
         self._slideshow, self._slideshow_enabled, self._fresh_s = None, False, FRESH_S
         self._resync_reported = False
         self._state_refresh = False
+        self._art_only_refresh = False
+        self._last_confirmation = None
 
     def _unavailable(self, reason: SessionFailure) -> Observation:
         _log.warning("event session stopped: reason=%s; no reconnect", reason.value)
@@ -193,6 +198,8 @@ class EventBackend:
         if not self._state_refresh or not 0 <= self._now() - at < FRESH_S:
             raise ValueError("unapproved or stale state read")
         if value == {"kind": "waiting_art"} and self._baseline is None:
+            if self._art_only_refresh:
+                raise ValueError("Art-only confirmation requires an initial image proof")
             return Observation(Status.TV_IN_USE)
         if value == {"kind": "state_checking"}:
             if self._confirmed_at is None or self._baseline is None:
@@ -209,6 +216,10 @@ class EventBackend:
             or CONTENT_ID_PATTERN.fullmatch(content_id) is None
         ):
             raise ValueError("invalid current state record")
+        if self._art_only_refresh and (
+            self._last_confirmation is None or not 0 < at - self._last_confirmation < FRESH_S
+        ):
+            raise ValueError("Art-only confirmation replay or proof gap")
         seen = self._observer.accept_current_state(content_id)
         if (
             seen.device_id != self._baseline.device_id
@@ -217,6 +228,7 @@ class EventBackend:
         ):
             raise ValueError("state read lookup changed identity")
         self._confirmed_at, self._fresh_s = at, FRESH_S
+        self._last_confirmation = at
         self._slideshow = SlideshowSequence(content_id, at)
         self._resync_reported = False
         return seen
@@ -226,10 +238,12 @@ class EventBackend:
             return Observation(
                 Status.PAUSED, reason=StatusReason.STANDBY if self._diagnostics else None
             )
-        if change == Change("mode", "off"):
+        if change == Change("mode", "off") or (
+            self._art_only_refresh and change.kind == "invalidate"
+        ):
             self._confirmed_at = None
             return Observation(Status.TV_IN_USE)
-        if self._state_refresh:
+        if self._state_refresh and not self._art_only_refresh:
             # Mode on is a read hint to the worker, never a new image proof.
             return None if change == Change("mode", "on") else self._unconfirmed()
         assert self._baseline is not None  # noqa: S101
@@ -294,6 +308,7 @@ class EventBackend:
         if not 0 <= self._now() - received_at < FRESH_S:
             return Observation(Status.PAUSED)
         self._baseline, self._confirmed_at = seen, received_at
+        self._last_confirmation = received_at
         if self._slideshow_enabled:
             self._slideshow = SlideshowSequence(str(seen.content_id), received_at)
         return seen

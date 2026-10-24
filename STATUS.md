@@ -1,5 +1,46 @@
 # Project status
 
+## D-253 b19 publication — authorized, gates pending, 2026-10-24
+
+User authorizes native ARM/Intel checks and green-gated personal publication of
+D-252 as0.1.0b19. Public release/source tags are unused and remote main matches
+the local base. Versioned host, matching-source, native, actual-image/signature
+and final Store/credential closure checks must be observed before claiming
+success. confirm_current_artwork stays experimental/default OFF; old flags stay
+held and standby consent remains independent. No HA/TV or installed mutation,
+card/script change or physical no-wake guarantee is part of this release.
+
+Versioned host gates observed6427 passed/16 unchanged skips in59.14s,326
+formatted/strict host+Linux typed files; whole100%(12328/3032), mandatory100%
+(9282/2198). Exact public-image probe passed under blocked networking/external
+commands, including seven virtual hours of strict same-socket renewal; three
+guard-removal controls failed their intended assertions. Initial sandbox run
+failed two unchanged setgid tests; all four group tests and the full unchanged
+suite passed outside the macOS sandbox. No thresholds/skips/source weakened.
+Sources/native/public-image/signature/Store gates remain pending.
+
+## D-252 unchanged-image confirmation — locally verified, 2026-10-24
+
+User approves local/offline implementation only. Current b18 HA data showed
+successful recovery then approximately90s proof expiry without renewed accepted
+evidence. Implement a NEW default-off, Art-only same-socket confirmation path,
+not an expiry extension or restoration of old flags/menu-mode retry loops.
+Retain all existing worker limits, identity/archive/card/script contracts and
+separate standby consent. No HA/TV/live changes, credentials, publication or
+physical no-wake guarantee.
+
+Implemented strict existing-Art-socket coherent confirmation behind NEW
+confirm_current_artwork, default OFF, requiring background and a Samsung stop
+entity. Old flags remain held; the new flag grants no transport opening/resume.
+Off/nav/standby, HA gaps, clocks, timeout/ambiguity and transport failure close
+without retry. Quiet valid reads retain visible proof; only coherent responses
+renew it. Existing per-TV attribution/previews and90/900s card semantics stay.
+Targeted264/8.28s, full host6427/16 in61.57s,326 typed/formatted files; whole
+100%(12328/3032), mandatory100%(9282/2198). Seven-hour quiet-image and eight-hour
+termination replays, real-library socketpairs/recorded replies/actual entry,
+three guard-removal negatives and26-fence preservation checks passed. No native
+or physical guarantee is inferred. See STEADY_CONFIRMATION_VALIDATION.md.
+
 ## b18 release gates — observed native/public results
 
 Exact [native run 39931258791](https://github.com/volkue-tech/frame-gallery-ha/actions/runs/39931258791) passed all five jobs. Both native validators and both actual publisher images each passed 6,362 production tests with eight root skips plus eight separate root checks. All four exact archives passed independent provenance/byte-hash/content checks; matching public sources, both immutable public-image recovery/status/preview probes and independent source/workflow-bound signatures passed. No physical no-wake claim.

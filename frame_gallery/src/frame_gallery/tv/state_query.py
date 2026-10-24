@@ -53,6 +53,15 @@ def _reply(raw: object, name: str, nonce: str, policy: EventPolicy) -> JsonObjec
             or any(v != nonce for v in correlations)
         ):
             raise StateInterrupted(None)
+        if policy.art_only_refresh:
+            required = {"event", "value" if name == "get_artmode_status" else "content_id"}
+            optional = {"target_client_id", "matte_id", "portrait_matte_id"}
+            if (
+                not required | {k for k in ("id", "request_id") if k in body}
+                <= set(body)
+                <= (required | optional | {"id", "request_id"})
+            ):
+                raise StateInterrupted(None)
         return body
     change = notification(raw, policy)
     if change != Change("mode", "on"):

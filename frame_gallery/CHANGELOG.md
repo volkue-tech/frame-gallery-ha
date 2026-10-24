@@ -1,5 +1,21 @@
 # Changelog
 
+## 0.1.0b19 (candidate; publication gates pending)
+
+- Add separate experimental/default-OFF confirm_current_artwork consent for
+  coherent mode/ID confirmation of an unchanged artwork on its already verified
+  Art socket. Requires background mode and a configured existing Samsung entity.
+  No new connection/startup/recovery permission or image/power/mode command.
+- At most four correlated GETs per minute, with the existing5s/64-frame query
+  bound and eight-hour session lifetime. Only complete agreeing Art-on/current
+  replies renew proof; quiet reads retain still-fresh captions without flicker.
+- Queued off/menu/standby, stale HA/clock/proof, ambiguous replies, transport
+  failure or cancellation end the session without retry. Old refresh opt-ins
+  remain held; standby recovery has independent consent and durable budgets.
+- Preserve existing cards/scripts, per-TV attribution, current/last-sent preview
+  semantics, data, dependencies and privileges. Simulations do not establish
+  physical no-wake/sleep safety; the new option remains off after installation.
+
 ## 0.1.0b18 (public beta)
 
 Exact [native run 39931258791](https://github.com/volkue-tech/frame-gallery-ha/actions/runs/39931258791) passed all five jobs. Both native validators and both actual publisher images each passed 6,362 production tests with eight root skips plus eight separate root checks. All four exact archives passed independent provenance/byte-hash/content checks; matching public sources, both immutable public-image recovery/status/preview probes and independent source/workflow-bound signatures passed. No physical no-wake claim. App [prerelease](https://github.com/volkue-tech/frame-gallery-ha/releases/tag/v0.1.0b18). See [b18 validation](https://github.com/volkue-tech/frame-gallery-ha/blob/main/BETA18_VALIDATION.md).

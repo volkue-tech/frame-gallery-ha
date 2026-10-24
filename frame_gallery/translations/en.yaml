@@ -56,13 +56,16 @@ configuration:
     description: 'Optional. A dedicated Text helper, for example input_text.frame_gallery_artwork, with minimum length 0, maximum length 255 and no Initial value. The app writes title, artist and museum for the preview here. Do not use a filter helper. Leave empty to keep the existing image-only dashboard behavior.'
   background_mode:
     name: 'Background mode (experimental, optional)'
-    description: 'Off by default. Passive events after a successful explicit send. Safety hold: no automatic startup/minute reads. Only the NEW standby_resume opt-in permits bounded settled-wake recovery. Update the send script once; no extra rights.'
+    description: 'Off by default. Passive events after a successful explicit send. Safety hold: no automatic startup/minute reads. Only the NEW standby_resume opt-in permits bounded settled-wake recovery. Update the send script once; no extra rights. Only NEW confirm_current_artwork allows Art-only same-socket minute checks.'
   current_state_refresh:
     name: 'Periodic synchronization (temporarily suspended)'
-    description: 'Saved for compatibility, but ignored during the safety hold. No scheduled mode or image-ID reads. Only passively received, complete slideshow events can renew current artwork after the initial post-send proof. Unchanged or unconfirmed images can expire; no automatic recovery query.'
+    description: 'Saved for compatibility, but ignored during the safety hold. No scheduled mode or image-ID reads. Only passively received, complete slideshow events can renew current artwork after the initial post-send proof. Unchanged or unconfirmed images can expire; no automatic recovery query. Only NEW confirm_current_artwork allows Art-only same-socket minute checks.'
   resume_state_entity:
     name: 'Samsung status entity (optional)'
     description: 'Existing Samsung media_player or remote ID. Off/unknown/unavailable/errors/gaps stop the receiver. Stop signal only without standby_resume. With that NEW opt-in, a clean settled off/on edge may grant one read. HA on is not Art Mode proof.'
   standby_resume:
     name: 'Resume after standby (experimental, separate opt-in)'
     description: 'OFF by default. Requires Background mode and your existing Samsung status entity. After 30 s of continuously observed off and a fresh on stable for 10 s, permit one read-only revalidation. Max 6/hour, at least 60 s apart, across restarts. No startup read, retries, image/power/mode commands or minute reads. A connection itself may affect the TV; no firmware/no-wake guarantee. Old saved flags do not enable this.'
+  confirm_current_artwork:
+    name: 'Confirm unchanged artwork (experimental, separate opt-in)'
+    description: 'OFF by default. Requires Background mode and your existing Samsung entity. Only on an already verified Art connection: one four-GET check/60 s at most. No new connection, image/power/mode command or retry. Off/menu/standby, HA gaps or errors stop it. Old saved flags do not enable this. Reads may affect sleep; no physical no-wake guarantee.'

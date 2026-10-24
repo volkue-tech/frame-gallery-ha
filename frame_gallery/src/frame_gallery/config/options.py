@@ -62,6 +62,7 @@ class Options:
     current_state_refresh: bool = False
     resume_state_entity: str | None = None
     standby_resume: bool = False
+    confirm_current_artwork: bool = False
 
     def helper_for(self, field: FilterField) -> str | None:
         for helper_field, entity_id in self.helpers:
@@ -267,6 +268,9 @@ def parse_options(
         "current_state_refresh", raw.get("current_state_refresh"), issues, default=False
     )
     standby_resume = _flag("standby_resume", raw.get("standby_resume"), issues, default=False)
+    confirm_current = _flag(
+        "confirm_current_artwork", raw.get("confirm_current_artwork"), issues, default=False
+    )
     resume_entity = raw.get("resume_state_entity")
     if resume_entity in (None, ""):
         resume_entity = None
@@ -277,6 +281,13 @@ def parse_options(
             )
         )
         resume_entity = None
+    if confirm_current and (not background_mode or not resume_entity):
+        issues.append(
+            ConfigIssue(
+                "confirm_current_artwork",
+                "Requires background mode and an existing Samsung status entity.",
+            )
+        )
     fit_mode = _fit_mode(raw.get("fit_mode"), issues)
     background = _background(raw.get("background_color"), issues)
     helpers = _helpers(raw, issues)
@@ -323,4 +334,5 @@ def parse_options(
         current_state_refresh=current_state_refresh,
         resume_state_entity=resume_entity,
         standby_resume=standby_resume,
+        confirm_current_artwork=confirm_current,
     )

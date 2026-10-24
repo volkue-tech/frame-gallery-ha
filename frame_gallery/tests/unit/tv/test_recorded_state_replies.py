@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+from dataclasses import replace
 from typing import Any
 
 import pytest
@@ -87,3 +88,16 @@ def test_complete_recorded_mode_current_current_mode_cycle_on_one_transport() ->
     assert len({item["id"] for item in rig.sent}) == 4
     assert rig.connection is rig.bounds.connection
     assert rig.bounds._refresh_until is None
+
+
+@pytest.mark.parametrize(("name", "nonce", "body"), RECORDED_STATE_REPLIES)
+@pytest.mark.parametrize("extra", [False, True])
+def test_strict_art_only_reader_accepts_actual_fields_but_not_unknown_errors(
+    name: str, nonce: str, body: dict[str, Any], extra: bool
+) -> None:
+    policy = replace(POLICY, art_only_refresh=True)
+    if extra:
+        with pytest.raises(StateInterrupted):
+            _reply(envelope({**body, "error_code": -1}), name, nonce, policy)
+    else:
+        assert _reply(envelope(body), name, nonce, policy) == body

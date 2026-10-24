@@ -56,13 +56,16 @@ configuration:
     description: 'Entitäts-ID eines Dropdown- oder Text-Helfers, z. B. input_select.frame_gallery_artist. Er ersetzt den Künstlerwunsch bei jedem Start. Ungültige oder nicht lesbare Werte fallen mit einer Warnung auf den gespeicherten Künstlerwunsch zurück.'
   background_mode:
     name: 'Hintergrundmodus (experimentell, optional)'
-    description: 'Standardmäßig aus. Passive Ereignisse nach erfolgreichem ausdrücklichem Versand. Sicherheitsbremse: keine automatischen Start-/Minutenabfragen. Nur die NEUE Freigabe standby_resume erlaubt begrenzten Wiederanlauf nach stabilem Aufwachen. Sende-Script einmal aktualisieren; keine Sonderrechte.'
+    description: 'Standardmäßig aus. Passive Ereignisse nach erfolgreichem ausdrücklichem Versand. Sicherheitsbremse: keine automatischen Start-/Minutenabfragen. Nur die NEUE Freigabe standby_resume erlaubt begrenzten Wiederanlauf nach stabilem Aufwachen. Sende-Script einmal aktualisieren; keine Sonderrechte. Nur die NEUE Freigabe confirm_current_artwork erlaubt Minutenprüfungen auf derselben Verbindung.'
   current_state_refresh:
     name: 'Regelmäßiger Abgleich (vorübergehend gesperrt)'
-    description: 'Aus Kompatibilitätsgründen gespeichert, während der Sicherheitsbremse aber ohne Wirkung. Keine zeitgesteuerten Modus- oder Bild-ID-Abfragen. Nach dem ersten Nachweis nach Bildversand erneuern nur passiv empfangene vollständige Diashow-Ereignisse die Anzeige. Unveränderte oder unbestätigte Bilder können veralten; keine automatische Wiederherstellungsabfrage.'
+    description: 'Aus Kompatibilitätsgründen gespeichert, während der Sicherheitsbremse aber ohne Wirkung. Keine zeitgesteuerten Modus- oder Bild-ID-Abfragen. Nach dem ersten Nachweis nach Bildversand erneuern nur passiv empfangene vollständige Diashow-Ereignisse die Anzeige. Unveränderte oder unbestätigte Bilder können veralten; keine automatische Wiederherstellungsabfrage. Nur die NEUE Freigabe confirm_current_artwork erlaubt Minutenprüfungen auf derselben Verbindung.'
   resume_state_entity:
     name: 'Samsung-Zustandsentität (optional)'
     description: 'Vorhandene Samsung-ID (media_player oder remote). Aus/unbekannt/nicht verfügbar, Fehler oder Beobachtungslücke stoppen. Ohne standby_resume nur Stoppsignal. Mit der NEUEN Freigabe kann ein stabiler frischer Aus/An-Wechsel einen Leseversuch erlauben. HA an beweist keinen Kunstmodus.'
   standby_resume:
     name: 'Nach Standby fortsetzen (experimentell, separate Freigabe)'
     description: 'Standardmäßig AUS. Benötigt Hintergrundmodus und vorhandene Samsung-Zustandsentität. Nach 30 s durchgehend beobachtetem Aus und frischem, 10 s stabilem An genau ein Leseversuch. Max. 6/Stunde, mindestens 60 s Abstand, auch über Neustarts. Kein Startabruf, Wiederholungsversuch, Bild-/Power-/Modusbefehl oder Minutenabgleich. Schon die Verbindung kann den TV beeinflussen; keine Nichtaufweck-Garantie. Alte gespeicherte Schalter aktivieren dies nicht.'
+  confirm_current_artwork:
+    name: 'Unverändertes Kunstwerk bestätigen (experimentell, separate Freigabe)'
+    description: 'Standardmäßig AUS. Benötigt Hintergrundmodus und vorhandene Samsung-Entität. Nur auf bereits bestätigter Art-Verbindung: höchstens eine konsistente Prüfung mit vier GETs/60 s. Keine neue Verbindung, Bild-/Power-/Modusbefehle oder Wiederholung. Aus/Menü/Standby, HA-Lücken oder Fehler stoppen. Alte Schalter aktivieren es nicht. Lesen kann Schlaf beeinflussen; keine physische Nichtaufweck-Garantie.'

@@ -75,6 +75,7 @@ def _check_actual_entry(
     initial: bool,
     startup_send: bool = False,
     standby: bool = False,
+    confirm: bool = False,
 ) -> None:
     host, clock = Rig(tmp_path), FakeClock()
     scratch = tmp_path / "tmp"
@@ -88,6 +89,7 @@ def _check_actual_entry(
                 "resume_state_entity": None if case == "unconfigured" else WAKE,
                 "current_state_refresh": True,
                 "standby_resume": standby,
+                "confirm_current_artwork": confirm,
             }
         )
     )
@@ -218,7 +220,8 @@ def _check_actual_entry(
             self.starts.append(payload)
             policy = payload.get("policy", {})
             assert isinstance(policy, dict)
-            assert policy.get("state_refresh", False) is False
+            assert policy.get("state_refresh", False) is confirm
+            assert policy.get("art_only_refresh", False) is confirm
             assert payload["device_id"] == DEVICE
             assert payload["enroll_device"] is False
             assert payload["tokenless_grant"] is (case == "tokenless")
@@ -270,6 +273,10 @@ def _check_actual_entry(
         assert not controller.resume()  # a consumed grant cannot be reused directly
         for _ in range(20):
             clock.advance(5)
+            if confirm and expected and clock.elapsed in (100, 150):
+                session.queue.append(
+                    ({"kind": "current_state", "content_id": "MY_TEST"}, clock.monotonic())
+                )
             controller.tick()
         assert len(session.starts) == expected
         if case == "auth" and not initial:
@@ -277,6 +284,9 @@ def _check_actual_entry(
             assert saved_budget["auth_blocked"] is True
         if not initial and case in {"known", "tokenless"}:
             assert any(p["state"] == "artwork" for p in posts)
+            if confirm:
+                assert posts[-1]["state"] == "artwork"
+                assert posts[-1]["attributes"]["confirmation_method"] == "current_state_read"
         elif case in {"unknown", "other_tv", "mismatch", "tv_program", "auth"}:
             assert not any("artist" in p["attributes"] for p in posts)
         controller.stop()
@@ -382,3 +392,13 @@ def test_production_resume_hook_stays_denied_even_if_a_monitor_emits_resume(
     # the production controller call HostObserver.prepare_resume/open a socket.
     monkeypatch.setattr(CachedStateStopMonitor, "poll", lambda _self: WakeEvent.RESUME)
     _check_actual_entry(tmp_path, monkeypatch, case="known", initial=True)
+
+
+@pytest.mark.parametrize("initial", [False, True])
+@pytest.mark.parametrize("standby", [False, True])
+def test_new_confirmation_wiring_does_not_create_a_session_grant(
+    tmp_path: Path, monkeypatch: pytest.MonkeyPatch, initial: bool, standby: bool
+) -> None:
+    _check_actual_entry(
+        tmp_path, monkeypatch, case="known", initial=initial, standby=standby, confirm=True
+    )

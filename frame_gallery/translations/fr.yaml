@@ -56,13 +56,16 @@ configuration:
     description: 'Facultatif. Entrée Texte dédiée, par exemple input_text.frame_gallery_artwork. Longueur minimale 0, maximale 255, sans valeur initiale. L''application y écrit le titre, l''artiste et la source de l''aperçu. N''utilisez pas une entrée de filtre. Laissez vide pour conserver la carte avec image seule.'
   background_mode:
     name: 'Mode arrière-plan (expérimental, facultatif)'
-    description: 'Désactivé par défaut. Événements passifs après envoi explicite réussi. Mesure de sécurité : aucune lecture initiale/périodique. Seul le NOUVEL accord standby_resume permet une reprise limitée après réveil stable. Aucun privilège supplémentaire.'
+    description: 'Désactivé par défaut. Événements passifs après envoi explicite réussi. Mesure de sécurité : aucune lecture initiale/périodique. Seul le NOUVEL accord standby_resume permet une reprise limitée après réveil stable. Aucun privilège supplémentaire. Seul le NOUVEL accord confirm_current_artwork permet les vérifications Art périodiques sur la même connexion.'
   current_state_refresh:
     name: 'Synchronisation périodique (temporairement suspendue)'
-    description: 'Valeur conservée pour compatibilité, mais ignorée pendant la mesure de sécurité. Aucune lecture programmée du mode ou de l''identifiant. Après la preuve initiale suivant un envoi, seuls les événements complets du diaporama reçus passivement peuvent actualiser l''œuvre. Une image inchangée ou non confirmée peut expirer ; aucune requête de récupération automatique.'
+    description: 'Valeur conservée pour compatibilité, mais ignorée pendant la mesure de sécurité. Aucune lecture programmée du mode ou de l''identifiant. Après la preuve initiale suivant un envoi, seuls les événements complets du diaporama reçus passivement peuvent actualiser l''œuvre. Une image inchangée ou non confirmée peut expirer ; aucune requête de récupération automatique. Seul le NOUVEL accord confirm_current_artwork permet les vérifications Art périodiques sur la même connexion.'
   resume_state_entity:
     name: 'Entité d''état Samsung (facultative)'
     description: 'ID Samsung existant media_player ou remote. Arrêt/inconnu/indisponibilité/erreur ou interruption arrête le récepteur. Sans standby_resume : arrêt uniquement. Avec le NOUVEL accord, un arrêt/réveil récent et stable permet une lecture. HA marche ne prouve pas le mode Art.'
   standby_resume:
     name: 'Reprendre après veille (expérimental, accord distinct)'
     description: 'Désactivé par défaut. Nécessite le mode arrière-plan et l''entité Samsung existante. Après 30 s d''arrêt observé sans interruption puis un réveil récent stable 10 s, une seule vérification en lecture. Max. 6/h, espacées de 60 s, même après redémarrage. Aucune lecture initiale/périodique, répétition ou commande image/alimentation/mode. La connexion peut affecter le téléviseur ; aucune garantie de non-réveil. Les anciens réglages ne l''activent pas.'
+  confirm_current_artwork:
+    name: 'Confirmer l''œuvre inchangée (expérimental, accord distinct)'
+    description: 'Désactivé par défaut. Nécessite arrière-plan et entité Samsung existante. Sur la connexion Art déjà vérifiée : quatre GET cohérents au plus/60 s. Aucune nouvelle connexion, commande image/alimentation/mode ou répétition. Arrêt/menu/veille, interruption HA ou erreur arrête la lecture. Les anciens réglages ne l''activent pas. La lecture peut affecter le sommeil ; aucune garantie de non-réveil.'

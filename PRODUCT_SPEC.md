@@ -1,5 +1,20 @@
 # Product specification
 
+## Unchanged-image confirmation (D-252, local/offline, 2026-10-24)
+
+NEW default-off confirm_current_artwork may confirm an unchanged image only on
+an independently granted, already verified Art socket. Require background mode
+and a configured existing Samsung status entity. No start/resume permission is
+created by this option and old current_state_refresh remains ignored. Every60s
+at most, require fresh correlated on/current/current/on with equal IDs on that
+same socket. Preserve90s evidence expiry and current cards/previews; never
+freshen from a heartbeat, HA on, duplicate event or open transport. Close on
+negative mode/navigation/standby, stale/invalid HA state, cancellation, clock
+gap, timeout/error or ambiguous proof, without retries/new transports. Maintain
+all worker/identity/resource limits, existing passive slideshow behavior and
+unknown-image handling. This is local/offline only, not physical firmware
+safety certification, live activation, a version bump or publication.
+
 ## Bounded standby recovery/status (D-250, local/offline, 2026-10-23)
 
 Add a NEW default-OFF standby_resume opt-in; old saved flags must not restore

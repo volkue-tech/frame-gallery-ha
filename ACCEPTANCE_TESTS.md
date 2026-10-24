@@ -1,5 +1,21 @@
 # Acceptance tests
 
+## Art-only steady confirmation (D-252, local/offline)
+
+- New flag defaults OFF; old saved flags and boot/HA on alone send zero reads.
+  Require background plus an existing Samsung stop entity. No new session grant.
+- Replay quiet unchanged images beyond90s and through multiple virtual hours:
+  only coherent fresh on/current/current/on renews caption/preview on ONE socket.
+  No checking flicker for a still-valid quiet read; duplicate events never renew.
+- Cover known/unknown/reused per-TV IDs, ID changes within a read, wrong/stale
+  correlations, malformed/extra replies, clock reversal/stall, lost responses,
+  cancellation, standby/nav/off before and during reads, HA off/gaps, sender
+  arbitration and publication failure. Stop without retries or a new transport.
+- Preserve passive complete slideshow proof and all existing card/script blocks.
+  Exercise real production wiring and pinned-library socketpairs/recorded replies,
+  not only mocks. Retain full lint/type/coverage/security/resource gates; no
+  native/live/physical no-wake or release claim from local results.
+
 ## Bounded standby recovery and card status (D-250, local/offline)
 
 - Defaults/old flags/boot-on/unconfigured/one-shot start zero automatic workers.

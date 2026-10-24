@@ -70,11 +70,12 @@ from frame_gallery.tv.contract import (
     result,
     token_event,
 )
-from frame_gallery.tv.event_frames import SessionClosed, SessionSockets
+from frame_gallery.tv.event_frames import FrameBounds, SessionClosed, SessionSockets
 from frame_gallery.tv.event_query import current_id_once
 from frame_gallery.tv.identity import device_digest
 from frame_gallery.tv.port import CONTENT_ID_PATTERN, DeliveryStatus, Marker
 from frame_gallery.tv.state_query import current_state_events
+from frame_gallery.tv.steady_state import confirmed_art_events
 
 ART_PORT: Final = 8002
 """The TLS art channel, which carries the pairing token."""
@@ -813,10 +814,14 @@ def _session_events(
         )
         baseline = (
             _observe_art(art, device, defer_mode=True)
-            if policy.state_refresh
+            if policy.state_refresh and not policy.art_only_refresh
             else _observe_art(art, device)
         )
-        pending = policy.state_refresh and baseline["status"] == Status.TV_IN_USE.value
+        pending = (
+            policy.state_refresh
+            and not policy.art_only_refresh
+            and baseline["status"] == Status.TV_IN_USE.value
+        )
         if (
             baseline["status"] != Status.UNIDENTIFIED.value and not pending
         ) or sockets.bound is None:
@@ -826,11 +831,12 @@ def _session_events(
         yield {"kind": "waiting_art"} if pending else {"kind": "baseline", "observation": baseline}
         if policy.state_refresh:
             phase = SessionFailure.DECODE
-            yield from current_state_events(
+            yield from _refresh_events(
                 art.connection,
                 sockets.bound,
                 policy,
                 library.websocket_timeout,
+                confirmed_at=proved_at,
                 initial_snapshot=(lambda: _snapshot_art(art, device)) if pending else None,
             )
             return
@@ -871,6 +877,25 @@ def _session_events(
         yield {"kind": "end", "status": "unavailable", "reason": phase.value}
     finally:
         sockets.close()
+
+
+def _refresh_events(
+    connection: Any,
+    bounds: FrameBounds,
+    policy: EventPolicy,
+    timeout_type: type[BaseException],
+    *,
+    confirmed_at: float,
+    initial_snapshot: Callable[[], JsonObject] | None,
+) -> Generator[JsonObject, None, None]:
+    if policy.art_only_refresh:
+        yield from confirmed_art_events(
+            connection, bounds, policy, timeout_type, confirmed_at=confirmed_at
+        )
+    else:
+        yield from current_state_events(
+            connection, bounds, policy, timeout_type, initial_snapshot=initial_snapshot
+        )
 
 
 def _ends_session(change: Change, policy: EventPolicy, initial_id: object) -> bool:

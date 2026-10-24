@@ -28,6 +28,7 @@ from frame_gallery.observer.stream import SLIDESHOW_POLICY, EventPolicy
 from frame_gallery.tv import samsung_task as module
 from frame_gallery.tv import state_query
 from frame_gallery.tv.event_frames import SessionClosed
+from frame_gallery.tv.steady_state import confirmed_art_events
 from tests.support.recorded_state_replies import RECORDED_STATE_REPLIES
 from tests.support.socket_tv import SocketTV, TvScript, _send
 from tests.unit.tv.test_event_frames import Connection
@@ -189,8 +190,13 @@ def test_real_library_one_connection_initial_proof_then_only_events(
 
 @pytest.mark.parametrize("ending", ["cancel", "standby"])
 @pytest.mark.parametrize("recorded", [False, True])
+@pytest.mark.parametrize("strict", [False, True])
 def test_real_library_opted_in_state_cycle_uses_same_socket_no_open_getter_or_setter(
-    monkeypatch: pytest.MonkeyPatch, pipe: tuple[int, int], ending: str, recorded: bool
+    monkeypatch: pytest.MonkeyPatch,
+    pipe: tuple[int, int],
+    ending: str,
+    recorded: bool,
+    strict: bool,
 ) -> None:
     tv_class = RecordedRefreshTV if recorded else EventTV
     tv = tv_class([{"event": "go_to_standby"}] if ending == "standby" else [])
@@ -217,6 +223,13 @@ def test_real_library_opted_in_state_cycle_uses_same_socket_no_open_getter_or_se
         )
 
     monkeypatch.setattr(module, "current_state_events", events)
+
+    def strict_events(
+        connection: Any, bounds: Any, policy: Any, timeout: Any, **_kwargs: Any
+    ) -> Any:
+        return confirmed_art_events(connection, bounds, policy, timeout, confirmed_at=0, now=now)
+
+    monkeypatch.setattr(module, "confirmed_art_events", strict_events)
     observed: list[JsonObject] = []
 
     def emit(value: JsonObject) -> None:
@@ -226,7 +239,7 @@ def test_real_library_opted_in_state_cycle_uses_same_socket_no_open_getter_or_se
 
     request = {
         **payload(pipe[0]),
-        "policy": replace(SLIDESHOW_POLICY, state_refresh=True).to_json(),
+        "policy": replace(SLIDESHOW_POLICY, state_refresh=True, art_only_refresh=strict).to_json(),
     }
     try:
         assert module.observe_session_task(request, emit) == {"status": "paused"}
@@ -249,10 +262,12 @@ def test_real_library_opted_in_state_cycle_uses_same_socket_no_open_getter_or_se
     assert tv.requests == initial + (extra if ending == "cancel" else [])
     assert thumbnail_calls == [True]
     if ending == "cancel":
-        assert observed[1:3] == [
-            {"kind": "state_checking"},
+        prefix: list[JsonObject] = [] if strict else [{"kind": "state_checking"}]
+        expected = [
+            *prefix,
             {"kind": "current_state", "content_id": "MY_F0015" if recorded else "MY_OFFLINE"},
         ]
+        assert observed[1 : 1 + len(expected)] == expected
         assert observed[-1] == {"kind": "end", "status": "paused"}
     else:
         assert observed[-1] == {"kind": "change", "change": {"kind": "standby", "value": ""}}

@@ -35,6 +35,15 @@ This file constrains the architecture without prescribing or copying an implemen
 
 ## Home Assistant constraints
 
+- **2026-10-24 D-252 local-only exception:** a NEW default-off
+  confirm_current_artwork may renew proof through a strict Art-only existing
+  transport, never by opening/resuming one. Require background plus existing
+  cached-HA stop entity and a fresh verified baseline; four coherent GETs/60s,
+  existing5s/64-frame/480-cycle/eight-hour bounds. Off/nav/standby, HA gaps,
+  clocks, timeout/error or ambiguity close without retry. Do not restore old
+  flags, menu-mode getters, deferred initial snapshots or keep-TV-session.
+  Keep90/900s evidence/card semantics. No live access or firmware guarantee.
+
 - **2026-10-23 D-250 local exception:** NEW default-off standby_resume may grant
   one isolated revalidation after observed30s off/settled fresh10s on, durable
   max6/hour/min60s budget and exact local identity/history checks. Consume before

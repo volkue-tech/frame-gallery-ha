@@ -273,6 +273,7 @@ def background_main() -> int:
         stopped=stopping,
         # D-247: retain the saved option but quarantine outgoing minute GETs.
         current_state_refresh=False,
+        art_only_refresh=options.confirm_current_artwork,
     )
     session = SessionProcess(ProcessExecutor(launch, clock), clock.monotonic)
     previous = signal.signal(signal.SIGTERM, lambda _signum, _frame: stopped.set())
@@ -328,9 +329,11 @@ def background_main() -> int:
             report_reasons=True,
         )
         _log.warning(
-            "event background service ready; no automatic initial or minute reads; "
-            "old opt-ins remain suspended; standby_resume=%s requires a new settled "
+            "event background service ready; no automatic initial reads; "
+            "old opt-ins remain suspended; confirm_current_artwork=%s permits only "
+            "strict existing-Art-socket confirmation; standby_resume=%s requires a new settled "
             "off/on edge and durable bounded grant; connection side effects remain unverified",
+            options.confirm_current_artwork,
             options.standby_resume,
         )
         serve(controller, incoming.receive, stopping)

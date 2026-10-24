@@ -45,8 +45,13 @@ class EventPolicy:
     current_id_once: bool = False
     slideshow: bool = False
     state_refresh: bool = False
+    art_only_refresh: bool = False
 
     def __post_init__(self) -> None:
+        if not isinstance(self.art_only_refresh, bool) or (
+            self.art_only_refresh and not self.state_refresh
+        ):
+            raise ValueError("invalid Art-only refresh policy")
         if not isinstance(self.state_refresh, bool) or (self.state_refresh and not self.slideshow):
             raise ValueError("invalid state refresh policy")
         names = (self.mode_event, self.content_event, self.invalidation_event)
@@ -76,6 +81,8 @@ class EventPolicy:
             result["slideshow"] = True
         if self.state_refresh:
             result["state_refresh"] = True
+        if self.art_only_refresh:
+            result["art_only_refresh"] = True
         return result
 
     @classmethod
@@ -87,6 +94,7 @@ class EventPolicy:
             extended,
             extended | {"slideshow"},
             extended | {"slideshow", "state_refresh"},
+            extended | {"slideshow", "state_refresh", "art_only_refresh"},
         ):
             raise ValueError("invalid event schema fields")
         mode, content, invalidate = value["mode"], value["content"], value["invalidate"]
@@ -105,7 +113,10 @@ class EventPolicy:
         refresh = value.get("state_refresh", False)
         if not isinstance(refresh, bool):
             raise ValueError("invalid state refresh policy")
-        return cls(mode, content, invalidate, mode_field, once, slideshow, refresh)
+        art_only = value.get("art_only_refresh", False)
+        if not isinstance(art_only, bool):
+            raise ValueError("invalid Art-only refresh policy")
+        return cls(mode, content, invalidate, mode_field, once, slideshow, refresh, art_only)
 
 
 SLIDESHOW_POLICY: Final = EventPolicy(

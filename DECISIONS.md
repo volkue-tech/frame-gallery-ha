@@ -1,5 +1,41 @@
 # Decision log
 
+## D-253 — green-gated personal b19 publication, 2026-10-24
+
+The user explicitly authorizes native ARM/Intel checks and publication of D-252
+as a new beta under volkue-tech/frame-gallery-ha, only after all gates pass.
+No HA/TV connection, installed update/start, card or script change is authorized.
+Public metadata confirms b19 and its matching-source tags are unused. Preserve
+all previous releases and unrelated local docs/community. New confirmation is
+experimental/default OFF; old switches stay held and standby consent remains
+independent. Local simulated results do not establish physical no-wake safety.
+Publish and anonymously verify matching sources before distribution; require
+the exact native validators/publisher artifacts, immutable public-image probes
+and independent source/workflow-bound signatures before app/Store promotion.
+
+## D-252 — separately opted-in, Art-only same-socket confirmation
+
+2026-10-24. User authorizes local implementation/offline tests only, preserving
+installed cards/scripts and prohibiting live HA/TV access or publication.
+An unchanged image needs new evidence, not a longer expiry or a heartbeat.
+NEW default-off confirm_current_artwork requires background mode and an existing
+Samsung status entity. Old saved current_state_refresh remains quarantined.
+This opt-in cannot open or resume a transport: only an independently granted,
+already image/device-verified Art session may perform one coherent
+mode/current/current/mode read per60s, four correlated GETs total, on that same
+socket, under the existing5s/64-frame/480-cycle/eight-hour bounds.
+No initial-off/menu waiting, mode setter, keepalive, image request, enrollment,
+retry or reconnect. Drain queued negative notifications before reading. Off,
+nav/standby, missing/invalid cached HA state, cancellation, clock/fresh-proof
+gap, timeout, ambiguous response or closed transport terminates confirmation.
+Known/unknown IDs retain exact per-TV association and existing90/900s card
+contracts. Keep still-valid proof during a quiet bounded read; publish a fresh
+receipt only after complete coherence, and clear on failure/mutation.
+Strict read cycles may still affect physical sleep/firmware: no no-wake or
+no-mode-switch guarantee from offline tests. New consent remains default OFF;
+no live activation is authorized. Existing standby_resume retains its separate
+limits/consent, and all existing complete card/script examples stay unchanged.
+
 ## D-251 — b18 green-gated personal beta publication
 
 2026-10-23. User approves native ARM/Intel checks and publication of D-250 as

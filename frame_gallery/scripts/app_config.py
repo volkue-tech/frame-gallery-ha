@@ -93,6 +93,7 @@ def schema() -> dict[str, Value]:
         "artwork_info_helper": r"match(^input_text\.[a-z0-9_]{1,64}$)?",
         "background_mode": "bool?",
         "standby_resume": "bool?",
+        "confirm_current_artwork": "bool?",
         "current_state_refresh": "bool?",
         "resume_state_entity": r"match(^(?:media_player|remote)\.[a-z0-9_]{1,64}$)?",
     }
@@ -1207,6 +1208,89 @@ def translations(language: str = "en") -> dict[str, Value]:
     texts["standby_resume"] = (label, description)
     texts["background_mode"] = (texts["background_mode"][0], background_description)
     texts["resume_state_entity"] = (entity_label, entity_description)
+    texts["confirm_current_artwork"] = {
+        "en": (
+            "Confirm unchanged artwork (experimental, separate opt-in)",
+            (
+                "OFF by default. Requires Background mode and your existing Samsung entity. "
+                "Only on an already verified Art connection: one four-GET check/60 s at most. "
+                "No new connection, image/power/mode command or retry. "
+                "Off/menu/standby, HA gaps or "
+                "errors stop it. Old saved flags do not enable this. Reads may affect sleep; "
+                "no physical no-wake guarantee."
+            ),
+        ),
+        "de": (
+            "Unverändertes Kunstwerk bestätigen (experimentell, separate Freigabe)",
+            (
+                "Standardmäßig AUS. Benötigt Hintergrundmodus und vorhandene Samsung-Entität. "
+                "Nur auf bereits bestätigter Art-Verbindung: höchstens eine konsistente Prüfung "
+                "mit vier GETs/60 s. Keine neue Verbindung, Bild-/Power-/Modusbefehle "
+                "oder Wiederholung. "
+                "Aus/Menü/Standby, HA-Lücken oder Fehler stoppen. "
+                "Alte Schalter aktivieren es nicht. "
+                "Lesen kann Schlaf beeinflussen; keine physische Nichtaufweck-Garantie."
+            ),
+        ),
+        "fr": (
+            "Confirmer l'œuvre inchangée (expérimental, accord distinct)",
+            (
+                "Désactivé par défaut. Nécessite arrière-plan et entité Samsung existante. "
+                "Sur la connexion Art déjà vérifiée : quatre GET cohérents au plus/60 s. "
+                "Aucune nouvelle connexion, commande image/alimentation/mode ou répétition. "
+                "Arrêt/menu/veille, interruption HA ou erreur arrête la lecture. Les anciens "
+                "réglages "
+                "ne l'activent pas. La lecture peut affecter le sommeil ; "
+                "aucune garantie de non-réveil."
+            ),
+        ),
+        "es": (
+            "Confirmar obra sin cambios (experimental, permiso separado)",
+            (
+                "Desactivado por defecto. Requiere segundo plano y la entidad Samsung existente. "
+                "Solo en la conexión Arte ya verificada: como máximo cuatro GET coherentes/60 s. "
+                "Sin conexión nueva, órdenes de imagen/encendido/modo ni reintentos. "
+                "Apagado/menú/espera, "
+                "interrupción HA o error detiene la lectura. Los ajustes antiguos no lo activan. "
+                "La lectura puede afectar al sueño; no se garantiza que no despierte."
+            ),
+        ),
+        "it": (
+            "Conferma opera invariata (sperimentale, consenso separato)",
+            (
+                "Disattivato per impostazione predefinita. Richiede background ed entità Samsung "
+                "esistente. Solo sulla connessione Arte già verificata: massimo quattro GET "
+                "coerenti/60 s. Nessuna nuova connessione, comando "
+                "immagine/power/modalità o ripetizione. "
+                "Spento/menu/standby, interruzione HA o errore arresta la lettura. "
+                "Le vecchie opzioni "
+                "non lo attivano. La lettura può influire sul sonno; "
+                "nessuna garanzia di non risveglio."
+            ),
+        ),
+    }[language]
+    explanation = {
+        "en": (" Only NEW confirm_current_artwork allows Art-only same-socket minute checks."),
+        "de": (
+            " Nur die NEUE Freigabe confirm_current_artwork erlaubt Minutenprüfungen "
+            "auf derselben Verbindung."
+        ),
+        "fr": (
+            " Seul le NOUVEL accord confirm_current_artwork permet les vérifications Art "
+            "périodiques sur la même connexion."
+        ),
+        "es": (
+            " Solo el NUEVO permiso confirm_current_artwork permite comprobaciones Arte "
+            "periódicas en la misma conexión."
+        ),
+        "it": (
+            " Solo il NUOVO consenso confirm_current_artwork permette controlli Arte "
+            "periodici sulla stessa connessione."
+        ),
+    }[language]
+    texts["background_mode"] = (texts["background_mode"][0], background_description + explanation)
+    old_label, old_description = texts["current_state_refresh"]
+    texts["current_state_refresh"] = (old_label, old_description + explanation)
     return {
         "configuration": {
             option: {"name": name, "description": description}
